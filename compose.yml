@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  node:
+    build: '.'
+    container_name: 'tidarr'
+    ports:
+      - 2884:3000
+    volumes:
+      - ./settings/.tidal-dl.token.json:/root/.tidal-dl.token.json
+      - ./settings/.tidal-dl.json:/root/.tidal-dl.json
+      - ./download:/usr/tidarr/download
+    restart: 'unless-stopped'
+    environment:
+      - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN=
+      - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=
+     
+

@@ -1,0 +1,14 @@
+node_modules
+.gitignore
+Dockerfile
+.dockerignore
+Makefile
+.env
+*.log*
+.next
+.nitro
+.cache
+.env
+dist
+settings
+download
