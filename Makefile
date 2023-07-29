@@ -1,4 +1,4 @@
-IMAGE=cstaelen/tidarr:0.0.1a
+IMAGE=clmxdlol/tidarr:0.0.1a
 # IMAGE=therumbler/tidal-dl-web.slim
 build-docker:
 	docker build -t ${IMAGE} .

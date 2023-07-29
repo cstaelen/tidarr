@@ -1,4 +1,4 @@
-FROM node:20-alpine AS base
+FROM node:20-alpine AS dependencies
 
 # update and install dependency
 RUN apk update && apk upgrade
@@ -11,18 +11,34 @@ RUN apk add --update --no-cache python3 py3-pip && ln -sf python3 /usr/bin/pytho
 RUN python3 -m pip install --no-cache --upgrade pip setuptools wheel
 RUN python3 -m pip install --no-cache --upgrade tidal-dl
 
-# copy the app, note .dockerignore
-WORKDIR /app
+# DEPENDENCIES
+WORKDIR /home/app
 COPY package.json ./
 COPY yarn.lock ./
 RUN yarn install
+
+# BUILDER
+FROM node:20-alpine AS builder
+WORKDIR /home/app
+COPY --from=dependencies /home/app/node_modules ./node_modules
 COPY . .
+
+ENV NEXT_TELEMETRY_DISABLED 1
+
+ARG NODE_ENV
+ENV NODE_ENV="${NODE_ENV}"
+
 RUN yarn build
-COPY . .
+
+# RUNNER
+FROM mhart/alpine-node:slim-16 AS runner
+WORKDIR /home/app
+ENV NEXT_TELEMETRY_DISABLED 1
+
+COPY --from=builder /home/app/.next/standalone ./standalone
+COPY --from=builder /home/app/public /home/app/standalone/public
+COPY --from=builder /home/app/.next/static /home/app/standalone/.next/static
 
 EXPOSE 3000
-
-ENV HOST=0.0.0.0
-ENV PORT=3000
-
-CMD [ "yarn", "start"]
+ENV PORT 3000
+CMD ["node", "./standalone/server.js"]
