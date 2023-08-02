@@ -1,3 +1,6 @@
+# Tidal Media Downloader web client using docker
+<img src="https://github.com/cstaelen/tidarr/blob/main/screenshot.png?raw=true" />
+
 ## Getting Started
 
 Example docker-compose.yml : 
@@ -17,16 +20,16 @@ services:
       - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN=<search_token>
       - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=<country-code>
 ```
-
-How to get search token : 
-- https://github.com/lucaslg26/TidalAPI/issues/23
-- https://github.com/lucaslg26/TidalAPI
-
-Process Tidal Authentication : 
+## Proceed to Tidal Authentication : 
 ```bash 
 docker-compose exec tidarr tidal-dl
 ```
 
+## How to get search token : 
+- https://github.com/lucaslg26/TidalAPI/issues/23
+- https://github.com/lucaslg26/TidalAPI
+
+## Tidal DL configuration : 
 Tidal Album options in `.tidal-dl.json`:
 ```json
 {
@@ -64,6 +67,11 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Disclaimer
+- Need a offical Tidal account
+- Private use only
+- **Do not forget to support your local artists** 🙏❤️
 
 ## Resources
 - https://github.com/yaronzz/Tidal-Media-Downloader
