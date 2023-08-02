@@ -11,7 +11,8 @@ import { TidalResponseType } from "../types";
 import { tidalDL } from "./server";
 
 type TidalContextType = {
-  searchResults: TidalResponseType | {};
+  searchResults: TidalResponseType;
+  loading: boolean;
   actions: {
     performSearch: any;
     save: any;
@@ -23,7 +24,8 @@ const TidalContext = React.createContext<TidalContextType>(
 );
 
 export function TidalProvider({ children }: { children: ReactNode }) {
-  const [searchResults, setSearchResults] = useState<TidalResponseType | {}>(
+  const [loading, setLoading] = useState<boolean>(false);
+  const [searchResults, setSearchResults] = useState<TidalResponseType>(
     {} as TidalResponseType
   );
   const router = useRouter();
@@ -43,7 +45,7 @@ export function TidalProvider({ children }: { children: ReactNode }) {
   };
 
   const search = async () => {
-    setSearchResults({});
+    setLoading(true);
     const token = process.env.NEXT_PUBLIC_TIDAL_SEARCH_TOKEN;
     const country = process.env.NEXT_PUBLIC_TIDAL_COUNTRY_CODE;
     const url = `https://listen.tidal.com/v1/search/top-hits?query=${params?.get('query')}&limit=20&token=${token}&countryCode=${country}`;
@@ -51,28 +53,29 @@ export function TidalProvider({ children }: { children: ReactNode }) {
     const results: TidalResponseType = await response.json();
 
     setSearchResults(results);
-    return false;
+    setLoading(false);
   };
 
   const save = async (urlToSave: string) => {
-    // await tidalDL(urlToSave);
-    const url = "/api/save";
-      console.log("saving url", urlToSave);
-      const data = {
-        url: urlToSave,
-      };
-      const body = JSON.stringify(data);
+    return await tidalDL(urlToSave);
+    // const url = "/api/save";
+    //   console.log("saving url", urlToSave);
+    //   const data = {
+    //     url: urlToSave,
+    //   };
+    //   const body = JSON.stringify(data);
 
-    const resp = await fetch(url, {
-      method: "POST",
-      body: body,
-      headers: { "content-type": "application/json; charset=UTF-8" },
-    });
-    console.log("resp", resp);
+    // const resp = await fetch(url, {
+    //   method: "POST",
+    //   body: body,
+    //   headers: { "content-type": "application/json; charset=UTF-8" },
+    // });
+    // console.log("resp", resp);
   };
 
   const value = {
     searchResults,
+    loading,
     actions: {
       performSearch,
       save,

@@ -19,7 +19,21 @@ export default function Artist({
   setTabIndex: Function;
 }) {
   const { actions } = useTidalProvider();
+  const [processed, setProcessed] = React.useState<boolean>();
+  const [error, setError] = React.useState<boolean>();
   const router = useRouter();
+
+  const downloadItem = async (url: string) => {
+    const {save} = await actions.save(url);
+
+    if (save) {
+      setProcessed(true);
+      setError(false);
+    } else {
+      setProcessed(false);
+      setError(true);
+    }
+  }  
 
   return (
     <Card sx={{ display: "flex" }}>
@@ -80,11 +94,12 @@ export default function Artist({
             </Button>
             <Button
               variant="outlined"
+              disabled={processed}
               endIcon={<DownloadIcon />}
-              onClick={() => actions.save(artist.url)}
+              onClick={() => downloadItem(artist.url)}
               size="small"
             >
-              Get all
+              {processed ? "Downloading ..." : error ? "Error !"  : "Get all"}
             </Button>
           </Stack>
         </CardContent>

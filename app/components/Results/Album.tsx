@@ -81,13 +81,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
               style={{ margin: "0.2rem" }}
             />
             <Chip
-              label={album.type.toLowerCase()}
-              color="success"
-              size="small"
-              style={{ margin: "0.2rem" }}
-            />
-            <Chip
-              label={`${Math.round(album.duration / 60)} min.`}
+              label={`${Math.round(album.duration / 60)} min`}
               color="success"
               size="small"
               style={{ margin: "0.2rem" }}
@@ -116,6 +110,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
           <Button
             variant="outlined"
             endIcon={<DownloadIcon />}
+            disabled={processed}
             onClick={() => downloadItem(album.url)}
             size="small"
           >

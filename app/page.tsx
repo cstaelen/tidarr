@@ -42,6 +42,7 @@ export default function Home() {
 const PreHeader = styled.div`
   background-color: #6dd3ff;
   color: #393939;
+  font-weight: bold;
   padding: 0.3rem;
   position: fixed;
   text-align: center;

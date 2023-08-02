@@ -11,14 +11,21 @@ import { GetServerSidePropsContext } from "next";
 import { useTransition } from "react";
 
 export default function Track({ track }: { track: TrackType }) {
-  const [counter, setCounter] = React.useState(0);
   const { actions } = useTidalProvider();
-  let [isPending, startTransition] = useTransition();
-  
-  React.useEffect(() => {
-    console.log('counter', counter);
-    console.log('isPending', isPending);
-  }, [counter, isPending]);
+  const [processed, setProcessed] = React.useState<boolean>();
+  const [error, setError] = React.useState<boolean>();
+
+  const downloadItem = async (url: string) => {
+    const {save} = await actions.save(url);
+
+    if (save) {
+      setProcessed(true);
+      setError(false);
+    } else {
+      setProcessed(false);
+      setError(true);
+    }
+  }  
   
   return (
     <Card sx={{ display: "flex" }}>
@@ -91,18 +98,20 @@ export default function Track({ track }: { track: TrackType }) {
             <Button
               variant="outlined"
               endIcon={<DownloadIcon />}
-              onClick={() => actions.save(track.album.url, setCounter)}
+              onClick={() => downloadItem(track.album.url)}
+              disabled={processed}
               size="small"
             >
-              Get album
+              {processed ? "Downloading ..." : error ? "Error !"  : "Get album"}
             </Button>
             <Button
               variant="outlined"
               endIcon={<DownloadIcon />}
-              onClick={() => startTransition(() => actions.save(track.url, setCounter))}
+              disabled={processed}
+              onClick={() => downloadItem(track.url)}
               size="small"
             >
-              Get track
+              {processed ? "Downloading ..." : error ? "Error !"  : "Get track"}
             </Button>
           </Stack>
           <small>Album title : {track.album.title}</small>

@@ -3,6 +3,7 @@
 import { spawn } from "child_process";
 
 export async function tidalDL(urlToSave: string) {
+  try {
     const binary = process.env.NEXT_PUBLIC_TIDAL_BINARY || '/usr/bin/tidal-dl';
     const command = `${binary} -l ${urlToSave}`;
     console.log(`Executing: ${command}`);
@@ -17,5 +18,8 @@ export async function tidalDL(urlToSave: string) {
     });
   
     console.log('returning');
-    return {'save': true}
+    return {save: true}
+  } catch {
+    return {save: false}
+  }
 }

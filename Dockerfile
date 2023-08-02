@@ -9,6 +9,7 @@ RUN apk add build-base
 # DEPENDENCIES
 WORKDIR /home/app
 COPY package.json ./
+COPY yarn.lock ./
 COPY next.config.js ./
 RUN yarn install
 
