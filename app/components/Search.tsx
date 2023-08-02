@@ -8,13 +8,6 @@ import { useEffect, useState } from "react";
 export const Search = () => {
   const { actions } = useTidalProvider();
   const params = useSearchParams();
-  const [keywords, setKeywords] = useState<string | null>();
-
-  useEffect(() => {
-    if (params?.get("query")) {
-      setKeywords(params?.get("query"));
-    }
-  }, [params]);
 
   return (
     <form onSubmit={actions.performSearch}>
@@ -24,7 +17,7 @@ export const Search = () => {
         label="Tidal search"
         margin="normal"
         variant="filled"
-        defaultValue={keywords}
+        defaultValue={params?.get("query") || ''}
         fullWidth
       />
     </form>

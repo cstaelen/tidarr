@@ -8,14 +8,30 @@ import { AlbumType } from "@/app/types";
 import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
 import { useTidalProvider } from "@/app/provider/TidalProvider";
 import { GetServerSidePropsContext } from "next";
+import { useTransition } from "react";
 
 export default function AlbumCard({ album }: { album: AlbumType }) {
   const { actions } = useTidalProvider();
+  const [processed, setProcessed] = React.useState<boolean>();
+  const [error, setError] = React.useState<boolean>();
+  
+  const downloadItem = async (url: string) => {
+    const {save} = await actions.save(url);
+
+    if (save) {
+      setProcessed(true);
+      setError(false);
+    } else {
+      setProcessed(false);
+      setError(true);
+    }
+  }
+
   return (
     <Card sx={{ display: "flex" }}>
       <CardMedia
         component="img"
-        style={{ width: 200, height: 200 }}
+        style={{ width: 200, height: 200, maxWidth: window.innerWidth < 640 ? '25%' : 'none' }}
         image={`https://resources.tidal.com/images/${album.cover?.replace(
           /-/g,
           "/"
@@ -100,10 +116,10 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
           <Button
             variant="outlined"
             endIcon={<DownloadIcon />}
-            onClick={() => actions.save(album.url)}
+            onClick={() => downloadItem(album.url)}
             size="small"
           >
-            Download
+            {processed ? "Downloading ..." : error ? "Error !"  : "Download"}
           </Button>
         </CardContent>
       </Box>

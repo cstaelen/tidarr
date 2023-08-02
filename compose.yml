@@ -5,7 +5,8 @@ services:
     build: '.'
     container_name: 'tidarr'
     ports:
-      - 2884:3000
+      - 3000:3000
+      - 3001:3001
     volumes:
       - ./settings/.tidal-dl.token.json:/root/.tidal-dl.token.json
       - ./settings/.tidal-dl.json:/root/.tidal-dl.json

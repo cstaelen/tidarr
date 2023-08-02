@@ -11,7 +11,7 @@ import { TidalResponseType } from "../types";
 import { tidalDL } from "./server";
 
 type TidalContextType = {
-  searchResults: TidalResponseType;
+  searchResults: TidalResponseType | {};
   actions: {
     performSearch: any;
     save: any;
@@ -23,7 +23,7 @@ const TidalContext = React.createContext<TidalContextType>(
 );
 
 export function TidalProvider({ children }: { children: ReactNode }) {
-  const [searchResults, setSearchResults] = useState<TidalResponseType>(
+  const [searchResults, setSearchResults] = useState<TidalResponseType | {}>(
     {} as TidalResponseType
   );
   const router = useRouter();
@@ -43,24 +43,32 @@ export function TidalProvider({ children }: { children: ReactNode }) {
   };
 
   const search = async () => {
-    console.log("performSearch");
-    console.log("searching for ", params?.get('query'));
-
-    console.log(process.env);
+    setSearchResults({});
     const token = process.env.NEXT_PUBLIC_TIDAL_SEARCH_TOKEN;
     const country = process.env.NEXT_PUBLIC_TIDAL_COUNTRY_CODE;
-    const url = `https://api.tidalhifi.com/v1/search?query=${params?.get('query')}&limit=20&token=${token}&countryCode=${country}`;
-    console.log(`url: ${url}`);
+    const url = `https://listen.tidal.com/v1/search/top-hits?query=${params?.get('query')}&limit=20&token=${token}&countryCode=${country}`;
     const response = await fetch(url);
     const results: TidalResponseType = await response.json();
-    console.log("search results", results);
 
     setSearchResults(results);
     return false;
   };
 
   const save = async (urlToSave: string) => {
-    await tidalDL(urlToSave);
+    // await tidalDL(urlToSave);
+    const url = "/api/save";
+      console.log("saving url", urlToSave);
+      const data = {
+        url: urlToSave,
+      };
+      const body = JSON.stringify(data);
+
+    const resp = await fetch(url, {
+      method: "POST",
+      body: body,
+      headers: { "content-type": "application/json; charset=UTF-8" },
+    });
+    console.log("resp", resp);
   };
 
   const value = {

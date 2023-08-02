@@ -13,6 +13,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <title>Tidarr</title>
+      </head>
       <body>{children}</body>
     </html>
   )

@@ -4,20 +4,24 @@ import { spawn } from "child_process";
 
 export default async function handler(req: Request, res: any) {
   const url = (req.body as any).url;
-  // const binary = `/usr/bin/tidal-dl`;
-  const binary = `/opt/homebrew/bin/tidal-dl`;
+  const binary = process.env.NEXT_PUBLIC_TIDAL_BINARY || '/usr/bin/tidal-dl';
   const command = `${binary} -l ${url}`;
   console.log(`Executing: ${command}`);
-  const child = spawn(binary, ['-l', url]);
 
-  child.stdout.on('data', (data) => {
-    console.log(`child stdout:\n${data}`);
-  });
+  try {
+    const child = spawn(binary, ['-l', url]);
 
-  child.stderr.on('data', (data) => {
-    console.error(`child stderr:\n${data}`);
-  });
+    child.stdout.on('data', (data) => {
+      console.log(`child stdout:\n${data}`);
+    });
 
-  console.log('returning');
-  return {'save': true}
+    child.stderr.on('data', (data) => {
+      console.error(`child stderr:\n${data}`);
+    });
+
+    console.log('returning');
+    return {save: true}
+  } catch {
+    return {save: false}
+  }
 }

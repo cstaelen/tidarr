@@ -21,6 +21,7 @@ export default function Home() {
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <div className="relative">
           <TidalProvider>
+            <PreHeader>👋 Do not forget to support your local artists 🙏❤️</PreHeader>
             <Header>
               <Container maxWidth="lg">
                 <Search />
@@ -38,6 +39,18 @@ export default function Home() {
   );
 }
 
+const PreHeader = styled.div`
+  background-color: #6dd3ff;
+  color: #393939;
+  padding: 0.3rem;
+  position: fixed;
+  text-align: center;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+`;
+
 const Header = styled.div`
   background-color: #212121;
   position: fixed;
@@ -48,5 +61,5 @@ const Header = styled.div`
 `;
 
 const Content = styled.div`
-  margin-top: 6rem;
+  margin-top: 8rem;
 `;

@@ -8,20 +8,23 @@ import { TrackType } from "@/app/types";
 import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
 import { useTidalProvider } from "@/app/provider/TidalProvider";
 import { GetServerSidePropsContext } from "next";
+import { useTransition } from "react";
 
 export default function Track({ track }: { track: TrackType }) {
   const [counter, setCounter] = React.useState(0);
   const { actions } = useTidalProvider();
-
+  let [isPending, startTransition] = useTransition();
+  
   React.useEffect(() => {
     console.log('counter', counter);
-  }, [counter]);
+    console.log('isPending', isPending);
+  }, [counter, isPending]);
   
   return (
     <Card sx={{ display: "flex" }}>
       <CardMedia
         component="img"
-        style={{ width: 200, height: 200 }}
+        style={{ width: 200, height: 200, maxWidth: window.innerWidth < 640 ? '25%' : 'none' }}
         image={`https://resources.tidal.com/images/${track.album.cover?.replace(
           /-/g,
           "/"
@@ -88,20 +91,21 @@ export default function Track({ track }: { track: TrackType }) {
             <Button
               variant="outlined"
               endIcon={<DownloadIcon />}
-              onClick={() => actions.save(track.url, setCounter)}
-              size="small"
-            >
-              Get track
-            </Button>
-            <Button
-              variant="outlined"
-              endIcon={<DownloadIcon />}
               onClick={() => actions.save(track.album.url, setCounter)}
               size="small"
             >
               Get album
             </Button>
+            <Button
+              variant="outlined"
+              endIcon={<DownloadIcon />}
+              onClick={() => startTransition(() => actions.save(track.url, setCounter))}
+              size="small"
+            >
+              Get track
+            </Button>
           </Stack>
+          <small>Album title : {track.album.title}</small>
         </CardContent>
       </Box>
     </Card>
