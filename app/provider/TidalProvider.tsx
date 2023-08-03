@@ -46,8 +46,8 @@ export function TidalProvider({ children }: { children: ReactNode }) {
 
   const search = async () => {
     setLoading(true);
-    const token = process.env.NEXT_PUBLIC_TIDAL_SEARCH_TOKEN;
-    const country = process.env.NEXT_PUBLIC_TIDAL_COUNTRY_CODE;
+    const token = process.env.NEXT_PUBLIC_TIDAL_SEARCH_TOKEN || 'CzET4vdadNUFQ5JU';
+    const country = process.env.NEXT_PUBLIC_TIDAL_COUNTRY_CODE || 'CA';
     const url = `https://listen.tidal.com/v1/search/top-hits?query=${params?.get('query')}&limit=20&token=${token}&countryCode=${country}`;
     const response = await fetch(url);
     const results: TidalResponseType = await response.json();

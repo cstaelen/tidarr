@@ -10,7 +10,7 @@ services:
     volumes:
       - ./settings/.tidal-dl.token.json:/root/.tidal-dl.token.json
       - ./settings/.tidal-dl.json:/root/.tidal-dl.json
-      - ./download:/usr/tidarr/download
+      - ./download:/home/app/standalone/download
     restart: 'unless-stopped'
     environment:
       - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN=

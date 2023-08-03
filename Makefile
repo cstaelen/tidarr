@@ -1,7 +1,7 @@
 IMAGE=cstaelen/tidarr:0.0.1a
 
 build-docker:
-	docker build -t ${IMAGE} .
+	docker build --platform=linux/amd64 -t ${IMAGE} .
 
 run-docker:
 	docker run  \

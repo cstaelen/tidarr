@@ -17,8 +17,9 @@ services:
       - /any/folder/to/music:/usr/tidarr/download
     restart: 'unless-stopped'
     environment:
-      - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN=<search_token>
-      - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=<country-code>
+      - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN=<search_token> #optional
+      - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=<country-code> #optional
+      - NEXT_PUBLIC_TIDAL_BINARY=<path_to_tidaldl_bin> #optional
 ```
 ## Proceed to Tidal Authentication : 
 ```bash 
