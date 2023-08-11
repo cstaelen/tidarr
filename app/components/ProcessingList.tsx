@@ -29,8 +29,18 @@ export const ProcessingList = () => {
       />
 
       {open ? (
-        <TableContainer component={Paper} sx={{ width: "700px", maxWidth: "100vw", position: "absolute", right: 0 }} >
-          <Table size="small" aria-label="a dense table">
+        <TableContainer 
+          component={Paper} 
+          sx={{ 
+            width: { 
+              xs: "90vw", 
+              md: "700px"
+            }, 
+            position: "absolute", 
+            right: 0 
+          }} 
+        >
+          <Table size="small" aria-label="Processing table">
             <TableHead>
               <TableRow>
                 <TableCell><strong>Download in progress ...</strong></TableCell>
@@ -60,7 +70,8 @@ export const ProcessingList = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      ) : null}
+  ) : null
+}
     </SpeedDial >
   );
 };
