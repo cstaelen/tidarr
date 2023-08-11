@@ -38,7 +38,6 @@ export default function Home() {
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <div className="relative">
           <TidalProvider>
-            <PreHeader>👋 Do not forget to support your local artists 🙏❤️</PreHeader>
             <Header initialState={!params.get('query')} >
               <Container maxWidth="lg">
                 {!params.get('query') && (
@@ -63,11 +62,12 @@ export default function Home() {
           </TidalProvider>
         </div>
       </main>
+      <Support>👋 Private use only. Do not forget to support your local artists 🙏❤️</Support>
     </ThemeProvider>
   );
 }
 
-const PreHeader = styled.div`
+const Support = styled.div`
   background-color: rgb(144, 202, 249);
   color: #393939;
   font-weight: bold;

@@ -38,7 +38,7 @@ const TidalContext = React.createContext<TidalContextType>(
 );
 
 export function TidalProvider({ children }: { children: ReactNode }) {
-  const itemPerPage = 20;
+  const itemPerPage = 10;
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);

@@ -93,9 +93,13 @@ export const Results = () => {
                 </Grid>
               ))
               : "No result."}
-            <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
-              <Button variant="contained" size="large" onClick={() => actions.setPage(page + 1)}>LOAD MORE</Button>
-            </Box>
+            {(page * itemPerPage < albums?.totalNumberOfItems) && (
+              <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
+                <Button variant="contained" size="large" onClick={() => actions.setPage(page + 1)}>
+                  LOAD MORE (page: {page})
+                </Button>
+              </Box>
+            )}
           </Grid>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
@@ -107,6 +111,13 @@ export const Results = () => {
                 </Grid>
               ))
               : "No result."}
+            {(page * itemPerPage < artists?.totalNumberOfItems) && (
+              <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
+                <Button variant="contained" size="large" onClick={() => actions.setPage(page + 1)}>
+                  LOAD MORE (page: {page})
+                </Button>
+              </Box>
+            )}
           </Grid>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
@@ -118,6 +129,13 @@ export const Results = () => {
                 </Grid>
               ))
               : "No result."}
+            {(page * itemPerPage < tracks?.totalNumberOfItems) && (
+              <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
+                <Button variant="contained" size="large" onClick={() => actions.setPage(page + 1)}>
+                  LOAD MORE (page: {page})
+                </Button>
+              </Box>
+            )}
           </Grid>
         </TabPanel>
       </SwipeableViews>

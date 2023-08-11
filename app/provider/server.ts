@@ -11,7 +11,8 @@ export async function tidalDL(urlToSave: string) {
     const output = spawnSync(binary, ['-l', urlToSave], {encoding: 'utf-8'});
     console.log('output', output);
     return {save: true, output: output}
-  } catch {
+  } catch (err: any) {
+    console.log('error', err);
     return {save: false}
   }
 }

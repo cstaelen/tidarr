@@ -7,12 +7,13 @@ import { AlbumType } from "@/app/types";
 import { Avatar, Box, Chip, Link, Stack } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
 import { DownloadButton } from "../DownloadButton";
+import Image from "next/image";
 
 export default function AlbumCard({ album }: { album: AlbumType }) {
   return (
     <Card sx={{ display: "flex" }}>
       <CardMedia
-        component="img"
+        component={Image}
         style={{ width: 200, height: 200, maxWidth: window.innerWidth < 640 ? '25%' : 'none' }}
         image={`https://resources.tidal.com/images/${album.cover?.replace(
           /-/g,

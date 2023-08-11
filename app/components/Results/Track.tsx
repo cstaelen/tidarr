@@ -8,6 +8,7 @@ import { TrackType } from "@/app/types";
 import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
 import { useTidalProvider } from "@/app/provider/TidalProvider";
 import { DownloadButton } from "../DownloadButton";
+import Image from "next/image";
 
 export default function Track({ track }: { track: TrackType }) {
   const { processingList, actions } = useTidalProvider();
@@ -16,7 +17,7 @@ export default function Track({ track }: { track: TrackType }) {
   return (
     <Card sx={{ display: "flex" }}>
       <CardMedia
-        component="img"
+        component={Image}
         style={{ width: 200, height: 200, maxWidth: window.innerWidth < 640 ? '25%' : 'none' }}
         image={`https://resources.tidal.com/images/${track.album.cover?.replace(
           /-/g,
