@@ -19,7 +19,7 @@ export const ProcessingList = () => {
       ariaLabel="Show processing list"
       sx={{ position: 'fixed', bottom: 50, right: 16 }}
       color="success"
-      icon={<strong>{processingList?.length || 0}</strong>}
+      icon={<strong>{processingList?.filter(item => item.loading).length || 0}/{processingList?.length || 0}</strong>}
       onClose={handleClose}
       onOpen={handleOpen}
       open={open}

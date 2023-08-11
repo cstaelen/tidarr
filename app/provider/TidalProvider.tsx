@@ -14,9 +14,12 @@ type TidalContextType = {
   searchResults: TidalResponseType;
   loading: boolean;
   processingList: ProcessingItemType[] | undefined;
+  page: number;
+  itemPerPage: number;
   actions: {
     performSearch: any;
     save: (urlToSave: string, id: number, artist: string, title: string, type: "album" | "track" | "artist") => void;
+    setPage: (page: number) => void;
   };
 };
 
@@ -35,8 +38,10 @@ const TidalContext = React.createContext<TidalContextType>(
 );
 
 export function TidalProvider({ children }: { children: ReactNode }) {
+  const itemPerPage = 20;
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
   const [searchResults, setSearchResults] = useState<TidalResponseType>(
     {} as TidalResponseType
   );
@@ -45,9 +50,9 @@ export function TidalProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (params?.get('query')) {
-      search();
+      search(page);
     }
-  }, [params]);
+  }, [params, page]);
 
   const performSearch = async (e: any) => {
     e.stopPropagation();
@@ -56,15 +61,21 @@ export function TidalProvider({ children }: { children: ReactNode }) {
     return false;
   };
 
-  const search = async () => {
+  const search = async (page: number) => {
     setLoading(true);
     const token = process.env.NEXT_PUBLIC_TIDAL_SEARCH_TOKEN || 'CzET4vdadNUFQ5JU';
     const country = process.env.NEXT_PUBLIC_TIDAL_COUNTRY_CODE || 'CA';
-    const url = `https://listen.tidal.com/v1/search/top-hits?query=${params?.get('query')}&limit=20&token=${token}&countryCode=${country}`;
+    const url = `https://listen.tidal.com/v1/search/top-hits?query=${params?.get('query')}&limit=${itemPerPage}&token=${token}&countryCode=${country}&offset=${(page - 1) * itemPerPage}`;
     const response = await fetch(url);
     const results: TidalResponseType = await response.json();
 
-    setSearchResults(results);
+    const clone = searchResults;
+    const data = {
+      albums: { ...results?.albums, items: [...(clone?.albums?.items || []), ...results?.albums?.items] },
+      artists: { ...results?.artists, items: [...(clone?.artists?.items || []), ...results?.artists?.items] },
+      tracks: { ...results?.tracks, items: [...(clone?.tracks?.items || []), ...results?.tracks?.items] },
+    };
+    setSearchResults(data);
     setLoading(false);
   };
 
@@ -95,7 +106,6 @@ export function TidalProvider({ children }: { children: ReactNode }) {
       }]);
     }
 
-
     // const url = "/api/save";
     //   console.log("saving url", urlToSave);
     //   const data = {
@@ -115,9 +125,12 @@ export function TidalProvider({ children }: { children: ReactNode }) {
     searchResults,
     processingList,
     loading,
+    itemPerPage,
+    page,
     actions: {
       performSearch,
       save,
+      setPage,
     },
   };
 

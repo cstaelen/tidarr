@@ -1,13 +1,13 @@
 "use client";
 
-import { AppBar, Box, Tab, Tabs, Typography, useTheme } from "@mui/material";
+import { AppBar, Box, Button, Pagination, Tab, Tabs, Typography, useTheme } from "@mui/material";
 import { useTidalProvider } from "../provider/TidalProvider";
 import { AlbumType, ArtistType, TrackType } from "../types";
 import AlbumCard from "./Results/Album";
 import ArtistCard from "./Results/Artist";
 import TrackCard from "./Results/Track";
 import Grid from "@mui/material/Unstable_Grid2";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import SwipeableViews from "react-swipeable-views";
 
 interface TabPanelProps {
@@ -46,6 +46,9 @@ function a11yProps(index: number) {
 
 export const Results = () => {
   const {
+    actions,
+    page,
+    itemPerPage,
     searchResults: { albums, artists, tracks },
   } = useTidalProvider();
 
@@ -85,21 +88,24 @@ export const Results = () => {
           <Grid container spacing={2}>
             {albums?.items?.length > 0
               ? albums?.items?.map((album: AlbumType, index: number) => (
-                  <Grid xs={12} md={6} key={`album-${index}`}>
-                    <AlbumCard album={album} />
-                  </Grid>
-                ))
+                <Grid xs={12} md={6} key={`album-${index}`}>
+                  <AlbumCard album={album} />
+                </Grid>
+              ))
               : "No result."}
+            <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
+              <Button variant="contained" size="large" onClick={() => actions.setPage(page + 1)}>LOAD MORE</Button>
+            </Box>
           </Grid>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <Grid container spacing={2}>
             {artists?.items?.length > 0
               ? artists?.items?.map((artist: ArtistType, index: number) => (
-                  <Grid xs={12} md={6} key={`album-${index}`}>
-                    <ArtistCard artist={artist} setTabIndex={handleChangeIndex} />
-                  </Grid>
-                ))
+                <Grid xs={12} md={6} key={`album-${index}`}>
+                  <ArtistCard artist={artist} setTabIndex={handleChangeIndex} />
+                </Grid>
+              ))
               : "No result."}
           </Grid>
         </TabPanel>
@@ -107,10 +113,10 @@ export const Results = () => {
           <Grid container spacing={2}>
             {tracks?.items?.length > 0
               ? tracks?.items?.map((track: TrackType, index: number) => (
-                  <Grid xs={12} md={6} key={`album-${index}`}>
-                    <TrackCard track={track} />
-                  </Grid>
-                ))
+                <Grid xs={12} md={6} key={`album-${index}`}>
+                  <TrackCard track={track} />
+                </Grid>
+              ))
               : "No result."}
           </Grid>
         </TabPanel>
