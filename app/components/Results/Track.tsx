@@ -7,26 +7,12 @@ import DownloadIcon from "@mui/icons-material/Download";
 import { TrackType } from "@/app/types";
 import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
 import { useTidalProvider } from "@/app/provider/TidalProvider";
-import { GetServerSidePropsContext } from "next";
-import { useTransition } from "react";
+import { DownloadButton } from "../DownloadButton";
 
 export default function Track({ track }: { track: TrackType }) {
-  const { actions } = useTidalProvider();
-  const [processed, setProcessed] = React.useState<boolean>();
+  const { processingList, actions } = useTidalProvider();
   const [error, setError] = React.useState<boolean>();
 
-  const downloadItem = async (url: string) => {
-    const {save} = await actions.save(url);
-
-    if (save) {
-      setProcessed(true);
-      setError(false);
-    } else {
-      setProcessed(false);
-      setError(true);
-    }
-  }  
-  
   return (
     <Card sx={{ display: "flex" }}>
       <CardMedia
@@ -95,24 +81,8 @@ export default function Track({ track }: { track: TrackType }) {
             flexWrap="wrap"
             spacing={1}
           >
-            <Button
-              variant="outlined"
-              endIcon={<DownloadIcon />}
-              onClick={() => downloadItem(track.album.url)}
-              disabled={processed}
-              size="small"
-            >
-              {processed ? "Downloading ..." : error ? "Error !"  : "Get album"}
-            </Button>
-            <Button
-              variant="outlined"
-              endIcon={<DownloadIcon />}
-              disabled={processed}
-              onClick={() => downloadItem(track.url)}
-              size="small"
-            >
-              {processed ? "Downloading ..." : error ? "Error !"  : "Get track"}
-            </Button>
+            <DownloadButton item={track} id={track.album.id} type="album" label="Get album"/>
+            <DownloadButton item={track} id={track.id} type="track" label="Get track"/>
           </Stack>
           <small>Album title : {track.album.title}</small>
         </CardContent>
@@ -120,8 +90,3 @@ export default function Track({ track }: { track: TrackType }) {
     </Card>
   );
 }
-
-export const getServerSideProps = (context: GetServerSidePropsContext) => {
-  console.log("client", context);
-  return { save: true };
-};

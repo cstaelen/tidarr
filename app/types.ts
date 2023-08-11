@@ -1,9 +1,9 @@
 
 export type TrackType = {
   album: {
+    id: number;
     cover: string;
     url: string;
-    id: string;
     releaseDate: string;
     title: string;
   };

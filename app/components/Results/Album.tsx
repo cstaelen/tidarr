@@ -3,30 +3,12 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import DownloadIcon from "@mui/icons-material/Download";
 import { AlbumType } from "@/app/types";
-import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
-import { useTidalProvider } from "@/app/provider/TidalProvider";
+import { Avatar, Box, Chip, Link, Stack } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
-import { useTransition } from "react";
+import { DownloadButton } from "../DownloadButton";
 
 export default function AlbumCard({ album }: { album: AlbumType }) {
-  const { actions } = useTidalProvider();
-  const [processed, setProcessed] = React.useState<boolean>();
-  const [error, setError] = React.useState<boolean>();
-  
-  const downloadItem = async (url: string) => {
-    const {save} = await actions.save(url);
-
-    if (save) {
-      setProcessed(true);
-      setError(false);
-    } else {
-      setProcessed(false);
-      setError(true);
-    }
-  }
-
   return (
     <Card sx={{ display: "flex" }}>
       <CardMedia
@@ -107,15 +89,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
               }
             />
           </Stack>
-          <Button
-            variant="outlined"
-            endIcon={<DownloadIcon />}
-            disabled={processed}
-            onClick={() => downloadItem(album.url)}
-            size="small"
-          >
-            {processed ? "Downloading ..." : error ? "Error !"  : "Download"}
-          </Button>
+          <DownloadButton item={album} id={album.id} type="album" label="Get album"/>
         </CardContent>
       </Box>
     </Card>

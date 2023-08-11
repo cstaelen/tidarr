@@ -1,15 +1,13 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import DownloadIcon from "@mui/icons-material/Download";
 import SearchIcon from "@mui/icons-material/DiscFullRounded";
 import { ArtistType } from "@/app/types";
 import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
-import { useTidalProvider } from "@/app/provider/TidalProvider";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/navigation";
+import { DownloadButton } from "../DownloadButton";
 
 export default function Artist({
   artist,
@@ -18,22 +16,7 @@ export default function Artist({
   artist: ArtistType;
   setTabIndex: Function;
 }) {
-  const { actions } = useTidalProvider();
-  const [processed, setProcessed] = React.useState<boolean>();
-  const [error, setError] = React.useState<boolean>();
   const router = useRouter();
-
-  const downloadItem = async (url: string) => {
-    const {save} = await actions.save(url);
-
-    if (save) {
-      setProcessed(true);
-      setError(false);
-    } else {
-      setProcessed(false);
-      setError(true);
-    }
-  }  
 
   return (
     <Card sx={{ display: "flex" }}>
@@ -92,15 +75,7 @@ export default function Artist({
             >
               Search albums
             </Button>
-            <Button
-              variant="outlined"
-              disabled={processed}
-              endIcon={<DownloadIcon />}
-              onClick={() => downloadItem(artist.url)}
-              size="small"
-            >
-              {processed ? "Downloading ..." : error ? "Error !"  : "Get all"}
-            </Button>
+            <DownloadButton item={artist} id={artist.id} type="artist" label="Get all"/>
           </Stack>
         </CardContent>
       </Box>

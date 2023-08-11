@@ -13,17 +13,29 @@ import { tidalDL } from "./server";
 type TidalContextType = {
   searchResults: TidalResponseType;
   loading: boolean;
+  processingList: ProcessingItemType[] | undefined;
   actions: {
     performSearch: any;
-    save: any;
+    save: (urlToSave: string, id: number, artist: string, title: string, type: "album" | "track" | "artist") => void;
   };
 };
+
+type ProcessingItemType = {
+  id: number;
+  artist: string;
+  title: string;
+  type: string;
+  url: string;
+  loading: boolean;
+  error: boolean;
+}
 
 const TidalContext = React.createContext<TidalContextType>(
   {} as TidalContextType
 );
 
 export function TidalProvider({ children }: { children: ReactNode }) {
+  const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
   const [loading, setLoading] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState<TidalResponseType>(
     {} as TidalResponseType
@@ -56,8 +68,34 @@ export function TidalProvider({ children }: { children: ReactNode }) {
     setLoading(false);
   };
 
-  const save = async (urlToSave: string) => {
-    return await tidalDL(urlToSave);
+  const save = async (urlToSave: string, id: number, artist: string, title: string, type: string) => {
+    const item = {
+      id: id,
+      artist: artist,
+      title: title,
+      type: type,
+      loading: true,
+      error: false,
+      url: urlToSave,
+    }
+    setProcessingList([...(processingList || []), item]);
+
+    try {
+      const response = await tidalDL(urlToSave);
+
+      setProcessingList([...(processingList || []), {
+        ...item,
+        loading: false,
+      }]);
+    } catch (err: any) {
+      setProcessingList([...(processingList || []), {
+        ...item,
+        loading: false,
+        error: true,
+      }]);
+    }
+
+
     // const url = "/api/save";
     //   console.log("saving url", urlToSave);
     //   const data = {
@@ -75,6 +113,7 @@ export function TidalProvider({ children }: { children: ReactNode }) {
 
   const value = {
     searchResults,
+    processingList,
     loading,
     actions: {
       performSearch,

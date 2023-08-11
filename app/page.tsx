@@ -7,6 +7,8 @@ import Container from "@mui/material/Container";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import styled from "@emotion/styled";
+import { ProcessingList } from "./components/ProcessingList";
+import { useEffect } from "react";
 
 const darkTheme = createTheme({
   palette: {
@@ -15,6 +17,12 @@ const darkTheme = createTheme({
 });
 
 export default function Home() {
+  useEffect(() => {
+    window.addEventListener("beforeunload", (ev) => {
+      ev.preventDefault();
+      return ev.returnValue = 'Are you sure you want to close?';
+    });
+  }, [])
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -32,6 +40,7 @@ export default function Home() {
                 <Results />
               </Container>
             </Content>
+            <ProcessingList />
           </TidalProvider>
         </div>
       </main>
