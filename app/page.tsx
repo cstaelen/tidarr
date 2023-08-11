@@ -53,7 +53,7 @@ export default function Home() {
 }
 
 const PreHeader = styled.div`
-  background-color: #6dd3ff;
+  background-color: rgb(144, 202, 249);
   color: #393939;
   font-weight: bold;
   padding: 0.3rem;
