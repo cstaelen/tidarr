@@ -18,10 +18,14 @@ const darkTheme = createTheme({
 
 export default function Home() {
   useEffect(() => {
-    window.addEventListener("beforeunload", (ev) => {
-      ev.preventDefault();
-      return ev.returnValue = 'Are you sure you want to close?';
-    });
+    window.onbeforeunload = function(event: any) {
+      var message = 'If you confirm leaving, download progress informations will be lost. But downloads should continue.';
+      
+      event = event || window.event;
+      event.preventDefault = true;
+      event.cancelBubble = true;
+      event.returnValue = message;
+    }
   }, [])
   return (
     <ThemeProvider theme={darkTheme}>
