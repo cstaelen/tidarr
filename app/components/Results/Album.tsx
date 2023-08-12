@@ -12,10 +12,11 @@ import Image from "next/image";
 export default function AlbumCard({ album }: { album: AlbumType }) {
   return (
     <Card sx={{ display: "flex" }}>
-      <CardMedia
-        component={Image}
-        style={{ width: 200, height: 200, maxWidth: window.innerWidth < 640 ? '25%' : 'none' }}
-        image={`https://resources.tidal.com/images/${album.cover?.replace(
+      <Image
+        style={{ maxWidth: window.innerWidth < 640 ? '25%' : 'none' }}
+        width={200}
+        height={200}
+        src={`https://resources.tidal.com/images/${album.cover?.replace(
           /-/g,
           "/"
         )}/750x750.jpg`}

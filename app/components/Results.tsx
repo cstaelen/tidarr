@@ -1,6 +1,6 @@
 "use client";
 
-import { AppBar, Box, Button, Pagination, Tab, Tabs, Typography, useTheme } from "@mui/material";
+import { AppBar, Box, Button, Pagination, Skeleton, Tab, Tabs, Typography, useTheme } from "@mui/material";
 import { useTidalProvider } from "../provider/TidalProvider";
 import { AlbumType, ArtistType, TrackType } from "../types";
 import AlbumCard from "./Results/Album";
@@ -44,10 +44,34 @@ function a11yProps(index: number) {
   };
 }
 
+const Pager = ({ page, itemPerPage, totalItems, setPage }: { page: number; itemPerPage: number; totalItems: number; setPage: Function }) => {
+  if (page * itemPerPage > totalItems) return null;
+  return (
+    <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
+      <Button variant="contained" size="large" onClick={() => setPage(page + 1)}>
+        LOAD MORE (page: {page})
+      </Button>
+    </Box>
+  )
+};
+
+const Loader = () => {
+  return (
+    <Grid container spacing={2}>
+      <Grid xs={12} md={6}>
+        <Skeleton variant="rectangular" width={560} height={200} animation="wave" />
+      </Grid>
+      <Grid xs={12} md={6}>
+        <Skeleton variant="rectangular" width={560} height={200} animation="wave" />
+      </Grid>
+    </Grid >)
+};
+
 export const Results = () => {
   const {
     actions,
     page,
+    loading,
     itemPerPage,
     searchResults: { albums, artists, tracks },
   } = useTidalProvider();
@@ -92,14 +116,10 @@ export const Results = () => {
                   <AlbumCard album={album} />
                 </Grid>
               ))
+              : loading ? 
+                <Loader />
               : "No result."}
-            {(page * itemPerPage < albums?.totalNumberOfItems) && (
-              <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
-                <Button variant="contained" size="large" onClick={() => actions.setPage(page + 1)}>
-                  LOAD MORE (page: {page})
-                </Button>
-              </Box>
-            )}
+            <Pager page={page} itemPerPage={itemPerPage} totalItems={albums?.totalNumberOfItems} setPage={actions.setPage} />
           </Grid>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
@@ -111,13 +131,7 @@ export const Results = () => {
                 </Grid>
               ))
               : "No result."}
-            {(page * itemPerPage < artists?.totalNumberOfItems) && (
-              <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
-                <Button variant="contained" size="large" onClick={() => actions.setPage(page + 1)}>
-                  LOAD MORE (page: {page})
-                </Button>
-              </Box>
-            )}
+            <Pager page={page} itemPerPage={itemPerPage} totalItems={artists?.totalNumberOfItems} setPage={actions.setPage} />
           </Grid>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
@@ -129,13 +143,7 @@ export const Results = () => {
                 </Grid>
               ))
               : "No result."}
-            {(page * itemPerPage < tracks?.totalNumberOfItems) && (
-              <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
-                <Button variant="contained" size="large" onClick={() => actions.setPage(page + 1)}>
-                  LOAD MORE (page: {page})
-                </Button>
-              </Box>
-            )}
+            <Pager page={page} itemPerPage={itemPerPage} totalItems={tracks?.totalNumberOfItems} setPage={actions.setPage} />
           </Grid>
         </TabPanel>
       </SwipeableViews>

@@ -71,9 +71,9 @@ export function TidalProvider({ children }: { children: ReactNode }) {
 
     const clone = searchResults;
     const data = {
-      albums: { ...results?.albums, items: [...(clone?.albums?.items || []), ...results?.albums?.items] },
-      artists: { ...results?.artists, items: [...(clone?.artists?.items || []), ...results?.artists?.items] },
-      tracks: { ...results?.tracks, items: [...(clone?.tracks?.items || []), ...results?.tracks?.items] },
+      albums: { ...results?.albums, items: [...(page > 1 ? (clone?.albums?.items || []) : []), ...results?.albums?.items] },
+      artists: { ...results?.artists, items: [...(page > 1 ? (clone?.artists?.items || []) : []), ...results?.artists?.items] },
+      tracks: { ...results?.tracks, items: [...(page > 1 ? (clone?.tracks?.items || []) : []), ...results?.tracks?.items] },
     };
     setSearchResults(data);
     setLoading(false);
