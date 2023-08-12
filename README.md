@@ -7,7 +7,7 @@ Example docker-compose.yml :
 ```yaml
 services:
   tidarr:
-    image: cstaelen/tidarr:0.0.1a
+    image: cstaelen/tidarr
     container_name: 'tidarr'
     ports:
       - 3000:3000
