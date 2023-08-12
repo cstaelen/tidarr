@@ -27,7 +27,7 @@ type ProcessingItemType = {
   id: number;
   artist: string;
   title: string;
-  type: string;
+  type: "artist" | "album" | "track";
   url: string;
   loading: boolean;
   error: boolean;
@@ -79,7 +79,7 @@ export function TidalProvider({ children }: { children: ReactNode }) {
     setLoading(false);
   };
 
-  const save = async (urlToSave: string, id: number, artist: string, title: string, type: string) => {
+  const save = async (urlToSave: string, id: number, artist: string, title: string, type: "album" | "artist" | "track") => {
     const item = {
       id: id,
       artist: artist,
@@ -105,20 +105,6 @@ export function TidalProvider({ children }: { children: ReactNode }) {
         error: true,
       }]);
     }
-
-    // const url = "/api/save";
-    //   console.log("saving url", urlToSave);
-    //   const data = {
-    //     url: urlToSave,
-    //   };
-    //   const body = JSON.stringify(data);
-
-    // const resp = await fetch(url, {
-    //   method: "POST",
-    //   body: body,
-    //   headers: { "content-type": "application/json; charset=UTF-8" },
-    // });
-    // console.log("resp", resp);
   };
 
   const value = {

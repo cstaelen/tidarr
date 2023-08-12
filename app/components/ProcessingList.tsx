@@ -1,4 +1,4 @@
-import { Alert, Backdrop, CircularProgress, Paper, SpeedDial, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Alert, Backdrop, Button, CircularProgress, Paper, SpeedDial, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import CheckIcon from '@mui/icons-material/Check';
 import WarningIcon from '@mui/icons-material/Warning';
 import { useTidalProvider } from "../provider/TidalProvider";
@@ -7,7 +7,7 @@ import Link from "next/link";
 import styled from "@emotion/styled";
 
 export const ProcessingList = () => {
-  const { processingList } = useTidalProvider();
+  const { processingList, actions } = useTidalProvider();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -65,15 +65,24 @@ export const ProcessingList = () => {
                       {item.artist}
                     </TableCell>
                     <TableCell component="th" scope="row">{item.type}</TableCell>
-                    <TableCell align="right">{item.loading ? "Loading..." : item.error ? "Error" : "Finished"}</TableCell>
-                    <TableCell align="right">{item.loading ? <CircularProgress size={20} /> : item.error ? <WarningIcon color="error" /> : <CheckIcon color="success" />}</TableCell>
+                    <TableCell style={{ alignItems: "center", display: "flex", justifyContent: "flex-end" }}>
+                      {item.loading ? "Loading..." : item.error ? "Failed" : "Finished"}
+                      {item.error ? <>
+                        &nbsp;&nbsp;
+                        <Button variant="outlined" size="small" onClick={() => actions.save(item.url, item.id, item.artist, item.title, item.type)}>
+                          Retry
+                        </Button>
+                      </> : null}
+                      &nbsp;&nbsp;
+                      {item.loading ? <CircularProgress size={20} /> : item.error ? <WarningIcon color="error" /> : <CheckIcon color="success" />}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
             <Alert severity="warning">
-            If you close this page, downloads should keep processing, but status informations will be lost.
-              
+              If you close this page, downloads should keep processing, but status informations will be lost.
+
             </Alert>
           </TableContainer>
         </>

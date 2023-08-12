@@ -37,6 +37,42 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
+interface TabContentProps {
+  children?: React.ReactNode;
+  setTabIndex?: Function;
+  type: "albums" | "artists" | "tracks";
+}
+
+function TabContent(props: TabContentProps) {
+  const {
+    actions,
+    page,
+    loading,
+    itemPerPage,
+    searchResults,
+  } = useTidalProvider();
+
+  const data = searchResults?.[props.type];
+
+  return (<
+    Grid container spacing={2}>
+    {data?.items?.length > 0
+      ? data?.items?.map((item: AlbumType | ArtistType | TrackType, index: number) => (
+        <Grid xs={12} md={6} key={`album-${index}`}>
+          {props.type === "albums" ? <AlbumCard album={item as AlbumType} /> :
+            props.type === "artists" ? <ArtistCard artist={item as ArtistType} setTabIndex={props.setTabIndex as Function} /> :
+              props.type === "tracks" ? <TrackCard track={item as TrackType} /> : null}
+
+        </Grid>
+      ))
+      : loading ?
+        <Loader />
+        : "No result."}
+    <Pager page={page} itemPerPage={itemPerPage} totalItems={data?.totalNumberOfItems} setPage={actions.setPage} />
+  </Grid>
+  );
+}
+
 function a11yProps(index: number) {
   return {
     id: `full-width-tab-${index}`,
@@ -64,15 +100,17 @@ const Loader = () => {
       <Grid xs={12} md={6}>
         <Skeleton variant="rectangular" width={560} height={200} animation="wave" />
       </Grid>
+      <Grid xs={12} md={6}>
+        <Skeleton variant="rectangular" width={560} height={200} animation="wave" />
+      </Grid>
+      <Grid xs={12} md={6}>
+        <Skeleton variant="rectangular" width={560} height={200} animation="wave" />
+      </Grid>
     </Grid >)
 };
 
 export const Results = () => {
   const {
-    actions,
-    page,
-    loading,
-    itemPerPage,
     searchResults: { albums, artists, tracks },
   } = useTidalProvider();
 
@@ -109,42 +147,13 @@ export const Results = () => {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <Grid container spacing={2}>
-            {albums?.items?.length > 0
-              ? albums?.items?.map((album: AlbumType, index: number) => (
-                <Grid xs={12} md={6} key={`album-${index}`}>
-                  <AlbumCard album={album} />
-                </Grid>
-              ))
-              : loading ? 
-                <Loader />
-              : "No result."}
-            <Pager page={page} itemPerPage={itemPerPage} totalItems={albums?.totalNumberOfItems} setPage={actions.setPage} />
-          </Grid>
+          <TabContent type="albums" />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <Grid container spacing={2}>
-            {artists?.items?.length > 0
-              ? artists?.items?.map((artist: ArtistType, index: number) => (
-                <Grid xs={12} md={6} key={`album-${index}`}>
-                  <ArtistCard artist={artist} setTabIndex={handleChangeIndex} />
-                </Grid>
-              ))
-              : "No result."}
-            <Pager page={page} itemPerPage={itemPerPage} totalItems={artists?.totalNumberOfItems} setPage={actions.setPage} />
-          </Grid>
+          <TabContent type="artists" setTabIndex={handleChangeIndex} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <Grid container spacing={2}>
-            {tracks?.items?.length > 0
-              ? tracks?.items?.map((track: TrackType, index: number) => (
-                <Grid xs={12} md={6} key={`album-${index}`}>
-                  <TrackCard track={track} />
-                </Grid>
-              ))
-              : "No result."}
-            <Pager page={page} itemPerPage={itemPerPage} totalItems={tracks?.totalNumberOfItems} setPage={actions.setPage} />
-          </Grid>
+        <TabContent type="tracks" />
         </TabPanel>
       </SwipeableViews>
     </Box>
