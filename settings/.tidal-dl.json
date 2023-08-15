@@ -1,0 +1,21 @@
+{
+    "albumFolderFormat": "{ArtistName}/{AlbumYear} - {AlbumTitle}",
+    "apiKeyIndex": 4,
+    "audioQuality": "HiFi",
+    "checkExist": true,
+    "downloadDelay": true,
+    "downloadPath": "./download/incomplete",
+    "includeEP": true,
+    "language": 0,
+    "lyricFile": false,
+    "multiThread": false,
+    "playlistFolderFormat": "Playlist/{PlaylistName} [{PlaylistUUID}]",
+    "saveAlbumInfo": false,
+    "saveCovers": true,
+    "showProgress": true,
+    "showTrackInfo": true,
+    "trackFileFormat": "{TrackNumber} - {TrackTitle}",
+    "usePlaylistFolder": true,
+    "videoFileFormat": "{VideoNumber} - {ArtistName} - {VideoTitle}{ExplicitFlag}",
+    "videoQuality": "P360"
+}

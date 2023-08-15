@@ -85,7 +85,7 @@ const Pager = ({ page, itemPerPage, totalItems, setPage }: { page: number; itemP
   return (
     <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
       <Button variant="contained" size="large" onClick={() => setPage(page + 1)}>
-        LOAD MORE (page: {page})
+        LOAD MORE (page: {page}/{Math.floor(totalItems / itemPerPage)})
       </Button>
     </Box>
   )
@@ -153,7 +153,7 @@ export const Results = () => {
           <TabContent type="artists" setTabIndex={handleChangeIndex} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-        <TabContent type="tracks" />
+          <TabContent type="tracks" />
         </TabPanel>
       </SwipeableViews>
     </Box>

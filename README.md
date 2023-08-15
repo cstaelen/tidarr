@@ -1,5 +1,10 @@
-# Tidal Media Downloader web client using docker
+# Selfhosted Tidal media downloader web client
 <img src="https://github.com/cstaelen/tidarr/blob/main/screenshot.png?raw=true" />
+
+- UI build with **Next JS**
+- Self-hostable using **Docker**
+- Download from **Tidal** with Tidal Media Downloader (python)
+- Tag import using **Beets.io** (python)
 
 ## Getting Started
 
@@ -14,21 +19,19 @@ services:
     volumes:
       - /any/folder/to/tidarr/config/.tidal-dl.token.json:/root/.tidal-dl.token.json
       - /any/folder/to/tidarr/config/.tidal-dl.json:/root/.tidal-dl.json
-      - /any/folder/to/music:/usr/tidarr/download
+      - /any/folder/to/tidarr/config/beets-config.yml:/root/beets-config.yml
+      - /download/albums:/home/app/standalone/download/albums
+      - /download/tracks:/home/app/standalone/download/tracks
     restart: 'unless-stopped'
     environment:
+      - ENABLE_BEETS=true
       - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN=<search_token> #optional
       - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=<country-code> #optional
-      - NEXT_PUBLIC_TIDAL_BINARY=<path_to_tidaldl_bin> #optional
 ```
 ## Proceed to Tidal Authentication : 
 ```bash 
 docker-compose exec tidarr tidal-dl
 ```
-
-## How to get search token : 
-- https://github.com/lucaslg26/TidalAPI/issues/23
-- https://github.com/lucaslg26/TidalAPI
 
 ## Tidal DL configuration : 
 Tidal Album options in `.tidal-dl.json`:
@@ -56,15 +59,14 @@ Tidal Album options in `.tidal-dl.json`:
 }
 ```
 
+## OPTIONAL - How to get search token : 
+- https://github.com/lucaslg26/TidalAPI/issues/23
+- https://github.com/lucaslg26/TidalAPI
 
-First, run the development server:
+## Be my guest, fork and dev <3
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+make dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

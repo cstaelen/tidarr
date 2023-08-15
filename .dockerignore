@@ -10,5 +10,5 @@ Makefile
 .cache
 .env
 dist
-settings
+settings/.tidal-dl.token.json
 download

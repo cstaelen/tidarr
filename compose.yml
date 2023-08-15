@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  node:
-    build: '.'
+  tidarr:
+    build: './docker'
     container_name: 'tidarr'
     ports:
       - 3000:3000
@@ -10,10 +10,14 @@ services:
     volumes:
       - ./settings/.tidal-dl.token.json:/root/.tidal-dl.token.json
       - ./settings/.tidal-dl.json:/root/.tidal-dl.json
-      - ./download:/home/app/standalone/download
+      - ./settings/beets-config.yml:/root/beets-config.yml
+      - ./download/albums:/home/app/standalone/download/albums
+      - ./download/tracks:/home/app/standalone/download/tracks
+      - .:/home/app/standalone # only used in dev environment
     restart: 'unless-stopped'
     environment:
-      - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN=
-      - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=
+      - ENABLE_BEETS=true
+      - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN= # optional
+      - NEXT_PUBLIC_TIDAL_COUNTRY_CODE= # optional
      
 

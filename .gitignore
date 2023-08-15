@@ -2,7 +2,7 @@
 
 #project
 /download
-/settings
+/settings/.tidal-dl.token.json
 
 # dependencies
 /node_modules

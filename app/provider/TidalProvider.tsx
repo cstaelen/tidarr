@@ -8,7 +8,7 @@ import React, {
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { TidalResponseType } from "../types";
-import { tidalDL } from "./server";
+import { beets, moveSingleton, tidalDL } from "./server";
 
 type TidalContextType = {
   searchResults: TidalResponseType;
@@ -93,6 +93,14 @@ export function TidalProvider({ children }: { children: ReactNode }) {
 
     try {
       const response = await tidalDL(urlToSave);
+
+      if (type !== "track") {
+        const responsebeets = await beets();
+        console.log(`Beets response :\r\n ${responsebeets}`)
+      } else {
+        const responsetrack = await moveSingleton();
+        console.log(`Beets response :\r\n ${responsetrack}`)
+      }
 
       setProcessingList([...(processingList || []), {
         ...item,
