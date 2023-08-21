@@ -7,7 +7,7 @@ import AlbumCard from "./Results/Album";
 import ArtistCard from "./Results/Artist";
 import TrackCard from "./Results/Track";
 import Grid from "@mui/material/Unstable_Grid2";
-import React from "react";
+import React, { useEffect } from "react";
 import SwipeableViews from "react-swipeable-views";
 import { useSearchProvider } from "../provider/SearchProvider";
 
@@ -59,15 +59,15 @@ function TabContent(props: TabContentProps) {
 
   return (<Grid container spacing={2}>
     {data?.items?.length > 0
-        ? data?.items?.map((item: AlbumType | ArtistType | TrackType, index: number) => (
-          <Grid xs={12} md={6} key={`album-${index}`}>
-            {props.type === "albums" ? <AlbumCard album={item as AlbumType} /> :
-              props.type === "artists" ? <ArtistCard artist={item as ArtistType} setTabIndex={props.setTabIndex as Function} /> :
-                props.type === "tracks" ? <TrackCard track={item as TrackType} /> : null}
+      ? data?.items?.map((item: AlbumType | ArtistType | TrackType, index: number) => (
+        <Grid xs={12} md={6} key={`album-${index}`}>
+          {props.type === "albums" ? <AlbumCard album={item as AlbumType} /> :
+            props.type === "artists" ? <ArtistCard artist={item as ArtistType} setTabIndex={props.setTabIndex as Function} /> :
+              props.type === "tracks" ? <TrackCard track={item as TrackType} /> : null}
 
-          </Grid>
-        ))
-        : "No result."}
+        </Grid>
+      ))
+      : "No result."}
     <Pager page={page} itemPerPage={itemPerPage} totalItems={data?.totalNumberOfItems} setPage={actions.setPage} />
   </Grid>
   );

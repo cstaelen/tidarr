@@ -6,10 +6,10 @@ export const metadata: Metadata = {
   description: 'Unofficial Tital media downloader',
   icons: [{
     rel: "icon",
-    url: "favicon.svg"
+    url: "https://raw.githubusercontent.com/cstaelen/tidarr/main/public/favicon.svg"
   }, {
     rel: "apple-touch-icon",
-    url: "favicon.svg"
+    url: "https://raw.githubusercontent.com/cstaelen/tidarr/main/public/favicon.svg"
   }],
 }
 

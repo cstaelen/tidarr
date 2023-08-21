@@ -20,17 +20,6 @@ const darkTheme = createTheme({
 export default function Home() {
   const params = useSearchParams();
 
-  useEffect(() => {
-    window.onbeforeunload = function (event: BeforeUnloadEvent) {
-      var message = 'If you confirm leaving, download progress informations will be lost. But downloads should continue.';
-
-      event = event || window.event;
-      event.preventDefault();
-      event.cancelBubble = true;
-      event.returnValue = message;
-    }
-  }, []);
-
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />

@@ -44,7 +44,7 @@ export async function beets() {
     
   } catch (err: any) {
     console.log('Error during beets tagging : ', err);
-    return {save: false}
+    return {save: false, output: err}
   } finally {
     const output_clean = execSync("rm -rf ./download/incomplete/*", {encoding: "utf-8"});
     console.log('- Clean folder', output_clean);
