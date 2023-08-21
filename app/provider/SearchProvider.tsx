@@ -2,6 +2,7 @@ import React, {
   useContext,
   useState,
   ReactNode,
+  useEffect,
 } from "react";
 
 import { AlbumType, TidalResponseType, TrackType } from "../types";
@@ -17,7 +18,7 @@ type SearchContextType = {
     setPage: (page: number) => void;
     setProcessingList: Function;
     addItem: Function;
-    queryTidal: (query: string) => void;
+    queryTidal: (query: string, page: number) => void;
   };
 };
 
@@ -40,6 +41,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   const itemPerPage = 10;
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
+  const [keywords, setKeywords] = useState<string>();
   const [searchResults, setSearchResults] = useState<TidalResponseType>(
     {} as TidalResponseType
   );
@@ -48,17 +50,17 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   const performSearch = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-    queryTidal(e?.target?.[0]?.value);
+    queryTidal(e?.target?.[0]?.value, 1);
   };
 
-  const queryTidal = async (query: string) => {
+  const queryTidal = async (query: string, page: number = 1) => {
     const token = process.env.NEXT_PUBLIC_TIDAL_SEARCH_TOKEN || 'CzET4vdadNUFQ5JU';
     const country = process.env.NEXT_PUBLIC_TIDAL_COUNTRY_CODE || 'CA';
     const url = `https://listen.tidal.com/v1/search/top-hits?query=${query}&limit=${itemPerPage}&token=${token}&countryCode=${country}&offset=${(page - 1) * itemPerPage}`;
     const response = await fetch(url);
     const results: TidalResponseType = await response.json();
 
-    const clone = searchResults;
+    const clone = { ...searchResults };
     const data = {
       albums: { ...results?.albums, items: [...(page > 1 ? (clone?.albums?.items || []) : []), ...results?.albums?.items] },
       artists: { ...results?.artists, items: [...(page > 1 ? (clone?.artists?.items || []) : []), ...results?.artists?.items] },
@@ -68,6 +70,8 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     if (document.getElementById('filled-basic')) {
       (document.getElementById('filled-basic') as HTMLInputElement).value = query;
     }
+    setKeywords(query);
+    setPage(page);
     setLoading(false);
   }
 
@@ -87,6 +91,10 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
     setProcessingList([...processingList, itemToProcess]);
   };
+
+  useEffect(() => {
+    if (keywords) queryTidal(keywords, page);
+  }, [page])
 
   const value = {
     searchResults,

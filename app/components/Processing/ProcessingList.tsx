@@ -1,6 +1,6 @@
 import { Alert, Backdrop, Paper, SpeedDial, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProcessingItemType, useSearchProvider } from "../../provider/SearchProvider";
 import { ProcessingItem } from "./ProcessingItem";
 
@@ -10,6 +10,14 @@ export const ProcessingList = () => {
   const [currentProcessing, setCurrentProcessing] = useState(0);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    if (processingList?.length > 0) {
+      const list = [...processingList];
+      list[currentProcessing - 1].status = "finished";
+      actions.setProcessingList(list);
+    }
+  }, [currentProcessing])
 
   if (!processingList || processingList?.length === 0) return null;
 

@@ -69,7 +69,7 @@ export default function Artist({
               variant="outlined"
               endIcon={<SearchIcon />}
               onClick={() => {
-                actions.queryTidal(artist.name)
+                actions.queryTidal(artist.name, 1)
                 setTabIndex(0);
               }}
               size="small"
