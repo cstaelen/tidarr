@@ -9,12 +9,11 @@ run-docker:
 	docker run  \
 		--rm \
 		--name tidarr \
-		-p 3000:3000 \
-		-f ${DOCKERFILE} \
-		-v .:/usr/tidarr \
+		-p 8484:8484 \
 		-v ${PWD}/settings/.tidal-dl.token.json:/root/.tidal-dl.token.json \
 		-v ${PWD}/settings/.tidal-dl.json:/root/.tidal-dl.json \
-		-v ${PWD}/download:/usr/tidarr/download \
+		-v ${PWD}/download/albums:/home/app/standalone/download/albums \
+		-v ${PWD}/download/tracks:/home/app/standalone/download/tracks \
 	${IMAGE}
 
 dev:
