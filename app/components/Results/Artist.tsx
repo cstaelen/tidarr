@@ -8,6 +8,7 @@ import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/navigation";
 import { DownloadButton } from "../DownloadButton";
+import { useSearchProvider } from "@/app/provider/SearchProvider";
 
 export default function Artist({
   artist,
@@ -16,7 +17,7 @@ export default function Artist({
   artist: ArtistType;
   setTabIndex: Function;
 }) {
-  const router = useRouter();
+  const { actions } = useSearchProvider();
 
   return (
     <Card sx={{ display: "flex" }}>
@@ -58,8 +59,8 @@ export default function Artist({
                 artist.popularity > 75
                   ? "success"
                   : artist.popularity > 33
-                  ? "warning"
-                  : "error"
+                    ? "warning"
+                    : "error"
               }
             />
           </Stack>
@@ -68,22 +69,16 @@ export default function Artist({
               variant="outlined"
               endIcon={<SearchIcon />}
               onClick={() => {
-                router.push(`/?query=${artist.name}`);
+                actions.queryTidal(artist.name)
                 setTabIndex(0);
               }}
               size="small"
             >
               Search albums
             </Button>
-            <DownloadButton item={artist} id={artist.id} type="artist" label="Get all"/>
           </Stack>
         </CardContent>
       </Box>
     </Card>
   );
 }
-
-export const getServerSideProps = (context: GetServerSidePropsContext) => {
-  console.log("client", context);
-  return { save: true };
-};

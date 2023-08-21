@@ -1,13 +1,10 @@
 "use client";
 
-import { Input, TextField } from "@mui/material";
-import { useTidalProvider } from "../provider/TidalProvider";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { TextField } from "@mui/material";
+import { useSearchProvider } from "../provider/SearchProvider";
 
 export const Search = () => {
-  const { actions } = useTidalProvider();
-  const params = useSearchParams();
+  const { actions } = useSearchProvider();
 
   return (
     <form onSubmit={actions.performSearch}>
@@ -17,7 +14,6 @@ export const Search = () => {
         label="Tidal search"
         margin="normal"
         variant="filled"
-        defaultValue={params?.get("query") || ''}
         fullWidth
       />
     </form>

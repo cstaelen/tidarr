@@ -29,7 +29,7 @@ RUN echo "*** install beets ***"
 RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/community beets
 
 RUN yarn install
-EXPOSE 3000
-ENV PORT 3000
+EXPOSE 8484
+ENV PORT 8484
 
 CMD ["yarn", "dev"]

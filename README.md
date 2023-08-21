@@ -15,7 +15,7 @@ services:
     image: cstaelen/tidarr
     container_name: 'tidarr'
     ports:
-      - 3000:3000
+      - 8484:8484
     volumes:
       - /any/folder/to/tidarr/config/.tidal-dl.token.json:/root/.tidal-dl.token.json
       - /any/folder/to/tidarr/config/.tidal-dl.json:/root/.tidal-dl.json

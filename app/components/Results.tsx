@@ -1,14 +1,15 @@
 "use client";
 
 import { AppBar, Box, Button, Pagination, Skeleton, Tab, Tabs, Typography, useTheme } from "@mui/material";
-import { useTidalProvider } from "../provider/TidalProvider";
+
 import { AlbumType, ArtistType, TrackType } from "../types";
 import AlbumCard from "./Results/Album";
 import ArtistCard from "./Results/Artist";
 import TrackCard from "./Results/Track";
 import Grid from "@mui/material/Unstable_Grid2";
-import React, { ChangeEvent } from "react";
+import React from "react";
 import SwipeableViews from "react-swipeable-views";
+import { useSearchProvider } from "../provider/SearchProvider";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -50,23 +51,22 @@ function TabContent(props: TabContentProps) {
     loading,
     itemPerPage,
     searchResults,
-  } = useTidalProvider();
+  } = useSearchProvider();
 
   const data = searchResults?.[props.type];
 
-  return (<
-    Grid container spacing={2}>
-    {data?.items?.length > 0
-      ? data?.items?.map((item: AlbumType | ArtistType | TrackType, index: number) => (
-        <Grid xs={12} md={6} key={`album-${index}`}>
-          {props.type === "albums" ? <AlbumCard album={item as AlbumType} /> :
-            props.type === "artists" ? <ArtistCard artist={item as ArtistType} setTabIndex={props.setTabIndex as Function} /> :
-              props.type === "tracks" ? <TrackCard track={item as TrackType} /> : null}
+  if (loading) return <Loader />;
 
-        </Grid>
-      ))
-      : loading ?
-        <Loader />
+  return (<Grid container spacing={2}>
+    {data?.items?.length > 0
+        ? data?.items?.map((item: AlbumType | ArtistType | TrackType, index: number) => (
+          <Grid xs={12} md={6} key={`album-${index}`}>
+            {props.type === "albums" ? <AlbumCard album={item as AlbumType} /> :
+              props.type === "artists" ? <ArtistCard artist={item as ArtistType} setTabIndex={props.setTabIndex as Function} /> :
+                props.type === "tracks" ? <TrackCard track={item as TrackType} /> : null}
+
+          </Grid>
+        ))
         : "No result."}
     <Pager page={page} itemPerPage={itemPerPage} totalItems={data?.totalNumberOfItems} setPage={actions.setPage} />
   </Grid>
@@ -112,7 +112,7 @@ const Loader = () => {
 export const Results = () => {
   const {
     searchResults: { albums, artists, tracks },
-  } = useTidalProvider();
+  } = useSearchProvider();
 
   const theme = useTheme();
   const [value, setValue] = React.useState(0);

@@ -5,8 +5,7 @@ services:
     build: './docker'
     container_name: 'tidarr'
     ports:
-      - 3000:3000
-      - 3001:3001
+      - 8484:8484
     volumes:
       - ./settings/.tidal-dl.token.json:/root/.tidal-dl.token.json
       - ./settings/.tidal-dl.json:/root/.tidal-dl.json
@@ -18,6 +17,6 @@ services:
     environment:
       - ENABLE_BEETS=true
       - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN= # optional
-      - NEXT_PUBLIC_TIDAL_COUNTRY_CODE= # optional
+      - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=FR # optional
      
 

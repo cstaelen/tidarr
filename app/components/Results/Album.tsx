@@ -78,6 +78,13 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
               style={{ margin: "0.2rem" }}
             />
             <Chip
+              label={`${new Date(album.releaseDate).getFullYear()}`}
+              color="success"
+              size="small"
+              variant="outlined"
+              style={{ margin: "0.2rem" }}
+            />
+            <Chip
               label={`Popularity: ${album.popularity}%`}
               size="small"
               variant="outlined"
@@ -97,8 +104,3 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
     </Card>
   );
 }
-
-export const getServerSideProps = (context: GetServerSidePropsContext) => {
-  console.log("client", context);
-  return { save: true };
-};

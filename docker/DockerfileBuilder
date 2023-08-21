@@ -47,6 +47,6 @@ COPY --from=builder /home/app/.next/standalone ./standalone
 COPY --from=builder /home/app/public /home/app/standalone/public
 COPY --from=builder /home/app/.next/static /home/app/standalone/.next/static
 
-EXPOSE 3000
-ENV PORT 3000
+EXPOSE 8484
+ENV PORT 8484
 CMD ["node", "./standalone/server.js"]

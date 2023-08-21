@@ -3,6 +3,7 @@
 #project
 /download
 /settings/.tidal-dl.token.json
+/settings/beets/*
 
 # dependencies
 /node_modules

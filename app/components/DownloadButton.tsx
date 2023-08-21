@@ -2,11 +2,11 @@ import { Button } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import React from "react";
 import { AlbumType, ArtistType, TrackType } from "../types";
-import { useTidalProvider } from "../provider/TidalProvider";
+import { useSearchProvider } from "../provider/SearchProvider";
 
 export const DownloadButton = ({ id, item, type, label }: { item: TrackType | AlbumType | ArtistType, id: number, type: "album" | "artist" | "track", label: string }) => {
   const [status, setStatus] = React.useState<"loading" | "finished" | "error">();
-  const { processingList, actions } = useTidalProvider();
+  const { processingList, actions } = useSearchProvider();
 
   React.useEffect(() => {
     if (processingList && processingList?.length > 0) {
@@ -18,11 +18,7 @@ export const DownloadButton = ({ id, item, type, label }: { item: TrackType | Al
   }, [processingList, id]);
 
   const downloadItem = async () => {
-    if (type === "artist") {
-      await actions.save(item.url, item.id, (item as ArtistType)?.name, "Complete discography", type)
-    } else {
-      await actions.save(item.url, item.id, (item as AlbumType | TrackType)?.artists?.[0]?.name, (item as AlbumType | TrackType)?.title, type)
-    }
+      actions.addItem(item, type);
   };
 
   return (
