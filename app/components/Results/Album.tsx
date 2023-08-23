@@ -9,9 +9,15 @@ import Image from "next/image";
 
 export default function AlbumCard({ album }: { album: AlbumType }) {
   return (
-    <Card sx={{ display: "flex" }}>
+    <Card sx={{ display: "flex", position: "relative" }}>
       <Image
-        style={{ maxWidth: window.innerWidth < 640 ? '25%' : 'none' }}
+        style={{
+          width: window.innerWidth < 640 ? '100%' : 'none',
+          height: window.innerWidth < 640 ? '100%' : 'none',
+          position: window.innerWidth < 640 ? 'absolute' : 'relative',
+          objectFit: window.innerWidth < 640 ? 'cover' : 'none',
+          opacity: window.innerWidth < 640 ? 0.2 : 1,
+        }}
         width={200}
         height={200}
         src={`https://resources.tidal.com/images/${album.cover?.replace(
@@ -20,7 +26,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
         )}/750x750.jpg`}
         alt="Live from space album cover"
       />
-      <Box sx={{ display: "flex", flexDirection: "column", flex: "1 1 0" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", flex: "1 1 0", position: "relative" }}>
         <CardContent sx={{ flex: "0 0 auto", padding: "1rem" }}>
           <Stack
             direction="row"
@@ -91,12 +97,12 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
                 album.popularity > 75
                   ? "success"
                   : album.popularity > 33
-                  ? "warning"
-                  : "error"
+                    ? "warning"
+                    : "error"
               }
             />
           </Stack>
-          <DownloadButton item={album} id={album.id} type="album" label="Get album"/>
+          <DownloadButton item={album} id={album.id} type="album" label="Get album" />
         </CardContent>
       </Box>
     </Card>
