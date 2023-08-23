@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { TrackType } from "@/app/types";
-import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
+import { Avatar, Box, Chip, Link, Stack } from "@mui/material";
 import { DownloadButton } from "../DownloadButton";
 import Image from "next/image";
 

@@ -1,23 +1,15 @@
 import { Alert, Backdrop, Paper, SpeedDial, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
-import { useEffect, useState } from "react";
-import { ProcessingItemType, useSearchProvider } from "../../provider/SearchProvider";
+import { useState } from "react";
 import { ProcessingItem } from "./ProcessingItem";
+import { useProcessingProvider } from "@/app/provider/ProcessingProvider";
 
 export const ProcessingList = () => {
-  const { processingList, actions } = useSearchProvider();
+  const { processingList, currentProcessing } = useProcessingProvider();
   const [open, setOpen] = useState(false);
-  const [currentProcessing, setCurrentProcessing] = useState(0);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  useEffect(() => {
-    if (processingList?.length > 0) {
-      const list = [...processingList];
-      list[currentProcessing - 1].status = "finished";
-      actions.setProcessingList(list);
-    }
-  }, [currentProcessing])
 
   if (!processingList || processingList?.length === 0) return null;
 
@@ -26,7 +18,7 @@ export const ProcessingList = () => {
       ariaLabel="Show processing list"
       sx={{ position: 'fixed', bottom: 50, right: 16 }}
       color="success"
-      icon={<strong>{currentProcessing}/{processingList?.length || 0}</strong>}
+      icon={<strong>{processingList?.filter(item => item.status === 'finished')?.length}/{processingList?.length || 0}</strong>}
       onClose={handleClose}
       onOpen={handleOpen}
       open={open}
@@ -52,7 +44,7 @@ export const ProcessingList = () => {
         <Table size="small" aria-label="Processing table">
           <TableHead>
             <TableRow>
-              <TableCell><strong>Download in progress ...</strong></TableCell>
+              <TableCell><strong>Processing list</strong></TableCell>
               <TableCell>Artist</TableCell>
               <TableCell>Type</TableCell>
               <TableCell align="right">Status</TableCell>
@@ -64,13 +56,12 @@ export const ProcessingList = () => {
                 item={item}
                 key={`processing-index-${index}`}
                 processing={currentProcessing === index}
-                markAsFinished={() => setCurrentProcessing(currentProcessing + 1)}
               />
             )}
           </TableBody>
         </Table>
         <Alert severity="warning">
-          If you close this page, downloads should keep processing, but status informations will be lost.
+          If you close this page, processing list will be paused.
         </Alert>
       </TableContainer>
     </SpeedDial >

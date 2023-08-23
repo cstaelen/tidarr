@@ -1,5 +1,4 @@
-import { ProcessingItemType } from "@/app/provider/SearchProvider";
-import { TableRow, TableCell, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { TableRow, TableCell, Button, CircularProgress, Dialog, DialogActions, DialogTitle } from "@mui/material";
 import Link from "next/link";
 import CheckIcon from '@mui/icons-material/Check';
 import WarningIcon from '@mui/icons-material/Warning';
@@ -7,12 +6,21 @@ import { useEffect, useState } from "react";
 import { tidalDL, beets, moveSingleton } from "@/app/provider/server";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import TerminalIcon from '@mui/icons-material/Terminal';
+import ClearIcon from '@mui/icons-material/Clear';
 import styled from "@emotion/styled";
+import { ProcessingItemType, useProcessingProvider } from "@/app/provider/ProcessingProvider";
 
-export const ProcessingItem = ({ item, processing = false, markAsFinished }: { item: ProcessingItemType; processing: boolean; markAsFinished: Function }) => {
-  const [step, setStep] = useState<string>('queue');
+export const ProcessingItem = ({
+  item,
+  processing = false,
+}: {
+  item: ProcessingItemType;
+  processing: boolean;
+}) => {
+  const [step, setStep] = useState<string>(item.status);
   const [output, setOutput] = useState<string>();
   const [openOutput, setOpenOutput] = useState(false);
+  const { actions } = useProcessingProvider();
 
   const run = async (urlToSave: string) => {
     setStep("processing");
@@ -29,32 +37,20 @@ export const ProcessingItem = ({ item, processing = false, markAsFinished }: { i
         const responsetrack = await moveSingleton();
         setOutput(`${stdout}\r\n${responsetrack?.output} `)
       }
-      setStep("downloading");
     } catch (err: any) {
       setStep("error");
       setOutput(`${output}\r\nError : ${err.toString()}`)
     } finally {
       setStep("finished");
-      markAsFinished();
+      actions.updateItemStatus(item.id, 'finished');
     }
   }
-
-  useEffect(() => {
-    window.onbeforeunload = function (event: BeforeUnloadEvent) {
-      var message = 'If you confirm leaving, download progress informations will be lost. But downloads should continue.';
-
-      event = event || window.event;
-      event.preventDefault();
-      event.cancelBubble = true;
-      event.returnValue = message;
-    }
-  }, []);
-
 
   useEffect(() => {
     if (processing && step !== "finished" && item.status !== 'finished') {
       run(item.url);
     }
+    if (processing && item.status === "finished") actions.updateItemStatus(item.id, 'finished');;
   }, [processing])
 
   return (
@@ -98,6 +94,7 @@ export const ProcessingItem = ({ item, processing = false, markAsFinished }: { i
         )}
 
         {step === 'finished' ? <CheckIcon color="success" /> : step === 'error' ? <WarningIcon color="error" /> : step === 'queue' ? <AccessTimeIcon /> : <CircularProgress size={20} />}
+        {step !== 'processing' && step !== 'beet' && <TerminalButton onClick={() => actions.removeItem(item.id)}><ClearIcon /></TerminalButton>}
       </TableCell>
     </TableRow>
   )

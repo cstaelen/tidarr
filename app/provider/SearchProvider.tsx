@@ -5,33 +5,20 @@ import React, {
   useEffect,
 } from "react";
 
-import { AlbumType, TidalResponseType, TrackType } from "../types";
+import { TidalResponseType } from "../types";
+import { useSearchParams } from "next/navigation";
 
 type SearchContextType = {
   searchResults: TidalResponseType;
   loading: boolean;
   page: number;
   itemPerPage: number;
-  processingList: ProcessingItemType[];
   actions: {
     performSearch: any;
     setPage: (page: number) => void;
-    setProcessingList: Function;
-    addItem: Function;
     queryTidal: (query: string, page: number) => void;
   };
 };
-
-export type ProcessingItemType = {
-  id: number;
-  artist: string;
-  title: string;
-  type: "artist" | "album" | "track";
-  status: "queue" | "finished" | "beet" | "downloading" | "error";
-  url: string;
-  loading: boolean;
-  error: boolean;
-}
 
 const SearchContext = React.createContext<SearchContextType>(
   {} as SearchContextType
@@ -45,7 +32,8 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   const [searchResults, setSearchResults] = useState<TidalResponseType>(
     {} as TidalResponseType
   );
-  const [processingList, setProcessingList] = useState<ProcessingItemType[]>([]);
+
+  const params = useSearchParams();
 
   const performSearch = async (e: any) => {
     e.preventDefault();
@@ -73,40 +61,29 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     setKeywords(query);
     setPage(page);
     setLoading(false);
+    history.pushState({}, "pushState search", `/?query=${query}`);
   }
 
-  const addItem = (item: AlbumType | TrackType, type: 'album' | 'track') => {
-    if (processingList.filter(row => row.id === item.id)?.length > 0) return null;
-
-    const itemToProcess: ProcessingItemType = {
-      id: item.id,
-      artist: item.artists?.[0].name,
-      title: item?.title,
-      type: type,
-      status: 'queue',
-      loading: true,
-      error: false,
-      url: item.url,
-    }
-
-    setProcessingList([...processingList, itemToProcess]);
-  };
-
+  // Fetch on page change
   useEffect(() => {
     if (keywords) queryTidal(keywords, page);
-  }, [page])
+  }, [page]);
+
+  // If url query exists on load
+  useEffect(() => {
+    const query = params.get('query');
+    if (query) 
+      queryTidal(query, 1);
+  }, []);
 
   const value = {
     searchResults,
     loading,
     itemPerPage,
     page,
-    processingList,
     actions: {
       performSearch,
       setPage,
-      setProcessingList,
-      addItem,
       queryTidal,
     },
   };

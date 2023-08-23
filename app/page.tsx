@@ -10,6 +10,7 @@ import { useSearchParams } from "next/navigation";
 import { SearchProvider } from "./provider/SearchProvider";
 import { HeaderSearch } from "./components/HeaderSearch";
 import { useEffect } from "react";
+import { ProcessingProvider } from "./provider/ProcessingProvider";
 
 const darkTheme = createTheme({
   palette: {
@@ -26,13 +27,15 @@ export default function Home() {
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <div className="relative">
           <SearchProvider>
-            <HeaderSearch />
-            <Content>
-              <Container maxWidth="lg">
-                <Results />
-              </Container>
-            </Content>
-            <ProcessingList />
+            <ProcessingProvider>
+              <HeaderSearch />
+              <Content>
+                <Container maxWidth="lg">
+                  <Results />
+                </Container>
+              </Content>
+              <ProcessingList />
+            </ProcessingProvider>
           </SearchProvider>
         </div>
       </main>

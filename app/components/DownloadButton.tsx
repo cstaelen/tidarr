@@ -2,11 +2,11 @@ import { Button } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import React from "react";
 import { AlbumType, ArtistType, TrackType } from "../types";
-import { useSearchProvider } from "../provider/SearchProvider";
+import { useProcessingProvider } from "../provider/ProcessingProvider";
 
 export const DownloadButton = ({ id, item, type, label }: { item: TrackType | AlbumType | ArtistType, id: number, type: "album" | "artist" | "track", label: string }) => {
   const [status, setStatus] = React.useState<"loading" | "finished" | "error">();
-  const { processingList, actions } = useSearchProvider();
+  const { processingList, actions } = useProcessingProvider();
 
   React.useEffect(() => {
     if (processingList && processingList?.length > 0) {

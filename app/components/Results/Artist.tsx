@@ -5,9 +5,6 @@ import Typography from "@mui/material/Typography";
 import SearchIcon from "@mui/icons-material/DiscFullRounded";
 import { ArtistType } from "@/app/types";
 import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
-import { GetServerSidePropsContext } from "next";
-import { useRouter } from "next/navigation";
-import { DownloadButton } from "../DownloadButton";
 import { useSearchProvider } from "@/app/provider/SearchProvider";
 
 export default function Artist({

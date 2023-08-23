@@ -1,13 +1,13 @@
 "use client";
 
-import { AppBar, Box, Button, Pagination, Skeleton, Tab, Tabs, Typography, useTheme } from "@mui/material";
+import { AppBar, Box, Button, Pagination, Skeleton, Tab, Tabs, useTheme } from "@mui/material";
 
 import { AlbumType, ArtistType, TrackType } from "../types";
 import AlbumCard from "./Results/Album";
 import ArtistCard from "./Results/Artist";
 import TrackCard from "./Results/Track";
 import Grid from "@mui/material/Unstable_Grid2";
-import React, { useEffect } from "react";
+import React from "react";
 import SwipeableViews from "react-swipeable-views";
 import { useSearchProvider } from "../provider/SearchProvider";
 
