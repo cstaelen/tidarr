@@ -15,7 +15,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
           width: window.innerWidth < 640 ? '100%' : 'none',
           height: window.innerWidth < 640 ? '100%' : 'none',
           position: window.innerWidth < 640 ? 'absolute' : 'relative',
-          objectFit: window.innerWidth < 640 ? 'cover' : 'none',
+          objectFit: window.innerWidth < 640 ? 'cover' : 'fill',
           opacity: window.innerWidth < 640 ? 0.2 : 1,
         }}
         width={200}

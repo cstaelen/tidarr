@@ -2,6 +2,12 @@
 
 const domainUrl = new URL('https://resources.tidal.com');
 
+const withPWA = require("next-pwa")({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+});
+
 const nextConfig = {
   output: "standalone",
   experimental: {

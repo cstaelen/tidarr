@@ -4,12 +4,30 @@ import Head from 'next/head'
 export const metadata: Metadata = {
   title: 'Tidarr',
   description: 'Unofficial Tital media downloader',
+  applicationName: 'Tidarr',
+  themeColor: '#000000',
+  manifest: '/favicon/manifest.json',
   icons: [{
-    rel: "icon",
-    url: "https://raw.githubusercontent.com/cstaelen/tidarr/main/public/favicon.svg"
-  }, {
     rel: "apple-touch-icon",
-    url: "https://raw.githubusercontent.com/cstaelen/tidarr/main/public/favicon.svg"
+    sizes: "180x180",
+    type: "image/svg",
+    url: "/favicon/apple-touch-icon.png"
+  }, {
+    type: "image/svg",
+    rel: "icon",
+    sizes: "32x32",
+    url: "/favicon/favicon-32x32.png"
+  }, {
+    type: "image/svg",
+    rel: "icon",
+    sizes: "16x16",
+    url: "/favicon/favicon-16x16.png"
+  }, {
+    rel: "manifest",
+    url: "favicon/site.webmanifest"
+  }, {
+    rel: "mask-icon",
+    url: "favicon/safari-pinned-tab.svg",
   }],
 }
 

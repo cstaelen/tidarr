@@ -1,4 +1,4 @@
-# Selfhosted Tidal media downloader web client
+# Selfhosted Tidal media downloader web client with docker
 <img src="https://github.com/cstaelen/tidarr/blob/main/screenshot.png?raw=true" />
 
 - UI build with **Next JS**
@@ -20,15 +20,15 @@ services:
       - /any/folder/to/tidarr/config/.tidal-dl.token.json:/root/.tidal-dl.token.json
       - /any/folder/to/tidarr/config/.tidal-dl.json:/root/.tidal-dl.json
       - /any/folder/to/tidarr/config/beets-config.yml:/root/beets-config.yml
-      - /download/albums:/home/app/standalone/download/albums
-      - /download/tracks:/home/app/standalone/download/tracks
+      - /any/folder/to/download/albums:/home/app/standalone/download/albums
+      - /any/folder/to/download/tracks:/home/app/standalone/download/tracks
     restart: 'unless-stopped'
     environment:
       - ENABLE_BEETS=true
       - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN=<search_token> #optional
       - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=<country-code> #optional
 ```
-## Proceed to Tidal Authentication : 
+## Proceed to Tidal Authentication (if no `.tidal-dl.token.json` token file provided) : 
 ```bash 
 docker-compose exec tidarr tidal-dl
 ```
@@ -63,7 +63,12 @@ Tidal Album options in `.tidal-dl.json`:
 - https://github.com/lucaslg26/TidalAPI/issues/23
 - https://github.com/lucaslg26/TidalAPI
 
-## Be my guest, fork and dev <3
+
+## Enhancement I'd love to add : 
+-[] Use Shazam API to recognize songs, then search over Tidal and easily grab track or album.
+-[] Add Flask API to manage processing list on server side instead of browser side.
+
+## Want more features and/or contribute ? be my guest, fork and dev <3
 
 ```bash
 make dev
@@ -72,10 +77,11 @@ make dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Disclaimer
-- Need a offical Tidal account
+- Need an offical Tidal account
 - Private use only
 - **Do not forget to support your local artists** 🙏❤️
 
 ## Resources
 - https://github.com/yaronzz/Tidal-Media-Downloader
 - https://github.com/lucaslg26/TidalAPI
+- https://github.com/RandomNinjaAtk/arr-scripts (Lidarr extended scripts)
