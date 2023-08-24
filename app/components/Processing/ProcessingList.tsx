@@ -1,4 +1,4 @@
-import { Alert, Backdrop, Paper, SpeedDial, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Alert, Backdrop, Box, Paper, SpeedDial, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
 import { useState } from "react";
 import { ProcessingItem } from "./ProcessingItem";
@@ -41,28 +41,30 @@ export const ProcessingList = () => {
           visibility: open ? 'visible' : 'hidden'
         }}
       >
-        <Table size="small" aria-label="Processing table">
-          <TableHead>
-            <TableRow>
-              <TableCell><strong>Processing list</strong></TableCell>
-              <TableCell>Artist</TableCell>
-              <TableCell>Type</TableCell>
-              <TableCell align="right">Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {processingList?.map((item, index) =>
-              <ProcessingItem
-                item={item}
-                key={`processing-index-${index}`}
-                processing={currentProcessing === index}
-              />
-            )}
-          </TableBody>
-        </Table>
-        <Alert severity="warning">
-          If you close this page, processing list will be paused.
-        </Alert>
+        <Box sx={{ width: "700px" }}>
+          <Table size="small" aria-label="Processing table">
+            <TableHead>
+              <TableRow>
+                <TableCell><strong>Processing list</strong></TableCell>
+                <TableCell>Title</TableCell>
+                <TableCell>Artist</TableCell>
+                <TableCell>Type</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {processingList?.map((item, index) =>
+                <ProcessingItem
+                  item={item}
+                  key={`processing-index-${index}`}
+                  processing={currentProcessing === index}
+                />
+              )}
+            </TableBody>
+          </Table>
+          <Alert severity="warning">
+            If you close this page, processing list will be paused.
+          </Alert>
+        </Box>
       </TableContainer>
     </SpeedDial >
   );

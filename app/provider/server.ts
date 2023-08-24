@@ -27,7 +27,7 @@ export async function beets() {
       console.log(`Executing: ${binary}`);
 
       const output = spawnSync(binary, [
-        '-c', "/root/beets-config.yml",
+        '-c', "./settings/beets-config.yml",
         "-l", "./settings/beets/beets-library.blb" ,
         "-d", "./download/albums" ,
         "import", "-qC" , "./download/incomplete"

@@ -21,6 +21,14 @@ const darkTheme = createTheme({
 export default function Home() {
   const params = useSearchParams();
 
+  /* @TODO
+   * - Shazarr
+   * - Check cofnig file available (beets/*.blb, beets-config.yml)
+   * - Plex API library update
+   * - Gotify
+   */
+
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />

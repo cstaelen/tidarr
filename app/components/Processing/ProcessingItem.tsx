@@ -55,15 +55,9 @@ export const ProcessingItem = ({
 
   return (
     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-      <TableCell scope="row">
-        <Link href={item.url} target="_blank" style={{ color: 'white' }}>{item.title}</Link>
-      </TableCell>
-      <TableCell scope="row">
-        {item.artist}
-      </TableCell>
-      <TableCell scope="row">{item.type}</TableCell>
-      <TableCell style={{ alignItems: "center", display: "flex", justifyContent: "flex-end" }}>
-        {step}
+      <TableCell style={{ alignItems: "center", display: "flex", flex: '0 0 auto' }}>
+        {step !== 'processing' && step !== 'beet' && <TerminalButton onClick={() => actions.removeItem(item.id)}><ClearIcon /></TerminalButton>}
+        {step === 'finished' ? <CheckIcon color="success" /> : step === 'error' ? <WarningIcon color="error" /> : step === 'queue' ? <AccessTimeIcon /> : <CircularProgress size={20} />}
 
         {step === "error" ? <>
           &nbsp;&nbsp;
@@ -93,9 +87,16 @@ export const ProcessingItem = ({
           </div>
         )}
 
-        {step === 'finished' ? <CheckIcon color="success" /> : step === 'error' ? <WarningIcon color="error" /> : step === 'queue' ? <AccessTimeIcon /> : <CircularProgress size={20} />}
-        {step !== 'processing' && step !== 'beet' && <TerminalButton onClick={() => actions.removeItem(item.id)}><ClearIcon /></TerminalButton>}
+        {step}
+
       </TableCell>
+      <TableCell scope="row">
+        <Link href={item.url} target="_blank" style={{ color: 'white' }}>{item.title}</Link>
+      </TableCell>
+      <TableCell scope="row">
+        {item.artist}
+      </TableCell>
+      <TableCell scope="row">{item.type}</TableCell>
     </TableRow>
   )
 };
@@ -109,7 +110,7 @@ const Pre = styled.pre`
 `;
 
 const TerminalButton = styled(Button)`
-  margin: 0 0.5rem;
+  margin: 0 0.5rem 0 0;
   min-width: 0;
   padding: 0;
 `;

@@ -7,9 +7,9 @@ services:
     ports:
       - 8484:8484
     volumes:
+      - ./settings:/home/app/standalone/settings
       - ./settings/.tidal-dl.token.json:/root/.tidal-dl.token.json
       - ./settings/.tidal-dl.json:/root/.tidal-dl.json
-      - ./settings/beets-config.yml:/root/beets-config.yml
       - ./download/albums:/home/app/standalone/download/albums
       - ./download/tracks:/home/app/standalone/download/tracks
       - .:/home/app/standalone # only used in dev environment
