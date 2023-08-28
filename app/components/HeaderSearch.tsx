@@ -13,7 +13,7 @@ export const HeaderSearch = () => {
         {!loading && Object.keys(searchResults).length === 0 && (
           <>
             <Title><AlbumIcon />Tidarr</Title>
-            <Intro>Unoffical Tidal© media downloader</Intro>
+            <Intro>Unofficial Tidal© media downloader</Intro>
           </>
         )}
         <SearchWrapper initialState={!loading && Object.keys(searchResults)?.length === 0}>
