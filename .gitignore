@@ -4,7 +4,7 @@
 /download
 /settings/.tidal-dl.token.json
 /settings/beets/*
-/mnt 
+/docker/mnt
 # dependencies
 /node_modules
 /.pnp

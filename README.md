@@ -28,9 +28,10 @@ services:
       - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN=<search_token> #optional
       - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=<country-code> #optional
 ```
-## Proceed to Tidal Authentication (if no `.tidal-dl.token.json` token file provided) : 
+## Proceed to Tidal Authentication 
+(if no `.tidal-dl.token.json` token file provided) : 
 ```bash 
-docker-compose exec tidarr tidal-dl
+docker-compose exec -i tidarr tidal-dl
 ```
 
 ## Tidal DL configuration : 

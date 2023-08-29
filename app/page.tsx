@@ -11,6 +11,7 @@ import { SearchProvider } from "./provider/SearchProvider";
 import { HeaderSearch } from "./components/HeaderSearch";
 import { useEffect } from "react";
 import { ProcessingProvider } from "./provider/ProcessingProvider";
+import { configureServer } from "./server/config";
 
 const darkTheme = createTheme({
   palette: {
@@ -21,13 +22,21 @@ const darkTheme = createTheme({
 export default function Home() {
   const params = useSearchParams();
 
+  const initialize = async () => {
+    const output = await configureServer();
+    console.log('-- Load configuration files', output);
+  }
+
+  useEffect(() => {
+    initialize();
+  }, []);
+
   /* @TODO
    * - Shazarr
    * - Check cofnig file available (beets/*.blb, beets-config.yml)
    * - Plex API library update
    * - Gotify
    */
-
 
   return (
     <ThemeProvider theme={darkTheme}>

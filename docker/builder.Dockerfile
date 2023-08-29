@@ -43,10 +43,13 @@ RUN echo "*** install beets ***"
 RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/community beets
 
 COPY --from=builder /home/app/.next/standalone ./standalone
-COPY --from=builder /home/app/.next/standalone ./standalone
 COPY --from=builder /home/app/public /home/app/standalone/public
 COPY --from=builder /home/app/.next/static /home/app/standalone/.next/static
+COPY --from=builder /home/app/settings /home/app/standalone/settings
+
+WORKDIR /home/app/standalone
 
 EXPOSE 8484
 ENV PORT 8484
-CMD ["node", "./standalone/server.js"]
+
+CMD ["node", "./server.js"]

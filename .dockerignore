@@ -1,6 +1,7 @@
 node_modules
 .gitignore
 Dockerfile
+builder.Dockerfile
 .dockerignore
 Makefile
 .env
@@ -12,3 +13,4 @@ Makefile
 dist
 settings/.tidal-dl.token.json
 download
+docker/mnt

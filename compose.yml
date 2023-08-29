@@ -7,11 +7,9 @@ services:
     ports:
       - 8484:8484
     volumes:
-      - ./settings:/home/app/standalone/settings
-      - ./settings/.tidal-dl.token.json:/root/.tidal-dl.token.json
-      - ./settings/.tidal-dl.json:/root/.tidal-dl.json
-      - ./download/albums:/home/app/standalone/download/albums
-      - ./download/tracks:/home/app/standalone/download/tracks
+      - ./docker/mnt/config:/home/app/standalone/shared
+      - ./docker/mnt/download/albums:/home/app/standalone/download/albums
+      - ./docker/mnt/download/tracks:/home/app/standalone/download/tracks
       - .:/home/app/standalone # only used in dev environment
     restart: 'unless-stopped'
     environment:

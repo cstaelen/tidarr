@@ -3,12 +3,13 @@ import Link from "next/link";
 import CheckIcon from '@mui/icons-material/Check';
 import WarningIcon from '@mui/icons-material/Warning';
 import { useEffect, useState } from "react";
-import { tidalDL, beets, moveSingleton } from "@/app/provider/server";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import ClearIcon from '@mui/icons-material/Clear';
 import styled from "@emotion/styled";
 import { ProcessingItemType, useProcessingProvider } from "@/app/provider/ProcessingProvider";
+import { beets } from "@/app/server/beets";
+import { tidalDL, moveSingleton } from "@/app/server/tidal-dl";
 
 export const ProcessingItem = ({
   item,
@@ -28,14 +29,21 @@ export const ProcessingItem = ({
     try {
       const response = await tidalDL(urlToSave);
       let stdout = response?.output?.output;
-      setOutput(`${output}\n${response?.output?.output?.[1]}`)
-      if (item.type !== "track") {
-        const responsebeets = await beets();
-        setStep("beet");
-        setOutput(`${stdout}\r\n${responsebeets?.output?.output}`)
+      setOutput(`${output}\n${stdout?.[1]}`)
+      if ((stdout?.[1] as string).includes('[SUCCESS]')) {
+        if (item.type !== "track") {
+          const responsebeets = await beets();
+          setStep("beet");
+          setOutput(`${stdout}\r\n${responsebeets?.output?.output}`)
+          if ((responsebeets?.output?.stderr as string)?.includes('error')) {
+            setStep("error");    
+          }
+        } else {
+          const responsetrack = await moveSingleton();
+          setOutput(`${stdout}\r\n${responsetrack?.output} `)
+        }
       } else {
-        const responsetrack = await moveSingleton();
-        setOutput(`${stdout}\r\n${responsetrack?.output} `)
+        setStep("error");
       }
     } catch (err: any) {
       setStep("error");
