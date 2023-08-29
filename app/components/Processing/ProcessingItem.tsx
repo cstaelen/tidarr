@@ -30,11 +30,13 @@ export const ProcessingItem = ({
       const response = await tidalDL(urlToSave);
       let stdout = response?.output?.output;
       setOutput(`${output}\n${stdout?.[1]}`)
+      
       if ((stdout?.[1] as string).includes('[SUCCESS]')) {
         if (item.type !== "track") {
           const responsebeets = await beets();
           setStep("beet");
           setOutput(`${stdout}\r\n${responsebeets?.output?.output}`)
+
           if ((responsebeets?.output?.stderr as string)?.includes('error')) {
             setStep("error");    
           }

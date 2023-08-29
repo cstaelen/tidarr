@@ -9,9 +9,10 @@ import { ProcessingList } from "./components/Processing/ProcessingList";
 import { useSearchParams } from "next/navigation";
 import { SearchProvider } from "./provider/SearchProvider";
 import { HeaderSearch } from "./components/HeaderSearch";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ProcessingProvider } from "./provider/ProcessingProvider";
 import { configureServer } from "./server/config";
+import { DialogToken } from "./components/DialogToken";
 
 const darkTheme = createTheme({
   palette: {
@@ -21,10 +22,11 @@ const darkTheme = createTheme({
 
 export default function Home() {
   const params = useSearchParams();
+  const [tokenMissing, setTokenMissing] = useState(false);
 
   const initialize = async () => {
     const output = await configureServer();
-    console.log('-- Load configuration files', output);
+    setTokenMissing(output.noToken);
   }
 
   useEffect(() => {
@@ -57,6 +59,7 @@ export default function Home() {
         </div>
       </main>
       <Support>👋 Private use only. Do not forget to support your local artists 🙏❤️</Support>
+      {tokenMissing && <DialogToken />}
     </ThemeProvider>
   );
 }

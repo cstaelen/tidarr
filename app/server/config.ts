@@ -10,7 +10,7 @@ export async function configureServer() {
     console.log('Tidarr configuration :', output_config);
 
     return {
-        noToken: output_config?.includes('Token not found'),
+        noToken: output_config?.includes('No token found'),
         output: output_config,
     }
 };

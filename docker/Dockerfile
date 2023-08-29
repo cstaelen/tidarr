@@ -15,6 +15,9 @@ ENV NODE_ENV="${NODE_ENV}"
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
+FROM node:20-alpine AS runner
+WORKDIR /home/app/standalone
+
 RUN echo "*** install tidal-dl ***"
 ENV PYTHONUNBUFFERED=1
 RUN apk add --update --no-cache python3 py3-pip && ln -sf python3 /usr/bin/python
