@@ -11,7 +11,7 @@
     "multiThread": false,
     "playlistFolderFormat": "Playlist/{PlaylistName} [{PlaylistUUID}]",
     "saveAlbumInfo": false,
-    "saveCovers": false,
+    "saveCovers": true,
     "showProgress": true,
     "showTrackInfo": true,
     "trackFileFormat": "{TrackNumber} - {TrackTitle}",

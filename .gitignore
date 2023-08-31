@@ -4,6 +4,7 @@
 /download
 /settings/.tidal-dl.token.json
 /settings/beets/*
+/shared
 /docker/mnt
 # dependencies
 /node_modules

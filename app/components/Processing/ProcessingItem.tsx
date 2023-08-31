@@ -35,7 +35,7 @@ export const ProcessingItem = ({
         if (item.type !== "track") {
           const responsebeets = await beets();
           setStep("beet");
-          setOutput(`${stdout}\r\n${responsebeets?.output?.output}`)
+          setOutput(`${stdout}\r\n${responsebeets?.output?.stdout}`)
 
           if ((responsebeets?.output?.stderr as string)?.includes('error')) {
             setStep("error");    

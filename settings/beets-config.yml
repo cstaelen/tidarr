@@ -14,7 +14,7 @@ paths:
 import:
     write: yes
     copy: no
-    move: yes
+    move: no
     resume: ask
     incremental: no
     quiet_fallback: skip
