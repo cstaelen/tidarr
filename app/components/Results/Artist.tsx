@@ -2,10 +2,11 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import SearchIcon from "@mui/icons-material/DiscFullRounded";
+import AlbumIcon from '@mui/icons-material/Album';
 import { ArtistType } from "@/app/types";
 import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
 import { useSearchProvider } from "@/app/provider/SearchProvider";
+import { DownloadButton } from "../DownloadButton";
 
 export default function Artist({
   artist,
@@ -64,7 +65,7 @@ export default function Artist({
           <Stack direction="row" flexWrap="wrap" spacing={1}>
             <Button
               variant="outlined"
-              endIcon={<SearchIcon />}
+              endIcon={<AlbumIcon />}
               onClick={() => {
                 actions.queryTidal(artist.name, 1)
                 setTabIndex(0);
@@ -73,6 +74,7 @@ export default function Artist({
             >
               Search albums
             </Button>
+            <DownloadButton item={artist} id={artist.id} type="artist" label="Get all !" />
           </Stack>
         </CardContent>
       </Box>

@@ -5,7 +5,7 @@ import React, {
   useEffect,
 } from "react";
 
-import { AlbumType, TrackType } from "../types";
+import { AlbumType, ArtistType, TrackType } from "../types";
 
 type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
@@ -40,13 +40,13 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [currentProcessing, setCurrentProcessing] = useState<number>();
 
   // Add item to processing list
-  const addItem = (item: AlbumType | TrackType, type: 'album' | 'track') => {
+  const addItem = (item: AlbumType | TrackType | ArtistType, type: 'album' | 'track' | 'artist') => {
     if (processingList && processingList?.filter(row => row.id === item.id)?.length > 0) return null;
 
     const itemToQueue: ProcessingItemType = {
       id: item.id,
-      artist: item.artists?.[0].name,
-      title: item?.title,
+      artist: type === 'artist' ? (item as ArtistType)?.name : (item as TrackType | AlbumType) .artists?.[0].name,
+      title: type === 'artist' ?  'All albums' : (item as TrackType | AlbumType)?.title,
       type: type,
       status: 'queue',
       loading: true,
