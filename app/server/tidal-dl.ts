@@ -3,19 +3,29 @@
 import { spawnSync, execSync } from "child_process";
 
 export async function tidalDL(urlToSave: string) {
+  const output = [];
+  output.push(`=== Tidal-DL ===`);
+
   try {
     const binary = '/usr/bin/tidal-dl';
     const command = `${binary} -l ${urlToSave}`;
-    console.log(`=== Tidal-DL ===`);
-    console.log(`Executing: ${command}`);
+    output.push(`Executing: ${command}`);
 
-    const output = spawnSync(binary, ['-l', urlToSave], {encoding: 'utf-8'});
-    console.log('output', output);
+    const response = spawnSync(binary, ['-l', urlToSave], {encoding: 'utf-8'});
 
-    return {save: true, output: output}
+    if (response.stdout) {
+      console.log("Tidal-DL output:\r\n", response.stdout);
+      output.push(`Tidal-DL output:\r\n"${response.stdout}`);
+    }
+    if (response.stdout) {
+      console.log("Tidal-DL error:\r\n", response.stderr);
+      output.push(`Tidal-DL error:\r\n"${response.stderr}`);
+    }
+    return {save: true, output: output.join("\r\n")}
   } catch (err: any) {
-    console.log('Error using Tidal DL : ', err);
-    return {save: false}
+    console.log('Error using Tidal DL : ', err.message);
+    output.push(`Tidal-DL error:\r\n"${err.message}`);
+    return {save: false, output: output.join("\r\n")}
   }
 }
 
@@ -30,8 +40,8 @@ export async function moveSingleton() {
       
       return {save: true, output: output_move}
     } catch (err: any) {
-      console.log('Error track moving : ', err);
-      return {save: false}
+      console.log('Error track moving : ', err.message);
+      return {save: false, output: `Error track moving : ${err.message}`}
     }
   }
   

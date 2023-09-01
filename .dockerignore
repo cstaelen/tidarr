@@ -9,8 +9,8 @@ Makefile
 .next
 .nitro
 .cache
-.env
 dist
 settings/.tidal-dl.token.json
 download
+compose.override.yml
 docker/mnt

@@ -5,6 +5,8 @@
 - Self-hostable using **Docker**
 - Download from **Tidal** with Tidal Media Downloader (python)
 - Tag import using **Beets.io** (python)
+- Push notifications using **Gotify**
+- Plex library update
 
 ## Getting Started
 
@@ -22,7 +24,6 @@ services:
       - /any/folder/to/download/tracks:/home/app/standalone/download/tracks
     restart: 'unless-stopped'
     environment:
-      - ENABLE_BEETS=true
       - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN=<search_token> #optional
       - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=<country-code> #optional
 ```
@@ -35,7 +36,6 @@ docker run  \
 		-v /any/folder/to/tidarr/config/:/home/app/standalone/shared \
 		-v /any/folder/to/download/albums:/home/app/standalone/download/albums \
 		-v /any/folder/to/download/tracks:/home/app/standalone/download/tracks \
-		-e ENABLE_BEETS=true \
     cstaelen/tidarr:latest
 ```
 ## Proceed to Tidal Authentication 
@@ -76,7 +76,35 @@ Tidal DL options in `.tidal-dl.json`:
 ```
 
 ## BEETS
+Add to your *docker-compose* file in `environment:` section : 
+```
+- ENABLE_BEETS=true # optional
+```   
 Beets options in `</mounted/config/folder/>beets-config.yml`:
+
+## PLEX UPDATE
+Add to your *docker-compose* file in `environment:` section : 
+```
+  - ENABLE_PLEX_UPDATE=true
+  - PLEX_URL=<url|ip:port>
+  - PLEX_LIBRARY=<music_library_id>
+  - PLEX_TOKEN=<x-plex-token>
+  - PLEX_PATH=/path/to/scan # optional
+```
+- **PlexToken** : your Plex token : https://www.plexopedia.com/plex-media-server/general/plex-token/
+- **Library ID** : In Plex server web ui, go to your music library tab and check `source=` in the URL
+ http://192.168.1.20:32400/web/index.html#!/media/abcdef12345678/com.plexapp.plugins.library?**source=3**
+- **Folder (optional)** : path to folder to scan url (if not set, all music library will be scanned)
+
+Doc : https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
+
+## GOTIFY
+Add to your *docker-compose* file in `environment:` section : 
+```
+  - ENABLE_GOTIFY=true # optional
+  - GOTIFY_URL=<url|ip:port>
+  - GOTIFY_TOKEN=<gotify_app_token>
+``
 
 ## OPTIONAL - How to get search token : 
 - https://github.com/lucaslg26/TidalAPI/issues/23
@@ -88,7 +116,7 @@ Beets options in `</mounted/config/folder/>beets-config.yml`:
 - [ ] Add Flask API to manage processing list on server side instead of browser side.
 
 ## Want more features and/or contribute ? Be my guest, fork and dev <3
-
+Check docker environment variables in `compose.yml` before running :
 ```bash
 make dev
 ```

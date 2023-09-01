@@ -6,13 +6,14 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import styled from "@emotion/styled";
 import { ProcessingList } from "./components/Processing/ProcessingList";
-import { useSearchParams } from "next/navigation";
 import { SearchProvider } from "./provider/SearchProvider";
 import { HeaderSearch } from "./components/HeaderSearch";
 import { useEffect, useState } from "react";
 import { ProcessingProvider } from "./provider/ProcessingProvider";
 import { configureServer } from "./server/config";
 import { DialogToken } from "./components/DialogToken";
+import { plexUpdate } from "./server/plex";
+import { gotifyPush } from "./server/gotify";
 
 const darkTheme = createTheme({
   palette: {
@@ -21,7 +22,6 @@ const darkTheme = createTheme({
 });
 
 export default function Home() {
-  const params = useSearchParams();
   const [tokenMissing, setTokenMissing] = useState(false);
 
   const initialize = async () => {
@@ -35,9 +35,6 @@ export default function Home() {
 
   /* @TODO
    * - Shazarr
-   * - Check cofnig file available (beets/*.blb, beets-config.yml)
-   * - Plex API library update
-   * - Gotify
    */
 
   return (

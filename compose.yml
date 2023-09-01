@@ -13,8 +13,16 @@ services:
       - .:/home/app/standalone # only used in dev environment
     restart: 'unless-stopped'
     environment:
-      - ENABLE_BEETS=true
       - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN= # optional
-      - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=FR # optional
+      - NEXT_PUBLIC_TIDAL_COUNTRY_CODE= # optional
+#      - ENABLE_BEETS=true
+#      - ENABLE_PLEX_UPDATE=true
+#      - PLEX_URL=<url|ip:port>
+#      - PLEX_LIBRARY=<music_library_id>
+#      - PLEX_TOKEN=<x-plex-token>
+#      - PLEX_PATH=/path/to/scan
+#      - ENABLE_GOTIFY=true
+#      - GOTIFY_URL=<url|ip:port>
+#      - GOTIFY_TOKEN=<gotify_app_token>
      
 

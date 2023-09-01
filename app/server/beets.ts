@@ -3,13 +3,16 @@
 import { spawnSync, execSync } from "child_process";
 
 export async function beets() {
-  let output;
+  const output = [];
+  let save = false;
 
   try {
+
+    // BEETS
     if (process.env.ENABLE_BEETS === "true") {
       const binary = `beet`;
-      console.log(`=== Beets ===`);
-      console.log(`Executing: ${binary}`);
+
+      output.push(`=== Beets ===`);
 
       const response = spawnSync(
         binary,
@@ -24,25 +27,38 @@ export async function beets() {
         ],
         { encoding: "utf-8" }
       );
-      console.log("Beets output:\r\n", response);
-      output = response;
+      if (response.stdout) {
+        output.push(`Beets output:\r\n${response.stdout}`);
+      } else if (response.stderr) {
+        output.push(`Beets error:\r\n${response.stderr}`);
+      }
     } 
 
-    const output_move = execSync(
-      "cp -rf ./download/incomplete/* ./download/albums/",
-      { encoding: "utf-8" }
-    );
-    console.log("- Move complete album", output_move);
+    // MOVE FINISHED
+    try {
+      output.push(`=== Move processed items ===`);
+      const output_move = execSync(
+        "cp -rf ./download/incomplete/* ./download/albums/ >/dev/null",
+        { encoding: "utf-8" }
+      );
+      output.push(`- Move complete album\r\n${output_move}`);
+    } catch(e: any) {
+      output.push(`- Error moving files:\r\n${e.message}`);
+    }
 
-    return { save: true, output: `${output}\r\n${output_move}` };
+    save = true;
 
+    return { save: true, output: `${output.join("\r\n")}` };
+  
   } catch (err: any) {
-    console.log("Error during beets tagging : ", err);
-    return { save: false, output: err };
+    output.push(`Error during beets tagging :\r\n${err.message}`);
+    save = false;
   } finally {
-    const output_clean = execSync("rm -rf ./download/incomplete/*", {
+    const output_clean = execSync("rm -rf ./download/incomplete/* >/dev/null", {
       encoding: "utf-8",
     });
     console.log("- Clean folder", output_clean);
+
+    return { save: save, output: `${output.join("\r\n")}` };
   }
 }

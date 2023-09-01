@@ -10,6 +10,8 @@ import styled from "@emotion/styled";
 import { ProcessingItemType, useProcessingProvider } from "@/app/provider/ProcessingProvider";
 import { beets } from "@/app/server/beets";
 import { tidalDL, moveSingleton } from "@/app/server/tidal-dl";
+import { plexUpdate } from "@/app/server/plex";
+import { gotifyPush } from "@/app/server/gotify";
 
 export const ProcessingItem = ({
   item,
@@ -25,34 +27,42 @@ export const ProcessingItem = ({
 
   const run = async (urlToSave: string) => {
     setStep("processing");
+    const stdout = [];
 
     try {
-      const response = await tidalDL(urlToSave);
-      let stdout = response?.output?.output;
-      setOutput(`${output}\n${stdout?.[1]}`)
-      
-      if ((stdout?.[1] as string).includes('[SUCCESS]')) {
+      const responseTidal = await tidalDL(urlToSave);
+      stdout.push(responseTidal.output);
+
+      if ((responseTidal.output as string).includes('[SUCCESS]')) {
         if (item.type !== "track") {
           const responsebeets = await beets();
           setStep("beet");
-          setOutput(`${stdout}\r\n${responsebeets?.output?.stdout}`)
-
-          if ((responsebeets?.output?.stderr as string)?.includes('error')) {
+          stdout.push(responsebeets?.output);
+          if (!responsebeets?.save) {
             setStep("error");    
           }
         } else {
           const responsetrack = await moveSingleton();
-          setOutput(`${stdout}\r\n${responsetrack?.output} `)
+          stdout.push(responsetrack?.output);
+          if (!responsetrack?.save) {
+            setStep("error");    
+          }
         }
+        const responsePlex = await plexUpdate();
+        stdout.push(responsePlex?.output);
+
+        const responseGotify = await gotifyPush(`${item?.title} - ${item?.artist}`);
+        stdout.push(responseGotify?.output);
+        setStep("finished");
       } else {
         setStep("error");
       }
     } catch (err: any) {
       setStep("error");
-      setOutput(`${output}\r\nError : ${err.toString()}`)
+      stdout.push(`Error : ${err.message}`);
     } finally {
-      setStep("finished");
       actions.updateItemStatus(item.id, 'finished');
+      setOutput(stdout.join("\r\n"));
     }
   }
 
