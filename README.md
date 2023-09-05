@@ -104,14 +104,14 @@ Add to your *docker-compose* file in `environment:` section :
   - ENABLE_GOTIFY=true # optional
   - GOTIFY_URL=<url|ip:port>
   - GOTIFY_TOKEN=<gotify_app_token>
-``
+```
 
 ## OPTIONAL - How to get search token : 
 - https://github.com/lucaslg26/TidalAPI/issues/23
 - https://github.com/lucaslg26/TidalAPI
 
 
-## Enhancement I'd love to add : 
+## Enhancements I'd love to add : 
 - [ ] Use Shazam API to recognize songs, then search over Tidal and easily grab track or album.
 - [ ] Add Flask API to manage processing list on server side instead of browser side.
 
