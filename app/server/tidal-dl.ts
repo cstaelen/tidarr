@@ -17,7 +17,7 @@ export async function tidalDL(urlToSave: string) {
       console.log("Tidal-DL output:\r\n", response.stdout);
       output.push(`Tidal-DL output:\r\n"${response.stdout}`);
     }
-    if (response.stdout) {
+    if (response.stderr) {
       console.log("Tidal-DL error:\r\n", response.stderr);
       output.push(`Tidal-DL error:\r\n"${response.stderr}`);
     }
