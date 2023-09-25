@@ -1,28 +1,18 @@
 version: "3"
 
 services:
-  tidarr:
+  tidarr-front:
     build: './docker'
-    container_name: 'tidarr'
+    container_name: 'tidarr-front'
     ports:
       - 8484:8484
     volumes:
-      - ./docker/mnt/config:/home/app/standalone/shared
-      - ./docker/mnt/download/albums:/home/app/standalone/download/albums
-      - ./docker/mnt/download/tracks:/home/app/standalone/download/tracks
       - .:/home/app/standalone # only used in dev environment
     restart: 'unless-stopped'
     environment:
       - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN= # optional
       - NEXT_PUBLIC_TIDAL_COUNTRY_CODE= # optional
-#      - ENABLE_BEETS=true
-#      - ENABLE_PLEX_UPDATE=true
-#      - PLEX_URL=<url|ip:port>
-#      - PLEX_LIBRARY=<music_library_id>
-#      - PLEX_TOKEN=<x-plex-token>
-#      - PLEX_PATH=/path/to/scan
-#      - ENABLE_GOTIFY=true
-#      - GOTIFY_URL=<url|ip:port>
-#      - GOTIFY_TOKEN=<gotify_app_token>
+#      - NEXT_PUBLIC_TIDARR_API_URL=true
+
      
 

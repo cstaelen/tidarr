@@ -4,21 +4,29 @@ import React from "react";
 import { AlbumType, ArtistType, TrackType } from "../types";
 import { useProcessingProvider } from "../provider/ProcessingProvider";
 
-export const DownloadButton = ({ id, item, type, label }: { item: TrackType | AlbumType | ArtistType, id: number, type: "album" | "artist" | "track", label: string }) => {
-  const [status, setStatus] = React.useState<"loading" | "finished" | "error">();
+export const DownloadButton = ({ 
+  id, 
+  item, 
+  type, 
+  label 
+}: { 
+  item: TrackType | AlbumType | ArtistType, 
+  id: number, 
+  type: "album" | "artist" | "track", 
+  label: string 
+}) => {
+  const [status, setStatus] = React.useState<string>();
   const { processingList, actions } = useProcessingProvider();
 
   React.useEffect(() => {
-    if (processingList && processingList?.length > 0) {
-      const index = processingList?.findIndex(x => x.id === id);
-      if (index > -1) {
-        setStatus(processingList[index].loading ? "loading" : processingList[index].error ? "error" : "finished");
-      }
+    const index = processingList?.findIndex(x => x?.id === id) || -1;
+    if (index > -1) {
+      setStatus(processingList?.[index].status);
     }
   }, [processingList, id]);
 
   const downloadItem = async () => {
-      actions.addItem(item, type);
+    actions.addItem(item, type);
   };
 
   return (
@@ -29,7 +37,13 @@ export const DownloadButton = ({ id, item, type, label }: { item: TrackType | Al
       onClick={() => downloadItem()}
       size="small"
     >
-      {status === 'loading' ? "Downloading ..." : status === "error" ? "Error !" : label}
+      {
+        status === 'queue' ? "In queue ..." : 
+        status === "error" ? "Error !" : 
+        status === "finished" ? "Downloaded !" : 
+        status === "processing" ? "Processing ..." : 
+        label
+      }
     </Button>
   );
 }

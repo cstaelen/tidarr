@@ -10,10 +10,9 @@ import { SearchProvider } from "./provider/SearchProvider";
 import { HeaderSearch } from "./components/HeaderSearch";
 import { useEffect, useState } from "react";
 import { ProcessingProvider } from "./provider/ProcessingProvider";
-import { configureServer } from "./server/config";
 import { DialogToken } from "./components/DialogToken";
-import { plexUpdate } from "./server/plex";
-import { gotifyPush } from "./server/gotify";
+
+type CheckType = {notToken: boolean; output: string};
 
 const darkTheme = createTheme({
   palette: {
@@ -25,8 +24,10 @@ export default function Home() {
   const [tokenMissing, setTokenMissing] = useState(false);
 
   const initialize = async () => {
-    const output = await configureServer();
-    setTokenMissing(output.noToken);
+    if (!process.env.NEXT_PUBLIC_TIDARR_API_URL) return;
+
+    const output: any = await fetch(`${process.env.NEXT_PUBLIC_TIDARR_API_URL}/check`);
+    setTokenMissing(output?.noToken);
   }
 
   useEffect(() => {

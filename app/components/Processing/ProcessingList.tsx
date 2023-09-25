@@ -5,7 +5,7 @@ import { ProcessingItem } from "./ProcessingItem";
 import { useProcessingProvider } from "@/app/provider/ProcessingProvider";
 
 export const ProcessingList = () => {
-  const { processingList, currentProcessing } = useProcessingProvider();
+  const { processingList } = useProcessingProvider();
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -18,7 +18,7 @@ export const ProcessingList = () => {
       ariaLabel="Show processing list"
       sx={{ position: 'fixed', bottom: 50, right: 16 }}
       color="success"
-      icon={<strong>{processingList?.filter(item => item.status === 'finished')?.length}/{processingList?.length || 0}</strong>}
+      icon={<strong>{processingList?.filter(item => item?.status === 'finished')?.length}/{processingList?.length || 0}</strong>}
       onClose={handleClose}
       onOpen={handleOpen}
       open={open}
@@ -56,7 +56,6 @@ export const ProcessingList = () => {
                 <ProcessingItem
                   item={item}
                   key={`processing-index-${index}`}
-                  processing={currentProcessing === index}
                 />
               )}
             </TableBody>
