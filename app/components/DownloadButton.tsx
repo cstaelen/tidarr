@@ -1,19 +1,22 @@
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import React from "react";
+import CheckIcon from '@mui/icons-material/Check';
+import WarningIcon from '@mui/icons-material/Warning';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { AlbumType, ArtistType, TrackType } from "../types";
 import { useProcessingProvider } from "../provider/ProcessingProvider";
 
-export const DownloadButton = ({ 
-  id, 
-  item, 
-  type, 
-  label 
-}: { 
-  item: TrackType | AlbumType | ArtistType, 
-  id: number, 
-  type: "album" | "artist" | "track", 
-  label: string 
+export const DownloadButton = ({
+  id,
+  item,
+  type,
+  label
+}: {
+  item: TrackType | AlbumType | ArtistType,
+  id: number,
+  type: "album" | "artist" | "track",
+  label: string
 }) => {
   const [status, setStatus] = React.useState<string>();
   const { processingList, actions } = useProcessingProvider();
@@ -32,18 +35,18 @@ export const DownloadButton = ({
   return (
     <Button
       variant="outlined"
-      endIcon={<DownloadIcon />}
+      endIcon={
+        status === 'queue' ? <AccessTimeIcon /> :
+          status === "error" ? <WarningIcon color="error" /> :
+            status === "finished" ? <CheckIcon color="success" /> :
+              status === "processing" ? <CircularProgress size={20} /> :
+                <DownloadIcon />
+      }
       disabled={!!status}
       onClick={() => downloadItem()}
       size="small"
     >
-      {
-        status === 'queue' ? "In queue ..." : 
-        status === "error" ? "Error !" : 
-        status === "finished" ? "Downloaded !" : 
-        status === "processing" ? "Processing ..." : 
-        label
-      }
+      {label}
     </Button>
   );
 }

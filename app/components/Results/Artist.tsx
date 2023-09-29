@@ -30,7 +30,7 @@ export default function Artist({
         />
       </CardContent>
       <Box sx={{ display: "flex", flexDirection: "column", flex: "1 1 0" }}>
-        <CardContent sx={{ flex: "0 0 auto", padding: "1rem" }}>
+        <CardContent sx={{ flex: "0 0 auto", padding: "1rem 0.5rem" }}>
           <Stack
             direction="row"
             flexWrap="wrap"
@@ -72,7 +72,7 @@ export default function Artist({
               }}
               size="small"
             >
-              Search albums
+              Search
             </Button>
             <DownloadButton item={artist} id={artist.id} type="artist" label="Get all !" />
           </Stack>

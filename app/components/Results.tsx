@@ -60,7 +60,7 @@ function TabContent(props: TabContentProps) {
   return (<Grid container spacing={2}>
     {data?.items?.length > 0
       ? data?.items?.map((item: AlbumType | ArtistType | TrackType, index: number) => (
-        <Grid xs={12} md={6} key={`album-${index}`}>
+        <Grid xs={12} md={6} lg={4} key={`album-${index}`}>
           {props.type === "albums" ? <AlbumCard album={item as AlbumType} /> :
             props.type === "artists" ? <ArtistCard artist={item as ArtistType} setTabIndex={props.setTabIndex as Function} /> :
               props.type === "tracks" ? <TrackCard track={item as TrackType} /> : null}

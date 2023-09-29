@@ -5,16 +5,17 @@ BASE_URL="/home/app/standalone"
 SETTINGS_URL="$BASE_URL/settings"
 SHARED_URL="$BASE_URL/shared"
 
-if [ -f "$SHARED_URL/.tidal-dl.token.json" ]; then
-    echo "Moving $SHARED_URL.tidal-dl.token.json to /root"
-    # cp $SHARED_URL/.tidal-dl.token.json /root
-    cp $SHARED_URL/.tidal-dl.token.json /home/app/
+
+if [ -f "/root/.tidal-dl.token.json" ]; then
+    echo "Load .tidal-dl.token.json from /root"
+    cp /root/.tidal-dl.token.json $SHARED_URL/.tidal-dl.token.json
+    cp /root/.tidal-dl.token.json /home/app/standalone/
+    rm /root/.tidal-dl.token.json
     echo "[TidalDL] Token OK"
 else
-    if [ -f "/root/.tidal-dl.token.json" ]; then
-        echo "Moving .tidal-dl.token.json to $SHARED_URL"
-        cp /root/.tidal-dl.token.json $SHARED_URL/.tidal-dl.token.json
-        cp /root/.tidal-dl.token.json /home/app/
+    if [ -f "$SHARED_URL/.tidal-dl.token.json" ]; then
+        echo "Load $SHARED_URL.tidal-dl.token.json from $SHARED_URL"
+        cp $SHARED_URL/.tidal-dl.token.json /home/app/standalone/
         echo "[TidalDL] Token OK"
     else
         echo "[TidalDL] No token found. Please authenticate."
@@ -22,13 +23,12 @@ else
 fi
 
 if [ -f "$SHARED_URL/.tidal-dl.json" ]; then
-    echo "Moving .tidal-dl.json to /root"
-    # cp $SHARED_URL/.tidal-dl.json /root/.tidal-dl.json
-    cp $SHARED_URL/.tidal-dl.json /home/app/.tidal-dl.json
+    echo "Load .tidal-dl.json to app"
+    cp $SHARED_URL/.tidal-dl.json /home/app/standalone/.tidal-dl.json
     echo "[TidalDL] Config OK"
 else
     if [ -f "$SETTINGS_URL/.tidal-dl.json" ]; then
-        cp $SETTINGS_URL/.tidal-dl.json /home/app/.tidal-dl.json
+        cp $SETTINGS_URL/.tidal-dl.json /home/app/standalone/.tidal-dl.json
         cp $SETTINGS_URL/.tidal-dl.json $SHARED_URL/.tidal-dl.json
         echo "[TidalDL] Config OK"
     fi

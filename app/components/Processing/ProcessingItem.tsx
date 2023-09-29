@@ -2,8 +2,8 @@ import { TableRow, TableCell, Button, CircularProgress, Dialog, DialogActions, D
 import Link from "next/link";
 import CheckIcon from '@mui/icons-material/Check';
 import WarningIcon from '@mui/icons-material/Warning';
-import { useState } from "react";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { useState } from "react";
 import TerminalIcon from '@mui/icons-material/Terminal';
 import ClearIcon from '@mui/icons-material/Clear';
 import styled from "@emotion/styled";
@@ -21,8 +21,8 @@ export const ProcessingItem = ({
 
   if (!item?.status) return;
 
-  function run() {
-    actions.addItem(item, item.type);
+  async function run() {
+    await actions.retryItem(item);
   }
 
   return (

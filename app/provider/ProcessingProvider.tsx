@@ -9,11 +9,11 @@ import { AlbumType, ArtistType, ProcessingItemType, TrackType } from "../types";
 
 type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
-  currentProcessing: number | undefined;
   actions: {
     setProcessingList: Function;
-    addItem: Function;
-    removeItem: Function;
+    addItem: (item: AlbumType | TrackType | ArtistType, type: 'album' | 'track' | 'artist') => void;
+    removeItem: (id: number) => void;
+    retryItem: (item: ProcessingItemType) => void;
   };
 };
 
@@ -23,11 +23,10 @@ const ProcessingContext = React.createContext<ProcessingContextType>(
 
 export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
-  const [currentProcessing, setCurrentProcessing] = useState<number>();
 
   // Add item to processing list
   const addItem = async (item: AlbumType | TrackType | ArtistType, type: 'album' | 'track' | 'artist') => {
-    if (processingList && processingList?.filter(row => row.id === item.id)?.length > 0) return null;
+    if (processingList && processingList?.filter(row => row.id === item.id && row.status !== 'error' )?.length > 0) return null;
 
     const itemToQueue: ProcessingItemType = {
       id: item.id,
@@ -40,6 +39,30 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       url: item.url,
       output: "",
     }
+
+    await fetch(`${process.env.NEXT_PUBLIC_TIDARR_API_URL}/save`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({item: itemToQueue})
+    })
+
+    updateFrontList();
+  };
+
+  const retryItem = async (item: ProcessingItemType) => {
+    if (processingList && processingList?.filter(row => row.id === item.id && row.status !== 'error' )?.length > 0) return null;
+
+    const itemToQueue: ProcessingItemType = {
+      ...item,
+      status: 'queue',
+      loading: true,
+      error: false,
+      output: "",
+    }
+
+    await removeItem(item.id);
 
     await fetch(`${process.env.NEXT_PUBLIC_TIDARR_API_URL}/save`, {
       method: 'POST',
@@ -91,11 +114,11 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
   const value = {
     processingList,
-    currentProcessing,
     actions: {
       setProcessingList,
       addItem,
       removeItem,
+      retryItem,
     },
   };
 
