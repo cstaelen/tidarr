@@ -62,3 +62,15 @@ export type TidalResponseType = {
   tracks: TidalResponseFormat<TrackType>;
   artists: TidalResponseFormat<ArtistType>;
 };
+
+export type ProcessingItemType = {
+  id: number;
+  artist: string;
+  title: string;
+  type: "artist" | "album" | "track";
+  status: "queue" | "finished" | "beet" | "processing" | "error";
+  url: string;
+  loading: boolean;
+  error: boolean;
+  output: string;
+};

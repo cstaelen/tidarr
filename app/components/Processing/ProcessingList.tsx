@@ -1,11 +1,11 @@
-import { Alert, Backdrop, Box, Paper, SpeedDial, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Backdrop, Box, Paper, SpeedDial, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
 import { useState } from "react";
 import { ProcessingItem } from "./ProcessingItem";
 import { useProcessingProvider } from "@/app/provider/ProcessingProvider";
 
 export const ProcessingList = () => {
-  const { processingList, currentProcessing } = useProcessingProvider();
+  const { processingList } = useProcessingProvider();
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -18,7 +18,7 @@ export const ProcessingList = () => {
       ariaLabel="Show processing list"
       sx={{ position: 'fixed', bottom: 50, right: 16 }}
       color="success"
-      icon={<strong>{processingList?.filter(item => item.status === 'finished')?.length}/{processingList?.length || 0}</strong>}
+      icon={<strong>{processingList?.filter(item => item?.status === 'finished')?.length}/{processingList?.length || 0}</strong>}
       onClose={handleClose}
       onOpen={handleOpen}
       open={open}
@@ -56,14 +56,10 @@ export const ProcessingList = () => {
                 <ProcessingItem
                   item={item}
                   key={`processing-index-${index}`}
-                  processing={currentProcessing === index}
                 />
               )}
             </TableBody>
           </Table>
-          <Alert severity="warning">
-            If you close this page, processing list will be paused.
-          </Alert>
         </Box>
       </TableContainer>
     </SpeedDial >

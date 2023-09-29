@@ -1,5 +1,3 @@
-"use server";
-
 import { spawnSync, execSync } from "child_process";
 
 export async function beets() {

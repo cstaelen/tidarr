@@ -10,9 +10,6 @@ const withPWA = require("next-pwa")({
 
 const nextConfig = {
   output: "standalone",
-  experimental: {
-    serverActions: true,
-  },
   images: {
     remotePatterns: [{
       protocol: domainUrl.protocol.split(':')[0],

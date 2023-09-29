@@ -1,5 +1,3 @@
-  "use server";
-
 // PLEX API
 // https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
 
