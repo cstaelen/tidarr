@@ -7,7 +7,8 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import ClearIcon from '@mui/icons-material/Clear';
 import styled from "@emotion/styled";
-import { ProcessingItemType, useProcessingProvider } from "@/app/provider/ProcessingProvider";
+import { useProcessingProvider } from "@/app/provider/ProcessingProvider";
+import { ProcessingItemType } from "@/app/types";
 
 export const ProcessingItem = ({
   item,

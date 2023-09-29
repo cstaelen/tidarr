@@ -1,18 +1,28 @@
 version: "3"
 
 services:
-  tidarr-front:
+  tidarr:
     build: './docker'
-    container_name: 'tidarr-front'
+    container_name: 'tidarr'
     ports:
       - 8484:8484
+      - 8585:8585
     volumes:
       - .:/home/app/standalone # only used in dev environment
     restart: 'unless-stopped'
     environment:
-      - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN= # optional
-      - NEXT_PUBLIC_TIDAL_COUNTRY_CODE= # optional
-#      - NEXT_PUBLIC_TIDARR_API_URL=true
+      - PUID=
+      - PGID=
+      - TZ=Etc/UTC
+      - ENABLE_BEETS=
+      - ENABLE_PLEX_UPDATE=
+      - PLEX_URL=
+      - PLEX_LIBRARY=
+      - PLEX_TOKEN=
+      - PLEX_PATH=
+      - ENABLE_GOTIFY=
+      - GOTIFY_URL=
+      - GOTIFY_TOKEN=
 
      
 

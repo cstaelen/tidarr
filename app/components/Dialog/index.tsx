@@ -1,8 +1,7 @@
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Paper } from "@mui/material";
-import { useState } from "react";
-import WarningIcon from '@mui/icons-material/Warning';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
+import { ReactNode, useState } from "react";
 
-export const DialogToken = () => {
+export const DialogHandler = ({children, title}: {children: ReactNode, title: ReactNode}) => {
   const [open, setOpen] = useState(true);
 
   const handleClose = () => {
@@ -17,17 +16,11 @@ export const DialogToken = () => {
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title" style={{ display: "flex", alignItems: "center" }}>
-        <WarningIcon color="error" />&nbsp;
-        {"Tidal token not found !"}
+        {title}
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          <p>Run this to create Tidal token :</p>
-          <Paper elevation={0} sx={{ padding: '1rem' }}>
-            <code>
-              $ docker exec -i tidarr tidal-dl
-            </code>
-          </Paper>
+          {children}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

@@ -1,6 +1,6 @@
 "use client";
 
-import { AppBar, Box, Button, Pagination, Skeleton, Tab, Tabs, useTheme } from "@mui/material";
+import { AppBar, Box, Button, Skeleton, Tab, Tabs, useTheme } from "@mui/material";
 
 import { AlbumType, ArtistType, TrackType } from "../types";
 import AlbumCard from "./Results/Album";

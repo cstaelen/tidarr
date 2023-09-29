@@ -5,7 +5,7 @@ import React, {
   useEffect,
 } from "react";
 
-import { AlbumType, ArtistType, TrackType } from "../types";
+import { AlbumType, ArtistType, ProcessingItemType, TrackType } from "../types";
 
 type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
@@ -16,18 +16,6 @@ type ProcessingContextType = {
     removeItem: Function;
   };
 };
-
-export type ProcessingItemType = {
-  id: number;
-  artist: string;
-  title: string;
-  type: "artist" | "album" | "track";
-  status: "queue" | "finished" | "beet" | "processing" | "error";
-  url: string;
-  loading: boolean;
-  error: boolean;
-  output: string;
-}
 
 const ProcessingContext = React.createContext<ProcessingContextType>(
   {} as ProcessingContextType

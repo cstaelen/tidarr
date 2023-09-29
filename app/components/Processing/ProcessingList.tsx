@@ -1,4 +1,4 @@
-import { Alert, Backdrop, Box, Paper, SpeedDial, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Backdrop, Box, Paper, SpeedDial, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
 import { useState } from "react";
 import { ProcessingItem } from "./ProcessingItem";
@@ -60,9 +60,6 @@ export const ProcessingList = () => {
               )}
             </TableBody>
           </Table>
-          <Alert severity="warning">
-            If you close this page, processing list will be paused.
-          </Alert>
         </Box>
       </TableContainer>
     </SpeedDial >

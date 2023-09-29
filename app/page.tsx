@@ -10,9 +10,8 @@ import { SearchProvider } from "./provider/SearchProvider";
 import { HeaderSearch } from "./components/HeaderSearch";
 import { useEffect, useState } from "react";
 import { ProcessingProvider } from "./provider/ProcessingProvider";
-import { DialogToken } from "./components/DialogToken";
-
-type CheckType = {notToken: boolean; output: string};
+import { DialogToken } from "./components/Dialog/DialogToken";
+import { DialogNoAPI } from "./components/Dialog/DialogNoAPI";
 
 const darkTheme = createTheme({
   palette: {
@@ -22,21 +21,28 @@ const darkTheme = createTheme({
 
 export default function Home() {
   const [tokenMissing, setTokenMissing] = useState(false);
-
+  const [noAPI, setNoAPI] = useState(false);
+  
   const initialize = async () => {
-    if (!process.env.NEXT_PUBLIC_TIDARR_API_URL) return;
-
-    const output: any = await fetch(`${process.env.NEXT_PUBLIC_TIDARR_API_URL}/check`);
-    setTokenMissing(output?.noToken);
+    try {
+      if (!process.env.NEXT_PUBLIC_TIDARR_API_URL) return;
+      
+      const output: any = await fetch(`${process.env.NEXT_PUBLIC_TIDARR_API_URL}/check`)
+        .then(function(response) {
+          return response.json();
+        }).then(function(data) {
+          return data;
+        });
+      
+      setTokenMissing(output?.noToken);
+    } catch (e) {
+      setNoAPI(true);
+    }
   }
-
+  
   useEffect(() => {
     initialize();
   }, []);
-
-  /* @TODO
-   * - Shazarr
-   */
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -58,6 +64,7 @@ export default function Home() {
       </main>
       <Support>👋 Private use only. Do not forget to support your local artists 🙏❤️</Support>
       {tokenMissing && <DialogToken />}
+      {noAPI && <DialogNoAPI />}
     </ThemeProvider>
   );
 }
