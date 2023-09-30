@@ -71,4 +71,4 @@ WORKDIR /home/app/standalone
 
 EXPOSE 8484
 
-CMD ["yarn", "prod"]
+ENTRYPOINT ["yarn", "prod"]

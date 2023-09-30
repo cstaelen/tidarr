@@ -1,7 +1,7 @@
 # Selfhosted Tidal media downloader web client with docker
 <img src="https://github.com/cstaelen/tidarr/blob/main/screenshot.png?raw=true" />
 
-- UI build with **Next JS**
+- UI build with **Next JS** + **Express JS** API
 - Self-hostable using **Docker**
 - Download from **Tidal** with Tidal Media Downloader (python)
 - Tag import using **Beets.io** (python)
@@ -18,14 +18,12 @@ services:
     container_name: 'tidarr'
     ports:
       - 8484:8484
+      - 8585:8585
     volumes:
       - /any/folder/to/tidarr/config:/home/app/standalone/shared
       - /any/folder/to/download/albums:/home/app/standalone/download/albums
       - /any/folder/to/download/tracks:/home/app/standalone/download/tracks
     restart: 'unless-stopped'
-    environment:
-      - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN=<search_token> #optional
-      - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=<country-code> #optional
 ```
 **or**
 ```bash
@@ -41,13 +39,12 @@ docker run  \
 ## Proceed to Tidal Authentication 
 (if no `.tidal-dl.token.json` token file provided) : 
 ```bash 
-docker-compose exec -i tidarr tidal-dl
+docker-compose exec -it tidarr tidal-dl
 ```
 **or**
 ```bash 
-docker exec -i tidarr tidal-dl
+docker exec -it tidarr tidal-dl
 ```
-
 
 ## Tidal DL configuration : 
 Tidal DL options in `.tidal-dl.json`:
@@ -107,13 +104,17 @@ Add to your *docker-compose* file in `environment:` section :
 ```
 
 ## OPTIONAL - How to get search token : 
+```
+  - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN=<search_token> #optional
+  - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=<country-code> #optional
+```
 - https://github.com/lucaslg26/TidalAPI/issues/23
 - https://github.com/lucaslg26/TidalAPI
 
 
 ## Enhancements I'd love to add : 
 - [ ] Use Shazam API to recognize songs, then search over Tidal and easily grab track or album.
-- [ ] Add Flask API to manage processing list on server side instead of browser side.
+
 
 ## Want more features and/or contribute ? Be my guest, fork and dev <3
 Check docker environment variables in `compose.yml` before running :

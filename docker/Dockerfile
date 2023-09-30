@@ -39,4 +39,4 @@ RUN yarn install
 
 EXPOSE 8484
 
-CMD ["yarn", "dev"]
+ENTRYPOINT ["yarn", "dev"]
