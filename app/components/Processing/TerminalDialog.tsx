@@ -10,10 +10,12 @@ export const TerminalDialog = ({ item }: { item: ProcessingItemType }) => {
   const refOutput = useRef<null | HTMLPreElement>(null);
 
   useEffect(() => {
-    if (refOutput.current) {
-      refOutput.current.scrollTop = refOutput.current?.offsetHeight;
-    }
-  }, [item.output])
+    setTimeout(() => {
+      if (refOutput.current) {
+        refOutput.current.scrollTop = refOutput.current?.scrollHeight, 500
+      }
+    }, 100);
+  }, [item.output, openOutput])
 
   return (
     <div>
