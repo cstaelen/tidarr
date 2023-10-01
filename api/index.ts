@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import { configureServer } from './src/services/config';
-import { ProcessingItemType } from './src/type';
+import { ProcessingItemType } from './src/types';
 import { ProcessingStack } from './src/helpers/ProcessingStack';
 import dotenv from "dotenv";
 

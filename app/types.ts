@@ -1,12 +1,6 @@
 
 export type TrackType = {
-  album: {
-    id: number;
-    cover: string;
-    url: string;
-    releaseDate: string;
-    title: string;
-  };
+  album: TrackAlbumType;
   artists: {
     id: number;
     name: string;
@@ -19,6 +13,14 @@ export type TrackType = {
   title: string;
   id: number;
   url: string;
+};
+
+export type TrackAlbumType = {
+  id: number;
+  cover: string;
+  url: string;
+  releaseDate: string;
+  title: string;
 };
 
 export type ArtistType = {

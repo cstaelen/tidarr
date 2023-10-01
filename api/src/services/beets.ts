@@ -1,16 +1,18 @@
 import { spawnSync, execSync } from "child_process";
+import { Express } from "express"
+import { ProcessingItemType } from "../types";
 
-export async function beets() {
-  const output = [];
+export async function beets(id: number, app: Express) {
+  const item: ProcessingItemType = app.settings.processingList.actions.getItem(id);
   let save = false;
 
+  
   try {
-
     // BEETS
     if (process.env.ENABLE_BEETS === "true") {
       const binary = `beet`;
 
-      output.push(`=== Beets ===`);
+      item["output"] = [item["output"], `=== Beets ===`].join("\r\n");
 
       const response = spawnSync(
         binary,
@@ -26,37 +28,45 @@ export async function beets() {
         { encoding: "utf-8" }
       );
       if (response.stdout) {
-        output.push(`Beets output:\r\n${response.stdout}`);
+        console.log(`Beets output:\r\n${response.stdout}`);
+        item["output"] = [item["output"], `Beets output:\r\n${response.stdout}`].join("\r\n");
+        
       } else if (response.stderr) {
-        output.push(`Beets error:\r\n${response.stderr}`);
+        console.log(`Beets error:\r\n${response.stderr}`);
+        item['status'] = 'error';
+        item["output"] = [item["output"], `Beets output:\r\n${response.stderr}`].join("\r\n");
       }
     } 
 
     // MOVE FINISHED
     try {
-      output.push(`=== Move processed items ===`);
+      console.log(`=== Move processed items ===`);
+      item["output"] = [item["output"], `=== Move processed items ===`].join("\r\n");
       const output_move = execSync(
         "cp -rf ./download/incomplete/* ./download/albums/ >/dev/null",
         { encoding: "utf-8" }
       );
-      output.push(`- Move complete album\r\n${output_move}`);
+      console.log(`- Move complete album\r\n${output_move}`);
+      item["output"] = [item["output"], `- Move complete album\r\n${output_move}`].join("\r\n");
+      item['status'] = 'finished';
+      save = true;
     } catch(e: any) {
-      output.push(`- Error moving files:\r\n${e.message}`);
+      console.log(`- Error moving files:\r\n${e.message}`);
+      item['status'] = 'error';
+      item["output"] = [item["output"], `- Error moving files:\r\n${e.message}`].join("\r\n");
     }
-
-    save = true;
-
-    return { save: true, output: `${output.join("\r\n")}` };
-  
   } catch (err: any) {
-    output.push(`Error during beets tagging :\r\n${err.message}`);
+    console.log(`Error during post processing :\r\n${err.message}`);
+    item['status'] = 'error';
+    item["output"] = [item["output"], `Error during post processing :\r\n${err.message}`].join("\r\n");
     save = false;
   } finally {
     const output_clean = execSync("rm -rf ./download/incomplete/* >/dev/null", {
       encoding: "utf-8",
     });
     console.log("- Clean folder", output_clean);
-
-    return { save: save, output: `${output.join("\r\n")}` };
+    item["output"] = [item["output"], `- Clean folder"\r\n${output_clean}`].join("\r\n");
+    app.settings.processingList.actions.updateItem(item);
+    return { save: save };
   }
 }

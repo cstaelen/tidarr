@@ -25,7 +25,7 @@ const SearchContext = React.createContext<SearchContextType>(
 );
 
 export function SearchProvider({ children }: { children: ReactNode }) {
-  const itemPerPage = 10;
+  const itemPerPage = 12;
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [keywords, setKeywords] = useState<string>();

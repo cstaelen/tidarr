@@ -10,12 +10,12 @@ if [ -f "/root/.tidal-dl.token.json" ]; then
     echo "Load .tidal-dl.token.json from /root"
     cp /root/.tidal-dl.token.json $SHARED_URL/.tidal-dl.token.json
     cp /root/.tidal-dl.token.json /home/app/standalone/
-    rm /root/.tidal-dl.token.json
     echo "[TidalDL] Token OK"
 else
     if [ -f "$SHARED_URL/.tidal-dl.token.json" ]; then
         echo "Load $SHARED_URL.tidal-dl.token.json from $SHARED_URL"
         cp $SHARED_URL/.tidal-dl.token.json /home/app/standalone/
+        cp $SHARED_URL/.tidal-dl.token.json /root/
         echo "[TidalDL] Token OK"
     else
         echo "[TidalDL] No token found. Please authenticate."
@@ -25,10 +25,12 @@ fi
 if [ -f "$SHARED_URL/.tidal-dl.json" ]; then
     echo "Load .tidal-dl.json to app"
     cp $SHARED_URL/.tidal-dl.json /home/app/standalone/.tidal-dl.json
+    cp $SHARED_URL/.tidal-dl.json /root/.tidal-dl.json
     echo "[TidalDL] Config OK"
 else
     if [ -f "$SETTINGS_URL/.tidal-dl.json" ]; then
         cp $SETTINGS_URL/.tidal-dl.json /home/app/standalone/.tidal-dl.json
+        cp $SETTINGS_URL/.tidal-dl.json /root/.tidal-dl.json
         cp $SETTINGS_URL/.tidal-dl.json $SHARED_URL/.tidal-dl.json
         echo "[TidalDL] Config OK"
     fi

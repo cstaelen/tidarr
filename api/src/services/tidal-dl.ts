@@ -1,6 +1,6 @@
 import { spawn, execSync } from "child_process";
 import { Express } from "express"
-import { ProcessingItemType } from "../type";
+import { ProcessingItemType } from "../types";
 
 export function tidalDL(id: number, app: Express) {
   const item: ProcessingItemType = app.settings.processingList.actions.getItem(id);
@@ -36,7 +36,7 @@ export function tidalDL(id: number, app: Express) {
   child.on('error', (err) => {
     if (err) {
       console.error(`Tidal-DL Error:\n${err}`);
-      item["output"] = [item["output"], err].join("\r\n");
+      item["output"] = [item["output"], `Tidal-DL Error:\n${err}`].join("\r\n");
       item["status"] = "error";
       app.settings.processingList.actions.updateItem(item);
     }
@@ -45,18 +45,24 @@ export function tidalDL(id: number, app: Express) {
   return child;
 };
 
-export async function moveSingleton() {
+export async function moveSingleton(id: number, app: Express) {
+  const item: ProcessingItemType = app.settings.processingList.actions.getItem(id);
   try {
     console.log(`=== Move track ===`);
 
     const output_move = execSync("cp -rf ./download/incomplete/* ./download/tracks/", { encoding: "utf-8" });
     console.log('- Move tracks', output_move);
+    item["output"] = [item["output"], `- Move tracks : \r\n${output_move}`].join("\r\n");
+
     const output_clean = execSync("rm -rf ./download/incomplete/*", { encoding: "utf-8" });
     console.log('- Cleanup', output_clean);
-
-    return { save: true, output: output_move }
+    item["output"] = [item["output"], `- Cleanup : \r\n${output_clean}`].join("\r\n");
+    item['status'] = "finished";
+    
+    app.settings.processingList.actions.updateItem(item);
+    return { save: true }
   } catch (err: any) {
     console.log('Error track moving : ', err.message);
-    return { save: false, output: `Error track moving : ${err.message}` }
+    return { save: false }
   }
 }

@@ -38,7 +38,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       error: false,
       url: item.url,
       output: "",
-    }
+    };
 
     await fetch(`${process.env.NEXT_PUBLIC_TIDARR_API_URL}/save`, {
       method: 'POST',

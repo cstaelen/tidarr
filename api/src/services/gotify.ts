@@ -15,7 +15,7 @@ export async function gotifyPush(title: string) {
         { encoding: "utf-8" }
       );
 
-      return { error: false, output: `=> Gotify output:\r\n${response}` };
+      return { error: false, output: `=> Gotify success output:\r\n${response}` };
     } catch (e: any) {
       return { error: true, output: `=> Gotify Error:\r\n${e.message}` };
     }

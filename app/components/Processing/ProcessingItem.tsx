@@ -3,12 +3,11 @@ import Link from "next/link";
 import CheckIcon from '@mui/icons-material/Check';
 import WarningIcon from '@mui/icons-material/Warning';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { useState } from "react";
-import TerminalIcon from '@mui/icons-material/Terminal';
 import ClearIcon from '@mui/icons-material/Clear';
 import styled from "@emotion/styled";
 import { useProcessingProvider } from "@/app/provider/ProcessingProvider";
 import { ProcessingItemType } from "@/app/types";
+import { TerminalDialog } from "./TerminalDialog";
 
 export const ProcessingItem = ({
   item,
@@ -16,7 +15,6 @@ export const ProcessingItem = ({
   item: ProcessingItemType;
 }) => {
   const step = item?.status;
-  const [openOutput, setOpenOutput] = useState(false);
   const { actions } = useProcessingProvider();
 
   if (!item?.status) return;
@@ -28,9 +26,8 @@ export const ProcessingItem = ({
   return (
     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
       <TableCell style={{ alignItems: "center", display: "flex", flex: '0 0 auto' }}>
-        <TerminalButton onClick={() => actions.removeItem(item.id)}><ClearIcon /></TerminalButton>
+        <RemoveButton onClick={() => actions.removeItem(item.id)}><ClearIcon /></RemoveButton>
         {step === 'finished' ? <CheckIcon color="success" /> : step === 'error' ? <WarningIcon color="error" /> : step === 'queue' ? <AccessTimeIcon /> : <CircularProgress size={20} />}
-
         {step === "error" ? <>
           &nbsp;&nbsp;
           <Button variant="outlined" size="small" onClick={() => run()}>
@@ -38,29 +35,8 @@ export const ProcessingItem = ({
           </Button>
         </> : null}
         &nbsp;&nbsp;
-
-        {item.output && (
-          <div>
-            <TerminalButton onClick={() => setOpenOutput(true)}><TerminalIcon /></TerminalButton>
-            <Dialog
-              open={openOutput}
-              onClose={() => setOpenOutput(false)}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
-              <DialogTitle id="alert-dialog-title">Console output</DialogTitle>
-              <Pre>{item.output}</Pre>
-              <DialogActions>
-                <Button onClick={() => setOpenOutput(false)}>
-                  Close
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </div>
-        )}
-
+        {item.output && <TerminalDialog item={item} />}
         {step}
-
       </TableCell>
       <TableCell scope="row">
         <Link href={item.url} target="_blank" style={{ color: 'white' }}>{item.title}</Link>
@@ -73,15 +49,7 @@ export const ProcessingItem = ({
   )
 };
 
-const Pre = styled.pre`
-  background-color: #000;
-  font-size: 0.68rem;
-  margin: 0;
-  padding: 0.5rem;
-  overflow: auto;
-`;
-
-const TerminalButton = styled(Button)`
+const RemoveButton = styled(Button)`
   margin: 0 0.5rem 0 0;
   min-width: 0;
   padding: 0;
