@@ -3,6 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import AlbumIcon from '@mui/icons-material/Album';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { ArtistType } from "@/app/types";
 import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
 import { useSearchProvider } from "@/app/provider/SearchProvider";
@@ -45,6 +46,7 @@ export default function Artist({
             >
               <Typography component="span">
                 <strong>{artist.name}</strong>
+                <OpenInNewIcon style={{ verticalAlign: "middle", marginLeft: "0.5rem", fontSize: 16 }} />
               </Typography>
             </Link>
           </Stack>

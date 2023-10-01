@@ -2,6 +2,7 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { AlbumType } from "@/app/types";
 import { Avatar, Box, Chip, Link, Stack } from "@mui/material";
 import { DownloadButton } from "../DownloadButton";
@@ -42,6 +43,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
           >
             &nbsp;- by <strong>{album.artists?.[0]?.name}</strong>
           </Typography>
+          <OpenInNewIcon style={{ verticalAlign: "middle", marginLeft: "0.5rem", fontSize: 16 }} />
         </Link>
       </Stack>
       <Stack direction="row">

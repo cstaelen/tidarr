@@ -2,6 +2,7 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { TrackType } from "@/app/types";
 import { Avatar, Box, Chip, Link, Stack } from "@mui/material";
 import { DownloadButton } from "../DownloadButton";
@@ -33,6 +34,7 @@ export default function Track({ track }: { track: TrackType }) {
         >
           <Typography component="span" style={{ lineHeight: 1 }}>
             <strong>{track.title}</strong>
+            <OpenInNewIcon style={{ verticalAlign: "middle", marginLeft: "0.5rem", fontSize: 16 }} />
           </Typography>
           <Typography
             variant="subtitle2"
