@@ -22,17 +22,16 @@ const darkTheme = createTheme({
 export default function Home() {
   const [tokenMissing, setTokenMissing] = useState(false);
   const [noAPI, setNoAPI] = useState(false);
-  
+  const [appLoaded, setAppLoaded] = useState(false);
+    
   const initialize = async () => {
     try {
-      if (!process.env.NEXT_PUBLIC_TIDARR_API_URL) return;
-      
-      const output: any = await fetch(`${process.env.NEXT_PUBLIC_TIDARR_API_URL}/check`)
-        .then(function(response) {
-          return response.json();
-        }).then(function(data) {
-          return data;
-        });
+      const output: any = await fetch(`${window._env_.NEXT_PUBLIC_TIDARR_API_URL}/check`)
+      .then(function(response) {
+        return response.json();
+      }).then(function(data) {
+        return data;
+      });
       
       setTokenMissing(output?.noToken);
     } catch (e) {
@@ -41,8 +40,16 @@ export default function Home() {
   }
   
   useEffect(() => {
-    initialize();
+    setAppLoaded(true);
   }, []);
+  
+  useEffect(() => {
+    if (appLoaded) {
+      initialize();
+    }
+  }, [appLoaded]);
+  
+  if (!appLoaded) return;
 
   return (
     <ThemeProvider theme={darkTheme}>

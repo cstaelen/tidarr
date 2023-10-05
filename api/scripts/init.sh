@@ -5,7 +5,6 @@ BASE_URL="/home/app/standalone"
 SETTINGS_URL="$BASE_URL/settings"
 SHARED_URL="$BASE_URL/shared"
 
-
 if [ -f "/root/.tidal-dl.token.json" ]; then
     echo "Load .tidal-dl.token.json from /root"
     cp /root/.tidal-dl.token.json $SHARED_URL/.tidal-dl.token.json

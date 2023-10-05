@@ -26,12 +26,12 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
   // Add item to processing list
   const addItem = async (item: AlbumType | TrackType | ArtistType, type: 'album' | 'track' | 'artist') => {
-    if (processingList && processingList?.filter(row => row.id === item.id && row.status !== 'error' )?.length > 0) return null;
+    if (processingList && processingList?.filter(row => row.id === item.id && row.status !== 'error')?.length > 0) return null;
 
     const itemToQueue: ProcessingItemType = {
       id: item.id,
-      artist: type === 'artist' ? (item as ArtistType)?.name : (item as TrackType | AlbumType) .artists?.[0].name,
-      title: type === 'artist' ?  'All albums' : (item as TrackType | AlbumType)?.title,
+      artist: type === 'artist' ? (item as ArtistType)?.name : (item as TrackType | AlbumType).artists?.[0].name,
+      title: type === 'artist' ? 'All albums' : (item as TrackType | AlbumType)?.title,
       type: type,
       status: 'queue',
       loading: true,
@@ -40,19 +40,19 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       output: "",
     };
 
-    await fetch(`${process.env.NEXT_PUBLIC_TIDARR_API_URL}/save`, {
+    await fetch(`${window._env_.NEXT_PUBLIC_TIDARR_API_URL}/save`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({item: itemToQueue})
+      body: JSON.stringify({ item: itemToQueue })
     })
 
     updateFrontList();
   };
 
   const retryItem = async (item: ProcessingItemType) => {
-    if (processingList && processingList?.filter(row => row.id === item.id && row.status !== 'error' )?.length > 0) return null;
+    if (processingList && processingList?.filter(row => row.id === item.id && row.status !== 'error')?.length > 0) return null;
 
     const itemToQueue: ProcessingItemType = {
       ...item,
@@ -64,12 +64,12 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
     await removeItem(item.id);
 
-    await fetch(`${process.env.NEXT_PUBLIC_TIDARR_API_URL}/save`, {
+    await fetch(`${window._env_.NEXT_PUBLIC_TIDARR_API_URL}/save`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({item: itemToQueue})
+      body: JSON.stringify({ item: itemToQueue })
     })
 
     updateFrontList();
@@ -77,12 +77,12 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
   // Remove item to processing list
   const removeItem = async (id: number) => {
-    await fetch(`${process.env.NEXT_PUBLIC_TIDARR_API_URL}/remove`, {
+    await fetch(`${window._env_.NEXT_PUBLIC_TIDARR_API_URL}/remove`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({id: id})
+      body: JSON.stringify({ id: id })
     });
 
     updateFrontList();
@@ -90,10 +90,10 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
   // Update front data
   const updateFrontList = async () => {
-    const existingData: any = await fetch(`${process.env.NEXT_PUBLIC_TIDARR_API_URL}/list`)
-      .then(function(response) {
+    const existingData: any = await fetch(`${window._env_.NEXT_PUBLIC_TIDARR_API_URL}/list`)
+      .then(function (response) {
         return response.json();
-      }).then(function(data) {
+      }).then(function (data) {
         return data;
       });
 
@@ -109,7 +109,9 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    updateFrontList();
+    if (window?._env_) {
+      updateFrontList();
+    }
   }, []);
 
   const value = {

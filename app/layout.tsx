@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'Tidarr',
@@ -37,6 +38,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Script src='/env-config.js' async={false} defer={false}></Script>
       <body>{children}</body>
     </html>
   )

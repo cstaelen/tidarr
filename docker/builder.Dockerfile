@@ -14,6 +14,7 @@ RUN yarn global add dotenv
 WORKDIR /home/app
 COPY package.json ./
 COPY .env ./
+COPY docker/ ./docker
 COPY yarn.lock ./
 COPY next.config.js ./
 RUN yarn install
@@ -28,6 +29,7 @@ RUN yarn add dotenv
 
 COPY --from=dependencies /home/app/node_modules ./node_modules
 COPY --from=dependencies /home/app/.env ./.env
+COPY --from=dependencies /home/app/docker ./docker
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
@@ -63,7 +65,8 @@ COPY --from=builder /home/app/public /home/app/standalone/public
 COPY --from=builder /home/app/.next/static /home/app/standalone/.next/static
 COPY --from=builder /home/app/settings /home/app/standalone/settings
 
-COPY --from=builder /home/app/.env /home/app/standalone./.env
+COPY --from=builder /home/app/.env /home/app/standalone/.env
+COPY --from=builder /home/app/docker /home/app/standalone/docker
 COPY --from=builder /home/app/api/dist /home/app/standalone/api/dist
 COPY --from=builder /home/app/api/scripts /home/app/standalone/api/scripts
 
@@ -71,4 +74,4 @@ WORKDIR /home/app/standalone
 
 EXPOSE 8484
 
-ENTRYPOINT ["yarn", "prod"]
+ENTRYPOINT ["sh", "/home/app/standalone/docker/run-prod.sh"]

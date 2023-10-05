@@ -33,7 +33,7 @@ export const DownloadButton = ({
       actions.addItem({
         ...(item as TrackType).album,
         artists: [...(item as TrackType).artists],
-        url: `${process.env.NEXT_PUBLIC_TIDARR_SEARCH_URL}${(item as TrackType).album.id}`,
+        url: `${window._env_.NEXT_PUBLIC_TIDARR_SEARCH_URL}${(item as TrackType).album.id}`,
       } as AlbumType, type);
     }
     actions.addItem(item, type);

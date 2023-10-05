@@ -1,4 +1,4 @@
-FROM ghcr.io/linuxserver/baseimage-alpine:3.18
+FROM ghcr.io/linuxserver/baseimage-alpine:3.18 AS dependancies
 
 # update and install dependency
 RUN apk update && apk upgrade
@@ -39,4 +39,4 @@ RUN yarn install
 
 EXPOSE 8484
 
-ENTRYPOINT ["yarn", "dev"]
+ENTRYPOINT ["sh", "/home/app/standalone/docker/run-dev.sh"]

@@ -6,7 +6,7 @@ build-docker:
 	docker build --platform=linux/amd64 -f ${DOCKERFILE} -t ${IMAGE}:${VERSION} -t ${IMAGE}:latest .
 
 run-docker:
-	docker run  \
+	docker run \
 		--rm \
 		--name tidarr \
 		--platform=linux/amd64 \
