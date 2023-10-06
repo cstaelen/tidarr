@@ -22,7 +22,7 @@ export const DownloadButton = ({
   const { processingList, actions } = useProcessingProvider();
 
   React.useEffect(() => {
-    const index = processingList?.findIndex(x => x?.id === id) || -1;
+    const index = processingList?.findIndex(x => x?.id.toString() === id.toString()) || -1;
     if (index > -1) {
       setStatus(processingList?.[index].status);
     }
@@ -35,8 +35,9 @@ export const DownloadButton = ({
         artists: [...(item as TrackType).artists],
         url: `${window._env_.NEXT_PUBLIC_TIDARR_SEARCH_URL}${(item as TrackType).album.id}`,
       } as AlbumType, type);
+    } else {
+      actions.addItem(item, type);
     }
-    actions.addItem(item, type);
   };
 
   return (
