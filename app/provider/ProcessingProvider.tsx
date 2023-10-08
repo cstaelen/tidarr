@@ -6,9 +6,12 @@ import React, {
 } from "react";
 
 import { AlbumType, ArtistType, ProcessingItemType, TrackType } from "../types";
+import { check, list, remove, save } from "../server/queryApi";
 
 type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
+  tokenMissing: boolean,
+  noAPI: boolean,
   actions: {
     setProcessingList: Function;
     addItem: (item: AlbumType | TrackType | ArtistType, type: 'album' | 'track' | 'artist') => void;
@@ -23,6 +26,8 @@ const ProcessingContext = React.createContext<ProcessingContextType>(
 
 export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
+  const [tokenMissing, setTokenMissing] = useState(false);
+  const [noAPI, setNoAPI] = useState(false);
 
   // Add item to processing list
   const addItem = async (item: AlbumType | TrackType | ArtistType, type: 'album' | 'track' | 'artist') => {
@@ -40,13 +45,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       output: "",
     };
 
-    await fetch(`${window._env_.NEXT_PUBLIC_TIDARR_API_URL}/save`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ item: itemToQueue })
-    })
+    await save(itemToQueue);
 
     updateFrontList();
   };
@@ -63,39 +62,21 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     }
 
     await removeItem(item.id);
-
-    await fetch(`${window._env_.NEXT_PUBLIC_TIDARR_API_URL}/save`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ item: itemToQueue })
-    })
+    await save(itemToQueue);
 
     updateFrontList();
   };
 
   // Remove item to processing list
   const removeItem = async (id: number) => {
-    await fetch(`${window._env_.NEXT_PUBLIC_TIDARR_API_URL}/remove`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ id: id })
-    });
+    await remove(id);
 
     updateFrontList();
   }
 
   // Update front data
   const updateFrontList = async () => {
-    const existingData: any = await fetch(`${window._env_.NEXT_PUBLIC_TIDARR_API_URL}/list`)
-      .then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        return data;
-      });
+    const existingData: any = await list();
 
     if (existingData) {
       const list = existingData || '';
@@ -108,14 +89,26 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  useEffect(() => {
-    if (window?._env_) {
-      updateFrontList();
+  // Check API
+  const checkAPI = async () => {
+    try {
+      const output: any = await check();
+
+      setTokenMissing(output?.noToken);
+    } catch (e) {
+      setNoAPI(true);
     }
+  }
+
+  useEffect(() => {
+    checkAPI();
+    updateFrontList();
   }, []);
 
   const value = {
     processingList,
+    tokenMissing,
+    noAPI,
     actions: {
       setProcessingList,
       addItem,

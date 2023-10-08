@@ -73,5 +73,6 @@ COPY --from=builder /home/app/api/scripts /home/app/standalone/api/scripts
 WORKDIR /home/app/standalone
 
 EXPOSE 8484
+EXPOSE 8585
 
 ENTRYPOINT ["sh", "/home/app/standalone/docker/run-prod.sh"]

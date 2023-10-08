@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env", override: false });
 
 const port = process.env.API_PORT;
+const hostname = process.env.HOSTNAME;
 
 const app: Express = express();
 app.use(express.json());
@@ -50,5 +51,5 @@ app.get('/check', async (req: Request, res: Response) => {
 
 app.listen(port, () => {
   configureServer();
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+  console.log(`⚡️[server]: Server is running at http://${hostname}:${port}`);
 });

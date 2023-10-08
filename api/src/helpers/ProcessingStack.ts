@@ -17,6 +17,7 @@ export const ProcessingStack = (expressApp: Express) => {
   async function removeItem(id: number) {
     const item = getItem(id);
     await item?.process?.kill('SIGSTOP');
+    await item?.process?.kill('SIGTERM');
     await item?.process?.kill('SIGKILL');
     await item?.process?.stdin?.end();
     const foundIndex = data.findIndex((listItem: ProcessingItemType) => listItem.id === item.id);

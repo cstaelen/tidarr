@@ -38,5 +38,6 @@ COPY . ./standalone
 RUN yarn install
 
 EXPOSE 8484
+EXPOSE 8585
 
 ENTRYPOINT ["sh", "/home/app/standalone/docker/run-dev.sh"]

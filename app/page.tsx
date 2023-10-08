@@ -9,7 +9,7 @@ import { ProcessingList } from "./components/Processing/ProcessingList";
 import { SearchProvider } from "./provider/SearchProvider";
 import { HeaderSearch } from "./components/HeaderSearch";
 import { useEffect, useState } from "react";
-import { ProcessingProvider } from "./provider/ProcessingProvider";
+import { ProcessingProvider, useProcessingProvider } from "./provider/ProcessingProvider";
 import { DialogToken } from "./components/Dialog/DialogToken";
 import { DialogNoAPI } from "./components/Dialog/DialogNoAPI";
 
@@ -20,36 +20,12 @@ const darkTheme = createTheme({
 });
 
 export default function Home() {
-  const [tokenMissing, setTokenMissing] = useState(false);
-  const [noAPI, setNoAPI] = useState(false);
+  const { noAPI, tokenMissing } = useProcessingProvider();
   const [appLoaded, setAppLoaded] = useState(false);
-    
-  const initialize = async () => {
-    try {
-      const output: any = await fetch(`${window._env_.NEXT_PUBLIC_TIDARR_API_URL}/check`)
-      .then(function(response) {
-        return response.json();
-      }).then(function(data) {
-        return data;
-      });
-      
-      setTokenMissing(output?.noToken);
-    } catch (e) {
-      setNoAPI(true);
-    }
-  }
-  
-  useEffect(() => {
-    setAppLoaded(true);
-  }, []);
-  
-  useEffect(() => {
-    if (appLoaded) {
-      initialize();
-    }
-  }, [appLoaded]);
-  
-  if (!appLoaded) return;
+
+  useEffect(() => setAppLoaded(true), []);
+
+  if(!appLoaded) return;
 
   return (
     <ThemeProvider theme={darkTheme}>

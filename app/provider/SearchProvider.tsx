@@ -74,7 +74,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     const query = params.get('query');
     if (query) 
       queryTidal(query, 1);
-  }, []);
+  }, [params]);
 
   const value = {
     searchResults,

@@ -11,7 +11,6 @@ run-docker:
 		--name tidarr \
 		--platform=linux/amd64 \
 		-p 8484:8484 \
-		-p 8585:8585 \
 		-v ${PWD}/docker/mnt/config/:/home/app/standalone/shared \
 		-v ${PWD}/docker/mnt/download/albums:/home/app/standalone/download/albums \
 		-v ${PWD}/docker/mnt/download/tracks:/home/app/standalone/download/tracks \
