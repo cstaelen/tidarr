@@ -20,12 +20,13 @@ const darkTheme = createTheme({
 });
 
 export default function Home() {
-  const { noAPI, tokenMissing } = useProcessingProvider();
+  const { apiError, tokenMissing } = useProcessingProvider();
   const [appLoaded, setAppLoaded] = useState(false);
 
+  useEffect(() => console.log(apiError), [apiError]);
   useEffect(() => setAppLoaded(true), []);
 
-  if(!appLoaded) return;
+  if (!appLoaded) return;
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -41,13 +42,13 @@ export default function Home() {
                 </Container>
               </Content>
               <ProcessingList />
+              <DialogToken />
+              <DialogNoAPI />
             </ProcessingProvider>
           </SearchProvider>
         </div>
       </main>
       <Support>👋 Private use only. Do not forget to support your local artists 🙏❤️</Support>
-      {tokenMissing && <DialogToken />}
-      {noAPI && <DialogNoAPI />}
     </ThemeProvider>
   );
 }

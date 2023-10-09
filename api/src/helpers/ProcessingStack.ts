@@ -1,7 +1,7 @@
 import { Express } from "express";
 import { ProcessingItemType } from "../types";
 import { moveSingleton, tidalDL } from "../services/tidal-dl";
-import { beets } from "../services/beets";
+import { beets, cleanFolder } from "../services/beets";
 import { gotifyPush } from "../services/gotify";
 import { plexUpdate } from "../services/plex";
 
@@ -23,6 +23,7 @@ export const ProcessingStack = (expressApp: Express) => {
     const foundIndex = data.findIndex((listItem: ProcessingItemType) => listItem.id === item.id);
     delete data[foundIndex];
     data.splice(foundIndex, 1);
+    await cleanFolder();
     processQueue();
   }
 
@@ -76,6 +77,7 @@ export const ProcessingStack = (expressApp: Express) => {
       stdout.push(responseGotify?.output);
 
       item['output'] = [item['output'], ...stdout].join("\n");
+      item['output'].substr(item['output'].length - 5000);
       expressApp.settings.processingList.actions.updateItem(item);
     }
   }

@@ -18,7 +18,6 @@ services:
     container_name: 'tidarr'
     ports:
       - 8484:8484
-      - 8585:8585
     volumes:
       - /any/folder/to/tidarr/config:/home/app/standalone/shared
       - /any/folder/to/download/albums:/home/app/standalone/download/albums
@@ -86,7 +85,7 @@ Add to your *docker-compose* file in `environment:` section :
   - PLEX_URL=<url|ip:port>
   - PLEX_LIBRARY=<music_library_id>
   - PLEX_TOKEN=<x-plex-token>
-  - PLEX_PATH=/path/to/scan # optional
+  - PLEX_PATH=/path/to/scan # optional - if not set, update whole library
 ```
 - **PlexToken** : your Plex token : https://www.plexopedia.com/plex-media-server/general/plex-token/
 - **Library ID** : In Plex server web ui, go to your music library tab and check `source=` in the URL

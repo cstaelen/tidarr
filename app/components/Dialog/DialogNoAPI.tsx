@@ -2,13 +2,15 @@ import { Paper } from "@mui/material";
 import WarningIcon from '@mui/icons-material/Warning';
 import { DialogHandler } from ".";
 import { getApiUrl } from "@/app/server/queryApi";
+import { useProcessingProvider } from "@/app/provider/ProcessingProvider";
 
 export const DialogNoAPI = () => {
+  const { apiError } = useProcessingProvider();
 
-  const API_URL = async () => await getApiUrl();
-  
+  if (!apiError?.error) return;
+
   return (
-    <DialogHandler 
+    <DialogHandler
       title={
         <>
           <WarningIcon color="error" />&nbsp;
@@ -16,12 +18,20 @@ export const DialogNoAPI = () => {
         </>
       }
     >
-      <p>Connection tentative to Tidarr API ({API_URL()}) failed.<br />Please check your logs</p>
+      <p>Connection tentative to Tidarr API, failed.<br />Please check your logs</p>
       <Paper elevation={0} sx={{ padding: '1rem' }}>
         <code>
           $ docker-compose tidarr logs
         </code>
       </Paper>
+      {apiError.message && (
+        <>
+          <p>Error message:</p>
+          <Paper elevation={0} sx={{ padding: '1rem' }}>
+            <code>{apiError.message}</code>
+          </Paper>
+        </>
+      )}
     </DialogHandler>
   )
 };

@@ -5,13 +5,13 @@ import React, {
   useEffect,
 } from "react";
 
-import { AlbumType, ArtistType, ProcessingItemType, TrackType } from "../types";
+import { AlbumType, ApiReturnType, ArtistType, ProcessingItemType, TrackType } from "../types";
 import { check, list, remove, save } from "../server/queryApi";
 
 type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
   tokenMissing: boolean,
-  noAPI: boolean,
+  apiError?: ApiReturnType;
   actions: {
     setProcessingList: Function;
     addItem: (item: AlbumType | TrackType | ArtistType, type: 'album' | 'track' | 'artist') => void;
@@ -27,7 +27,7 @@ const ProcessingContext = React.createContext<ProcessingContextType>(
 export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
   const [tokenMissing, setTokenMissing] = useState(false);
-  const [noAPI, setNoAPI] = useState(false);
+  const [apiError, setApiError] = useState<ApiReturnType>();
 
   // Add item to processing list
   const addItem = async (item: AlbumType | TrackType | ArtistType, type: 'album' | 'track' | 'artist') => {
@@ -45,7 +45,11 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       output: "",
     };
 
-    await save(itemToQueue);
+    const output: Response | ApiReturnType = await save(itemToQueue);
+    if ((output as ApiReturnType)?.error) {
+      setApiError(output as ApiReturnType);
+      return;
+    }
 
     updateFrontList();
   };
@@ -62,21 +66,38 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     }
 
     await removeItem(item.id);
-    await save(itemToQueue);
+
+    const output: Response | ApiReturnType = await save(itemToQueue);
+    if ((output as ApiReturnType)?.error) {
+      setApiError(output as ApiReturnType);
+      return;
+    }
 
     updateFrontList();
   };
 
   // Remove item to processing list
   const removeItem = async (id: number) => {
-    await remove(id);
+    const output: Response | ApiReturnType = await remove(id);
+    if ((output as ApiReturnType)?.error) {
+      setApiError(output as ApiReturnType);
+      return;
+    }
 
     updateFrontList();
   }
 
   // Update front data
   const updateFrontList = async () => {
-    const existingData: any = await list();
+    const data: ProcessingItemType[] | ApiReturnType = await list();
+
+    if ((data as ApiReturnType)?.error) {
+      setApiError(data as ApiReturnType);
+      setProcessingList(undefined);
+      return;
+    }
+
+    const existingData = data as ProcessingItemType[];
 
     if (existingData) {
       const list = existingData || '';
@@ -91,13 +112,14 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
   // Check API
   const checkAPI = async () => {
-    try {
-      const output: any = await check();
-
-      setTokenMissing(output?.noToken);
-    } catch (e) {
-      setNoAPI(true);
+    const output: ApiReturnType | { noToken: boolean; output: string } = await check();
+    if ((output as ApiReturnType)?.error) {
+      setApiError(output as ApiReturnType);
+      return;
     }
+
+    const data = output as { noToken: boolean; output: string };
+    setTokenMissing(data?.noToken);
   }
 
   useEffect(() => {
@@ -108,7 +130,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   const value = {
     processingList,
     tokenMissing,
-    noAPI,
+    apiError,
     actions: {
       setProcessingList,
       addItem,

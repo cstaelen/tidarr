@@ -1,3 +1,4 @@
+export type ApiReturnType = { error: boolean; message: string };
 
 export type TrackType = {
   album: TrackAlbumType;
