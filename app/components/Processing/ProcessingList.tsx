@@ -1,8 +1,10 @@
-import { Backdrop, Box, Paper, SpeedDial, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Backdrop, Box,
+    CircularProgress, Paper, SpeedDial, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
 import { useState } from "react";
 import { ProcessingItem } from "./ProcessingItem";
 import { useProcessingProvider } from "@/app/provider/ProcessingProvider";
+import {blue, green} from "@mui/material/colors";
 
 export const ProcessingList = () => {
   const { processingList } = useProcessingProvider();
@@ -13,12 +15,35 @@ export const ProcessingList = () => {
 
   if (!processingList || processingList?.length === 0) return null;
 
+  const isLoading = processingList?.filter(item => item?.loading === true)?.length > 0;
+  const hasError = processingList?.filter(item => item?.error === true)?.length > 0;
+
+  const ProcessingButton = () =>  (
+    <>
+    {isLoading && (
+        <CircularProgress
+          size={68}
+          sx={{
+          color:  blue[500],
+            position: 'absolute',
+            top: -6,
+            left: -6,
+            zIndex: 1,
+          }}
+        />
+      )}
+      <strong>{processingList?.filter(item => item?.status === 'finished')?.length}/{processingList?.length || 0}</strong>
+    </>
+  );
+
   return (
     <SpeedDial
       ariaLabel="Show processing list"
-      sx={{ position: 'fixed', bottom: 50, right: 16 }}
-      color="success"
-      icon={<strong>{processingList?.filter(item => item?.status === 'finished')?.length}/{processingList?.length || 0}</strong>}
+      sx={{ position: 'fixed', bottom: 50, right: 16, zIndex: "2000" }}
+      icon={<ProcessingButton />}
+      FabProps={{
+        color: hasError ? "error" : !isLoading ? "success" : "primary",
+      }}
       onClose={handleClose}
       onOpen={handleOpen}
       open={open}
@@ -38,7 +63,7 @@ export const ProcessingList = () => {
           opacity: open ? 1 : 0,
           position: "absolute",
           right: 0,
-          visibility: open ? 'visible' : 'hidden'
+          visibility: open ? 'visible' : 'hidden',
         }}
       >
         <Box sx={{ width: "700px" }}>

@@ -23,6 +23,8 @@ export function tidalDL(id: number, app: Express) {
     item["output"] = [item["output"], data].join("\r\n");
     item['output'].substr(item['output'].length - 5000);
     item["status"] = "error";
+    item["error"] = true;
+    item["loading"] = false;
     item["process"] = child;
     app.settings.processingList.actions.updateItem(item);
   });
@@ -31,6 +33,8 @@ export function tidalDL(id: number, app: Express) {
     console.log(`Tidal-DL process exited with code ${code}`);
     if (code === 0) {
       item["status"] = item.output.includes("[ERR]") ? "error" : "downloaded";
+      item["error"] = item.output.includes("[ERR]");
+      item["loading"] = false;
       app.settings.processingList.actions.updateItem(item);
     }
   });
@@ -41,6 +45,8 @@ export function tidalDL(id: number, app: Express) {
       item["output"] = [item["output"], `Tidal-DL Error:\n${err}`].join("\r\n");
       item['output'].substr(item['output'].length - 5000);
       item["status"] = "error";
+      item["error"] = true;
+      item["loading"] = false;
       app.settings.processingList.actions.updateItem(item);
     }
   });

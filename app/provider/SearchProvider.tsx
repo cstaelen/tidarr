@@ -10,6 +10,7 @@ import { useSearchParams } from "next/navigation";
 
 type SearchContextType = {
   searchResults: TidalResponseType;
+  keywords: string | undefined;
   loading: boolean;
   page: number;
   itemPerPage: number;
@@ -79,6 +80,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   const value = {
     searchResults,
     loading,
+    keywords,
     itemPerPage,
     page,
     actions: {

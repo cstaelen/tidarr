@@ -25,14 +25,13 @@ export const HeaderSearch = () => {
 }
 
 const Header = styled.div<{ initialState: boolean }>`
-  background-color: #212121;
+  background-color: ${({ initialState }) => initialState ? "#121212" : "#212121"};
   left: 0;
-  padding: ${({ initialState }) => initialState ? "15vh 0" : 0};
-  position: fixed;
+  padding: ${({ initialState }) => initialState ? "25vh 0" : 0};
   top: 0;
   text-align: center;
   width: 100%;
-  transition: all 300ms ease-out;
+  transition: all 250ms ease-in;
   z-index: 1000;
 `;
 

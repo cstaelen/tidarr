@@ -48,19 +48,12 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
       </Stack>
       <Stack direction="row">
         <Image
-          style={{
-            width: window.innerWidth < 640 ? '100%' : 'none',
-            height: window.innerWidth < 640 ? '100%' : 'none',
-            position: window.innerWidth < 640 ? 'absolute' : 'relative',
-            objectFit: window.innerWidth < 640 ? 'cover' : 'fill',
-            opacity: window.innerWidth < 640 ? 0.2 : 1,
-          }}
           width={120}
           height={120}
           src={`https://resources.tidal.com/images/${album.cover?.replace(
             /-/g,
             "/"
-          )}/750x750.jpg`}
+            )}/750x750.jpg`}
           alt="Live from space album cover"
         />
         <Box sx={{ display: "flex", flexDirection: "column", flex: "1 1 0", position: "relative" }}>

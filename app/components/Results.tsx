@@ -1,6 +1,6 @@
 "use client";
 
-import { AppBar, Box, Button, Skeleton, Tab, Tabs, useTheme } from "@mui/material";
+import { AppBar, Box, Button, Container, Skeleton, Tab, Tabs, useTheme } from "@mui/material";
 
 import { AlbumType, ArtistType, TrackType } from "../types";
 import AlbumCard from "./Results/Album";
@@ -10,6 +10,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import React from "react";
 import SwipeableViews from "react-swipeable-views";
 import { useSearchProvider } from "../provider/SearchProvider";
+import { HeaderSearch } from "./HeaderSearch";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -111,6 +112,7 @@ const Loader = () => {
 
 export const Results = () => {
   const {
+    keywords,
     searchResults: { albums, artists, tracks },
   } = useSearchProvider();
 
@@ -127,35 +129,44 @@ export const Results = () => {
 
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
-      <AppBar position="static">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="secondary"
-          textColor="inherit"
-          variant="fullWidth"
-          aria-label="full width tabs example"
-        >
-          <Tab label={`Albums (${albums?.totalNumberOfItems || 0})`} {...a11yProps(0)} />
-          <Tab label={`Artists (${artists?.totalNumberOfItems || 0})`} {...a11yProps(1)} />
-          <Tab label={`Tracks (${tracks?.totalNumberOfItems || 0})`} {...a11yProps(2)} />
-        </Tabs>
+      <AppBar position="sticky" style={!keywords ? { boxShadow: "none" } : {}}>
+        <HeaderSearch />
+        {keywords && (
+          <Container maxWidth="lg">
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              indicatorColor="secondary"
+              textColor="inherit"
+              variant="fullWidth"
+              aria-label="full width tabs example"
+            >
+              <Tab label={`Albums (${albums?.totalNumberOfItems || 0})`} {...a11yProps(0)} />
+              <Tab label={`Artists (${artists?.totalNumberOfItems || 0})`} {...a11yProps(1)} />
+              <Tab label={`Tracks (${tracks?.totalNumberOfItems || 0})`} {...a11yProps(2)} />
+            </Tabs>
+          </Container>
+        )}
       </AppBar>
-      <SwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
-        <TabPanel value={value} index={0} dir={theme.direction}>
-          <TabContent type="albums" />
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-          <TabContent type="artists" setTabIndex={handleChangeIndex} />
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-          <TabContent type="tracks" />
-        </TabPanel>
-      </SwipeableViews>
+      {keywords && (
+        <Container maxWidth="lg">
+          <SwipeableViews
+            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+            index={value}
+            onChangeIndex={handleChangeIndex}
+            >
+            <TabPanel value={value} index={0} dir={theme.direction}>
+              <TabContent type="albums" />
+            </TabPanel>
+            <TabPanel value={value} index={1} dir={theme.direction}>
+              <TabContent type="artists" setTabIndex={handleChangeIndex} />
+            </TabPanel>
+            <TabPanel value={value} index={2} dir={theme.direction}>
+              <TabContent type="tracks" />
+            </TabPanel>
+          </SwipeableViews>
+        </Container>
+      )}
     </Box>
   );
 };

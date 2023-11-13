@@ -21,7 +21,7 @@ RUN yarn global add npx
 
 RUN echo "*** install tidal-dl ***"
 RUN apk add --update --no-cache python3 py3-pip && ln -sf python3 /usr/bin/python
-RUN python3 -m pip install --no-cache --upgrade pip wheel setuptools 
+RUN python3 -m pip install --no-cache --upgrade pip wheel setuptools chardet
 RUN python3 -m pip install --no-cache --upgrade tidal-dl
 
 RUN echo "*** install beets ***"

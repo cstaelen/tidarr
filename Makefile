@@ -1,5 +1,5 @@
 IMAGE=cstaelen/tidarr
-VERSION=0.0.2a
+VERSION=0.0.3
 DOCKERFILE=./docker/builder.Dockerfile
 
 build-docker:
