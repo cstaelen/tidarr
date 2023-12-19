@@ -1,6 +1,7 @@
 import { spawnSync, execSync } from "child_process";
 import { Express } from "express"
 import { ProcessingItemType } from "../types";
+import { ROOT_PATH } from "../../constants";
 
 export async function beets(id: number, app: Express) {
   const item: ProcessingItemType = app.settings.processingList.actions.getItem(id);
@@ -18,12 +19,12 @@ export async function beets(id: number, app: Express) {
         binary,
         [
           "-c",
-          "./shared/beets-config.yml",
+          `${ROOT_PATH}/shared/beets-config.yml`,
           "-l",
-          "./shared/beets/beets-library.blb",
+          `${ROOT_PATH}/shared/beets/beets-library.blb`,
           "import",
           "-qC",
-          "./download/incomplete",
+          `${ROOT_PATH}/download/incomplete`,
         ],
         { encoding: "utf-8" }
       );
@@ -46,7 +47,7 @@ export async function beets(id: number, app: Express) {
       item["output"] = [item["output"], `=== Move processed items ===`].join("\r\n");
       item['output'].substr(item['output'].length - 5000);
       const output_move = execSync(
-        "cp -rf ./download/incomplete/* ./download/albums/ >/dev/null",
+        `cp -rf ${ROOT_PATH}/download/incomplete/* ${ROOT_PATH}/download/albums/ >/dev/null`,
         { encoding: "utf-8" }
       );
       console.log(`- Move complete album\r\n${output_move}`);
@@ -67,7 +68,7 @@ export async function beets(id: number, app: Express) {
     item['output'].substr(item['output'].length - 5000);
     save = false;
   } finally {
-    const output_clean = execSync("rm -rf ./download/incomplete/* >/dev/null", {
+    const output_clean = execSync(`rm -rf ${ROOT_PATH}/download/incomplete/* >/dev/null`, {
       encoding: "utf-8",
     });
     console.log("- Clean folder", output_clean);
@@ -79,7 +80,7 @@ export async function beets(id: number, app: Express) {
 }
 
 export async function cleanFolder() {
-  const output_clean = execSync("rm -rf ./download/incomplete/* >/dev/null", {
+  const output_clean = execSync(`rm -rf ${ROOT_PATH}/download/incomplete/* >/dev/null`, {
     encoding: "utf-8",
   });
   console.log("- Clean folder", output_clean);

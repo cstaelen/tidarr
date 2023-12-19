@@ -1,6 +1,7 @@
 import { spawn, execSync } from "child_process";
 import { Express } from "express"
 import { ProcessingItemType } from "../types";
+import { ROOT_PATH } from "../../constants";
 
 export function tidalDL(id: number, app: Express) {
   const item: ProcessingItemType = app.settings.processingList.actions.getItem(id);
@@ -59,12 +60,12 @@ export async function moveSingleton(id: number, app: Express) {
   try {
     console.log(`=== Move track ===`);
 
-    const output_move = execSync("cp -rf ./download/incomplete/* ./download/tracks/", { encoding: "utf-8" });
+    const output_move = execSync(`cp -rf ${ROOT_PATH}/download/incomplete/* ${ROOT_PATH}/download/tracks/`, { encoding: "utf-8" });
     console.log('- Move tracks', output_move);
     item["output"] = [item["output"], `- Move tracks : \r\n${output_move}`].join("\r\n");
     item['output'].substr(item['output'].length - 5000);
 
-    const output_clean = execSync("rm -rf ./download/incomplete/*", { encoding: "utf-8" });
+    const output_clean = execSync(`rm -rf ${ROOT_PATH}/download/incomplete/*`, { encoding: "utf-8" });
     console.log('- Cleanup', output_clean);
     item["output"] = [item["output"], `- Cleanup : \r\n${output_clean}`].join("\r\n");
     item['output'].substr(item['output'].length - 5000);

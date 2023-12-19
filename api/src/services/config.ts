@@ -1,10 +1,11 @@
 import { execSync } from "child_process";
+import { ROOT_PATH } from "../../constants";
 
-export async function configureServer() {
+export function configureServer() {
   console.log(`=== Set config files ===`);
   console.log(`Executing: init.sh`);
 
-  const output_config = await execSync("sh ./api/scripts/init.sh", { encoding: "utf-8" });
+  const output_config = execSync(`sh ${ROOT_PATH}/api/scripts/init.sh`, { encoding: "utf-8" });
   console.log('Tidarr configuration :', output_config);
 
   return {
