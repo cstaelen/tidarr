@@ -2,13 +2,16 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { TrackType } from "@/app/types";
-import { Avatar, Box, Chip, Link, Stack } from "@mui/material";
+import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
 import { DownloadButton } from "../DownloadButton";
 import Image from "next/image";
+import { useSearchProvider } from "@/app/provider/SearchProvider";
 
 export default function Track({ track }: { track: TrackType }) {
+  const { actions } = useSearchProvider();
+
   return (
     <Card sx={{ position: "relative" }}>
       <Stack
@@ -16,7 +19,10 @@ export default function Track({ track }: { track: TrackType }) {
         flexWrap="wrap"
         spacing={1}
         alignItems="center"
-        style={{ padding: "0.4rem 0.5rem 0.5rem", backgroundColor: "rgba(255, 255, 255, 0.04)" }}
+        style={{
+          padding: "0.4rem 0.5rem 0.5rem",
+          backgroundColor: "rgba(255, 255, 255, 0.04)",
+        }}
       >
         <Avatar
           alt={track.artists?.[0]?.name}
@@ -26,25 +32,48 @@ export default function Track({ track }: { track: TrackType }) {
             "/"
           )}/750x750.jpg`}
         />
-        <Link
-          href={track.url}
-          style={{ flex: "1 1 0", lineHeight: 1.2 }}
-          target="_blank"
-          underline="none"
-        >
-          <Typography component="span" style={{ lineHeight: 1 }}>
-            <strong>{track.title}</strong>
-            <OpenInNewIcon style={{ verticalAlign: "middle", marginLeft: "0.5rem", fontSize: 16 }} />
-          </Typography>
+        <div style={{ lineHeight: 1.4, flex: "1 1 0" }}>
+          <Link
+            href={track.url}
+            style={{ lineHeight: 1.2 }}
+            target="_blank"
+            underline="none"
+          >
+            <Typography component="span" style={{ lineHeight: 1 }}>
+              <strong>{track.title}</strong>
+              <OpenInNewIcon
+                style={{
+                  verticalAlign: "middle",
+                  marginLeft: "0.5rem",
+                  fontSize: 16,
+                }}
+              />
+            </Typography>
+          </Link>
+          {` `}
           <Typography
             variant="subtitle2"
             color="text.secondary"
             component="span"
-            style={{ lineHeight: 1 }}
+            style={{ lineHeight: 1, whiteSpace: "nowrap" }}
           >
-            &nbsp;- by {track.artists?.[0]?.name}
+            {` `}by{` `}
+            <Button
+              variant="text"
+              size="small"
+              style={{ padding: 0 }}
+              onClick={() =>
+                actions.queryArtist(
+                  track.artists[0].id,
+                  track.artists[0].name,
+                  1
+                )
+              }
+            >
+              <strong>{track.artists?.[0]?.name}</strong>
+            </Button>
           </Typography>
-        </Link>
+        </div>
       </Stack>
       <Stack direction="row">
         <Image
@@ -56,8 +85,17 @@ export default function Track({ track }: { track: TrackType }) {
           )}/750x750.jpg`}
           alt="Live from space album cover"
         />
-        <Box sx={{ display: "flex", flexDirection: "column", flex: "1 1 0", position: "relative" }}>
-          <CardContent sx={{ flex: "0 0 auto", padding: "0.5rem 1rem !important" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            flex: "1 1 0",
+            position: "relative",
+          }}
+        >
+          <CardContent
+            sx={{ flex: "0 0 auto", padding: "0.5rem 1rem !important" }}
+          >
             <Stack
               direction="row"
               flexWrap="wrap"
@@ -75,13 +113,19 @@ export default function Track({ track }: { track: TrackType }) {
                 size="small"
               />
             </Stack>
-            <Stack
-              direction="row"
-              flexWrap="wrap"
-              spacing={1}
-            >
-              <DownloadButton item={track} id={track.album.id} type="album" label="Album" />
-              <DownloadButton item={track} id={track.id} type="track" label="Track" />
+            <Stack direction="row" flexWrap="wrap" spacing={1}>
+              <DownloadButton
+                item={track}
+                id={track.album.id}
+                type="album"
+                label="Album"
+              />
+              <DownloadButton
+                item={track}
+                id={track.id}
+                type="track"
+                label="Track"
+              />
             </Stack>
             <small>Album : {track.album.title}</small>
           </CardContent>

@@ -77,3 +77,21 @@ export type ProcessingItemType = {
   error: boolean;
   output: string;
 };
+
+export type TidalArtistResponseType = {
+  id: string;
+  rows: {
+    modules: TidalArtistModuleType[]
+  }[];
+  selfLink: string;
+  title: string;
+};
+
+export type TidalArtistModuleType = {
+  type: string;
+  title: string;
+  album: AlbumType;
+  pagedList: {
+    items: AlbumType[];
+  };
+}

@@ -2,8 +2,8 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import AlbumIcon from '@mui/icons-material/Album';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import AlbumIcon from "@mui/icons-material/Album";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { ArtistType } from "@/app/types";
 import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
 import { useSearchProvider } from "@/app/provider/SearchProvider";
@@ -46,7 +46,13 @@ export default function Artist({
             >
               <Typography component="span">
                 <strong>{artist.name}</strong>
-                <OpenInNewIcon style={{ verticalAlign: "middle", marginLeft: "0.5rem", fontSize: 16 }} />
+                <OpenInNewIcon
+                  style={{
+                    verticalAlign: "middle",
+                    marginLeft: "0.5rem",
+                    fontSize: 16,
+                  }}
+                />
               </Typography>
             </Link>
           </Stack>
@@ -59,8 +65,8 @@ export default function Artist({
                 artist.popularity > 75
                   ? "success"
                   : artist.popularity > 33
-                    ? "warning"
-                    : "error"
+                  ? "warning"
+                  : "error"
               }
             />
           </Stack>
@@ -69,14 +75,12 @@ export default function Artist({
               variant="outlined"
               endIcon={<AlbumIcon />}
               onClick={() => {
-                actions.queryTidal(artist.name, 1)
-                setTabIndex(0);
+                actions.queryArtist(artist.id, artist.name, 1);
               }}
               size="small"
             >
-              Search
+              Search albums
             </Button>
-            <DownloadButton item={artist} id={artist.id} type="artist" label="Get all !" />
           </Stack>
         </CardContent>
       </Box>
