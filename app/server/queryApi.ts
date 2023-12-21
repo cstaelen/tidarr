@@ -1,5 +1,6 @@
 "use server"
 
+import { NextResponse } from "next/server";
 import { ApiReturnType, ProcessingItemType } from "../types";
 
 export const getApiUrl = async () => `http://${process.env.HOSTNAME}:${process.env.API_PORT}`;
@@ -34,14 +35,14 @@ export async function list() {
   }
 }
 
-export async function save(itemToQueue: ProcessingItemType) {
+export async function save(body: string) {
   try {
     const data = await fetch(`http://${process.env.HOSTNAME}:${process.env.API_PORT}/save`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ item: itemToQueue })
+      body: body
     })
     return data;
   } catch (e: any) {
@@ -49,14 +50,14 @@ export async function save(itemToQueue: ProcessingItemType) {
   }
 }
 
-export async function remove(id: number) {
+export async function remove(body: string) {
   try {
     const data = await fetch(`http://${process.env.HOSTNAME}:${process.env.API_PORT}/remove`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ id: id })
+      body: body
     })
 
     return data;

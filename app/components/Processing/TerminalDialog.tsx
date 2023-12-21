@@ -25,6 +25,7 @@ export const TerminalDialog = ({ item }: { item: ProcessingItemType }) => {
         onClose={() => setOpenOutput(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        style={{zIndex: 9999}}
       >
         <DialogTitle id="alert-dialog-title">Console output</DialogTitle>
         <Pre ref={refOutput}>{item.output}</Pre>

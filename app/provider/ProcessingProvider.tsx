@@ -1,3 +1,5 @@
+"use client"
+
 import React, {
   useContext,
   useState,
@@ -45,13 +47,13 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       output: "",
     };
 
-    const output: Response | ApiReturnType = await save(itemToQueue);
-    if ((output as ApiReturnType)?.error) {
-      setApiError(output as ApiReturnType);
-      return;
+    try {
+      await save(JSON.stringify({ item: itemToQueue }));
+    } catch(e: any) {
+      setApiError(e as ApiReturnType);
+    } finally {
+      updateFrontList();
     }
-
-    updateFrontList();
   };
 
   const retryItem = async (item: ProcessingItemType) => {
@@ -67,24 +69,24 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
     await removeItem(item.id);
 
-    const output: Response | ApiReturnType = await save(itemToQueue);
-    if ((output as ApiReturnType)?.error) {
-      setApiError(output as ApiReturnType);
-      return;
+    try {
+      await save(JSON.stringify({ item: itemToQueue }));
+    } catch(e: any) {
+      setApiError(e as ApiReturnType);
+    } finally {
+      updateFrontList();
     }
-
-    updateFrontList();
   };
 
   // Remove item to processing list
   const removeItem = async (id: number) => {
-    const output: Response | ApiReturnType = await remove(id);
-    if ((output as ApiReturnType)?.error) {
-      setApiError(output as ApiReturnType);
-      return;
+    try {
+      await remove(JSON.stringify({ id: id }));
+    } catch(e: any) {
+      setApiError(e as ApiReturnType);
+    } finally {
+      updateFrontList();
     }
-
-    updateFrontList();
   }
 
   // Update front data

@@ -18,6 +18,8 @@ export const ProcessingList = () => {
   const isLoading = processingList?.filter(item => item?.loading === true)?.length > 0;
   const hasError = processingList?.filter(item => item?.error === true)?.length > 0;
 
+  const buttonColor = hasError ? "error" : !isLoading ? "success" : "primary";
+
   const ProcessingButton = () =>  (
     <>
     {isLoading && (
@@ -42,7 +44,7 @@ export const ProcessingList = () => {
       sx={{ position: 'fixed', bottom: 50, right: 16, zIndex: "2000" }}
       icon={<ProcessingButton />}
       FabProps={{
-        color: hasError ? "error" : !isLoading ? "success" : "primary",
+        color: buttonColor,
       }}
       onClose={handleClose}
       onOpen={handleOpen}

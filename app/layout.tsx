@@ -1,11 +1,14 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
-
+ 
+export const viewport: Viewport = {
+  themeColor: 'black',
+}
+ 
 export const metadata: Metadata = {
   title: 'Tidarr',
   description: 'Unofficial Tital media downloader',
   applicationName: 'Tidarr',
-  themeColor: '#000000',
   manifest: '/favicon/manifest.json',
   icons: [{
     rel: "apple-touch-icon",
