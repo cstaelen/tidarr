@@ -87,11 +87,19 @@ export type TidalArtistResponseType = {
   title: string;
 };
 
+export type TidalArtistAlbumsListType = {
+  items: AlbumType[];
+  totalNumberOfItems: number;
+  limit: number;
+  dataApiPath: string;
+};
+
 export type TidalArtistModuleType = {
   type: string;
   title: string;
   album: AlbumType;
-  pagedList: {
-    items: AlbumType[];
+  pagedList: TidalArtistAlbumsListType;
+  showMore: {
+    apiPath: string;
   };
 }

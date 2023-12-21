@@ -55,13 +55,14 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
             variant="subtitle2"
             color="text.secondary"
             component="span"
-            style={{ lineHeight: 1, whiteSpace: "nowrap" }}
+            style={{ lineHeight: 1 }}
           >
             {` `}by{` `}
             <Button
               variant="text"
               size="small"
-              style={{ padding: 0 }}
+              color="inherit"
+              style={{ padding: "0 0.15rem" }}
               onClick={() =>
                 actions.queryArtist(
                   album.artists[0].id,

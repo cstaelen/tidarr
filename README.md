@@ -65,7 +65,7 @@ Tidal DL options in `.tidal-dl.json`:
     "audioQuality": "HiFi",
     "checkExist": true,
     "downloadDelay": true,
-    "downloadPath": "./download/incomplete",
+    "downloadPath": "/home/app/standalone/download/incomplete",
     // DO NOT MODIFY
     "includeEP": true,
     "language": 0,

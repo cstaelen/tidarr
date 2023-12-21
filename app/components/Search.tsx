@@ -13,7 +13,7 @@ export const Search = () => {
       <TextField
         id="filled-basic"
         placeholder="Type an artist, album or track title"
-        label="Tidal search"
+        label="Tidal search (keywords, artist URL, album URL)"
         defaultValue={params.get('query')}
         margin="normal"
         variant="filled"

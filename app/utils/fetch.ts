@@ -18,7 +18,7 @@ export async function fetchTidal<T>(
 ): Promise<T> {
     options.headers = new Headers(options?.headers);
 
-    const url_suffix = `&token=${TOKEN}&countryCode=${COUNTRY}`;
+    const url_suffix = `&token=${TOKEN}&countryCode=${COUNTRY}&deviceType=BROWSER&locale=en_US`;
     // POST, PUT payload encoding
     if (
         "undefined" !== options.body &&

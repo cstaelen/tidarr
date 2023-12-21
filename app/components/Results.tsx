@@ -5,7 +5,6 @@ import {
   Box,
   Button,
   Container,
-  Skeleton,
   Tab,
   Tabs,
   useTheme,
@@ -21,6 +20,7 @@ import SwipeableViews from "react-swipeable-views";
 import { useSearchProvider } from "../provider/SearchProvider";
 import { HeaderSearch } from "./HeaderSearch";
 import ArtistPage from "./ArtistPage";
+import { AlbumsLoader } from "./Skeletons/AlbumsLoader";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -57,7 +57,7 @@ function TabContent(props: TabContentProps) {
 
   const data = searchResults?.[props.type];
 
-  if (loading) return <Loader />;
+  if (loading) return <AlbumsLoader />;
 
   return (
     <Grid container spacing={2}>
@@ -115,50 +115,12 @@ const Pager = ({
         size="large"
         onClick={() => setPage(page + 1)}
       >
-        LOAD MORE (page: {page}/{Math.floor(totalItems / itemPerPage)})
+        LOAD MORE (page: {page}/{Math.ceil(totalItems / itemPerPage)})
       </Button>
     </Box>
   );
 };
 
-const Loader = () => {
-  return (
-    <Grid container spacing={2}>
-      <Grid xs={12} md={6}>
-        <Skeleton
-          variant="rectangular"
-          width={560}
-          height={200}
-          animation="wave"
-        />
-      </Grid>
-      <Grid xs={12} md={6}>
-        <Skeleton
-          variant="rectangular"
-          width={560}
-          height={200}
-          animation="wave"
-        />
-      </Grid>
-      <Grid xs={12} md={6}>
-        <Skeleton
-          variant="rectangular"
-          width={560}
-          height={200}
-          animation="wave"
-        />
-      </Grid>
-      <Grid xs={12} md={6}>
-        <Skeleton
-          variant="rectangular"
-          width={560}
-          height={200}
-          animation="wave"
-        />
-      </Grid>
-    </Grid>
-  );
-};
 
 export const Results = () => {
   const {
