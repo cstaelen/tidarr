@@ -7,7 +7,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import styled from "@emotion/styled";
 import { ProcessingList } from "./components/Processing/ProcessingList";
 import { SearchProvider } from "./provider/SearchProvider";
-import { HeaderSearch } from "./components/HeaderSearch";
 import { useEffect, useState } from "react";
 import { ProcessingProvider, useProcessingProvider } from "./provider/ProcessingProvider";
 import { DialogToken } from "./components/Dialog/DialogToken";

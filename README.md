@@ -3,7 +3,7 @@
 <img src="https://github.com/cstaelen/tidarr/blob/main/screenshot.png?raw=true" />
 
 - UI build with **Next JS** + **Express JS** API
-- Self-hostable using **Docker** with Linuxserver.io base image
+- Self-hostable using **Docker** with Linuxserver.io base image (image size: < 300 Mo)
 - Download from **Tidal** with Tidal Media Downloader (python)
 - Tag import using **Beets.io** (python)
 - Push notifications using **Gotify**
