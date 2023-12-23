@@ -3,24 +3,19 @@
 import {
   AppBar,
   Box,
-  Button,
   Container,
   Tab,
   Tabs,
   useTheme,
 } from "@mui/material";
 
-import { AlbumType, ArtistType, TrackType } from "../types";
-import AlbumCard from "./Results/Album";
-import ArtistCard from "./Results/Artist";
-import TrackCard from "./Results/Track";
-import Grid from "@mui/material/Unstable_Grid2";
-import React from "react";
+import React, { useEffect } from "react";
 import SwipeableViews from "react-swipeable-views";
 import { useSearchProvider } from "../provider/SearchProvider";
 import { HeaderSearch } from "./HeaderSearch";
-import ArtistPage from "./ArtistPage";
-import { AlbumsLoader } from "./Skeletons/AlbumsLoader";
+import ArtistPage from "./Results/ArtistPage";
+import TopResults from "./Results/TopResults";
+import TypeResults from "./Results/TypeResults";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -45,82 +40,12 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-interface TabContentProps {
-  children?: React.ReactNode;
-  setTabIndex?: Function;
-  type: "albums" | "artists" | "tracks";
-}
-
-function TabContent(props: TabContentProps) {
-  const { actions, page, loading, itemPerPage, searchResults } =
-    useSearchProvider();
-
-  const data = searchResults?.[props.type];
-
-  if (loading) return <AlbumsLoader />;
-
-  return (
-    <Grid container spacing={2}>
-      {data?.items?.length > 0
-        ? data?.items?.map(
-            (item: AlbumType | ArtistType | TrackType, index: number) => (
-              <Grid xs={12} md={6} lg={4} key={`album-${index}`}>
-                {props.type === "albums" ? (
-                  <AlbumCard album={item as AlbumType} />
-                ) : props.type === "artists" ? (
-                  <ArtistCard
-                    artist={item as ArtistType}
-                    setTabIndex={props.setTabIndex as Function}
-                  />
-                ) : props.type === "tracks" ? (
-                  <TrackCard track={item as TrackType} />
-                ) : null}
-              </Grid>
-            )
-          )
-        : "No result."}
-      <Pager
-        page={page}
-        itemPerPage={itemPerPage}
-        totalItems={data?.totalNumberOfItems}
-        setPage={actions.setPage}
-      />
-    </Grid>
-  );
-}
-
 function a11yProps(index: number) {
   return {
     id: `full-width-tab-${index}`,
     "aria-controls": `full-width-tabpanel-${index}`,
   };
 }
-
-const Pager = ({
-  page,
-  itemPerPage,
-  totalItems,
-  setPage,
-}: {
-  page: number;
-  itemPerPage: number;
-  totalItems: number;
-  setPage: Function;
-}) => {
-  if (page * itemPerPage > totalItems) return null;
-  return (
-    <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
-      <Button
-        variant="contained"
-        size="large"
-        onClick={() => setPage(page + 1)}
-      >
-        LOAD MORE (page: {page}/{Math.ceil(totalItems / itemPerPage)})
-      </Button>
-    </Box>
-  );
-};
-
 
 export const Results = () => {
   const {
@@ -140,6 +65,8 @@ export const Results = () => {
     setValue(index);
   };
 
+  useEffect(() => setValue(0), [keywords]);
+
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
       <AppBar position="sticky" style={!keywords ? { boxShadow: "none" } : {}}>
@@ -151,20 +78,28 @@ export const Results = () => {
               onChange={handleChange}
               indicatorColor="secondary"
               textColor="inherit"
-              variant="fullWidth"
+              variant={window.innerWidth > 800 ? "fullWidth" : "scrollable"}
               aria-label="full width tabs example"
             >
               <Tab
-                label={`Albums (${albums?.totalNumberOfItems || 0})`}
+                label={`Top results (${
+                  albums?.totalNumberOfItems +
+                    artists?.totalNumberOfItems +
+                    tracks?.totalNumberOfItems || 0
+                })`}
                 {...a11yProps(0)}
               />
               <Tab
-                label={`Artists (${artists?.totalNumberOfItems || 0})`}
+                label={`Albums (${albums?.totalNumberOfItems || 0})`}
                 {...a11yProps(1)}
               />
               <Tab
-                label={`Tracks (${tracks?.totalNumberOfItems || 0})`}
+                label={`Artists (${artists?.totalNumberOfItems || 0})`}
                 {...a11yProps(2)}
+              />
+              <Tab
+                label={`Tracks (${tracks?.totalNumberOfItems || 0})`}
+                {...a11yProps(3)}
               />
             </Tabs>
           </Container>
@@ -181,13 +116,16 @@ export const Results = () => {
             onChangeIndex={handleChangeIndex}
           >
             <TabPanel value={value} index={0} dir={theme.direction}>
-              <TabContent type="albums" />
+              <TopResults changeTab={setValue} />
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
-              <TabContent type="artists" setTabIndex={handleChangeIndex} />
+              <TypeResults type="albums" />
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>
-              <TabContent type="tracks" />
+              <TypeResults type="artists" setTabIndex={handleChangeIndex} />
+            </TabPanel>
+            <TabPanel value={value} index={3} dir={theme.direction}>
+              <TypeResults type="tracks" />
             </TabPanel>
           </SwipeableViews>
         </Container>

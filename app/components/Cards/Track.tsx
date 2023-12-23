@@ -8,6 +8,7 @@ import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
 import { DownloadButton } from "../DownloadButton";
 import Image from "next/image";
 import { useSearchProvider } from "@/app/provider/SearchProvider";
+import { TIDAL_PUBLIC_BROWSE_URL } from "@/app/contants";
 
 export default function Track({ track }: { track: TrackType }) {
   const { actions } = useSearchProvider();
@@ -127,7 +128,12 @@ export default function Track({ track }: { track: TrackType }) {
                 label="Track"
               />
             </Stack>
-            <small>Album : {track.album.title}</small>
+            <small>
+              Album :{" "}
+              <Link href={`/?query=${TIDAL_PUBLIC_BROWSE_URL}/album/${track.album.id}`}>
+                {track.album.title}
+              </Link>
+            </small>
           </CardContent>
         </Box>
       </Stack>

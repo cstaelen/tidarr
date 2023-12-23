@@ -7,7 +7,6 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { ArtistType } from "@/app/types";
 import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
 import { useSearchProvider } from "@/app/provider/SearchProvider";
-import { DownloadButton } from "../DownloadButton";
 
 export default function Artist({
   artist,
@@ -19,7 +18,7 @@ export default function Artist({
   const { actions } = useSearchProvider();
 
   return (
-    <Card sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }}>
       <CardContent>
         <Avatar
           alt={artist.name}
@@ -79,11 +78,11 @@ export default function Artist({
               }}
               size="small"
             >
-              Search albums
+              Show discography
             </Button>
           </Stack>
         </CardContent>
       </Box>
-    </Card>
+    </Box>
   );
 }

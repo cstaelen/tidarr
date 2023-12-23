@@ -1,13 +1,4 @@
-const jsonLdMimeType = "application/ld+json";
-
-type Override<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
-
-type FetchStatusType = "error" | "empty" | "success";
-
-type FetchResponseType = {
-  status: FetchStatusType;
-  response: Response;
-};
+const jsonMimeType = "application/json";
 
 const TOKEN = process.env.NEXT_PUBLIC_TIDAL_SEARCH_TOKEN;
 const COUNTRY = process.env.NEXT_PUBLIC_TIDAL_COUNTRY_CODE;
@@ -25,7 +16,7 @@ export async function fetchTidal<T>(
     !(options.body instanceof FormData) &&
     null === options.headers.get("Content-Type")
     ) {
-        options.headers.set("Content-Type", jsonLdMimeType);
+        options.headers.set("Content-Type", jsonMimeType);
     }
 
     const response = await fetch(`${url}${url_suffix}`, {
