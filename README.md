@@ -122,13 +122,13 @@ Add to your *docker-compose* file in `environment:` section :
   - GOTIFY_TOKEN=<gotify_app_token>
 ```
 
-## OPTIONAL - How to get search token :
+## OPTIONAL - Tidal search variables :
 
 ```
   - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN=<search_token> #optional
-  - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=<country-code> #optional
+  - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=<country-code> #optional - useful to access restricted content
 ```
-
+How to get search token :
 - https://github.com/lucaslg26/TidalAPI/issues/23
 - https://github.com/lucaslg26/TidalAPI
 
