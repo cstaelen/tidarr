@@ -1,12 +1,13 @@
 const jsonMimeType = "application/json";
 
-const TOKEN = process.env.NEXT_PUBLIC_TIDAL_SEARCH_TOKEN;
-const COUNTRY = process.env.NEXT_PUBLIC_TIDAL_COUNTRY_CODE;
-
 export async function fetchTidal<T>(
     url: string,
     options: any = {}
 ): Promise<T> {
+
+    const TOKEN = window._env_.NEXT_PUBLIC_TIDAL_SEARCH_TOKEN;
+    const COUNTRY = window._env_.NEXT_PUBLIC_TIDAL_COUNTRY_CODE;
+
     options.headers = new Headers(options?.headers);
 
     const url_suffix = `&token=${TOKEN}&countryCode=${COUNTRY}&deviceType=BROWSER&locale=en_US`;
