@@ -127,7 +127,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
                 variant="outlined"
                 style={{ margin: "0.2rem" }}
               />
-              {album?.popularity && (
+              {album?.popularity ? (
                 <Chip
                   label={`Popularity: ${album.popularity}%`}
                   size="small"
@@ -141,7 +141,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
                       : "error"
                   }
                 />
-              )}
+              ) : null}
             </Stack>
             <DownloadButton
               item={album}
