@@ -134,7 +134,8 @@ How to get search token :
 
 ## Enhancements I'd love to add :
 
-- [ ] Use Shazam API to recognize songs, then search over Tidal and easily grab track or album.
+- [x] Use Shazam API to recognize songs, then search over Tidal and easily grab track or album.
+=> See [Shazarr project here](https://github.com/cstaelen/docker-shazarr)
 
 ## Want more features and/or contribute ? Be my guest, fork and dev <3
 
