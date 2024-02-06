@@ -4,7 +4,15 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { TrackType } from "@/app/types";
-import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Chip,
+  Link,
+  Stack,
+  useTheme,
+} from "@mui/material";
 import { DownloadButton } from "../DownloadButton";
 import Image from "next/image";
 import { useSearchProvider } from "@/app/provider/SearchProvider";
@@ -12,6 +20,7 @@ import { TIDAL_PUBLIC_BROWSE_URL } from "@/app/contants";
 
 export default function Track({ track }: { track: TrackType }) {
   const { actions } = useSearchProvider();
+  const theme = useTheme();
 
   return (
     <Card sx={{ position: "relative" }}>
@@ -107,6 +116,17 @@ export default function Track({ track }: { track: TrackType }) {
                 label={track.audioQuality.toLowerCase()}
                 color="primary"
                 size="small"
+                sx={{
+                  margin: "0.2rem",
+                  color:
+                    track?.audioQuality?.toLowerCase() === "lossless"
+                      ? theme.palette.common.white
+                      : theme.palette.common.black,
+                  backgroundColor:
+                    track?.audioQuality?.toLowerCase() === "lossless"
+                      ? theme.palette.gold
+                      : theme.palette.primary.main,
+                }}
               />
               <Chip
                 label={`${Math.round(track.duration / 60)} min.`}
@@ -130,7 +150,9 @@ export default function Track({ track }: { track: TrackType }) {
             </Stack>
             <small>
               Album :{" "}
-              <Link href={`/?query=${TIDAL_PUBLIC_BROWSE_URL}/album/${track.album.id}`}>
+              <Link
+                href={`/?query=${TIDAL_PUBLIC_BROWSE_URL}/album/${track.album.id}`}
+              >
                 {track.album.title}
               </Link>
             </small>

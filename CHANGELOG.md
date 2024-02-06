@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.0.5
+### 🚀 Added
+* [Front] Add visual filter on quality (Lossless/Hi res)
+
 ## 📦 0.0.4
 ### 🚀 Added
 * [Front] Update to NextJS 14.0.4 and dependencies

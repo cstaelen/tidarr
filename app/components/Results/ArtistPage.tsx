@@ -1,6 +1,6 @@
 import { Box, Button, Container, Grid, Link } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { TidalArtistModuleType } from "../../types";
+import { AlbumType, TidalArtistModuleType } from "../../types";
 import AlbumCard from "../Cards/Album";
 import { useSearchProvider } from "../../provider/SearchProvider";
 import { useState } from "react";
@@ -58,6 +58,8 @@ export default function ArtistPage({
   name: string;
   data: TidalArtistModuleType[];
 }) {
+  const { quality } = useSearchProvider();
+
   return (
     <Box marginBottom={15}>
       <Container maxWidth="lg">
@@ -93,6 +95,15 @@ export default function ArtistPage({
                   md={6}
                   lg={4}
                   key={`card-${index1}-${index2}`}
+                  sx={{
+                    display:
+                      quality === "all" ||
+                      (
+                        album as AlbumType
+                      )?.audioQuality?.toLowerCase() === quality
+                        ? "block"
+                        : "none",
+                  }}
                 >
                   <AlbumCard album={album} />
                 </Grid>

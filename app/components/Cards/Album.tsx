@@ -4,13 +4,22 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { AlbumType } from "@/app/types";
-import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Chip,
+  Link,
+  Stack,
+  useTheme,
+} from "@mui/material";
 import { DownloadButton } from "../DownloadButton";
 import Image from "next/image";
 import { useSearchProvider } from "@/app/provider/SearchProvider";
 
 export default function AlbumCard({ album }: { album: AlbumType }) {
   const { actions } = useSearchProvider();
+  const theme = useTheme();
 
   return (
     <Card sx={{ position: "relative" }}>
@@ -103,31 +112,39 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
             >
               <Chip
                 label={album.audioQuality.toLowerCase()}
-                color="primary"
+                size="small"
+                style={{
+                  margin: "0.2rem",
+                  color: album?.audioQuality?.toLowerCase() === "lossless"
+                  ? theme.palette.common.white
+                  : theme.palette.common.black,
+                  backgroundColor: 
+                    album?.audioQuality?.toLowerCase() === "lossless"
+                      ? theme.palette.gold
+                      : theme.palette.primary.main
+                  ,
+                }}
+              />
+              <Chip
+                label={`${album.numberOfTracks} tracks`}
+                
                 size="small"
                 style={{ margin: "0.2rem" }}
               />
               <Chip
                 label={`${Math.round(album.duration / 60)} min`}
-                color="success"
                 size="small"
                 style={{ margin: "0.2rem" }}
-              />
-              <Chip
-                label={`${album.numberOfTracks} tracks`}
-                color="success"
-                size="small"
                 variant="outlined"
-                style={{ margin: "0.2rem" }}
               />
               <Chip
                 label={`${new Date(album.releaseDate).getFullYear()}`}
-                color="success"
+                
                 size="small"
                 variant="outlined"
                 style={{ margin: "0.2rem" }}
               />
-              {album?.popularity ? (
+              {/* album?.popularity ? (
                 <Chip
                   label={`Popularity: ${album.popularity}%`}
                   size="small"
@@ -141,7 +158,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
                       : "error"
                   }
                 />
-              ) : null}
+              ) : null*/}
             </Stack>
             <DownloadButton
               item={album}

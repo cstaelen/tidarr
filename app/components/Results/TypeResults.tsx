@@ -17,7 +17,8 @@ interface TabContentProps {
 }
 
 export default function TypeResults(props: TabContentProps) {
-  const { actions, page, loading, searchResults } = useSearchProvider();
+  const { quality, actions, page, loading, searchResults } =
+    useSearchProvider();
 
   const data = searchResults?.[props.type];
 
@@ -26,21 +27,39 @@ export default function TypeResults(props: TabContentProps) {
       {data?.items?.length > 0
         ? data?.items
             ?.slice(0, props.limit || data?.items?.length)
-            .map((item: AlbumType | ArtistType | TrackType, index: number) => (
-              <Grid item xs={12} md={6} lg={4} key={`album-${index}`}>
+            .map((data: AlbumType | ArtistType | TrackType, index: number) => (
+              <Grid
+                item
+                xs={12}
+                md={6}
+                lg={4}
+                key={`album-${index}`}
+                sx={{
+                  display:
+                    props.type === "artists" ||
+                    quality === "all" ||
+                    (
+                      data as AlbumType | TrackType
+                    )?.audioQuality?.toLowerCase() === quality
+                      ? "block"
+                      : "none",
+                }}
+              >
                 {props.type === "albums" ? (
-                  <AlbumCard album={item as AlbumType} />
+                  <AlbumCard album={data as AlbumType} />
                 ) : props.type === "artists" ? (
                   <Artist
-                    artist={item as ArtistType}
+                    artist={data as ArtistType}
                     setTabIndex={props.setTabIndex as Function}
                   />
                 ) : props.type === "tracks" ? (
-                  <Track track={item as TrackType} />
+                  <Track track={data as TrackType} />
                 ) : null}
               </Grid>
             ))
-        : !loading ? "No result." : null}
+        : !loading
+        ? "No result."
+        : null}
       {loading && (
         <Box marginTop={2}>
           <AlbumsLoader />

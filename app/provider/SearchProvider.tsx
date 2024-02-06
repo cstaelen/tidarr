@@ -10,6 +10,8 @@ import { useSearchParams } from "next/navigation";
 import { fetchTidal } from "../utils/fetch";
 import { TIDAL_ITEMS_PER_PAGE, TIDAL_API_LISTEN_URL } from "../contants";
 
+type QualityType = "lossless" | "hi_res" | "all";
+
 type SearchContextType = {
   searchResults: TidalResponseType;
   artistResults: TidalArtistModuleType[];
@@ -17,9 +19,11 @@ type SearchContextType = {
   loading: boolean;
   artistPagerLoading: number | undefined;
   page: number;
+  quality: QualityType;
   actions: {
     performSearch: any;
     setPage: (page: number) => void;
+    setQuality: (quality: QualityType) => void;
     fetchArtistPage: (url: string, index: number, offset: number) => void;
     queryTidal: (query: string, page: number) => void;
     queryArtist: (id: number, name: string, page: number) => void;
@@ -34,6 +38,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [keywords, setKeywords] = useState<string>();
+  const [quality, setQuality] = useState<QualityType>("all");
   const [artistPagerLoading, setArtistPagerLoading] = useState<number>();
   const [searchResults, setSearchResults] = useState<TidalResponseType>(
     {} as TidalResponseType
@@ -68,7 +73,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     setLoading(true);
 
     const results = await fetchTidal<TidalResponseType>(
-      `${TIDAL_API_LISTEN_URL}/search/top-hits?query=${query}&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
+      `${TIDAL_API_LISTEN_URL}/search/top-hits?query=${query}&type=lossless&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
         (page - 1) * TIDAL_ITEMS_PER_PAGE
       }`
     );
@@ -213,7 +218,6 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
   // If url query exists on load
   useEffect(() => {
-    setSearchResults({} as TidalResponseType);
     const search = params.get("query");
     if (search) {
       setKeywords(search);
@@ -227,9 +231,11 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     artistPagerLoading,
     keywords,
     page,
+    quality,
     actions: {
       performSearch,
       setPage,
+      setQuality,
       queryTidal,
       queryArtist,
       fetchArtistPage,
