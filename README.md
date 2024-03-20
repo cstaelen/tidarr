@@ -9,6 +9,9 @@
 - Push notifications using **Gotify**
 - Plex library update
 
+### Companion
+- Song recognition : [Shazarr project](https://github.com/cstaelen/docker-shazarr) (Android) 
+
 ## Getting Started
 
 Example docker-compose.yml :
@@ -45,7 +48,7 @@ docker run  \
 (if no `.tidal-dl.token.json` token file provided) :
 
 ```bash 
-docker-compose exec -it tidarr tidal-dl
+docker compose exec -it tidarr tidal-dl
 ```
 
 **or**
@@ -65,8 +68,8 @@ Tidal DL options in `.tidal-dl.json`:
     "audioQuality": "HiFi",
     "checkExist": true,
     "downloadDelay": true,
+    // ⚠️ DO NOT MODIFY / DO NOT MOUNT - This folder is cleaned after each download 
     "downloadPath": "/home/app/standalone/download/incomplete",
-    // DO NOT MODIFY
     "includeEP": true,
     "language": 0,
     "lyricFile": false,
@@ -136,6 +139,7 @@ How to get search token :
 
 - [x] Use Shazam API to recognize songs, then search over Tidal and easily grab track or album.
 => See [Shazarr project here](https://github.com/cstaelen/docker-shazarr)
+- [ ] Download Tidal playlist by URL
 
 ## Want more features and/or contribute ? Be my guest, fork and dev <3
 
@@ -146,6 +150,12 @@ make dev
 ```
 
 Open [http://localhost:8484](http://localhost:8484) with your browser to see the result.
+
+## Purposes
+
+- Renovate old torrent dl media library with full FLAC
+- Just for coding
+- Just for fun
 
 ## Disclaimer
 
