@@ -7,7 +7,7 @@ import React, {
   useEffect,
 } from "react";
 
-import { AlbumType, ApiReturnType, ArtistType, ProcessingItemType, TrackType } from "../types";
+import { AlbumType, ApiReturnType, ArtistType, PlaylistType, ProcessingItemType, TrackType } from "../types";
 import { check, list, remove, save } from "../server/queryApi";
 
 type ProcessingContextType = {
@@ -16,8 +16,8 @@ type ProcessingContextType = {
   apiError?: ApiReturnType;
   actions: {
     setProcessingList: Function;
-    addItem: (item: AlbumType | TrackType | ArtistType, type: 'album' | 'track' | 'artist') => void;
-    removeItem: (id: number) => void;
+    addItem: (item: AlbumType | TrackType | ArtistType | PlaylistType, type: 'album' | 'track' | 'artist' | 'playlist') => void;
+    removeItem: (id: string) => void;
     retryItem: (item: ProcessingItemType) => void;
   };
 };
@@ -32,11 +32,12 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [apiError, setApiError] = useState<ApiReturnType>();
 
   // Add item to processing list
-  const addItem = async (item: AlbumType | TrackType | ArtistType, type: 'album' | 'track' | 'artist') => {
-    if (processingList && processingList?.filter(row => row.id === item.id && row.status !== 'error')?.length > 0) return null;
+  const addItem = async (item: AlbumType | TrackType | ArtistType | PlaylistType, type: 'album' | 'track' | 'artist' | 'playlist') => {
+    const id = (item as AlbumType | TrackType | ArtistType).id || (item as PlaylistType).uuid;
+    if (processingList && processingList?.filter(row => row.id === id && row.status !== 'error')?.length > 0) return null;
 
     const itemToQueue: ProcessingItemType = {
-      id: item.id,
+      id: id,
       artist: type === 'artist' ? (item as ArtistType)?.name : (item as TrackType | AlbumType).artists?.[0].name,
       title: type === 'artist' ? 'All albums' : (item as TrackType | AlbumType)?.title,
       type: type,
@@ -79,7 +80,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   };
 
   // Remove item to processing list
-  const removeItem = async (id: number) => {
+  const removeItem = async (id: string) => {
     try {
       await remove(JSON.stringify({ id: id }));
     } catch(e: any) {

@@ -3,6 +3,13 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.0.6
+### 🚀 Added
+* [Front] Download playlist by url
+### 🐛 Fixed
+* [Front] Add missing "no result" message
+* [Chore] Remove boot up warning message 
+
 ## 📦 0.0.5
 ### 🚀 Added
 * [Front] Add visual filter on quality (Lossless/Hi res)

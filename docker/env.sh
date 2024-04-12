@@ -18,7 +18,7 @@ do
       varvalue=$(printf '%s\n' "$line" | sed -e 's/^[^=]*=//')
     fi
 
-    value=$(printf '%s\n' "${!varname}")
+    value=$(eval echo \$"$varname")
     [[ -z $value ]] && value=${varvalue}
     
     # Append configuration property to JS file
@@ -35,7 +35,7 @@ do
       varvalue=$(printf '%s\n' "$line" | sed -e 's/^[^=]*=//')
     fi
 
-    value=$(printf '%s\n' "${!varname}")
+    value=$(eval echo \$"$varname")
     [[ -z $value ]] && value=${varvalue}
     
     # Append configuration property to JS file if not exists

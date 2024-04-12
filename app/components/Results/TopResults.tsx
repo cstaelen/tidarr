@@ -1,6 +1,6 @@
 import { useSearchProvider } from "@/app/provider/SearchProvider";
-import { ArrowRightAlt } from "@mui/icons-material";
-import { Box, Typography, Button } from "@mui/material";
+import { ArrowRightAlt, SearchOff } from "@mui/icons-material";
+import { Box, Typography, Button, Chip, Container } from "@mui/material";
 import TypeResults from "./TypeResults";
 import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
 
@@ -18,7 +18,7 @@ export default function TopResults(
 ) {
   const {
     loading,
-    searchResults: { albums, artists, tracks },
+    searchResults: { albums, artists, tracks, playlists },
   } = useSearchProvider();
 
   const data = [
@@ -46,9 +46,32 @@ export default function TopResults(
       limit: 6,
       tab: 3,
     },
+    {
+      type: "playlists",
+      label: "Playlist(s)",
+      items: playlists?.items || [],
+      total: playlists?.totalNumberOfItems,
+      limit: 6,
+      tab: 3,
+    },
   ];
-  
+
   if (loading) return <AlbumsLoader />;
+
+  if (
+    !loading &&
+    data?.filter((item) => item?.total && item.total > 0).length === 0
+  ) {
+    return (
+      <Container maxWidth="lg" sx={{ textAlign: "center", marginTop: 2 }}>
+        <Chip
+          icon={<SearchOff />}
+          label="No result found :'("
+          sx={{ fontWeight: "bold", padding: 1 }}
+        />
+      </Container>
+    );
+  }
 
   return (
     <>

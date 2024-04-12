@@ -4,7 +4,7 @@ import React from "react";
 import CheckIcon from '@mui/icons-material/Check';
 import WarningIcon from '@mui/icons-material/Warning';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { AlbumType, ArtistType, TrackType } from "../types";
+import { AlbumType, ArtistType, PlaylistType, TrackType } from "../types";
 import { useProcessingProvider } from "../provider/ProcessingProvider";
 
 export const DownloadButton = ({
@@ -13,18 +13,18 @@ export const DownloadButton = ({
   type,
   label
 }: {
-  item: TrackType | AlbumType | ArtistType,
-  id: number,
-  type: "album" | "artist" | "track",
+  item: TrackType | AlbumType | ArtistType | PlaylistType,
+  id: string,
+  type: "album" | "artist" | "track" | "playlist",
   label: string
 }) => {
   const [status, setStatus] = React.useState<string>();
   const { processingList, actions } = useProcessingProvider();
 
   React.useEffect(() => {
-    const index = processingList?.findIndex(x => x?.id.toString() === id.toString()) || -1;
+    const index = processingList?.findIndex(x => x?.id?.toString() === id?.toString()) || -1;
     if (index > -1) {
-      setStatus(processingList?.[index].status);
+      setStatus(processingList?.[index]?.status);
     }
   }, [processingList, id]);
 

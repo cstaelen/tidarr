@@ -1,6 +1,7 @@
 import React, { useContext, useState, ReactNode, useEffect } from "react";
 
 import {
+  PlaylistType,
   TidalArtistAlbumsListType,
   TidalArtistModuleType,
   TidalArtistResponseType,
@@ -26,7 +27,7 @@ type SearchContextType = {
     setQuality: (quality: QualityType) => void;
     fetchArtistPage: (url: string, index: number, offset: number) => void;
     queryTidal: (query: string, page: number) => void;
-    queryArtist: (id: number, name: string, page: number) => void;
+    queryArtist: (id: string, name: string, page: number) => void;
   };
 };
 
@@ -60,7 +61,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
       directDownload(searchString);
     } else if (searchString.split(":").length > 2) {
       queryArtist(
-        parseInt(searchString.split(":")[1]),
+        searchString.split(":")[1],
         searchString.split(":")[2]
       );
     } else {
@@ -106,7 +107,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     postFetch(query);
   }
 
-  async function queryArtist(id: number, name: string) {
+  async function queryArtist(id: string, name: string) {
     setSearchResults({} as TidalResponseType);
     setArtistResults([] as TidalArtistModuleType[]);
     setLoading(true);
@@ -141,29 +142,49 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     const splittedUrl = url.split("/");
     const type = splittedUrl[splittedUrl?.length - 2];
 
+    setSearchResults({} as TidalResponseType);
+    setArtistResults([] as TidalArtistModuleType[]);
+
+    let data: any = {
+      albums:  { items: [], totalNumberOfItems: 0 },
+      artists: { items: [], totalNumberOfItems: 0 },
+      tracks: { items: [], totalNumberOfItems: 0 },
+      playlists: { items: [], totalNumberOfItems: 0 },
+    };
+
+    // Artist url
     if (type === "artist") {
-      queryArtist(parseInt(id), "");
+      queryArtist(id, "");
+
+      return;
     }
+
+    // Album url
     if (type === "album") {
-      setSearchResults({} as TidalResponseType);
-      setArtistResults([] as TidalArtistModuleType[]);
       setLoading(true);
 
       const data_album = await fetchTidal<TidalArtistResponseType>(
         `${TIDAL_API_LISTEN_URL}/pages/album?albumId=${id}`
       );
 
-      const data: any = {
-        albums: {
+      data.albums =  {
           items: [data_album.rows[0].modules[0].album],
           totalNumberOfItems: 1,
-        },
-        artists: { items: [], totalNumberOfItems: 0 },
-        tracks: { items: [], totalNumberOfItems: 0 },
       };
-      setSearchResults(data);
-      postFetch(url);
     }
+
+    // Playlist url
+    if (type === "playlist") {
+
+      const data_playlist = await fetchTidal<PlaylistType>(
+        `${TIDAL_API_LISTEN_URL}/playlists/${id}`
+      );
+
+      data.playlists = { items: [data_playlist], totalNumberOfItems: 1 };
+    }
+
+    setSearchResults(data);
+    postFetch(url);
   }
 
   async function fetchArtistPage(url: string, index: number, page: number) {

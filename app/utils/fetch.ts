@@ -10,7 +10,7 @@ export async function fetchTidal<T>(
 
     options.headers = new Headers(options?.headers);
 
-    const url_suffix = `&token=${TOKEN}&countryCode=${COUNTRY}&deviceType=BROWSER&locale=en_US`;
+    const url_suffix = `${url.includes("?") ? "&" : "?"}token=${TOKEN}&countryCode=${COUNTRY}&deviceType=BROWSER&locale=en_US`;
     // POST, PUT payload encoding
     if (
         "undefined" !== options.body &&

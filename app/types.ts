@@ -3,7 +3,7 @@ export type ApiReturnType = { error: boolean; message: string };
 export type TrackType = {
   album: TrackAlbumType;
   artists: {
-    id: number;
+    id: string;
     name: string;
     picture: string;
     type: string;
@@ -12,12 +12,12 @@ export type TrackType = {
   audioQuality: string;
   releaseDate: string;
   title: string;
-  id: number;
+  id: string;
   url: string;
 };
 
 export type TrackAlbumType = {
-  id: number;
+  id: string;
   cover: string;
   url: string;
   releaseDate: string;
@@ -27,7 +27,7 @@ export type TrackAlbumType = {
 export type ArtistType = {
   artistRoles: string[];
   artistTypes: string[];
-  id: number;
+  id: string;
   name: string;
   picture: string;
   url: string;
@@ -36,7 +36,7 @@ export type ArtistType = {
 
 export type AlbumType = {
   artists: {
-    id: number;
+    id: string;
     name: string;
     picture: string;
     type: string;
@@ -48,7 +48,7 @@ export type AlbumType = {
   releaseDate: string;
   title: string;
   type: string;
-  id: number;
+  id: string;
   popularity: number;
   url: string;
 }
@@ -64,13 +64,14 @@ export type TidalResponseType = {
   albums: TidalResponseFormat<AlbumType>;
   tracks: TidalResponseFormat<TrackType>;
   artists: TidalResponseFormat<ArtistType>;
+  playlists?: TidalResponseFormat<PlaylistType> | undefined;
 };
 
 export type ProcessingItemType = {
-  id: number;
+  id: string;
   artist: string;
   title: string;
-  type: "artist" | "album" | "track";
+  type: "artist" | "album" | "track" | "playlist";
   status: "queue" | "finished" | "beet" | "processing" | "error";
   url: string;
   loading: boolean;
@@ -102,4 +103,33 @@ export type TidalArtistModuleType = {
   showMore: {
     apiPath: string;
   };
+}
+
+export type PlaylistType = {
+  uuid: string;
+  title: string;
+  numberOfTracks: number;
+  numberOfVideos: number;
+  creator: {
+    id: number
+  };
+  description: string;
+  duration: number;
+  lastUpdated: string;
+  created: string;
+  type: string;
+  publicPlaylist: boolean;
+  url: string;
+  image: string;
+  popularity: number;
+  squareImage: string;
+  promotedArtists:
+  {
+    id: number;
+    name: string;
+    type: string;
+    picture: string;
+  }[];
+  
+  lastItemAddedAt: string;
 }

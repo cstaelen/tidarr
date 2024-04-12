@@ -51,7 +51,7 @@ export const Results = () => {
   const {
     keywords,
     artistResults,
-    searchResults: { albums, artists, tracks },
+    searchResults: { albums, artists, tracks, playlists },
   } = useSearchProvider();
 
   const theme = useTheme();

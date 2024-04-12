@@ -2,6 +2,11 @@
 
 <img src="https://github.com/cstaelen/tidarr/blob/main/screenshot.png?raw=true" />
 
+### Features
+- Search by keywords
+- Search by url : artist url, album url, playlist url
+- Downloadable media : tracks, albums, playlists
+- Server side download list processing
 - UI build with **Next JS** + **Express JS** API
 - Self-hostable using **Docker** with Linuxserver.io base image (image size: < 300 Mo)
 - Download from **Tidal** with Tidal Media Downloader (python)
