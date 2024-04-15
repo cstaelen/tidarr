@@ -10,6 +10,7 @@
     "prod": "concurrently -n front,api \"PORT=8484 node ./server.js\" \"node ./api/dist/index.js\""
   },
   "devDependencies": {
+    "@playwright/test": "^1.43.1",
     "@types/express": "^4.17.21",
     "@types/node": "^20.10.5",
     "@types/react": "^18.2.45",

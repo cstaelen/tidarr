@@ -1,0 +1,36 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}    
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    name: 'Playwright Tests'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build app docker image
+        run: docker build -f ./docker/Dockerfile.ci -t tidarr .
+      - name: Run docker app
+        run: docker run --name tidarr -d -p 8484:8484 -e ENABLE_BEETS=1 tidarr
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm install @playwright/test
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: npx playwright test
+        working-directory: ./E2E
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: ./playwright-report/
+          retention-days: 30

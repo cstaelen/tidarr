@@ -43,3 +43,11 @@ compose.override.yml
 *.tsbuildinfo
 next-env.d.ts
 env-config.js
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

@@ -2,8 +2,9 @@ services:
   tidarr:
     build: 
       context: .
-      dockerfile: './docker/Dockerfile'
+      dockerfile: './docker/Dockerfile.dev'
     container_name: 'tidarr'
+    platform: linux/amd64
     ports:
       - 8484:8484
     volumes:
@@ -26,6 +27,3 @@ services:
       - ENABLE_GOTIFY=
       - GOTIFY_URL=
       - GOTIFY_TOKEN=
-
-     
-
