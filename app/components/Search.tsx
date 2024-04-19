@@ -12,8 +12,7 @@ export const Search = () => {
     <form onSubmit={actions.performSearch}>
       <TextField
         id="filled-basic"
-        placeholder="Type an artist, album or track title"
-        label="Tidal search (keywords, artist URL, album URL)"
+        label="Tidal search (keywords, artist URL, album URL, playlist URL)"
         defaultValue={params.get('query')}
         margin="normal"
         variant="filled"

@@ -4,7 +4,7 @@ export type ProcessingItemType = {
     id: number;
     artist: string;
     title: string;
-    type: "artist" | "album" | "track";
+    type: "album" | "track" | "playlist";
     status: "queue" | "finished" | "downloaded" | "processing" | "error";
     url: string;
     loading: boolean;

@@ -9,6 +9,8 @@ Tidarr notable changes.
 ### 🐛 Fixed
 * [Front] Add missing "no result" message
 * [Chore] Remove boot up warning message 
+* [Chore] Back to npm
+* [Chore] Replace old dependencies
 
 ## 📦 0.0.5
 ### 🚀 Added

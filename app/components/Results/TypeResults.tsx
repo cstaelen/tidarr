@@ -54,10 +54,7 @@ export default function TypeResults(props: TabContentProps) {
                 {props.type === "albums" ? (
                   <AlbumCard album={data as AlbumType} />
                 ) : props.type === "artists" ? (
-                  <Artist
-                    artist={data as ArtistType}
-                    setTabIndex={props.setTabIndex as Function}
-                  />
+                  <Artist artist={data as ArtistType} />
                 ) : props.type === "tracks" ? (
                   <Track track={data as TrackType} />
                 ) : props.type === "playlists" ? (

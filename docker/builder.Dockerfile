@@ -70,7 +70,7 @@ RUN apk add --update --no-cache python3 py3-pip && ln -sf python3 /usr/bin/pytho
 RUN python3 -m pip install --no-cache --upgrade pip wheel setuptools chardet tidal-dl
 
 RUN echo "*** install beets ***"
-RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/community beets
+RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/community/x86_64/ beets
 
 COPY --from=builder /home/app/.env /home/app/standalone/.env
 COPY --from=builder /home/app/package.json /home/app/standalone/package.json

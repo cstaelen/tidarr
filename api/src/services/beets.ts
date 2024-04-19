@@ -7,7 +7,6 @@ export async function beets(id: number, app: Express) {
   const item: ProcessingItemType = app.settings.processingList.actions.getItem(id);
   let save = false;
 
-
   try {
     // BEETS
     if (process.env.ENABLE_BEETS === "true") {
@@ -47,11 +46,11 @@ export async function beets(id: number, app: Express) {
       item["output"] = [item["output"], `=== Move processed items ===`].join("\r\n");
       item['output'].substr(item['output'].length - 5000);
       const output_move = execSync(
-        `cp -rf ${ROOT_PATH}/download/incomplete/* ${ROOT_PATH}/download/albums/ >/dev/null`,
+        `cp -rf ${ROOT_PATH}/download/incomplete/* ${ROOT_PATH}/download/${item.type}s/ >/dev/null`,
         { encoding: "utf-8" }
       );
-      console.log(`- Move complete album\r\n${output_move}`);
-      item["output"] = [item["output"], `- Move complete album\r\n${output_move}`].join("\r\n");
+      console.log(`- Move complete ${item.type}\r\n${output_move}`);
+      item["output"] = [item["output"], `- Move complete ${item.type}\r\n${output_move}`].join("\r\n");
       item['output'].substr(item['output'].length - 5000);
       item['status'] = 'finished';
       save = true;

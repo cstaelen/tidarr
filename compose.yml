@@ -1,8 +1,8 @@
-version: "3"
-
 services:
   tidarr:
-    build: './docker'
+    build: 
+      context: .
+      dockerfile: './docker/Dockerfile'
     container_name: 'tidarr'
     ports:
       - 8484:8484
@@ -10,6 +10,7 @@ services:
       - ./docker/mnt/config:/home/app/standalone/shared
       - ./docker/mnt/download/albums:/home/app/standalone/download/albums
       - ./docker/mnt/download/tracks:/home/app/standalone/download/tracks
+      - ./docker/mnt/download/playlists:/home/app/standalone/download/playlists
       - .:/home/app/standalone # only used in dev environment
     restart: 'unless-stopped'
     environment:

@@ -4,28 +4,19 @@ import {
   Container,
   ToggleButton,
   ToggleButtonGroup,
-  useTheme,
 } from "@mui/material";
 import { Search } from "./Search";
 import AlbumIcon from "@mui/icons-material/Album";
 import { useSearchProvider } from "../provider/SearchProvider";
-import { useMemo } from "react";
 
 export const HeaderSearch = () => {
-  const { searchResults, artistResults, loading, quality, actions } =
+  const { quality, actions, keywords } =
     useSearchProvider();
-  const hasNoResult = useMemo(() => {
-    return (
-      !loading &&
-      Object.keys(searchResults)?.length === 0 &&
-      artistResults?.length === 0
-    );
-  }, [searchResults, artistResults, loading]);
 
   return (
-    <Header initialState={hasNoResult}>
+    <Header initialState={!keywords}>
       <Container maxWidth="lg">
-        {hasNoResult && (
+        {!keywords && (
           <>
             <Title>
               <AlbumIcon />
@@ -35,7 +26,7 @@ export const HeaderSearch = () => {
           </>
         )}
         <SearchWrapper
-          initialState={hasNoResult}
+          initialState={!keywords}
           sx={{
             alignItems: "center",
             display: {
@@ -47,7 +38,7 @@ export const HeaderSearch = () => {
           <Box sx={{ flex: "1 1 0" }}>
             <Search />
           </Box>
-          {!hasNoResult && (
+          {!!keywords && (
             <Box
               sx={{
                 flex: "0 0 auto",

@@ -9,7 +9,7 @@
     "language": 0,
     "lyricFile": false,
     "multiThread": false,
-    "playlistFolderFormat": "Playlist/{PlaylistName}",
+    "playlistFolderFormat": "{PlaylistName}",
     "saveAlbumInfo": false,
     "saveCovers": true,
     "showProgress": true,

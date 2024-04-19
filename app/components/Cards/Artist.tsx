@@ -10,10 +10,8 @@ import { useSearchProvider } from "@/app/provider/SearchProvider";
 
 export default function Artist({
   artist,
-  setTabIndex,
 }: {
   artist: ArtistType;
-  setTabIndex: Function;
 }) {
   const { actions } = useSearchProvider();
 

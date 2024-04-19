@@ -32,6 +32,7 @@ services:
             - /any/folder/to/tidarr/config:/home/app/standalone/shared
             - /any/folder/to/download/albums:/home/app/standalone/download/albums
             - /any/folder/to/download/tracks:/home/app/standalone/download/tracks
+            - /any/folder/to/download/playlists:/home/app/standalone/download/playlists
         restart: 'unless-stopped'
 ```
 
@@ -45,6 +46,7 @@ docker run  \
 		-v /any/folder/to/tidarr/config/:/home/app/standalone/shared \
 		-v /any/folder/to/download/albums:/home/app/standalone/download/albums \
 		-v /any/folder/to/download/tracks:/home/app/standalone/download/tracks \
+		-v /any/folder/to/download/playlists:/home/app/standalone/download/playlists \
     cstaelen/tidarr:latest
 ```
 
@@ -79,7 +81,7 @@ Tidal DL options in `.tidal-dl.json`:
     "language": 0,
     "lyricFile": false,
     "multiThread": false,
-    "playlistFolderFormat": "Playlist/{PlaylistName} [{PlaylistUUID}]",
+    "playlistFolderFormat": "{PlaylistName}",
     "saveAlbumInfo": false,
     "saveCovers": false,
     "showProgress": true,

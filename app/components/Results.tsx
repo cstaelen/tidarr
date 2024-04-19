@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 
 import React, { useEffect } from "react";
-import SwipeableViews from "react-swipeable-views";
 import { useSearchProvider } from "../provider/SearchProvider";
 import { HeaderSearch } from "./HeaderSearch";
 import ArtistPage from "./Results/ArtistPage";
@@ -61,10 +60,6 @@ export const Results = () => {
     setValue(newValue);
   };
 
-  const handleChangeIndex = (index: number) => {
-    setValue(index);
-  };
-
   useEffect(() => setValue(0), [keywords]);
 
   return (
@@ -110,24 +105,18 @@ export const Results = () => {
       )}
       {artistResults?.length === 0 && keywords && (
         <Container maxWidth="lg">
-          <SwipeableViews
-            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-            index={value}
-            onChangeIndex={handleChangeIndex}
-          >
-            <TabPanel value={value} index={0} dir={theme.direction}>
-              <TopResults changeTab={setValue} />
-            </TabPanel>
-            <TabPanel value={value} index={1} dir={theme.direction}>
-              <TypeResults type="albums" />
-            </TabPanel>
-            <TabPanel value={value} index={2} dir={theme.direction}>
-              <TypeResults type="artists" setTabIndex={handleChangeIndex} />
-            </TabPanel>
-            <TabPanel value={value} index={3} dir={theme.direction}>
-              <TypeResults type="tracks" />
-            </TabPanel>
-          </SwipeableViews>
+          <TabPanel value={value} index={0} dir={theme.direction}>
+            <TopResults changeTab={setValue} />
+          </TabPanel>
+          <TabPanel value={value} index={1} dir={theme.direction}>
+            <TypeResults type="albums" />
+          </TabPanel>
+          <TabPanel value={value} index={2} dir={theme.direction}>
+            <TypeResults type="artists" />
+          </TabPanel>
+          <TabPanel value={value} index={3} dir={theme.direction}>
+            <TypeResults type="tracks" />
+          </TabPanel>
         </Container>
       )}
     </Box>
