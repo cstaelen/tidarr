@@ -40,7 +40,7 @@ export type AlbumType = {
     name: string;
     picture: string;
     type: string;
-  }[],
+  }[];
   cover: string;
   duration: number;
   audioQuality: string;
@@ -51,12 +51,12 @@ export type AlbumType = {
   id: string;
   popularity: number;
   url: string;
-}
+};
 
 export type TidalResponseFormat<T> = {
   items: T[];
-  limit: number;
-  offset: number;
+  limit?: number;
+  offset?: number;
   totalNumberOfItems: number;
 };
 
@@ -82,7 +82,7 @@ export type ProcessingItemType = {
 export type TidalArtistResponseType = {
   id: string;
   rows: {
-    modules: TidalArtistModuleType[]
+    modules: TidalArtistModuleType[];
   }[];
   selfLink: string;
   title: string;
@@ -103,7 +103,7 @@ export type TidalArtistModuleType = {
   showMore: {
     apiPath: string;
   };
-}
+};
 
 export type PlaylistType = {
   uuid: string;
@@ -111,7 +111,7 @@ export type PlaylistType = {
   numberOfTracks: number;
   numberOfVideos: number;
   creator: {
-    id: number
+    id: number;
   };
   description: string;
   duration: number;
@@ -123,13 +123,12 @@ export type PlaylistType = {
   image: string;
   popularity: number;
   squareImage: string;
-  promotedArtists:
-  {
+  promotedArtists: {
     id: number;
     name: string;
     type: string;
     picture: string;
   }[];
-  
+
   lastItemAddedAt: string;
-}
+};

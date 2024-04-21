@@ -14,13 +14,13 @@ import {
 import { DialogToken } from "./components/Dialog/DialogToken";
 import { DialogNoAPI } from "./components/Dialog/DialogNoAPI";
 
-declare module '@mui/material/styles/createPalette' {
+declare module "@mui/material/styles/createPalette" {
   interface Palette {
-      gold: string;
+    gold: string;
   }
 
   interface PaletteOptions {
-      gold: string;
+    gold: string;
   }
 }
 
@@ -30,8 +30,6 @@ const darkTheme = createTheme({
     gold: "#a57c00",
   },
 });
-
-
 
 export default function Home() {
   const { apiError } = useProcessingProvider();

@@ -1,5 +1,4 @@
 import * as React from "react";
-import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import AlbumIcon from "@mui/icons-material/Album";
@@ -8,11 +7,7 @@ import { ArtistType } from "@/app/types";
 import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
 import { useSearchProvider } from "@/app/provider/SearchProvider";
 
-export default function Artist({
-  artist,
-}: {
-  artist: ArtistType;
-}) {
+export default function Artist({ artist }: { artist: ArtistType }) {
   const { actions } = useSearchProvider();
 
   return (
@@ -23,7 +18,7 @@ export default function Artist({
           sx={{ width: 100, height: 100 }}
           src={`https://resources.tidal.com/images/${artist?.picture?.replace(
             /-/g,
-            "/"
+            "/",
           )}/750x750.jpg`}
         />
       </CardContent>
@@ -62,8 +57,8 @@ export default function Artist({
                 artist.popularity > 75
                   ? "success"
                   : artist.popularity > 33
-                  ? "warning"
-                  : "error"
+                    ? "warning"
+                    : "error"
               }
             />
           </Stack>

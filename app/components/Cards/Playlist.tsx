@@ -3,25 +3,12 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { PlaylistType, TrackType } from "@/app/types";
-import {
-  Avatar,
-  Box,
-  Button,
-  Chip,
-  Link,
-  Stack,
-  useTheme,
-} from "@mui/material";
+import { PlaylistType } from "@/app/types";
+import { Box, Chip, Link, Stack } from "@mui/material";
 import { DownloadButton } from "../DownloadButton";
 import Image from "next/image";
-import { useSearchProvider } from "@/app/provider/SearchProvider";
-import { TIDAL_PUBLIC_BROWSE_URL } from "@/app/contants";
 
 export default function Playlist({ playlist }: { playlist: PlaylistType }) {
-  const { actions } = useSearchProvider();
-  const theme = useTheme();
-
   return (
     <Card sx={{ position: "relative" }}>
       <Stack
@@ -33,7 +20,7 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
           padding: "0.4rem 0.5rem 0.5rem",
           backgroundColor: "rgba(255, 255, 255, 0.04)",
         }}
-      > 
+      >
         <div style={{ lineHeight: 1.4, flex: "1 1 0" }}>
           <Link
             href={playlist.url}
@@ -60,7 +47,7 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
           height={120}
           src={`https://resources.tidal.com/images/${playlist.squareImage?.replace(
             /-/g,
-            "/"
+            "/",
           )}/750x750.jpg`}
           alt="Live from space album cover"
         />
@@ -86,10 +73,7 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
                 color="success"
                 size="small"
               />
-              <Chip
-                label={`${playlist.numberOfTracks} tracks`}
-                size="small"
-              />
+              <Chip label={`${playlist.numberOfTracks} tracks`} size="small" />
             </Stack>
             <DownloadButton
               item={playlist}

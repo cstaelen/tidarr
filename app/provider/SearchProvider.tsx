@@ -22,7 +22,7 @@ type SearchContextType = {
   page: number;
   quality: QualityType;
   actions: {
-    performSearch: any;
+    performSearch: (e: React.SyntheticEvent) => void;
     setPage: (page: number) => void;
     setQuality: (quality: QualityType) => void;
     fetchArtistPage: (url: string, index: number, offset: number) => void;
@@ -32,7 +32,7 @@ type SearchContextType = {
 };
 
 const SearchContext = React.createContext<SearchContextType>(
-  {} as SearchContextType
+  {} as SearchContextType,
 );
 
 export function SearchProvider({ children }: { children: ReactNode }) {
@@ -42,17 +42,18 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   const [quality, setQuality] = useState<QualityType>("all");
   const [artistPagerLoading, setArtistPagerLoading] = useState<number>();
   const [searchResults, setSearchResults] = useState<TidalResponseType>(
-    {} as TidalResponseType
+    {} as TidalResponseType,
   );
   const [artistResults, setArtistResults] = useState<TidalArtistModuleType[]>(
-    [] as TidalArtistModuleType[]
+    [] as TidalArtistModuleType[],
   );
 
   const params = useSearchParams();
 
-  function performSearch(e: any) {
+  function performSearch(e: React.SyntheticEvent) {
     e.preventDefault();
-    const searchString = e?.target?.[0]?.value as string;
+    const target = e.target as typeof e.target & HTMLInputElement[];
+    const searchString = target?.[0]?.value as string;
     setKeywords(searchString);
   }
 
@@ -60,10 +61,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     if (searchString.substring(0, 4) === "http") {
       directDownload(searchString);
     } else if (searchString.split(":").length > 2) {
-      queryArtist(
-        searchString.split(":")[1],
-        searchString.split(":")[2]
-      );
+      queryArtist(searchString.split(":")[1]);
     } else {
       queryTidal(searchString);
     }
@@ -76,7 +74,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     const results = await fetchTidal<TidalResponseType>(
       `${TIDAL_API_LISTEN_URL}/search/top-hits?query=${query}&type=lossless&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
         (page - 1) * TIDAL_ITEMS_PER_PAGE
-      }`
+      }`,
     );
 
     const clone = { ...searchResults };
@@ -85,21 +83,21 @@ export function SearchProvider({ children }: { children: ReactNode }) {
         ...results?.albums,
         items: [
           ...(page > 1 ? clone?.albums?.items || [] : []),
-          ...results?.albums?.items,
+          ...(results?.albums?.items || []),
         ],
       },
       artists: {
         ...results?.artists,
         items: [
           ...(page > 1 ? clone?.artists?.items || [] : []),
-          ...results?.artists?.items,
+          ...(results?.artists?.items || []),
         ],
       },
       tracks: {
         ...results?.tracks,
         items: [
           ...(page > 1 ? clone?.tracks?.items || [] : []),
-          ...results?.tracks?.items,
+          ...(results?.tracks?.items || []),
         ],
       },
     };
@@ -107,13 +105,13 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     postFetch(query);
   }
 
-  async function queryArtist(id: string, name: string) {
+  async function queryArtist(id: string) {
     setSearchResults({} as TidalResponseType);
     setArtistResults([] as TidalArtistModuleType[]);
     setLoading(true);
 
     const data_artist = await fetchTidal<TidalArtistResponseType>(
-      `${TIDAL_API_LISTEN_URL}/pages/artist?artistId=${id}`
+      `${TIDAL_API_LISTEN_URL}/pages/artist?artistId=${id}`,
     );
 
     if (data_artist?.rows?.length > 0) {
@@ -121,7 +119,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
         .filter(
           (row) =>
             row.modules.filter((module) => module.type === "ALBUM_LIST")
-              .length > 0
+              .length > 0,
         )
         .map((row) => row.modules[0])
         .map((block) => ({
@@ -145,8 +143,8 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     setSearchResults({} as TidalResponseType);
     setArtistResults([] as TidalArtistModuleType[]);
 
-    let data: any = {
-      albums:  { items: [], totalNumberOfItems: 0 },
+    const data: TidalResponseType = {
+      albums: { items: [], totalNumberOfItems: 0 },
       artists: { items: [], totalNumberOfItems: 0 },
       tracks: { items: [], totalNumberOfItems: 0 },
       playlists: { items: [], totalNumberOfItems: 0 },
@@ -154,7 +152,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
     // Artist url
     if (type === "artist") {
-      queryArtist(id, "");
+      queryArtist(id);
 
       return;
     }
@@ -164,20 +162,19 @@ export function SearchProvider({ children }: { children: ReactNode }) {
       setLoading(true);
 
       const data_album = await fetchTidal<TidalArtistResponseType>(
-        `${TIDAL_API_LISTEN_URL}/pages/album?albumId=${id}`
+        `${TIDAL_API_LISTEN_URL}/pages/album?albumId=${id}`,
       );
 
-      data.albums =  {
-          items: [data_album.rows[0].modules[0].album],
-          totalNumberOfItems: 1,
+      data.albums = {
+        items: [data_album.rows[0].modules[0].album],
+        totalNumberOfItems: 1,
       };
     }
 
     // Playlist url
     if (type === "playlist") {
-
       const data_playlist = await fetchTidal<PlaylistType>(
-        `${TIDAL_API_LISTEN_URL}/playlists/${id}`
+        `${TIDAL_API_LISTEN_URL}/playlists/${id}`,
       );
 
       data.playlists = { items: [data_playlist], totalNumberOfItems: 1 };
@@ -192,7 +189,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     const data_artist_page = await fetchTidal<TidalArtistAlbumsListType>(
       `${TIDAL_API_LISTEN_URL}/${url}&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
         page * TIDAL_ITEMS_PER_PAGE
-      }`
+      }`,
     );
 
     if (data_artist_page?.items?.length > 0) {
@@ -203,7 +200,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
           ...clone[index].pagedList,
           items: [
             ...artistResults[index].pagedList.items,
-            ...data_artist_page?.items,
+            ...(data_artist_page?.items || []),
           ],
         },
       };

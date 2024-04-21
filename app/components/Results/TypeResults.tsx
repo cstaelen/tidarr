@@ -13,7 +13,7 @@ type TidalContentType = "albums" | "artists" | "tracks";
 
 interface TabContentProps {
   children?: React.ReactNode;
-  setTabIndex?: Function;
+  setTabIndex?: (index: number) => void;
   limit?: number;
   type: TidalContentType;
 }
@@ -32,7 +32,7 @@ export default function TypeResults(props: TabContentProps) {
           .map(
             (
               data: AlbumType | ArtistType | TrackType | PlaylistType,
-              index: number
+              index: number,
             ) => (
               <Grid
                 item
@@ -61,7 +61,7 @@ export default function TypeResults(props: TabContentProps) {
                   <Playlist playlist={data as PlaylistType} />
                 ) : null}
               </Grid>
-            )
+            ),
           )
       ) : !loading ? (
         <Container maxWidth="lg" sx={{ textAlign: "center", marginTop: 3 }}>

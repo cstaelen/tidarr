@@ -1,5 +1,5 @@
 import { Paper } from "@mui/material";
-import WarningIcon from '@mui/icons-material/Warning';
+import WarningIcon from "@mui/icons-material/Warning";
 import { DialogHandler } from ".";
 import { useProcessingProvider } from "@/app/provider/ProcessingProvider";
 
@@ -9,20 +9,19 @@ export const DialogToken = () => {
   if (!tokenMissing) return;
 
   return (
-    <DialogHandler 
+    <DialogHandler
       title={
         <>
-          <WarningIcon color="error" />&nbsp;
+          <WarningIcon color="error" />
+          &nbsp;
           {"Tidal token not found !"}
         </>
       }
     >
       <p>Run this to create Tidal token :</p>
-      <Paper elevation={0} sx={{ padding: '1rem' }}>
-        <code>
-          $ docker exec -it tidarr tidal-dl
-        </code>
+      <Paper elevation={0} sx={{ padding: "1rem" }}>
+        <code>$ docker exec -it tidarr tidal-dl</code>
       </Paper>
     </DialogHandler>
-  )
+  );
 };

@@ -39,7 +39,7 @@ export default function Track({ track }: { track: TrackType }) {
           sx={{ width: 42, height: 42 }}
           src={`https://resources.tidal.com/images/${track.artists?.[0]?.picture?.replace(
             /-/g,
-            "/"
+            "/",
           )}/750x750.jpg`}
         />
         <div style={{ lineHeight: 1.4, flex: "1 1 0" }}>
@@ -76,7 +76,7 @@ export default function Track({ track }: { track: TrackType }) {
                 actions.queryArtist(
                   track.artists[0].id,
                   track.artists[0].name,
-                  1
+                  1,
                 )
               }
             >
@@ -91,7 +91,7 @@ export default function Track({ track }: { track: TrackType }) {
           height={120}
           src={`https://resources.tidal.com/images/${track.album.cover?.replace(
             /-/g,
-            "/"
+            "/",
           )}/750x750.jpg`}
           alt="Live from space album cover"
         />

@@ -15,7 +15,7 @@ import {
 import { useState } from "react";
 import { ProcessingItem } from "./ProcessingItem";
 import { useProcessingProvider } from "@/app/provider/ProcessingProvider";
-import { blue, green } from "@mui/material/colors";
+import { blue } from "@mui/material/colors";
 
 export const ProcessingList = () => {
   const { processingList } = useProcessingProvider();

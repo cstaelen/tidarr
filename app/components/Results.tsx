@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  AppBar,
-  Box,
-  Container,
-  Tab,
-  Tabs,
-  useTheme,
-} from "@mui/material";
+import { AppBar, Box, Container, Tab, Tabs, useTheme } from "@mui/material";
 
 import React, { useEffect } from "react";
 import { useSearchProvider } from "../provider/SearchProvider";
@@ -50,7 +43,7 @@ export const Results = () => {
   const {
     keywords,
     artistResults,
-    searchResults: { albums, artists, tracks, playlists },
+    searchResults: { albums, artists, tracks },
   } = useSearchProvider();
 
   const theme = useTheme();

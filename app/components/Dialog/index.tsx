@@ -1,7 +1,20 @@
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import { ReactNode, useState } from "react";
 
-export const DialogHandler = ({children, title}: {children: ReactNode, title: ReactNode}) => {
+export const DialogHandler = ({
+  children,
+  title,
+}: {
+  children: ReactNode;
+  title: ReactNode;
+}) => {
   const [open, setOpen] = useState(true);
 
   const handleClose = () => {
@@ -15,7 +28,10 @@ export const DialogHandler = ({children, title}: {children: ReactNode, title: Re
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title" style={{ display: "flex", alignItems: "center" }}>
+      <DialogTitle
+        id="alert-dialog-title"
+        style={{ display: "flex", alignItems: "center" }}
+      >
         {title}
       </DialogTitle>
       <DialogContent>
@@ -24,10 +40,8 @@ export const DialogHandler = ({children, title}: {children: ReactNode, title: Re
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} autoFocus>
-          Close
-        </Button>
+        <Button onClick={handleClose}>Close</Button>
       </DialogActions>
     </Dialog>
-  )
+  );
 };

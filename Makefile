@@ -33,9 +33,7 @@ testing: ## Run Playwright tests
 .PHONY: testing
 
 testing-ui: ## Run Playwright tests with UI
-	
 	xhost +${LOCALIP}
-	
 	docker run \
 		-it \
 		--rm \
@@ -50,6 +48,10 @@ testing-ui: ## Run Playwright tests with UI
 		mcr.microsoft.com/playwright:v1.43.0-jammy \
 		npx playwright test --ui
 .PHONY: testing-ui
+
+clean-reports: ## Clean Playwright reports
+	rm -rf playwright-report E2E/playwright-report E2E/test-results
+.PHONY: clean-reports
 
 ##
 ## Builder 🚀

@@ -8,7 +8,7 @@ export default function Pager({
 }: {
   page: number;
   totalItems: number;
-  setPage: Function;
+  setPage: (page: number) => void;
 }) {
   if (page * TIDAL_ITEMS_PER_PAGE > totalItems) return null;
   return (

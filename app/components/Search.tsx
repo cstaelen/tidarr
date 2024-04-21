@@ -11,12 +11,15 @@ export const Search = () => {
   return (
     <form onSubmit={actions.performSearch}>
       <TextField
-        id="filled-basic"
+        id="search-input"
         label="Tidal search (keywords, artist URL, album URL, playlist URL)"
-        defaultValue={params.get('query')}
+        defaultValue={params.get("query")}
         margin="normal"
         variant="filled"
         fullWidth
+        inputProps={{
+          "data-testid": "search-input",
+        }}
       />
     </form>
   );

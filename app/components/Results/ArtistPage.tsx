@@ -22,7 +22,7 @@ function Pager({
 
   const url = data.pagedList.dataApiPath;
   const nbPages = Math.ceil(
-    data.pagedList.totalNumberOfItems / TIDAL_ITEMS_PER_PAGE
+    data.pagedList.totalNumberOfItems / TIDAL_ITEMS_PER_PAGE,
   );
 
   if (artistPagerLoading === index) {
@@ -98,9 +98,8 @@ export default function ArtistPage({
                   sx={{
                     display:
                       quality === "all" ||
-                      (
-                        album as AlbumType
-                      )?.audioQuality?.toLowerCase() === quality
+                      (album as AlbumType)?.audioQuality?.toLowerCase() ===
+                        quality
                         ? "block"
                         : "none",
                   }}

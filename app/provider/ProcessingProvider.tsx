@@ -1,29 +1,34 @@
-"use client"
+"use client";
 
-import React, {
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react";
+import React, { useContext, useState, ReactNode, useEffect } from "react";
 
-import { AlbumType, ApiReturnType, ArtistType, PlaylistType, ProcessingItemType, TrackType } from "../types";
+import {
+  AlbumType,
+  ApiReturnType,
+  ArtistType,
+  PlaylistType,
+  ProcessingItemType,
+  TrackType,
+} from "../types";
 import { check, list, remove, save } from "../server/queryApi";
 
 type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
-  tokenMissing: boolean,
+  tokenMissing: boolean;
   apiError?: ApiReturnType;
   actions: {
-    setProcessingList: Function;
-    addItem: (item: AlbumType | TrackType | ArtistType | PlaylistType, type: 'album' | 'track' | 'artist' | 'playlist') => void;
+    setProcessingList: (list: ProcessingItemType[]) => void;
+    addItem: (
+      item: AlbumType | TrackType | ArtistType | PlaylistType,
+      type: "album" | "track" | "artist" | "playlist",
+    ) => void;
     removeItem: (id: string) => void;
     retryItem: (item: ProcessingItemType) => void;
   };
 };
 
 const ProcessingContext = React.createContext<ProcessingContextType>(
-  {} as ProcessingContextType
+  {} as ProcessingContextType,
 );
 
 export function ProcessingProvider({ children }: { children: ReactNode }) {
@@ -32,16 +37,32 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [apiError, setApiError] = useState<ApiReturnType>();
 
   // Add item to processing list
-  const addItem = async (item: AlbumType | TrackType | ArtistType | PlaylistType, type: 'album' | 'track' | 'artist' | 'playlist') => {
-    const id = (item as AlbumType | TrackType | ArtistType).id || (item as PlaylistType).uuid;
-    if (processingList && processingList?.filter(row => row.id === id && row.status !== 'error')?.length > 0) return null;
+  const addItem = async (
+    item: AlbumType | TrackType | ArtistType | PlaylistType,
+    type: "album" | "track" | "artist" | "playlist",
+  ) => {
+    const id =
+      (item as AlbumType | TrackType | ArtistType).id ||
+      (item as PlaylistType).uuid;
+    if (
+      processingList &&
+      processingList?.filter((row) => row.id === id && row.status !== "error")
+        ?.length > 0
+    )
+      return null;
 
     const itemToQueue: ProcessingItemType = {
       id: id,
-      artist: type === 'artist' ? (item as ArtistType)?.name : (item as TrackType | AlbumType).artists?.[0].name,
-      title: type === 'artist' ? 'All albums' : (item as TrackType | AlbumType)?.title,
+      artist:
+        type === "artist"
+          ? (item as ArtistType)?.name
+          : (item as TrackType | AlbumType).artists?.[0].name,
+      title:
+        type === "artist"
+          ? "All albums"
+          : (item as TrackType | AlbumType)?.title,
       type: type,
-      status: 'queue',
+      status: "queue",
       loading: true,
       error: false,
       url: item.url,
@@ -50,7 +71,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
     try {
       await save(JSON.stringify({ item: itemToQueue }));
-    } catch(e: any) {
+    } catch (e: unknown) {
       setApiError(e as ApiReturnType);
     } finally {
       updateFrontList();
@@ -58,21 +79,27 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   };
 
   const retryItem = async (item: ProcessingItemType) => {
-    if (processingList && processingList?.filter(row => row.id === item.id && row.status !== 'error')?.length > 0) return null;
+    if (
+      processingList &&
+      processingList?.filter(
+        (row) => row.id === item.id && row.status !== "error",
+      )?.length > 0
+    )
+      return null;
 
     const itemToQueue: ProcessingItemType = {
       ...item,
-      status: 'queue',
+      status: "queue",
       loading: true,
       error: false,
       output: "",
-    }
+    };
 
     await removeItem(item.id);
 
     try {
       await save(JSON.stringify({ item: itemToQueue }));
-    } catch(e: any) {
+    } catch (e: unknown) {
       setApiError(e as ApiReturnType);
     } finally {
       updateFrontList();
@@ -83,12 +110,12 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   const removeItem = async (id: string) => {
     try {
       await remove(JSON.stringify({ id: id }));
-    } catch(e: any) {
+    } catch (e: unknown) {
       setApiError(e as ApiReturnType);
     } finally {
       updateFrontList();
     }
-  }
+  };
 
   // Update front data
   const updateFrontList = async () => {
@@ -103,9 +130,14 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     const existingData = data as ProcessingItemType[];
 
     if (existingData) {
-      const list = existingData || '';
+      const list = existingData || "";
       setProcessingList(list);
-      if (existingData.filter((item: ProcessingItemType) => item.status === "queue" || item.status === "processing").length > 0) {
+      if (
+        existingData.filter(
+          (item: ProcessingItemType) =>
+            item.status === "queue" || item.status === "processing",
+        ).length > 0
+      ) {
         setTimeout(async () => await updateFrontList(), 5000);
       }
     } else {
@@ -115,7 +147,12 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
   // Check API
   const checkAPI = async () => {
-    const output: ApiReturnType | { noToken: boolean; output: string } = await check();
+    if (process.env.CI) {
+      setTokenMissing(false);
+      return;
+    }
+    const output: ApiReturnType | { noToken: boolean; output: string } =
+      await check();
     if ((output as ApiReturnType)?.error) {
       setApiError(output as ApiReturnType);
       return;
@@ -123,7 +160,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
     const data = output as { noToken: boolean; output: string };
     setTokenMissing(data?.noToken);
-  }
+  };
 
   useEffect(() => {
     checkAPI();
@@ -143,7 +180,9 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <ProcessingContext.Provider value={value}>{children}</ProcessingContext.Provider>
+    <ProcessingContext.Provider value={value}>
+      {children}
+    </ProcessingContext.Provider>
   );
 }
 

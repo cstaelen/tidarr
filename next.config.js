@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const domainUrl = new URL('https://resources.tidal.com');
+const domainUrl = new URL("https://resources.tidal.com");
 
 const withPWA = require("next-pwa")({
   dest: "public",
@@ -11,13 +11,15 @@ const withPWA = require("next-pwa")({
 const nextConfig = {
   output: "standalone",
   images: {
-    remotePatterns: [{
-      protocol: domainUrl.protocol.split(':')[0],
-      hostname: domainUrl.hostname,
-      port: domainUrl.port,
-      pathname: '/**/*',
-    }],
+    remotePatterns: [
+      {
+        protocol: domainUrl.protocol.split(":")[0],
+        hostname: domainUrl.hostname,
+        port: domainUrl.port,
+        pathname: "/**/*",
+      },
+    ],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

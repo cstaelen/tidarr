@@ -8,13 +8,13 @@ type TidalContentType = "albums" | "artists" | "tracks";
 
 interface TabContentProps {
   children?: React.ReactNode;
-  setTabIndex?: Function;
+  setTabIndex?: (index: number) => void;
   limit?: number;
   type: TidalContentType;
 }
 
 export default function TopResults(
-  props: Omit<TabContentProps, "type"> & { changeTab: Function }
+  props: Omit<TabContentProps, "type"> & { changeTab: (index: number) => void },
 ) {
   const {
     loading,
