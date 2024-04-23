@@ -3,7 +3,6 @@ VERSION=0.0.6
 DOCKERFILE=./docker/Dockerfile.builder
 
 DOCKER_COMPOSE  = $(or docker compose, docker-compose)
-EXEC_NPM		= $(or pnpm, $(DOCKER_COMPOSE) run --rm playwright npm)
 
 #LOCALIP=$(ifconfig | awk '/inet /&&!/127.0.0.1/{print $2;exit}')
 LOCALIP=127.0.0.1
@@ -21,15 +20,8 @@ dev: ## Boot dev environnement
 ##-----------
 
 testing: ## Run Playwright tests
-	docker run \
-		-it \
-		--rm \
-		--ipc host \
-		-p 9323:9323 \
-		-v=".:/srv/" \
-		-w /srv/E2E \
-		mcr.microsoft.com/playwright:v1.43.0-jammy \
-		npx playwright test
+	$(DOCKER_COMPOSE) up -d testing --build --remove-orphans
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/E2E testing npx playwright test
 .PHONY: testing
 
 testing-ui: ## Run Playwright tests with UI

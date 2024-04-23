@@ -1,7 +1,6 @@
 node_modules
 .gitignore
-Dockerfile
-builder.Dockerfile
+Dockerfile.*
 .dockerignore
 Makefile
 *.log*

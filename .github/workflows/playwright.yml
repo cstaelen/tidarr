@@ -14,20 +14,17 @@ jobs:
     name: 'Playwright Tests'
     steps:
       - uses: actions/checkout@v4
-      - name: Build app docker image
-        run: docker build -f ./docker/Dockerfile.ci -t tidarr .
-      - name: Run docker app
-        run: docker run --name tidarr -d -p 8484:8484 -e ENABLE_BEETS=1 tidarr
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-      - name: Install dependencies
-        run: npm install @playwright/test
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
-      - name: Run Playwright tests
-        run: npx playwright test
-        working-directory: ./E2E
+      - name: Create prod build
+        run: |
+          docker-compose up -d testing
+          docker-compose ps
+          docker-compose logs
+          sleep 5
+      - name: Run playwright tests
+        run: |
+          docker-compose exec -T -w /home/app/standalone/E2E testing npx playwright test
+          docker-compose logs
+
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

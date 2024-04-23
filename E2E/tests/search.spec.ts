@@ -1,6 +1,8 @@
 import { test, expect } from "@playwright/test";
+import { mockAPI } from "./utils/mock";
 
 test("Run search from homepage", async ({ page }) => {
+  mockAPI(page);
   await page.goto("/");
 
   await expect(page.getByRole("heading")).toContainText("Tidarr");

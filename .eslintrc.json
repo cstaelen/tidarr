@@ -1,7 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
   "extends": [
-    "next/core-web-vitals",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:jsx-a11y/strict",
@@ -12,7 +11,7 @@
     "jsx-a11y",
     "prettier"
   ],
-  "ignorePatterns": ["node_modules", "dist", ".next", "next.config.js", "public"],
+  "ignorePatterns": ["node_modules", "dist", "public", "app"],
   "rules": {
     "prettier/prettier": "error"
   }

@@ -7,18 +7,14 @@ RUN apk add git build-base npm nodejs
 # DEPENDENCIES
 WORKDIR /home/app
 ENV SHELL bash
-ENV PATH "$PATH:/home/app/.pnpm-store"
-ENV PNPM_HOME /home/app/.pnpm-store
 
 COPY package.json ./
 COPY .env ./
 COPY docker/ ./docker
 COPY next.config.js ./
 
-RUN npm install -g pnpm
-RUN pnpm setup
-RUN pnpm add -g npx dotenv
-RUN pnpm install
+RUN npm add -g npx
+RUN npm install
 
 # BUILDER
 
@@ -28,8 +24,6 @@ WORKDIR /home/app
 ARG NODE_ENV
 ENV NODE_ENV="${NODE_ENV}"
 ENV SHELL bash
-ENV PATH "$PATH:/home/app/.pnpm-store"
-ENV PNPM_HOME /home/app/.pnpm-store
 ENV NEXT_TELEMETRY_DISABLED 1
 
 COPY ./app /home/app/app
@@ -37,15 +31,13 @@ COPY ./api /home/app/api
 
 COPY . .
 COPY --from=dependencies /home/app/node_modules ./node_modules
-COPY --from=dependencies /home/app/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=dependencies /home/app/package-lock.json ./package-lock.json
 
 RUN apk add npm nodejs
-RUN npm install -g pnpm
-RUN pnpm setup
-RUN pnpm add -g npx dotenv
+RUN npm add -g npx
 
-RUN pnpm run front-build
-RUN pnpm run api-build
+RUN npm run front-build
+RUN npm run api-build
 
 # RUNNER
 
@@ -54,15 +46,9 @@ WORKDIR /home/app
 
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV SHELL bash
-ENV PATH "$PATH:/home/app/.pnpm-store"
-ENV PNPM_HOME /home/app/.pnpm-store
 ENV PYTHONUNBUFFERED=1
 
 RUN apk add --update --no-cache curl nodejs npm
-RUN npm install -g pnpm
-RUN pnpm setup
-RUN pnpm add -g concurrently 
-RUN pnpm add express dotenv
 
 RUN echo "*** install tidal-dl ***"
 
@@ -74,7 +60,7 @@ RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/community/x8
 
 COPY --from=builder /home/app/.env /home/app/standalone/.env
 COPY --from=builder /home/app/package.json /home/app/standalone/package.json
-COPY --from=builder /home/app/pnpm-lock.yaml /home/app/standalone/pnpm-lock.yaml
+COPY --from=builder /home/app/package-lock.json /home/app/standalone/package-lock.json
 
 COPY --from=builder /home/app/docker /home/app/standalone/docker
 COPY --from=builder /home/app/settings /home/app/standalone/settings
@@ -91,4 +77,4 @@ WORKDIR /home/app/standalone
 EXPOSE 8484
 EXPOSE 8585
 
-ENTRYPOINT ["sh", "/home/app/standalone/docker/run-prod.sh"]
+ENTRYPOINT ["npm", "run", "prod"]

@@ -9,9 +9,6 @@
 /docker/mnt
 # dependencies
 /node_modules
-/.pnpm-store
-/.pnp
-.pnp.js
 
 # testing
 /coverage
@@ -30,8 +27,7 @@
 
 # debug
 npm-debug.log*
-pnpm-debug.log*
-pnpm-error.log*
+yarn-error.log
 
 # docker
 compose.override.yml

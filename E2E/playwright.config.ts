@@ -22,15 +22,16 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  // reporter: [["html", { host: "0.0.0.0", outputDir: "./playwright-report" }]],
-  reporter: [["html", { host: "0.0.0.0" }]],
+  reporter: [
+    ["html", { host: "0.0.0.0", outputFolder: "./playwright-report" }],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL:
       process.env.PWD === "/srv/E2E"
         ? "http://host.docker.internal:8484/"
-        : "http://127.0.0.1:8484/",
+        : "http://localhost:8484/",
     locale: "en-US",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */

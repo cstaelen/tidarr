@@ -7,12 +7,13 @@ services:
     platform: linux/amd64
     ports:
       - 8484:8484
+      - 8585:8585
     volumes:
       - ./docker/mnt/config:/home/app/standalone/shared
       - ./docker/mnt/download/albums:/home/app/standalone/download/albums
       - ./docker/mnt/download/tracks:/home/app/standalone/download/tracks
       - ./docker/mnt/download/playlists:/home/app/standalone/download/playlists
-      - .:/home/app/standalone # only used in dev environment
+      - .:/home/app/build # only used in dev environment
     restart: 'unless-stopped'
     environment:
       - PUID=
@@ -27,3 +28,14 @@ services:
       - ENABLE_GOTIFY=
       - GOTIFY_URL=
       - GOTIFY_TOKEN=
+      
+  testing:
+    build: 
+      context: .
+      dockerfile: './docker/Dockerfile.e2e'
+    container_name: 'tidarr-testing'
+    platform: linux/amd64
+    volumes:
+      - .:/home/app/build
+    ports:
+      - 9323:9323

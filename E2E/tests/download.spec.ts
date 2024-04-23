@@ -56,7 +56,7 @@ test("Download items", async ({ page }) => {
   await expect(page.locator(".MuiDialog-container button")).toBeVisible();
 
   await page.getByRole("button", { name: "Close" }).click();
-  await page.getByLabel("Processing table").getByRole("button").first().click();
 
+  await page.getByLabel("Processing table").getByRole("button").first().click();
   await expect(page.getByLabel("Show processing list")).not.toBeVisible();
 });
