@@ -9,6 +9,8 @@ Tidarr notable changes.
 * [Chore] Add Github Playwright end-to-end testing
 ### 🖍 Changed
 * [Front] Move from NextJS to ReactJS
+* [Chore] Add linter and formatter
+* [Chore] Reduce image size
 
 ## 📦 0.0.6
 ### 🚀 Added

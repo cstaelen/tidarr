@@ -1,0 +1,11 @@
+WORKDIR /home/app/build
+
+ENV SHELL bash
+ENV PYTHONUNBUFFERED=1
+
+RUN ln -sf python3 /usr/bin/python
+
+RUN python3 -m pip install --no-cache --upgrade chardet tidal-dl
+
+RUN mkdir -p /home/app/standalone/shared/beets
+RUN touch /home/app/standalone/shared/beets/beets-library.blb

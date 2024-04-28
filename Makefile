@@ -1,42 +1,61 @@
 IMAGE=cstaelen/tidarr
 VERSION=0.0.7
-DOCKERFILE=./docker/Dockerfile.builder
-
+DOCKERFILE=./docker/Dockerfile.prod
 DOCKER_COMPOSE  = $(or docker compose, docker-compose)
-
-#LOCALIP=$(ifconfig | awk '/inet /&&!/127.0.0.1/{print $2;exit}')
-LOCALIP=127.0.0.1
 
 ##
 ## Dev 🐳
-##-----------
+##-------
 
 dev: ## Boot dev environnement
-	$(DOCKER_COMPOSE) up --build --remove-orphans --no-recreate
+	$(DOCKER_COMPOSE) up tidarr --build --remove-orphans --no-recreate
 .PHONY: dev
 
 ##
-## Playwright 🐳
-##-----------
+## Playwright 🚨
+##--------------
 
-testing: ## Run Playwright tests
+testing-build: ## Build container with Playwright tests and production build image
 	$(DOCKER_COMPOSE) up -d testing --build --remove-orphans
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/E2E testing npx playwright test
-.PHONY: testing
+.PHONY: testing-build
 
-clean-reports: ## Clean Playwright reports
+testing-run: ## Run Playwright tests with production build image
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/E2E testing npx playwright test
+.PHONY: testing-run
+
+testing-clean: ## Clean Playwright reports
 	rm -rf playwright-report E2E/playwright-report E2E/test-results
-.PHONY: clean-reports
+.PHONY: testing-clean
+
+##
+## Code quality 🚀
+##----------------
+
+quality-deadcode: ## Fin deadcode with `ts-prune`
+	$(DOCKER_COMPOSE) exec tidarr yarn find-deadcode 
+.PHONY: quality-deadcode
+
+quality-depcheck: ## Check dependencies
+	$(DOCKER_COMPOSE) exec tidarr yarn depcheck
+.PHONY: quality-depcheck
+
+quality-lint: ## Check dependencies
+	$(DOCKER_COMPOSE) exec tidarr yarn eslint
+.PHONY: quality-lint
+
+quality-lint-fix: ## Check dependencies
+	$(DOCKER_COMPOSE) exec tidarr yarn eslint-fix
+.PHONY: quality-lint-fix
 
 ##
 ## Builder 🚀
-##----------	
+##-----------
 
-build-docker: ## Build Tidarr docker image
+docker-build: ## Build Tidarr docker image
 	docker build --platform=linux/amd64 -f ${DOCKERFILE} -t ${IMAGE}:${VERSION} -t ${IMAGE}:latest .
-.PHONY: build-docker
+.PHONY: docker-build
 
-run-docker: ## Run tidarr docker image
+docker-run: ## Run tidarr docker image
 	docker run \
 		--rm \
 		--name tidarr \
@@ -49,11 +68,11 @@ run-docker: ## Run tidarr docker image
 		-e PUID=501 \
 		-e PGID=501 \
 	${IMAGE}
-.PHONY: run-docker
+.PHONY: docker-run
 
 ##
 ## Help ℹ️
-##-------
+##--------
 
 help: ## List Makefile commands
 	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'

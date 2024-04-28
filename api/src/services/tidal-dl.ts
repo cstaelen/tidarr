@@ -8,9 +8,9 @@ export function tidalDL(id: number, app: Express) {
     app.settings.processingList.actions.getItem(id);
   item["output"] = [item["output"], `=== Tidal-DL ===`].join("\r\n");
 
-  const command = `/usr/bin/tidal-dl -l ${item.url}`;
+  const command = `tidal-dl -l ${item.url}`;
   console.log(`Executing: ${command}`);
-  const child = spawn("/usr/bin/tidal-dl", ["-l", item.url]);
+  const child = spawn("tidal-dl", ["-l", item.url]);
 
   child.stdout.on("data", (data) => {
     console.log(`Tidal-DL stdout:\n${data}`);

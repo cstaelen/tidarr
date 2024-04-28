@@ -4,8 +4,8 @@ export async function fetchTidal<T>(
   url: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const TOKEN = process.env.REACT_APP_TIDAL_SEARCH_TOKEN;
-  const COUNTRY = process.env.REACT_APP_TIDAL_COUNTRY_CODE;
+  const TOKEN = window._env_.REACT_APP_TIDAL_SEARCH_TOKEN;
+  const COUNTRY = window._env_.REACT_APP_TIDAL_COUNTRY_CODE;
 
   options.headers = new Headers(options?.headers);
 

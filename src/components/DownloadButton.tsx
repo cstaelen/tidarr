@@ -36,7 +36,7 @@ export const DownloadButton = ({
         {
           ...(item as TrackType).album,
           artists: [...(item as TrackType).artists],
-          url: `${process.env.REACT_APP_TIDARR_SEARCH_URL}${(item as TrackType).album.id}`,
+          url: `${window._env_.REACT_APP_TIDARR_SEARCH_URL}${(item as TrackType).album.id}`,
         } as AlbumType,
         type,
       );

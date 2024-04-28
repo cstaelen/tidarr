@@ -4,8 +4,6 @@ Dockerfile.*
 .dockerignore
 Makefile
 *.log*
-.next
-.nitro
 .cache
 dist
 settings/.tidal-dl.token.json

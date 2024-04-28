@@ -86,3 +86,19 @@ test("Run search from homepage", async ({ page }) => {
       .first(),
   ).not.toBeVisible();
 });
+
+// test("Tidarr search : Should see 'All' tab content", async ({ page }) => {});
+// test("Tidarr search : Should see albums results", async ({ page }) => {});
+// test("Tidarr search : Should see artists results", async ({ page }) => {});
+// test("Tidarr search : Should see quality filtered results", async ({ page }) => {});
+
+// test("Tidarr direct url : Should display artist page using Tidal artist url", async ({ page }) => {});
+// test("Tidarr direct url : Should display album result using Tidal album url", async ({ page }) => {});
+// test("Tidarr direct url : Should display playlist result using Tidal playlist url", async ({ page }) => {});
+
+// test("Tidarr config : Should display modal error if no tidal token exists", async ({ page }) => {});
+// test("Tidarr config : Should see app version", async ({ page }) => {});
+
+// test("Tidarr download : Should be able to download album", async ({ page }) => {});
+// test("Tidarr download : Should be able to download playlist", async ({ page }) => {});
+// test("Tidarr download : Should be able to download track", async ({ page }) => {});

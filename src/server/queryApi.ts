@@ -15,8 +15,9 @@ async function queryExpressJS(url: string, options?: RequestInit) {
     return { error: true, message: (e as Error).message } as ApiReturnType;
   }
 }
-
-export const apiUrl = `http://${process.env.REACT_APP_TIDARR_API_HOSTNAME}:${process.env.REACT_APP_TIDARR_API_PORT}/api`;
+console.log(window._env_);
+console.log(process.env);
+export const apiUrl = `http://${window._env_.API_HOSTNAME}:${window._env_.API_PORT}/api`;
 
 export async function check() {
   return await queryExpressJS(`${apiUrl}/check`);

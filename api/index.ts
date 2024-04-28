@@ -3,16 +3,14 @@ import { configureServer } from "./src/services/config";
 import { ProcessingItemType } from "./src/types";
 import { ProcessingStack } from "./src/helpers/ProcessingStack";
 import dotenv from "dotenv";
-import cors from "cors";
 
 dotenv.config({ path: ".env", override: false });
 
-const port = process.env.REACT_APP_TIDARR_API_PORT;
-const hostname = process.env.HOSTNAME;
+const port = process.env.API_PORT;
+const hostname = process.env.API_HOSTNAME;
 
 const app: Express = express();
 app.use(express.json());
-app.use(cors());
 
 const processingList = ProcessingStack(app);
 app.set("processingList", processingList);
@@ -24,10 +22,6 @@ app.all("*", function (req, res, next) {
     "Origin, X-Requested-With, Content-Type, Accept",
   );
   next();
-});
-
-app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server !");
 });
 
 app.post("/api/save", async (req: Request, res: Response) => {
@@ -57,4 +51,12 @@ app.get("/api/check", async (req: Request, res: Response) => {
 app.listen(port, () => {
   configureServer();
   console.log(`⚡️[server]: Server is running at http://${hostname}:${port}`);
+});
+
+// fallback load app
+
+const frontendFiles = process.cwd() + "/build";
+app.use(express.static(frontendFiles));
+app.get("/*", (_, res) => {
+  res.sendFile(frontendFiles + "/index.html");
 });
