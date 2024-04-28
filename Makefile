@@ -1,5 +1,5 @@
 IMAGE=cstaelen/tidarr
-VERSION=0.0.6
+VERSION=0.0.7
 DOCKERFILE=./docker/Dockerfile.builder
 
 DOCKER_COMPOSE  = $(or docker compose, docker-compose)
@@ -23,23 +23,6 @@ testing: ## Run Playwright tests
 	$(DOCKER_COMPOSE) up -d testing --build --remove-orphans
 	$(DOCKER_COMPOSE) exec -w /home/app/standalone/E2E testing npx playwright test
 .PHONY: testing
-
-testing-ui: ## Run Playwright tests with UI
-	xhost +${LOCALIP}
-	docker run \
-		-it \
-		--rm \
-		--ipc host \
-		--net host \
-		-e DISPLAY=${LOCALIP}:0 \
-		-e XAUTHORITY=/.Xauthority  \
-		-v=".:/srv/" \
-		-v /tmp/.X11-unix:/tmp/.X11-unix \
-		-v ~/.Xauthority:/.Xauthority  \
-		-w /srv/E2E \
-		mcr.microsoft.com/playwright:v1.43.0-jammy \
-		npx playwright test --ui
-.PHONY: testing-ui
 
 clean-reports: ## Clean Playwright reports
 	rm -rf playwright-report E2E/playwright-report E2E/test-results

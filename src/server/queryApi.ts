@@ -16,12 +16,7 @@ async function queryExpressJS(url: string, options?: RequestInit) {
   }
 }
 
-const hostname =
-  process.env.PWD === "/srv/E2E"
-    ? "host.docker.internal"
-    : process.env.REACT_APP_TIDARR_API_HOSTNAME;
-
-export const apiUrl = `http://${hostname}:${process.env.REACT_APP_TIDARR_API_PORT}/api`;
+export const apiUrl = `http://${process.env.REACT_APP_TIDARR_API_HOSTNAME}:${process.env.REACT_APP_TIDARR_API_PORT}/api`;
 
 export async function check() {
   return await queryExpressJS(`${apiUrl}/check`);

@@ -23,15 +23,15 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ["html", { host: "0.0.0.0", outputFolder: "./playwright-report" }],
+    [
+      process.env.CI ? "dot" : "html",
+      { host: "0.0.0.0", outputFolder: "./playwright-report" },
+    ],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL:
-      process.env.PWD === "/srv/E2E"
-        ? "http://host.docker.internal:8484/"
-        : "http://localhost:8484/",
+    baseURL: "http://localhost:8484/",
     locale: "en-US",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */

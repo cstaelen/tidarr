@@ -50,27 +50,20 @@ RUN mkdir -p /home/app/standalone/shared/beets
 RUN touch /home/app/standalone/shared/beets/beets-library.blb
 
 COPY --from=app_builder /home/app/build/api/dist /home/app/standalone/api/dist
+COPY --from=app_builder /home/app/build/api/scripts /home/app/build/api/scripts
 COPY --from=app_builder /home/app/build/build /home/app/standalone/build
 COPY --from=app_builder /home/app/build/public /home/app/standalone/public
 COPY --from=app_builder /home/app/build/settings /home/app/standalone/settings
 
-COPY package.json .
-COPY yarn.lock .
-COPY .env .
-
 RUN npm install -g yarn
-RUN npm install serve concurrently
+RUN yarn add serve concurrently express dotenv cors
 
 # testing stuff
-
+RUN yarn add @playwright/test
 COPY --from=app_builder /home/app/build/E2E /home/app/standalone/E2E
-# COPY --from=app_builder /home/app/build/* /home/app/standalone/
 
-# RUN \
-#       --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \
-#       yarn --prefer-offline --frozen-lockfile
-
-# RUN npx playwright install --with-deps chromium
+COPY .env .
+COPY package.json .
 
 WORKDIR /home/app/standalone
 

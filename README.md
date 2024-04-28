@@ -8,7 +8,7 @@
 - Downloadable media : tracks, albums, playlists
 - Server side download list processing
 - UI build with **React JS** + **Express JS** API
-- Self-hostable using **Docker** with Linuxserver.io base image (image size: < 300 Mo)
+- Self-hostable using **Docker** with Linuxserver.io base image (image size: ~ 300 Mo)
 - Download from **Tidal** with Tidal Media Downloader (python)
 - Tag import using **Beets.io** (python)
 - Push notifications using **Gotify**
