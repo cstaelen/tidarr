@@ -9,6 +9,9 @@ else
   ENV_JS=./public/env-config.js
 fi
 
+rm -f ${ENV_JS}
+touch ${ENV_JS}
+
 echo "===> Overriding env params with args ... ${ENV_JS}"
 echo "window._env_ = {" > ${ENV_JS}
 

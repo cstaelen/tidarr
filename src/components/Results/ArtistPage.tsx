@@ -80,7 +80,7 @@ export default function ArtistPage({
         </h1>
       </Container>
       {data.map((block, index1) => (
-        <Container maxWidth="lg" key={`card-${index1}`}>
+        <Container maxWidth="lg" key={`card-${index1}`} component="section">
           <Box marginBottom={5}>
             <h2>
               {block.title} ({block.pagedList.totalNumberOfItems})

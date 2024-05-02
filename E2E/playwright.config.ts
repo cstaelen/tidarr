@@ -24,7 +24,7 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     [
-      process.env.CI ? "dot" : "html",
+      process.env.CI ? "list" : "html",
       { host: "0.0.0.0", outputFolder: "./playwright-report" },
     ],
   ],
@@ -49,11 +49,11 @@ export default defineConfig({
       testMatch: "**/*.setup.ts",
     },
 
-    {
-      name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
-      dependencies: ["setup"],
-    },
+    // {
+    //   name: "chromium",
+    //   use: { ...devices["Desktop Chrome"] },
+    //   dependencies: ["setup"],
+    // },
 
     // {
     //   name: 'firefox',
@@ -85,11 +85,11 @@ export default defineConfig({
     //   use: { ...devices['Pixel 5'] },
     //   dependencies: ['setup'],
     // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    //   dependencies: ['setup'],
-    // },
+    {
+      name: "Mobile Safari",
+      use: { ...devices["iPhone 12"] },
+      dependencies: ["setup"],
+    },
   ],
 
   /* Run your local dev server before starting the tests */

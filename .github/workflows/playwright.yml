@@ -22,7 +22,7 @@ jobs:
           sleep 5
       - name: Run playwright tests
         run: |
-          docker-compose exec -T -w /home/app/standalone/E2E testing npx playwright test
+          docker-compose exec -T -w /home/app/build/E2E testing npx playwright test --reporter=list
           docker-compose logs
 
       - uses: actions/upload-artifact@v4

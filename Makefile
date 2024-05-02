@@ -20,8 +20,14 @@ testing-build: ## Build container with Playwright tests and production build ima
 .PHONY: testing-build
 
 testing-run: ## Run Playwright tests with production build image
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/E2E testing npx playwright test
+	$(DOCKER_COMPOSE) restart testing
+	$(DOCKER_COMPOSE) exec -w /home/app/build/E2E testing npx playwright test --reporter=list
 .PHONY: testing-run
+
+testing-update-snapshot: ## Update Playwright snapshots
+	$(DOCKER_COMPOSE) restart testing
+	$(DOCKER_COMPOSE) exec -w /home/app/build/E2E testing npx playwright test --reporter=list --update-snapshots
+.PHONY: testing-update-snapshot
 
 testing-clean: ## Clean Playwright reports
 	rm -rf playwright-report E2E/playwright-report E2E/test-results

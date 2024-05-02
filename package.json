@@ -41,7 +41,7 @@
   "scripts": {
     "front-build": "react-scripts build",
     "api-build": "npx tsc --project api/tsconfig.json",
-    "dev": "concurrently -n api,api,front \"npx tsc --project api/tsconfig.json --watch\" \"nodemon -q api/dist/index.js\" \"PORT=8585 yarn start\"",
+    "dev": "concurrently -n api,api,front \"npx tsc --project api/tsconfig.json --watch\" \"nodemon -q api/dist/index.js\" \"PORT=8484 yarn start\"",
     "prod": "node ./api/dist/index.js",
     "start": "react-scripts start",
     "build": "react-scripts build",

@@ -218,6 +218,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
         searchString;
     }
     history.pushState({}, "pushState search", `/?query=${searchString}`);
+    setKeywords(searchString);
     setLoading(false);
   }
 

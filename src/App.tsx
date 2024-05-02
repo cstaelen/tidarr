@@ -11,6 +11,7 @@ import {
 } from "./provider/ProcessingProvider";
 import { SearchProvider } from "./provider/SearchProvider";
 import styled from "@emotion/styled";
+import { GitHub } from "@mui/icons-material";
 
 declare module "@mui/material/styles/createPalette" {
   interface Palette {
@@ -56,7 +57,14 @@ function App() {
         </div>
       </main>
       <Support>
-        👋 Private use only. Do not forget to support your local artists 🙏❤️
+        👋{" "}
+        <strong>
+          Private use only. Do not forget to support your local artists 🙏❤️
+        </strong>{" "}
+        • Tidarr • <span>v{window._env_.REACT_APP_TIDARR_VERSION}</span> •{" "}
+        <a href="https://github.com/cstaelen/tidarr" target="_blank">
+          <GitHub />
+        </a>
       </Support>
     </ThemeProvider>
   );
@@ -67,14 +75,20 @@ export default App;
 const Support = styled.div`
   background-color: rgb(144, 202, 249);
   color: #393939;
-  font-weight: bold;
+  font-weight: normal;
   padding: 0.3rem;
   position: fixed;
   text-align: center;
   bottom: 0;
   left: 0;
+  line-height: 1;
   width: 100%;
   z-index: 1000;
+
+  a {
+    color: black;
+    vertical-align: middle;
+  }
 `;
 
 const Content = styled.div`
