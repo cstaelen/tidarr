@@ -15,8 +15,7 @@ async function queryExpressJS(url: string, options?: RequestInit) {
     return { error: true, message: (e as Error).message } as ApiReturnType;
   }
 }
-console.log(window._env_);
-console.log(process.env);
+
 export const apiUrl = `http://${window._env_.API_HOSTNAME}:${window._env_.API_PORT}/api`;
 
 export async function check() {

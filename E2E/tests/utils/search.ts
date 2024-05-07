@@ -16,7 +16,6 @@ export async function runSearch(keyword: string, page: Page) {
   await page.getByTestId("search-input").click();
   await page.getByTestId("search-input").fill(keyword);
   await page.getByTestId("search-input").press("Enter");
-  await page.waitForTimeout(300);
 }
 
 export async function countItems(

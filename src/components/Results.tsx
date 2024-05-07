@@ -48,6 +48,7 @@ export const Results = () => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    window.scrollTo(0, 0);
     setValue(newValue);
   };
 
@@ -65,7 +66,7 @@ export const Results = () => {
               indicatorColor="secondary"
               textColor="inherit"
               variant={window.innerWidth > 800 ? "fullWidth" : "scrollable"}
-              aria-label="full width tabs example"
+              aria-label="Tidal result tabs"
             >
               <Tab
                 label={`Top results (${

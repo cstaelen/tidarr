@@ -174,6 +174,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
     // Playlist url
     if (type === "playlist") {
+      setLoading(true);
       const data_playlist = await fetchTidal<PlaylistType>(
         `${TIDAL_API_LISTEN_URL}/playlists/${id}`,
       );

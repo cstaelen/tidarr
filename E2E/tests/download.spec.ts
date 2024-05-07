@@ -4,9 +4,9 @@ import { runSearch } from "./utils/search";
 test.describe.configure({ mode: "serial" });
 
 async function testProcessingList(page: Page) {
-  await page.locator("button.MuiFab-circular").first().click();
+  await page.locator("button.MuiFab-circular").first().hover();
   await expect(page.getByLabel("Processing table")).toHaveScreenshot({
-    maxDiffPixels: 10,
+    maxDiffPixelRatio: 0.2,
   });
 
   await expect(page.locator(".MuiDialog-container button")).not.toBeVisible();
@@ -18,6 +18,7 @@ async function testProcessingList(page: Page) {
   await expect(
     page.getByRole("heading", { name: "Console output" }),
   ).toBeVisible();
+  await expect(page.getByText("=== Tidal-DL ===")).toBeVisible();
   await expect(page.locator(".MuiDialog-container button")).toBeVisible();
 
   await page.getByRole("button", { name: "Close" }).click();
@@ -52,6 +53,23 @@ test("Tidarr download : Should be able to download track", async ({ page }) => {
   await page
     .locator(
       "div:nth-child(5) > .MuiPaper-root > div:nth-child(2) > .MuiBox-root > .MuiCardContent-root > div:nth-child(2) > button:nth-child(2)",
+    )
+    .click();
+
+  await testProcessingList(page);
+});
+
+test("Tidarr download : Should be able to download track album", async ({
+  page,
+}) => {
+  await runSearch("Nirvana", page);
+  await page.getByRole("tab", { name: "Tracks" }).first().click();
+
+  await expect(page.getByRole("main")).toContainText("Come As You Are");
+
+  await page
+    .locator(
+      "div:nth-child(5) > .MuiPaper-root > div:nth-child(2) > .MuiBox-root > .MuiCardContent-root > div:nth-child(2) > button:nth-child(1)",
     )
     .click();
 

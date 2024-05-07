@@ -6,20 +6,13 @@ INCLUDE+ docker/stages/Dockerfile.builder
 
 ## BUILD STANDALONE APP
 
-FROM mcr.microsoft.com/playwright:v1.43.1-jammy AS runner
+FROM mcr.microsoft.com/playwright:v1.44.0-jammy AS runner
 
 RUN apt-get upgrade && apt-get clean && apt-get update
 RUN apt-get install -y python3-pip beets
 
 INCLUDE+ docker/stages/Dockerfile.python
 INCLUDE+ docker/stages/Dockerfile.runner
-
-# testing stuff
-
-RUN yarn add @playwright/test
-COPY --from=app_builder /home/app/build/E2E /home/app/standalone/E2E
-
-COPY .env .
 
 ENTRYPOINT ["sh", "/home/app/standalone/docker/run-prod.sh"]
 
