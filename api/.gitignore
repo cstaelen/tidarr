@@ -21,8 +21,6 @@
 
 # debug
 npm-debug.log*
-pnpm-debug.log*
-pnpm-error.log*
 
 # docker
 compose.override.yml

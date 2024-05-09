@@ -1,0 +1,18 @@
+# syntax = edrevo/dockerfile-plus
+## BUILD APP
+
+FROM alpine:3.18 AS app_builder
+INCLUDE+ docker/stages/Dockerfile.builder
+
+## BUILD STANDALONE APP
+
+FROM mcr.microsoft.com/playwright:v1.44.0-jammy AS runner
+
+RUN apt-get upgrade && apt-get clean && apt-get update
+RUN apt-get install -y python3-pip beets
+
+INCLUDE+ docker/stages/Dockerfile.python
+INCLUDE+ docker/stages/Dockerfile.runner
+
+ENTRYPOINT ["sh", "/home/app/standalone/docker/run-prod.sh"]
+

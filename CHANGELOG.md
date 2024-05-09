@@ -3,6 +3,16 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.0.7
+### 🚀 Added
+* [Chore] Add Github CI
+* [Chore] Add Github Playwright end-to-end testing desktop + mobile
+* [Chore] Add code linter and formatter + CI
+### 🖍 Changed
+* [Front] Move from NextJS to ReactJS
+* [Chore] Reduce docker image size
+* [Chore] Refacto
+
 ## 📦 0.0.6
 ### 🚀 Added
 * [Front] Download playlist by url

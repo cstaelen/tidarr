@@ -1,10 +1,11 @@
 import { spawnSync, execSync } from "child_process";
-import { Express } from "express"
+import { Express } from "express";
 import { ProcessingItemType } from "../types";
 import { ROOT_PATH } from "../../constants";
 
 export async function beets(id: number, app: Express) {
-  const item: ProcessingItemType = app.settings.processingList.actions.getItem(id);
+  const item: ProcessingItemType =
+    app.settings.processingList.actions.getItem(id);
   let save = false;
 
   try {
@@ -25,62 +26,87 @@ export async function beets(id: number, app: Express) {
           "-qC",
           `${ROOT_PATH}/download/incomplete`,
         ],
-        { encoding: "utf-8" }
+        { encoding: "utf-8" },
       );
       if (response.stdout) {
         console.log(`Beets output:\r\n${response.stdout}`);
-        item["output"] = [item["output"], `Beets output:\r\n${response.stdout}`].join("\r\n");
-        item['output'].substr(item['output'].length - 5000);
-
+        item["output"] = [
+          item["output"],
+          `Beets output:\r\n${response.stdout}`,
+        ].join("\r\n");
+        item["output"].substr(item["output"].length - 5000);
       } else if (response.stderr) {
         console.log(`Beets error:\r\n${response.stderr}`);
-        item['status'] = 'error';
-        item["output"] = [item["output"], `Beets output:\r\n${response.stderr}`].join("\r\n");
-        item['output'].substr(item['output'].length - 5000);
+        item["status"] = "error";
+        item["output"] = [
+          item["output"],
+          `Beets output:\r\n${response.stderr}`,
+        ].join("\r\n");
+        item["output"].substr(item["output"].length - 5000);
       }
     }
 
     // MOVE FINISHED
     try {
       console.log(`=== Move processed items ===`);
-      item["output"] = [item["output"], `=== Move processed items ===`].join("\r\n");
-      item['output'].substr(item['output'].length - 5000);
+      item["output"] = [item["output"], `=== Move processed items ===`].join(
+        "\r\n",
+      );
+      item["output"].substr(item["output"].length - 5000);
       const output_move = execSync(
         `cp -rf ${ROOT_PATH}/download/incomplete/* ${ROOT_PATH}/download/${item.type}s/ >/dev/null`,
-        { encoding: "utf-8" }
+        { encoding: "utf-8" },
       );
       console.log(`- Move complete ${item.type}\r\n${output_move}`);
-      item["output"] = [item["output"], `- Move complete ${item.type}\r\n${output_move}`].join("\r\n");
-      item['output'].substr(item['output'].length - 5000);
-      item['status'] = 'finished';
+      item["output"] = [
+        item["output"],
+        `- Move complete ${item.type}\r\n${output_move}`,
+      ].join("\r\n");
+      item["output"].substr(item["output"].length - 5000);
+      item["status"] = "finished";
       save = true;
-    } catch (e: any) {
-      console.log(`- Error moving files:\r\n${e.message}`);
-      item['status'] = 'error';
-      item["output"] = [item["output"], `- Error moving files:\r\n${e.message}`].join("\r\n");
-      item['output'].substr(item['output'].length - 5000);
+    } catch (e: unknown) {
+      console.log(`- Error moving files:\r\n${(e as Error).message}`);
+      item["status"] = "error";
+      item["output"] = [
+        item["output"],
+        `- Error moving files:\r\n${(e as Error).message}`,
+      ].join("\r\n");
+      item["output"].substr(item["output"].length - 5000);
     }
-  } catch (err: any) {
-    console.log(`Error during post processing :\r\n${err.message}`);
-    item['status'] = 'error';
-    item["output"] = [item["output"], `Error during post processing :\r\n${err.message}`].join("\r\n");
-    item['output'].substr(item['output'].length - 5000);
+  } catch (err: unknown) {
+    console.log(`Error during post processing :\r\n${(err as Error).message}`);
+    item["status"] = "error";
+    item["output"] = [
+      item["output"],
+      `Error during post processing :\r\n${(err as Error).message}`,
+    ].join("\r\n");
+    item["output"].substr(item["output"].length - 5000);
     save = false;
   } finally {
-    const output_clean = execSync(`rm -rf ${ROOT_PATH}/download/incomplete/* >/dev/null`, {
-      encoding: "utf-8",
-    });
+    const output_clean = execSync(
+      `rm -rf ${ROOT_PATH}/download/incomplete/* >/dev/null`,
+      {
+        encoding: "utf-8",
+      },
+    );
     console.log("- Clean folder", output_clean);
-    item["output"] = [item["output"], `- Clean folder"\r\n${output_clean}`].join("\r\n");
-    item['output'].substr(item['output'].length - 5000);
+    item["output"] = [
+      item["output"],
+      `- Clean folder"\r\n${output_clean}`,
+    ].join("\r\n");
+    item["output"].substr(item["output"].length - 5000);
     app.settings.processingList.actions.updateItem(item);
-    return { save: save };
   }
+  return { save: save };
 }
 
 export async function cleanFolder() {
-  const output_clean = execSync(`rm -rf ${ROOT_PATH}/download/incomplete/* >/dev/null`, {
-    encoding: "utf-8",
-  });
+  const output_clean = execSync(
+    `rm -rf ${ROOT_PATH}/download/incomplete/* >/dev/null`,
+    {
+      encoding: "utf-8",
+    },
+  );
   console.log("- Clean folder", output_clean);
 }

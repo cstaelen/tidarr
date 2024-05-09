@@ -1,0 +1,23 @@
+{
+    "name": "e2e",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "playwright:test": "playwright test",
+        "playwright:test-update-snapshots": "playwright test --update-snapshots",
+        "playwright:test-ui": "playwright test --ui",
+        "playwright:test-chromium": "playwright test --project=chromium",
+        "playwright:test-debug": "playwright test --debug",
+        "playwright:codegen": "playwright codegen",
+        "playwright:report": "playwright show-report"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@playwright/test": "^1.44.0",
+        "@types/node": "^20.12.5",
+        "dotenv": "^16.4.5"
+    }
+}

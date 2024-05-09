@@ -7,8 +7,8 @@
 - Search by url : artist url, album url, playlist url
 - Downloadable media : tracks, albums, playlists
 - Server side download list processing
-- UI build with **Next JS** + **Express JS** API
-- Self-hostable using **Docker** with Linuxserver.io base image (image size: < 300 Mo)
+- UI build with **React JS** + **Express JS** API
+- Self-hostable using **Docker** with Linuxserver.io base image (image size: ~ 300 Mo)
 - Download from **Tidal** with Tidal Media Downloader (python)
 - Tag import using **Beets.io** (python)
 - Push notifications using **Gotify**
@@ -135,8 +135,8 @@ Add to your *docker-compose* file in `environment:` section :
 ## OPTIONAL - Tidal search variables :
 
 ```
-  - NEXT_PUBLIC_TIDAL_SEARCH_TOKEN=<search_token> #optional
-  - NEXT_PUBLIC_TIDAL_COUNTRY_CODE=<country-code> #optional - useful to access restricted content
+  - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token> #optional
+  - REACT_APP_TIDAL_COUNTRY_CODE=<country-code> #optional - useful to access restricted content
 ```
 How to get search token :
 - https://github.com/lucaslg26/TidalAPI/issues/23

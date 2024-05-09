@@ -9,37 +9,16 @@
 /docker/mnt
 # dependencies
 /node_modules
-/.pnpm-store
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
 
 # misc
 .DS_Store
 .vscode
 *.pem
 
-# debug
-npm-debug.log*
-pnpm-debug.log*
-pnpm-error.log*
-
 # docker
 compose.override.yml
 
-# vercel
-.vercel
-
 # typescript
 *.tsbuildinfo
-next-env.d.ts
-env-config.js
+
+

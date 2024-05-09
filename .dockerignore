@@ -1,12 +1,9 @@
 node_modules
 .gitignore
-Dockerfile
-builder.Dockerfile
+Dockerfile.*
 .dockerignore
 Makefile
 *.log*
-.next
-.nitro
 .cache
 dist
 settings/.tidal-dl.token.json

@@ -1,5 +1,3 @@
-#!/usr/bin/env sh
-
-sh /home/app/standalone/docker/env.sh
+bash /home/app/standalone/docker/env.sh
 sleep 2
-pnpm run prod
+yarn --cwd ./api prod

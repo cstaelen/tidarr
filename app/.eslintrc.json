@@ -1,0 +1,18 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jsx-a11y/strict",
+    "prettier"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "jsx-a11y",
+    "prettier"
+  ],
+  "ignorePatterns": ["node_modules", "dist", "public"],
+  "rules": {
+    "prettier/prettier": "error"
+  }
+}
