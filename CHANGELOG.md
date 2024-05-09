@@ -6,11 +6,12 @@ Tidarr notable changes.
 ## 📦 0.0.7
 ### 🚀 Added
 * [Chore] Add Github CI
-* [Chore] Add Github Playwright end-to-end testing
+* [Chore] Add Github Playwright end-to-end testing desktop + mobile
+* [Chore] Add code linter and formatter + CI
 ### 🖍 Changed
 * [Front] Move from NextJS to ReactJS
-* [Chore] Add linter and formatter
-* [Chore] Reduce image size
+* [Chore] Reduce docker image size
+* [Chore] Refacto
 
 ## 📦 0.0.6
 ### 🚀 Added

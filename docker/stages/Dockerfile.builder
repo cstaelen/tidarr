@@ -5,13 +5,22 @@ ARG NODE_ENV
 ENV NODE_ENV="${NODE_ENV}"
 
 RUN apk add git npm nodejs
+RUN npm install -g yarn
 
 COPY . .
 
-RUN npm install -g yarn
+# Build app
+
 RUN \
       --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \
-      yarn --prefer-offline --frozen-lockfile
+      yarn --cwd ./app --prefer-offline --frozen-lockfile
 
-RUN yarn front-build
-RUN yarn api-build
+RUN yarn --cwd ./app build 
+
+# Build api
+
+RUN \
+      --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \
+      yarn --cwd ./api --prefer-offline --frozen-lockfile
+
+RUN yarn --cwd ./api build 

@@ -3,8 +3,8 @@ WORKDIR /home/app/standalone
 COPY --from=app_builder /home/app/build/api/dist /home/app/standalone/api/dist
 COPY --from=app_builder /home/app/build/api/scripts /home/app/build/api/scripts
 
-COPY --from=app_builder /home/app/build/build /home/app/standalone/build
-COPY --from=app_builder /home/app/build/public /home/app/standalone/public
+COPY --from=app_builder /home/app/build/app/build /home/app/standalone/app/build
+COPY --from=app_builder /home/app/build/app/public /home/app/standalone/app/public
 
 COPY --from=app_builder /home/app/build/settings /home/app/standalone/settings
 COPY --from=app_builder /home/app/build/.env /home/app/standalone/.env
@@ -14,11 +14,11 @@ COPY --from=app_builder /home/app/build/docker/env.sh /home/app/standalone/docke
 RUN chmod +x /home/app/standalone/docker/env.sh
 
 RUN npm install -g yarn
-COPY package.json .
-COPY yarn.lock .
+COPY api/package.json .
+COPY api/yarn.lock .
 
 RUN \
       --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \
-      yarn --prefer-offline --frozen-lockfile --production
+      yarn --cwd ./api --prefer-offline --frozen-lockfile --production
 
 EXPOSE 8484

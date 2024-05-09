@@ -55,7 +55,7 @@ app.listen(port, () => {
 
 // fallback load app
 
-const frontendFiles = "/home/app/standalone/build";
+const frontendFiles = "/home/app/standalone/app/build";
 app.use(express.static(frontendFiles));
 app.get("/*", (_, res) => {
   res.sendFile(frontendFiles + "/index.html");

@@ -19,19 +19,19 @@ jobs:
       - name: Run test suite
         run: |
           docker compose logs testing
-          docker compose exec -w /home/app/build/E2E testing npx playwright test
+          docker compose exec -w /home/app/build/e2e testing npx playwright test
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
-          path: ./E2E/playwright-report/
+          path: ./e2e/playwright-report/
           retention-days: 30
 
   publish_report:
     name: Publish HTML Report
     # using always() is not ideal here, because it would also run if the workflow was cancelled
-    if: "needs.test.result == 'failure'"
+    if: "success() || needs.test.result == 'failure'"
     needs: [test]
     runs-on: ubuntu-latest
     continue-on-error: true

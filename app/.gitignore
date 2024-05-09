@@ -1,24 +1,19 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# project
-/download
-.tidal-dl.token.json
-.tidal-dl.json
-/settings/beets/*
-/shared
-/docker/mnt
 # dependencies
 /node_modules
+
+# production
+/build
+/public/env-config.js
 
 # misc
 .DS_Store
 .vscode
 *.pem
 
-# docker
-compose.override.yml
+# debug
+npm-debug.log*
+yarn-error.log
 
 # typescript
 *.tsbuildinfo
-
-
