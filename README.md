@@ -146,7 +146,11 @@ How to get search token :
 
 - [x] Use Shazam API to recognize songs, then search over Tidal and easily grab track or album.
 => See [Shazarr project here](https://github.com/cstaelen/docker-shazarr)
-- [ ] Download Tidal playlist by URL
+- [x] Download Tidal playlist by URL
+
+## Brave caveat
+Brave forces http-to-https fetch queries even accessing to front by http:
+https://community.brave.com/t/how-do-i-disable-forced-https-when-browsing-non-secure-websites/418773
 
 ## Want more features and/or contribute ? Be my guest, fork and dev <3
 
