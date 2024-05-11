@@ -18,8 +18,7 @@
   },
   "dependencies": {
     "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "sharp": "0.33.3"
+    "express": "^4.19.2"
   },
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",
