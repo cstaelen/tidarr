@@ -1,17 +1,17 @@
-# syntax = edrevo/dockerfile-plus
+# syntax = devthefuture/dockerfile-x
 
 ## BUILD APP
 
 FROM ghcr.io/linuxserver/baseimage-alpine:3.18 AS app_builder
 
-INCLUDE+ docker/stages/Dockerfile.builder
+INCLUDE docker/stages/Dockerfile.builder
 
 ## BUILD STANDALONE APP
 
 FROM ghcr.io/linuxserver/baseimage-alpine:3.18 AS runner
 RUN apk add npm nodejs py3-pip beets
 
-INCLUDE+ docker/stages/Dockerfile.python
-INCLUDE+ docker/stages/Dockerfile.runner
+INCLUDE docker/stages/Dockerfile.python
+INCLUDE docker/stages/Dockerfile.runner
 
 ENTRYPOINT ["sh", "/home/app/standalone/docker/run-prod.sh"]
