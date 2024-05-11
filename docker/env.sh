@@ -3,11 +3,7 @@
 # ENV VARS ON RUNTIME
 # Load docker env vars on run time with .env file as fallback
 
-if [ -d "./app/build" ]; then
-  ENV_JS=./app/build/env-config.js
-else
-  ENV_JS=./app/public/env-config.js
-fi
+ENV_JS=./app/public/env-config.js
 
 rm -f ${ENV_JS}
 touch ${ENV_JS}
@@ -53,3 +49,7 @@ do
 done < .env
 
 echo "}" >> ${ENV_JS}
+
+if [ -d "./app/build" ]; then
+  echo ${ENV_JS} > ./app/build/env-config.js
+fi
