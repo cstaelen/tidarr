@@ -7,7 +7,7 @@ services:
     platform: linux/amd64
     ports:
       - 8484:8484
-      - 8585:8585
+      - 3000:3000
     volumes:
       - ./docker/mnt/config:/home/app/standalone/shared
       - ./docker/mnt/download/albums:/home/app/standalone/download/albums

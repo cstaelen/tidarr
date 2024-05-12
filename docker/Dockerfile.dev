@@ -23,6 +23,6 @@ RUN npm install -g yarn
 COPY . .
 
 EXPOSE 8484
-EXPOSE 8585
+EXPOSE 3000
 
 ENTRYPOINT ["sh", "/home/app/build/docker/run-dev.sh"]

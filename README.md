@@ -160,7 +160,7 @@ Check docker environment variables in `compose.yml` before running :
 make dev
 ```
 
-Open [http://localhost:8484](http://localhost:8484) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Purposes
 
