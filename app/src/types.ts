@@ -132,3 +132,20 @@ export type PlaylistType = {
 
   lastItemAddedAt: string;
 };
+
+export type ConfigType = {
+  noToken: boolean;
+  output: string;
+  parameters: ConfigParametersType;
+};
+
+export type ConfigParametersType = {
+  api: { [key: string]: string };
+  app: { [key: string]: string };
+};
+
+export type ReleaseGithubType = {
+  name: string;
+  tag_name: string;
+  body: string;
+};
