@@ -8,7 +8,7 @@
   "scripts": {
     "app-build": "yarn --cwd ./app build",
     "api-build": "yarn --cwd ./api build",
-    "dev": "concurrently -n api,front \"yarn --cwd ./api start\" \"PORT=8484 yarn --cwd app start\"",
+    "dev": "concurrently -n api,front \"yarn --cwd ./api start\" \"yarn --cwd app start\"",
     "prod": "node ./api/dist/index.js"
   }
 }

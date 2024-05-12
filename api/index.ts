@@ -4,10 +4,10 @@ import { ProcessingItemType } from "./src/types";
 import { ProcessingStack } from "./src/helpers/ProcessingStack";
 import dotenv from "dotenv";
 
-dotenv.config({ path: ".env", override: false });
+dotenv.config({ path: "../.env", override: false });
 
-const port = process.env.API_PORT;
-const hostname = process.env.API_HOSTNAME;
+const port = 8484;
+const hostname = "0.0.0.0";
 
 const app: Express = express();
 app.use(express.json());

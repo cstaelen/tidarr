@@ -2,7 +2,6 @@
 #
 # ENV VARS ON RUNTIME
 # Load docker env vars on run time with .env file as fallback
-
 if [ -d "./app/build" ]; then
   ENV_JS=./app/build/env-config.js
 else
@@ -18,7 +17,7 @@ echo "window._env_ = {" > ${ENV_JS}
 # Retrieve docks env vars  
 for line in $(env | sort);
 do
-  if [[ $line == "REACT_APP_"* ]] || [[ $line == "API_"* ]]; then
+  if [[ $line == "REACT_APP_"* ]]; then
     echo $line;
     if printf '%s\n' "$line" | grep -q -e '='; then
       varname=$(printf '%s\n' "$line" | sed -e 's/=.*//')
@@ -36,7 +35,7 @@ done
 # Retrieve .env file vars (if not exists)
 while read -r line || [[ -n "$line" ]];
 do
-  if [[ $line == "REACT_APP_"* ]] || [[ $line == "API_"* ]]; then
+  if [[ $line == "REACT_APP_"* ]]; then
     if printf '%s\n' "$line" | grep -q -e '='; then
       varname=$(printf '%s\n' "$line" | sed -e 's/=.*//')
       varvalue=$(printf '%s\n' "$line" | sed -e 's/^[^=]*=//')

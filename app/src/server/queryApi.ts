@@ -16,7 +16,7 @@ async function queryExpressJS(url: string, options?: RequestInit) {
   }
 }
 
-export const apiUrl = `http://${window._env_.API_HOSTNAME}:${window._env_.API_PORT}/api`;
+export const apiUrl = `/api`;
 
 export async function check() {
   return await queryExpressJS(`${apiUrl}/check`);

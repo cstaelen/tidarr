@@ -35,7 +35,7 @@ export const DialogHandler = ({
         {title}
       </DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
+        <DialogContentText id="alert-dialog-description" component="div">
           {children}
         </DialogContentText>
       </DialogContent>
