@@ -1,6 +1,13 @@
 # Selfhosted Tidal media downloader web client with docker
 
-<img src="https://github.com/cstaelen/tidarr/blob/main/screenshot.png?raw=true" />
+[![GitHub Stars](https://img.shields.io/github/stars/cstaelen/tidarr.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/linuxserver/docker-sonarr)
+[![GitHub Release](https://img.shields.io/github/release-date/cstaelen/tidarr?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr/releases)
+![Playwright CI](https://img.shields.io/github/actions/workflow/status/cstaelen/tidarr/playwright.yml?label=Playwright%20CI&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)
+![Docker build](https://img.shields.io/github/actions/workflow/status/cstaelen/tidarr/docker-push.yml?label=Docker%20build&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)
+[![Docker Pulls](https://img.shields.io/docker/pulls/cstaelen/tidarr.svg?color=1d64ed&labelColor=1d8fed&logoColor=ffffff&style=for-the-badge&label=pulls&logo=docker)](https://hub.docker.com/r/cstaelen/tidarr)
+[![Docker Stars](https://img.shields.io/docker/stars/cstaelen/tidarr.svg?color=1d64ed&labelColor=1d8fed&logoColor=ffffff&style=for-the-badge&label=stars&logo=docker)](https://hub.docker.com/r/cstaelen/tidarr)
+
+<img src="https://github.com/cstaelen/tidarr/blob/0.0.7/.github/screenshot.png?raw=true" />
 
 ### Features
 - Search by keywords
@@ -8,7 +15,7 @@
 - Downloadable media : tracks, albums, playlists
 - Server side download list processing
 - UI build with **React JS** + **Express JS** API
-- Self-hostable using **Docker** with Linuxserver.io base image (image size: ~ 300 Mo)
+- Self-hostable using **Docker** with Linuxserver.io base image (image size: ~ 190 Mo)
 - Download from **Tidal** with Tidal Media Downloader (python)
 - Tag import using **Beets.io** (python)
 - Push notifications using **Gotify**
@@ -147,10 +154,6 @@ How to get search token :
 - [x] Use Shazam API to recognize songs, then search over Tidal and easily grab track or album.
 => See [Shazarr project here](https://github.com/cstaelen/docker-shazarr)
 - [x] Download Tidal playlist by URL
-
-## Brave caveat
-Brave forces http-to-https fetch queries even accessing to front by http:
-https://community.brave.com/t/how-do-i-disable-forced-https-when-browsing-non-secure-websites/418773
 
 ## Want more features and/or contribute ? Be my guest, fork and dev <3
 
