@@ -11,14 +11,17 @@ import { ReactNode, useState } from "react";
 export const DialogHandler = ({
   children,
   title,
+  onClose,
 }: {
   children: ReactNode;
   title: ReactNode;
+  onClose?: () => void;
 }) => {
   const [open, setOpen] = useState(true);
 
   const handleClose = () => {
     setOpen(false);
+    onClose && onClose();
   };
 
   return (

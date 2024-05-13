@@ -53,6 +53,14 @@ jobs:
           --output-file eslint-results.sarif
         continue-on-error: true
 
+      - name: Check code lint and format for E2E
+        run: npx eslint ./app
+          --config ./e2e/.eslintrc.json
+          --ext .js,.jsx,.ts,.tsx
+          --format @microsoft/eslint-formatter-sarif
+          --output-file eslint-results.sarif
+        continue-on-error: true
+
       - name: Upload analysis results to GitHub
         uses: github/codeql-action/upload-sarif@v3
         with:

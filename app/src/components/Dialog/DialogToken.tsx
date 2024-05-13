@@ -1,10 +1,10 @@
 import { Paper } from "@mui/material";
 import WarningIcon from "@mui/icons-material/Warning";
 import { DialogHandler } from ".";
-import { useProcessingProvider } from "src/provider/ProcessingProvider";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 
 export const DialogToken = () => {
-  const { tokenMissing } = useProcessingProvider();
+  const { tokenMissing } = useConfigProvider();
 
   if (!tokenMissing) return null;
 

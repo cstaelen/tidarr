@@ -8,11 +8,10 @@ import {
   ProcessingItemType,
   TrackType,
 } from "../types";
-import { check, list, remove, save } from "../server/queryApi";
+import { list, remove, save } from "../server/queryApi";
 
 type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
-  tokenMissing: boolean;
   apiError?: ApiReturnType;
   actions: {
     setProcessingList: (list: ProcessingItemType[]) => void;
@@ -31,7 +30,6 @@ const ProcessingContext = React.createContext<ProcessingContextType>(
 
 export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
-  const [tokenMissing, setTokenMissing] = useState(false);
   const [apiError, setApiError] = useState<ApiReturnType>();
 
   // Add item to processing list
@@ -76,6 +74,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Retry failed processing item
   const retryItem = async (item: ProcessingItemType) => {
     if (
       processingList &&
@@ -143,31 +142,12 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // Check API
-  const checkAPI = async () => {
-    if (process.env.CI) {
-      setTokenMissing(false);
-      return;
-    }
-    const output: ApiReturnType | { noToken: boolean; output: string } =
-      await check();
-    if ((output as ApiReturnType)?.error) {
-      setApiError(output as ApiReturnType);
-      return;
-    }
-
-    const data = output as { noToken: boolean; output: string };
-    setTokenMissing(data?.noToken);
-  };
-
   useEffect(() => {
-    checkAPI();
     updateFrontList();
   }, []);
 
   const value = {
     processingList,
-    tokenMissing,
     apiError,
     actions: {
       setProcessingList,
