@@ -4,16 +4,16 @@ import { Button, Link, useTheme } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 export const Footer = () => {
-  const { isUpdateAvailable, actions } = useConfigProvider();
+  const { isUpdateAvailable, actions, config } = useConfigProvider();
   const theme = useTheme();
 
   return (
-    <Support>
+    <Support className="footer">
       👋{" "}
       <strong>
         Private use only. Do not forget to support your local artists 🙏❤️
       </strong>{" "}
-      • Tidarr • <span>v{window._env_.REACT_APP_TIDARR_VERSION}</span> • &nbsp;
+      • Tidarr • <span>v{config?.api.TIDARR_VERSION}</span> • &nbsp;
       {isUpdateAvailable ? (
         <Button
           size="small"
@@ -31,7 +31,7 @@ export const Footer = () => {
       )}
       &nbsp;
       <Link
-        href={`https://github.com/${window._env_.REACT_APP_TIDARR_REPO_URL}`}
+        href={`https://github.com/${config?.api.TIDARR_REPO_URL}`}
         target="_blank"
         sx={{
           verticalAlign: "middle",
@@ -58,13 +58,3 @@ const Support = styled.div`
   width: 100%;
   z-index: 1000;
 `;
-
-// const LinkUpdate = styled.button`
-//   color: #aa4531 !important;
-//   border: 1px solid #aa4531 !important;
-//   cursor: pointer;
-
-//   &:hover {
-//     color: #aa4531 !important;
-//   }
-// `;

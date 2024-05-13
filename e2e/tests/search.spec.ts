@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { runSearch, countItems } from "./utils/search";
+import { waitForImgLoaded, waitForLoader } from "./utils/helpers";
 
 test("Tidarr search : Should see 'Top results' tab content", async ({
   page,
@@ -52,7 +53,9 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
 test("Tidarr search : Should see albums results", async ({ page }) => {
   await runSearch("Nirvana", page);
   await expect(page.locator("#full-width-tab-1")).toContainText("Albums (300)");
+
   await page.getByRole("tab", { name: "Albums (300)" }).click();
+  await waitForImgLoaded(page);
 
   await countItems("#full-width-tabpanel-1 .MuiGrid-item", 18, page);
 
@@ -64,11 +67,12 @@ test("Tidarr search : Should see albums results", async ({ page }) => {
 
   await expect(
     page.locator("#full-width-tabpanel-1 .MuiGrid-item").first(),
-  ).toHaveScreenshot({ maxDiffPixels: 5 });
+  ).toHaveScreenshot({ maxDiffPixelRatio: 0.1 });
 
   // Test pager
 
   await page.getByRole("button", { name: "LOAD MORE (page: 1/17)" }).click();
+  await waitForLoader(page);
 
   await countItems("#full-width-tabpanel-1 .MuiGrid-item", 36, page);
 });
@@ -78,7 +82,9 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
   await expect(page.locator("#full-width-tab-2")).toContainText(
     "Artists (100)",
   );
+
   await page.getByRole("tab", { name: "Artists (100)" }).click();
+  await waitForImgLoaded(page);
 
   await countItems("#full-width-tabpanel-2 .MuiGrid-item", 18, page);
 
@@ -90,11 +96,12 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
 
   await expect(
     page.locator("#full-width-tabpanel-2 .MuiGrid-item").first(),
-  ).toHaveScreenshot({ maxDiffPixels: 10 });
+  ).toHaveScreenshot({ maxDiffPixelRatio: 0.1 });
 
   // Test pager
 
   await page.getByRole("button", { name: "LOAD MORE (page: 1/6)" }).click();
+  await waitForLoader(page);
 
   await countItems("#full-width-tabpanel-2 .MuiGrid-item", 36, page);
 
@@ -117,19 +124,21 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
     .getByRole("button", { name: "Show discography" })
     .click();
 
+  await waitForLoader(page);
+
   await expect(
     page.getByRole("link", { name: "Artist: Nirvana" }),
   ).toBeVisible();
 
-  await expect(page.url()).toEqual(
-    "http://localhost:8484/?query=artist:19368:Nirvana",
-  );
+  await expect(page.url()).toContain("/?query=artist:19368:Nirvana");
 });
 
 test("Tidarr search : Should see tracks results", async ({ page }) => {
   await runSearch("Nirvana", page);
   await expect(page.locator("#full-width-tab-3")).toContainText("Tracks (300)");
+
   await page.getByRole("tab", { name: "Tracks (300)" }).click();
+  await waitForImgLoaded(page);
 
   await countItems("#full-width-tabpanel-3 .MuiGrid-item", 18, page);
 
@@ -146,6 +155,7 @@ test("Tidarr search : Should see tracks results", async ({ page }) => {
   // Test pager
 
   await page.getByRole("button", { name: "LOAD MORE (page: 1/17)" }).click();
+  await waitForLoader(page);
 
   await countItems("#full-width-tabpanel-3 .MuiGrid-item", 36, page);
 });

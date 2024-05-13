@@ -24,13 +24,13 @@ export async function configureServer() {
         ENABLE_GOTIFY: process.env.ENABLE_GOTIFY,
         GOTIFY_URL: process.env.GOTIFY_URL,
         GOTIFY_TOKEN: process.env.GOTIFY_TOKEN,
+        TIDARR_VERSION: process.env.TIDARR_VERSION,
+        TIDARR_REPO_URL: process.env.TIDARR_REPO_URL,
       },
       app: {
         REACT_APP_TIDAL_SEARCH_TOKEN: process.env.REACT_APP_TIDAL_SEARCH_TOKEN,
         REACT_APP_TIDAL_COUNTRY_CODE: process.env.REACT_APP_TIDAL_COUNTRY_CODE,
         REACT_APP_TIDARR_SEARCH_URL: process.env.REACT_APP_TIDARR_SEARCH_URL,
-        REACT_APP_TIDARR_VERSION: process.env.REACT_APP_TIDARR_VERSION,
-        REACT_APP_TIDARR_REPO_URL: process.env.REACT_APP_TIDARR_REPO_URL,
       },
     },
   };

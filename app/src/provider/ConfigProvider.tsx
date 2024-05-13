@@ -55,17 +55,18 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
 
   // Check Updates
   const checkForUpdates = async () => {
-    if (window._env_.REACT_APP_TIDARR_VERSION) {
+    console.log(config?.api.TIDARR_VERSION);
+    if (config?.api.TIDARR_VERSION) {
       try {
         const response = await fetch(
-          `https://api.github.com/repos/${window._env_.REACT_APP_TIDARR_REPO_URL}/releases`,
+          `https://api.github.com/repos/${config.api.TIDARR_REPO_URL}/releases`,
         );
         const data = (await response.json()) as ReleaseGithubType[];
         const latestVersion = data[0].tag_name.substring(
           1,
           data[0].tag_name.length,
         );
-        const currentVersion = window._env_.REACT_APP_TIDARR_VERSION.substring(
+        const currentVersion = config.api.TIDARR_VERSION.substring(
           1,
           data[0].tag_name.length,
         );
@@ -80,9 +81,12 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    checkForUpdates();
     checkAPI();
   }, []);
+
+  useEffect(() => {
+    checkForUpdates();
+  }, [config?.api.TIDARR_VERSION]);
 
   const value = {
     isUpdateAvailable,

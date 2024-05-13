@@ -21,7 +21,7 @@ const TableParameters = ({ rows }: { rows: [string, string][] }) => {
         <TableHead>
           <TableRow>
             <TableCell>
-              <strong>Environement vars</strong>
+              <strong>Environment vars</strong>
             </TableCell>
             <TableCell align="right">
               <strong>Value</strong>
@@ -81,8 +81,8 @@ export const DialogConfig = () => {
 
       {currentTab === 0 && (
         <>
-          <p>Current version: {window._env_.REACT_APP_TIDARR_VERSION}</p>
-          {!isUpdateAvailable ? (
+          <p>Current version: {config?.api.TIDARR_VERSION}</p>
+          {isUpdateAvailable ? (
             <>
               <Paper sx={{ p: 2 }}>
                 <strong>Update available: {releaseData?.name}</strong>

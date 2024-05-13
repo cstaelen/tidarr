@@ -3,6 +3,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.0.8
+### 🚀 Added
+* [Front] Add update checker
+* [Front] Add configuration dialog
+* [CI] Add and fix flaky playwright tests 
+
 ## 📦 0.0.7
 ### 🚀 Added
 * [Chore] Add Github CI

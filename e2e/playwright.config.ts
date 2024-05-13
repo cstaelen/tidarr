@@ -14,22 +14,22 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 1 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: 1,
+  workers: undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     [
-      "html",
+      process.env.CI ? "html" : "list",
       {
         host: "0.0.0.0",
         outputFolder: "./playwright-report",
-        open: !process.env.CI,
+        open: process.env.CI === undefined,
       },
     ],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: "http://localhost:8484/",
+    baseURL: `http://localhost:${process.env.IS_DOCKER || process.env.CI ? 8484 : 3000}/`,
     locale: "en-US",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */

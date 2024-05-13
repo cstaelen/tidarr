@@ -1,5 +1,5 @@
 IMAGE=cstaelen/tidarr
-VERSION=0.0.7
+VERSION=0.0.8
 DOCKERFILE=./docker/Dockerfile.prod
 DOCKER_COMPOSE  = $(or docker compose, docker-compose)
 
@@ -20,11 +20,11 @@ testing-build: ## Build container with Playwright tests and production build ima
 
 testing-run: ## Run Playwright tests with production build image (arg: f=filter)
 	$(DOCKER_COMPOSE) restart testing
-	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e testing npx playwright test $(f)
+	$(DOCKER_COMPOSE) exec -e IS_DOCKER=true -w /home/app/build/e2e testing npx playwright test $(f)
 
-testing-update-snapshots: ## Update Playwright snapshots
+testing-update-snapshots: ## Update Playwright snapshots (arg: f=filter)
 	$(DOCKER_COMPOSE) restart testing
-	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e testing npx playwright test --reporter=list --update-snapshots
+	$(DOCKER_COMPOSE) exec -e IS_DOCKER=true -w /home/app/build/e2e testing npx playwright test $(f) --reporter=list --update-snapshots
 
 testing-show-report: ## Show last playwright report
 	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e testing npx playwright show-report --host 0.0.0.0
@@ -39,18 +39,22 @@ testing-clean: ## Clean Playwright reports
 quality-deadcode: ## Fin deadcode with `ts-prune`
 	$(DOCKER_COMPOSE) exec -w /home/app/build/api tidarr yarn find-deadcode 
 	$(DOCKER_COMPOSE) exec -w /home/app/build/app tidarr yarn find-deadcode 
+	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e tidarr yarn find-deadcode 
 
 quality-depcheck: ## Check dependencies
 	$(DOCKER_COMPOSE) exec -w /home/app/build/api tidarr yarn depcheck
 	$(DOCKER_COMPOSE) exec -w /home/app/build/app tidarr yarn depcheck
+	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e tidarr yarn depcheck
 
 quality-lint: ## Check dependencies
 	$(DOCKER_COMPOSE) exec -w /home/app/build/api tidarr yarn eslint
 	$(DOCKER_COMPOSE) exec -w /home/app/build/app tidarr yarn eslint
+	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e tidarr yarn eslint
 
 quality-lint-fix: ## Check dependencies
 	$(DOCKER_COMPOSE) exec -w /home/app/build/api tidarr yarn eslint-fix
 	$(DOCKER_COMPOSE) exec -w /home/app/build/app tidarr yarn eslint-fix
+	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e tidarr yarn eslint-fix
 
 ##
 ## Builder 🚀

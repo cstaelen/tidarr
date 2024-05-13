@@ -1,10 +1,13 @@
 import { Page, expect } from "@playwright/test";
 import { mockAPI } from "./mock";
+import { waitForImgLoaded, waitForLoader } from "./helpers";
 
 export async function runSearch(keyword: string, page: Page) {
   mockAPI(page);
 
   await page.goto("/");
+
+  await waitForImgLoaded(page);
 
   await expect(page.getByRole("heading")).toContainText("Tidarr");
   await expect(
@@ -16,6 +19,7 @@ export async function runSearch(keyword: string, page: Page) {
   await page.getByTestId("search-input").click();
   await page.getByTestId("search-input").fill(keyword);
   await page.getByTestId("search-input").press("Enter");
+  await waitForLoader(page);
 }
 
 export async function countItems(

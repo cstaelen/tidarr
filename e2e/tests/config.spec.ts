@@ -34,7 +34,87 @@ test("Tidarr config : Should see app version", async ({ page }) => {
   mockAPI(page);
   await page.goto("/");
 
-  await expect(page.locator("span")).toContainText(
-    `v${process.env.REACT_APP_TIDARR_VERSION}`,
-  );
+  await expect(page.locator(".footer span")).toContainText(`v0.0.0`);
+});
+
+test("Tidarr config : Should see configuration dialog", async ({ page }) => {
+  if (!process.env.IS_DOCKER) {
+    mockAPI(page);
+  }
+
+  await page.route("*/**/releases", async (route) => {
+    const json = [
+      {
+        name: "0.0.0",
+        tag_name: "0.0.0",
+      },
+    ];
+    await route.fulfill({ json });
+  });
+
+  await page.goto("/");
+
+  if (process.env.IS_DOCKER) {
+    await page.getByRole("button", { name: "Close" }).click();
+  }
+
+  await expect(page.locator(".footer span").first()).toContainText(`v0.0.0`);
+
+  await page.getByRole("button", { name: "Configuration" }).click();
+  await expect(page.getByRole("heading", { name: "Settings" })).toBeVisible();
+
+  // Tab updates
+  await expect(page.getByRole("tab", { name: "Updates" })).toBeVisible();
+  await expect(page.getByText("Current version:")).toBeVisible();
+  await expect(page.getByText("Tidarr is up to date.")).toBeVisible();
+
+  // Tab API
+  await expect(page.getByRole("tab", { name: "API" })).toBeVisible();
+  await page.getByRole("tab", { name: "API" }).click();
+  await expect(
+    page
+      .locator("#alert-dialog-description div")
+      .filter({ hasText: "Environment" }),
+  ).toHaveScreenshot();
+
+  // Tab APP
+  await expect(page.getByRole("tab", { name: "Application" })).toBeVisible();
+  await page.getByRole("tab", { name: "Application" }).click();
+  await expect(
+    page
+      .locator("#alert-dialog-description div")
+      .filter({ hasText: "Environment" }),
+  ).toHaveScreenshot();
+});
+
+test("Tidarr config : Should see update button", async ({ page }) => {
+  await page.route("*/**/releases", async (route) => {
+    const json = [
+      {
+        name: "0.0.8",
+        tag_name: "0.0.8",
+      },
+    ];
+    await route.fulfill({ json });
+  });
+
+  if (!process.env.IS_DOCKER) {
+    mockAPI(page);
+  }
+
+  await page.goto("/");
+
+  if (process.env.IS_DOCKER) {
+    await page.getByRole("button", { name: "Close" }).click();
+  }
+
+  await expect(page.locator(".footer span").first()).toContainText(`v0.0.0`);
+
+  await expect(page.getByText("Update available")).toBeVisible();
+  await page.getByText("Update available").click();
+  // Tab updates
+  await expect(page.getByRole("tab", { name: "Updates" })).toBeVisible();
+  await expect(page.getByText("Current version: 0.0.0")).toBeVisible();
+  await expect(page.getByText("Update available:")).toBeVisible();
+  await expect(page.getByText("docker compose pull tidarr")).toBeVisible();
 });
