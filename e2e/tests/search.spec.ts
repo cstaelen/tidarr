@@ -108,9 +108,13 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
   // On last page, pager should be hidden
 
   await page.getByRole("button", { name: "LOAD MORE (page: 2/6)" }).click();
+  await waitForLoader(page);
   await page.getByRole("button", { name: "LOAD MORE (page: 3/6)" }).click();
+  await waitForLoader(page);
   await page.getByRole("button", { name: "LOAD MORE (page: 4/6)" }).click();
+  await waitForLoader(page);
   await page.getByRole("button", { name: "LOAD MORE (page: 5/6)" }).click();
+  await waitForLoader(page);
 
   await expect(
     page.getByRole("button", { name: "LOAD MORE*" }),

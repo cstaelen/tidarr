@@ -34,6 +34,8 @@ test("Tidarr direct url : Should display album result using Tidal album url", as
   page,
 }) => {
   runSearch("https://listen.tidal.com/album/121121877", page);
+  waitForLoader(page);
+
   await expect(
     page.getByRole("link", { name: "Land Of The Free?" }),
   ).toBeVisible();
@@ -60,6 +62,8 @@ test("Tidarr direct url : Should display artist page using Tidal artist url", as
   page,
 }) => {
   runSearch("https://listen.tidal.com/artist/17713", page);
+  waitForLoader(page);
+
   await expect(
     page.getByRole("link", { name: "Artist: Pennywise" }),
   ).toBeVisible();

@@ -139,10 +139,7 @@ export type ConfigType = {
   parameters: ConfigParametersType;
 };
 
-export type ConfigParametersType = {
-  api: { [key: string]: string };
-  app: { [key: string]: string };
-};
+export type ConfigParametersType = { [key: string]: string | undefined };
 
 export type ReleaseGithubType = {
   name: string;

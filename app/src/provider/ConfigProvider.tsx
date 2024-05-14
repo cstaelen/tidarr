@@ -14,6 +14,7 @@ type ConfigContextType = {
   config: undefined | ConfigParametersType;
   apiError: ApiReturnType | undefined;
   isConfigModalOpen: boolean;
+  reactAppEnvVars: ConfigParametersType;
   actions: {
     toggleModal: (isOpen: boolean) => void;
   };
@@ -30,6 +31,16 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [releaseData, setReleaseData] = useState<ReleaseGithubType>();
   const [apiError, setApiError] = useState<ApiReturnType>();
   const [config, setConfig] = useState<ConfigParametersType>();
+
+  const reactAppEnvVars = {
+    REACT_APP_TIDAL_SEARCH_TOKEN:
+      window._env_.REACT_APP_TIDAL_SEARCH_TOKEN || "",
+    REACT_APP_TIDAL_COUNTRY_CODE:
+      window._env_.REACT_APP_TIDAL_COUNTRY_CODE || "",
+    REACT_APP_TIDARR_SEARCH_URL: window._env_.REACT_APP_TIDARR_SEARCH_URL || "",
+    REACT_APP_TIDARR_VERSION: window._env_.REACT_APP_TIDARR_VERSION || "",
+    REACT_APP_TIDARR_REPO_URL: window._env_.REACT_APP_TIDARR_REPO_URL || "",
+  };
 
   // Open/close config modal
   const toggleModal = (isOpen: boolean) => {
@@ -55,18 +66,17 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
 
   // Check Updates
   const checkForUpdates = async () => {
-    console.log(config?.api.TIDARR_VERSION);
-    if (config?.api.TIDARR_VERSION) {
+    if (window._env_.REACT_APP_TIDARR_VERSION) {
       try {
         const response = await fetch(
-          `https://api.github.com/repos/${config.api.TIDARR_REPO_URL}/releases`,
+          `https://api.github.com/repos/${window._env_.REACT_APP_TIDARR_REPO_URL}/releases`,
         );
         const data = (await response.json()) as ReleaseGithubType[];
         const latestVersion = data[0].tag_name.substring(
           1,
           data[0].tag_name.length,
         );
-        const currentVersion = config.api.TIDARR_VERSION.substring(
+        const currentVersion = window._env_.REACT_APP_TIDARR_VERSION.substring(
           1,
           data[0].tag_name.length,
         );
@@ -82,17 +92,15 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     checkAPI();
-  }, []);
-
-  useEffect(() => {
     checkForUpdates();
-  }, [config?.api.TIDARR_VERSION]);
+  }, []);
 
   const value = {
     isUpdateAvailable,
     releaseData,
     tokenMissing,
     config,
+    reactAppEnvVars,
     apiError,
     isConfigModalOpen,
     actions: {

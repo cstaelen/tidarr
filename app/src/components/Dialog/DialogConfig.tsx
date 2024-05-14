@@ -14,7 +14,11 @@ import { DialogHandler } from ".";
 import { InfoRounded } from "@mui/icons-material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
-const TableParameters = ({ rows }: { rows: [string, string][] }) => {
+const TableParameters = ({
+  rows,
+}: {
+  rows: [string, string | undefined][];
+}) => {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
@@ -23,7 +27,7 @@ const TableParameters = ({ rows }: { rows: [string, string][] }) => {
             <TableCell>
               <strong>Environment vars</strong>
             </TableCell>
-            <TableCell align="right">
+            <TableCell>
               <strong>Value</strong>
             </TableCell>
           </TableRow>
@@ -34,8 +38,8 @@ const TableParameters = ({ rows }: { rows: [string, string][] }) => {
               key={row[0]}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell>{row[0]}</TableCell>
-              <TableCell>{row[1]}</TableCell>
+              <TableCell>{row?.[0]}</TableCell>
+              <TableCell>{row?.[1]}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -45,8 +49,14 @@ const TableParameters = ({ rows }: { rows: [string, string][] }) => {
 };
 
 export const DialogConfig = () => {
-  const { config, isUpdateAvailable, releaseData, isConfigModalOpen, actions } =
-    useConfigProvider();
+  const {
+    config,
+    reactAppEnvVars,
+    isUpdateAvailable,
+    releaseData,
+    isConfigModalOpen,
+    actions,
+  } = useConfigProvider();
 
   const [currentTab, setCurrentTab] = React.useState(0);
 
@@ -81,7 +91,7 @@ export const DialogConfig = () => {
 
       {currentTab === 0 && (
         <>
-          <p>Current version: {config?.api.TIDARR_VERSION}</p>
+          <p>Current version: {window._env_.REACT_APP_TIDARR_VERSION}</p>
           {isUpdateAvailable ? (
             <>
               <Paper sx={{ p: 2 }}>
@@ -105,8 +115,8 @@ export const DialogConfig = () => {
       )}
       {currentTab === 1 && (
         <>
-          {config?.api ? (
-            <TableParameters rows={Object.entries(config.api)} />
+          {config ? (
+            <TableParameters rows={Object.entries(config)} />
           ) : (
             "Not found."
           )}
@@ -114,8 +124,8 @@ export const DialogConfig = () => {
       )}
       {currentTab === 2 && (
         <>
-          {config?.app ? (
-            <TableParameters rows={Object.entries(config.app)} />
+          {reactAppEnvVars ? (
+            <TableParameters rows={Object.entries(reactAppEnvVars)} />
           ) : (
             "Not found."
           )}

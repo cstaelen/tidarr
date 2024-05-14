@@ -3,6 +3,7 @@ import { configureServer } from "./src/services/config";
 import { ProcessingItemType } from "./src/types";
 import { ProcessingStack } from "./src/helpers/ProcessingStack";
 import dotenv from "dotenv";
+import fs from "fs";
 
 dotenv.config({ path: "../.env", override: false });
 
@@ -56,7 +57,9 @@ app.listen(port, () => {
 // fallback load app
 
 const frontendFiles = "/home/app/standalone/app/build";
-app.use(express.static(frontendFiles));
-app.get("/*", (_, res) => {
-  res.sendFile(frontendFiles + "/index.html");
-});
+if (fs.existsSync(frontendFiles)) {
+  app.use(express.static(frontendFiles));
+  app.get("/*", (_, res) => {
+    res.sendFile(frontendFiles + "/index.html");
+  });
+}
