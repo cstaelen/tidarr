@@ -1,12 +1,12 @@
+import React, { ReactNode, useState } from "react";
 import {
+  Button,
   Dialog,
-  DialogTitle,
+  DialogActions,
   DialogContent,
   DialogContentText,
-  DialogActions,
-  Button,
+  DialogTitle,
 } from "@mui/material";
-import { ReactNode, useState } from "react";
 
 export const DialogHandler = ({
   children,

@@ -1,13 +1,17 @@
+import React from "react";
+import { SearchOff } from "@mui/icons-material";
+import { Box, Chip, Container, Grid } from "@mui/material";
+
 import { useSearchProvider } from "src/provider/SearchProvider";
 import { AlbumType, ArtistType, PlaylistType, TrackType } from "src/types";
-import { Box, Chip, Container, Grid } from "@mui/material";
+
 import AlbumCard from "../Cards/Album";
-import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
 import Artist from "../Cards/Artist";
-import Track from "../Cards/Track";
-import Pager from "./Pager";
 import Playlist from "../Cards/Playlist";
-import { SearchOff } from "@mui/icons-material";
+import Track from "../Cards/Track";
+import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
+
+import Pager from "./Pager";
 
 type TidalContentType = "albums" | "artists" | "tracks";
 

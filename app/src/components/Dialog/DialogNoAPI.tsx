@@ -1,7 +1,10 @@
-import { Paper } from "@mui/material";
+import React from "react";
 import WarningIcon from "@mui/icons-material/Warning";
-import { DialogHandler } from ".";
+import { Paper } from "@mui/material";
+
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
+
+import { DialogHandler } from ".";
 
 export const DialogNoAPI = () => {
   const { apiError } = useProcessingProvider();

@@ -1,11 +1,12 @@
+import React, { useEffect } from "react";
 import { AppBar, Box, Container, Tab, Tabs, useTheme } from "@mui/material";
 
-import React, { useEffect } from "react";
 import { useSearchProvider } from "../provider/SearchProvider";
-import { HeaderSearch } from "./HeaderSearch";
+
 import ArtistPage from "./Results/ArtistPage";
 import TopResults from "./Results/TopResults";
 import TypeResults from "./Results/TypeResults";
+import { HeaderSearch } from "./HeaderSearch";
 
 interface TabPanelProps {
   children?: React.ReactNode;

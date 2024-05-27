@@ -1,6 +1,7 @@
-import React, { useContext, useState, ReactNode, useEffect } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
+import { TIDAL_API_LISTEN_URL, TIDAL_ITEMS_PER_PAGE } from "../contants";
 import {
   PlaylistType,
   TidalArtistAlbumsListType,
@@ -8,9 +9,7 @@ import {
   TidalArtistResponseType,
   TidalResponseType,
 } from "../types";
-
 import { fetchTidal } from "../utils/fetch";
-import { TIDAL_ITEMS_PER_PAGE, TIDAL_API_LISTEN_URL } from "../contants";
 
 type QualityType = "lossless" | "hi_res" | "all";
 

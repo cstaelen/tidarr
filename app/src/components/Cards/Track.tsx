@@ -1,9 +1,5 @@
 import * as React from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { TrackType } from "src/types";
 import {
   Avatar,
   Box,
@@ -13,9 +9,15 @@ import {
   Stack,
   useTheme,
 } from "@mui/material";
-import { DownloadButton } from "../DownloadButton";
-import { useSearchProvider } from "src/provider/SearchProvider";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+
 import { TIDAL_PUBLIC_BROWSE_URL } from "src/contants";
+import { useSearchProvider } from "src/provider/SearchProvider";
+import { TrackType } from "src/types";
+
+import { DownloadButton } from "../DownloadButton";
 
 export default function Track({ track }: { track: TrackType }) {
   const { actions } = useSearchProvider();

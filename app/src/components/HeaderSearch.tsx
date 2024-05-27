@@ -1,8 +1,11 @@
+import React from "react";
 import styled from "@emotion/styled";
-import { Box, Container, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import { Search } from "./Search";
 import AlbumIcon from "@mui/icons-material/Album";
+import { Box, Container, ToggleButton, ToggleButtonGroup } from "@mui/material";
+
 import { useSearchProvider } from "../provider/SearchProvider";
+
+import { Search } from "./Search";
 
 export const HeaderSearch = () => {
   const { quality, actions, keywords } = useSearchProvider();

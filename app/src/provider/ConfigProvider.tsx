@@ -1,11 +1,13 @@
-import React, { useContext, useState, ReactNode, useEffect } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
+
+import { check } from "src/server/queryApi";
+
 import {
   ApiReturnType,
   ConfigParametersType,
   ConfigType,
   ReleaseGithubType,
 } from "../types";
-import { check } from "src/server/queryApi";
 
 type ConfigContextType = {
   isUpdateAvailable: boolean;

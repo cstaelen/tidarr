@@ -1,4 +1,5 @@
 import React from "react";
+import { InfoRounded } from "@mui/icons-material";
 import {
   Paper,
   Tab,
@@ -10,9 +11,10 @@ import {
   TableRow,
   Tabs,
 } from "@mui/material";
-import { DialogHandler } from ".";
-import { InfoRounded } from "@mui/icons-material";
+
 import { useConfigProvider } from "src/provider/ConfigProvider";
+
+import { DialogHandler } from ".";
 
 const TableParameters = ({
   rows,
