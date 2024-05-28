@@ -1,11 +1,12 @@
 import * as React from "react";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import AlbumIcon from "@mui/icons-material/Album";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { ArtistType } from "src/types";
 import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+
 import { useSearchProvider } from "src/provider/SearchProvider";
+import { ArtistType } from "src/types";
 
 export default function Artist({ artist }: { artist: ArtistType }) {
   const { actions } = useSearchProvider();

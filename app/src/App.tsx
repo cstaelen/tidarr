@@ -1,19 +1,20 @@
-import { ThemeProvider } from "@emotion/react";
-import { CssBaseline, createTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { DialogNoAPI } from "./components/Dialog/DialogNoAPI";
+import { ThemeProvider } from "@emotion/react";
 import styled from "@emotion/styled";
+import { createTheme, CssBaseline } from "@mui/material";
+
+import { DialogConfig } from "./components/Dialog/DialogConfig";
+import { DialogNoAPI } from "./components/Dialog/DialogNoAPI";
 import { DialogToken } from "./components/Dialog/DialogToken";
+import { Footer } from "./components/Footer";
 import { ProcessingList } from "./components/Processing/ProcessingList";
 import { Results } from "./components/Results";
+import { ConfigProvider } from "./provider/ConfigProvider";
 import {
   ProcessingProvider,
   useProcessingProvider,
 } from "./provider/ProcessingProvider";
 import { SearchProvider } from "./provider/SearchProvider";
-import { DialogConfig } from "./components/Dialog/DialogConfig";
-import { ConfigProvider } from "./provider/ConfigProvider";
-import { Footer } from "./components/Footer";
 
 declare module "@mui/material/styles/createPalette" {
   interface Palette {

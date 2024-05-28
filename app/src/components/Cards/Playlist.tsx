@@ -1,10 +1,12 @@
 import * as React from "react";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { Box, Chip, Link, Stack } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+
 import { PlaylistType } from "src/types";
-import { Box, Chip, Link, Stack } from "@mui/material";
+
 import { DownloadButton } from "../DownloadButton";
 
 export default function Playlist({ playlist }: { playlist: PlaylistType }) {

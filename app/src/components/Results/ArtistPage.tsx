@@ -1,11 +1,13 @@
-import { Box, Button, Container, Grid, Link } from "@mui/material";
+import React, { useState } from "react";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { Box, Button, Container, Grid, Link } from "@mui/material";
+
+import { TIDAL_ITEMS_PER_PAGE } from "src/contants";
+
+import { useSearchProvider } from "../../provider/SearchProvider";
 import { AlbumType, TidalArtistModuleType } from "../../types";
 import AlbumCard from "../Cards/Album";
-import { useSearchProvider } from "../../provider/SearchProvider";
-import { useState } from "react";
 import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
-import { TIDAL_ITEMS_PER_PAGE } from "src/contants";
 
 function Pager({
   data,

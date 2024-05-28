@@ -1,6 +1,8 @@
+import React from "react";
 import styled from "@emotion/styled";
 import { GitHub, Warning } from "@mui/icons-material";
 import { Button, Link, useTheme } from "@mui/material";
+
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 export const Footer = () => {

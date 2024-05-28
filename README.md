@@ -1,6 +1,6 @@
 # Selfhosted Tidal media downloader web client with docker
 
-[![GitHub Stars](https://img.shields.io/github/stars/cstaelen/tidarr.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/linuxserver/docker-sonarr)
+[![GitHub Stars](https://img.shields.io/github/stars/cstaelen/tidarr.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr)
 [![GitHub Release](https://img.shields.io/github/release-date/cstaelen/tidarr?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr/releases)
 [![GitHub Release](https://img.shields.io/github/release/cstaelen/tidarr?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr/releases)
 ![Playwright CI](https://img.shields.io/github/actions/workflow/status/cstaelen/tidarr/playwright.yml?label=Playwright%20CI&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)
@@ -16,7 +16,7 @@
 - Downloadable media : tracks, albums, playlists
 - Server side download list processing
 - UI build with **React JS** + **Express JS** API
-- Self-hostable using **Docker** with Linuxserver.io base image (image size: ~ 190 Mo)
+- Self-hostable using **Docker** with Linuxserver.io base image (uncompressed size: ~ 190 Mo)
 - Download from **Tidal** with Tidal Media Downloader (python)
 - Tag import using **Beets.io** (python)
 - Push notifications using **Gotify**

@@ -1,8 +1,12 @@
-import { useSearchProvider } from "src/provider/SearchProvider";
+import React from "react";
 import { ArrowRightAlt, SearchOff } from "@mui/icons-material";
-import { Box, Typography, Button, Chip, Container } from "@mui/material";
-import TypeResults from "./TypeResults";
+import { Box, Button, Chip, Container, Typography } from "@mui/material";
+
+import { useSearchProvider } from "src/provider/SearchProvider";
+
 import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
+
+import TypeResults from "./TypeResults";
 
 type TidalContentType = "albums" | "artists" | "tracks";
 

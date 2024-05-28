@@ -16,7 +16,7 @@ dev: ## Boot dev environnement
 
 testing-build: ## Build container with Playwright tests and production build image
 	$(DOCKER_COMPOSE) up -d testing --build --remove-orphans
-	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e testing npm install
+	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e testing yarn install
 
 testing-run: ## Run Playwright tests with production build image (arg: f=filter)
 	$(DOCKER_COMPOSE) restart testing
@@ -31,6 +31,9 @@ testing-show-report: ## Show last playwright report
 
 testing-clean: ## Clean Playwright reports
 	rm -rf playwright-report e2e/playwright-report e2e/test-results
+
+testing-ui: ## Run local Playwright UI
+	yarn --cwd ./e2e playwright:test-ui
 
 ##
 ## Code quality 🧙
