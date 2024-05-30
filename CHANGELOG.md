@@ -3,6 +3,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 [Unreleased]
+### 🧹 Renovate
+* Update node deps
+* Typescript 5
+* Eslint 9
+
 ## 📦 0.0.8
 ### 🚀 Added
 * [Front] Add update checker

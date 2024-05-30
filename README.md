@@ -23,7 +23,7 @@
 - Plex library update
 
 ### Companion
-- Song recognition : [Shazarr project](https://github.com/cstaelen/docker-shazarr) (Android) 
+- Song recognition : [Shazarr project](https://github.com/cstaelen/shazarr) (Android) 
 
 ## Getting Started
 
