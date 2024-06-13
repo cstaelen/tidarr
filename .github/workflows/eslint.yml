@@ -30,40 +30,37 @@ jobs:
 
       - name: Install ESLint + Prettier
         run: |
-          npm install eslint@8.56.0
-          npm install @typescript-eslint/eslint-plugin@latest
-          npm install @microsoft/eslint-formatter-sarif@3.1
+          npm install @eslint/js@9.4.0
+          npm install typescript-eslint@latest
           npm install eslint-plugin-jsx-a11y
-          npm install eslint-config-prettier
-          npm install eslint-plugin-prettier
           npm install eslint-plugin-react
           npm install eslint-plugin-react-hooks
+          npm install eslint-config-prettier
+          npm install eslint-plugin-prettier
           npm install eslint-plugin-simple-import-sort
           npm install prettier
 
       - name: Check code lint and format for API
-        run: npx eslint ./api
-          --config ./api/.eslintrc.json
-          --ext .js,.jsx,.ts,.tsx
-          --format @microsoft/eslint-formatter-sarif
-          --output-file eslint-results.sarif
+        uses: sibiraj-s/action-eslint@v3
+        with:
+          eslint-args: '-c ./api/eslint.config.mjs'
+          extensions: 'js,jsx,ts,tsx,mjs'
+          annotations: true
+          all-files: true
 
       - name: Check code lint and format for APP
-        run: npx eslint ./app
-          --config ./app/.eslintrc.json
-          --ext .js,.jsx,.ts,.tsx
-          --format @microsoft/eslint-formatter-sarif
-          --output-file eslint-results.sarif
+        uses: sibiraj-s/action-eslint@v3
+        with:
+          eslint-args: '-c ./app/eslint.config.mjs'
+          extensions: 'js,jsx,ts,tsx,mjs'
+          annotations: true
+          all-files: true
 
       - name: Check code lint and format for E2E
-        run: npx eslint ./e2e
-          --config ./e2e/.eslintrc.json
-          --ext .js,.jsx,.ts,.tsx
-          --format @microsoft/eslint-formatter-sarif
-          --output-file eslint-results.sarif
-
-      - name: Upload analysis results to GitHub
-        uses: github/codeql-action/upload-sarif@v3
+        uses: sibiraj-s/action-eslint@v3
         with:
-          sarif_file: eslint-results.sarif
-          wait-for-processing: true
+          eslint-args: '-c ./e2e/eslint.config.mjs'
+          extensions: 'js,jsx,ts,tsx,mjs'
+          annotations: true
+          all-files: true
+
