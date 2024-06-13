@@ -11,7 +11,6 @@ import {
   TableRow,
   Tabs,
 } from "@mui/material";
-
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 import { DialogHandler } from ".";

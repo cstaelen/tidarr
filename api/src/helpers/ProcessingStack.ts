@@ -1,9 +1,10 @@
 import { Express } from "express";
-import { ProcessingItemType } from "../types";
-import { moveSingleton, tidalDL } from "../services/tidal-dl";
+
 import { beets, cleanFolder } from "../services/beets";
 import { gotifyPush } from "../services/gotify";
 import { plexUpdate } from "../services/plex";
+import { moveSingleton, tidalDL } from "../services/tidal-dl";
+import { ProcessingItemType } from "../types";
 
 export const ProcessingStack = (expressApp: Express) => {
   const data: ProcessingItemType[] = [];

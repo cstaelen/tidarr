@@ -1,12 +1,3 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# ESLint is a tool for identifying and reporting on patterns
-# found in ECMAScript/JavaScript code.
-# More details at https://github.com/eslint/eslint
-# and https://eslint.org
-
 name: ESLint
 
 on:
@@ -30,6 +21,7 @@ jobs:
 
       - name: Install ESLint + Prettier
         run: |
+          npm install -g eslint@9.4.0
           npm install @eslint/js@9.4.0
           npm install typescript-eslint@latest
           npm install eslint-plugin-jsx-a11y
@@ -41,26 +33,11 @@ jobs:
           npm install prettier
 
       - name: Check code lint and format for API
-        uses: sibiraj-s/action-eslint@v3
-        with:
-          eslint-args: '-c ./api/eslint.config.mjs'
-          extensions: 'js,jsx,ts,tsx,mjs'
-          annotations: true
-          all-files: true
+        run: eslint -c ./api/eslint.config.mjs .
 
       - name: Check code lint and format for APP
-        uses: sibiraj-s/action-eslint@v3
-        with:
-          eslint-args: '-c ./app/eslint.config.mjs'
-          extensions: 'js,jsx,ts,tsx,mjs'
-          annotations: true
-          all-files: true
+        run: eslint -c ./app/eslint.config.mjs .
 
       - name: Check code lint and format for E2E
-        uses: sibiraj-s/action-eslint@v3
-        with:
-          eslint-args: '-c ./e2e/eslint.config.mjs'
-          extensions: 'js,jsx,ts,tsx,mjs'
-          annotations: true
-          all-files: true
-
+        run: eslint -c ./e2e/eslint.config.mjs .
+      

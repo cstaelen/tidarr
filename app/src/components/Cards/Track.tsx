@@ -12,7 +12,6 @@ import {
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-
 import { TIDAL_PUBLIC_BROWSE_URL } from "src/contants";
 import { useSearchProvider } from "src/provider/SearchProvider";
 import { TrackType } from "src/types";

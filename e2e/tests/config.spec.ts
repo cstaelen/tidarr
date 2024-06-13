@@ -1,7 +1,7 @@
 import test, { expect } from "@playwright/test";
-import { mockAPI } from "./utils/mock";
-
 import dotenv from "dotenv";
+
+import { mockAPI } from "./utils/mock";
 
 dotenv.config({ path: "../.env", override: false });
 

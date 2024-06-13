@@ -9,10 +9,7 @@ export default [
   eslintPluginPrettierRecommended,
   ...typescriptEslint.configs.recommended,
   {
-    ignores: [
-      "**/node_modules",
-      "**/playwright-report",
-    ],
+    ignores: ["**/node_modules", "**/playwright-report"],
   },
   {
     plugins: {

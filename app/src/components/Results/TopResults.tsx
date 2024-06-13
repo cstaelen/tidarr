@@ -1,7 +1,6 @@
 import React from "react";
 import { ArrowRightAlt, SearchOff } from "@mui/icons-material";
 import { Box, Button, Chip, Container, Typography } from "@mui/material";
-
 import { useSearchProvider } from "src/provider/SearchProvider";
 
 import { AlbumsLoader } from "../Skeletons/AlbumsLoader";

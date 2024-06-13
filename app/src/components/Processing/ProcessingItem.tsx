@@ -6,7 +6,6 @@ import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Button, CircularProgress, TableCell, TableRow } from "@mui/material";
-
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 import { ProcessingItemType } from "src/types";
 

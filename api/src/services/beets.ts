@@ -1,7 +1,8 @@
-import { spawnSync, execSync } from "child_process";
+import { execSync, spawnSync } from "child_process";
 import { Express } from "express";
-import { ProcessingItemType } from "../types";
+
 import { ROOT_PATH } from "../../constants";
+import { ProcessingItemType } from "../types";
 
 export async function beets(id: number, app: Express) {
   const item: ProcessingItemType =

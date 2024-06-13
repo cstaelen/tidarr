@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import TerminalIcon from "@mui/icons-material/Terminal";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
-
 import { ProcessingItemType } from "src/types";
 
 export const TerminalDialog = ({ item }: { item: ProcessingItemType }) => {

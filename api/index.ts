@@ -1,9 +1,10 @@
+import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
+import fs from "fs";
+
+import { ProcessingStack } from "./src/helpers/ProcessingStack";
 import { configureServer } from "./src/services/config";
 import { ProcessingItemType } from "./src/types";
-import { ProcessingStack } from "./src/helpers/ProcessingStack";
-import dotenv from "dotenv";
-import fs from "fs";
 
 dotenv.config({ path: "../.env", override: false });
 
