@@ -1,7 +1,6 @@
 import React from "react";
 import { SearchOff } from "@mui/icons-material";
 import { Box, Chip, Container, Grid } from "@mui/material";
-
 import { useSearchProvider } from "src/provider/SearchProvider";
 import { AlbumType, ArtistType, PlaylistType, TrackType } from "src/types";
 

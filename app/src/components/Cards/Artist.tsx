@@ -4,7 +4,6 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-
 import { useSearchProvider } from "src/provider/SearchProvider";
 import { ArtistType } from "src/types";
 

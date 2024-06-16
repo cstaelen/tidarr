@@ -1,6 +1,7 @@
-import { test, expect } from "@playwright/test";
-import { runSearch, countItems } from "./utils/search";
+import { expect, test } from "@playwright/test";
+
 import { waitForImgLoaded, waitForLoader } from "./utils/helpers";
+import { countItems, runSearch } from "./utils/search";
 
 test("Tidarr search : Should see 'Top results' tab content", async ({
   page,

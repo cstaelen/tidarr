@@ -1,6 +1,7 @@
-import test, { Page, expect } from "@playwright/test";
-import { countItems, runSearch } from "./utils/search";
+import test, { expect, Page } from "@playwright/test";
+
 import { waitForLoader } from "./utils/helpers";
+import { countItems, runSearch } from "./utils/search";
 
 test.describe.configure({ mode: "serial" });
 
@@ -72,5 +73,5 @@ test("Tidarr direct url : Should display artist page using Tidal artist url", as
   await testArtistSection(2, "EP & Singles", 2, page);
   await testArtistSection(3, "Compilations", 1, page);
   await testArtistSection(4, "Live albums", 1, page);
-  await testArtistSection(5, "Appears On", 27, page);
+  await testArtistSection(5, "Appears On", 28, page);
 });

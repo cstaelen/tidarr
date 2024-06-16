@@ -1,7 +1,6 @@
 import React from "react";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Paper } from "@mui/material";
-
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 
 import { DialogHandler } from ".";

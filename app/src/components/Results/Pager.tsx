@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Button } from "@mui/material";
-
 import { TIDAL_ITEMS_PER_PAGE } from "src/contants";
 
 export default function Pager({

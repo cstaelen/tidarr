@@ -13,7 +13,6 @@ import {
   TableRow,
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
-
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 
 import { ProcessingItem } from "./ProcessingItem";

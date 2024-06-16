@@ -1,4 +1,5 @@
 import { execSync } from "child_process";
+
 import { BUILD_PATH } from "../../constants";
 
 export async function configureServer() {

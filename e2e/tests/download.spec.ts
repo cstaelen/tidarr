@@ -1,4 +1,5 @@
-import { test, expect, Page } from "@playwright/test";
+import { expect, Page, test } from "@playwright/test";
+
 import { runSearch } from "./utils/search";
 
 test.describe.configure({ mode: "serial" });
