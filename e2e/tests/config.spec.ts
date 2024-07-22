@@ -38,9 +38,7 @@ test("Tidarr config : Should see app version", async ({ page }) => {
   mockAPI(page);
   await page.goto("/");
 
-  await expect(page.locator(".footer span")).toContainText(
-    `v${CURRENT_VERSION}`,
-  );
+  await expect(page.getByText(`v${CURRENT_VERSION}`)).toBeVisible();
 });
 
 test("Tidarr config : Should see configuration dialog", async ({ page }) => {

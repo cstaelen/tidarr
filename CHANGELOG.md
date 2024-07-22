@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.1
+### 🖍 Changed
+* Add Matomo cookie free and anonimyzed data
+
 ## 📦 0.1.0
 ### 🧹 Renovate
 * Update node deps
