@@ -10,6 +10,10 @@ DOCKER_COMPOSE  = $(or docker compose, docker-compose)
 dev: ## Boot dev environnement
 	$(DOCKER_COMPOSE) up tidarr --build --remove-orphans --no-recreate
 
+install: ## Install deps
+	$(DOCKER_COMPOSE) exec -w /home/app/build/api tidarr yarn install
+	$(DOCKER_COMPOSE) exec -w /home/app/build/app tidarr yarn install
+	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e tidarr yarn install
 ##
 ## Playwright 🚨
 ##--------------
