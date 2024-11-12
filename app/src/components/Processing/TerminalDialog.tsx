@@ -11,7 +11,7 @@ export const TerminalDialog = ({ item }: { item: ProcessingItemType }) => {
   useEffect(() => {
     setTimeout(() => {
       if (refOutput.current) {
-        (refOutput.current.scrollTop = refOutput.current?.scrollHeight), 500;
+        refOutput.current.scrollTop = refOutput.current?.scrollHeight;
       }
     }, 100);
   }, [item.output, openOutput]);

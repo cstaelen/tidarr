@@ -21,7 +21,7 @@ export const DialogHandler = ({
 
   const handleClose = () => {
     setOpen(false);
-    onClose && onClose();
+    if (onClose) onClose();
   };
 
   return (
