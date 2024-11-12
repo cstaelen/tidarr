@@ -24,6 +24,8 @@ export async function configureServer() {
       ENABLE_GOTIFY: process.env.ENABLE_GOTIFY || "",
       GOTIFY_URL: process.env.GOTIFY_URL || "",
       GOTIFY_TOKEN: process.env.GOTIFY_TOKEN || "",
+      PUID: process.env.PUID || "",
+      PGID: process.env.PGID || "",
     },
   };
 }

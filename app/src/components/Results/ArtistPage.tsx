@@ -26,6 +26,8 @@ function Pager({
     data.pagedList.totalNumberOfItems / TIDAL_ITEMS_PER_PAGE,
   );
 
+  console.log(nbPages);
+
   if (artistPagerLoading === index) {
     return (
       <Box marginTop={2}>

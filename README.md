@@ -106,7 +106,8 @@ Tidal DL options in `.tidal-dl.json`:
 Add to your *docker-compose* file in `environment:` section :
 
 ```
-- ENABLE_BEETS=true # optional
+environment:
+  - ENABLE_BEETS=true # optional
 ```   
 
 Beets options in `</mounted/config/folder/>beets-config.yml`:
@@ -116,6 +117,7 @@ Beets options in `</mounted/config/folder/>beets-config.yml`:
 Add to your *docker-compose* file in `environment:` section :
 
 ```
+environment:
   - ENABLE_PLEX_UPDATE=true
   - PLEX_URL=<url|ip:port>
   - PLEX_LIBRARY=<music_library_id>
@@ -135,17 +137,28 @@ Doc : https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
 Add to your *docker-compose* file in `environment:` section :
 
 ```
+environment:
   - ENABLE_GOTIFY=true # optional
   - GOTIFY_URL=<url|ip:port>
   - GOTIFY_TOKEN=<gotify_app_token>
 ```
 
-## OPTIONAL - Tidal search variables :
+## TIDAL SEARCH (optional)
 
 ```
-  - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token> #optional
-  - REACT_APP_TIDAL_COUNTRY_CODE=<country-code> #optional - useful to access restricted content
+ environment:
+  - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token>
+  - REACT_APP_TIDAL_COUNTRY_CODE=<country-code>
 ```
+
+## PUID & PGID (optional)
+
+```
+environment:
+  - PUID=1234
+  - PGID=123
+```
+
 How to get search token :
 - https://github.com/lucaslg26/TidalAPI/issues/23
 - https://github.com/lucaslg26/TidalAPI

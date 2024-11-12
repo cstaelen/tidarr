@@ -168,32 +168,38 @@ test("Tidarr search : Should see tracks results", async ({ page }) => {
 test("Tidarr search : Should see quality filtered results", async ({
   page,
 }) => {
-  await runSearch("Nirvana", page);
-  await expect(page.locator("#full-width-tab-0")).toContainText(
-    "Top results (700)",
-  );
+  await runSearch("artist:3634161:The Beatles", page);
+  await expect(
+    page.getByRole("heading", { name: "Albums (22)" }),
+  ).toBeInViewport();
 
-  await countItems("#full-width-tabpanel-0 .MuiGrid-item", 18, page);
+  await countItems(".MuiGrid-item", 55, page);
 
   const countLossless = await page
     .locator(".MuiChip-root")
     .filter({ hasText: /^lossless$/ })
     .count();
-  await expect(countLossless).toEqual(6);
+  await expect(countLossless).toEqual(51);
 
-  const countHiRes = await page
+  const countHigh = await page
     .locator(".MuiChip-root")
-    .filter({ hasText: /^hi_res$/ })
+    .filter({ hasText: /^high$/ })
     .count();
-  await expect(countHiRes).toEqual(9);
+  await expect(countHigh).toEqual(1);
+
+  const countLow = await page
+    .locator(".MuiChip-root")
+    .filter({ hasText: /^low$/ })
+    .count();
+  await expect(countLow).toEqual(3);
 
   // Filter lossless
 
   await page.getByRole("button", { name: "Lossless" }).click();
 
-  await countItems("#full-width-tabpanel-0 .MuiGrid-item:visible", 9, page);
+  await countItems(".MuiGrid-item:visible", 51, page);
 
-  await page.getByRole("button", { name: "Hi res" }).click();
+  await page.getByRole("button", { name: "High" }).click();
 
-  await countItems("#full-width-tabpanel-0 .MuiGrid-item:visible", 12, page);
+  await countItems(".MuiGrid-item:visible", 1, page);
 });
