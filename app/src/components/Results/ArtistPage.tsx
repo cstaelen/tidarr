@@ -19,7 +19,7 @@ function Pager({
     artistPagerLoading,
     actions: { fetchArtistPage },
   } = useSearchProvider();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
   const url = data.pagedList.dataApiPath;
   const nbPages = Math.ceil(

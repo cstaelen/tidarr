@@ -47,9 +47,12 @@ export const Footer = () => {
 };
 
 const Support = styled.div`
+  align-items: center;
   background-color: rgb(54, 54, 54);
+  display: flex;
   font-size: 0.825rem;
   font-weight: normal;
+  justify-content: center;
   padding: 0.3rem;
   position: fixed;
   text-align: center;
