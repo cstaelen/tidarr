@@ -1,10 +1,12 @@
 import { Express } from "express";
 
-import { beets, cleanFolder } from "../services/beets";
+import { beets } from "../services/beets";
 import { gotifyPush } from "../services/gotify";
 import { plexUpdate } from "../services/plex";
-import { moveSingleton, tidalDL } from "../services/tidal-dl";
+import { tidalDL } from "../services/tidal-dl";
 import { ProcessingItemType } from "../types";
+
+import { cleanFolder, moveAndClean } from "./common";
 
 export const ProcessingStack = (expressApp: Express) => {
   const data: ProcessingItemType[] = [];
@@ -17,6 +19,7 @@ export const ProcessingStack = (expressApp: Express) => {
     data.push(item);
     processQueue();
   }
+
   async function removeItem(id: number) {
     const item = getItem(id);
     await item?.process?.kill("SIGSTOP");
@@ -75,11 +78,11 @@ export const ProcessingStack = (expressApp: Express) => {
 
   async function postProcessing(item: ProcessingItemType) {
     const stdout = [];
-    if (item.type !== "track") {
+    if (item.type === "album") {
       await beets(item.id, expressApp);
-    } else {
-      await moveSingleton(item.id, expressApp);
     }
+
+    await moveAndClean(item.id, expressApp);
 
     if (item["status"] === "finished") {
       const responsePlex = await plexUpdate();
