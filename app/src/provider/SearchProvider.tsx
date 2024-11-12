@@ -11,7 +11,7 @@ import {
 } from "../types";
 import { fetchTidal } from "../utils/fetch";
 
-type QualityType = "lossless" | "hi_res" | "all";
+type QualityType = "lossless" | "high" | "all";
 
 type SearchContextType = {
   searchResults: TidalResponseType;

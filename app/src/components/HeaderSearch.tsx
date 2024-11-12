@@ -56,7 +56,7 @@ export const HeaderSearch = () => {
                 aria-label="Platform"
               >
                 <ToggleButton value="lossless">Lossless</ToggleButton>
-                <ToggleButton value="hi_res">Hi&nbsp;res</ToggleButton>
+                <ToggleButton value="high">High</ToggleButton>
                 <ToggleButton value="all">All</ToggleButton>
               </ToggleButtonGroup>
             </Box>

@@ -19,12 +19,14 @@ function Pager({
     artistPagerLoading,
     actions: { fetchArtistPage },
   } = useSearchProvider();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
 
   const url = data.pagedList.dataApiPath;
   const nbPages = Math.ceil(
     data.pagedList.totalNumberOfItems / TIDAL_ITEMS_PER_PAGE,
   );
+
+  console.log(nbPages);
 
   if (artistPagerLoading === index) {
     return (
@@ -46,7 +48,7 @@ function Pager({
           setPage(page + 1);
         }}
       >
-        LOAD MORE (page: {page + 1}/{nbPages + 1})
+        LOAD MORE (page: {page}/{nbPages})
       </Button>
     </Box>
   );
