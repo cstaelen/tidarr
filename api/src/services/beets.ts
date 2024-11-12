@@ -2,7 +2,7 @@ import { spawnSync } from "child_process";
 import { Express } from "express";
 
 import { ROOT_PATH } from "../../constants";
-import { logs } from "../helpers/common";
+import { logs } from "../helpers/jobs";
 import { ProcessingItemType } from "../types";
 
 export async function beets(id: number, app: Express) {

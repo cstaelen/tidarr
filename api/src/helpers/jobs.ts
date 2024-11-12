@@ -18,10 +18,12 @@ export async function moveAndClean(
     app.settings.processingList.actions.getItem(id);
   let save = false;
 
+  setPermissions();
+
   try {
     item["output"] = logs(item, `=== Move processed items ===`);
     const output_move = execSync(
-      `cp -rf ${ROOT_PATH}/download/incomplete/* ${ROOT_PATH}/download/${item.type}s/ >/dev/null`,
+      `cp -rfp ${ROOT_PATH}/download/incomplete/* ${ROOT_PATH}/download/${item.type}s/ >/dev/null`,
       { encoding: "utf-8" },
     );
     item["output"] = logs(
@@ -58,4 +60,27 @@ export async function cleanFolder(): Promise<string> {
   );
   console.log("- Clean folder", output_clean);
   return output_clean;
+}
+
+async function setPermissions() {
+  if (process.env.PUID && process.env.PGID) {
+    const output_chmod = execSync(
+      `chmod -R 755 ${ROOT_PATH}/download/incomplete/*`,
+      {
+        encoding: "utf-8",
+      },
+    );
+    console.log("- Chmod: 755", output_chmod);
+
+    const output_chown = execSync(
+      `chown -R ${process.env.PUID}:${process.env.PGID} ${ROOT_PATH}/download/incomplete/*`,
+      {
+        encoding: "utf-8",
+      },
+    );
+    console.log(
+      `- Chown: ${process.env.PUID}:${process.env.PGID}`,
+      output_chown,
+    );
+  }
 }

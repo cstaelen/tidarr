@@ -46,7 +46,7 @@ function Pager({
           setPage(page + 1);
         }}
       >
-        LOAD MORE (page: {page}/{nbPages})
+        LOAD MORE (page: {page + 1}/{nbPages + 1})
       </Button>
     </Box>
   );

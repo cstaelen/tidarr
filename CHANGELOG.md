@@ -3,8 +3,14 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
-## 📦 0.1.1
+## 📦 0.1.2
 ### 🖍 Changed
+* [API] Chown and chmod downloads if PUID/PGID are set
+### 🐛 Fixed
+* [Front] Fix issue with pager on artist pages
+
+## 📦 0.1.1
+### 🚀 Added
 * Add Matomo cookie free and anonimyzed data
 
 ## 📦 0.1.0

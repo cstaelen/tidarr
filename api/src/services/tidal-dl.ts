@@ -1,7 +1,7 @@
 import { spawn } from "child_process";
 import { Express } from "express";
 
-import { logs } from "../helpers/common";
+import { logs } from "../helpers/jobs";
 import { ProcessingItemType } from "../types";
 
 export function tidalDL(id: number, app: Express) {

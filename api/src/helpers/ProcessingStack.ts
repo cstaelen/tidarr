@@ -6,7 +6,7 @@ import { plexUpdate } from "../services/plex";
 import { tidalDL } from "../services/tidal-dl";
 import { ProcessingItemType } from "../types";
 
-import { cleanFolder, moveAndClean } from "./common";
+import { cleanFolder, moveAndClean } from "./jobs";
 
 export const ProcessingStack = (expressApp: Express) => {
   const data: ProcessingItemType[] = [];
