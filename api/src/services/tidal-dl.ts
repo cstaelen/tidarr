@@ -15,13 +15,13 @@ export function tidalDL(id: number, app: Express) {
   const child = spawn("tidal-dl", ["-l", item.url]);
 
   child.stdout.on("data", (data) => {
-    item["output"] = logs(item, `Tidal-DL stdout:\n${data}`);
+    item["output"] = logs(item, data);
     item["process"] = child;
     app.settings.processingList.actions.updateItem(item);
   });
 
   child.stderr.on("data", (data) => {
-    item["output"] = logs(item, `Tidal-DL stderr:\n${data}`);
+    item["output"] = logs(item, `Tidal-DL stderr: ${data}`);
     item["status"] = "error";
     item["error"] = true;
     item["loading"] = false;
@@ -41,7 +41,7 @@ export function tidalDL(id: number, app: Express) {
 
   child.on("error", (err) => {
     if (err) {
-      item["output"] = logs(item, `Tidal-DL Error:\n${err}`);
+      item["output"] = logs(item, `Tidal-DL Error: ${err}`);
       item["status"] = "error";
       item["error"] = true;
       item["loading"] = false;
