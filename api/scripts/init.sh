@@ -21,16 +21,16 @@ else
     fi
 fi
 
-if [ -f "$SHARED_URL/.tidal-dl.json" ]; then
-    echo "Load .tidal-dl.json to app"
-    cp $SHARED_URL/.tidal-dl.json /home/app/standalone/.tidal-dl.json
-    cp $SHARED_URL/.tidal-dl.json /root/.tidal-dl.json
+if [ -f "$SHARED_URL/.tiddl_config.json" ]; then
+    echo "Load .tiddl_config.json to app"
+    cp $SHARED_URL/.tiddl_config.json /home/app/standalone/.tiddl_config.json
+    cp $SHARED_URL/.tiddl_config.json /root/.tiddl_config.json
     echo "[TidalDL] Config OK"
 else
-    if [ -f "$SETTINGS_URL/.tidal-dl.json" ]; then
-        cp $SETTINGS_URL/.tidal-dl.json /home/app/standalone/.tidal-dl.json
-        cp $SETTINGS_URL/.tidal-dl.json /root/.tidal-dl.json
-        cp $SETTINGS_URL/.tidal-dl.json $SHARED_URL/.tidal-dl.json
+    if [ -f "$SETTINGS_URL/.tiddl_config.json" ]; then
+        cp $SETTINGS_URL/.tiddl_config.json /home/app/standalone/.tiddl_config.json
+        cp $SETTINGS_URL/.tiddl_config.json /root/.tiddl_config.json
+        cp $SETTINGS_URL/.tiddl_config.json $SHARED_URL/.tiddl_config.json
         echo "[TidalDL] Config OK"
     fi
 fi

@@ -10,9 +10,17 @@ export function tidalDL(id: number, app: Express) {
 
   item["output"] = logs(item, `=== Tidal-DL ===`);
 
-  const command = `tidal-dl -l ${item.url}`;
+  const command = `${item.id} -q master -p /home/app/standalone/download/incomplete -s`;
+
   item["output"] = logs(item, `Executing: ${command}`);
-  const child = spawn("tidal-dl", ["-l", item.url]);
+  const child = spawn(`tiddl`, [
+    item.url,
+    "-q",
+    "master",
+    "-p",
+    "/home/app/standalone/download/incomplete",
+    "-s",
+  ]);
 
   child.stdout.on("data", (data) => {
     item["output"] = logs(item, data);

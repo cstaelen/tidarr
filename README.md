@@ -63,13 +63,13 @@ docker run  \
 (if no `.tidal-dl.token.json` token file provided) :
 
 ```bash 
-docker compose exec -it tidarr tidal-dl
+docker compose exec -it tidarr tiddl
 ```
 
 **or**
 
 ```bash 
-docker exec -it tidarr tidal-dl
+docker exec -it tidarr tiddl
 ```
 
 ## Tidal DL configuration :
