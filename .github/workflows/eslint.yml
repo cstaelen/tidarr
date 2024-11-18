@@ -21,16 +21,16 @@ jobs:
 
       - name: Install ESLint + Prettier
         run: |
-          npm install -g eslint@9.4.0
-          npm install @eslint/js@9.4.0
-          npm install typescript-eslint@latest
-          npm install eslint-plugin-jsx-a11y
-          npm install eslint-plugin-react
-          npm install eslint-plugin-react-hooks
-          npm install eslint-config-prettier
-          npm install eslint-plugin-prettier
-          npm install eslint-plugin-simple-import-sort
-          npm install prettier
+          npm install -g eslint@9.15.0
+          npm install @eslint/js@9.15.0
+          npm install typescript-eslint@8.15.0
+          npm install eslint-plugin-jsx-a11y@6.10.2
+          npm install eslint-plugin-react@7.37.2
+          npm install eslint-plugin-react-hooks@5.0.0
+          npm install eslint-config-prettier@9.1.0
+          npm install eslint-plugin-prettier@5.2.1
+          npm install eslint-plugin-simple-import-sort@12.1.1
+          npm install prettier@3.3.3
 
       - name: Check code lint and format for API
         run: eslint -c ./api/eslint.config.mjs .

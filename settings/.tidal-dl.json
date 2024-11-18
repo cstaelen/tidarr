@@ -1,7 +1,7 @@
 {
     "albumFolderFormat": "{ArtistName}/{AlbumYear} - {AlbumTitle}",
     "apiKeyIndex": 4,
-    "audioQuality": "HiFi",
+    "audioQuality": "Master",
     "checkExist": true,
     "downloadDelay": true,
     "downloadPath": "/home/app/standalone/download/incomplete",
