@@ -21,8 +21,8 @@ jobs:
 
       - name: Install ESLint + Prettier
         run: |
-          npm install -g eslint@9.4.0
-          npm install @eslint/js@9.4.0
+          npm install -g eslint@9.14.0
+          npm install @eslint/js@9.14.0
           npm install typescript-eslint@latest
           npm install eslint-plugin-jsx-a11y
           npm install eslint-plugin-react
