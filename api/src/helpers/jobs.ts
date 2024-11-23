@@ -5,8 +5,8 @@ import { ROOT_PATH } from "../../constants";
 import { ProcessingItemType } from "../types";
 
 export function logs(item: ProcessingItemType, message: string): string {
-  console.log(message);
-  item["output"] = [item["output"], message].join("\r\n");
+  console.log(message.toString());
+  item["output"] = [item["output"], message.toString()].join("\r\n");
   return item["output"].substr(item["output"].length - 5000);
 }
 

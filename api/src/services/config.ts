@@ -1,6 +1,7 @@
 import { execSync } from "child_process";
 
 import { BUILD_PATH } from "../../constants";
+import { TiddlConfig } from "../types";
 
 export async function configureServer() {
   console.log(`=== Set config files ===`);
@@ -11,8 +12,19 @@ export async function configureServer() {
   });
   console.log("Tidarr configuration :", output_config);
 
+  const hasTiddlConfig = !output_config?.includes("[Tiddl] No token set");
+
+  let tiddl_config = null;
+  if (hasTiddlConfig) {
+    const token_output = await execSync(`cat /root/.tiddl_config.json`, {
+      encoding: "utf-8",
+    });
+
+    tiddl_config = JSON.parse(token_output) as TiddlConfig;
+  }
+
   return {
-    noToken: output_config?.includes("No token found"),
+    noToken: !hasTiddlConfig || tiddl_config?.token.length === 0,
     output: output_config,
     parameters: {
       ENABLE_BEETS: process.env.ENABLE_BEETS || "",

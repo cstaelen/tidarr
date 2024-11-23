@@ -2,8 +2,6 @@
 
 # project
 /download
-.tidal-dl.token.json
-.tidal-dl.json
 /settings/beets/*
 /shared
 /docker/mnt

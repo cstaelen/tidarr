@@ -22,7 +22,7 @@ export const DialogToken = () => {
     >
       <p>Run this to create Tidal token :</p>
       <Paper elevation={0} sx={{ padding: "1rem" }}>
-        <code>$ docker exec -it tidarr tidal-dl</code>
+        <code>$ docker exec -it tidarr tiddl</code>
       </Paper>
     </DialogHandler>
   );
