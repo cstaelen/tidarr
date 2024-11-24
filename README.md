@@ -152,7 +152,7 @@ environment:
 ```bash
  environment:
   - TIDDL_FORMAT=<format>
-  - TIDDL_QUALITY=<high|master> # default : master
+  - TIDDL_QUALITY=<high|master> # default : high
 ```
 
 Doc: https://github.com/oskvr37/tiddl

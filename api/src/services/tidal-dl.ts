@@ -5,7 +5,7 @@ import { logs } from "../helpers/jobs";
 import { ProcessingItemType } from "../types";
 
 const TIDDL_OUTPUT_PATH = "/home/app/standalone/download/incomplete";
-const TIDDL_QUALITY = process.env.TIDDL_QUALITY || "master";
+const TIDDL_QUALITY = process.env.TIDDL_QUALITY || "high";
 const TIDDL_FORMAT = process.env.TIDDL_FORMAT || "{artist}/{album}/{title}";
 
 export function tidalDL(id: number, app: Express) {
