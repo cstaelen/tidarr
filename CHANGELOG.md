@@ -5,7 +5,7 @@ Tidarr notable changes.
 
 ## 📦 0.1.3
 ### 🖍 Changed
-* [API] Move from TidalMediaDownloader to Tiddl, max quality: 24 bit 96Khz 
+* [API] Move from TidalMediaDownloader to Tiddl, max quality: 24 bit 192Khz 
 * [Front] Optimize console output
 
 ## 📦 0.1.2

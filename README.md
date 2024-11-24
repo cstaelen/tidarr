@@ -21,7 +21,7 @@
 - Tag import using **Beets.io** (python)
 - Push notifications using **Gotify**
 - Plex library update
-- Quality : **24 bit 96.0 kHz max.**
+- Max quality : **24 bit 192.0 kHz** (if available)
 
 ### Companion
 - Song recognition : [Shazarr project](https://github.com/cstaelen/shazarr) (Android) 
@@ -73,28 +73,29 @@ docker compose exec -it tidarr tiddl
 docker exec -it tidarr tiddl
 ```
 
-## Tidal DL configuration :
+## TIDAL SEARCH (optional)
 
-Tidal DL options in `.tiddl_config.json`:
+```yaml
+ environment:
+  - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token>
+  - REACT_APP_TIDAL_COUNTRY_CODE=<country-code>
+```
+N.B. `<country-code>` should match your Tidal account country code.
+You can check it with :
+```bash
+docker exec tidarr cat /root/.tiddl_config.json
+```
 
-```json
-{
-  "token": "",
-  "refresh_token": "",
-  "token_expires_at": 1732717344,
-  "settings": {
-    "download_path": "/home/app/standalone/download/incomplete",
-    "track_quality": "HI_RES_LOSSLESS",
-    "track_template": "{artist}/{title}",
-    "album_template": "{artist}/{album}/{title}",
-    "playlist_template": "{playlist}/{title}",
-    "file_extension": ""
-  },
-  "user": {
-    "user_id": "",
-    "country_code": ""
-  }
-}
+How to get search token :
+- https://github.com/lucaslg26/TidalAPI/issues/23
+
+
+## TIDAL DOWNLOAD (optional)
+
+```yaml
+ environment:
+  - TIDDL_FORMAT=<format>
+  - TIDDL_QUALITY=<high|master> # default: high (16bit 44.1), available: master (24bit 192 max)
 ```
 
 ## BEETS
@@ -139,22 +140,6 @@ environment:
   - GOTIFY_TOKEN=<gotify_app_token>
 ```
 
-## TIDAL SEARCH (optional)
-
-```yaml
- environment:
-  - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token>
-  - REACT_APP_TIDAL_COUNTRY_CODE=<country-code>
-```
-
-## TIDAL DOWNLOAD (optional)
-
-```bash
- environment:
-  - TIDDL_FORMAT=<format>
-  - TIDDL_QUALITY=<high|master> # default : high
-```
-
 Doc: https://github.com/oskvr37/tiddl
 
 ## PUID & PGID (optional)
@@ -164,10 +149,6 @@ environment:
   - PUID=1234
   - PGID=123
 ```
-
-How to get search token :
-- https://github.com/lucaslg26/TidalAPI/issues/23
-- https://github.com/lucaslg26/TidalAPI
 
 ## Enhancements I'd love to add :
 
