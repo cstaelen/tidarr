@@ -170,7 +170,7 @@ test("Tidarr search : Should see quality filtered results", async ({
 }) => {
   await runSearch("artist:3634161:The Beatles", page);
   await expect(
-    page.getByRole("heading", { name: "Albums (22)" }),
+    page.getByRole("heading", { name: "Albums (23)" }),
   ).toBeInViewport();
 
   await countItems(".MuiGrid-item", 55, page);

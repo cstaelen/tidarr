@@ -3,6 +3,11 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.3
+### 🖍 Changed
+* [API] Move from TidalMediaDownloader to Tiddl, max quality: 24 bit 96Khz 
+* [Front] Optimize console output
+
 ## 📦 0.1.2
 ### 🖍 Changed
 * [API] Chown and chmod downloads if PUID/PGID are set
