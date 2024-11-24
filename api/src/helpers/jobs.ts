@@ -5,9 +5,19 @@ import { ROOT_PATH } from "../../constants";
 import { ProcessingItemType } from "../types";
 
 export function logs(item: ProcessingItemType, message: string): string {
-  console.log(message.toString());
+  const formattedMessage = message
+    .toString()
+    .replace(new RegExp("\\r", "g"), "");
+
+  if (formattedMessage === "") return "";
+
+  console.log(formattedMessage);
   const last_output =
     item["output_history"]?.[item["output_history"]?.length - 1];
+
+  if (!item["output_history"]) {
+    item["output_history"] = [];
+  }
 
   if (
     (last_output?.includes("threaded download") &&
@@ -15,17 +25,13 @@ export function logs(item: ProcessingItemType, message: string): string {
     (last_output?.includes("Single URL") &&
       message.toString()?.includes("Single URL"))
   ) {
-    item["output_history"][item["output_history"].length - 1] = message
-      .toString()
-      .split(",")[0];
+    item["output_history"][item["output_history"].length - 1] =
+      formattedMessage;
   } else {
-    if (!item["output_history"]) {
-      item["output_history"] = [];
-    }
-    item["output_history"].push(message);
+    item["output_history"].push(formattedMessage);
   }
 
-  item["output"] = [item["output_history"].slice(-500)].join("\r\n");
+  item["output"] = [item["output_history"].slice(-500)].join("");
   return item["output"];
 }
 
