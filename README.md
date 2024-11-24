@@ -17,10 +17,11 @@
 - Server side download list processing
 - UI build with **React JS** + **Express JS** API
 - Self-hostable using **Docker** with Linuxserver.io base image (uncompressed size: ~ 190 Mo)
-- Download from **Tidal** with Tidal Media Downloader (python)
+- Download from **Tidal** with Tiddl (python)
 - Tag import using **Beets.io** (python)
 - Push notifications using **Gotify**
 - Plex library update
+- Quality : **24 bit 96.0 kHz max.**
 
 ### Companion
 - Song recognition : [Shazarr project](https://github.com/cstaelen/shazarr) (Android) 
@@ -60,44 +61,39 @@ docker run  \
 
 ## Proceed to Tidal Authentication
 
-(if no `.tidal-dl.token.json` token file provided) :
+(if no `.tiddl_config.json` token file provided) :
 
 ```bash 
-docker compose exec -it tidarr tidal-dl
+docker compose exec -it tidarr tiddl
 ```
 
 **or**
 
 ```bash 
-docker exec -it tidarr tidal-dl
+docker exec -it tidarr tiddl
 ```
 
 ## Tidal DL configuration :
 
-Tidal DL options in `.tidal-dl.json`:
+Tidal DL options in `.tiddl_config.json`:
 
 ```json
 {
-    "albumFolderFormat": "{ArtistName}/{AlbumYear} - {AlbumTitle}",
-    "apiKeyIndex": 4,
-    "audioQuality": "HiFi",
-    "checkExist": true,
-    "downloadDelay": true,
-    // ⚠️ DO NOT MODIFY / DO NOT MOUNT - This folder is cleaned after each download 
-    "downloadPath": "/home/app/standalone/download/incomplete",
-    "includeEP": true,
-    "language": 0,
-    "lyricFile": false,
-    "multiThread": false,
-    "playlistFolderFormat": "{PlaylistName}",
-    "saveAlbumInfo": false,
-    "saveCovers": false,
-    "showProgress": true,
-    "showTrackInfo": true,
-    "trackFileFormat": "{TrackNumber} - {TrackTitle}{ExplicitFlag}",
-    "usePlaylistFolder": true,
-    "videoFileFormat": "{VideoNumber} - {ArtistName} - {VideoTitle}{ExplicitFlag}",
-    "videoQuality": "P360"
+  "token": "",
+  "refresh_token": "",
+  "token_expires_at": 1732717344,
+  "settings": {
+    "download_path": "/home/app/standalone/download/incomplete",
+    "track_quality": "HI_RES_LOSSLESS",
+    "track_template": "{artist}/{title}",
+    "album_template": "{artist}/{album}/{title}",
+    "playlist_template": "{playlist}/{title}",
+    "file_extension": ""
+  },
+  "user": {
+    "user_id": "",
+    "country_code": ""
+  }
 }
 ```
 
@@ -105,7 +101,7 @@ Tidal DL options in `.tidal-dl.json`:
 
 Add to your *docker-compose* file in `environment:` section :
 
-```
+```yaml
 environment:
   - ENABLE_BEETS=true # optional
 ```   
@@ -116,7 +112,7 @@ Beets options in `</mounted/config/folder/>beets-config.yml`:
 
 Add to your *docker-compose* file in `environment:` section :
 
-```
+```yaml
 environment:
   - ENABLE_PLEX_UPDATE=true
   - PLEX_URL=<url|ip:port>
@@ -136,7 +132,7 @@ Doc : https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
 
 Add to your *docker-compose* file in `environment:` section :
 
-```
+```yaml
 environment:
   - ENABLE_GOTIFY=true # optional
   - GOTIFY_URL=<url|ip:port>
@@ -145,15 +141,25 @@ environment:
 
 ## TIDAL SEARCH (optional)
 
-```
+```yaml
  environment:
   - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token>
   - REACT_APP_TIDAL_COUNTRY_CODE=<country-code>
 ```
 
+## TIDAL DOWNLOAD (optional)
+
+```bash
+ environment:
+  - TIDDL_FORMAT=<format>
+  - TIDDL_QUALITY=<high|master> # default : high
+```
+
+Doc: https://github.com/oskvr37/tiddl
+
 ## PUID & PGID (optional)
 
-```
+```yaml
 environment:
   - PUID=1234
   - PGID=123
@@ -177,6 +183,13 @@ Check docker environment variables in `compose.yml` before running :
 make dev
 ```
 
+Run tests :
+
+```bash
+make testing-build
+make testing-run
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Purposes
@@ -193,6 +206,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Resources
 
+- https://github.com/oskvr37/tiddl
 - https://github.com/yaronzz/Tidal-Media-Downloader
 - https://github.com/lucaslg26/TidalAPI
 - https://github.com/RandomNinjaAtk/arr-scripts (Lidarr extended scripts)

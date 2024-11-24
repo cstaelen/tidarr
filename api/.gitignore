@@ -2,10 +2,11 @@
 
 # project
 /download
-/settings/.tidal-dl.token.json
 /settings/beets/*
 /shared
 /docker/mnt
+.tiddl_config.json
+
 # dependencies
 /node_modules
 /.pnp

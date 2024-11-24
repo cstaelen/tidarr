@@ -5,9 +5,34 @@ import { ROOT_PATH } from "../../constants";
 import { ProcessingItemType } from "../types";
 
 export function logs(item: ProcessingItemType, message: string): string {
-  console.log(message);
-  item["output"] = [item["output"], message].join("\r\n");
-  return item["output"].substr(item["output"].length - 5000);
+  const formattedMessage = message
+    .toString()
+    .replace(new RegExp("\\r", "g"), "");
+
+  if (formattedMessage === "") return "";
+
+  console.log(formattedMessage);
+  const last_output =
+    item["output_history"]?.[item["output_history"]?.length - 1];
+
+  if (!item["output_history"]) {
+    item["output_history"] = [];
+  }
+
+  if (
+    (last_output?.includes("threaded download") &&
+      message.toString()?.includes("threaded download")) ||
+    (last_output?.includes("Single URL") &&
+      message.toString()?.includes("Single URL"))
+  ) {
+    item["output_history"][item["output_history"].length - 1] =
+      formattedMessage;
+  } else {
+    item["output_history"].push(formattedMessage);
+  }
+
+  item["output"] = [item["output_history"].slice(-500)].join("");
+  return item["output"];
 }
 
 export async function moveAndClean(

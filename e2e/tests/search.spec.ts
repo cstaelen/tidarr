@@ -170,7 +170,7 @@ test("Tidarr search : Should see quality filtered results", async ({
 }) => {
   await runSearch("artist:3634161:The Beatles", page);
   await expect(
-    page.getByRole("heading", { name: "Albums (22)" }),
+    page.getByRole("heading", { name: "Albums (23)" }),
   ).toBeInViewport();
 
   await countItems(".MuiGrid-item", 55, page);
@@ -179,13 +179,13 @@ test("Tidarr search : Should see quality filtered results", async ({
     .locator(".MuiChip-root")
     .filter({ hasText: /^lossless$/ })
     .count();
-  await expect(countLossless).toEqual(51);
+  await expect(countLossless).toEqual(50);
 
   const countHigh = await page
     .locator(".MuiChip-root")
     .filter({ hasText: /^high$/ })
     .count();
-  await expect(countHigh).toEqual(1);
+  await expect(countHigh).toEqual(2);
 
   const countLow = await page
     .locator(".MuiChip-root")
@@ -197,9 +197,9 @@ test("Tidarr search : Should see quality filtered results", async ({
 
   await page.getByRole("button", { name: "Lossless" }).click();
 
-  await countItems(".MuiGrid-item:visible", 51, page);
+  await countItems(".MuiGrid-item:visible", 50, page);
 
   await page.getByRole("button", { name: "High" }).click();
 
-  await countItems(".MuiGrid-item:visible", 1, page);
+  await countItems(".MuiGrid-item:visible", 2, page);
 });

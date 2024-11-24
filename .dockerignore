@@ -6,7 +6,6 @@ Makefile
 *.log*
 .cache
 dist
-settings/.tidal-dl.token.json
 download
 compose.override.yml
 docker/mnt

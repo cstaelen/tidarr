@@ -19,7 +19,7 @@ async function testProcessingList(page: Page) {
   await expect(
     page.getByRole("heading", { name: "Console output" }),
   ).toBeVisible();
-  await expect(page.getByText("=== Tidal-DL ===")).toBeVisible();
+  await expect(page.getByText("=== Tiddl ===")).toBeVisible();
   await expect(page.locator(".MuiDialog-container button")).toBeVisible();
 
   await page.getByRole("button", { name: "Close" }).click();

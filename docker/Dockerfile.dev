@@ -11,13 +11,13 @@ RUN apk update && apk upgrade
 RUN apk add git build-base curl npm nodejs python3 py3-pip 
 RUN ln -sf python3 /usr/bin/python
 
-RUN python3 -m pip install --no-cache --upgrade pip wheel setuptools chardet tidal-dl
+RUN python3 -m pip install --no-cache --upgrade pip wheel setuptools chardet tiddl
 
 RUN apk add beets
 
 RUN mkdir -p /home/app/standalone/shared/beets
 RUN touch /home/app/standalone/shared/beets/beets-library.blb
-
+RUN mkdir -p /home/app/standalone/download/incomplete/
 RUN npm install -g yarn
 
 COPY . .
