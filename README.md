@@ -101,7 +101,7 @@ Tidal DL options in `.tiddl_config.json`:
 
 Add to your *docker-compose* file in `environment:` section :
 
-```
+```yaml
 environment:
   - ENABLE_BEETS=true # optional
 ```   
@@ -112,7 +112,7 @@ Beets options in `</mounted/config/folder/>beets-config.yml`:
 
 Add to your *docker-compose* file in `environment:` section :
 
-```
+```yaml
 environment:
   - ENABLE_PLEX_UPDATE=true
   - PLEX_URL=<url|ip:port>
@@ -132,7 +132,7 @@ Doc : https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
 
 Add to your *docker-compose* file in `environment:` section :
 
-```
+```yaml
 environment:
   - ENABLE_GOTIFY=true # optional
   - GOTIFY_URL=<url|ip:port>
@@ -141,7 +141,7 @@ environment:
 
 ## TIDAL SEARCH (optional)
 
-```
+```yaml
  environment:
   - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token>
   - REACT_APP_TIDAL_COUNTRY_CODE=<country-code>
@@ -149,17 +149,17 @@ environment:
 
 ## TIDAL DOWNLOAD (optional)
 
-```
+```bash
  environment:
   - TIDDL_FORMAT=<format>
-  - TIDDL_QUALITY=<high|master>
+  - TIDDL_QUALITY=<high|master> # default : master
 ```
 
 Doc: https://github.com/oskvr37/tiddl
 
 ## PUID & PGID (optional)
 
-```
+```yaml
 environment:
   - PUID=1234
   - PGID=123
@@ -183,6 +183,13 @@ Check docker environment variables in `compose.yml` before running :
 make dev
 ```
 
+Run tests :
+
+```bash
+make testing-build
+make testing-run
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Purposes
@@ -199,6 +206,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Resources
 
+- https://github.com/oskvr37/tiddl
 - https://github.com/yaronzz/Tidal-Media-Downloader
 - https://github.com/lucaslg26/TidalAPI
 - https://github.com/RandomNinjaAtk/arr-scripts (Lidarr extended scripts)

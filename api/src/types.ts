@@ -10,6 +10,7 @@ export type ProcessingItemType = {
   loading: boolean;
   error: boolean;
   output: string;
+  output_history: string[];
   process?: ChildProcessWithoutNullStreams;
 };
 
