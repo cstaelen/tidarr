@@ -4,7 +4,7 @@ ENV SHELL bash
 ARG NODE_ENV
 ENV NODE_ENV="${NODE_ENV}"
 
-RUN apk add git npm nodejs
+RUN apk add git npm nodejs ffmpeg
 RUN npm install -g yarn
 
 COPY . .

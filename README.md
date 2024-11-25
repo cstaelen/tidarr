@@ -94,8 +94,9 @@ How to get search token :
 
 ```yaml
  environment:
-  - TIDDL_FORMAT=<format>
-  - TIDDL_QUALITY=<high|master> # default: high (16bit 44.1), available: master (24bit 192 max)
+  - TIDDL_FORMAT=<format> # default: {artist}/{album}/{title}
+  - TIDDL_QUALITY=<high|master> # default: high (16bit 44.1khz), available: master (24bit 192khz max)
+  - TIDDL_FORCE_EXT=<flac|mp3|m4a> # default: unset, depending the track downloaded.
 ```
 
 ## BEETS

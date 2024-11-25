@@ -7,6 +7,7 @@ import { ProcessingItemType } from "../types";
 const TIDDL_OUTPUT_PATH = "/home/app/standalone/download/incomplete";
 const TIDDL_QUALITY = process.env.TIDDL_QUALITY || "high";
 const TIDDL_FORMAT = process.env.TIDDL_FORMAT || "{artist}/{album}/{title}";
+const TIDDL_FORCE_EXT = process.env.TIDDL_FORCE_EXT;
 
 export function tidalDL(id: number, app: Express) {
   const item: ProcessingItemType =
@@ -14,10 +15,8 @@ export function tidalDL(id: number, app: Express) {
 
   item["output"] = logs(item, `=== Tiddl ===`);
 
-  const command = `${item.id} -q ${TIDDL_QUALITY} -p ${TIDDL_OUTPUT_PATH} -o "${TIDDL_FORMAT}" -s`;
-
-  item["output"] = logs(item, `Executing: ${command}`);
-  const child = spawn(`tiddl`, [
+  const binary = "tiddl";
+  const args: string[] = [
     item.url,
     "-q",
     TIDDL_QUALITY,
@@ -25,7 +24,17 @@ export function tidalDL(id: number, app: Express) {
     TIDDL_OUTPUT_PATH,
     "-o",
     TIDDL_FORMAT,
-  ]);
+    "-s",
+  ];
+
+  if (TIDDL_FORCE_EXT) {
+    args.push(...["-e", TIDDL_FORCE_EXT]);
+  }
+
+  const command = `${binary} ${args.join(" ")}`;
+
+  item["output"] = logs(item, `Executing: ${command}`);
+  const child = spawn(binary, args);
 
   child.stdout.setEncoding("utf8");
   child.stdout.on("data", (data) => {
@@ -43,12 +52,10 @@ export function tidalDL(id: number, app: Express) {
 
   child.on("close", (code) => {
     item["output"] = logs(item, `Tiddl process exited with code ${code}`);
-    if (code === 0) {
-      item["status"] = item.output.includes("[ERR]") ? "error" : "downloaded";
-      item["error"] = item.output.includes("[ERR]");
-      item["loading"] = false;
-      app.settings.processingList.actions.updateItem(item);
-    }
+    item["status"] = code === 1 ? "error" : "downloaded";
+    item["error"] = code === 1;
+    item["loading"] = false;
+    app.settings.processingList.actions.updateItem(item);
   });
 
   child.on("error", (err) => {
