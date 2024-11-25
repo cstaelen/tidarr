@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.4
+### 🚀 Added
+* [API] Add "force track extension" option. (TIDDL_FORCE_EXT)
+
 ## 📦 0.1.3
 ### 🖍 Changed
 * [API] Move from TidalMediaDownloader to Tiddl, max quality: 24 bit 192Khz 

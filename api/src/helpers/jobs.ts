@@ -64,12 +64,7 @@ export async function moveAndClean(
       `- Error moving files:\r\n${(e as Error).message}`,
     );
   } finally {
-    const output_clean = cleanFolder();
-    item["output"] = [
-      item["output"],
-      `- Clean folder"\r\n${output_clean}`,
-    ].join("\r\n");
-    item["output"].substr(item["output"].length - 5000);
+    cleanFolder();
     app.settings.processingList.actions.updateItem(item);
   }
 
