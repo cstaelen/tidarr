@@ -2,7 +2,9 @@ import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 import fs from "fs";
 
+import { ensureAccessIsGranted } from "./src/helpers/auth";
 import { ProcessingStack } from "./src/helpers/ProcessingStack";
+import { is_auth_active, proceed_auth } from "./src/services/auth";
 import { configureServer } from "./src/services/config";
 import { ProcessingItemType } from "./src/types";
 
@@ -23,20 +25,38 @@ app.all("*", function (req, res, next) {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept",
   );
+
   next();
 });
 
-app.post("/api/save", async (req: Request, res: Response) => {
-  req.app.settings.processingList.actions.addItem(req.body.item);
-  res.sendStatus(201);
+app.post("/api/auth", async (req: Request, res: Response) => {
+  await proceed_auth(req.body.password, res);
 });
 
-app.post("/api/remove", async (req: Request, res: Response) => {
-  req.app.settings.processingList.actions.removeItem(req.body.id);
-  res.sendStatus(201);
+app.get("/api/is_auth_active", (req: Request, res: Response) => {
+  const response = is_auth_active();
+  res.status(200).json({ isAuthActive: response });
 });
 
-app.get("/api/list", (req: Request, res: Response) => {
+app.post(
+  "/api/save",
+  ensureAccessIsGranted,
+  async (req: Request, res: Response) => {
+    req.app.settings.processingList.actions.addItem(req.body.item);
+    res.sendStatus(201);
+  },
+);
+
+app.post(
+  "/api/remove",
+  ensureAccessIsGranted,
+  async (req: Request, res: Response) => {
+    req.app.settings.processingList.actions.removeItem(req.body.id);
+    res.sendStatus(201);
+  },
+);
+
+app.get("/api/list", ensureAccessIsGranted, (req: Request, res: Response) => {
   const clone = [...req.app.settings.processingList.data].map((x) => x);
   const response = clone.map((item: ProcessingItemType) => {
     delete item.process;
@@ -45,10 +65,14 @@ app.get("/api/list", (req: Request, res: Response) => {
   res.send(response);
 });
 
-app.get("/api/check", async (req: Request, res: Response) => {
-  const response = await configureServer();
-  res.send(response);
-});
+app.get(
+  "/api/check",
+  ensureAccessIsGranted,
+  async (req: Request, res: Response) => {
+    const response = await configureServer();
+    res.send(response);
+  },
+);
 
 app.listen(port, () => {
   configureServer();

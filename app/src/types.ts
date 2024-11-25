@@ -146,3 +146,12 @@ export type ReleaseGithubType = {
   tag_name: string;
   body: string;
 };
+
+export type AuthType = {
+  accessGranted: boolean;
+  token?: string;
+};
+
+export type CheckAuthType = {
+  isAuthActive: boolean;
+};

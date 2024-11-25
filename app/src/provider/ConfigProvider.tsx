@@ -54,7 +54,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
       setTokenMissing(false);
       return;
     }
-    const output: ApiReturnType | ConfigType = await check();
+    const output = await check();
     if ((output as ApiReturnType)?.error) {
       setApiError(output as ApiReturnType);
       return;

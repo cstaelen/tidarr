@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "@emotion/styled";
 import { GitHub, Warning } from "@mui/icons-material";
 import { Button, Link, useTheme } from "@mui/material";
@@ -10,11 +9,13 @@ export const Footer = () => {
 
   return (
     <Support className="footer">
-      👋{" "}
+      👋&nbsp;
       <strong>
         Private use only. Do not forget to support your local artists 🙏❤️
       </strong>{" "}
-      • Tidarr • <span>v{window._env_.REACT_APP_TIDARR_VERSION}</span> • &nbsp;
+      &nbsp;•&nbsp;Tidarr&nbsp;•&nbsp;
+      <span>v{window._env_.REACT_APP_TIDARR_VERSION}</span>
+      &nbsp;•&nbsp;
       {isUpdateAvailable ? (
         <Button
           size="small"
