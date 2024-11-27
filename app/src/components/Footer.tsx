@@ -61,4 +61,13 @@ const Support = styled.div`
   line-height: 1.2;
   width: 100%;
   z-index: 1000;
+
+  @media screen and (max-width: 40rem) {
+    display: block;
+
+    svg {
+      vertical-align: middle;
+      width: 1.25rem;
+    }
+  }
 `;
