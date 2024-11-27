@@ -1,4 +1,6 @@
-# Selfhosted Tidal media downloader web client with docker
+# Selfhosted Tidal media downloader docker image
+Tidarr is a docker image which provides a web interface to download **24 bit 192.0 kHz** medias from Tidal (tracks/albums/playlists).
+Format on the fly with Beets, Automatically update your Plex library, Push notification with Gotify.
 
 [![GitHub Stars](https://img.shields.io/github/stars/cstaelen/tidarr.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr)
 [![GitHub Release](https://img.shields.io/github/release-date/cstaelen/tidarr?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr/releases)
@@ -6,11 +8,25 @@
 ![Playwright CI](https://img.shields.io/github/actions/workflow/status/cstaelen/tidarr/playwright.yml?label=Playwright%20CI&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)
 ![Docker build](https://img.shields.io/github/actions/workflow/status/cstaelen/tidarr/docker-push.yml?label=Docker%20build&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)
 [![Docker Pulls](https://img.shields.io/docker/pulls/cstaelen/tidarr.svg?color=1d64ed&labelColor=1d8fed&logoColor=ffffff&style=for-the-badge&label=pulls&logo=docker)](https://hub.docker.com/r/cstaelen/tidarr)
-[![Docker Stars](https://img.shields.io/docker/stars/cstaelen/tidarr.svg?color=1d64ed&labelColor=1d8fed&logoColor=ffffff&style=for-the-badge&label=stars&logo=docker)](https://hub.docker.com/r/cstaelen/tidarr)
+<a href="https://www.buymeacoffee.com/clst" target="_blank" title="Buy Me A Coffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 28px !important;width: 110px !important;" ></a>
 
 <img src="https://github.com/cstaelen/tidarr/blob/0.0.7/.github/screenshot.png?raw=true" />
 
-### Features
+## Table of Contents
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Tidal authentication](#tidal-authentication)
+- [Tidal search options](#tidal-search-optional)
+- [Download options](#download-options)
+- [PUID/PGID](#puid-pgid-optional)
+- [Services](#services):
+  - [Beets](#beets-optional)
+  - [Plex/Plexamp](#plex-update-optional)
+  - [Gotify](#gotify-optional)
+- [Donate](#donate)
+- [Develop](#develop)
+
+## Features
 - Search by keywords
 - Search by url : artist url, album url, playlist url
 - Downloadable media : tracks, albums, playlists
@@ -59,7 +75,7 @@ docker run  \
     cstaelen/tidarr:latest
 ```
 
-## Proceed to Tidal Authentication
+## Tidal authentication
 
 (if no `.tiddl_config.json` token file provided) :
 
@@ -73,7 +89,7 @@ docker compose exec -it tidarr tiddl
 docker exec -it tidarr tiddl
 ```
 
-## TIDAL SEARCH (optional)
+## Tidal search (optional)
 
 ```yaml
  environment:
@@ -81,7 +97,7 @@ docker exec -it tidarr tiddl
   - REACT_APP_TIDAL_COUNTRY_CODE=<country-code>
 ```
 N.B. `<country-code>` should match your Tidal account country code.
-You can check it with :
+You can check it using :
 ```bash
 docker exec tidarr cat /root/.tiddl_config.json
 ```
@@ -90,7 +106,7 @@ How to get search token :
 - https://github.com/lucaslg26/TidalAPI/issues/23
 
 
-## TIDAL DOWNLOAD (optional)
+## Download options
 
 ```yaml
  environment:
@@ -100,18 +116,28 @@ How to get search token :
   - TIDDL_FORCE_EXT=<flac|mp3|m4a> # default: unset, depending the track downloaded.
 ```
 
-## BEETS
+## PUID PGID (optional)
+
+```yaml
+environment:
+  - PUID=1234
+  - PGID=123
+```
+
+## Services
+
+### Beets (optional)
 
 Add to your *docker-compose* file in `environment:` section :
 
 ```yaml
 environment:
-  - ENABLE_BEETS=true # optional
+  - ENABLE_BEETS=true
 ```   
 
 Beets options in `</mounted/config/folder/>beets-config.yml`:
 
-## PLEX UPDATE
+### Plex update (optional)
 
 Add to your *docker-compose* file in `environment:` section :
 
@@ -131,34 +157,25 @@ environment:
 
 Doc : https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
 
-## GOTIFY
+### Gotify (optional)
 
 Add to your *docker-compose* file in `environment:` section :
 
 ```yaml
 environment:
-  - ENABLE_GOTIFY=true # optional
+  - ENABLE_GOTIFY=true
   - GOTIFY_URL=<url|ip:port>
   - GOTIFY_TOKEN=<gotify_app_token>
 ```
 
 Doc: https://github.com/oskvr37/tiddl
 
-## PUID & PGID (optional)
+## Donate
 
-```yaml
-environment:
-  - PUID=1234
-  - PGID=123
-```
+<a href="https://www.buymeacoffee.com/clst" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
-## Enhancements I'd love to add :
-
-- [x] Use Shazam API to recognize songs, then search over Tidal and easily grab track or album.
-=> See [Shazarr project here](https://github.com/cstaelen/docker-shazarr)
-- [x] Download Tidal playlist by URL
-
-## Want more features and/or contribute ? Be my guest, fork and dev <3
+## Develop
+Want more features and/or contribute ? Be my guest, fork and dev <3
 
 Check docker environment variables in `compose.yml` before running :
 
