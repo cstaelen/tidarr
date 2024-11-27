@@ -3,6 +3,13 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.5
+### 🚀 Added
+* [API] Environnement var for playlist format
+### 🐛 Fixed
+* [API] Fix default playlist format
+* [Front] Footer layout on mobile devices
+
 ## 📦 0.1.4
 ### 🚀 Added
 * [API] Add "force track extension" option. (TIDDL_FORCE_EXT)

@@ -38,6 +38,10 @@ export async function configureServer() {
       GOTIFY_TOKEN: process.env.GOTIFY_TOKEN || "",
       PUID: process.env.PUID || "",
       PGID: process.env.PGID || "",
+      TIDDL_FORMAT: process.env.TIDDL_FORMAT || "",
+      TIDDL_PLAYLIST_FORMAT: process.env.TIDDL_PLAYLIST_FORMAT || "",
+      TIDDL_QUALITY: process.env.TIDDL_QUALITY || "",
+      TIDDL_FORCE_EXT: process.env.TIDDL_FORCE_EXT || "",
     },
   };
 }

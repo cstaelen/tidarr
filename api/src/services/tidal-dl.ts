@@ -8,6 +8,9 @@ const TIDDL_OUTPUT_PATH = "/home/app/standalone/download/incomplete";
 const TIDDL_QUALITY = process.env.TIDDL_QUALITY || "high";
 const TIDDL_FORMAT = process.env.TIDDL_FORMAT || "{artist}/{album}/{title}";
 const TIDDL_FORCE_EXT = process.env.TIDDL_FORCE_EXT;
+const TIDDL_PLAYLIST_FORMAT =
+  process.env.TIDDL_PLAYLIST_FORMAT ||
+  "{playlist}/{playlist_number}-{artist}-{title}";
 
 export function tidalDL(id: number, app: Express) {
   const item: ProcessingItemType =
@@ -23,7 +26,7 @@ export function tidalDL(id: number, app: Express) {
     "-p",
     TIDDL_OUTPUT_PATH,
     "-o",
-    TIDDL_FORMAT,
+    item["type"] === "playlist" ? TIDDL_PLAYLIST_FORMAT : TIDDL_FORMAT,
     "-s",
   ];
 
