@@ -9,7 +9,7 @@ INCLUDE docker/stages/Dockerfile.builder
 ## BUILD STANDALONE APP
 
 FROM ghcr.io/linuxserver/baseimage-alpine:3.18 AS runner
-RUN apk add npm nodejs py3-pip beets
+RUN apk add npm nodejs py3-pip beets ffmpeg
 
 INCLUDE docker/stages/Dockerfile.python
 INCLUDE docker/stages/Dockerfile.runner
