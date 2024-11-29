@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.6
+### 🐛 Fixed
+* [API] Fix ffmpeg conversion
+
 ## 📦 0.1.5
 ### 🚀 Added
 * [API] Environnement var for playlist format
