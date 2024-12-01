@@ -3,6 +3,11 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.7
+### 🐛 Added
+* [Front] New environment var to set default quality search filter: `REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER`
+* [Front] Selected quality filter is now set in localstorage
+
 ## 📦 0.1.6
 ### 🐛 Fixed
 * [API] Fix ffmpeg conversion

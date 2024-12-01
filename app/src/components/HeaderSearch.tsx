@@ -3,7 +3,10 @@ import styled from "@emotion/styled";
 import AlbumIcon from "@mui/icons-material/Album";
 import { Box, Container, ToggleButton, ToggleButtonGroup } from "@mui/material";
 
-import { useSearchProvider } from "../provider/SearchProvider";
+import {
+  LOCALSTORAGE_QUALITY_FILTER,
+  useSearchProvider,
+} from "../provider/SearchProvider";
 
 import { Search } from "./Search";
 
@@ -52,7 +55,10 @@ export const HeaderSearch = () => {
                 fullWidth
                 size={window.innerWidth > 1024 ? "large" : "small"}
                 exclusive
-                onChange={(e, value) => actions.setQuality(value)}
+                onChange={(e, value) => {
+                  localStorage.setItem(LOCALSTORAGE_QUALITY_FILTER, value);
+                  actions.setQuality(value);
+                }}
                 aria-label="Platform"
               >
                 <ToggleButton value="lossless">Lossless</ToggleButton>

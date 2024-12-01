@@ -95,6 +95,7 @@ docker exec -it tidarr tiddl
  environment:
   - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token>
   - REACT_APP_TIDAL_COUNTRY_CODE=<country-code>
+  - REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER=<"lossless" | "high" | "all">
 ```
 N.B. `<country-code>` should match your Tidal account country code.
 You can check it using :

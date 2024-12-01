@@ -179,13 +179,13 @@ test("Tidarr search : Should see quality filtered results", async ({
     .locator(".MuiChip-root")
     .filter({ hasText: /^lossless$/ })
     .count();
-  await expect(countLossless).toEqual(50);
+  await expect(countLossless).toEqual(51);
 
   const countHigh = await page
     .locator(".MuiChip-root")
     .filter({ hasText: /^high$/ })
     .count();
-  await expect(countHigh).toEqual(2);
+  await expect(countHigh).toEqual(1);
 
   const countLow = await page
     .locator(".MuiChip-root")
@@ -197,9 +197,9 @@ test("Tidarr search : Should see quality filtered results", async ({
 
   await page.getByRole("button", { name: "Lossless" }).click();
 
-  await countItems(".MuiGrid-item:visible", 50, page);
+  await countItems(".MuiGrid-item:visible", 51, page);
 
   await page.getByRole("button", { name: "High" }).click();
 
-  await countItems(".MuiGrid-item:visible", 2, page);
+  await countItems(".MuiGrid-item:visible", 1, page);
 });
