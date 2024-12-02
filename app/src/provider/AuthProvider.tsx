@@ -5,6 +5,8 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ROUTE_LOGIN } from "src/components/Security/PrivateRoute";
 import { auth, is_auth_active } from "src/server/queryApi";
 import { ApiReturnType, AuthType, CheckAuthType } from "src/types";
 
@@ -21,6 +23,9 @@ const AuthContext = React.createContext<AuthContextType>({} as AuthContextType);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthActive, setIsAuthActive] = useState<boolean>();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
   const isAccessGranted = useMemo(
     () => !!localStorage.getItem(LOCALSTORAGE_TOKEN_KEY),
     [localStorage],
@@ -29,6 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const check = async () => {
     const response = await is_auth_active();
     setIsAuthActive(response && (response as CheckAuthType).isAuthActive);
+    if (pathname === ROUTE_LOGIN) navigate("/");
   };
 
   const login = async (password: string) => {
@@ -41,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           (response as AuthType)?.token || "",
         );
       }
-      window.location.replace("/");
+      navigate("/");
 
       return;
     }

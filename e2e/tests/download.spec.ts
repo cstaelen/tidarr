@@ -85,6 +85,9 @@ test("Tidarr download : Should be able to download playlist", async ({
     page,
   );
 
+  // Quality filter should have no impact
+  await page.getByRole("button", { name: "Lossless" }).click();
+
   await expect(page.getByRole("main")).toContainText("Grown Country");
 
   await page.getByRole("button", { name: "Get playlist" }).click();

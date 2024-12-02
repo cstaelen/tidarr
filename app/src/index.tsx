@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme, CssBaseline } from "@mui/material";
 
-import PrivateRoute from "./components/Security/PrivateRoute";
+import PrivateRoute, { ROUTE_LOGIN } from "./components/Security/PrivateRoute";
 import { AuthProvider } from "./provider/AuthProvider";
 import App from "./App";
 import Login from "./Login";
@@ -30,7 +30,7 @@ root.render(
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path={ROUTE_LOGIN} element={<Login />} />
             <Route element={<PrivateRoute />}>
               <Route path="/" element={<App />} />
             </Route>

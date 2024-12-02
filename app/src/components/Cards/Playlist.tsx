@@ -6,7 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { PlaylistType } from "src/types";
 
-import { DownloadButton } from "../DownloadButton";
+import { DownloadButton } from "../Buttons/DownloadButton";
 
 export default function Playlist({ playlist }: { playlist: PlaylistType }) {
   return (

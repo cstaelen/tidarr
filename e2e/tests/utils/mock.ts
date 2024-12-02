@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 
-export async function mockAPI(page: Page) {
+export async function mockConfigAPI(page: Page) {
   await page.route("*/**/check", async (route) => {
     const json = {
       noToken: false,
@@ -17,6 +17,18 @@ export async function mockAPI(page: Page) {
         GOTIFY_TOKEN: "abc-gotify-token-xyz",
       },
     };
+    await route.fulfill({ json });
+  });
+}
+
+export async function mockAuthAPI(page: Page, token: string) {
+  await page.route("*/**/is_auth_active", async (route) => {
+    const json = { isAuthActive: true };
+    await route.fulfill({ json });
+  });
+
+  await page.route("*/**/auth", async (route) => {
+    const json = { accessGranted: true, token: token };
     await route.fulfill({ json });
   });
 }

@@ -7,7 +7,7 @@ import { DialogToken } from "./components/Dialog/DialogToken";
 import { Footer } from "./components/Footer";
 import { ProcessingList } from "./components/Processing/ProcessingList";
 import { Results } from "./components/Results";
-import LogoutBtn from "./components/Security/LogoutBtn";
+import { useAuth } from "./provider/AuthProvider";
 import { ConfigProvider } from "./provider/ConfigProvider";
 import {
   ProcessingProvider,
@@ -29,10 +29,11 @@ declare module "@mui/material/styles/createPalette" {
 
 function App() {
   const { apiError } = useProcessingProvider();
+  const { isAuthActive } = useAuth();
   const [appLoaded, setAppLoaded] = useState(false);
 
   useEffect(() => apiError && console.log(apiError), [apiError]);
-  useEffect(() => setAppLoaded(true), []);
+  useEffect(() => setAppLoaded(isAuthActive !== undefined), [isAuthActive]);
 
   if (!appLoaded) return null;
 
@@ -42,7 +43,6 @@ function App() {
         <div className="relative">
           <SearchProvider>
             <ProcessingProvider>
-              <LogoutBtn />
               <Content>
                 <Results />
               </Content>

@@ -16,7 +16,7 @@ import { TIDAL_PUBLIC_BROWSE_URL } from "src/contants";
 import { useSearchProvider } from "src/provider/SearchProvider";
 import { TrackType } from "src/types";
 
-import { DownloadButton } from "../DownloadButton";
+import { DownloadButton } from "../Buttons/DownloadButton";
 
 export default function Track({ track }: { track: TrackType }) {
   const { actions } = useSearchProvider();

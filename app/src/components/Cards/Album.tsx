@@ -15,7 +15,7 @@ import Typography from "@mui/material/Typography";
 import { useSearchProvider } from "src/provider/SearchProvider";
 
 import { AlbumType } from "../../types";
-import { DownloadButton } from "../DownloadButton";
+import { DownloadButton } from "../Buttons/DownloadButton";
 
 export default function AlbumCard({ album }: { album: AlbumType }) {
   const { actions } = useSearchProvider();

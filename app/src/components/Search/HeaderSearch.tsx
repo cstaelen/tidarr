@@ -6,7 +6,9 @@ import { Box, Container, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import {
   LOCALSTORAGE_QUALITY_FILTER,
   useSearchProvider,
-} from "../provider/SearchProvider";
+} from "../../provider/SearchProvider";
+import LogoutButton from "../Buttons/LogoutButton";
+import SettingsButton from "../Buttons/SettingsButton";
 
 import { Search } from "./Search";
 
@@ -35,37 +37,52 @@ export const HeaderSearch = () => {
             },
           }}
         >
-          <Box sx={{ flex: "1 1 0" }}>
+          <Box flex="1 1 0">
             <Search />
           </Box>
-          {!!keywords && (
-            <Box
-              sx={{
-                flex: "0 0 auto",
-                marginTop: 1,
-                margin: {
-                  xs: "0 0 0.5rem 0",
-                  md: "0.5rem 0 0 0.5rem",
-                },
-              }}
-            >
-              <ToggleButtonGroup
-                color="primary"
-                value={quality || "all"}
-                fullWidth
-                size={window.innerWidth > 1024 ? "large" : "small"}
-                exclusive
-                onChange={(e, value) => {
-                  localStorage.setItem(LOCALSTORAGE_QUALITY_FILTER, value);
-                  actions.setQuality(value);
+          {keywords ? (
+            <Box flex="0 0 auto" display="flex" alignItems="center">
+              <Box
+                sx={{
+                  flex: "1 1 0",
+                  marginTop: 1,
+                  margin: {
+                    xs: "0 0 0.5rem 0",
+                    md: "0.5rem 0 0 0.5rem",
+                  },
                 }}
-                aria-label="Platform"
               >
-                <ToggleButton value="lossless">Lossless</ToggleButton>
-                <ToggleButton value="high">High</ToggleButton>
-                <ToggleButton value="all">All</ToggleButton>
-              </ToggleButtonGroup>
+                <ToggleButtonGroup
+                  color="primary"
+                  value={quality || "all"}
+                  fullWidth
+                  size={window.innerWidth > 1024 ? "large" : "small"}
+                  exclusive
+                  onChange={(e, value) => {
+                    localStorage.setItem(LOCALSTORAGE_QUALITY_FILTER, value);
+                    actions.setQuality(value);
+                  }}
+                  aria-label="Platform"
+                >
+                  <ToggleButton value="lossless">Lossless</ToggleButton>
+                  <ToggleButton value="high">High</ToggleButton>
+                  <ToggleButton value="all">All</ToggleButton>
+                </ToggleButtonGroup>
+              </Box>
+              &nbsp;
+              <Box flex="0 0 auto">
+                <SettingsButton />
+              </Box>
+              <Box flex="0 0 auto">
+                <LogoutButton />
+              </Box>
             </Box>
+          ) : (
+            <LogoutWrapper>
+              <SettingsButton />
+              &nbsp;
+              <LogoutButton />
+            </LogoutWrapper>
           )}
         </SearchWrapper>
       </Container>
@@ -105,4 +122,10 @@ const SearchWrapper = styled(Box)<{ initialState: boolean }>`
   max-width: ${({ initialState }) => (initialState ? "40rem" : "none")};
   transition: all 300ms ease-out;
   width: 100%;
+`;
+
+const LogoutWrapper = styled.div`
+  position: fixed;
+  right: 1rem;
+  top: 1rem;
 `;

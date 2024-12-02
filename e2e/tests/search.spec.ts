@@ -197,6 +197,13 @@ test("Tidarr search : Should see quality filtered results", async ({
 
   await page.getByRole("button", { name: "Lossless" }).click();
 
+  // Test localstorage persistence
+
+  await page.reload();
+  await expect(
+    await page.getByRole("button", { name: "Lossless" }),
+  ).toHaveAttribute("aria-pressed", "true");
+
   await countItems(".MuiGrid-item:visible", 51, page);
 
   await page.getByRole("button", { name: "High" }).click();

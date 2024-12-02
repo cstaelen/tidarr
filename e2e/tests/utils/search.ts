@@ -1,10 +1,10 @@
 import { expect, Page } from "@playwright/test";
 
 import { waitForImgLoaded, waitForLoader } from "./helpers";
-import { mockAPI } from "./mock";
+import { mockConfigAPI } from "./mock";
 
 export async function runSearch(keyword: string, page: Page) {
-  mockAPI(page);
+  mockConfigAPI(page);
 
   await page.goto("/");
 
