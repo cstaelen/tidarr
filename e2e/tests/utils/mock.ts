@@ -31,4 +31,9 @@ export async function mockAuthAPI(page: Page, token: string) {
     const json = { accessGranted: true, token: token };
     await route.fulfill({ json });
   });
+
+  await page.route("*/**/check", async (route) => {
+    const json = { noToken: false };
+    await route.fulfill({ json });
+  });
 }

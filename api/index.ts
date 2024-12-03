@@ -1,3 +1,4 @@
+import cors from "cors";
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 import fs from "fs";
@@ -15,6 +16,7 @@ const hostname = "0.0.0.0";
 
 const app: Express = express();
 app.use(express.json());
+app.use(cors());
 
 const processingList = ProcessingStack(app);
 app.set("processingList", processingList);

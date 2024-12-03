@@ -55,7 +55,7 @@ async function queryExpressJS<T>(
   return output;
 }
 
-export const apiUrl = `/api`;
+export const apiUrl = window._env_.REACT_APP_TIDARR_API_URL || "/api";
 
 export async function check() {
   return await queryExpressJS<ApiReturnType | ConfigType>(`${apiUrl}/check`);
