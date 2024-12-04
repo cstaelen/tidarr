@@ -1,29 +1,70 @@
-import { ApiReturnType } from "../types";
+import { LOCALSTORAGE_TOKEN_KEY } from "src/provider/AuthProvider";
 
-async function queryExpressJS(url: string, options?: RequestInit) {
-  try {
-    const data = await fetch(url, { ...options, cache: "no-cache" })
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        return data;
-      });
+import {
+  ApiReturnType,
+  AuthType,
+  CheckAuthType,
+  ConfigType,
+  ProcessingItemType,
+} from "../types";
 
-    return data;
-  } catch (e: unknown) {
-    return { error: true, message: (e as Error).message } as ApiReturnType;
+async function queryExpressJS<T>(
+  url: string,
+  options?: RequestInit,
+): Promise<T | ApiReturnType> {
+  const token = localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
+
+  if (token) {
+    options = {
+      ...options,
+      headers: { ...options?.headers, authorization: `Bearer ${token}` },
+    };
   }
+
+  let output!: T | ApiReturnType;
+  try {
+    await fetch(url, { ...options, cache: "no-cache" }).then(
+      function (response) {
+        if (response?.ok) {
+          output = response.json().then<T>(function (data) {
+            return data;
+          }) as T;
+
+          return;
+        }
+
+        if (response.status === 403) {
+          localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
+          window.location.reload();
+          return;
+        }
+
+        output = {
+          error: true,
+          message: response.statusText,
+        };
+      },
+    );
+  } catch (e: unknown) {
+    output = {
+      error: true,
+      message: (e as Error).message,
+    };
+  }
+
+  return output;
 }
 
-export const apiUrl = `/api`;
+export const apiUrl = window._env_.REACT_APP_TIDARR_API_URL || "/api";
 
 export async function check() {
-  return await queryExpressJS(`${apiUrl}/check`);
+  return await queryExpressJS<ApiReturnType | ConfigType>(`${apiUrl}/check`);
 }
 
 export async function list() {
-  return await queryExpressJS(`${apiUrl}/list`);
+  return await queryExpressJS<ProcessingItemType[] | ApiReturnType>(
+    `${apiUrl}/list`,
+  );
 }
 
 export async function save(body: string) {
@@ -44,4 +85,20 @@ export async function remove(body: string) {
     },
     body: body,
   });
+}
+
+export async function auth(body?: string): Promise<AuthType | ApiReturnType> {
+  return await queryExpressJS<AuthType | ApiReturnType>(`${apiUrl}/auth`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: body,
+  });
+}
+
+export async function is_auth_active(): Promise<CheckAuthType | ApiReturnType> {
+  return await queryExpressJS<{ isAuthActive: boolean }>(
+    `${apiUrl}/is_auth_active`,
+  );
 }

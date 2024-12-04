@@ -5,7 +5,9 @@
   "devDependencies": {
     "@eslint/js": "^9.15.0",
     "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.9.0",
+    "@types/cors": "^2.8.17",
     "@typescript-eslint/parser": "^8.15.0",
     "eslint": "^9.15.0",
     "eslint-config-prettier": "^9.1.0",
@@ -19,8 +21,10 @@
     "typescript-eslint": "^8.15.0"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2"
   },
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",

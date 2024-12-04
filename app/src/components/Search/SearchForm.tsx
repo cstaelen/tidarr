@@ -2,9 +2,9 @@ import React from "react";
 import { useSearchParams } from "react-router-dom";
 import { TextField } from "@mui/material";
 
-import { useSearchProvider } from "../provider/SearchProvider";
+import { useSearchProvider } from "../../provider/SearchProvider";
 
-export const Search = () => {
+export const SearchForm = () => {
   const { actions } = useSearchProvider();
   const [params] = useSearchParams();
 

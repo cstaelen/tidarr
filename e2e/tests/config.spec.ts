@@ -1,13 +1,11 @@
 import test, { expect } from "@playwright/test";
 import dotenv from "dotenv";
 
-import { mockAPI } from "./utils/mock";
+import { mockConfigAPI } from "./utils/mock";
 
 dotenv.config({ path: "../.env", override: false });
 
-const CURRENT_VERSION = process.env.IS_DOCKER
-  ? "0.0.0"
-  : process.env.REACT_APP_TIDARR_VERSION;
+const CURRENT_VERSION = process.env.REACT_APP_TIDARR_VERSION;
 
 test("Tidarr config : Should display modal error if no tidal token exists", async ({
   page,
@@ -35,15 +33,22 @@ test("Tidarr config : Should display modal error if no tidal token exists", asyn
 });
 
 test("Tidarr config : Should see app version", async ({ page }) => {
-  mockAPI(page);
+  mockConfigAPI(page);
   await page.goto("/");
 
   await expect(page.getByText(`v${CURRENT_VERSION}`)).toBeVisible();
+
+  await page.getByRole("button", { name: "Settings" }).click();
+
+  // Tab updates
+  await expect(
+    page.getByText(`Current version: ${CURRENT_VERSION}`),
+  ).toBeVisible();
 });
 
 test("Tidarr config : Should see configuration dialog", async ({ page }) => {
   if (!process.env.IS_DOCKER) {
-    mockAPI(page);
+    mockConfigAPI(page);
   }
 
   await page.route("*/**/releases", async (route) => {
@@ -62,11 +67,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     await page.getByRole("button", { name: "Close" }).click();
   }
 
-  await expect(page.locator(".footer span").first()).toContainText(
-    `v${CURRENT_VERSION}`,
-  );
-
-  await page.getByRole("button", { name: "Configuration" }).click();
+  await page.getByRole("button", { name: "Settings" }).click();
   await expect(page.getByRole("heading", { name: "Settings" })).toBeVisible();
 
   // Tab updates
@@ -105,7 +106,7 @@ test("Tidarr config : Should see update button", async ({ page }) => {
   });
 
   if (!process.env.IS_DOCKER) {
-    mockAPI(page);
+    mockConfigAPI(page);
   }
 
   await page.goto("/");
@@ -114,17 +115,10 @@ test("Tidarr config : Should see update button", async ({ page }) => {
     await page.getByRole("button", { name: "Close" }).click();
   }
 
-  await expect(page.locator(".footer span").first()).toContainText(
-    `v${CURRENT_VERSION}`,
-  );
-
   await expect(page.getByText("Update available")).toBeVisible();
   await page.getByText("Update available").click();
   // Tab updates
   await expect(page.getByRole("tab", { name: "Updates" })).toBeVisible();
-  await expect(
-    page.getByText(`Current version: ${CURRENT_VERSION}`),
-  ).toBeVisible();
-  await expect(page.getByText("Update available:")).toBeVisible();
+  await expect(page.getByText("Update available: 9.9.9")).toBeVisible();
   await expect(page.getByText("docker compose pull tidarr")).toBeVisible();
 });

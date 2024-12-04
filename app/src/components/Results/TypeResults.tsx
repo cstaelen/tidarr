@@ -46,6 +46,7 @@ export default function TypeResults(props: TabContentProps) {
                 sx={{
                   display:
                     props.type === "artists" ||
+                    (data as PlaylistType).type === "EDITORIAL" ||
                     quality === "all" ||
                     (
                       data as AlbumType | TrackType

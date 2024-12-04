@@ -53,7 +53,7 @@ test("Tidarr download : Should be able to download track", async ({ page }) => {
 
   await page
     .locator(
-      "div:nth-child(5) > .MuiPaper-root > div:nth-child(2) > .MuiBox-root > .MuiCardContent-root > div:nth-child(2) > button:nth-child(2)",
+      "div:nth-child(2) > .MuiPaper-root > div:nth-child(2) > div > .MuiCardContent-root > div:nth-child(3) > button:nth-child(2)",
     )
     .click();
 
@@ -70,7 +70,7 @@ test("Tidarr download : Should be able to download track album", async ({
 
   await page
     .locator(
-      "div:nth-child(5) > .MuiPaper-root > div:nth-child(2) > .MuiBox-root > .MuiCardContent-root > div:nth-child(2) > button:nth-child(1)",
+      "div:nth-child(5) > .MuiPaper-root > div:nth-child(2) > .MuiBox-root > .MuiCardContent-root > div:nth-child(3) > button:nth-child(1)",
     )
     .click();
 
@@ -84,6 +84,9 @@ test("Tidarr download : Should be able to download playlist", async ({
     "https://tidal.com/browse/playlist/0b5df380-47d3-48fe-ae66-8f0dba90b1ee",
     page,
   );
+
+  // Quality filter should have no impact
+  await page.getByRole("button", { name: "Lossless" }).click();
 
   await expect(page.getByRole("main")).toContainText("Grown Country");
 

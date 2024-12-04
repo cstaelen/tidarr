@@ -116,7 +116,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
   // Update front data
   const updateFrontList = async () => {
-    const data: ProcessingItemType[] | ApiReturnType = await list();
+    const data = await list();
 
     if ((data as ApiReturnType)?.error) {
       setApiError(data as ApiReturnType);

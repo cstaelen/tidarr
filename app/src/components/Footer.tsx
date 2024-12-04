@@ -1,6 +1,5 @@
-import React from "react";
 import styled from "@emotion/styled";
-import { GitHub, Warning } from "@mui/icons-material";
+import { GitHub } from "@mui/icons-material";
 import { Button, Link, useTheme } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
@@ -10,25 +9,22 @@ export const Footer = () => {
 
   return (
     <Support className="footer">
-      👋{" "}
+      👋&nbsp;
       <strong>
         Private use only. Do not forget to support your local artists 🙏❤️
       </strong>{" "}
-      • Tidarr • <span>v{window._env_.REACT_APP_TIDARR_VERSION}</span> • &nbsp;
-      {isUpdateAvailable ? (
+      &nbsp;•&nbsp;Tidarr&nbsp;•&nbsp;
+      <span>v{window._env_.REACT_APP_TIDARR_VERSION}</span>
+      &nbsp;•&nbsp;
+      {isUpdateAvailable && (
         <Button
           size="small"
           sx={{ color: theme.palette.alert }}
           onClick={() => actions.toggleModal(true)}
           color="warning"
-          startIcon={<Warning />}
         >
           <strong>Update available</strong>
         </Button>
-      ) : (
-        <Link onClick={() => actions.toggleModal(true)} component="button">
-          <strong>Configuration</strong>
-        </Link>
       )}
       &nbsp;
       <Link

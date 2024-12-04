@@ -6,7 +6,7 @@ import { useSearchProvider } from "../provider/SearchProvider";
 import ArtistPage from "./Results/ArtistPage";
 import TopResults from "./Results/TopResults";
 import TypeResults from "./Results/TypeResults";
-import { HeaderSearch } from "./HeaderSearch";
+import { HeaderSearch } from "./Search/HeaderSearch";
 
 interface TabPanelProps {
   children?: React.ReactNode;

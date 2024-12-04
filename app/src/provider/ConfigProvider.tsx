@@ -54,7 +54,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
       setTokenMissing(false);
       return;
     }
-    const output: ApiReturnType | ConfigType = await check();
+    const output = await check();
     if ((output as ApiReturnType)?.error) {
       setApiError(output as ApiReturnType);
       return;
@@ -62,7 +62,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
 
     const data = output as ConfigType;
     setTokenMissing(data?.noToken);
-    setConfig(data.parameters);
+    setConfig(data?.parameters);
   };
 
   // Check Updates
@@ -73,6 +73,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
           `https://api.github.com/repos/${window._env_.REACT_APP_TIDARR_REPO_URL}/releases`,
         );
         const data = (await response.json()) as ReleaseGithubType[];
+        if (!data?.[0]) return;
         const latestVersion = data[0].tag_name.substring(
           1,
           data[0].tag_name.length,

@@ -12,6 +12,7 @@ import {
 import { fetchTidal } from "../utils/fetch";
 
 type QualityType = "lossless" | "high" | "all";
+type DisplayType = "small" | "large";
 
 type SearchContextType = {
   searchResults: TidalResponseType;
@@ -21,10 +22,12 @@ type SearchContextType = {
   artistPagerLoading: number | undefined;
   page: number;
   quality: QualityType;
+  display: DisplayType;
   actions: {
     performSearch: (e: React.SyntheticEvent) => void;
     setPage: (page: number) => void;
     setQuality: (quality: QualityType) => void;
+    setDisplay: (mode: DisplayType) => void;
     fetchArtistPage: (url: string, index: number, offset: number) => void;
     queryTidal: (query: string, page: number) => void;
     queryArtist: (id: string, name: string, page: number) => void;
@@ -36,11 +39,15 @@ const SearchContext = React.createContext<SearchContextType>(
 );
 
 export const LOCALSTORAGE_QUALITY_FILTER = "tidarr-quality-filter";
+export const LOCALSTORAGE_DISPLAY_MODE = "tidarr-display-mode";
 
 export function SearchProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [keywords, setKeywords] = useState<string>();
+  const [display, setDisplay] = useState<DisplayType>(
+    (localStorage.getItem(LOCALSTORAGE_DISPLAY_MODE) as DisplayType) || "small",
+  );
   const [quality, setQuality] = useState<QualityType>(
     (window._env_.REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER as QualityType) ||
       (localStorage.getItem(LOCALSTORAGE_QUALITY_FILTER) as QualityType) ||
@@ -250,6 +257,14 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     }
   }, [params]);
 
+  useEffect(() => {
+    localStorage.setItem(LOCALSTORAGE_DISPLAY_MODE, display);
+  }, [display]);
+
+  useEffect(() => {
+    localStorage.setItem(LOCALSTORAGE_QUALITY_FILTER, quality);
+  }, [quality]);
+
   const value = {
     searchResults,
     artistResults,
@@ -258,10 +273,12 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     keywords,
     page,
     quality,
+    display,
     actions: {
       performSearch,
       setPage,
       setQuality,
+      setDisplay,
       queryTidal,
       queryArtist,
       fetchArtistPage,

@@ -54,9 +54,9 @@ export function tidalDL(id: number, app: Express) {
   });
 
   child.on("close", (code) => {
-    item["output"] = logs(item, `Tiddl process exited with code ${code}`);
-    item["status"] = code === 1 ? "error" : "downloaded";
-    item["error"] = code === 1;
+    item["output"] = logs(item, `Tiddl process exited with code  ${code}`);
+    item["status"] = code === 0 ? "downloaded" : "error";
+    item["error"] = code !== 0;
     item["loading"] = false;
     app.settings.processingList.actions.updateItem(item);
   });

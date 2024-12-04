@@ -170,16 +170,16 @@ test("Tidarr search : Should see quality filtered results", async ({
 }) => {
   await runSearch("artist:3634161:The Beatles", page);
   await expect(
-    page.getByRole("heading", { name: "Albums (23)" }),
+    page.getByRole("heading", { name: "Albums (22)" }),
   ).toBeInViewport();
 
-  await countItems(".MuiGrid-item", 55, page);
+  await countItems(".MuiGrid-item", 56, page);
 
   const countLossless = await page
     .locator(".MuiChip-root")
     .filter({ hasText: /^lossless$/ })
     .count();
-  await expect(countLossless).toEqual(51);
+  await expect(countLossless).toEqual(52);
 
   const countHigh = await page
     .locator(".MuiChip-root")
@@ -197,9 +197,39 @@ test("Tidarr search : Should see quality filtered results", async ({
 
   await page.getByRole("button", { name: "Lossless" }).click();
 
-  await countItems(".MuiGrid-item:visible", 51, page);
+  // Test localstorage persistence
+
+  await page.reload();
+  await expect(
+    await page.getByRole("button", { name: "Lossless" }),
+  ).toHaveAttribute("aria-pressed", "true");
+
+  await countItems(".MuiGrid-item:visible", 52, page);
 
   await page.getByRole("button", { name: "High" }).click();
 
   await countItems(".MuiGrid-item:visible", 1, page);
+});
+
+test("Tidarr search : Should have two display mode", async ({ page }) => {
+  await runSearch("Nirvana", page);
+  await expect(page.locator("#full-width-tab-3")).toContainText("Tracks (300)");
+
+  await expect(
+    page
+      .locator(
+        "#full-width-tabpanel-0 > div > div:nth-child(2) > div > div > div",
+      )
+      .first(),
+  ).toHaveScreenshot();
+
+  await page.getByLabel("Display mode").click();
+
+  await expect(
+    page
+      .locator(
+        "#full-width-tabpanel-0 > div > div:nth-child(2) > div > div > div",
+      )
+      .first(),
+  ).toHaveScreenshot();
 });

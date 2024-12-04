@@ -17,8 +17,10 @@ Format on the fly with Beets, Automatically update your Plex library, Push notif
 - [Getting Started](#getting-started)
 - [Tidal authentication](#tidal-authentication)
 - [Tidal search options](#tidal-search-optional)
-- [Download options](#download-options)
-- [PUID/PGID](#puid-pgid-optional)
+- [Options](#options)
+  - [Download options](#download-options)
+  - [PUID/PGID](#puid-pgid-optional)
+  - [Password protection](#password-protection-optional)
 - [Services](#services):
   - [Beets](#beets-optional)
   - [Plex/Plexamp](#plex-update-optional)
@@ -38,6 +40,7 @@ Format on the fly with Beets, Automatically update your Plex library, Push notif
 - Push notifications using **Gotify**
 - Plex library update
 - Max quality : **24 bit 192.0 kHz** (if available)
+- Admin password available
 
 ### Companion
 - Song recognition : [Shazarr project](https://github.com/cstaelen/shazarr) (Android) 
@@ -88,8 +91,9 @@ docker compose exec -it tidarr tiddl
 ```bash 
 docker exec -it tidarr tiddl
 ```
+## Options
 
-## Tidal search (optional)
+### Tidal search (optional)
 
 ```yaml
  environment:
@@ -107,7 +111,7 @@ How to get search token :
 - https://github.com/lucaslg26/TidalAPI/issues/23
 
 
-## Download options
+### Download options
 
 ```yaml
  environment:
@@ -123,6 +127,15 @@ How to get search token :
 environment:
   - PUID=1234
   - PGID=123
+```
+
+### Password protection (optional)
+
+If not set, no password is required to access the app.
+
+```yaml
+ environment:
+  - ADMIN_PASSWORD=<string> # if not set, no password are required to access
 ```
 
 ## Services
