@@ -53,7 +53,7 @@ test("Tidarr download : Should be able to download track", async ({ page }) => {
 
   await page
     .locator(
-      "div:nth-child(5) > .MuiPaper-root > div:nth-child(2) > .MuiBox-root > .MuiCardContent-root > div:nth-child(2) > button:nth-child(2)",
+      "div:nth-child(2) > .MuiPaper-root > div:nth-child(2) > div > .MuiCardContent-root > div:nth-child(3) > button:nth-child(2)",
     )
     .click();
 
@@ -70,7 +70,7 @@ test("Tidarr download : Should be able to download track album", async ({
 
   await page
     .locator(
-      "div:nth-child(5) > .MuiPaper-root > div:nth-child(2) > .MuiBox-root > .MuiCardContent-root > div:nth-child(2) > button:nth-child(1)",
+      "div:nth-child(5) > .MuiPaper-root > div:nth-child(2) > .MuiBox-root > .MuiCardContent-root > div:nth-child(3) > button:nth-child(1)",
     )
     .click();
 

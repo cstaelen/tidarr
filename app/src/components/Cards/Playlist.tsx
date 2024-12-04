@@ -1,14 +1,15 @@
-import * as React from "react";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Box, Chip, Link, Stack } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import { useSearchProvider } from "src/provider/SearchProvider";
 import { PlaylistType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
 
 export default function Playlist({ playlist }: { playlist: PlaylistType }) {
+  const { display } = useSearchProvider();
   return (
     <Card sx={{ position: "relative" }}>
       <Stack
@@ -41,10 +42,10 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
           </Link>
         </div>
       </Stack>
-      <Stack direction="row">
+      <Stack direction={display === "large" ? "column" : "row"}>
         <img
-          width={120}
-          height={120}
+          height={display === "small" ? 120 : "100%"}
+          width={display === "small" ? 120 : "100%"}
           src={`https://resources.tidal.com/images/${playlist.squareImage?.replace(
             /-/g,
             "/",

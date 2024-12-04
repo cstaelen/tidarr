@@ -18,7 +18,7 @@ import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
 
 export default function AlbumCard({ album }: { album: AlbumType }) {
-  const { actions } = useSearchProvider();
+  const { actions, display } = useSearchProvider();
   const theme = useTheme();
 
   return (
@@ -85,10 +85,10 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
           </Typography>
         </div>
       </Stack>
-      <Stack direction="row">
+      <Stack direction={display === "large" ? "column" : "row"}>
         <img
-          width={120}
-          height={120}
+          height={display === "small" ? 120 : "100%"}
+          width={display === "small" ? 120 : "100%"}
           src={`https://resources.tidal.com/images/${album.cover?.replace(
             /-/g,
             "/",
@@ -142,21 +142,6 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
                 variant="outlined"
                 style={{ margin: "0.2rem" }}
               />
-              {/* album?.popularity ? (
-                <Chip
-                  label={`Popularity: ${album.popularity}%`}
-                  size="small"
-                  variant="outlined"
-                  style={{ margin: "0.2rem" }}
-                  color={
-                    album.popularity > 75
-                      ? "success"
-                      : album.popularity > 33
-                      ? "warning"
-                      : "error"
-                  }
-                />
-              ) : null*/}
             </Stack>
             <DownloadButton
               item={album}

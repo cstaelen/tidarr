@@ -3,14 +3,12 @@ import styled from "@emotion/styled";
 import AlbumIcon from "@mui/icons-material/Album";
 import { Box, Container, ToggleButton, ToggleButtonGroup } from "@mui/material";
 
-import {
-  LOCALSTORAGE_QUALITY_FILTER,
-  useSearchProvider,
-} from "../../provider/SearchProvider";
+import { useSearchProvider } from "../../provider/SearchProvider";
+import DisplayButton from "../Buttons/displayButton";
 import LogoutButton from "../Buttons/LogoutButton";
 import SettingsButton from "../Buttons/SettingsButton";
 
-import { Search } from "./Search";
+import { SearchForm } from "./SearchForm";
 
 export const HeaderSearch = () => {
   const { quality, actions, keywords } = useSearchProvider();
@@ -38,7 +36,7 @@ export const HeaderSearch = () => {
           }}
         >
           <Box flex="1 1 0">
-            <Search />
+            <SearchForm />
           </Box>
           {keywords ? (
             <Box flex="0 0 auto" display="flex" alignItems="center">
@@ -58,10 +56,7 @@ export const HeaderSearch = () => {
                   fullWidth
                   size={window.innerWidth > 1024 ? "large" : "small"}
                   exclusive
-                  onChange={(e, value) => {
-                    localStorage.setItem(LOCALSTORAGE_QUALITY_FILTER, value);
-                    actions.setQuality(value);
-                  }}
+                  onChange={(e, value) => actions.setQuality(value)}
                   aria-label="Platform"
                 >
                   <ToggleButton value="lossless">Lossless</ToggleButton>
@@ -70,6 +65,9 @@ export const HeaderSearch = () => {
                 </ToggleButtonGroup>
               </Box>
               &nbsp;
+              <Box flex="0 0 auto">
+                <DisplayButton />
+              </Box>
               <Box flex="0 0 auto">
                 <SettingsButton />
               </Box>

@@ -210,3 +210,26 @@ test("Tidarr search : Should see quality filtered results", async ({
 
   await countItems(".MuiGrid-item:visible", 1, page);
 });
+
+test("Tidarr search : Should have two display mode", async ({ page }) => {
+  await runSearch("Nirvana", page);
+  await expect(page.locator("#full-width-tab-3")).toContainText("Tracks (300)");
+
+  await expect(
+    page
+      .locator(
+        "#full-width-tabpanel-0 > div > div:nth-child(2) > div > div > div",
+      )
+      .first(),
+  ).toHaveScreenshot();
+
+  await page.getByLabel("Display mode").click();
+
+  await expect(
+    page
+      .locator(
+        "#full-width-tabpanel-0 > div > div:nth-child(2) > div > div > div",
+      )
+      .first(),
+  ).toHaveScreenshot();
+});

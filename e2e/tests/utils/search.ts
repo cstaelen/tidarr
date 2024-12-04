@@ -7,6 +7,7 @@ export async function runSearch(keyword: string, page: Page) {
   mockConfigAPI(page);
 
   await page.goto("/");
+  await page.evaluate("localStorage.clear()");
 
   await waitForImgLoaded(page);
 

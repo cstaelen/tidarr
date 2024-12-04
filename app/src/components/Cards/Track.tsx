@@ -19,7 +19,7 @@ import { TrackType } from "src/types";
 import { DownloadButton } from "../Buttons/DownloadButton";
 
 export default function Track({ track }: { track: TrackType }) {
-  const { actions } = useSearchProvider();
+  const { display, actions } = useSearchProvider();
   const theme = useTheme();
 
   return (
@@ -85,10 +85,10 @@ export default function Track({ track }: { track: TrackType }) {
           </Typography>
         </div>
       </Stack>
-      <Stack direction="row">
+      <Stack direction={display === "large" ? "column" : "row"}>
         <img
-          width={120}
-          height={120}
+          height={display === "small" ? 120 : "100%"}
+          width={display === "small" ? 120 : "100%"}
           src={`https://resources.tidal.com/images/${track.album.cover?.replace(
             /-/g,
             "/",
@@ -106,12 +106,7 @@ export default function Track({ track }: { track: TrackType }) {
           <CardContent
             sx={{ flex: "0 0 auto", padding: "0.5rem 1rem !important" }}
           >
-            <Stack
-              direction="row"
-              flexWrap="wrap"
-              spacing={1}
-              style={{ marginBottom: "1rem" }}
-            >
+            <Stack direction="row" flexWrap="wrap" spacing={1} marginBottom={1}>
               <Chip
                 label={track.audioQuality.toLowerCase()}
                 color="primary"
@@ -134,6 +129,20 @@ export default function Track({ track }: { track: TrackType }) {
                 size="small"
               />
             </Stack>
+            <Box
+              lineHeight={1.2}
+              marginBottom={1}
+              fontSize={14}
+              minHeight={30}
+              alignContent="center"
+            >
+              Album :{" "}
+              <Link
+                href={`/?query=${TIDAL_PUBLIC_BROWSE_URL}/album/${track.album.id}`}
+              >
+                {track.album.title}
+              </Link>
+            </Box>
             <Stack direction="row" flexWrap="wrap" spacing={1}>
               <DownloadButton
                 item={track}
@@ -148,14 +157,6 @@ export default function Track({ track }: { track: TrackType }) {
                 label="Track"
               />
             </Stack>
-            <small>
-              Album :{" "}
-              <Link
-                href={`/?query=${TIDAL_PUBLIC_BROWSE_URL}/album/${track.album.id}`}
-              >
-                {track.album.title}
-              </Link>
-            </small>
           </CardContent>
         </Box>
       </Stack>

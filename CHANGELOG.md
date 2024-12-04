@@ -7,6 +7,7 @@ Tidarr notable changes.
 ### 🐛 Added
 * [Front] New environment var to set default quality search filter: `REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER`
 * [Front] Selected quality filter is now set in localstorage
+* [Front] Add a new display mode for grid results
 * [Front] Add optional authentication modal: `ADMIN_PASSWORD`
 * [API] Add authentication with jwt process
 
