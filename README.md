@@ -10,21 +10,22 @@ Format on the fly with Beets, Automatically update your Plex library, Push notif
 [![Docker Pulls](https://img.shields.io/docker/pulls/cstaelen/tidarr.svg?color=1d64ed&labelColor=1d8fed&logoColor=ffffff&style=for-the-badge&label=pulls&logo=docker)](https://hub.docker.com/r/cstaelen/tidarr)
 <a href="https://www.buymeacoffee.com/clst" target="_blank" title="Buy Me A Coffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 28px !important;width: 110px !important;" ></a>
 
-<img src="https://github.com/cstaelen/tidarr/blob/0.0.7/.github/screenshot.png?raw=true" />
+<img src="https://github.com/cstaelen/tidarr/blob/main/.github/screenshot.png?raw=true" />
 
 ## Table of Contents
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Tidal authentication](#tidal-authentication)
-- [Tidal search options](#tidal-search-optional)
 - [Options](#options)
-  - [Download options](#download-options)
+  - [Tidal search options](#tidal-search-optional)
+  - [Download options](#download-settings-optional)
   - [PUID/PGID](#puid-pgid-optional)
   - [Password protection](#password-protection-optional)
 - [Services](#services):
   - [Beets](#beets-optional)
   - [Plex/Plexamp](#plex-update-optional)
   - [Gotify](#gotify-optional)
+- [User requests](#user-requests)
 - [Donate](#donate)
 - [Develop](#develop)
 
@@ -97,8 +98,9 @@ docker exec -it tidarr tiddl
 
 ```yaml
  environment:
-  - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token>
+  - ...
   - REACT_APP_TIDAL_COUNTRY_CODE=<country-code>
+  - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token>
   - REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER=<"lossless" | "high" | "all">
 ```
 N.B. `<country-code>` should match your Tidal account country code.
@@ -111,20 +113,22 @@ How to get search token :
 - https://github.com/lucaslg26/TidalAPI/issues/23
 
 
-### Download options
+### Download settings (optional)
 
 ```yaml
  environment:
+  - ...
   - TIDDL_FORMAT=<format> # default: {artist}/{album}/{title}
   - TIDDL_PLAYLIST_FORMAT=<format> # default: {playlist}/{playlist_number}-{artist}-{title}
   - TIDDL_QUALITY=<low|normal|high|master> # default: high (16bit 44.1khz), max available: master (24bit 192khz max)
   - TIDDL_FORCE_EXT=<flac|mp3|m4a> # default: unset, depending the track downloaded.
 ```
 
-## PUID PGID (optional)
+### PUID PGID (optional)
 
 ```yaml
 environment:
+  - ...
   - PUID=1234
   - PGID=123
 ```
@@ -135,6 +139,7 @@ If not set, no password is required to access the app.
 
 ```yaml
  environment:
+  - ...
   - ADMIN_PASSWORD=<string> # if not set, no password are required to access
 ```
 
@@ -146,6 +151,7 @@ Add to your *docker-compose* file in `environment:` section :
 
 ```yaml
 environment:
+  - ...
   - ENABLE_BEETS=true
 ```   
 
@@ -157,6 +163,7 @@ Add to your *docker-compose* file in `environment:` section :
 
 ```yaml
 environment:
+  - ...
   - ENABLE_PLEX_UPDATE=true
   - PLEX_URL=<url|ip:port>
   - PLEX_LIBRARY=<music_library_id>
@@ -177,6 +184,7 @@ Add to your *docker-compose* file in `environment:` section :
 
 ```yaml
 environment:
+  - ...
   - ENABLE_GOTIFY=true
   - GOTIFY_URL=<url|ip:port>
   - GOTIFY_TOKEN=<gotify_app_token>
@@ -184,7 +192,14 @@ environment:
 
 Doc: https://github.com/oskvr37/tiddl
 
+## User requests
+As I'am the only maintainer for now, user requested features can takes time.
+1) Feel free to create an issue with `enhancement` tag.
+2) Be my guest, fork and dev !
+
 ## Donate
+
+If you would like to support this project, please do not hesitate to make a donation. It contributes a lot to motivation, gives me the energy to continue maintaining the project and adding the features requested by the users :)
 
 <a href="https://www.buymeacoffee.com/clst" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
