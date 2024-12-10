@@ -1,10 +1,11 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
-import { check } from "src/server/queryApi";
+import { check, get_token, get_token_log } from "src/server/queryApi";
 
 import {
   ApiReturnType,
   ConfigParametersType,
   ConfigType,
+  LogType,
   ReleaseGithubType,
 } from "../types";
 
@@ -18,6 +19,9 @@ type ConfigContextType = {
   reactAppEnvVars: ConfigParametersType;
   actions: {
     toggleModal: (isOpen: boolean) => void;
+    checkAPI: () => void;
+    getTidalToken: () => void;
+    getTidalTokenLogs: () => Promise<LogType | null>;
   };
 };
 
@@ -72,7 +76,8 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
         const response = await fetch(
           `https://api.github.com/repos/${window._env_.REACT_APP_TIDARR_REPO_URL}/releases`,
         );
-        const data = (await response.json()) as ReleaseGithubType[];
+
+        const data = (await response?.json()) as ReleaseGithubType[];
         if (!data?.[0]) return;
         const latestVersion = data[0].tag_name.substring(
           1,
@@ -92,6 +97,26 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Run Tidal token process AP
+  const getTidalToken = async () => {
+    try {
+      await get_token();
+    } catch (e: unknown) {
+      setApiError(e as ApiReturnType);
+    }
+  };
+
+  // Get Tidal authentication logs
+  const getTidalTokenLogs = async (): Promise<LogType | null> => {
+    const output = await get_token_log();
+    if ((output as ApiReturnType)?.error) {
+      setApiError(output as ApiReturnType);
+      return null;
+    }
+
+    return output as LogType;
+  };
+
   useEffect(() => {
     checkAPI();
     checkForUpdates();
@@ -107,6 +132,9 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     isConfigModalOpen,
     actions: {
       toggleModal,
+      getTidalToken,
+      getTidalTokenLogs,
+      checkAPI,
     },
   };
 

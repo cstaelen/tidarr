@@ -1,3 +1,5 @@
+import { ChildProcessWithoutNullStreams } from "child_process";
+
 export type ApiReturnType = { error: boolean; message: string };
 
 export type TrackType = {
@@ -154,4 +156,14 @@ export type AuthType = {
 
 export type CheckAuthType = {
   isAuthActive: boolean;
+};
+
+export type LogType = {
+  link: string;
+  output: string;
+  output_history: string[];
+  process?: ChildProcessWithoutNullStreams;
+  status?: "finished" | "error" | "auth" | undefined;
+  loading?: boolean;
+  error?: boolean;
 };

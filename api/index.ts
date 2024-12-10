@@ -5,6 +5,7 @@ import fs from "fs";
 
 import { ensureAccessIsGranted } from "./src/helpers/auth";
 import { ProcessingStack } from "./src/helpers/ProcessingStack";
+import { ProcessToken } from "./src/helpers/ProcessToken";
 import { is_auth_active, proceed_auth } from "./src/services/auth";
 import { configureServer } from "./src/services/config";
 import { ProcessingItemType } from "./src/types";
@@ -19,7 +20,9 @@ app.use(express.json());
 app.use(cors());
 
 const processingList = ProcessingStack(app);
+const tokenLog = ProcessToken(app);
 app.set("processingList", processingList);
+app.set("tokenLog", tokenLog);
 
 app.all("*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -66,6 +69,24 @@ app.get("/api/list", ensureAccessIsGranted, (req: Request, res: Response) => {
   });
   res.send(response);
 });
+
+app.get(
+  "/api/run_token",
+  ensureAccessIsGranted,
+  (req: Request, res: Response) => {
+    req.app.settings.tokenLog.actions.runTidalAuthentication();
+    res.sendStatus(201);
+  },
+);
+
+app.get(
+  "/api/token_log",
+  ensureAccessIsGranted,
+  (req: Request, res: Response) => {
+    const data = req.app.settings.tokenLog.actions.getLogs();
+    res.send(data);
+  },
+);
 
 app.get(
   "/api/check",

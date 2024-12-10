@@ -3,7 +3,7 @@ import { Express } from "express";
 import { beets } from "../services/beets";
 import { gotifyPush } from "../services/gotify";
 import { plexUpdate } from "../services/plex";
-import { tidalDL } from "../services/tidal-dl";
+import { tidalDL } from "../services/tiddl";
 import { ProcessingItemType } from "../types";
 
 import { cleanFolder, moveAndClean } from "./jobs";

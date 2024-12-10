@@ -5,6 +5,7 @@ import {
   AuthType,
   CheckAuthType,
   ConfigType,
+  LogType,
   ProcessingItemType,
 } from "../types";
 
@@ -101,4 +102,12 @@ export async function is_auth_active(): Promise<CheckAuthType | ApiReturnType> {
   return await queryExpressJS<{ isAuthActive: boolean }>(
     `${apiUrl}/is_auth_active`,
   );
+}
+
+export async function get_token(): Promise<CheckAuthType | ApiReturnType> {
+  return await queryExpressJS(`${apiUrl}/run_token`);
+}
+
+export async function get_token_log(): Promise<LogType | ApiReturnType> {
+  return await queryExpressJS<LogType>(`${apiUrl}/token_log`);
 }
