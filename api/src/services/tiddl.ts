@@ -59,6 +59,10 @@ export function tidalDL(id: number, app: Express) {
     item["error"] = code !== 0;
     item["loading"] = false;
     app.settings.processingList.actions.updateItem(item);
+
+    if (item["output"].includes(`logger.info(f"album: {album['title']}")`)) {
+      deleteTiddlConfig();
+    }
   });
 
   child.on("error", (err) => {
@@ -126,4 +130,13 @@ export function tidalToken(app: Express) {
   });
 
   return child;
+}
+
+export function deleteTiddlConfig() {
+  try {
+    spawn("rm", ["-rf", "/root/.tiddl_config.json"]);
+    spawn("rm", ["-rf", "/home/app/standalone/shared/.tiddl_config.json"]);
+  } catch (e) {
+    console.log("delete tiddl config error:", e);
+  }
 }

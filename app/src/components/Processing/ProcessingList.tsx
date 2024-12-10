@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Backdrop,
   Box,
@@ -13,23 +13,25 @@ import {
   TableRow,
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 
 import { ProcessingItem } from "./ProcessingItem";
 
 export const ProcessingList = () => {
   const { processingList } = useProcessingProvider();
+  const { actions } = useConfigProvider();
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  if (!processingList || processingList?.length === 0) return null;
-
-  const isLoading =
-    processingList?.filter((item) => item?.loading === true)?.length > 0;
-  const hasError =
-    processingList?.filter((item) => item?.error === true)?.length > 0;
+  const isLoading = processingList
+    ? processingList?.filter((item) => item?.loading === true)?.length > 0
+    : false;
+  const hasError = processingList
+    ? processingList?.filter((item) => item?.error === true)?.length > 0
+    : false;
 
   const buttonColor = hasError ? "error" : !isLoading ? "success" : "primary";
 
@@ -53,6 +55,14 @@ export const ProcessingList = () => {
       </strong>
     </>
   );
+
+  useEffect(() => {
+    if (hasError) {
+      actions.checkAPI();
+    }
+  }, [hasError]);
+
+  if (!processingList || processingList?.length === 0) return null;
 
   return (
     <SpeedDial

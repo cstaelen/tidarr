@@ -159,9 +159,10 @@ export type CheckAuthType = {
 };
 
 export type LogType = {
-  link: string;
   output: string;
   output_history: string[];
+  link: string;
+  is_athenticated: boolean;
   process?: ChildProcessWithoutNullStreams;
   status?: "finished" | "error" | "auth" | undefined;
   loading?: boolean;
