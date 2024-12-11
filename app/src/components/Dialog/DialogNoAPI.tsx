@@ -1,17 +1,20 @@
-import React from "react";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Paper } from "@mui/material";
-import { useProcessingProvider } from "src/provider/ProcessingProvider";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 
 import { DialogHandler } from ".";
 
 export const DialogNoAPI = () => {
-  const { apiError } = useProcessingProvider();
+  const {
+    apiError,
+    actions: { setApiError },
+  } = useConfigProvider();
 
   if (!apiError?.error) return null;
 
   return (
     <DialogHandler
+      onClose={() => setApiError(undefined)}
       title={
         <>
           <WarningIcon color="error" />

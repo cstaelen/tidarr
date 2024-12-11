@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect, useState } from "react";
+import React, { ReactNode, useContext, useState } from "react";
 import { check, get_token, get_token_log } from "src/server/queryApi";
 
 import {
@@ -20,8 +20,10 @@ type ConfigContextType = {
   actions: {
     toggleModal: (isOpen: boolean) => void;
     checkAPI: () => void;
+    setApiError: (error: ApiReturnType | undefined) => void;
     getTidalToken: () => void;
     getTidalTokenLogs: () => Promise<LogType | null>;
+    checkForUpdates: () => void;
   };
 };
 
@@ -117,11 +119,6 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     return output as LogType;
   };
 
-  useEffect(() => {
-    checkAPI();
-    checkForUpdates();
-  }, []);
-
   const value = {
     isUpdateAvailable,
     releaseData,
@@ -135,6 +132,8 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
       getTidalToken,
       getTidalTokenLogs,
       checkAPI,
+      setApiError,
+      checkForUpdates,
     },
   };
 

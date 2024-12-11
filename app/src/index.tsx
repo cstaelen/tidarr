@@ -6,6 +6,7 @@ import { createTheme, CssBaseline } from "@mui/material";
 
 import PrivateRoute, { ROUTE_LOGIN } from "./components/Security/PrivateRoute";
 import { AuthProvider } from "./provider/AuthProvider";
+import { ConfigProvider } from "./provider/ConfigProvider";
 import App from "./App";
 import Login from "./Login";
 
@@ -28,14 +29,16 @@ root.render(
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route path={ROUTE_LOGIN} element={<Login />} />
-            <Route element={<PrivateRoute />}>
-              <Route path="/" element={<App />} />
-            </Route>
-          </Routes>
-        </AuthProvider>
+        <ConfigProvider>
+          <AuthProvider>
+            <Routes>
+              <Route path={ROUTE_LOGIN} element={<Login />} />
+              <Route element={<PrivateRoute />}>
+                <Route path="/" element={<App />} />
+              </Route>
+            </Routes>
+          </AuthProvider>
+        </ConfigProvider>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>,

@@ -7,12 +7,8 @@ import { DialogToken } from "./components/Dialog/DialogToken";
 import { Footer } from "./components/Footer";
 import { ProcessingList } from "./components/Processing/ProcessingList";
 import { Results } from "./components/Results";
-import { useAuth } from "./provider/AuthProvider";
-import { ConfigProvider } from "./provider/ConfigProvider";
-import {
-  ProcessingProvider,
-  useProcessingProvider,
-} from "./provider/ProcessingProvider";
+import { useConfigProvider } from "./provider/ConfigProvider";
+import { ProcessingProvider } from "./provider/ProcessingProvider";
 import { SearchProvider } from "./provider/SearchProvider";
 
 declare module "@mui/material/styles/createPalette" {
@@ -28,17 +24,25 @@ declare module "@mui/material/styles/createPalette" {
 }
 
 function App() {
-  const { apiError } = useProcessingProvider();
-  const { isAuthActive } = useAuth();
   const [appLoaded, setAppLoaded] = useState(false);
+  const {
+    actions: { checkAPI, checkForUpdates },
+  } = useConfigProvider();
 
-  useEffect(() => apiError && console.log(apiError), [apiError]);
-  useEffect(() => setAppLoaded(isAuthActive !== undefined), [isAuthActive]);
+  useEffect(() => {
+    if (!appLoaded) return;
+    checkAPI();
+    checkForUpdates();
+  }, [appLoaded]);
+
+  useEffect(() => {
+    setAppLoaded(true);
+  }, []);
 
   if (!appLoaded) return null;
 
   return (
-    <ConfigProvider>
+    <>
       <main className="flex min-h-screen flex-col items-center justify-between">
         <div className="relative">
           <SearchProvider>
@@ -55,7 +59,7 @@ function App() {
         </div>
       </main>
       <Footer />
-    </ConfigProvider>
+    </>
   );
 }
 

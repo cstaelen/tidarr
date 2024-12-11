@@ -10,9 +10,10 @@ import {
   TrackType,
 } from "../types";
 
+import { useConfigProvider } from "./ConfigProvider";
+
 type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
-  apiError?: ApiReturnType;
   actions: {
     setProcessingList: (list: ProcessingItemType[]) => void;
     addItem: (
@@ -30,7 +31,9 @@ const ProcessingContext = React.createContext<ProcessingContextType>(
 
 export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
-  const [apiError, setApiError] = useState<ApiReturnType>();
+  const {
+    actions: { setApiError },
+  } = useConfigProvider();
 
   // Add item to processing list
   const addItem = async (
@@ -148,7 +151,6 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
   const value = {
     processingList,
-    apiError,
     actions: {
       setProcessingList,
       addItem,

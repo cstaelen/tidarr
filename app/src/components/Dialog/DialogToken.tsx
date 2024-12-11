@@ -1,29 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import WarningIcon from "@mui/icons-material/Warning";
-import { CircularProgress, Link, Paper } from "@mui/material";
+import {
+  CircularProgress,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Link,
+  Paper,
+} from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { LogType } from "src/types";
-
-import { DialogHandler } from ".";
 
 export const DialogToken = () => {
   const { tokenMissing, actions } = useConfigProvider();
   const [output, setOutput] = useState<string>();
-  const refOutput = useRef<null | HTMLPreElement>(null);
-  let timeoutLog: NodeJS.Timeout;
+
   let intervalLog: NodeJS.Timeout;
-
-  useEffect(() => {
-    timeoutLog = setTimeout(() => {
-      if (refOutput.current) {
-        refOutput.current.scrollTop = refOutput.current?.scrollHeight;
-      }
-    }, 100);
-
-    return () => {
-      clearTimeout(timeoutLog);
-    };
-  }, [output]);
 
   useEffect(() => {
     async function queryLogs() {
@@ -43,26 +35,21 @@ export const DialogToken = () => {
 
     intervalLog = setInterval(() => {
       queryLogs();
-    }, 5000);
+    }, 3000);
 
     return () => {
       clearInterval(intervalLog);
     };
   }, [tokenMissing]);
 
-  if (!tokenMissing) return null;
-
   return (
-    <DialogHandler
-      title={
-        <>
-          <WarningIcon color="error" />
-          &nbsp;
-          {"Tidal token not found !"}
-        </>
-      }
-    >
-      <>
+    <Dialog open={tokenMissing}>
+      <DialogTitle>
+        <WarningIcon color="error" />
+        &nbsp;
+        {"Tidal token not found !"}
+      </DialogTitle>
+      <DialogContent>
         <p>Click on the link below to authenticate :</p>
         <Paper
           elevation={0}
@@ -79,11 +66,11 @@ export const DialogToken = () => {
           </Link>
           <CircularProgress size={16} sx={{ mx: 2 }} />
         </Paper>
-      </>
-      <p>... or run this to create Tidal token :</p>
-      <Paper elevation={0} sx={{ padding: "1rem" }}>
-        <code>$ docker exec -it tidarr tiddl</code>
-      </Paper>
-    </DialogHandler>
+        <p>... or run this to create Tidal token :</p>
+        <Paper elevation={0} sx={{ padding: "1rem" }}>
+          <code>$ docker exec -it tidarr tiddl</code>
+        </Paper>
+      </DialogContent>
+    </Dialog>
   );
 };

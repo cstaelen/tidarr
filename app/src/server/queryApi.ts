@@ -35,14 +35,17 @@ async function queryExpressJS<T>(
         }
 
         if (response.status === 403) {
-          localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
-          window.location.reload();
+          if (localStorage.getItem(LOCALSTORAGE_TOKEN_KEY)) {
+            localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
+            window.location.reload();
+          }
           return;
         }
 
         output = {
-          error: true,
+          error: !response?.ok,
           message: response.statusText,
+          status: response.status,
         };
       },
     );

@@ -1,6 +1,10 @@
 import { ChildProcessWithoutNullStreams } from "child_process";
 
-export type ApiReturnType = { error: boolean; message: string };
+export type ApiReturnType = {
+  error: boolean;
+  message: string;
+  status?: number;
+};
 
 export type TrackType = {
   album: TrackAlbumType;
