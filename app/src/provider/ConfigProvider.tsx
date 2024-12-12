@@ -1,26 +1,24 @@
 import React, { ReactNode, useContext, useState } from "react";
-import { check, get_token, get_token_log } from "src/server/queryApi";
 
 import {
-  ApiReturnType,
   ConfigParametersType,
   ConfigType,
   LogType,
   ReleaseGithubType,
 } from "../types";
 
+import { useApiFetcher } from "./ApiFetcherProvider";
+
 type ConfigContextType = {
   isUpdateAvailable: boolean;
   releaseData: undefined | ReleaseGithubType;
   tokenMissing: boolean;
   config: undefined | ConfigParametersType;
-  apiError: ApiReturnType | undefined;
   isConfigModalOpen: boolean;
   reactAppEnvVars: ConfigParametersType;
   actions: {
     toggleModal: (isOpen: boolean) => void;
     checkAPI: () => void;
-    setApiError: (error: ApiReturnType | undefined) => void;
     getTidalToken: () => void;
     getTidalTokenLogs: () => Promise<LogType | null>;
     checkForUpdates: () => void;
@@ -36,8 +34,11 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [isConfigModalOpen, setIsConfigModalOpen] = useState<boolean>(false);
   const [tokenMissing, setTokenMissing] = useState(false);
   const [releaseData, setReleaseData] = useState<ReleaseGithubType>();
-  const [apiError, setApiError] = useState<ApiReturnType>();
   const [config, setConfig] = useState<ConfigParametersType>();
+
+  const {
+    actions: { check, get_token, get_token_log },
+  } = useApiFetcher();
 
   const reactAppEnvVars = {
     REACT_APP_TIDAL_SEARCH_TOKEN:
@@ -61,11 +62,6 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
       return;
     }
     const output = await check();
-    if ((output as ApiReturnType)?.error) {
-      setApiError(output as ApiReturnType);
-      return;
-    }
-
     const data = output as ConfigType;
     setTokenMissing(data?.noToken);
     setConfig(data?.parameters);
@@ -101,22 +97,12 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
 
   // Run Tidal token process AP
   const getTidalToken = async () => {
-    try {
-      await get_token();
-    } catch (e: unknown) {
-      setApiError(e as ApiReturnType);
-    }
+    await get_token();
   };
 
   // Get Tidal authentication logs
   const getTidalTokenLogs = async (): Promise<LogType | null> => {
-    const output = await get_token_log();
-    if ((output as ApiReturnType)?.error) {
-      setApiError(output as ApiReturnType);
-      return null;
-    }
-
-    return output as LogType;
+    return await get_token_log();
   };
 
   const value = {
@@ -125,14 +111,12 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     tokenMissing,
     config,
     reactAppEnvVars,
-    apiError,
     isConfigModalOpen,
     actions: {
       toggleModal,
       getTidalToken,
       getTidalTokenLogs,
       checkAPI,
-      setApiError,
       checkForUpdates,
     },
   };

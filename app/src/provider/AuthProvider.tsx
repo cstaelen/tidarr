@@ -7,10 +7,9 @@ import React, {
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTE_LOGIN } from "src/components/Security/PrivateRoute";
-import { auth, is_auth_active } from "src/server/queryApi";
 import { ApiReturnType, AuthType, CheckAuthType } from "src/types";
 
-import { useConfigProvider } from "./ConfigProvider";
+import { useApiFetcher } from "./ApiFetcherProvider";
 
 export const LOCALSTORAGE_TOKEN_KEY = "tidarr-token";
 
@@ -27,8 +26,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthActive, setIsAuthActive] = useState<boolean>();
   const { pathname } = useLocation();
   const {
-    actions: { setApiError },
-  } = useConfigProvider();
+    actions: { auth, is_auth_active },
+  } = useApiFetcher();
   const navigate = useNavigate();
 
   const isAccessGranted = useMemo(
@@ -37,14 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const check = async () => {
-    setApiError(undefined);
-
     const response = await is_auth_active();
-
-    if ((response as ApiReturnType).error) {
-      setApiError(response as ApiReturnType);
-      return;
-    }
 
     setIsAuthActive(response && (response as CheckAuthType).isAuthActive);
     if (pathname === ROUTE_LOGIN) navigate("/");
@@ -52,11 +44,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (password: string) => {
     const response = await auth(JSON.stringify({ password: password }));
-
-    if ((response as ApiReturnType).status === 500) {
-      setApiError(response as ApiReturnType);
-      return;
-    }
 
     if ((response as AuthType)?.accessGranted) {
       if (typeof (response as AuthType)?.token === "string") {

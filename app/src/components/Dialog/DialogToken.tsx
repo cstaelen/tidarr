@@ -43,7 +43,7 @@ export const DialogToken = () => {
   }, [tokenMissing]);
 
   return (
-    <Dialog open={tokenMissing}>
+    <Dialog open={!!tokenMissing}>
       <DialogTitle>
         <WarningIcon color="error" />
         &nbsp;
