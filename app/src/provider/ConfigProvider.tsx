@@ -20,7 +20,7 @@ type ConfigContextType = {
     toggleModal: (isOpen: boolean) => void;
     checkAPI: () => void;
     getTidalToken: () => void;
-    getTidalTokenLogs: () => Promise<LogType | null>;
+    getTidalTokenLogs: () => Promise<LogType | undefined>;
     checkForUpdates: () => void;
   };
 };
@@ -46,8 +46,8 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     REACT_APP_TIDAL_COUNTRY_CODE:
       window._env_.REACT_APP_TIDAL_COUNTRY_CODE || "",
     REACT_APP_TIDARR_SEARCH_URL: window._env_.REACT_APP_TIDARR_SEARCH_URL || "",
-    REACT_APP_TIDARR_VERSION: window._env_.REACT_APP_TIDARR_VERSION || "",
-    REACT_APP_TIDARR_REPO_URL: window._env_.REACT_APP_TIDARR_REPO_URL || "",
+    REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER:
+      window._env_.REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER || "",
   };
 
   // Open/close config modal
@@ -69,7 +69,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
 
   // Check Updates
   const checkForUpdates = async () => {
-    if (window._env_.REACT_APP_TIDARR_VERSION) {
+    if (config?.TIDARR_VERSION) {
       try {
         const response = await fetch(
           `https://api.github.com/repos/${window._env_.REACT_APP_TIDARR_REPO_URL}/releases`,
@@ -81,7 +81,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
           1,
           data[0].tag_name.length,
         );
-        const currentVersion = window._env_.REACT_APP_TIDARR_VERSION.substring(
+        const currentVersion = config?.TIDARR_VERSION.substring(
           1,
           data[0].tag_name.length,
         );
@@ -101,7 +101,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   };
 
   // Get Tidal authentication logs
-  const getTidalTokenLogs = async (): Promise<LogType | null> => {
+  const getTidalTokenLogs = async (): Promise<LogType | undefined> => {
     return await get_token_log();
   };
 

@@ -26,18 +26,18 @@ declare module "@mui/material/styles/createPalette" {
 function App() {
   const [appLoaded, setAppLoaded] = useState(false);
   const {
+    config,
     actions: { checkAPI, checkForUpdates },
   } = useConfigProvider();
 
   useEffect(() => {
-    if (!appLoaded) return;
+    setAppLoaded(true);
     checkAPI();
-    checkForUpdates();
-  }, [appLoaded]);
+  }, []);
 
   useEffect(() => {
-    setAppLoaded(true);
-  }, []);
+    if (config) checkForUpdates();
+  }, [config]);
 
   if (!appLoaded) return null;
 

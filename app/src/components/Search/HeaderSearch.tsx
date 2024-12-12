@@ -14,7 +14,7 @@ export const HeaderSearch = () => {
   const { quality, actions, keywords } = useSearchProvider();
 
   return (
-    <Header initialState={!keywords}>
+    <Header isHome={!keywords}>
       <Container maxWidth="lg">
         {!keywords && (
           <>
@@ -26,9 +26,9 @@ export const HeaderSearch = () => {
           </>
         )}
         <SearchWrapper
-          initialState={!keywords}
           sx={{
             alignItems: "center",
+            maxWidth: !keywords ? "40rem" : "none",
             display: {
               xs: "block",
               md: "flex",
@@ -88,11 +88,10 @@ export const HeaderSearch = () => {
   );
 };
 
-const Header = styled.div<{ initialState: boolean }>`
-  background-color: ${({ initialState }) =>
-    initialState ? "#121212" : "#212121"};
+const Header = styled.div<{ isHome: boolean }>`
+  background-color: ${({ isHome }) => (isHome ? "#121212" : "#212121")};
   left: 0;
-  padding: ${({ initialState }) => (initialState ? "25vh 0" : 0)};
+  padding: ${({ isHome }) => (isHome ? "25vh 0" : 0)};
   top: 0;
   text-align: center;
   width: 100%;
@@ -115,9 +114,8 @@ const Intro = styled.p`
   text-align: center;
 `;
 
-const SearchWrapper = styled(Box)<{ initialState: boolean }>`
+const SearchWrapper = styled(Box)`
   margin: 0 auto;
-  max-width: ${({ initialState }) => (initialState ? "40rem" : "none")};
   transition: all 300ms ease-out;
   width: 100%;
 `;

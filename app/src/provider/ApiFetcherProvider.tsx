@@ -15,14 +15,14 @@ type ApiFetcherContextType = {
     setApiError: (res: Response | undefined) => void;
   };
   actions: {
-    check: () => Promise<ConfigType>;
-    list: () => Promise<ProcessingItemType[]>;
+    check: () => Promise<ConfigType | undefined>;
+    list: () => Promise<ProcessingItemType[] | undefined>;
     save: (body: string) => Promise<unknown>;
     remove: (body: string) => Promise<unknown>;
-    auth: (body: string) => Promise<AuthType>;
-    is_auth_active: () => Promise<CheckAuthType>;
+    auth: (body: string) => Promise<AuthType | undefined>;
+    is_auth_active: () => Promise<CheckAuthType | undefined>;
     get_token: () => Promise<unknown>;
-    get_token_log: () => Promise<LogType>;
+    get_token_log: () => Promise<LogType | undefined>;
   };
 };
 
@@ -37,7 +37,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
   async function queryExpressJS<T>(
     url: string,
     options?: RequestInit,
-  ): Promise<T> {
+  ): Promise<T | undefined> {
     const token = localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
 
     if (token) {
@@ -50,7 +50,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     let output!: T;
 
     try {
-      setApiError(undefined);
+      // setApiError(undefined);
 
       await fetch(url, { ...options, cache: "no-cache" }).then(
         function (response) {
@@ -77,7 +77,10 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
         },
       );
     } catch (e: unknown) {
-      throw new Error((e as Error).message);
+      console.log((e as Error).message);
+      setApiError({ statusText: (e as Error).message } as Response);
+      return;
+      //throw new Error((e as Error).message);
     }
 
     return output;
@@ -111,7 +114,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     });
   }
 
-  async function auth(body?: string): Promise<AuthType> {
+  async function auth(body?: string): Promise<AuthType | undefined> {
     return await queryExpressJS<AuthType>(`${apiUrl}/auth`, {
       method: "POST",
       headers: {
@@ -121,7 +124,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     });
   }
 
-  async function is_auth_active(): Promise<CheckAuthType> {
+  async function is_auth_active(): Promise<CheckAuthType | undefined> {
     return await queryExpressJS<CheckAuthType>(`${apiUrl}/is_auth_active`);
   }
 
@@ -129,7 +132,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     await queryExpressJS(`${apiUrl}/run_token`);
   }
 
-  async function get_token_log(): Promise<LogType> {
+  async function get_token_log(): Promise<LogType | undefined> {
     return await queryExpressJS<LogType>(`${apiUrl}/token_log`);
   }
 

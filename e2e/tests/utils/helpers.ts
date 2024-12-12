@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 export async function waitForLoader(page) {
   const loader = await page.getByTestId("loader")?.isVisible();
   if (loader) {
-    await expect(page.getByTestId("loader")).not.toBeVisible();
+    await expect(page.getByTestId("loader")).not.toBeVisible({ timeout: 5000 });
   }
 }
 

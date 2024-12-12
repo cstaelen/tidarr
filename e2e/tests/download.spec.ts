@@ -26,6 +26,22 @@ async function testProcessingList(page: Page) {
 
   await page.getByLabel("Processing table").getByRole("button").first().click();
   await page.waitForTimeout(500);
+  await expect(page.getByLabel("Processing table").getByRole("button")).not.toBeVisible();
+
+  // const hasSecondRow = await page
+  //   .getByLabel("Processing table")
+  //   .getByRole("button")
+  //   .first()
+  //   .isVisible();
+  // if (hasSecondRow) {
+  //   await page
+  //     .getByLabel("Processing table")
+  //     .getByRole("button")
+  //     .first()
+  //     .click();
+  //   await page.waitForTimeout(500);
+  // }
+
   await expect(page.getByLabel("Show processing list")).not.toBeVisible();
 }
 

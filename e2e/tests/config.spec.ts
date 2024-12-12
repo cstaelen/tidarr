@@ -1,11 +1,11 @@
 import test, { expect } from "@playwright/test";
 import dotenv from "dotenv";
 
-import { mockConfigAPI } from "./utils/mock";
+import { mockConfigAPI, mockRelease } from "./utils/mock";
 
 dotenv.config({ path: "../.env", override: false });
 
-const CURRENT_VERSION = process.env.REACT_APP_TIDARR_VERSION;
+const CURRENT_VERSION = "0.0.1";
 
 test("Tidarr config : Should display modal error if no tidal token exists", async ({
   page,
@@ -51,25 +51,10 @@ test("Tidarr config : Should see app version", async ({ page }) => {
 });
 
 test("Tidarr config : Should see configuration dialog", async ({ page }) => {
-  if (!process.env.IS_DOCKER) {
-    mockConfigAPI(page);
-  }
-
-  await page.route("*/**/releases", async (route) => {
-    const json = [
-      {
-        name: CURRENT_VERSION,
-        tag_name: CURRENT_VERSION,
-      },
-    ];
-    await route.fulfill({ json });
-  });
+  mockConfigAPI(page);
+  mockRelease(page);
 
   await page.goto("/");
-
-  if (process.env.IS_DOCKER) {
-    await page.getByRole("button", { name: "Close" }).click();
-  }
 
   await page.getByRole("button", { name: "Settings" }).click();
   await expect(page.getByRole("heading", { name: "Settings" })).toBeVisible();
@@ -99,25 +84,10 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
 });
 
 test("Tidarr config : Should see update button", async ({ page }) => {
-  await page.route("*/**/releases", async (route) => {
-    const json = [
-      {
-        name: "9.9.9",
-        tag_name: "9.9.9",
-      },
-    ];
-    await route.fulfill({ json });
-  });
-
-  if (!process.env.IS_DOCKER) {
-    mockConfigAPI(page);
-  }
+  mockConfigAPI(page);
+  mockRelease(page, "9.9.9");
 
   await page.goto("/");
-
-  if (process.env.IS_DOCKER) {
-    await page.getByRole("button", { name: "Close" }).click();
-  }
 
   await expect(page.getByText("Update available")).toBeVisible();
   await page.getByText("Update available").click();

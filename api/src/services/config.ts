@@ -42,6 +42,7 @@ export async function configureServer() {
       TIDDL_PLAYLIST_FORMAT: process.env.TIDDL_PLAYLIST_FORMAT || "",
       TIDDL_QUALITY: process.env.TIDDL_QUALITY || "",
       TIDDL_FORCE_EXT: process.env.TIDDL_FORCE_EXT || "",
+      TIDARR_VERSION: process.env.TIDARR_VERSION || "",
     },
   };
 }

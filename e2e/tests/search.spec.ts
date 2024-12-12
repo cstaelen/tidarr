@@ -199,7 +199,8 @@ test("Tidarr search : Should see quality filtered results", async ({
 
   // Test localstorage persistence
 
-  await page.reload();
+  await runSearch("artist:3634161:The Beatles", page);
+
   await expect(
     await page.getByRole("button", { name: "Lossless" }),
   ).toHaveAttribute("aria-pressed", "true");

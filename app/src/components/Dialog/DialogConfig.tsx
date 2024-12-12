@@ -92,7 +92,7 @@ export const DialogConfig = () => {
 
       {currentTab === 0 && (
         <>
-          <p>Current version: {window._env_.REACT_APP_TIDARR_VERSION}</p>
+          <p>Current version: {config?.TIDARR_VERSION}</p>
           {isUpdateAvailable ? (
             <>
               <Paper sx={{ p: 2 }}>

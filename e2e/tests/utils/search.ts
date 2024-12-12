@@ -1,10 +1,11 @@
 import { expect, Page } from "@playwright/test";
 
 import { waitForImgLoaded, waitForLoader } from "./helpers";
-import { mockConfigAPI } from "./mock";
+import { mockConfigAPI, mockRelease } from "./mock";
 
 export async function runSearch(keyword: string, page: Page) {
   mockConfigAPI(page);
+  mockRelease(page);
 
   await page.goto("/");
   await page.evaluate("localStorage.clear()");
@@ -22,6 +23,12 @@ export async function runSearch(keyword: string, page: Page) {
   await page.getByTestId("search-input").fill(keyword);
   await page.getByTestId("search-input").press("Enter");
   await waitForLoader(page);
+
+  // Trigger loading of all images
+  await page.waitForFunction(() => {
+    const images = Array.from(document.querySelectorAll("img"));
+    return images.every((img) => img.complete);
+  });
 }
 
 export async function countItems(
