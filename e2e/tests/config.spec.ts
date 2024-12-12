@@ -18,18 +18,22 @@ test("Tidarr config : Should display modal error if no tidal token exists", asyn
     await route.fulfill({ json });
   });
 
+  await page.route("*/**/token_log", async (route) => {
+    const json = {
+      link: "https://token-url/ABC123",
+      output: "",
+    };
+    await route.fulfill({ json });
+  });
+
   await page.goto("/");
 
   await expect(
     page.getByRole("heading", { name: "Tidal token not found !" }),
   ).toBeVisible();
-
-  await expect(page.getByText("$ docker exec -it tidarr")).toBeVisible();
-  page.getByRole("button", { name: "Close" }).click();
-
   await expect(
-    page.getByRole("heading", { name: "Tidal token not found !" }),
-  ).not.toBeVisible();
+    page.getByRole("link", { name: "https://token-url/ABC123" }),
+  ).toBeVisible();
 });
 
 test("Tidarr config : Should see app version", async ({ page }) => {
