@@ -1,6 +1,7 @@
 import test, { expect } from "@playwright/test";
 import dotenv from "dotenv";
 
+import { emptyProcessingList } from "./utils/helpers";
 import { mockConfigAPI, mockRelease } from "./utils/mock";
 
 dotenv.config({ path: "../.env", override: false });
@@ -38,7 +39,9 @@ test("Tidarr config : Should display modal error if no tidal token exists", asyn
 
 test("Tidarr config : Should see app version", async ({ page }) => {
   mockConfigAPI(page);
+
   await page.goto("/");
+  await emptyProcessingList(page);
 
   await expect(page.getByText(`v${CURRENT_VERSION}`)).toBeVisible();
 
@@ -55,6 +58,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
   mockRelease(page);
 
   await page.goto("/");
+  await emptyProcessingList(page);
 
   await page.getByRole("button", { name: "Settings" }).click();
   await expect(page.getByRole("heading", { name: "Settings" })).toBeVisible();
@@ -88,6 +92,7 @@ test("Tidarr config : Should see update button", async ({ page }) => {
   mockRelease(page, "9.9.9");
 
   await page.goto("/");
+  await emptyProcessingList(page);
 
   await expect(page.getByText("Update available")).toBeVisible();
   await page.getByText("Update available").click();

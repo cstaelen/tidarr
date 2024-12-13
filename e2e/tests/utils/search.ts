@@ -1,16 +1,19 @@
 import { expect, Page } from "@playwright/test";
 
-import { waitForImgLoaded, waitForLoader } from "./helpers";
+import {
+  emptyProcessingList,
+  waitForImgLoaded,
+  waitForLoader,
+} from "./helpers";
 import { mockConfigAPI, mockRelease } from "./mock";
 
 export async function runSearch(keyword: string, page: Page) {
-  mockConfigAPI(page);
-  mockRelease(page);
+  await mockConfigAPI(page);
+  await mockRelease(page);
 
   await page.goto("/");
   await page.evaluate("localStorage.clear()");
-
-  await waitForImgLoaded(page);
+  await emptyProcessingList(page);
 
   await expect(page.getByRole("heading")).toContainText("Tidarr");
   await expect(
@@ -23,12 +26,7 @@ export async function runSearch(keyword: string, page: Page) {
   await page.getByTestId("search-input").fill(keyword);
   await page.getByTestId("search-input").press("Enter");
   await waitForLoader(page);
-
-  // Trigger loading of all images
-  await page.waitForFunction(() => {
-    const images = Array.from(document.querySelectorAll("img"));
-    return images.every((img) => img.complete);
-  });
+  await waitForImgLoaded(page);
 }
 
 export async function countItems(

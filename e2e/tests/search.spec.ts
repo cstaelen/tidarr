@@ -68,7 +68,7 @@ test("Tidarr search : Should see albums results", async ({ page }) => {
 
   await expect(
     page.locator("#full-width-tabpanel-1 .MuiGrid-item").first(),
-  ).toHaveScreenshot({ maxDiffPixelRatio: 0.1 });
+  ).toHaveScreenshot();
 
   // Test pager
 
@@ -97,7 +97,7 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
 
   await expect(
     page.locator("#full-width-tabpanel-2 .MuiGrid-item").first(),
-  ).toHaveScreenshot({ maxDiffPixelRatio: 0.1 });
+  ).toHaveScreenshot();
 
   // Test pager
 
@@ -155,7 +155,7 @@ test("Tidarr search : Should see tracks results", async ({ page }) => {
 
   await expect(
     page.locator("#full-width-tabpanel-3 .MuiGrid-item").first(),
-  ).toHaveScreenshot({ maxDiffPixels: 10 });
+  ).toHaveScreenshot();
 
   // Test pager
 
