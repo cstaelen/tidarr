@@ -6,7 +6,8 @@ Tidarr notable changes.
 ## 📦 0.1.8
 ### 🐛 Added
 * [Front/API] New Tidal token request dialog
-* [Front] Better obsolete token detection
+* [Front/API] Reset Tidal token in configuration dialog
+* [API] Better obsolete token detection
 * [Front] Fix mobile auth form layout
 * [Front] Better api fetch error handling
 * [Front] Refacto api fetcher

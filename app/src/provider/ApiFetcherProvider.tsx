@@ -23,6 +23,7 @@ type ApiFetcherContextType = {
     is_auth_active: () => Promise<CheckAuthType | undefined>;
     get_token: () => Promise<unknown>;
     get_token_log: () => Promise<LogType | undefined>;
+    delete_token: () => void;
   };
 };
 
@@ -136,6 +137,10 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     return await queryExpressJS<LogType>(`${apiUrl}/token_log`);
   }
 
+  async function delete_token() {
+    return await queryExpressJS<LogType>(`${apiUrl}/delete_token`);
+  }
+
   const value = {
     error: {
       apiError,
@@ -150,6 +155,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       is_auth_active,
       get_token,
       get_token_log,
+      delete_token,
     },
   };
 

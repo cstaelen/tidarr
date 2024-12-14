@@ -8,6 +8,7 @@ import { ProcessingStack } from "./src/helpers/ProcessingStack";
 import { ProcessToken } from "./src/helpers/ProcessToken";
 import { is_auth_active, proceed_auth } from "./src/services/auth";
 import { configureServer } from "./src/services/config";
+import { deleteTiddlConfig } from "./src/services/tiddl";
 import { ProcessingItemType } from "./src/types";
 
 dotenv.config({ path: "../.env", override: false });
@@ -85,6 +86,15 @@ app.get(
   (req: Request, res: Response) => {
     const data = req.app.settings.tokenLog.actions.getLogs();
     res.send(data);
+  },
+);
+
+app.get(
+  "/api/delete_token",
+  ensureAccessIsGranted,
+  (req: Request, res: Response) => {
+    deleteTiddlConfig();
+    res.sendStatus(201);
   },
 );
 

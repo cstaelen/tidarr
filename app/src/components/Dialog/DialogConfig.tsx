@@ -1,6 +1,8 @@
 import React from "react";
-import { InfoRounded } from "@mui/icons-material";
+import { InfoRounded, KeyOff } from "@mui/icons-material";
 import {
+  Box,
+  Button,
   Paper,
   Tab,
   Table,
@@ -60,6 +62,9 @@ export const DialogConfig = () => {
   } = useConfigProvider();
 
   const [currentTab, setCurrentTab] = React.useState(0);
+  const {
+    actions: { deleteTidalToken, checkAPI },
+  } = useConfigProvider();
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
@@ -88,6 +93,7 @@ export const DialogConfig = () => {
         <Tab label="Updates" />
         <Tab label="API" />
         <Tab label="Application" />
+        {!config?.noToken && <Tab label="Tidal Token" />}
       </Tabs>
 
       {currentTab === 0 && (
@@ -129,6 +135,26 @@ export const DialogConfig = () => {
             <TableParameters rows={Object.entries(reactAppEnvVars)} />
           ) : (
             "Not found."
+          )}
+        </>
+      )}
+      {currentTab === 3 && (
+        <>
+          {!config?.noToken && (
+            <Box display="flex" justifyContent="center" my={4}>
+              <Button
+                variant="contained"
+                color="warning"
+                startIcon={<KeyOff />}
+                onClick={async () => {
+                  await deleteTidalToken();
+                  actions.toggleModal(false);
+                  await checkAPI();
+                }}
+              >
+                Reset Tidal token
+              </Button>
+            </Box>
           )}
         </>
       )}

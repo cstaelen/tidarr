@@ -85,6 +85,11 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
       .locator("#alert-dialog-description div")
       .filter({ hasText: "Environment" }),
   ).toHaveScreenshot();
+
+  // Tab Tidal token
+  await expect(page.getByRole("tab", { name: "Tidal token" })).toBeVisible();
+  await page.getByRole("tab", { name: "Tidal token" }).click();
+  await expect(page.locator("#alert-dialog-description")).toHaveScreenshot();
 });
 
 test("Tidarr config : Should see update button", async ({ page }) => {
