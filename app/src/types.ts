@@ -1,4 +1,10 @@
-export type ApiReturnType = { error: boolean; message: string };
+import { ChildProcessWithoutNullStreams } from "child_process";
+
+export type ApiReturnType = {
+  error: boolean;
+  message: string;
+  status?: number;
+};
 
 export type TrackType = {
   album: TrackAlbumType;
@@ -154,4 +160,15 @@ export type AuthType = {
 
 export type CheckAuthType = {
   isAuthActive: boolean;
+};
+
+export type LogType = {
+  output: string;
+  output_history: string[];
+  link: string;
+  is_athenticated: boolean;
+  process?: ChildProcessWithoutNullStreams;
+  status?: "finished" | "error" | "auth" | undefined;
+  loading?: boolean;
+  error?: boolean;
 };

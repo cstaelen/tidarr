@@ -1,18 +1,17 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
 
-import { list, remove, save } from "../server/queryApi";
 import {
   AlbumType,
-  ApiReturnType,
   ArtistType,
   PlaylistType,
   ProcessingItemType,
   TrackType,
 } from "../types";
 
+import { useApiFetcher } from "./ApiFetcherProvider";
+
 type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
-  apiError?: ApiReturnType;
   actions: {
     setProcessingList: (list: ProcessingItemType[]) => void;
     addItem: (
@@ -30,7 +29,9 @@ const ProcessingContext = React.createContext<ProcessingContextType>(
 
 export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
-  const [apiError, setApiError] = useState<ApiReturnType>();
+  const {
+    actions: { list, remove, save },
+  } = useApiFetcher();
 
   // Add item to processing list
   const addItem = async (
@@ -65,13 +66,8 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       output: "",
     };
 
-    try {
-      await save(JSON.stringify({ item: itemToQueue }));
-    } catch (e: unknown) {
-      setApiError(e as ApiReturnType);
-    } finally {
-      updateFrontList();
-    }
+    await save(JSON.stringify({ item: itemToQueue }));
+    updateFrontList();
   };
 
   // Retry failed processing item
@@ -93,33 +89,22 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     };
 
     await removeItem(item.id);
+    await save(JSON.stringify({ item: itemToQueue }));
 
-    try {
-      await save(JSON.stringify({ item: itemToQueue }));
-    } catch (e: unknown) {
-      setApiError(e as ApiReturnType);
-    } finally {
-      updateFrontList();
-    }
+    updateFrontList();
   };
 
   // Remove item to processing list
   const removeItem = async (id: string) => {
-    try {
-      await remove(JSON.stringify({ id: id }));
-    } catch (e: unknown) {
-      setApiError(e as ApiReturnType);
-    } finally {
-      updateFrontList();
-    }
+    await remove(JSON.stringify({ id: id }));
+    updateFrontList();
   };
 
   // Update front data
   const updateFrontList = async () => {
     const data = await list();
 
-    if ((data as ApiReturnType)?.error) {
-      setApiError(data as ApiReturnType);
+    if (!data) {
       setProcessingList(undefined);
       return;
     }
@@ -148,7 +133,6 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
   const value = {
     processingList,
-    apiError,
     actions: {
       setProcessingList,
       addItem,

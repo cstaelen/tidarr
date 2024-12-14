@@ -15,6 +15,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   /* Opt out of parallel tests on CI. */
   workers: undefined,
+
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     [
@@ -50,4 +51,12 @@ export default defineConfig({
       use: { ...devices["iPhone 12"] },
     },
   ],
+  expect: {
+    timeout: 10000,
+    toHaveScreenshot: {
+      threshold: 0.25,
+      maxDiffPixelRatio: 0.025,
+      maxDiffPixels: 25,
+    },
+  },
 });

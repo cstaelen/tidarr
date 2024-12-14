@@ -1,20 +1,34 @@
 import { expect, Page, test } from "@playwright/test";
 
+import { emptyProcessingList } from "./utils/helpers";
 import { runSearch } from "./utils/search";
 
 test.describe.configure({ mode: "serial" });
 
 async function testProcessingList(page: Page) {
   await page.locator("button.MuiFab-circular").first().hover();
-  await expect(page.getByLabel("Processing table")).toHaveScreenshot({
-    maxDiffPixelRatio: 0.2,
-  });
+
+  const rowCount = await page
+    .getByLabel("Processing table")
+    .getByRole("row")
+    .count();
+  if (rowCount > 2) {
+    await page
+      .getByLabel("Processing table")
+      .getByRole("button")
+      .first()
+      .click();
+    await page.waitForTimeout(500);
+  }
+
+  await expect(page.getByLabel("Processing table")).toHaveScreenshot();
 
   await expect(page.locator(".MuiDialog-container button")).not.toBeVisible();
   await page
     .getByLabel("Processing table")
     .locator("div")
     .getByRole("button")
+    .first()
     .click();
   await expect(
     page.getByRole("heading", { name: "Console output" }),
@@ -24,9 +38,15 @@ async function testProcessingList(page: Page) {
 
   await page.getByRole("button", { name: "Close" }).click();
 
-  await page.getByLabel("Processing table").getByRole("button").first().click();
-  await page.waitForTimeout(500);
-  await expect(page.getByLabel("Show processing list")).not.toBeVisible();
+  await emptyProcessingList(page);
+
+  await expect(
+    page.getByLabel("Processing table").getByRole("button"),
+  ).not.toBeVisible();
+
+  await expect(
+    page.getByLabel("Processing table").getByRole("button").first(),
+  ).not.toBeVisible();
 }
 
 test("Tidarr download : Should be able to download album", async ({ page }) => {

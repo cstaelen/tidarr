@@ -9,7 +9,7 @@ export default [
   eslintPluginPrettierRecommended,
   ...typescriptEslint.configs.recommended,
   {
-    ignores: ["**/node_modules", "**/playwright-report"],
+    ignores: ["**/node_modules", "**/dist"],
   },
   {
     plugins: {
@@ -19,7 +19,7 @@ export default [
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        tsconfigRootDir: "src/",
+        tsconfigRootDir: "tests/",
       },
     },
 

@@ -2,7 +2,7 @@ import { spawn } from "child_process";
 import { Express } from "express";
 
 import { logs } from "../helpers/jobs";
-import { ProcessingItemType } from "../types";
+import { LogType, ProcessingItemType } from "../types";
 
 const TIDDL_OUTPUT_PATH = "/home/app/standalone/download/incomplete";
 const TIDDL_QUALITY = process.env.TIDDL_QUALITY || "high";
@@ -59,6 +59,10 @@ export function tidalDL(id: number, app: Express) {
     item["error"] = code !== 0;
     item["loading"] = false;
     app.settings.processingList.actions.updateItem(item);
+
+    if (item["output"].includes(`logger.info(f"album: {album['title']}")`)) {
+      deleteTiddlConfig();
+    }
   });
 
   child.on("error", (err) => {
@@ -72,4 +76,67 @@ export function tidalDL(id: number, app: Express) {
   });
 
   return child;
+}
+
+export function tidalToken(app: Express) {
+  const log: LogType = app.settings.tokenLog.actions.getLogs();
+
+  const command = "tiddl";
+  const child = spawn(command);
+
+  child.stdout.setEncoding("utf8");
+  child.stdout.on("data", (data) => {
+    log["loading"] = true;
+    log["process"] = child;
+
+    const url = data.match(/https?:\/\/[^\s]+/)?.[0];
+    if (url) {
+      log["link"] = url;
+    }
+
+    if (data?.includes("authenticated!")) {
+      log["is_athenticated"] = true;
+    }
+
+    app.settings.tokenLog.actions.updateLog(log);
+  });
+
+  child.stderr.setEncoding("utf8");
+  child.stderr.on("data", (data) => {
+    log["output"] = logs(log, data);
+    log["process"] = child;
+    log["loading"] = true;
+
+    app.settings.tokenLog.actions.updateLog(log);
+  });
+
+  child.on("close", (code) => {
+    log["output"] = logs(log, `Tiddl process exited with code  ${code}`);
+    log["status"] = code === 0 ? "auth" : "error";
+    log["error"] = code !== 0;
+    log["loading"] = false;
+
+    app.settings.tokenLog.actions.updateLog(log);
+  });
+
+  child.on("error", (err) => {
+    if (err) {
+      log["output"] = [log["output"], `Tiddl Error: ${err}`].join("\r\n");
+      log["status"] = "error";
+      log["error"] = true;
+      log["loading"] = false;
+      app.settings.tokenLog.actions.updateLog(log);
+    }
+  });
+
+  return child;
+}
+
+export function deleteTiddlConfig() {
+  try {
+    spawn("rm", ["-rf", "/root/.tiddl_config.json"]);
+    spawn("rm", ["-rf", "/home/app/standalone/shared/.tiddl_config.json"]);
+  } catch (e) {
+    console.log("delete tiddl config error:", e);
+  }
 }

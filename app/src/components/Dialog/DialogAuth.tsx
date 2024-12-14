@@ -70,7 +70,7 @@ export const DialogAuth = () => {
         </Box>
         {authError && <Alert severity="error">{authError}</Alert>}
         <Box sx={styleContent}>
-          <form onSubmit={(e) => submitForm(e)}>
+          <form onSubmit={(e) => submitForm(e)} style={{ display: "flex" }}>
             <Input
               ref={refInput}
               id="password"

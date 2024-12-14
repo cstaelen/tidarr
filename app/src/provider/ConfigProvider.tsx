@@ -1,23 +1,28 @@
-import React, { ReactNode, useContext, useEffect, useState } from "react";
-import { check } from "src/server/queryApi";
+import React, { ReactNode, useContext, useState } from "react";
 
 import {
-  ApiReturnType,
   ConfigParametersType,
   ConfigType,
+  LogType,
   ReleaseGithubType,
 } from "../types";
+
+import { useApiFetcher } from "./ApiFetcherProvider";
 
 type ConfigContextType = {
   isUpdateAvailable: boolean;
   releaseData: undefined | ReleaseGithubType;
   tokenMissing: boolean;
   config: undefined | ConfigParametersType;
-  apiError: ApiReturnType | undefined;
   isConfigModalOpen: boolean;
   reactAppEnvVars: ConfigParametersType;
   actions: {
     toggleModal: (isOpen: boolean) => void;
+    checkAPI: () => void;
+    getTidalToken: () => void;
+    getTidalTokenLogs: () => Promise<LogType | undefined>;
+    checkForUpdates: () => void;
+    deleteTidalToken: () => void;
   };
 };
 
@@ -30,8 +35,11 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [isConfigModalOpen, setIsConfigModalOpen] = useState<boolean>(false);
   const [tokenMissing, setTokenMissing] = useState(false);
   const [releaseData, setReleaseData] = useState<ReleaseGithubType>();
-  const [apiError, setApiError] = useState<ApiReturnType>();
   const [config, setConfig] = useState<ConfigParametersType>();
+
+  const {
+    actions: { check, get_token, get_token_log, delete_token },
+  } = useApiFetcher();
 
   const reactAppEnvVars = {
     REACT_APP_TIDAL_SEARCH_TOKEN:
@@ -39,8 +47,8 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     REACT_APP_TIDAL_COUNTRY_CODE:
       window._env_.REACT_APP_TIDAL_COUNTRY_CODE || "",
     REACT_APP_TIDARR_SEARCH_URL: window._env_.REACT_APP_TIDARR_SEARCH_URL || "",
-    REACT_APP_TIDARR_VERSION: window._env_.REACT_APP_TIDARR_VERSION || "",
-    REACT_APP_TIDARR_REPO_URL: window._env_.REACT_APP_TIDARR_REPO_URL || "",
+    REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER:
+      window._env_.REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER || "",
   };
 
   // Open/close config modal
@@ -55,11 +63,6 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
       return;
     }
     const output = await check();
-    if ((output as ApiReturnType)?.error) {
-      setApiError(output as ApiReturnType);
-      return;
-    }
-
     const data = output as ConfigType;
     setTokenMissing(data?.noToken);
     setConfig(data?.parameters);
@@ -67,18 +70,19 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
 
   // Check Updates
   const checkForUpdates = async () => {
-    if (window._env_.REACT_APP_TIDARR_VERSION) {
+    if (config?.TIDARR_VERSION) {
       try {
         const response = await fetch(
           `https://api.github.com/repos/${window._env_.REACT_APP_TIDARR_REPO_URL}/releases`,
         );
-        const data = (await response.json()) as ReleaseGithubType[];
+
+        const data = (await response?.json()) as ReleaseGithubType[];
         if (!data?.[0]) return;
         const latestVersion = data[0].tag_name.substring(
           1,
           data[0].tag_name.length,
         );
-        const currentVersion = window._env_.REACT_APP_TIDARR_VERSION.substring(
+        const currentVersion = config?.TIDARR_VERSION.substring(
           1,
           data[0].tag_name.length,
         );
@@ -92,10 +96,20 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  useEffect(() => {
-    checkAPI();
-    checkForUpdates();
-  }, []);
+  // Run Tidal token process AP
+  const getTidalToken = async () => {
+    await get_token();
+  };
+
+  // Get Tidal authentication logs
+  const getTidalTokenLogs = async (): Promise<LogType | undefined> => {
+    return await get_token_log();
+  };
+
+  // Remove Tidal token
+  const deleteTidalToken = async () => {
+    await delete_token();
+  };
 
   const value = {
     isUpdateAvailable,
@@ -103,10 +117,14 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     tokenMissing,
     config,
     reactAppEnvVars,
-    apiError,
     isConfigModalOpen,
     actions: {
       toggleModal,
+      getTidalToken,
+      getTidalTokenLogs,
+      checkAPI,
+      checkForUpdates,
+      deleteTidalToken,
     },
   };
 

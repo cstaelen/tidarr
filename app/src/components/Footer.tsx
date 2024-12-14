@@ -4,7 +4,7 @@ import { Button, Link, useTheme } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 export const Footer = () => {
-  const { isUpdateAvailable, actions } = useConfigProvider();
+  const { isUpdateAvailable, actions, config } = useConfigProvider();
   const theme = useTheme();
 
   return (
@@ -14,8 +14,12 @@ export const Footer = () => {
         Private use only. Do not forget to support your local artists 🙏❤️
       </strong>{" "}
       &nbsp;•&nbsp;Tidarr&nbsp;•&nbsp;
-      <span>v{window._env_.REACT_APP_TIDARR_VERSION}</span>
-      &nbsp;•&nbsp;
+      {config?.TIDARR_VERSION && (
+        <>
+          <span>{`v${config?.TIDARR_VERSION}`}</span>
+          &nbsp;•&nbsp;
+        </>
+      )}
       {isUpdateAvailable && (
         <Button
           size="small"

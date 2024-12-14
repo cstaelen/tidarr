@@ -1,11 +1,12 @@
 import test, { expect } from "@playwright/test";
 import dotenv from "dotenv";
 
-import { mockConfigAPI } from "./utils/mock";
+import { emptyProcessingList } from "./utils/helpers";
+import { mockConfigAPI, mockRelease } from "./utils/mock";
 
 dotenv.config({ path: "../.env", override: false });
 
-const CURRENT_VERSION = process.env.REACT_APP_TIDARR_VERSION;
+const CURRENT_VERSION = "0.0.1";
 
 test("Tidarr config : Should display modal error if no tidal token exists", async ({
   page,
@@ -18,23 +19,29 @@ test("Tidarr config : Should display modal error if no tidal token exists", asyn
     await route.fulfill({ json });
   });
 
+  await page.route("*/**/token_log", async (route) => {
+    const json = {
+      link: "https://token-url/ABC123",
+      output: "",
+    };
+    await route.fulfill({ json });
+  });
+
   await page.goto("/");
 
   await expect(
     page.getByRole("heading", { name: "Tidal token not found !" }),
   ).toBeVisible();
-
-  await expect(page.getByText("$ docker exec -it tidarr")).toBeVisible();
-  page.getByRole("button", { name: "Close" }).click();
-
   await expect(
-    page.getByRole("heading", { name: "Tidal token not found !" }),
-  ).not.toBeVisible();
+    page.getByRole("link", { name: "https://token-url/ABC123" }),
+  ).toBeVisible();
 });
 
 test("Tidarr config : Should see app version", async ({ page }) => {
   mockConfigAPI(page);
+
   await page.goto("/");
+  await emptyProcessingList(page);
 
   await expect(page.getByText(`v${CURRENT_VERSION}`)).toBeVisible();
 
@@ -47,25 +54,11 @@ test("Tidarr config : Should see app version", async ({ page }) => {
 });
 
 test("Tidarr config : Should see configuration dialog", async ({ page }) => {
-  if (!process.env.IS_DOCKER) {
-    mockConfigAPI(page);
-  }
-
-  await page.route("*/**/releases", async (route) => {
-    const json = [
-      {
-        name: CURRENT_VERSION,
-        tag_name: CURRENT_VERSION,
-      },
-    ];
-    await route.fulfill({ json });
-  });
+  mockConfigAPI(page);
+  mockRelease(page);
 
   await page.goto("/");
-
-  if (process.env.IS_DOCKER) {
-    await page.getByRole("button", { name: "Close" }).click();
-  }
+  await emptyProcessingList(page);
 
   await page.getByRole("button", { name: "Settings" }).click();
   await expect(page.getByRole("heading", { name: "Settings" })).toBeVisible();
@@ -92,28 +85,19 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
       .locator("#alert-dialog-description div")
       .filter({ hasText: "Environment" }),
   ).toHaveScreenshot();
+
+  // Tab Tidal token
+  await expect(page.getByRole("tab", { name: "Tidal token" })).toBeVisible();
+  await page.getByRole("tab", { name: "Tidal token" }).click();
+  await expect(page.locator("#alert-dialog-description")).toHaveScreenshot();
 });
 
 test("Tidarr config : Should see update button", async ({ page }) => {
-  await page.route("*/**/releases", async (route) => {
-    const json = [
-      {
-        name: "9.9.9",
-        tag_name: "9.9.9",
-      },
-    ];
-    await route.fulfill({ json });
-  });
-
-  if (!process.env.IS_DOCKER) {
-    mockConfigAPI(page);
-  }
+  mockConfigAPI(page);
+  mockRelease(page, "9.9.9");
 
   await page.goto("/");
-
-  if (process.env.IS_DOCKER) {
-    await page.getByRole("button", { name: "Close" }).click();
-  }
+  await emptyProcessingList(page);
 
   await expect(page.getByText("Update available")).toBeVisible();
   await page.getByText("Update available").click();

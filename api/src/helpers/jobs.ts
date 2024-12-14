@@ -2,16 +2,18 @@ import { execSync } from "child_process";
 import { Express } from "express";
 
 import { ROOT_PATH } from "../../constants";
-import { ProcessingItemType } from "../types";
+import { LogType, ProcessingItemType } from "../types";
 
-export function logs(item: ProcessingItemType, message: string): string {
+export function logs(
+  item: ProcessingItemType | LogType,
+  message: string,
+): string {
   const formattedMessage = message
     .toString()
     .replace(new RegExp("\\r", "g"), "");
 
   if (formattedMessage === "") return "";
 
-  console.log(formattedMessage);
   const last_output =
     item["output_history"]?.[item["output_history"]?.length - 1];
 

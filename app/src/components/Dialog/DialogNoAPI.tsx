@@ -1,17 +1,19 @@
-import React from "react";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Paper } from "@mui/material";
-import { useProcessingProvider } from "src/provider/ProcessingProvider";
+import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 
 import { DialogHandler } from ".";
 
 export const DialogNoAPI = () => {
-  const { apiError } = useProcessingProvider();
+  const {
+    error: { apiError, setApiError },
+  } = useApiFetcher();
 
-  if (!apiError?.error) return null;
+  if (!apiError?.statusText) return null;
 
   return (
     <DialogHandler
+      onClose={() => setApiError(undefined)}
       title={
         <>
           <WarningIcon color="error" />
@@ -28,11 +30,11 @@ export const DialogNoAPI = () => {
       <Paper elevation={0} sx={{ padding: "1rem" }}>
         <code>$ docker-compose tidarr logs</code>
       </Paper>
-      {apiError.message && (
+      {apiError.statusText && (
         <>
           <p>Error message:</p>
           <Paper elevation={0} sx={{ padding: "1rem" }}>
-            <code>{apiError.message}</code>
+            <code>{apiError.statusText}</code>
           </Paper>
         </>
       )}
