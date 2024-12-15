@@ -1,6 +1,7 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import {
   Box,
+  Breakpoint,
   Button,
   Dialog,
   DialogActions,
@@ -15,12 +16,14 @@ export const DialogHandler = ({
   title,
   open,
   icon,
+  maxWidth = "xl",
   onClose,
 }: {
   children: ReactNode;
   title: ReactNode;
   icon: ReactNode;
   open: boolean;
+  maxWidth?: Breakpoint;
   onClose?: () => void;
 }) => {
   const handleClose = () => {
@@ -33,6 +36,7 @@ export const DialogHandler = ({
       onClose={handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      maxWidth={maxWidth}
     >
       <DialogTitle
         id="alert-dialog-title"

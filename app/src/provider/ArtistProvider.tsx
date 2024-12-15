@@ -8,13 +8,14 @@ import {
   TidalModuleListType,
   TidalModuleResponseType,
   TidalPagedListType,
+  VideoType,
 } from "../types";
 import { fetchTidal } from "../utils/fetch";
 
 type ArtistResultsType = {
   title: string;
   artist: ArtistType | undefined;
-  blocks: TidalModuleListType<AlbumType>[];
+  blocks: TidalModuleListType<AlbumType | VideoType>[];
 };
 
 type ArtistContextType = {
@@ -41,16 +42,18 @@ export function ArtistProvider({ children }: { children: ReactNode }) {
   async function queryArtist(id: string) {
     setLoading(true);
 
-    const data_artist = await fetchTidal<TidalModuleResponseType<AlbumType>>(
-      `${TIDAL_API_LISTEN_URL}/pages/artist?artistId=${id}`,
-    );
+    const data_artist = await fetchTidal<
+      TidalModuleResponseType<AlbumType | VideoType>
+    >(`${TIDAL_API_LISTEN_URL}/pages/artist?artistId=${id}`);
 
     if (data_artist && data_artist?.rows?.length > 0) {
-      const album_block = data_artist?.rows
+      const blocks = data_artist?.rows
         .filter(
           (row) =>
-            row.modules.filter((module) => module.type === "ALBUM_LIST")
-              .length > 0,
+            row.modules.filter(
+              (module) =>
+                module.type === "ALBUM_LIST" || module.type === "VIDEO_LIST",
+            ).length > 0,
         )
         .map((row) => row.modules[0])
         .map((block) => ({
@@ -62,7 +65,7 @@ export function ArtistProvider({ children }: { children: ReactNode }) {
         }));
       setArtistResults({
         title: data_artist.title,
-        blocks: album_block,
+        blocks: blocks,
         artist: data_artist.rows[0].modules[0]?.artist,
       });
     }
@@ -79,7 +82,7 @@ export function ArtistProvider({ children }: { children: ReactNode }) {
     );
 
     if (data_artist_page && data_artist_page?.items?.length > 0) {
-      const clone: TidalModuleListType<AlbumType>[] = [
+      const clone: TidalModuleListType<AlbumType | VideoType>[] = [
         ...(artistResults?.blocks || []),
       ];
       const updatedData = {

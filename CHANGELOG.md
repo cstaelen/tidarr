@@ -4,6 +4,9 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 0.1.15
+### 🚀 Added
+* [Front] New "get all releases" button on artist pages
+* [Front] Add music video search
 ### 🖍 Changed
 * [Front] Renovate: move from `react-scripts` to `vitejs`
 * [Front] Renovate: update `reactjs` from `18` to version `19`

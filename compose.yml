@@ -13,6 +13,7 @@ services:
       - ./docker/mnt/download/albums:/home/app/standalone/download/albums
       - ./docker/mnt/download/tracks:/home/app/standalone/download/tracks
       - ./docker/mnt/download/playlists:/home/app/standalone/download/playlists
+      - ./docker/mnt/download/videos:/home/app/standalone/download/videos
       - .:/home/app/build # only used in dev environment
     restart: 'unless-stopped'
     environment:
@@ -40,7 +41,7 @@ services:
     ports:
       - 9323:9323
     environment:
-      - REACT_APP_TIDAL_COUNTRY_CODE=CA
+      - REACT_APP_TIDAL_COUNTRY_CODE=FR
       - REACT_APP_TIDAL_SEARCH_TOKEN=CzET4vdadNUFQ5JU
       - REACT_APP_TIDARR_SEARCH_URL=http://www.tidal.com/album/
       - ENABLE_BEETS=true

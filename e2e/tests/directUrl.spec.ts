@@ -152,7 +152,8 @@ test("Tidarr direct url : Should display artist page using Tidal artist url", as
   await testArtistSection(2, "EP & Singles", 2, page);
   await testArtistSection(3, "Compilations", 1, page);
   await testArtistSection(4, "Live albums", 1, page);
-  await testArtistSection(5, "Appears On", 28, page);
+  await testArtistSection(5, "Videos", 1, page);
+  await testArtistSection(6, "Appears On", 28, page);
 
   await expect(page.url()).toContain("/artist/17713");
 });

@@ -1,5 +1,5 @@
 # Selfhosted Tidal media downloader docker image
-Tidarr is a docker image which provides a web interface to download **24 bit 192.0 kHz** medias from Tidal (tracks/albums/playlists).
+Tidarr is a docker image which provides a web interface to download **24 bit 192.0 kHz** medias from Tidal (tracks/albums/playlists/music videos).
 Format on the fly with Beets, Automatically update your Plex library, Push notification with Gotify.
 
 [![GitHub Stars](https://img.shields.io/github/stars/cstaelen/tidarr.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr)
@@ -32,7 +32,7 @@ Format on the fly with Beets, Automatically update your Plex library, Push notif
 ## Features
 - Search by keywords
 - Search by url : artist url, album url, playlist url, track url, mix url
-- Downloadable media : tracks, albums, playlists
+- Downloadable media : tracks, albums, playlists, videos
 - Max quality : **24 bit 192.0 kHz** (if available)
 - Admin password available
 - Server side download list processing
@@ -62,6 +62,7 @@ services:
             - /any/folder/to/download/albums:/home/app/standalone/download/albums
             - /any/folder/to/download/tracks:/home/app/standalone/download/tracks
             - /any/folder/to/download/playlists:/home/app/standalone/download/playlists
+            - /any/folder/to/download/videos:/home/app/standalone/download/videos
         restart: 'unless-stopped'
 ```
 
@@ -76,6 +77,7 @@ docker run  \
 		-v /any/folder/to/download/albums:/home/app/standalone/download/albums \
 		-v /any/folder/to/download/tracks:/home/app/standalone/download/tracks \
 		-v /any/folder/to/download/playlists:/home/app/standalone/download/playlists \
+		-v /any/folder/to/download/videos:/home/app/standalone/download/videos \
     cstaelen/tidarr:latest
 ```
 

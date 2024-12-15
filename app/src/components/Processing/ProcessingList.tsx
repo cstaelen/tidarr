@@ -30,7 +30,7 @@ export const ProcessingList = () => {
     ? processingList?.filter((item) => item?.loading === true)?.length > 0
     : false;
   const hasError = processingList
-    ? processingList?.filter((item) => item?.error === true)?.length > 0
+    ? processingList?.filter((item) => item?.status === "error")?.length > 0
     : false;
 
   const buttonColor = hasError ? "error" : !isLoading ? "success" : "primary";

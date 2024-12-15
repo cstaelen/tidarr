@@ -42,7 +42,6 @@ export function tidalDL(id: number, app: Express) {
 
     item["output"] = logs(item, `Tiddl process exited with code  ${code}`);
     item["status"] = code === 0 ? "downloaded" : "error";
-    item["error"] = code !== 0;
     item["loading"] = false;
     app.settings.processingList.actions.updateItem(item);
   });
@@ -51,7 +50,6 @@ export function tidalDL(id: number, app: Express) {
     if (err) {
       item["output"] = logs(item, `Tiddl Error: ${err}`);
       item["status"] = "error";
-      item["error"] = true;
       item["loading"] = false;
       app.settings.processingList.actions.updateItem(item);
     }
@@ -90,11 +88,9 @@ export function tidalToken(app: Express) {
   child.on("close", (code) => {
     log["output"] = logs(log, `Tiddl process exited with code  ${code}`);
     log["status"] = code === 0 ? "auth" : "error";
-    log["error"] = code !== 0;
     log["loading"] = false;
 
     if (code === 0) {
-      log["is_athenticated"] = true;
       spawn("cp", [
         "-rf",
         "/root/tiddl.json",
@@ -109,7 +105,6 @@ export function tidalToken(app: Express) {
     if (err) {
       log["output"] = [log["output"], `Tiddl Error: ${err}`].join("\r\n");
       log["status"] = "error";
-      log["error"] = true;
       log["loading"] = false;
       app.settings.tokenLog.actions.updateLog(log);
     }

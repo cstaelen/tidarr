@@ -78,7 +78,7 @@ export const ProcessingStack = (expressApp: Express) => {
 
   async function postProcessing(item: ProcessingItemType) {
     const stdout = [];
-    if (item.type === "album") {
+    if (item.type === "album" || item.type === "artist") {
       await beets(item.id, expressApp);
     }
 
