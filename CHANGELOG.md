@@ -11,6 +11,7 @@ Tidarr notable changes.
 * [Front] Fix mobile auth form layout
 * [Front] Better api fetch error handling
 * [Front] Refacto api fetcher
+* [Front] Add playlists in results
 
 ## 📦 0.1.7
 ### 🐛 Added

@@ -113,6 +113,13 @@ export function SearchProvider({ children }: { children: ReactNode }) {
           ...(results?.tracks?.items || []),
         ],
       },
+      playlists: {
+        ...results?.playlists,
+        items: [
+          ...(page > 1 ? clone?.playlists?.items || [] : []),
+          ...(results?.playlists?.items || []),
+        ],
+      },
     };
     setSearchResults(data);
     postFetch(query);

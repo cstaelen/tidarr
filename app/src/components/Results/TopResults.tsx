@@ -55,7 +55,7 @@ export default function TopResults(
       items: playlists?.items || [],
       total: playlists?.totalNumberOfItems,
       limit: 6,
-      tab: 3,
+      tab: 4,
     },
   ];
 

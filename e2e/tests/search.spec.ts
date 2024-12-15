@@ -49,6 +49,20 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
   await expect(
     page.getByRole("button", { name: "See all tracks (300)" }),
   ).toBeVisible();
+
+  await expect(
+    page.getByRole("heading", { name: "Playlist(s)" }),
+  ).toBeVisible();
+
+  await countItems(
+    "#full-width-tabpanel-0 > div > div:nth-child(4) .MuiGrid-item",
+    6,
+    page,
+  );
+
+  await expect(
+    page.getByRole("button", { name: "See all playlists (186)" }),
+  ).toBeVisible();
 });
 
 test("Tidarr search : Should see albums results", async ({ page }) => {
@@ -163,6 +177,35 @@ test("Tidarr search : Should see tracks results", async ({ page }) => {
   await waitForLoader(page);
 
   await countItems("#full-width-tabpanel-3 .MuiGrid-item", 36, page);
+});
+
+test("Tidarr search : Should see playlists results", async ({ page }) => {
+  await runSearch("Nirvana", page);
+  await expect(page.locator("#full-width-tab-4")).toContainText(
+    "Playlists (186)",
+  );
+
+  await page.getByRole("tab", { name: "Playlists (186)" }).click();
+  await waitForImgLoaded(page);
+
+  await countItems("#full-width-tabpanel-4 .MuiGrid-item", 18, page);
+
+  await expect(
+    page.getByRole("button", { name: "LOAD MORE (page: 1/11)" }),
+  ).toBeVisible();
+
+  // Test album card snapshot
+
+  await expect(
+    page.locator("#full-width-tabpanel-4 .MuiGrid-item").first(),
+  ).toHaveScreenshot();
+
+  // Test pager
+
+  await page.getByRole("button", { name: "LOAD MORE (page: 1/11)" }).click();
+  await waitForLoader(page);
+
+  await countItems("#full-width-tabpanel-4 .MuiGrid-item", 36, page);
 });
 
 test("Tidarr search : Should see quality filtered results", async ({
