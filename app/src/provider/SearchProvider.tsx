@@ -120,6 +120,13 @@ export function SearchProvider({ children }: { children: ReactNode }) {
           ...(results?.playlists?.items || []),
         ],
       },
+      videos: {
+        ...results?.videos,
+        items: [
+          ...(page > 1 ? clone?.videos?.items || [] : []),
+          ...(results?.videos?.items || []),
+        ],
+      },
     };
     setSearchResults(data);
     postFetch(query);
@@ -168,6 +175,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
       artists: { items: [], totalNumberOfItems: 0 },
       tracks: { items: [], totalNumberOfItems: 0 },
       playlists: { items: [], totalNumberOfItems: 0 },
+      videos: { items: [], totalNumberOfItems: 0 },
     };
 
     // Artist url

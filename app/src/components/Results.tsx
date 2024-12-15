@@ -42,7 +42,7 @@ export const Results = () => {
   const {
     keywords,
     artistResults,
-    searchResults: { albums, artists, tracks, playlists },
+    searchResults: { albums, artists, tracks, playlists, videos },
   } = useSearchProvider();
 
   const theme = useTheme();
@@ -73,7 +73,9 @@ export const Results = () => {
                 label={`Top results (${
                   albums?.totalNumberOfItems +
                     artists?.totalNumberOfItems +
-                    tracks?.totalNumberOfItems || 0
+                    tracks?.totalNumberOfItems +
+                    playlists?.totalNumberOfItems +
+                    videos?.totalNumberOfItems || 0
                 })`}
                 {...a11yProps(0)}
               />
@@ -92,6 +94,10 @@ export const Results = () => {
               <Tab
                 label={`Playlists (${playlists?.totalNumberOfItems || 0})`}
                 {...a11yProps(4)}
+              />
+              <Tab
+                label={`Vidéos (${videos?.totalNumberOfItems || 0})`}
+                {...a11yProps(5)}
               />
             </Tabs>
           </Container>
@@ -116,6 +122,9 @@ export const Results = () => {
           </TabPanel>
           <TabPanel value={value} index={4} dir={theme.direction}>
             <TypeResults type="playlists" />
+          </TabPanel>
+          <TabPanel value={value} index={5} dir={theme.direction}>
+            <TypeResults type="videos" />
           </TabPanel>
         </Container>
       )}
