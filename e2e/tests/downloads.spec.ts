@@ -8,19 +8,6 @@ test.describe.configure({ mode: "serial" });
 async function testProcessingList(page: Page) {
   await page.locator("button.MuiFab-circular").first().hover();
 
-  const rowCount = await page
-    .getByLabel("Processing table")
-    .getByRole("row")
-    .count();
-  if (rowCount > 2) {
-    await page
-      .getByLabel("Processing table")
-      .getByRole("button")
-      .first()
-      .click();
-    await page.waitForTimeout(500);
-  }
-
   await expect(page.getByLabel("Processing table")).toHaveScreenshot();
 
   await expect(page.locator(".MuiDialog-container button")).not.toBeVisible();
@@ -41,7 +28,7 @@ async function testProcessingList(page: Page) {
   await emptyProcessingList(page);
 
   await expect(
-    page.getByLabel("Processing table").getByRole("button"),
+    page.getByLabel("Processing table").getByRole("button").first(),
   ).not.toBeVisible();
 
   await expect(

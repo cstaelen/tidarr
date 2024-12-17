@@ -44,7 +44,7 @@ export const DialogToken = () => {
 
   return (
     <Dialog open={!!tokenMissing}>
-      <DialogTitle>
+      <DialogTitle display="flex">
         <WarningIcon color="error" />
         &nbsp;
         {"Tidal token not found !"}

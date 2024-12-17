@@ -25,9 +25,16 @@ export async function emptyProcessingList(page: Page) {
     const items = await page.locator("#Showprocessinglist-action-1 tbody tr");
     const count = await items.count();
 
-    for (let i = count - 1; i >= 0; i--) {
-      await items.nth(i).getByRole("button").first().click();
-      await page.waitForTimeout(500);
-    }
+    const firstButton = await items
+      .nth(count - 1)
+      .getByRole("button")
+      .first();
+
+    if (!firstButton.isVisible()) return null;
+
+    await firstButton.click();
+    await page.waitForTimeout(500);
+
+    emptyProcessingList(page);
   }
 }

@@ -70,7 +70,7 @@ export type TidalResponseType = {
   albums: TidalResponseFormat<AlbumType>;
   tracks: TidalResponseFormat<TrackType>;
   artists: TidalResponseFormat<ArtistType>;
-  playlists?: TidalResponseFormat<PlaylistType> | undefined;
+  playlists: TidalResponseFormat<PlaylistType>;
 };
 
 export type ProcessingItemType = {

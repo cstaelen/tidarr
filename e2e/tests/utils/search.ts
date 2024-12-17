@@ -1,10 +1,6 @@
 import { expect, Page } from "@playwright/test";
 
-import {
-  emptyProcessingList,
-  waitForImgLoaded,
-  waitForLoader,
-} from "./helpers";
+import { waitForImgLoaded, waitForLoader } from "./helpers";
 import { mockConfigAPI, mockRelease } from "./mock";
 
 export async function runSearch(keyword: string, page: Page) {
@@ -13,7 +9,6 @@ export async function runSearch(keyword: string, page: Page) {
 
   await page.goto("/");
   await page.evaluate("localStorage.clear()");
-  await emptyProcessingList(page);
 
   await expect(page.getByRole("heading")).toContainText("Tidarr");
   await expect(

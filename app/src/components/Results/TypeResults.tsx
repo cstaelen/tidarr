@@ -12,7 +12,7 @@ import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
 
 import Pager from "./Pager";
 
-type TidalContentType = "albums" | "artists" | "tracks";
+type TidalContentType = "albums" | "artists" | "tracks" | "playlists";
 
 interface TabContentProps {
   children?: React.ReactNode;

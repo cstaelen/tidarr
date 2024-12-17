@@ -18,6 +18,7 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
         spacing={1}
         alignItems="center"
         style={{
+          minHeight: "60px",
           padding: "0.4rem 0.5rem 0.5rem",
           backgroundColor: "rgba(255, 255, 255, 0.04)",
         }}
