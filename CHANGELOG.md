@@ -4,22 +4,25 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 0.1.8
-### 🐛 Added
+### 🚀 Added
 * [Front/API] New Tidal token request dialog
 * [Front/API] Reset Tidal token in configuration dialog
+* [Front] Add playlists in results
+### 🖍 Changed
 * [API] Better obsolete token detection
-* [Front] Fix mobile auth form layout
 * [Front] Better api fetch error handling
 * [Front] Refacto api fetcher
-* [Front] Add playlists in results
+### 🐛 Fixed
+* [Front] Fix mobile auth form layout
 
 ## 📦 0.1.7
-### 🐛 Added
+### 🚀 Added
 * [Front] New environment var to set default quality search filter: `REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER`
-* [Front] Selected quality filter is now set in localstorage
 * [Front] Add a new display mode for grid results
 * [Front] Add optional authentication modal: `ADMIN_PASSWORD`
 * [API] Add authentication with jwt process
+### 🖍 Changed
+* [Front] Selected quality filter is now set in localstorage
 
 ## 📦 0.1.6
 ### 🐛 Fixed
