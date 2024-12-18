@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 
-import { DialogAuth } from "./components/Dialog/DialogAuth";
 import { DialogNoAPI } from "./components/Dialog/DialogNoAPI";
+import { AuthModal } from "./components/Security/AuthModal";
 import { useAuth } from "./provider/AuthProvider";
 
 export default function Login() {
@@ -11,7 +11,7 @@ export default function Login() {
 
   return (
     <>
-      <DialogAuth />
+      <AuthModal />
       <DialogNoAPI />
     </>
   );
