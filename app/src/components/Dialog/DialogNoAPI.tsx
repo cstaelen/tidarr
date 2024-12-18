@@ -9,18 +9,12 @@ export const DialogNoAPI = () => {
     error: { apiError, setApiError },
   } = useApiFetcher();
 
-  if (!apiError?.statusText) return null;
-
   return (
     <DialogHandler
+      open={!!apiError?.statusText}
       onClose={() => setApiError(undefined)}
-      title={
-        <>
-          <WarningIcon color="error" />
-          &nbsp;
-          {"Tidarr API is not reachable"}
-        </>
-      }
+      title={"Tidarr API is not reachable"}
+      icon={<WarningIcon color="error" />}
     >
       <p>
         Connection tentative to Tidarr API, failed.
@@ -30,7 +24,7 @@ export const DialogNoAPI = () => {
       <Paper elevation={0} sx={{ padding: "1rem" }}>
         <code>$ docker-compose tidarr logs</code>
       </Paper>
-      {apiError.statusText && (
+      {apiError?.statusText && (
         <>
           <p>Error message:</p>
           <Paper elevation={0} sx={{ padding: "1rem" }}>

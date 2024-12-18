@@ -28,7 +28,7 @@ const styleContent = {
   p: 4,
 };
 
-export const DialogAuth = () => {
+export const AuthModal = () => {
   const refInput = useRef<HTMLInputElement>(null);
   const [authError, setAuthError] = useState<boolean | string>(false);
   const [isLoading, setIsLoading] = useState(false);

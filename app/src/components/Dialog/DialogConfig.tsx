@@ -1,6 +1,7 @@
 import React from "react";
-import { InfoRounded, KeyOff } from "@mui/icons-material";
+import { InfoRounded, KeyOff, Warning } from "@mui/icons-material";
 import {
+  Alert,
   Box,
   Button,
   Paper,
@@ -53,6 +54,7 @@ const TableParameters = ({
 
 export const DialogConfig = () => {
   const {
+    tokenMissing,
     config,
     reactAppEnvVars,
     isUpdateAvailable,
@@ -70,18 +72,12 @@ export const DialogConfig = () => {
     setCurrentTab(newValue);
   };
 
-  if (!isConfigModalOpen) return null;
-
   return (
     <DialogHandler
+      open={isConfigModalOpen}
       onClose={() => actions.toggleModal(false)}
-      title={
-        <>
-          <InfoRounded />
-          &nbsp;
-          {"Settings"}
-        </>
-      }
+      title={"Settings"}
+      icon={<InfoRounded color="primary" />}
     >
       <Tabs
         value={currentTab}
@@ -93,7 +89,7 @@ export const DialogConfig = () => {
         <Tab label="Updates" />
         <Tab label="API" />
         <Tab label="Application" />
-        {!config?.noToken && <Tab label="Tidal Token" />}
+        <Tab label="Tidal Token" />
       </Tabs>
 
       {currentTab === 0 && (
@@ -139,24 +135,30 @@ export const DialogConfig = () => {
         </>
       )}
       {currentTab === 3 && (
-        <>
-          {!config?.noToken && (
-            <Box display="flex" justifyContent="center" my={4}>
-              <Button
-                variant="contained"
-                color="warning"
-                startIcon={<KeyOff />}
-                onClick={async () => {
-                  await deleteTidalToken();
-                  actions.toggleModal(false);
-                  await checkAPI();
-                }}
-              >
-                Reset Tidal token
-              </Button>
-            </Box>
+        <Box display="flex" justifyContent="center" my={4}>
+          {!tokenMissing ? (
+            <Button
+              variant="contained"
+              color="warning"
+              startIcon={<KeyOff />}
+              onClick={async () => {
+                await deleteTidalToken();
+                actions.toggleModal(false);
+                await checkAPI();
+              }}
+            >
+              Reset Tidal token
+            </Button>
+          ) : (
+            <Alert
+              color="warning"
+              icon={<Warning sx={{ fontSize: 20 }} />}
+              variant="outlined"
+            >
+              No Tidal token found !
+            </Alert>
           )}
-        </>
+        </Box>
       )}
     </DialogHandler>
   );
