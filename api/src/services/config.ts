@@ -23,6 +23,12 @@ export async function configureServer() {
     tiddl_config = JSON.parse(token_output) as TiddlConfig;
   }
 
+  const version_output = await execSync(`cat ${BUILD_PATH}/api/package.json`, {
+    encoding: "utf-8",
+  });
+
+  const version = JSON.parse(version_output)?.version;
+
   return {
     noToken: !hasTiddlConfig || tiddl_config?.token.length === 0,
     output: output_config,
@@ -42,7 +48,7 @@ export async function configureServer() {
       TIDDL_PLAYLIST_FORMAT: process.env.TIDDL_PLAYLIST_FORMAT || "",
       TIDDL_QUALITY: process.env.TIDDL_QUALITY || "",
       TIDDL_FORCE_EXT: process.env.TIDDL_FORCE_EXT || "",
-      TIDARR_VERSION: process.env.TIDARR_VERSION || "",
+      TIDARR_VERSION: version || "",
     },
   };
 }

@@ -60,7 +60,10 @@ export function tidalDL(id: number, app: Express) {
     item["loading"] = false;
     app.settings.processingList.actions.updateItem(item);
 
-    if (item["output"].includes(`logger.info(f"album: {album['title']}")`)) {
+    if (
+      item["output"].includes(`logger.info(f"album: {album['title']}")`) ||
+      item["output"].includes(`"token": token["access_token"]`)
+    ) {
       deleteTiddlConfig();
     }
   });
