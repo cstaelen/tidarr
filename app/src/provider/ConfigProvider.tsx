@@ -77,19 +77,22 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
         );
 
         const data = (await response?.json()) as ReleaseGithubType[];
-        if (!data?.[0]) return;
-        const latestVersion = data[0].tag_name.substring(
+        const filteredData = data.filter(
+          (release) => (release.prerelease = true),
+        );
+        if (!filteredData?.[0]) return;
+        const latestVersion = filteredData[0].tag_name.substring(
           1,
-          data[0].tag_name.length,
+          filteredData[0].tag_name.length,
         );
         const currentVersion = config?.TIDARR_VERSION.substring(
           1,
-          data[0].tag_name.length,
+          filteredData[0].tag_name.length,
         );
         setIsUpdateAvailable(
           latestVersion !== currentVersion && latestVersion > currentVersion,
         );
-        setReleaseData(data[0]);
+        setReleaseData(filteredData[0]);
       } catch (e) {
         console.log("fetch github issue", e);
       }

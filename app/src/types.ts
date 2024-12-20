@@ -151,6 +151,7 @@ export type ReleaseGithubType = {
   name: string;
   tag_name: string;
   body: string;
+  prerelease: boolean;
 };
 
 export type AuthType = {
