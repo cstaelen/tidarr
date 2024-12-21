@@ -23,7 +23,7 @@ export async function configureServer() {
     tiddl_config = JSON.parse(token_output) as TiddlConfig;
   }
 
-  const version_output = await execSync(`cat ${BUILD_PATH}/api/package.json`, {
+  const version_output = await execSync(`cat package.json`, {
     encoding: "utf-8",
   });
 
