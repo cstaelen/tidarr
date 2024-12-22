@@ -14,8 +14,6 @@ export const DialogToken = () => {
   let intervalLog: NodeJS.Timeout;
 
   useEffect(() => {
-    setForceClose(false);
-
     async function queryLogs() {
       const response = await actions.getTidalTokenLogs();
       if (response?.link) setOutput((response as LogType)?.link);
@@ -24,7 +22,7 @@ export const DialogToken = () => {
       }
     }
 
-    if (!tokenMissing) {
+    if (!tokenMissing || forceClose) {
       clearInterval(intervalLog);
       return;
     }
@@ -38,13 +36,16 @@ export const DialogToken = () => {
     return () => {
       clearInterval(intervalLog);
     };
-  }, [tokenMissing]);
+  }, [tokenMissing, forceClose]);
 
   return (
     <DialogHandler
       title={"Tidal token not found !"}
       icon={<WarningIcon color="error" />}
-      onClose={() => setForceClose(true)}
+      onClose={() => {
+        setForceClose(true);
+        actions.stopTokenProcess();
+      }}
       open={!!tokenMissing && !forceClose}
     >
       <p>Click on the link below to authenticate :</p>

@@ -3,17 +3,22 @@ import { Express } from "express";
 import { tidalToken } from "../services/tiddl";
 import { LogType } from "../types";
 
-export const ProcessToken = (expressApp: Express) => {
+export type ProcessTokenType = {
+  data: LogType | object;
+  actions: {
+    getLogs: () => LogType | object;
+    runTidalAuthentication: () => void;
+    updateLog: (log: LogType) => void;
+    stopTokenProcess: () => void;
+  };
+};
+
+export const ProcessToken = (expressApp: Express): ProcessTokenType => {
   let data: LogType | object = {};
 
-  async function runTidalAuthentication(): Promise<void> {
-    const item = expressApp.settings.tokenLog;
-    await item?.process?.kill("SIGSTOP");
-    await item?.process?.kill("SIGTERM");
-    await item?.process?.kill("SIGKILL");
-    await item?.process?.stdin?.end();
-
-    await tidalToken(expressApp);
+  function runTidalAuthentication(): void {
+    stopTokenProcess();
+    tidalToken(expressApp);
   }
 
   function updateLog(log: LogType) {
@@ -25,12 +30,22 @@ export const ProcessToken = (expressApp: Express) => {
     return data;
   }
 
+  function stopTokenProcess() {
+    const item = data as LogType;
+    item?.process?.kill("SIGSTOP");
+    item?.process?.kill("SIGTERM");
+    item?.process?.kill("SIGKILL");
+    item?.process?.stdin?.end();
+    data = {};
+  }
+
   return {
     data,
     actions: {
       getLogs,
       runTidalAuthentication,
       updateLog,
+      stopTokenProcess,
     },
   };
 };

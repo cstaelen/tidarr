@@ -5,7 +5,7 @@ import fs from "fs";
 
 import { ensureAccessIsGranted } from "./src/helpers/auth";
 import { ProcessingStack } from "./src/helpers/ProcessingStack";
-import { ProcessToken } from "./src/helpers/ProcessToken";
+import { ProcessToken, ProcessTokenType } from "./src/helpers/ProcessToken";
 import { is_auth_active, proceed_auth } from "./src/services/auth";
 import { configureServer } from "./src/services/config";
 import { deleteTiddlConfig } from "./src/services/tiddl";
@@ -35,6 +35,8 @@ app.all("*", function (req, res, next) {
   next();
 });
 
+// Tidarr authentication endpoints
+
 app.post("/api/auth", async (req: Request, res: Response) => {
   await proceed_auth(req.body.password, res);
 });
@@ -43,6 +45,8 @@ app.get("/api/is_auth_active", (req: Request, res: Response) => {
   const response = is_auth_active();
   res.status(200).json({ isAuthActive: response });
 });
+
+// Tidarr download process endpoints
 
 app.post(
   "/api/save",
@@ -71,6 +75,8 @@ app.get("/api/list", ensureAccessIsGranted, (req: Request, res: Response) => {
   res.send(response);
 });
 
+// Tidal token endpoints
+
 app.get(
   "/api/run_token",
   ensureAccessIsGranted,
@@ -97,6 +103,18 @@ app.get(
     res.sendStatus(201);
   },
 );
+
+app.get(
+  "/api/kill_token_process",
+  ensureAccessIsGranted,
+  (req: Request, res: Response) => {
+    const tokenLog: ProcessTokenType = req.app.settings.tokenLog;
+    tokenLog.actions.stopTokenProcess();
+    res.sendStatus(201);
+  },
+);
+
+// api check config
 
 app.get(
   "/api/check",
