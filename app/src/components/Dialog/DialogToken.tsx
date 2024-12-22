@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import WarningIcon from "@mui/icons-material/Warning";
-import { CircularProgress, Link, Paper } from "@mui/material";
+import { CircularProgress, Link, Paper, Typography } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { LogType } from "src/types";
 
@@ -14,8 +14,6 @@ export const DialogToken = () => {
   let intervalLog: NodeJS.Timeout;
 
   useEffect(() => {
-    setForceClose(false);
-
     async function queryLogs() {
       const response = await actions.getTidalTokenLogs();
       if (response?.link) setOutput((response as LogType)?.link);
@@ -24,7 +22,7 @@ export const DialogToken = () => {
       }
     }
 
-    if (!tokenMissing) {
+    if (!tokenMissing || forceClose) {
       clearInterval(intervalLog);
       return;
     }
@@ -38,16 +36,19 @@ export const DialogToken = () => {
     return () => {
       clearInterval(intervalLog);
     };
-  }, [tokenMissing]);
+  }, [tokenMissing, forceClose]);
 
   return (
     <DialogHandler
       title={"Tidal token not found !"}
       icon={<WarningIcon color="error" />}
-      onClose={() => setForceClose(true)}
+      onClose={() => {
+        setForceClose(true);
+        actions.stopTokenProcess();
+      }}
       open={!!tokenMissing && !forceClose}
     >
-      <p>Click on the link below to authenticate :</p>
+      <p>Click on the link below to authenticate:</p>
       <Paper
         elevation={0}
         sx={{
@@ -63,6 +64,9 @@ export const DialogToken = () => {
         </Link>
         <CircularProgress size={16} sx={{ mx: 2 }} />
       </Paper>
+      <Typography fontStyle="italic" fontSize={14} py={1}>
+        This dialog will close after authentication.
+      </Typography>
       <p>... or run this to create Tidal token :</p>
       <Paper elevation={0} sx={{ padding: "1rem" }}>
         <code>$ docker exec -it tidarr tiddl</code>

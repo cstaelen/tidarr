@@ -23,6 +23,7 @@ type ConfigContextType = {
     getTidalTokenLogs: () => Promise<LogType | undefined>;
     checkForUpdates: () => void;
     deleteTidalToken: () => void;
+    stopTokenProcess: () => void;
   };
 };
 
@@ -38,7 +39,13 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [config, setConfig] = useState<ConfigParametersType>();
 
   const {
-    actions: { check, get_token, get_token_log, delete_token },
+    actions: {
+      check,
+      get_token,
+      get_token_log,
+      delete_token,
+      kill_token_process,
+    },
   } = useApiFetcher();
 
   const reactAppEnvVars = {
@@ -114,6 +121,11 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     await delete_token();
   };
 
+  // Remove Tidal token
+  const stopTokenProcess = async () => {
+    await kill_token_process();
+  };
+
   const value = {
     isUpdateAvailable,
     releaseData,
@@ -128,6 +140,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
       checkAPI,
       checkForUpdates,
       deleteTidalToken,
+      stopTokenProcess,
     },
   };
 
