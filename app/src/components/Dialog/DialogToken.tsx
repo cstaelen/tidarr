@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import WarningIcon from "@mui/icons-material/Warning";
-import { CircularProgress, Link, Paper } from "@mui/material";
+import { CircularProgress, Link, Paper, Typography } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { LogType } from "src/types";
 
@@ -48,7 +48,7 @@ export const DialogToken = () => {
       }}
       open={!!tokenMissing && !forceClose}
     >
-      <p>Click on the link below to authenticate :</p>
+      <p>Click on the link below to authenticate:</p>
       <Paper
         elevation={0}
         sx={{
@@ -64,6 +64,9 @@ export const DialogToken = () => {
         </Link>
         <CircularProgress size={16} sx={{ mx: 2 }} />
       </Paper>
+      <Typography fontStyle="italic" fontSize={14} py={1}>
+        This dialog will close after authentication.
+      </Typography>
       <p>... or run this to create Tidal token :</p>
       <Paper elevation={0} sx={{ padding: "1rem" }}>
         <code>$ docker exec -it tidarr tiddl</code>

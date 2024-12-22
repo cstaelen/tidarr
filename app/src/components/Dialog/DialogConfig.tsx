@@ -147,7 +147,7 @@ export const DialogConfig = () => {
                 await checkAPI();
               }}
             >
-              Reset Tidal token
+              Revoke Tidal token
             </Button>
           ) : (
             <Alert
