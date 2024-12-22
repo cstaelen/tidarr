@@ -1,0 +1,6 @@
+
+<--- Last few GCs --->
+
+[991:0x81f4000]  1297213 ms: Mark-Compact 4045.9 (4128.2) -> 4027.1 (4128.2) MB, pooled: 4 MB, 988.03 / 0.00 ms  (average mu = 0.330, current mu = 0.424) allocation failure; scavenge might not succeed
+[991:0x81f4000]  1298671 ms: Mark-Compact 4042.9 (4128.2) -> 4027.1 (4125.5) MB, pooled: 7 MB, 1432.78 / 0.00 ms  (average mu = 0.187, current mu = 0.018) allocation failure; scavenge might not succeed
+
