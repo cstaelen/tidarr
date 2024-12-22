@@ -4,8 +4,9 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 0.1.9
-### 🐛 Fixed
+### 🖍 Changed
 * [Front] Update wording
+### 🐛 Fixed
 * [API] Kill orphean token process running in background
 
 ## 📦 0.1.8
