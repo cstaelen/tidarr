@@ -8,6 +8,7 @@ import {
   TidalArtistModuleType,
   TidalArtistResponseType,
   TidalResponseType,
+  TrackType,
 } from "../types";
 import { fetchTidal } from "../utils/fetch";
 
@@ -187,6 +188,20 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
       data.albums = {
         items: [data_album.rows[0].modules[0].album],
+        totalNumberOfItems: 1,
+      };
+    }
+
+    // Track url
+    if (type === "track") {
+      setLoading(true);
+
+      const data_track = await fetchTidal<TrackType>(
+        `${TIDAL_API_LISTEN_URL}/tracks/${id}`,
+      );
+
+      data.tracks = {
+        items: [data_track],
         totalNumberOfItems: 1,
       };
     }

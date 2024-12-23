@@ -58,6 +58,16 @@ test("Tidarr direct url : Should display playlist result using Tidal playlist ur
   ).toBeVisible();
 });
 
+test("Tidarr direct url : Should display track result using Tidal track url", async ({
+  page,
+}) => {
+  await runSearch("https://tidal.com/browse/track/77610761", page);
+
+  await expect(page.getByRole("link", { name: "Lithium" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Album" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Track" })).toBeVisible();
+});
+
 test("Tidarr direct url : Should display artist page using Tidal artist url", async ({
   page,
 }) => {
