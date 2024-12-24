@@ -59,6 +59,32 @@ export type AlbumType = {
   url: string;
 };
 
+export type VideoType = {
+  id: string;
+  title: string;
+  volumeNumber: number;
+  trackNumber: number;
+  releaseDate: string;
+  imagePath: null;
+  imageId: string;
+  duration: number;
+  quality: string;
+  streamReady: boolean;
+  streamStartDate: string;
+  allowStreaming: true;
+  explicit: boolean;
+  popularity: number;
+  type: string;
+  artists: [
+    {
+      id: string;
+      name: string;
+      type: string;
+      picture: string;
+    },
+  ];
+};
+
 export type TidalResponseFormat<T> = {
   items: T[];
   limit?: number;
@@ -71,13 +97,14 @@ export type TidalResponseType = {
   tracks: TidalResponseFormat<TrackType>;
   artists: TidalResponseFormat<ArtistType>;
   playlists: TidalResponseFormat<PlaylistType>;
+  videos: TidalResponseFormat<VideoType>;
 };
 
 export type ProcessingItemType = {
   id: string;
   artist: string;
   title: string;
-  type: "artist" | "album" | "track" | "playlist";
+  type: "artist" | "album" | "track" | "playlist" | "video";
   status: "queue" | "finished" | "beet" | "processing" | "error";
   url: string;
   loading: boolean;

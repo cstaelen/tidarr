@@ -6,7 +6,13 @@ import WarningIcon from "@mui/icons-material/Warning";
 import { Button, CircularProgress } from "@mui/material";
 
 import { useProcessingProvider } from "../../provider/ProcessingProvider";
-import { AlbumType, ArtistType, PlaylistType, TrackType } from "../../types";
+import {
+  AlbumType,
+  ArtistType,
+  PlaylistType,
+  TrackType,
+  VideoType,
+} from "../../types";
 
 export const DownloadButton = ({
   id,
@@ -14,9 +20,9 @@ export const DownloadButton = ({
   type,
   label,
 }: {
-  item: TrackType | AlbumType | ArtistType | PlaylistType;
+  item: TrackType | AlbumType | ArtistType | PlaylistType | VideoType;
   id: string;
-  type: "album" | "artist" | "track" | "playlist";
+  type: "album" | "artist" | "track" | "playlist" | "video";
   label: string;
 }) => {
   const [status, setStatus] = React.useState<string>();
