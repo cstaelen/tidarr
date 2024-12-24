@@ -3,6 +3,7 @@ import { ArrowRightAlt, SearchOff } from "@mui/icons-material";
 import { Box, Button, Chip, Container, Typography } from "@mui/material";
 import { useSearchProvider } from "src/provider/SearchProvider";
 
+import Mix from "../Cards/Mix";
 import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
 
 import TypeResults from "./TypeResults";
@@ -21,7 +22,7 @@ export default function TopResults(
 ) {
   const {
     loading,
-    searchResults: { albums, artists, tracks, playlists },
+    searchResults: { albums, artists, tracks, playlists, mix },
   } = useSearchProvider();
 
   const data = [
@@ -57,6 +58,14 @@ export default function TopResults(
       limit: 6,
       tab: 4,
     },
+    {
+      type: "mix",
+      label: "Mix(es)",
+      items: mix?.items || [],
+      total: mix?.totalNumberOfItems,
+      header: mix?.info,
+      tab: 0,
+    },
   ];
 
   if (loading) return <AlbumsLoader />;
@@ -82,9 +91,13 @@ export default function TopResults(
         <div key={`top-${block.type}`}>
           {block?.items?.length > 0 ? (
             <Box paddingBottom={3} key={`top-${block.type}`}>
-              <Typography component="h2" variant="h4" paddingBottom={2}>
-                {block.label}
-              </Typography>
+              {!block?.header ? (
+                <Typography component="h2" variant="h4" paddingBottom={2}>
+                  {block.label}
+                </Typography>
+              ) : (
+                <Mix mix={block?.header} />
+              )}
               <TypeResults
                 type={block.type as TidalContentType}
                 limit={block.limit}

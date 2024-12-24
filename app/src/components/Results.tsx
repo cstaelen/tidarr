@@ -26,7 +26,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ py: 3, px: 1 }}>{children}</Box>}
+      {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -42,7 +42,7 @@ export const Results = () => {
   const {
     keywords,
     artistResults,
-    searchResults: { albums, artists, tracks, playlists },
+    searchResults: { albums, artists, tracks, playlists, mix },
   } = useSearchProvider();
 
   const theme = useTheme();
@@ -73,6 +73,8 @@ export const Results = () => {
                 label={`Top results (${
                   albums?.totalNumberOfItems +
                     artists?.totalNumberOfItems +
+                    playlists?.totalNumberOfItems +
+                    (mix?.totalNumberOfItems ? mix?.totalNumberOfItems : 0) +
                     tracks?.totalNumberOfItems || 0
                 })`}
                 {...a11yProps(0)}

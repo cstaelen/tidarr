@@ -31,6 +31,7 @@ async function testArtistSection(
     );
   }
 }
+
 test("Tidarr direct url : Should display album result using Tidal album url", async ({
   page,
 }) => {
@@ -66,6 +67,20 @@ test("Tidarr direct url : Should display track result using Tidal track url", as
   await expect(page.getByRole("link", { name: "Lithium" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Album" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Track" })).toBeVisible();
+});
+
+test("Tidarr direct url : Should display mix result using Tidal mix url", async ({
+  page,
+}) => {
+  await runSearch("https://tidal.com/mix/00166fec481604e645532e233b958b", page);
+
+  await expect(
+    page.getByRole("link", { name: "Horizons" }).first(),
+  ).toBeVisible();
+  const albumCount = await page.getByRole("button", { name: "Album" }).count();
+  await expect(albumCount).toEqual(100);
+  const trackCount = await page.getByRole("button", { name: "Track" }).count();
+  await expect(trackCount).toEqual(100);
 });
 
 test("Tidarr direct url : Should display artist page using Tidal artist url", async ({
