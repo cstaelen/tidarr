@@ -8,7 +8,7 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
 }) => {
   await runSearch("Nirvana", page);
   await expect(page.locator("#full-width-tab-0")).toContainText(
-    "Top results (700)",
+    "Top results (886)",
   );
 
   await expect(page.getByRole("heading", { name: "Artist(s)" })).toBeVisible();

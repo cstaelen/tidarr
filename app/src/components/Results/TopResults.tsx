@@ -43,14 +43,6 @@ export default function TopResults(
       tab: 1,
     },
     {
-      type: "mix",
-      label: "Mix(es)",
-      items: mix?.items || [],
-      total: mix?.totalNumberOfItems,
-      header: mix?.info,
-      tab: 0,
-    },
-    {
       type: "tracks",
       label: "Track(s)",
       items: tracks?.items,
@@ -65,6 +57,14 @@ export default function TopResults(
       total: playlists?.totalNumberOfItems,
       limit: 6,
       tab: 4,
+    },
+    {
+      type: "mix",
+      label: "Mix(es)",
+      items: mix?.items || [],
+      total: mix?.totalNumberOfItems,
+      header: mix?.info,
+      tab: 0,
     },
   ];
 
