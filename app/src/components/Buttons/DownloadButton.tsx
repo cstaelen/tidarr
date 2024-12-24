@@ -6,7 +6,13 @@ import WarningIcon from "@mui/icons-material/Warning";
 import { Button, CircularProgress } from "@mui/material";
 
 import { useProcessingProvider } from "../../provider/ProcessingProvider";
-import { AlbumType, ArtistType, PlaylistType, TrackType } from "../../types";
+import {
+  AlbumType,
+  ArtistType,
+  MixType,
+  PlaylistType,
+  TrackType,
+} from "../../types";
 
 export const DownloadButton = ({
   id,
@@ -14,7 +20,7 @@ export const DownloadButton = ({
   type,
   label,
 }: {
-  item: TrackType | AlbumType | ArtistType | PlaylistType;
+  item: TrackType | AlbumType | ArtistType | PlaylistType | MixType;
   id: string;
   type: "album" | "artist" | "track" | "playlist";
   label: string;

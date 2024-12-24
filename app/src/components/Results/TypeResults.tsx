@@ -2,7 +2,13 @@ import React from "react";
 import { SearchOff } from "@mui/icons-material";
 import { Box, Chip, Container, Grid } from "@mui/material";
 import { useSearchProvider } from "src/provider/SearchProvider";
-import { AlbumType, ArtistType, PlaylistType, TrackType } from "src/types";
+import {
+  AlbumType,
+  ArtistType,
+  MixType,
+  PlaylistType,
+  TrackType,
+} from "src/types";
 
 import AlbumCard from "../Cards/Album";
 import Artist from "../Cards/Artist";
@@ -12,7 +18,7 @@ import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
 
 import Pager from "./Pager";
 
-type TidalContentType = "albums" | "artists" | "tracks" | "playlists";
+type TidalContentType = "albums" | "artists" | "tracks" | "playlists" | "mix";
 
 interface TabContentProps {
   children?: React.ReactNode;
@@ -34,7 +40,7 @@ export default function TypeResults(props: TabContentProps) {
           ?.slice(0, props.limit || data?.items?.length)
           .map(
             (
-              data: AlbumType | ArtistType | TrackType | PlaylistType,
+              data: AlbumType | ArtistType | TrackType | PlaylistType | MixType,
               index: number,
             ) => (
               <Grid
@@ -59,7 +65,7 @@ export default function TypeResults(props: TabContentProps) {
                   <AlbumCard album={data as AlbumType} />
                 ) : props.type === "artists" ? (
                   <Artist artist={data as ArtistType} />
-                ) : props.type === "tracks" ? (
+                ) : props.type === "tracks" || props.type === "mix" ? (
                   <Track track={data as TrackType} />
                 ) : props.type === "playlists" ? (
                   <Playlist playlist={data as PlaylistType} />

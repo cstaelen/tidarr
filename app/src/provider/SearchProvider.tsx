@@ -7,6 +7,7 @@ import {
   TidalArtistAlbumsListType,
   TidalArtistModuleType,
   TidalArtistResponseType,
+  TidalMixResponseType,
   TidalResponseType,
   TrackType,
 } from "../types";
@@ -121,6 +122,13 @@ export function SearchProvider({ children }: { children: ReactNode }) {
           ...(results?.playlists?.items || []),
         ],
       },
+      mix: {
+        ...results?.mix,
+        items: [
+          ...(page > 1 ? clone?.mix?.items || [] : []),
+          ...(results?.mix?.items || []),
+        ],
+      },
     };
     setSearchResults(data);
     postFetch(query);
@@ -157,9 +165,11 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   }
 
   async function directDownload(url: string) {
-    const id = url.substring(url.lastIndexOf("/") + 1, url.length);
+    const id = url
+      .substring(url.lastIndexOf("/") + 1, url.length)
+      .split("?")?.[0];
     const splittedUrl = url.split("/");
-    const type = splittedUrl[splittedUrl?.length - 2];
+    const type = splittedUrl[splittedUrl?.length - 2].split("?")?.[0];
 
     setSearchResults({} as TidalResponseType);
     setArtistResults([] as TidalArtistModuleType[]);
@@ -169,6 +179,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
       artists: { items: [], totalNumberOfItems: 0 },
       tracks: { items: [], totalNumberOfItems: 0 },
       playlists: { items: [], totalNumberOfItems: 0 },
+      mix: { items: [], totalNumberOfItems: 0, info: undefined },
     };
 
     // Artist url
@@ -214,6 +225,24 @@ export function SearchProvider({ children }: { children: ReactNode }) {
       );
 
       data.playlists = { items: [data_playlist], totalNumberOfItems: 1 };
+    }
+
+    // Mix url
+    if (type === "mix") {
+      setLoading(true);
+
+      const data_mix = await fetchTidal<TidalMixResponseType>(
+        `${TIDAL_API_LISTEN_URL}/pages/mix?mixId=${id}`,
+      );
+
+      data.mix = {
+        info: {
+          ...data_mix?.rows[0].modules[0].mix,
+          url: `https://tidal.com/mix/${data_mix?.rows[0].modules[0].mix.id}`,
+        },
+        items: data_mix?.rows[1].modules[0].pagedList.items,
+        totalNumberOfItems: 1,
+      };
     }
 
     setSearchResults(data);

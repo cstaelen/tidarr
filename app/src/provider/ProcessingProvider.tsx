@@ -3,6 +3,7 @@ import React, { ReactNode, useContext, useEffect, useState } from "react";
 import {
   AlbumType,
   ArtistType,
+  MixType,
   PlaylistType,
   ProcessingItemType,
   TrackType,
@@ -15,7 +16,7 @@ type ProcessingContextType = {
   actions: {
     setProcessingList: (list: ProcessingItemType[]) => void;
     addItem: (
-      item: AlbumType | TrackType | ArtistType | PlaylistType,
+      item: AlbumType | TrackType | ArtistType | PlaylistType | MixType,
       type: "album" | "track" | "artist" | "playlist",
     ) => void;
     removeItem: (id: string) => void;
@@ -35,7 +36,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
   // Add item to processing list
   const addItem = async (
-    item: AlbumType | TrackType | ArtistType | PlaylistType,
+    item: AlbumType | TrackType | ArtistType | PlaylistType | MixType,
     type: "album" | "track" | "artist" | "playlist",
   ) => {
     const id =
@@ -62,7 +63,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       status: "queue",
       loading: true,
       error: false,
-      url: item.url,
+      url: item.url as string,
       output: "",
     };
 
