@@ -12,6 +12,7 @@ import { ApiReturnType, AuthType, CheckAuthType } from "src/types";
 import { useApiFetcher } from "./ApiFetcherProvider";
 
 export const LOCALSTORAGE_TOKEN_KEY = "tidarr-token";
+export const LOCALSTORAGE_REDIRECT_URL = "tidarr-redirect";
 
 type AuthContextType = {
   isAuthActive: boolean | undefined;
@@ -35,11 +36,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [localStorage],
   );
 
+  function redirectAfterLogin() {
+    const redirect = localStorage.getItem(LOCALSTORAGE_REDIRECT_URL);
+    if (redirect) {
+      localStorage.removeItem(LOCALSTORAGE_REDIRECT_URL);
+      return navigate(redirect);
+    }
+    return navigate("/");
+  }
+
   const check = async () => {
     const response = await is_auth_active();
 
     setIsAuthActive(response && (response as CheckAuthType).isAuthActive);
-    if (pathname === ROUTE_LOGIN) navigate("/");
+    if (pathname === ROUTE_LOGIN) redirectAfterLogin();
   };
 
   const login = async (password: string) => {
@@ -52,7 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           (response as AuthType)?.token || "",
         );
       }
-      navigate("/");
+      redirectAfterLogin();
 
       return;
     }
