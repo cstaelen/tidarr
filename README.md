@@ -31,17 +31,17 @@ Format on the fly with Beets, Automatically update your Plex library, Push notif
 
 ## Features
 - Search by keywords
-- Search by url : artist url, album url, playlist url
+- Search by url : artist url, album url, playlist url, track url, mix url
 - Downloadable media : tracks, albums, playlists
+- Max quality : **24 bit 192.0 kHz** (if available)
+- Admin password available
 - Server side download list processing
 - UI build with **React JS** + **Express JS** API
 - Self-hostable using **Docker** with Linuxserver.io base image (uncompressed size: ~ 190 Mo)
 - Download from **Tidal** with Tiddl (python)
 - Tag import using **Beets.io** (python)
 - Push notifications using **Gotify**
-- Plex library update
-- Max quality : **24 bit 192.0 kHz** (if available)
-- Admin password available
+- **Plex** library update
 
 ### Companion
 - Song recognition : [Shazarr project](https://github.com/cstaelen/shazarr) (Android) 

@@ -3,6 +3,13 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.10
+### 🚀 Added
+* [Front] Search track by direct URL
+* [Front] Search mix/radio by direct URL
+### 🐛 Fixed
+* [Front] Fix URL search - strip URL query params
+
 ## 📦 0.1.9
 ### 🖍 Changed
 * [Front] Update wording
