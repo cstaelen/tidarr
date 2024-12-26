@@ -53,6 +53,25 @@ test("Tidarr security : Should be redirected to login page", async ({
   ).toBeInViewport();
 });
 
+test("Tidarr security : Should be redirected to requested url after login", async ({
+  page,
+}) => {
+  await mockAuthAPI(page, "tokenABCXYZ");
+  await page.goto("/?query=nirvana");
+  await expect(
+    page.getByRole("heading", { name: "Tidarr authentication" }),
+  ).toBeInViewport();
+
+  // When I proceed to login
+  await page.getByPlaceholder("Password...").fill("tidarrpwd");
+  await page.getByRole("button", { name: "Submit" }).click();
+
+  // Then I should be on homepage
+  await expect(
+    page.getByRole("link", { name: "Nirvana", exact: true }).first(),
+  ).toBeInViewport();
+});
+
 test("Tidarr security : Should be able to log out", async ({ page }) => {
   await mockAuthAPI(page, "tokenABCXYZ");
   await page.goto("/login");

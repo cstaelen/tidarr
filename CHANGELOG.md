@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.11
+### 🚀 Added
+* [Front] Redirect to requested url after loginms
+
 ## 📦 0.1.10
 ### 🚀 Added
 * [Front] Search track by direct URL
