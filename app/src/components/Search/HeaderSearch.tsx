@@ -1,4 +1,4 @@
-import React from "react";
+import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import AlbumIcon from "@mui/icons-material/Album";
 import { Box, Container, ToggleButton, ToggleButtonGroup } from "@mui/material";
@@ -12,11 +12,12 @@ import { SearchForm } from "./SearchForm";
 
 export const HeaderSearch = () => {
   const { quality, actions, keywords } = useSearchProvider();
+  const { id } = useParams();
 
   return (
-    <Header isHome={!keywords}>
+    <Header isHome={!keywords && !id}>
       <Container maxWidth="lg">
-        {!keywords && (
+        {!keywords && !id && (
           <>
             <Title>
               <AlbumIcon />
@@ -28,7 +29,8 @@ export const HeaderSearch = () => {
         <SearchWrapper
           sx={{
             alignItems: "center",
-            maxWidth: !keywords ? "40rem" : "none",
+            maxWidth: !keywords && !id ? "40rem" : "none",
+            py: 1,
             display: {
               xs: "block",
               md: "flex",
@@ -38,7 +40,7 @@ export const HeaderSearch = () => {
           <Box flex="1 1 0">
             <SearchForm />
           </Box>
-          {keywords ? (
+          {keywords || id ? (
             <Box flex="0 0 auto" display="flex" alignItems="center">
               <Box
                 sx={{
@@ -46,7 +48,7 @@ export const HeaderSearch = () => {
                   marginTop: 1,
                   margin: {
                     xs: "0 0 0.5rem 0",
-                    md: "0.5rem 0 0 0.5rem",
+                    md: "0 0 0 0.5rem",
                   },
                 }}
               >
@@ -96,7 +98,7 @@ const Header = styled.div<{ isHome: boolean }>`
   text-align: center;
   width: 100%;
   transition: all 250ms ease-in;
-  z-index: 1000;
+  z-index: 2000;
 `;
 
 const Title = styled.h1`

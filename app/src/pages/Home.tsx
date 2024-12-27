@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
-import { AppBar, Box, Container, Tab, Tabs, useTheme } from "@mui/material";
+import { useSearchParams } from "react-router-dom";
+import { Box, Container, Portal, Tab, Tabs, useTheme } from "@mui/material";
 
+import TopResults from "../components/Results/TopResults";
+import TypeResults from "../components/Results/TypeResults";
 import { useSearchProvider } from "../provider/SearchProvider";
-
-import ArtistPage from "./Results/ArtistPage";
-import TopResults from "./Results/TopResults";
-import TypeResults from "./Results/TypeResults";
-import { HeaderSearch } from "./Search/HeaderSearch";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -38,28 +36,29 @@ function a11yProps(index: number) {
   };
 }
 
-export const Results = () => {
+export default function Home() {
   const {
     keywords,
-    artistResults,
-    searchResults: { albums, artists, tracks, playlists, mix },
+    searchResults: { albums, artists, tracks, playlists },
   } = useSearchProvider();
 
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const [params] = useSearchParams();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     window.scrollTo(0, 0);
     setValue(newValue);
   };
 
-  useEffect(() => setValue(0), [keywords]);
+  useEffect(() => {
+    setValue(0);
+  }, [params]);
 
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
-      <AppBar position="sticky" style={!keywords ? { boxShadow: "none" } : {}}>
-        <HeaderSearch />
-        {keywords && artistResults?.length === 0 && (
+      {keywords && (
+        <Portal container={document.getElementById("app-bar")}>
           <Container maxWidth="lg">
             <Tabs
               value={value}
@@ -74,7 +73,6 @@ export const Results = () => {
                   albums?.totalNumberOfItems +
                     artists?.totalNumberOfItems +
                     playlists?.totalNumberOfItems +
-                    (mix?.totalNumberOfItems ? mix?.totalNumberOfItems : 0) +
                     tracks?.totalNumberOfItems || 0
                 })`}
                 {...a11yProps(0)}
@@ -97,30 +95,44 @@ export const Results = () => {
               />
             </Tabs>
           </Container>
-        )}
-      </AppBar>
-      {artistResults?.length > 0 && (
-        <ArtistPage data={artistResults} name={keywords || ""} />
+        </Portal>
       )}
-      {artistResults?.length === 0 && keywords && (
+
+      {keywords && (
         <Container maxWidth="lg">
           <TabPanel value={value} index={0} dir={theme.direction}>
             <TopResults changeTab={setValue} />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <TypeResults type="albums" />
+            <TypeResults
+              type="albums"
+              data={albums?.items}
+              total={albums?.totalNumberOfItems}
+            />
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
-            <TypeResults type="artists" />
+            <TypeResults
+              type="artists"
+              data={artists?.items}
+              total={artists?.totalNumberOfItems}
+            />
           </TabPanel>
           <TabPanel value={value} index={3} dir={theme.direction}>
-            <TypeResults type="tracks" />
+            <TypeResults
+              type="tracks"
+              data={tracks?.items}
+              total={tracks?.totalNumberOfItems}
+            />
           </TabPanel>
           <TabPanel value={value} index={4} dir={theme.direction}>
-            <TypeResults type="playlists" />
+            <TypeResults
+              type="playlists"
+              data={playlists?.items}
+              total={playlists?.totalNumberOfItems}
+            />
           </TabPanel>
         </Container>
       )}
     </Box>
   );
-};
+}

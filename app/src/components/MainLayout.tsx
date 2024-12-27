@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import styled from "@emotion/styled";
+import { AppBar } from "@mui/material";
 
-import { DialogConfig } from "./components/Dialog/DialogConfig";
-import { DialogNoAPI } from "./components/Dialog/DialogNoAPI";
-import { DialogToken } from "./components/Dialog/DialogToken";
-import { Footer } from "./components/Footer";
-import { ProcessingList } from "./components/Processing/ProcessingList";
-import { Results } from "./components/Results";
-import { useConfigProvider } from "./provider/ConfigProvider";
-import { ProcessingProvider } from "./provider/ProcessingProvider";
-import { SearchProvider } from "./provider/SearchProvider";
+import { useConfigProvider } from "../provider/ConfigProvider";
+import { ProcessingProvider } from "../provider/ProcessingProvider";
+import { SearchProvider } from "../provider/SearchProvider";
+
+import { DialogConfig } from "./Dialog/DialogConfig";
+import { DialogNoAPI } from "./Dialog/DialogNoAPI";
+import { DialogToken } from "./Dialog/DialogToken";
+import { ProcessingList } from "./Processing/ProcessingList";
+import { HeaderSearch } from "./Search/HeaderSearch";
+import { Footer } from "./Footer";
 
 declare module "@mui/material/styles/createPalette" {
   interface Palette {
@@ -23,12 +26,14 @@ declare module "@mui/material/styles/createPalette" {
   }
 }
 
-function App() {
+function MainLayout({ children }: { children: ReactNode }) {
   const [appLoaded, setAppLoaded] = useState(false);
   const {
     config,
     actions: { checkAPI, checkForUpdates },
   } = useConfigProvider();
+
+  const [params] = useSearchParams();
 
   useEffect(() => {
     setAppLoaded(true);
@@ -48,7 +53,14 @@ function App() {
           <SearchProvider>
             <ProcessingProvider>
               <Content>
-                <Results />
+                <AppBar
+                  id="app-bar"
+                  position="sticky"
+                  style={!params.get("query") ? { boxShadow: "none" } : {}}
+                >
+                  <HeaderSearch />
+                </AppBar>
+                {children}
               </Content>
               <ProcessingList />
               <DialogToken />
@@ -63,7 +75,7 @@ function App() {
   );
 }
 
-export default App;
+export default MainLayout;
 
 const Content = styled.div`
   margin: 0 0 3rem 0;

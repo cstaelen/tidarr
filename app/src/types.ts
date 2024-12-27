@@ -114,6 +114,10 @@ export type MixImageType = {
   url: string;
 };
 
+export type MixResponseType = TidalResponseFormat<TrackType> & {
+  info?: MixType;
+};
+
 export type TidalResponseFormat<T> = {
   items: T[];
   limit?: number;
@@ -126,7 +130,6 @@ export type TidalResponseType = {
   tracks: TidalResponseFormat<TrackType>;
   artists: TidalResponseFormat<ArtistType>;
   playlists: TidalResponseFormat<PlaylistType>;
-  mix: TidalResponseFormat<TrackType> & { info?: MixType };
 };
 
 export type ProcessingItemType = {
@@ -151,7 +154,7 @@ export type TidalArtistResponseType = {
 };
 
 export type TidalArtistModuleType = {
-  type: string;
+  type?: string;
   title: string;
   album: AlbumType;
   pagedList: TidalArtistAlbumsListType;

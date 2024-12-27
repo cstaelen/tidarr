@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 import { waitForImgLoaded, waitForLoader } from "./utils/helpers";
+import { mockConfigAPI, mockRelease } from "./utils/mock";
 import { countItems, runSearch } from "./utils/search";
 
 test("Tidarr search : Should see 'Top results' tab content", async ({
@@ -149,7 +150,7 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
     page.getByRole("link", { name: "Artist: Nirvana" }),
   ).toBeVisible();
 
-  await expect(page.url()).toContain("/?query=artist:19368:Nirvana");
+  await expect(page.url()).toContain("/artist/19368");
 });
 
 test("Tidarr search : Should see tracks results", async ({ page }) => {
@@ -211,7 +212,9 @@ test("Tidarr search : Should see playlists results", async ({ page }) => {
 test("Tidarr search : Should see quality filtered results", async ({
   page,
 }) => {
-  await runSearch("artist:3634161:The Beatles", page);
+  await mockConfigAPI(page);
+  await mockRelease(page);
+  await page.goto("/artist/3634161");
   await expect(
     page.getByRole("heading", { name: "Albums (22)" }),
   ).toBeInViewport();
@@ -242,7 +245,7 @@ test("Tidarr search : Should see quality filtered results", async ({
 
   // Test localstorage persistence
 
-  await runSearch("artist:3634161:The Beatles", page);
+  await page.goto("/artist/3634161");
 
   await expect(
     await page.getByRole("button", { name: "Lossless" }),

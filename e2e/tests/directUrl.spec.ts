@@ -81,6 +81,8 @@ test("Tidarr direct url : Should display mix result using Tidal mix url", async 
   await expect(albumCount).toEqual(100);
   const trackCount = await page.getByRole("button", { name: "Track" }).count();
   await expect(trackCount).toEqual(100);
+
+  await expect(page.url()).toContain("/mix/00166fec481604e645532e233b958b");
 });
 
 test("Tidarr direct url : Should display artist page using Tidal artist url", async ({
@@ -97,4 +99,6 @@ test("Tidarr direct url : Should display artist page using Tidal artist url", as
   await testArtistSection(3, "Compilations", 1, page);
   await testArtistSection(4, "Live albums", 1, page);
   await testArtistSection(5, "Appears On", 28, page);
+
+  await expect(page.url()).toContain("/artist/17713");
 });
