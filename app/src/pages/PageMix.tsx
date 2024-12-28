@@ -5,11 +5,11 @@ import NoResult from "src/components/Results/NoResults";
 import { useMix } from "src/hooks/useMix";
 import { useSearchProvider } from "src/provider/SearchProvider";
 
-import Mix from "../components/Cards/Mix";
+import Mix from "../components/Headers/Mix";
 import TypeResults from "../components/Results/TypeResults";
 import { AlbumsLoader } from "../components/Skeletons/AlbumsLoader";
 
-export default function MixPage() {
+export default function PageMix() {
   const { mix, actions } = useMix();
   const { loading } = useSearchProvider();
 

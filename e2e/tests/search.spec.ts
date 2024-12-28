@@ -147,7 +147,10 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
   await waitForLoader(page);
 
   await expect(
-    page.getByRole("link", { name: "Artist: Nirvana" }),
+    page
+      .locator("div")
+      .filter({ hasText: /^Nirvana$/ })
+      .getByRole("link"),
   ).toBeVisible();
 
   await expect(page.url()).toContain("/artist/19368");

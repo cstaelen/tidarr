@@ -1,10 +1,6 @@
 import { ChildProcessWithoutNullStreams } from "child_process";
 
-export type ApiReturnType = {
-  error: boolean;
-  message: string;
-  status?: number;
-};
+// TRACK
 
 export type TrackType = {
   album: TrackAlbumType;
@@ -30,6 +26,8 @@ export type TrackAlbumType = {
   title: string;
 };
 
+// ARTIST
+
 export type ArtistType = {
   artistRoles: string[];
   artistTypes: string[];
@@ -39,6 +37,8 @@ export type ArtistType = {
   url: string;
   popularity: number;
 };
+
+// ALBUM
 
 export type AlbumType = {
   artists: {
@@ -58,6 +58,37 @@ export type AlbumType = {
   popularity: number;
   url: string;
 };
+
+// MIX
+
+export type MixType = {
+  id: string;
+  title: string;
+  subTitle: string;
+  url?: string;
+  images: {
+    SMALL: MixImageType;
+    MEDIUM: MixImageType;
+    LARGE: MixImageType;
+  };
+  sharingImages: null;
+  mixType: "TRACK_MIX";
+  mixNumber: null;
+  master: boolean;
+  detailImages: {
+    SMALL: MixImageType;
+    MEDIUM: MixImageType;
+    LARGE: MixImageType;
+  };
+};
+
+export type MixImageType = {
+  width: number;
+  height: number;
+  url: string;
+};
+
+// PLAYLIST
 
 export type PlaylistType = {
   uuid: string;
@@ -87,107 +118,45 @@ export type PlaylistType = {
   lastItemAddedAt: string;
 };
 
-export type MixType = {
-  id: string;
-  title: string;
-  subTitle: string;
-  url?: string;
-  images: {
-    SMALL: MixImageType;
-    MEDIUM: MixImageType;
-    LARGE: MixImageType;
-  };
-  sharingImages: null;
-  mixType: "TRACK_MIX";
-  mixNumber: null;
-  master: boolean;
-  detailImages: {
-    SMALL: MixImageType;
-    MEDIUM: MixImageType;
-    LARGE: MixImageType;
-  };
-};
-
-export type MixImageType = {
-  width: number;
-  height: number;
-  url: string;
-};
-
-export type MixResponseType = TidalResponseFormat<TrackType> & {
-  info?: MixType;
-};
-
-export type TidalResponseFormat<T> = {
-  items: T[];
-  limit?: number;
-  offset?: number;
-  totalNumberOfItems: number;
-};
+// TIDAL FETCH
 
 export type TidalResponseType = {
-  albums: TidalResponseFormat<AlbumType>;
-  tracks: TidalResponseFormat<TrackType>;
-  artists: TidalResponseFormat<ArtistType>;
-  playlists: TidalResponseFormat<PlaylistType>;
+  albums: TidalPagedListType<AlbumType>;
+  tracks: TidalPagedListType<TrackType>;
+  artists: TidalPagedListType<ArtistType>;
+  playlists: TidalPagedListType<PlaylistType>;
 };
 
-export type ProcessingItemType = {
-  id: string;
-  artist: string;
-  title: string;
-  type: "artist" | "album" | "track" | "playlist";
-  status: "queue" | "finished" | "beet" | "processing" | "error";
-  url: string;
-  loading: boolean;
-  error: boolean;
-  output: string;
-};
-
-export type TidalArtistResponseType = {
+export type TidalModuleResponseType<T> = {
   id: string;
   rows: {
-    modules: TidalArtistModuleType[];
+    modules: TidalModuleListType<T>[];
   }[];
   selfLink: string;
   title: string;
 };
 
-export type TidalArtistModuleType = {
+export type TidalModuleListType<T> = {
   type?: string;
   title: string;
   album: AlbumType;
-  pagedList: TidalArtistAlbumsListType;
+  pagedList: TidalPagedListType<T>;
+  mix?: MixType;
+  artist?: ArtistType;
   showMore: {
     apiPath: string;
   };
 };
 
-export type TidalArtistAlbumsListType = {
-  items: AlbumType[];
+export type TidalPagedListType<T> = {
+  items: T[];
   totalNumberOfItems: number;
-  limit: number;
-  dataApiPath: string;
+  limit?: number;
+  offset?: number;
+  dataApiPath?: string;
 };
 
-export type TidalMixResponseType = {
-  id: string;
-  rows: {
-    modules: TidalMixModuleType[];
-  }[];
-  selfLink: string;
-  title: string;
-};
-
-export type TidalMixModuleType = {
-  type: string;
-  title: string;
-  mix: MixType;
-  pagedList: TidalResponseFormat<TrackType>;
-  showMore: {
-    apiPath: string;
-  };
-};
+// CONFIG
 
 export type ConfigType = {
   noToken: boolean;
@@ -204,6 +173,8 @@ export type ReleaseGithubType = {
   prerelease: boolean;
 };
 
+// AUTH
+
 export type AuthType = {
   accessGranted: boolean;
   token?: string;
@@ -212,6 +183,8 @@ export type AuthType = {
 export type CheckAuthType = {
   isAuthActive: boolean;
 };
+
+// TOKEN
 
 export type LogType = {
   output: string;
@@ -222,4 +195,24 @@ export type LogType = {
   status?: "finished" | "error" | "auth" | undefined;
   loading?: boolean;
   error?: boolean;
+};
+
+// PROCESSING LIST
+
+export type ProcessingItemType = {
+  id: string;
+  artist: string;
+  title: string;
+  type: "artist" | "album" | "track" | "playlist";
+  status: "queue" | "finished" | "beet" | "processing" | "error";
+  url: string;
+  loading: boolean;
+  error: boolean;
+  output: string;
+};
+
+export type ApiReturnType = {
+  error: boolean;
+  message: string;
+  status?: number;
 };

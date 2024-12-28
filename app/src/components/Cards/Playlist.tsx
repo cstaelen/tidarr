@@ -1,5 +1,6 @@
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { Box, Chip, Link, Stack } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { List, MusicNote } from "@mui/icons-material";
+import { Box, Button, Chip, Stack, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -10,6 +11,9 @@ import { DownloadButton } from "../Buttons/DownloadButton";
 
 export default function Playlist({ playlist }: { playlist: PlaylistType }) {
   const { display } = useSearchProvider();
+  const theme = useTheme();
+  const navigate = useNavigate();
+
   return (
     <Card sx={{ position: "relative" }}>
       <Stack
@@ -25,34 +29,31 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
       >
         <div style={{ lineHeight: 1.4, flex: "1 1 0" }}>
           <Link
-            href={playlist.url}
-            style={{ lineHeight: 1.2 }}
-            target="_blank"
-            underline="none"
+            to={`/playlist/${playlist.uuid}`}
+            style={{
+              lineHeight: 1.2,
+              color: theme.palette.primary.main,
+              textDecoration: "none",
+            }}
           >
             <Typography component="span" style={{ lineHeight: 1 }}>
               <strong>{playlist.title}</strong>
-              <OpenInNewIcon
-                style={{
-                  verticalAlign: "middle",
-                  marginLeft: "0.5rem",
-                  fontSize: 16,
-                }}
-              />
             </Typography>
           </Link>
         </div>
       </Stack>
       <Stack direction={display === "large" ? "column" : "row"}>
-        <img
-          height={display === "small" ? 120 : "100%"}
-          width={display === "small" ? 120 : "100%"}
-          src={`https://resources.tidal.com/images/${playlist.squareImage?.replace(
-            /-/g,
-            "/",
-          )}/750x750.jpg`}
-          alt="Live from space album cover"
-        />
+        <Link to={`/playlist/${playlist.uuid}`} style={{ lineHeight: 0 }}>
+          <img
+            height={display === "small" ? 120 : "100%"}
+            width={display === "small" ? 120 : "100%"}
+            src={`https://resources.tidal.com/images/${playlist.squareImage?.replace(
+              /-/g,
+              "/",
+            )}/750x750.jpg`}
+            alt="Live from space album cover"
+          />
+        </Link>
         <Box
           sx={{
             display: "flex",
@@ -68,7 +69,7 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
               direction="row"
               flexWrap="wrap"
               spacing={1}
-              style={{ marginBottom: "1rem" }}
+              style={{ marginBottom: "1rem", minHeight: "3rem" }}
             >
               <Chip
                 label={`${Math.round(playlist.duration / 60)} min.`}
@@ -77,12 +78,23 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
               />
               <Chip label={`${playlist.numberOfTracks} tracks`} size="small" />
             </Stack>
-            <DownloadButton
-              item={playlist}
-              id={playlist.uuid}
-              type="playlist"
-              label="Get playlist"
-            />
+            <Stack direction="row" flexWrap="wrap" spacing={1}>
+              <Button
+                onClick={() => navigate(`/playlist/${playlist.uuid}`)}
+                size="small"
+                variant="outlined"
+                sx={{ minWidth: 0, pl: 0 }}
+              >
+                <MusicNote />
+                <List />
+              </Button>
+              <DownloadButton
+                item={playlist}
+                id={playlist.uuid}
+                type="playlist"
+                label="Playlist"
+              />
+            </Stack>
           </CardContent>
         </Box>
       </Stack>

@@ -41,15 +41,20 @@ export const HeaderSearch = () => {
             <SearchForm />
           </Box>
           {keywords || id ? (
-            <Box flex="0 0 auto" display="flex" alignItems="center">
+            <Box
+              flex="0 0 auto"
+              display="flex"
+              alignItems="center"
+              sx={{
+                margin: {
+                  xs: "0.5rem 0 0",
+                  md: "0 0 0 0.5rem",
+                },
+              }}
+            >
               <Box
                 sx={{
                   flex: "1 1 0",
-                  marginTop: 1,
-                  margin: {
-                    xs: "0 0 0.5rem 0",
-                    md: "0 0 0 0.5rem",
-                  },
                 }}
               >
                 <ToggleButtonGroup

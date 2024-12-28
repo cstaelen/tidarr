@@ -1,25 +1,27 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AlbumIcon from "@mui/icons-material/Album";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
+import { Avatar, Box, Button, Chip, Stack, useTheme } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { ArtistType } from "src/types";
 
 export default function Artist({ artist }: { artist: ArtistType }) {
   const navigate = useNavigate();
+  const theme = useTheme();
 
   return (
     <Box sx={{ display: "flex" }}>
       <CardContent>
-        <Avatar
-          alt={artist.name}
-          sx={{ width: 100, height: 100 }}
-          src={`https://resources.tidal.com/images/${artist?.picture?.replace(
-            /-/g,
-            "/",
-          )}/750x750.jpg`}
-        />
+        <Link to={`/artist/${artist.id}`} style={{ lineHeight: 0 }}>
+          <Avatar
+            alt={artist.name}
+            sx={{ width: 100, height: 100 }}
+            src={`https://resources.tidal.com/images/${artist?.picture?.replace(
+              /-/g,
+              "/",
+            )}/750x750.jpg`}
+          />
+        </Link>
       </CardContent>
       <Box sx={{ display: "flex", flexDirection: "column", flex: "1 1 0" }}>
         <CardContent sx={{ flex: "0 0 auto", padding: "1rem 0.5rem" }}>
@@ -30,20 +32,15 @@ export default function Artist({ artist }: { artist: ArtistType }) {
             alignItems="center"
           >
             <Link
-              href={artist.url}
-              style={{ flex: "1 1 0" }}
-              target="_blank"
-              underline="none"
+              to={`/artist/${artist.id}`}
+              style={{
+                lineHeight: 1.2,
+                color: theme.palette.primary.main,
+                textDecoration: "none",
+              }}
             >
               <Typography component="span">
                 <strong>{artist.name}</strong>
-                <OpenInNewIcon
-                  style={{
-                    verticalAlign: "middle",
-                    marginLeft: "0.5rem",
-                    fontSize: 16,
-                  }}
-                />
               </Typography>
             </Link>
           </Stack>

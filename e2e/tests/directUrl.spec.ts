@@ -12,8 +12,13 @@ async function testArtistSection(
   page: Page,
 ) {
   await expect(
+    page.getByRole("tab", { name: `${title} (${count})` }),
+  ).toBeVisible();
+
+  await expect(
     page.getByRole("heading", { name: `${title} (${count})` }),
   ).toBeVisible();
+
   await countItems(
     `div > section.MuiContainer-root:nth-child(${sectionIndex + 1}) .MuiGrid-item`,
     count < 18 ? count : 18,
@@ -38,11 +43,23 @@ test("Tidarr direct url : Should display album result using Tidal album url", as
   await runSearch("https://listen.tidal.com/album/121121877", page);
 
   await expect(
-    page.getByRole("link", { name: "Land Of The Free?" }),
+    page
+      .locator("div")
+      .filter({ hasText: /^Land Of The Free\?$/ })
+      .getByRole("link"),
   ).toBeVisible();
 
-  await expect(page.getByRole("button", { name: "Pennywise" })).toBeVisible();
+  await expect(
+    page.locator(".MuiTypography-root > .MuiButtonBase-root").first(),
+  ).toHaveText("Pennywise");
   await expect(page.getByRole("button", { name: "Get album" })).toBeVisible();
+
+  const albumCount = await page.getByRole("button", { name: "Album" }).count();
+  await expect(albumCount).toEqual(15);
+  const trackCount = await page.getByRole("button", { name: "Track" }).count();
+  await expect(trackCount).toEqual(14);
+
+  await expect(page.url()).toContain("/album/121121877");
 });
 
 test("Tidarr direct url : Should display playlist result using Tidal playlist url", async ({
@@ -57,6 +74,15 @@ test("Tidarr direct url : Should display playlist result using Tidal playlist ur
   await expect(
     page.getByRole("button", { name: "Get playlist" }),
   ).toBeVisible();
+
+  const albumCount = await page.getByRole("button", { name: "Album" }).count();
+  await expect(albumCount).toEqual(18);
+  const trackCount = await page.getByRole("button", { name: "Track" }).count();
+  await expect(trackCount).toEqual(18);
+
+  await expect(page.url()).toContain(
+    "/playlist/0b5df380-47d3-48fe-ae66-8f0dba90b1ee",
+  );
 });
 
 test("Tidarr direct url : Should display track result using Tidal track url", async ({
@@ -64,9 +90,36 @@ test("Tidarr direct url : Should display track result using Tidal track url", as
 }) => {
   await runSearch("https://tidal.com/browse/track/77610761", page);
 
-  await expect(page.getByRole("link", { name: "Lithium" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Album" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Track" })).toBeVisible();
+  // Should see selected track header
+
+  await expect(
+    page
+      .locator("div")
+      .filter({ hasText: /^Lithium$/ })
+      .getByRole("link"),
+  ).toBeVisible();
+
+  // Should see Album
+
+  await expect(
+    page
+      .locator("div")
+      .filter({ hasText: /^Nevermind$/ })
+      .getByRole("link"),
+  ).toBeVisible();
+
+  // Should see Album download button
+
+  await expect(page.getByRole("button", { name: "Get album" })).toBeVisible();
+
+  // Should see other album tracks
+
+  const albumCount = await page.getByRole("button", { name: "Album" }).count();
+  await expect(albumCount).toEqual(15);
+  const trackCount = await page.getByRole("button", { name: "Track" }).count();
+  await expect(trackCount).toEqual(14);
+
+  await expect(page.url()).toContain("/track/77610761");
 });
 
 test("Tidarr direct url : Should display mix result using Tidal mix url", async ({
@@ -91,7 +144,7 @@ test("Tidarr direct url : Should display artist page using Tidal artist url", as
   await runSearch("https://listen.tidal.com/artist/17713", page);
 
   await expect(
-    page.getByRole("link", { name: "Artist: Pennywise" }),
+    page.getByRole("link", { name: "Pennywise", exact: true }),
   ).toBeVisible();
 
   await testArtistSection(1, "Albums", 13, page);

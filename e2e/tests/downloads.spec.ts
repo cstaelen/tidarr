@@ -99,11 +99,5 @@ test("Tidarr download : Should be able to download playlist", async ({
 
   await page.getByRole("button", { name: "Get playlist" }).click();
 
-  await page
-    .locator(
-      ".MuiGrid-item .MuiBox-root > .MuiCardContent-root > .MuiButtonBase-root",
-    )
-    .click();
-
   await testProcessingList(page);
 });
