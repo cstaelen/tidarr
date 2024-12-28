@@ -17,9 +17,9 @@ export async function runSearch(keyword: string, page: Page) {
     ),
   ).toBeVisible();
 
-  await page.getByTestId("search-input").click();
-  await page.getByTestId("search-input").fill(keyword);
-  await page.getByTestId("search-input").press("Enter");
+  await page.getByTestId("search-input").locator("input").click();
+  await page.getByTestId("search-input").locator("input").fill(keyword);
+  await page.getByTestId("search-input").locator("input").press("Enter");
   await waitForLoader(page);
   await waitForImgLoaded(page);
 }

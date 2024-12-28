@@ -1,11 +1,11 @@
 import React from "react";
-import { ArrowRightAlt, SearchOff } from "@mui/icons-material";
-import { Box, Button, Chip, Container, Typography } from "@mui/material";
+import { ArrowRightAlt } from "@mui/icons-material";
+import { Box, Button, Typography } from "@mui/material";
 import { useSearchProvider } from "src/provider/SearchProvider";
 
-import Mix from "../Cards/Mix";
 import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
 
+import NoResult from "./NoResults";
 import TypeResults from "./TypeResults";
 
 type TidalContentType = "albums" | "artists" | "tracks";
@@ -22,7 +22,7 @@ export default function TopResults(
 ) {
   const {
     loading,
-    searchResults: { albums, artists, tracks, playlists, mix },
+    searchResults: { albums, artists, tracks, playlists },
   } = useSearchProvider();
 
   const data = [
@@ -58,31 +58,15 @@ export default function TopResults(
       limit: 6,
       tab: 4,
     },
-    {
-      type: "mix",
-      label: "Mix(es)",
-      items: mix?.items || [],
-      total: mix?.totalNumberOfItems,
-      header: mix?.info,
-      tab: 0,
-    },
   ];
 
-  if (loading) return <AlbumsLoader />;
+  if (!data && loading) return <AlbumsLoader />;
 
   if (
     !loading &&
     data?.filter((item) => item?.total && item.total > 0).length === 0
   ) {
-    return (
-      <Container maxWidth="lg" sx={{ textAlign: "center", marginTop: 2 }}>
-        <Chip
-          icon={<SearchOff />}
-          label="No result found :'("
-          sx={{ fontWeight: "bold", padding: 1 }}
-        />
-      </Container>
-    );
+    return <NoResult />;
   }
 
   return (
@@ -91,16 +75,14 @@ export default function TopResults(
         <div key={`top-${block.type}`}>
           {block?.items?.length > 0 ? (
             <Box paddingBottom={3} key={`top-${block.type}`}>
-              {!block?.header ? (
-                <Typography component="h2" variant="h4" paddingBottom={2}>
-                  {block.label}
-                </Typography>
-              ) : (
-                <Mix mix={block?.header} />
-              )}
+              <Typography component="h2" variant="h4" paddingBottom={2}>
+                {block.label}
+              </Typography>
               <TypeResults
                 type={block.type as TidalContentType}
+                data={block.items}
                 limit={block.limit}
+                total={block.total}
               />
               {block?.limit && block?.items.length > block?.limit ? (
                 <Box marginTop={3} justifyContent="flex-end" display="flex">

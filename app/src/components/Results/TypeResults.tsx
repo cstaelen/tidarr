@@ -1,14 +1,7 @@
 import React from "react";
-import { SearchOff } from "@mui/icons-material";
-import { Box, Chip, Container, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { useSearchProvider } from "src/provider/SearchProvider";
-import {
-  AlbumType,
-  ArtistType,
-  MixType,
-  PlaylistType,
-  TrackType,
-} from "src/types";
+import { AlbumType, ArtistType, PlaylistType, TrackType } from "src/types";
 
 import AlbumCard from "../Cards/Album";
 import Artist from "../Cards/Artist";
@@ -16,31 +9,30 @@ import Playlist from "../Cards/Playlist";
 import Track from "../Cards/Track";
 import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
 
+import NoResult from "./NoResults";
 import Pager from "./Pager";
 
-type TidalContentType = "albums" | "artists" | "tracks" | "playlists" | "mix";
+type TidalContentType = "albums" | "artists" | "tracks" | "playlists";
 
 interface TabContentProps {
-  children?: React.ReactNode;
   setTabIndex?: (index: number) => void;
   limit?: number;
+  total?: number;
   type: TidalContentType;
+  data: AlbumType[] | TrackType[] | PlaylistType[] | ArtistType[];
 }
 
 export default function TypeResults(props: TabContentProps) {
-  const { quality, actions, page, loading, searchResults } =
-    useSearchProvider();
-
-  const data = searchResults?.[props.type];
+  const { quality, actions, page, loading } = useSearchProvider();
 
   return (
     <Grid container spacing={2}>
-      {data?.items?.length > 0 ? (
-        data?.items
-          ?.slice(0, props.limit || data?.items?.length)
+      {props.data?.length > 0 ? (
+        props.data
+          ?.slice(0, props.limit || props.data?.length)
           .map(
             (
-              data: AlbumType | ArtistType | TrackType | PlaylistType | MixType,
+              data: AlbumType | ArtistType | TrackType | PlaylistType,
               index: number,
             ) => (
               <Grid
@@ -65,7 +57,7 @@ export default function TypeResults(props: TabContentProps) {
                   <AlbumCard album={data as AlbumType} />
                 ) : props.type === "artists" ? (
                   <Artist artist={data as ArtistType} />
-                ) : props.type === "tracks" || props.type === "mix" ? (
+                ) : props.type === "tracks" ? (
                   <Track track={data as TrackType} />
                 ) : props.type === "playlists" ? (
                   <Playlist playlist={data as PlaylistType} />
@@ -74,23 +66,17 @@ export default function TypeResults(props: TabContentProps) {
             ),
           )
       ) : !loading ? (
-        <Container maxWidth="lg" sx={{ textAlign: "center", marginTop: 3 }}>
-          <Chip
-            icon={<SearchOff />}
-            label="No result found :'("
-            sx={{ fontWeight: "bold", padding: 1 }}
-          />
-        </Container>
+        <NoResult />
       ) : null}
       {loading && (
         <Box marginTop={2}>
           <AlbumsLoader />
         </Box>
       )}
-      {!props.limit && data?.totalNumberOfItems && (
+      {!props.limit && props?.total && (
         <Pager
           page={page}
-          totalItems={data?.totalNumberOfItems}
+          totalItems={props?.total}
           setPage={actions.setPage}
         />
       )}

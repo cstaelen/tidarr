@@ -1,13 +1,10 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { TIDAL_API_LISTEN_URL, TIDAL_ITEMS_PER_PAGE } from "../contants";
 import {
   PlaylistType,
-  TidalArtistAlbumsListType,
-  TidalArtistModuleType,
   TidalArtistResponseType,
-  TidalMixResponseType,
   TidalResponseType,
   TrackType,
 } from "../types";
@@ -18,21 +15,17 @@ type DisplayType = "small" | "large";
 
 type SearchContextType = {
   searchResults: TidalResponseType;
-  artistResults: TidalArtistModuleType[];
   keywords: string | undefined;
   loading: boolean;
-  artistPagerLoading: number | undefined;
   page: number;
   quality: QualityType;
   display: DisplayType;
   actions: {
-    performSearch: (e: React.SyntheticEvent) => void;
     setPage: (page: number) => void;
     setQuality: (quality: QualityType) => void;
     setDisplay: (mode: DisplayType) => void;
-    fetchArtistPage: (url: string, index: number, offset: number) => void;
+    runSearch: (keywords: string) => void;
     queryTidal: (query: string, page: number) => void;
-    queryArtist: (id: string, name: string, page: number) => void;
   };
 };
 
@@ -55,37 +48,25 @@ export function SearchProvider({ children }: { children: ReactNode }) {
       (localStorage.getItem(LOCALSTORAGE_QUALITY_FILTER) as QualityType) ||
       "all",
   );
-  const [artistPagerLoading, setArtistPagerLoading] = useState<number>();
+
   const [searchResults, setSearchResults] = useState<TidalResponseType>(
     {} as TidalResponseType,
   );
-  const [artistResults, setArtistResults] = useState<TidalArtistModuleType[]>(
-    [] as TidalArtistModuleType[],
-  );
 
   const [params] = useSearchParams();
+  const navigate = useNavigate();
 
-  function performSearch(e: React.SyntheticEvent) {
-    e.preventDefault();
-    const target = e.target as typeof e.target & HTMLInputElement[];
-    const searchString = target?.[0]?.value as string;
-    setKeywords(searchString);
-  }
-
-  function fetchData(searchString: string) {
+  async function runSearch(searchString: string) {
+    setLoading(true);
     if (searchString.substring(0, 4) === "http") {
-      directDownload(searchString);
-    } else if (searchString.split(":").length > 2) {
-      queryArtist(searchString.split(":")[1]);
+      await directDownload(searchString);
     } else {
-      queryTidal(searchString);
+      await queryTidal(searchString);
     }
+    setLoading(false);
   }
 
   async function queryTidal(query: string) {
-    setArtistResults([] as TidalArtistModuleType[]);
-    setLoading(true);
-
     const results = await fetchTidal<TidalResponseType>(
       `${TIDAL_API_LISTEN_URL}/search/top-hits?query=${query}&type=lossless&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
         (page - 1) * TIDAL_ITEMS_PER_PAGE
@@ -122,46 +103,9 @@ export function SearchProvider({ children }: { children: ReactNode }) {
           ...(results?.playlists?.items || []),
         ],
       },
-      mix: {
-        ...results?.mix,
-        items: [
-          ...(page > 1 ? clone?.mix?.items || [] : []),
-          ...(results?.mix?.items || []),
-        ],
-      },
     };
+
     setSearchResults(data);
-    postFetch(query);
-  }
-
-  async function queryArtist(id: string) {
-    setSearchResults({} as TidalResponseType);
-    setArtistResults([] as TidalArtistModuleType[]);
-    setLoading(true);
-
-    const data_artist = await fetchTidal<TidalArtistResponseType>(
-      `${TIDAL_API_LISTEN_URL}/pages/artist?artistId=${id}`,
-    );
-
-    if (data_artist?.rows?.length > 0) {
-      const album_block = data_artist?.rows
-        .filter(
-          (row) =>
-            row.modules.filter((module) => module.type === "ALBUM_LIST")
-              .length > 0,
-        )
-        .map((row) => row.modules[0])
-        .map((block) => ({
-          ...block,
-          pagedList: {
-            ...block.pagedList,
-            items: block.pagedList.items.slice(0, TIDAL_ITEMS_PER_PAGE),
-          },
-        }));
-      setArtistResults(album_block);
-    }
-
-    postFetch(`artist:${id}:${data_artist.title}`);
   }
 
   async function directDownload(url: string) {
@@ -172,27 +116,30 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     const type = splittedUrl[splittedUrl?.length - 2].split("?")?.[0];
 
     setSearchResults({} as TidalResponseType);
-    setArtistResults([] as TidalArtistModuleType[]);
 
     const data: TidalResponseType = {
       albums: { items: [], totalNumberOfItems: 0 },
       artists: { items: [], totalNumberOfItems: 0 },
       tracks: { items: [], totalNumberOfItems: 0 },
       playlists: { items: [], totalNumberOfItems: 0 },
-      mix: { items: [], totalNumberOfItems: 0, info: undefined },
     };
 
     // Artist url
     if (type === "artist") {
-      queryArtist(id);
+      navigate(`/artist/${id}`);
+
+      return;
+    }
+
+    // Mix url
+    if (type === "mix") {
+      navigate(`/mix/${id}`);
 
       return;
     }
 
     // Album url
     if (type === "album") {
-      setLoading(true);
-
       const data_album = await fetchTidal<TidalArtistResponseType>(
         `${TIDAL_API_LISTEN_URL}/pages/album?albumId=${id}`,
       );
@@ -205,8 +152,6 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
     // Track url
     if (type === "track") {
-      setLoading(true);
-
       const data_track = await fetchTidal<TrackType>(
         `${TIDAL_API_LISTEN_URL}/tracks/${id}`,
       );
@@ -219,7 +164,6 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
     // Playlist url
     if (type === "playlist") {
-      setLoading(true);
       const data_playlist = await fetchTidal<PlaylistType>(
         `${TIDAL_API_LISTEN_URL}/playlists/${id}`,
       );
@@ -227,76 +171,23 @@ export function SearchProvider({ children }: { children: ReactNode }) {
       data.playlists = { items: [data_playlist], totalNumberOfItems: 1 };
     }
 
-    // Mix url
-    if (type === "mix") {
-      setLoading(true);
-
-      const data_mix = await fetchTidal<TidalMixResponseType>(
-        `${TIDAL_API_LISTEN_URL}/pages/mix?mixId=${id}`,
-      );
-
-      data.mix = {
-        info: {
-          ...data_mix?.rows[0].modules[0].mix,
-          url: `https://tidal.com/mix/${data_mix?.rows[0].modules[0].mix.id}`,
-        },
-        items: data_mix?.rows[1].modules[0].pagedList.items,
-        totalNumberOfItems: 1,
-      };
-    }
-
     setSearchResults(data);
-    postFetch(url);
-  }
-
-  async function fetchArtistPage(url: string, index: number, page: number) {
-    setArtistPagerLoading(index);
-    const data_artist_page = await fetchTidal<TidalArtistAlbumsListType>(
-      `${TIDAL_API_LISTEN_URL}/${url}&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
-        page * TIDAL_ITEMS_PER_PAGE
-      }`,
-    );
-
-    if (data_artist_page?.items?.length > 0) {
-      const clone: TidalArtistModuleType[] = [...artistResults];
-      const updatedData = {
-        ...artistResults[index],
-        pagedList: {
-          ...clone[index].pagedList,
-          items: [
-            ...artistResults[index].pagedList.items,
-            ...(data_artist_page?.items || []),
-          ],
-        },
-      };
-      clone[index] = updatedData;
-
-      setArtistResults(clone);
-      setArtistPagerLoading(undefined);
-    }
-  }
-
-  function postFetch(searchString: string) {
-    if (document.getElementById("filled-basic")) {
-      (document.getElementById("filled-basic") as HTMLInputElement).value =
-        searchString;
-    }
-    history.pushState({}, "pushState search", `/?query=${searchString}`);
-    setKeywords(searchString);
-    setLoading(false);
   }
 
   // Fetch on page change
   useEffect(() => {
-    if (keywords) fetchData(keywords);
+    if (keywords) runSearch(keywords);
   }, [page]);
 
   useEffect(() => {
     if (keywords) {
-      setSearchResults({} as TidalResponseType);
-      setPage(1);
-      fetchData(keywords);
       window.scrollTo(0, 0);
+      setSearchResults({} as TidalResponseType);
+      if (page > 1) {
+        setPage(1);
+        return;
+      }
+      runSearch(keywords);
     }
   }, [keywords]);
 
@@ -305,7 +196,9 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     const search = params.get("query");
     if (search) {
       setKeywords(search);
+      return;
     }
+    setKeywords(undefined);
   }, [params]);
 
   useEffect(() => {
@@ -318,21 +211,17 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
   const value = {
     searchResults,
-    artistResults,
     loading,
-    artistPagerLoading,
     keywords,
     page,
     quality,
     display,
     actions: {
-      performSearch,
       setPage,
       setQuality,
       setDisplay,
       queryTidal,
-      queryArtist,
-      fetchArtistPage,
+      runSearch,
     },
   };
 

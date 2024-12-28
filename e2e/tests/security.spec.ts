@@ -99,6 +99,7 @@ test("Tidarr security : Login page should redirect to home in public mode", asyn
 }) => {
   // When I go to login page in public mode
   await page.goto("/login");
+  await page.evaluate("localStorage.clear()");
   // then I should be redirected to homepage
   await expect(page.getByText("Unofficial Tidal© media")).toBeInViewport();
 });

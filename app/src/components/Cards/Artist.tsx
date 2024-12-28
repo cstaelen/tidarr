@@ -1,14 +1,13 @@
-import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import AlbumIcon from "@mui/icons-material/Album";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Avatar, Box, Button, Chip, Link, Stack } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useSearchProvider } from "src/provider/SearchProvider";
 import { ArtistType } from "src/types";
 
 export default function Artist({ artist }: { artist: ArtistType }) {
-  const { actions } = useSearchProvider();
+  const navigate = useNavigate();
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -67,7 +66,7 @@ export default function Artist({ artist }: { artist: ArtistType }) {
               variant="outlined"
               endIcon={<AlbumIcon />}
               onClick={() => {
-                actions.queryArtist(artist.id, artist.name, 1);
+                navigate(`/artist/${artist.id}`);
               }}
               size="small"
             >

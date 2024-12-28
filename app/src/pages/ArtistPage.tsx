@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Box, Button, Container, Grid, Link } from "@mui/material";
 import { TIDAL_ITEMS_PER_PAGE } from "src/contants";
+import { ArtistProvider, useArtist } from "src/provider/ArtistProvider";
 
-import { useSearchProvider } from "../../provider/SearchProvider";
-import { AlbumType, TidalArtistModuleType } from "../../types";
-import AlbumCard from "../Cards/Album";
-import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
+import AlbumCard from "../components/Cards/Album";
+import { AlbumsLoader } from "../components/Skeletons/AlbumsLoader";
+import { useSearchProvider } from "../provider/SearchProvider";
+import { AlbumType, TidalArtistModuleType } from "../types";
 
 function Pager({
   data,
@@ -17,8 +19,8 @@ function Pager({
 }) {
   const {
     artistPagerLoading,
-    actions: { fetchArtistPage },
-  } = useSearchProvider();
+    actions: { queryArtistPage },
+  } = useArtist();
   const [page, setPage] = useState(1);
 
   const url = data.pagedList.dataApiPath;
@@ -41,8 +43,8 @@ function Pager({
       <Button
         variant="contained"
         size="large"
-        onClick={() => {
-          fetchArtistPage(url, index, page);
+        onClick={async () => {
+          await queryArtistPage(url, index, page);
           setPage(page + 1);
         }}
       >
@@ -52,24 +54,35 @@ function Pager({
   );
 }
 
-export default function ArtistPage({
-  name,
-  data,
-}: {
-  name: string;
-  data: TidalArtistModuleType[];
-}) {
+function ArtistContent() {
   const { quality } = useSearchProvider();
+  const { artistResults, actions, loading } = useArtist();
+
+  const { id } = useParams();
+
+  async function fetchData(id: string) {
+    await actions.queryArtist(id);
+  }
+
+  useEffect(() => {
+    if (id) {
+      fetchData(id);
+    }
+  }, [id]);
+
+  if (loading)
+    return (
+      <Container maxWidth="lg" sx={{ py: 3 }}>
+        <AlbumsLoader />
+      </Container>
+    );
 
   return (
-    <Box marginBottom={15}>
+    <Box sx={{ bgcolor: "background.paper", mb: 2 }}>
       <Container maxWidth="lg">
         <h1>
-          <Link
-            href={`https://tidal.com/browse/artist/${name.split(":")[1]}`}
-            target="_blank"
-          >
-            Artist: {name.split(":")[2]}
+          <Link href={`https://tidal.com/browse/artist/${id}`} target="_blank">
+            Artist: {artistResults?.title}
             <OpenInNewIcon
               style={{
                 verticalAlign: "middle",
@@ -80,7 +93,7 @@ export default function ArtistPage({
           </Link>
         </h1>
       </Container>
-      {data.map((block, index1) => (
+      {artistResults?.blocks?.map((block, index1) => (
         <Container maxWidth="lg" key={`card-${index1}`} component="section">
           <Box marginBottom={5}>
             <h2>
@@ -114,5 +127,13 @@ export default function ArtistPage({
         </Container>
       ))}
     </Box>
+  );
+}
+
+export default function ArtistPage() {
+  return (
+    <ArtistProvider>
+      <ArtistContent />
+    </ArtistProvider>
   );
 }

@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import {
   Avatar,
@@ -19,8 +19,9 @@ import { TrackType } from "src/types";
 import { DownloadButton } from "../Buttons/DownloadButton";
 
 export default function Track({ track }: { track: TrackType }) {
-  const { display, actions } = useSearchProvider();
+  const { display } = useSearchProvider();
   const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
     <Card sx={{ position: "relative" }}>
@@ -73,13 +74,9 @@ export default function Track({ track }: { track: TrackType }) {
               variant="text"
               size="small"
               style={{ padding: 0 }}
-              onClick={() =>
-                actions.queryArtist(
-                  track.artists[0].id,
-                  track.artists[0].name,
-                  1,
-                )
-              }
+              onClick={() => {
+                navigate(`/artist/${track.artists[0].id}`);
+              }}
             >
               <strong>{track.artists?.[0]?.name}</strong>
             </Button>

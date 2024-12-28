@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import {
   Avatar,
@@ -18,8 +19,9 @@ import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
 
 export default function AlbumCard({ album }: { album: AlbumType }) {
-  const { actions, display } = useSearchProvider();
+  const { display } = useSearchProvider();
   const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
     <Card sx={{ position: "relative" }}>
@@ -73,13 +75,9 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
               size="small"
               color="inherit"
               style={{ padding: "0 0.15rem" }}
-              onClick={() =>
-                actions.queryArtist(
-                  album.artists[0].id,
-                  album.artists[0].name,
-                  1,
-                )
-              }
+              onClick={() => {
+                navigate(`/artist/${album.artists[0].id}`);
+              }}
             >
               <strong>{album.artists?.[0]?.name}</strong>
             </Button>
