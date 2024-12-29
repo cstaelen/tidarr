@@ -71,7 +71,7 @@ function ArtistContent() {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
-    document.querySelectorAll("section > h2")?.[newValue]?.scrollIntoView();
+    document.querySelectorAll("section h2")?.[newValue]?.scrollIntoView();
   };
 
   async function fetchData(id: string) {
