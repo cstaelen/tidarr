@@ -47,13 +47,16 @@ export default function Home() {
   const [params] = useSearchParams();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    window.scrollTo(0, 0);
     setValue(newValue);
   };
 
   useEffect(() => {
     setValue(0);
   }, [params]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [value]);
 
   return (
     <Box sx={{ bgcolor: "background.paper" }}>

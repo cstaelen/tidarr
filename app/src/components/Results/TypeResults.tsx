@@ -23,7 +23,7 @@ interface TabContentProps {
 }
 
 export default function TypeResults(props: TabContentProps) {
-  const { quality, actions, page, loading } = useSearchProvider();
+  const { quality, actions, page, loading, display } = useSearchProvider();
 
   return (
     <Grid container spacing={2}>
@@ -38,8 +38,8 @@ export default function TypeResults(props: TabContentProps) {
               <Grid
                 item
                 xs={12}
-                md={6}
-                lg={4}
+                md={display === "small" && props.type === "tracks" ? 12 : 6}
+                lg={display === "small" && props.type === "tracks" ? 12 : 4}
                 key={`album-${index}`}
                 sx={{
                   display:

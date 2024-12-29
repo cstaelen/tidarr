@@ -21,7 +21,7 @@ export default function PageHeader({
   return (
     <Card sx={{ position: "relative" }}>
       <Stack direction="row">
-        <Box sx={{ width: { md: "200px", xs: "150px" } }}>
+        <Box sx={{ width: { md: "200px", xs: "150px", lineHeight: 0 } }}>
           <img
             height="auto"
             width="100%"
@@ -56,7 +56,7 @@ export default function PageHeader({
                   component="h1"
                   sx={{
                     fontSize: { md: 28, xs: 14 },
-                    lineHeight: { md: 2, xs: 1.2 },
+                    lineHeight: { md: 1.6, xs: 1.2 },
                     my: 1,
                   }}
                 >

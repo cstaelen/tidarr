@@ -1,5 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
-import { Avatar, Box, Button, Chip, Stack, useTheme } from "@mui/material";
+import { Link } from "react-router-dom";
+import {
+  Avatar,
+  Box,
+  Chip,
+  Stack,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -8,11 +15,138 @@ import { TrackType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
 
-export default function Track({ track }: { track: TrackType }) {
-  const { display } = useSearchProvider();
-  const theme = useTheme();
-  const navigate = useNavigate();
+function StackDownloadButtons({ track }: { track: TrackType }) {
+  return (
+    <Stack direction="row" flexWrap="wrap" spacing={1}>
+      <DownloadButton
+        item={track}
+        id={track.album.id}
+        type="album"
+        label="Album"
+      />
+      <DownloadButton item={track} id={track.id} type="track" label="Track" />
+    </Stack>
+  );
+}
 
+function StackChips({ track }: { track: TrackType }) {
+  const theme = useTheme();
+
+  return (
+    <>
+      <Chip
+        label={track.audioQuality.toLowerCase()}
+        color="primary"
+        size="small"
+        sx={{
+          margin: "0.2rem",
+          color:
+            track?.audioQuality?.toLowerCase() === "lossless"
+              ? theme.palette.common.white
+              : theme.palette.common.black,
+          backgroundColor:
+            track?.audioQuality?.toLowerCase() === "lossless"
+              ? theme.palette.gold
+              : theme.palette.primary.main,
+        }}
+      />
+      <Chip
+        label={`${Math.round(track.duration / 60)} min.`}
+        color="success"
+        size="small"
+      />
+    </>
+  );
+}
+
+function AlbumLink({ track }: { track: TrackType }) {
+  const theme = useTheme();
+
+  return (
+    <>
+      Album :{" "}
+      <Link
+        to={`/album/${track.album.id}`}
+        style={{
+          color: theme.palette.primary.main,
+        }}
+      >
+        {track.album.title}
+      </Link>
+    </>
+  );
+}
+
+function ArtistAvatar({ track }: { track: TrackType }) {
+  return (
+    <Avatar
+      alt={track.artists?.[0]?.name}
+      sx={{ width: 42, height: 42 }}
+      src={`https://resources.tidal.com/images/${track.artists?.[0]?.picture?.replace(
+        /-/g,
+        "/",
+      )}/750x750.jpg`}
+    />
+  );
+}
+
+function CoverLink({
+  track,
+  width,
+  height,
+}: {
+  track: TrackType;
+  width: string | number;
+  height: string | number;
+}) {
+  return (
+    <Link to={`/track/${track.id}`} style={{ lineHeight: 0, display: "block" }}>
+      <img
+        height={width}
+        width={height}
+        src={`https://resources.tidal.com/images/${track.album.cover?.replace(
+          /-/g,
+          "/",
+        )}/750x750.jpg`}
+        alt="Live from space album cover"
+      />
+    </Link>
+  );
+}
+
+function TitleLink({ track }: { track: TrackType }) {
+  const theme = useTheme();
+
+  return (
+    <Link
+      to={`/track/${track.id}`}
+      style={{
+        lineHeight: 1.2,
+        color: theme.palette.primary.main,
+        textDecoration: "none",
+      }}
+    >
+      <Typography component="span" style={{ lineHeight: 1 }}>
+        <strong>{track.title}</strong>
+      </Typography>
+    </Link>
+  );
+}
+
+function ArtistLink({ track }: { track: TrackType }) {
+  const theme = useTheme();
+
+  return (
+    <Link
+      to={`/artist/${track.artists[0].id}`}
+      style={{ color: theme.palette.primary.main }}
+    >
+      {track.artists?.[0]?.name}
+    </Link>
+  );
+}
+
+function TrackCard({ track }: { track: TrackType }) {
   return (
     <Card sx={{ position: "relative" }}>
       <Stack
@@ -26,27 +160,9 @@ export default function Track({ track }: { track: TrackType }) {
           backgroundColor: "rgba(255, 255, 255, 0.04)",
         }}
       >
-        <Avatar
-          alt={track.artists?.[0]?.name}
-          sx={{ width: 42, height: 42 }}
-          src={`https://resources.tidal.com/images/${track.artists?.[0]?.picture?.replace(
-            /-/g,
-            "/",
-          )}/750x750.jpg`}
-        />
+        <ArtistAvatar track={track} />
         <div style={{ lineHeight: 1.4, flex: "1 1 0" }}>
-          <Link
-            to={`/track/${track.id}`}
-            style={{
-              lineHeight: 1.2,
-              color: theme.palette.primary.main,
-              textDecoration: "none",
-            }}
-          >
-            <Typography component="span" style={{ lineHeight: 1 }}>
-              <strong>{track.title}</strong>
-            </Typography>
-          </Link>
+          <TitleLink track={track} />
           {` `}
           <Typography
             variant="subtitle2"
@@ -55,31 +171,12 @@ export default function Track({ track }: { track: TrackType }) {
             style={{ lineHeight: 1, whiteSpace: "nowrap" }}
           >
             {` `}by{` `}
-            <Button
-              variant="text"
-              size="small"
-              style={{ padding: 0 }}
-              onClick={() => {
-                navigate(`/artist/${track.artists[0].id}`);
-              }}
-            >
-              <strong>{track.artists?.[0]?.name}</strong>
-            </Button>
+            <ArtistLink track={track} />
           </Typography>
         </div>
       </Stack>
-      <Stack direction={display === "large" ? "column" : "row"}>
-        <Link to={`/track/${track.id}`} style={{ lineHeight: 0 }}>
-          <img
-            height={display === "small" ? 120 : "100%"}
-            width={display === "small" ? 120 : "100%"}
-            src={`https://resources.tidal.com/images/${track.album.cover?.replace(
-              /-/g,
-              "/",
-            )}/750x750.jpg`}
-            alt="Live from space album cover"
-          />
-        </Link>
+      <Stack direction={"row"}>
+        <CoverLink track={track} height={120} width={120} />
         <Box
           sx={{
             display: "flex",
@@ -92,28 +189,9 @@ export default function Track({ track }: { track: TrackType }) {
             sx={{ flex: "0 0 auto", padding: "0.5rem 1rem !important" }}
           >
             <Stack direction="row" flexWrap="wrap" spacing={1} marginBottom={1}>
-              <Chip
-                label={track.audioQuality.toLowerCase()}
-                color="primary"
-                size="small"
-                sx={{
-                  margin: "0.2rem",
-                  color:
-                    track?.audioQuality?.toLowerCase() === "lossless"
-                      ? theme.palette.common.white
-                      : theme.palette.common.black,
-                  backgroundColor:
-                    track?.audioQuality?.toLowerCase() === "lossless"
-                      ? theme.palette.gold
-                      : theme.palette.primary.main,
-                }}
-              />
-              <Chip
-                label={`${Math.round(track.duration / 60)} min.`}
-                color="success"
-                size="small"
-              />
+              <StackChips track={track} />
             </Stack>
+
             <Box
               lineHeight={1.2}
               marginBottom={1}
@@ -121,33 +199,72 @@ export default function Track({ track }: { track: TrackType }) {
               minHeight={30}
               alignContent="center"
             >
-              Album :{" "}
-              <Link
-                to={`/album/${track.album.id}`}
-                style={{
-                  color: theme.palette.primary.main,
-                }}
-              >
-                {track.album.title}
-              </Link>
+              <AlbumLink track={track} />
             </Box>
-            <Stack direction="row" flexWrap="wrap" spacing={1}>
-              <DownloadButton
-                item={track}
-                id={track.album.id}
-                type="album"
-                label="Album"
-              />
-              <DownloadButton
-                item={track}
-                id={track.id}
-                type="track"
-                label="Track"
-              />
-            </Stack>
+            <StackDownloadButtons track={track} />
           </CardContent>
         </Box>
       </Stack>
     </Card>
   );
+}
+
+function TrackInline({ track }: { track: TrackType }) {
+  const cellStyle: React.CSSProperties = {
+    lineHeight: "1.25",
+    padding: "0.25rem",
+  };
+
+  return (
+    <Card sx={{ p: 1 }}>
+      <Box
+        width="100%"
+        sx={{
+          alignItems: "center",
+          width: "100%",
+          display: "grid",
+          gridTemplateColumns: "5rem 1.5fr 1fr 1.5fr 2fr auto",
+        }}
+      >
+        <div>
+          <CoverLink track={track} height={64} width={64} />
+        </div>
+        <div style={cellStyle}>
+          <TitleLink track={track} />
+        </div>
+        <div style={cellStyle}>
+          <StackChips track={track} />
+        </div>
+        <div style={cellStyle}>
+          <Stack
+            direction="row"
+            flexWrap="wrap"
+            spacing={1}
+            alignItems="center"
+          >
+            <ArtistAvatar track={track} />
+            <ArtistLink track={track} />
+          </Stack>
+        </div>
+        <div style={cellStyle}>
+          <AlbumLink track={track} />
+        </div>
+        <div style={cellStyle}>
+          <StackDownloadButtons track={track} />
+        </div>
+      </Box>
+    </Card>
+  );
+}
+
+export default function Track({ track }: { track: TrackType }) {
+  const { display } = useSearchProvider();
+  const theme = useTheme();
+  const isLarge = useMediaQuery(theme.breakpoints.up("md"));
+
+  if (display === "small" && isLarge) {
+    return <TrackInline track={track} />;
+  } else {
+    return <TrackCard track={track} />;
+  }
 }

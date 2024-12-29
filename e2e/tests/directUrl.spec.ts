@@ -96,7 +96,8 @@ test("Tidarr direct url : Should display track result using Tidal track url", as
     page
       .locator("div")
       .filter({ hasText: /^Lithium$/ })
-      .getByRole("link"),
+      .getByRole("link")
+      .first(),
   ).toBeVisible();
 
   // Should see Album

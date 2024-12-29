@@ -23,18 +23,19 @@ export default function PagePlaylist() {
           <Box mb={2}>
             <PlaylistHeader playlist={playlist} />
           </Box>
-          {tracks && tracks?.length > 0 && (
-            <Box>
-              <TypeResults type="tracks" data={tracks} />
-              <Pager page={page} setPage={actions.setPage} totalItems={total} />
-            </Box>
-          )}
         </>
       ) : null}
 
       {loading && (
         <Box py={2}>
           <AlbumsLoader />
+        </Box>
+      )}
+
+      {tracks && tracks?.length > 0 && (
+        <Box>
+          <TypeResults type="tracks" data={tracks} />
+          <Pager page={page} setPage={actions.setPage} totalItems={total} />
         </Box>
       )}
     </Container>
