@@ -1,18 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import {
-  Avatar,
-  Box,
-  Button,
-  Chip,
-  Link,
-  Stack,
-  useTheme,
-} from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { Avatar, Box, Button, Chip, Stack, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { TIDAL_PUBLIC_BROWSE_URL } from "src/contants";
 import { useSearchProvider } from "src/provider/SearchProvider";
 import { TrackType } from "src/types";
 
@@ -46,20 +36,15 @@ export default function Track({ track }: { track: TrackType }) {
         />
         <div style={{ lineHeight: 1.4, flex: "1 1 0" }}>
           <Link
-            href={track.url}
-            style={{ lineHeight: 1.2 }}
-            target="_blank"
-            underline="none"
+            to={`/track/${track.id}`}
+            style={{
+              lineHeight: 1.2,
+              color: theme.palette.primary.main,
+              textDecoration: "none",
+            }}
           >
             <Typography component="span" style={{ lineHeight: 1 }}>
               <strong>{track.title}</strong>
-              <OpenInNewIcon
-                style={{
-                  verticalAlign: "middle",
-                  marginLeft: "0.5rem",
-                  fontSize: 16,
-                }}
-              />
             </Typography>
           </Link>
           {` `}
@@ -84,15 +69,17 @@ export default function Track({ track }: { track: TrackType }) {
         </div>
       </Stack>
       <Stack direction={display === "large" ? "column" : "row"}>
-        <img
-          height={display === "small" ? 120 : "100%"}
-          width={display === "small" ? 120 : "100%"}
-          src={`https://resources.tidal.com/images/${track.album.cover?.replace(
-            /-/g,
-            "/",
-          )}/750x750.jpg`}
-          alt="Live from space album cover"
-        />
+        <Link to={`/track/${track.id}`} style={{ lineHeight: 0 }}>
+          <img
+            height={display === "small" ? 120 : "100%"}
+            width={display === "small" ? 120 : "100%"}
+            src={`https://resources.tidal.com/images/${track.album.cover?.replace(
+              /-/g,
+              "/",
+            )}/750x750.jpg`}
+            alt="Live from space album cover"
+          />
+        </Link>
         <Box
           sx={{
             display: "flex",
@@ -136,7 +123,10 @@ export default function Track({ track }: { track: TrackType }) {
             >
               Album :{" "}
               <Link
-                href={`/?query=${TIDAL_PUBLIC_BROWSE_URL}/album/${track.album.id}`}
+                to={`/album/${track.album.id}`}
+                style={{
+                  color: theme.palette.primary.main,
+                }}
               >
                 {track.album.title}
               </Link>

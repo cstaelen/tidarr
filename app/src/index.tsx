@@ -6,10 +6,13 @@ import { createTheme, CssBaseline } from "@mui/material";
 
 import MainLayout from "./components/MainLayout";
 import PrivateRoute, { ROUTE_LOGIN } from "./components/Security/PrivateRoute";
-import ArtistPage from "./pages/ArtistPage";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import MixPage from "./pages/MixPage";
+import PageAlbum from "./pages/PageAlbum";
+import PageArtist from "./pages/PageArtist";
+import PageMix from "./pages/PageMix";
+import PagePlaylist from "./pages/PagePlaylist";
+import PageTrack from "./pages/PageTrack";
 import { APIFetcherProvider } from "./provider/ApiFetcherProvider";
 import { AuthProvider } from "./provider/AuthProvider";
 import { ConfigProvider } from "./provider/ConfigProvider";
@@ -49,8 +52,11 @@ root.render(
                 <Route element={<PrivateRoute />}>
                   <Route element={<DefaultLayout />}>
                     <Route path="/" element={<Home />} />
-                    <Route path="/artist/:id" element={<ArtistPage />} />
-                    <Route path="/mix/:id" element={<MixPage />} />
+                    <Route path="/artist/:id" element={<PageArtist />} />
+                    <Route path="/mix/:id" element={<PageMix />} />
+                    <Route path="/playlist/:id" element={<PagePlaylist />} />
+                    <Route path="/album/:id" element={<PageAlbum />} />
+                    <Route path="/track/:id" element={<PageTrack />} />
                   </Route>
                 </Route>
               </Routes>

@@ -1,20 +1,28 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { Box, Button, Container, Grid, Link } from "@mui/material";
+import { Album } from "@mui/icons-material";
+import { Box, Button, Container, Grid, Tab, Tabs } from "@mui/material";
+import ArtistHeader from "src/components/Headers/Artist";
 import { TIDAL_ITEMS_PER_PAGE } from "src/contants";
 import { ArtistProvider, useArtist } from "src/provider/ArtistProvider";
 
 import AlbumCard from "../components/Cards/Album";
 import { AlbumsLoader } from "../components/Skeletons/AlbumsLoader";
 import { useSearchProvider } from "../provider/SearchProvider";
-import { AlbumType, TidalArtistModuleType } from "../types";
+import { AlbumType, TidalModuleListType } from "../types";
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 
 function Pager({
   data,
   index,
 }: {
-  data: TidalArtistModuleType;
+  data: TidalModuleListType<AlbumType>;
   index: number;
 }) {
   const {
@@ -23,7 +31,7 @@ function Pager({
   } = useArtist();
   const [page, setPage] = useState(1);
 
-  const url = data.pagedList.dataApiPath;
+  const url = data.pagedList?.dataApiPath;
   const nbPages = Math.ceil(
     data.pagedList.totalNumberOfItems / TIDAL_ITEMS_PER_PAGE,
   );
@@ -36,7 +44,7 @@ function Pager({
     );
   }
 
-  if (page === nbPages || isNaN(nbPages)) return null;
+  if (page === nbPages || isNaN(nbPages) || !url) return null;
 
   return (
     <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
@@ -57,8 +65,14 @@ function Pager({
 function ArtistContent() {
   const { quality } = useSearchProvider();
   const { artistResults, actions, loading } = useArtist();
+  const [currentTab, setCurrentTab] = useState(0);
 
   const { id } = useParams();
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setCurrentTab(newValue);
+    document.querySelectorAll("section > h2")?.[newValue]?.scrollIntoView();
+  };
 
   async function fetchData(id: string) {
     await actions.queryArtist(id);
@@ -79,22 +93,36 @@ function ArtistContent() {
 
   return (
     <Box sx={{ bgcolor: "background.paper", mb: 2 }}>
-      <Container maxWidth="lg">
-        <h1>
-          <Link href={`https://tidal.com/browse/artist/${id}`} target="_blank">
-            Artist: {artistResults?.title}
-            <OpenInNewIcon
-              style={{
-                verticalAlign: "middle",
-                marginLeft: "0.5rem",
-                fontSize: 32,
-              }}
+      <Container maxWidth="lg" sx={{ mt: 2 }}>
+        {artistResults?.artist && (
+          <ArtistHeader artist={artistResults.artist} />
+        )}
+        <Tabs
+          value={currentTab}
+          onChange={handleChange}
+          indicatorColor="secondary"
+          textColor="inherit"
+          variant={window.innerWidth > 800 ? "fullWidth" : "scrollable"}
+        >
+          {artistResults?.blocks?.map((block, index1) => (
+            <Tab
+              key={`tab-anchor-${index1}`}
+              label={`${block.title} (${block.pagedList.totalNumberOfItems})`}
+              {...a11yProps(index1)}
+              icon={<Album />}
+              iconPosition="start"
+              sx={{ alignItems: "center" }}
             />
-          </Link>
-        </h1>
+          ))}
+        </Tabs>
       </Container>
       {artistResults?.blocks?.map((block, index1) => (
-        <Container maxWidth="lg" key={`card-${index1}`} component="section">
+        <Container
+          maxWidth="lg"
+          sx={{ mt: 2 }}
+          key={`card-${index1}`}
+          component="section"
+        >
           <Box marginBottom={5}>
             <h2>
               {block.title} ({block.pagedList.totalNumberOfItems})
@@ -130,7 +158,7 @@ function ArtistContent() {
   );
 }
 
-export default function ArtistPage() {
+export default function PageArtist() {
   return (
     <ArtistProvider>
       <ArtistContent />

@@ -1,15 +1,6 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import {
-  Avatar,
-  Box,
-  Button,
-  Chip,
-  Link,
-  Stack,
-  useTheme,
-} from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { Avatar, Box, Button, Chip, Stack, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -46,21 +37,16 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
         />
         <div style={{ lineHeight: 1.4, flex: "1 1 0" }}>
           <Link
-            href={album.url}
-            style={{ lineHeight: 1.4 }}
-            target="_blank"
-            underline="none"
+            to={`/album/${album.id}`}
+            style={{
+              lineHeight: 1,
+              color: theme.palette.primary.main,
+              textDecoration: "none",
+            }}
           >
             <Typography component="span" style={{ lineHeight: 1 }}>
               <strong>{album.title}</strong>
             </Typography>
-            <OpenInNewIcon
-              style={{
-                verticalAlign: "middle",
-                marginLeft: "0.5rem",
-                fontSize: 16,
-              }}
-            />
           </Link>
           {` `}
           <Typography
@@ -85,15 +71,17 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
         </div>
       </Stack>
       <Stack direction={display === "large" ? "column" : "row"}>
-        <img
-          height={display === "small" ? 120 : "100%"}
-          width={display === "small" ? 120 : "100%"}
-          src={`https://resources.tidal.com/images/${album.cover?.replace(
-            /-/g,
-            "/",
-          )}/750x750.jpg`}
-          alt="Live from space album cover"
-        />
+        <Link to={`/album/${album.id}`} style={{ lineHeight: 0 }}>
+          <img
+            height={display === "small" ? 120 : "100%"}
+            width={display === "small" ? 120 : "100%"}
+            src={`https://resources.tidal.com/images/${album.cover?.replace(
+              /-/g,
+              "/",
+            )}/750x750.jpg`}
+            alt="Live from space album cover"
+          />
+        </Link>
         <Box
           sx={{
             display: "flex",

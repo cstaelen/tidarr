@@ -3,15 +3,18 @@ import React from "react";
 
 import { TIDAL_API_LISTEN_URL, TIDAL_ITEMS_PER_PAGE } from "../contants";
 import {
-  TidalArtistAlbumsListType,
-  TidalArtistModuleType,
-  TidalArtistResponseType,
+  AlbumType,
+  ArtistType,
+  TidalModuleListType,
+  TidalModuleResponseType,
+  TidalPagedListType,
 } from "../types";
 import { fetchTidal } from "../utils/fetch";
 
 type ArtistResultsType = {
   title: string;
-  blocks: TidalArtistModuleType[];
+  artist: ArtistType | undefined;
+  blocks: TidalModuleListType<AlbumType>[];
 };
 
 type ArtistContextType = {
@@ -39,7 +42,7 @@ export function ArtistProvider({ children }: { children: ReactNode }) {
   async function queryArtist(id: string) {
     setLoading(true);
 
-    const data_artist = await fetchTidal<TidalArtistResponseType>(
+    const data_artist = await fetchTidal<TidalModuleResponseType<AlbumType>>(
       `${TIDAL_API_LISTEN_URL}/pages/artist?artistId=${id}`,
     );
 
@@ -58,7 +61,11 @@ export function ArtistProvider({ children }: { children: ReactNode }) {
             items: block.pagedList.items.slice(0, TIDAL_ITEMS_PER_PAGE),
           },
         }));
-      setArtistResults({ title: data_artist.title, blocks: album_block });
+      setArtistResults({
+        title: data_artist.title,
+        blocks: album_block,
+        artist: data_artist.rows[0].modules[0]?.artist,
+      });
     }
 
     setLoading(false);
@@ -66,14 +73,16 @@ export function ArtistProvider({ children }: { children: ReactNode }) {
 
   async function queryArtistPage(url: string, index: number, page: number) {
     setArtistPagerLoading(index);
-    const data_artist_page = await fetchTidal<TidalArtistAlbumsListType>(
+    const data_artist_page = await fetchTidal<TidalPagedListType<AlbumType>>(
       `${TIDAL_API_LISTEN_URL}/${url}&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
         page * TIDAL_ITEMS_PER_PAGE
       }`,
     );
 
     if (data_artist_page?.items?.length > 0) {
-      const clone: TidalArtistModuleType[] = [...(artistResults?.blocks || [])];
+      const clone: TidalModuleListType<AlbumType>[] = [
+        ...(artistResults?.blocks || []),
+      ];
       const updatedData = {
         ...artistResults?.blocks?.[index],
         pagedList: {

@@ -2,12 +2,7 @@ import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { TIDAL_API_LISTEN_URL, TIDAL_ITEMS_PER_PAGE } from "../contants";
-import {
-  PlaylistType,
-  TidalArtistResponseType,
-  TidalResponseType,
-  TrackType,
-} from "../types";
+import { TidalResponseType } from "../types";
 import { fetchTidal } from "../utils/fetch";
 
 type QualityType = "lossless" | "high" | "all";
@@ -115,63 +110,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     const splittedUrl = url.split("/");
     const type = splittedUrl[splittedUrl?.length - 2].split("?")?.[0];
 
-    setSearchResults({} as TidalResponseType);
-
-    const data: TidalResponseType = {
-      albums: { items: [], totalNumberOfItems: 0 },
-      artists: { items: [], totalNumberOfItems: 0 },
-      tracks: { items: [], totalNumberOfItems: 0 },
-      playlists: { items: [], totalNumberOfItems: 0 },
-    };
-
-    // Artist url
-    if (type === "artist") {
-      navigate(`/artist/${id}`);
-
-      return;
-    }
-
-    // Mix url
-    if (type === "mix") {
-      navigate(`/mix/${id}`);
-
-      return;
-    }
-
-    // Album url
-    if (type === "album") {
-      const data_album = await fetchTidal<TidalArtistResponseType>(
-        `${TIDAL_API_LISTEN_URL}/pages/album?albumId=${id}`,
-      );
-
-      data.albums = {
-        items: [data_album.rows[0].modules[0].album],
-        totalNumberOfItems: 1,
-      };
-    }
-
-    // Track url
-    if (type === "track") {
-      const data_track = await fetchTidal<TrackType>(
-        `${TIDAL_API_LISTEN_URL}/tracks/${id}`,
-      );
-
-      data.tracks = {
-        items: [data_track],
-        totalNumberOfItems: 1,
-      };
-    }
-
-    // Playlist url
-    if (type === "playlist") {
-      const data_playlist = await fetchTidal<PlaylistType>(
-        `${TIDAL_API_LISTEN_URL}/playlists/${id}`,
-      );
-
-      data.playlists = { items: [data_playlist], totalNumberOfItems: 1 };
-    }
-
-    setSearchResults(data);
+    navigate(`/${type}/${id}`);
   }
 
   // Fetch on page change

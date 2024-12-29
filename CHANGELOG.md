@@ -5,7 +5,12 @@ Tidarr notable changes.
 
 ## 📦 0.1.11
 ### 🚀 Added
-* [Front] Redirect to requested url after loginms
+* [Front] Redirect to requested url after login
+* [Front] Album page - show tracks
+* [Front] Playlist page - show tracks
+* [Front] Track page - show track infos
+### 🖍 Changed
+* [Chore] Refacto : explode search logic in routes
 
 ## 📦 0.1.10
 ### 🚀 Added
