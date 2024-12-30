@@ -6,6 +6,8 @@ import {
   useAuth,
 } from "../../provider/AuthProvider";
 
+import { Loader } from "./Loader";
+
 export const ROUTE_LOGIN = "/login";
 
 const PrivateRoute = () => {
@@ -13,7 +15,7 @@ const PrivateRoute = () => {
   const token = localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
   const { pathname, search } = useLocation();
 
-  if (isAuthActive === undefined) return;
+  if (isAuthActive === undefined) return <Loader />;
 
   if (isAuthActive && !token) {
     localStorage.setItem(LOCALSTORAGE_REDIRECT_URL, `${pathname}${search}`);

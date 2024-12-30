@@ -103,3 +103,26 @@ test("Tidarr security : Login page should redirect to home in public mode", asyn
   // then I should be redirected to homepage
   await expect(page.getByText("Unofficial Tidal© media")).toBeInViewport();
 });
+
+test("Tidarr security : Wrong credentials should display an error", async ({
+  page,
+}) => {
+  await mockAuthAPI(page, "tokenABCXYZ");
+  await page.route("*/**/auth", async (route) => {
+    await route.fulfill({
+      status: 401,
+      json: { error: true, message: "Invalid credentials" },
+    });
+  });
+  await page.goto("/");
+  await expect(
+    page.getByRole("heading", { name: "Tidarr authentication" }),
+  ).toBeInViewport();
+
+  // When I proceed to login
+  await page.getByPlaceholder("Password...").fill("tidarrpwd");
+  await page.getByRole("button", { name: "Submit" }).click();
+
+  // Then I should see error message
+  await expect(page.getByText("Invalid credentials")).toBeInViewport();
+});
