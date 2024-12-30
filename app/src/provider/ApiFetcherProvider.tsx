@@ -56,7 +56,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
 
       await fetch(url, { ...options, cache: "no-cache" }).then(
         function (response) {
-          if (response.status === 200) {
+          if (response.status === 200 || response.status === 401) {
             output = response.json().then<T>(function (data) {
               return data;
             }) as T;
