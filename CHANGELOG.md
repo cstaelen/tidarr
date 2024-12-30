@@ -10,7 +10,10 @@ Tidarr notable changes.
 * [Front] Playlist page - show tracks
 * [Front] Track page - show track infos
 ### 🖍 Changed
+* [Front] New style for track results
 * [Chore] Refacto : explode search logic in routes
+### 🐛 Fixed
+* [Front] Fix login multiple redirect
 
 ## 📦 0.1.10
 ### 🚀 Added
