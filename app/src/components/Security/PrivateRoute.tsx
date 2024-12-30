@@ -13,6 +13,8 @@ const PrivateRoute = () => {
   const token = localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
   const { pathname, search } = useLocation();
 
+  if (isAuthActive === undefined) return;
+
   if (isAuthActive && !token) {
     localStorage.setItem(LOCALSTORAGE_REDIRECT_URL, `${pathname}${search}`);
     return <Navigate to={ROUTE_LOGIN} />;
