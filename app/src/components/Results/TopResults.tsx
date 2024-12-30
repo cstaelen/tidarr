@@ -60,7 +60,7 @@ export default function TopResults(
     },
   ];
 
-  if (!data && loading) return <AlbumsLoader />;
+  if (loading) return <AlbumsLoader />;
 
   if (
     !loading &&
