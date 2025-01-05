@@ -16,6 +16,7 @@ export type TrackType = {
   title: string;
   id: string;
   url: string;
+  allowStreaming: boolean;
 };
 
 export type TrackAlbumType = {

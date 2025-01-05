@@ -9,17 +9,25 @@ export default function PageHeader({
   title,
   image,
   url,
+  isDisabled,
   beforeTitle,
   afterTitle,
 }: {
   title: string;
   image: string;
   url: string;
+  isDisabled?: boolean;
   beforeTitle?: ReactNode;
   afterTitle?: ReactNode;
 }) {
   return (
-    <Card sx={{ position: "relative" }}>
+    <Card
+      sx={{
+        position: "relative",
+        pointerEvents: !isDisabled ? "inherit" : "none",
+        opacity: !isDisabled ? 1 : 0.2,
+      }}
+    >
       <Stack direction="row">
         <Box sx={{ width: { md: "200px", xs: "150px", lineHeight: 0 } }}>
           <img
