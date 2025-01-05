@@ -12,6 +12,7 @@ export default function TrackHeader({ track }: { track: TrackType }) {
     <PageHeader
       title={track.title}
       url={track.url}
+      isDisabled={track?.allowStreaming === false}
       image={`https://resources.tidal.com/images/${track.album.cover?.replace(
         /-/g,
         "/",

@@ -100,7 +100,15 @@ function CoverLink({
   height: string | number;
 }) {
   return (
-    <Link to={`/track/${track.id}`} style={{ lineHeight: 0, display: "block" }}>
+    <Link
+      to={`/track/${track.id}`}
+      style={{
+        lineHeight: 0,
+        display: "block",
+        pointerEvents: track?.allowStreaming ? "inherit" : "none",
+        opacity: track?.allowStreaming ? 1 : 0.2,
+      }}
+    >
       <img
         height={width}
         width={height}
@@ -148,7 +156,13 @@ function ArtistLink({ track }: { track: TrackType }) {
 
 function TrackCard({ track }: { track: TrackType }) {
   return (
-    <Card sx={{ position: "relative" }}>
+    <Card
+      sx={{
+        position: "relative",
+        pointerEvents: track?.allowStreaming ? "inherit" : "none",
+        opacity: track?.allowStreaming ? 1 : 0.2,
+      }}
+    >
       <Stack
         direction="row"
         flexWrap="wrap"
@@ -213,6 +227,8 @@ function TrackInline({ track }: { track: TrackType }) {
   const cellStyle: React.CSSProperties = {
     lineHeight: "1.25",
     padding: "0.25rem",
+    pointerEvents: track?.allowStreaming ? "inherit" : "none",
+    opacity: track?.allowStreaming ? 1 : 0.2,
   };
 
   return (
