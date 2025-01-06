@@ -1,0 +1,17 @@
+{
+  "token": "<tidal-token>",
+  "refresh_token": "<tidal-token>",
+  "token_expires_at": 1736099136,
+  "settings": {
+    "download_path": "/home/app/standalone/download/incomplete",
+    "track_quality": "LOSSLESS",
+    "track_template": "{artist}/{album}/{title}",
+    "album_template": "{artist}/{album}/{title}",
+    "playlist_template": "{playlist}/{title}",
+    "file_extension": ""
+  },
+  "user": {
+    "user_id": "192283714",
+    "country_code": "<country-code>"
+  }
+}
