@@ -3,6 +3,15 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.12
+### 🚀 Added
+* [Front] Show unavailable tracks (if exists) in albums and playlists
+* [Front] Add lazy load image with placeholder 
+### 🖍 Changed
+* [Chore] Update docker linuxserver images
+### 🐛 Fixed
+* [API] Fix tiddl issue when download album with unavailable track #57
+
 ## 📦 0.1.11
 ### 🚀 Added
 * [Front] Redirect to requested url after login

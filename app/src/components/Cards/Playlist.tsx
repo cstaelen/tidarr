@@ -9,6 +9,8 @@ import { PlaylistType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
 
+import ImageLazy from "./common/ImageLazy";
+
 export default function Playlist({ playlist }: { playlist: PlaylistType }) {
   const { display } = useSearchProvider();
   const theme = useTheme();
@@ -44,7 +46,7 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
       </Stack>
       <Stack direction={display === "large" ? "column" : "row"}>
         <Link to={`/playlist/${playlist.uuid}`} style={{ lineHeight: 0 }}>
-          <img
+          <ImageLazy
             height={display === "small" ? 120 : "100%"}
             width={display === "small" ? 120 : "100%"}
             src={`https://resources.tidal.com/images/${playlist.squareImage?.replace(

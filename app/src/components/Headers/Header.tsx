@@ -1,9 +1,11 @@
 import { ReactNode } from "react";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { Box, Link, Stack } from "@mui/material";
+import { Box, Link, Stack, useMediaQuery, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+
+import ImageLazy from "../Cards/common/ImageLazy";
 
 export default function PageHeader({
   title,
@@ -20,6 +22,9 @@ export default function PageHeader({
   beforeTitle?: ReactNode;
   afterTitle?: ReactNode;
 }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Card
       sx={{
@@ -29,10 +34,15 @@ export default function PageHeader({
       }}
     >
       <Stack direction="row">
-        <Box sx={{ width: { md: "200px", xs: "150px", lineHeight: 0 } }}>
-          <img
-            height="auto"
-            width="100%"
+        <Box
+          sx={{
+            width: { md: "200px", xs: "150px" },
+            lineHeight: 0,
+          }}
+        >
+          <ImageLazy
+            height={isMobile ? "150px" : "200px"}
+            width={isMobile ? "150px" : "200px"}
             src={image}
             alt="Live from space album cover"
           />
