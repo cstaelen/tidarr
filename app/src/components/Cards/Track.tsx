@@ -15,6 +15,8 @@ import { TrackType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
 
+import ImageLazy from "./common/ImageLazy";
+
 function StackDownloadButtons({ track }: { track: TrackType }) {
   return (
     <Stack direction="row" flexWrap="wrap" spacing={1}>
@@ -109,7 +111,7 @@ function CoverLink({
         opacity: track?.allowStreaming ? 1 : 0.2,
       }}
     >
-      <img
+      <ImageLazy
         height={width}
         width={height}
         src={`https://resources.tidal.com/images/${track.album.cover?.replace(

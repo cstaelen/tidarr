@@ -9,6 +9,8 @@ import { useSearchProvider } from "src/provider/SearchProvider";
 import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
 
+import ImageLazy from "./common/ImageLazy";
+
 export default function AlbumCard({ album }: { album: AlbumType }) {
   const { display } = useSearchProvider();
   const theme = useTheme();
@@ -72,7 +74,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
       </Stack>
       <Stack direction={display === "large" ? "column" : "row"}>
         <Link to={`/album/${album.id}`} style={{ lineHeight: 0 }}>
-          <img
+          <ImageLazy
             height={display === "small" ? 120 : "100%"}
             width={display === "small" ? 120 : "100%"}
             src={`https://resources.tidal.com/images/${album.cover?.replace(
