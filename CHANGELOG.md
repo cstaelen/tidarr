@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.13
+### 🐛 Fixed
+* [API] Fix missing `ffmpeg-python` pip package (#57)
+
 ## 📦 0.1.12
 ### 🚀 Added
 * [Front] Show unavailable tracks (if exists) in albums and playlists
