@@ -1,6 +1,6 @@
 import { execSync } from "child_process";
 
-export async function gotifyPush(title: string) {
+export async function gotifyPush(title: string, type: string) {
   if (
     process.env.ENABLE_GOTIFY === "true" &&
     process.env.GOTIFY_URL &&
@@ -12,7 +12,7 @@ export async function gotifyPush(title: string) {
       const url = `${process.env.GOTIFY_URL}/message?token=${encodeURIComponent(process.env.GOTIFY_TOKEN)}`;
       console.log("URL:", url);
 
-      const pushTitle = `New album added`;
+      const pushTitle = `New ${type} added`;
       const message = `${title} added to music library`;
       const response = await execSync(
         `curl -s ${url} -F title="${pushTitle}" -F message="${message}" -F priority=5`,

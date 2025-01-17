@@ -4,6 +4,8 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 0.1.13
+### 🖍 Changed
+* [API] Gotify notification title shows content type instead of "album"
 ### 🐛 Fixed
 * [API] Fix missing `ffmpeg-python` pip package (#57)
 

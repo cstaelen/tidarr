@@ -90,6 +90,7 @@ export const ProcessingStack = (expressApp: Express) => {
 
       const responseGotify = await gotifyPush(
         `${item?.title} - ${item?.artist}`,
+        item.type,
       );
       stdout.push(responseGotify?.output);
 
