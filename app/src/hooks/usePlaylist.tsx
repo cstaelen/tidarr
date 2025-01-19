@@ -40,11 +40,13 @@ export const usePlaylist = (id: string | undefined): PlaylistContextType => {
       }`,
     );
 
-    setTracks([
-      ...(tracks || ([] as TrackType[])),
-      ...data_tracks.items.map((playlist) => playlist.item),
-    ]);
-    setTotal(data_tracks.totalNumberOfItems);
+    if (data_tracks) {
+      setTracks([
+        ...(tracks || ([] as TrackType[])),
+        ...data_tracks.items.map((playlist) => playlist.item),
+      ]);
+      setTotal(data_tracks.totalNumberOfItems);
+    }
     setLoading(false);
   }
 
