@@ -100,7 +100,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
       },
     };
 
-    setSearchResults(data);
+    setSearchResults(data as TidalResponseType);
   }
 
   async function directDownload(url: string) {

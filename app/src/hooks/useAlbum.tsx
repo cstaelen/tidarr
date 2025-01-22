@@ -25,9 +25,9 @@ export const useAlbum = (id: string | undefined): AlbumContextType => {
       TidalModuleResponseType<{ item: TrackType }>
     >(`${TIDAL_API_LISTEN_URL}/pages/album?albumId=${id}`);
 
-    setAlbum(data_album.rows[0].modules[0].album);
+    setAlbum(data_album?.rows[0].modules[0].album);
 
-    const data_tracks = data_album.rows[1].modules[0].pagedList.items.map(
+    const data_tracks = data_album?.rows[1].modules[0].pagedList.items.map(
       (track) => track.item,
     );
 

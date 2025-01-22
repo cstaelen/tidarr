@@ -33,7 +33,6 @@ const ArtistContext = React.createContext<ArtistContextType>(
 
 export function ArtistProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState<boolean>(false);
-
   const [artistPagerLoading, setArtistPagerLoading] = useState<number>();
   const [artistResults, setArtistResults] = useState<ArtistResultsType>(
     {} as ArtistResultsType,
@@ -46,7 +45,7 @@ export function ArtistProvider({ children }: { children: ReactNode }) {
       `${TIDAL_API_LISTEN_URL}/pages/artist?artistId=${id}`,
     );
 
-    if (data_artist?.rows?.length > 0) {
+    if (data_artist && data_artist?.rows?.length > 0) {
       const album_block = data_artist?.rows
         .filter(
           (row) =>
@@ -79,7 +78,7 @@ export function ArtistProvider({ children }: { children: ReactNode }) {
       }`,
     );
 
-    if (data_artist_page?.items?.length > 0) {
+    if (data_artist_page && data_artist_page?.items?.length > 0) {
       const clone: TidalModuleListType<AlbumType>[] = [
         ...(artistResults?.blocks || []),
       ];
