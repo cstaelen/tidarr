@@ -12,6 +12,7 @@ import {
   MixType,
   PlaylistType,
   TrackType,
+  VideoType,
 } from "../../types";
 
 export const DownloadButton = ({
@@ -20,9 +21,9 @@ export const DownloadButton = ({
   type,
   label,
 }: {
-  item: TrackType | AlbumType | ArtistType | PlaylistType | MixType;
+  item: TrackType | AlbumType | ArtistType | PlaylistType | MixType | VideoType;
   id: string;
-  type: "album" | "artist" | "track" | "playlist";
+  type: "album" | "artist" | "track" | "playlist" | "video";
   label: string;
 }) => {
   const [status, setStatus] = React.useState<string>();

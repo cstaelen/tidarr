@@ -7,6 +7,7 @@ import {
   PlaylistType,
   ProcessingItemType,
   TrackType,
+  VideoType,
 } from "../types";
 
 import { useApiFetcher } from "./ApiFetcherProvider";
@@ -16,8 +17,14 @@ type ProcessingContextType = {
   actions: {
     setProcessingList: (list: ProcessingItemType[]) => void;
     addItem: (
-      item: AlbumType | TrackType | ArtistType | PlaylistType | MixType,
-      type: "album" | "track" | "artist" | "playlist",
+      item:
+        | AlbumType
+        | TrackType
+        | ArtistType
+        | PlaylistType
+        | MixType
+        | VideoType,
+      type: "album" | "track" | "artist" | "playlist" | "video",
     ) => void;
     removeItem: (id: string) => void;
     retryItem: (item: ProcessingItemType) => void;
@@ -36,8 +43,14 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
   // Add item to processing list
   const addItem = async (
-    item: AlbumType | TrackType | ArtistType | PlaylistType | MixType,
-    type: "album" | "track" | "artist" | "playlist",
+    item:
+      | AlbumType
+      | TrackType
+      | ArtistType
+      | PlaylistType
+      | MixType
+      | VideoType,
+    type: "album" | "track" | "artist" | "playlist" | "video",
   ) => {
     const id =
       (item as AlbumType | TrackType | ArtistType).id ||
@@ -63,7 +76,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       status: "queue",
       loading: true,
       error: false,
-      url: item.url as string,
+      url: (item as AlbumType)?.url || (item as VideoType)?.id.toString(),
       output: "",
     };
 
