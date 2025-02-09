@@ -1,6 +1,6 @@
 {
   "name": "tidarr-main",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "private": true,
   "devDependencies": {
     "concurrently": "^8.2.2"
