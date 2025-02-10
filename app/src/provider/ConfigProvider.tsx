@@ -65,7 +65,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
 
   // Check API
   const checkAPI = async () => {
-    if (process.env.CI) {
+    if (import.meta.env.CI) {
       setTokenMissing(false);
       return;
     }

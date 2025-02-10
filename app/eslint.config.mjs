@@ -1,43 +1,39 @@
 import js from "@eslint/js";
-import tsParser from "@typescript-eslint/parser";
 import jsxA11Y from "eslint-plugin-jsx-a11y";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
-import reactEslint from "eslint-plugin-react";
 import reactHooksEslint from "eslint-plugin-react-hooks";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
-import typescriptEslint from "typescript-eslint";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
-export default [
-  js.configs.recommended,
-  eslintPluginPrettierRecommended,
-  ...typescriptEslint.configs.recommended,
+export default tseslint.config(
   {
-    ignores: ["**/node_modules", "**/public", "**/build"],
+    ignores: [
+      "**/node_modules",
+      "**/public",
+      "**/playwright-report",
+      "**/dist",
+    ],
   },
   {
+    extends: [
+      js.configs.recommended,
+      ...tseslint.configs.recommended,
+      eslintPluginPrettierRecommended,
+    ],
+    files: ["**/*.{ts,tsx,mjs}"],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+    },
     plugins: {
+      "react-hooks": reactHooksEslint,
       "jsx-a11y": jsxA11Y,
       "simple-import-sort": simpleImportSort,
-      react: reactEslint.configs.recommended,
-      "react-hooks": reactHooksEslint.configs.recommended,
     },
-
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        tsconfigRootDir: "src/",
-      },
-    },
-
-    settings: {
-      react: {
-        version: "detect",
-      },
-    },
-
     rules: {
+      ...reactHooksEslint.configs.recommended.rules,
       "prettier/prettier": "error",
-
       "simple-import-sort/imports": [
         "error",
         {
@@ -59,8 +55,7 @@ export default [
           ],
         },
       ],
-
       "simple-import-sort/exports": "error",
     },
   },
-];
+);

@@ -3,6 +3,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.15
+### 🖍 Changed
+* [Front] Renovate: move from `react-scripts` to `vitejs`
+* [Front] Renovate: update ReactJS to version 19
+* [API] Update deps
+
 ## 📦 0.1.14
 ### 🐛 Fixed
 * [Front] Show "No results" message instead of loader when tidal fetch fail

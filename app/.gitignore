@@ -3,7 +3,7 @@
 /node_modules
 
 # production
-/build
+/dist
 /public/env-config.js
 
 # misc
