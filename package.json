@@ -3,7 +3,7 @@
   "version": "0.1.15",
   "private": true,
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^9.1.2"
   },
   "scripts": {
     "app-build": "yarn --cwd ./app build",
