@@ -7,11 +7,17 @@ INCLUDE docker/stages/Dockerfile.builder
 
 ## BUILD STANDALONE APP
 
-FROM mcr.microsoft.com/playwright:v1.49.0-jammy AS runner
+FROM mcr.microsoft.com/playwright:v1.50.1-noble AS runner
 
 RUN apt-get upgrade && apt-get clean && apt-get update
-RUN apt-get install -y python3-pip beets
-RUN python3 -m pip install "tiddl==1.9.4"
+RUN apt-get install -y python3.12-venv python3-pip beets
+
+#SHELL ["/bin/bash", "-c"] 
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+RUN python3 -m pip install "tiddl==1.9.4" requests ffmpeg-python mutagen
 
 INCLUDE docker/stages/Dockerfile.runner
 

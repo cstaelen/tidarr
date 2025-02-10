@@ -33,7 +33,10 @@ const ApiFetcherContext = React.createContext<ApiFetcherContextType>(
 );
 
 export function APIFetcherProvider({ children }: { children: ReactNode }) {
-  const apiUrl = import.meta.env.MODE === "development" ? "http://localhost:8484/api" : "/api";
+  const apiUrl =
+    import.meta.env.MODE === "development"
+      ? "http://localhost:8484/api"
+      : "/api";
   const [apiError, setApiError] = useState<Response>();
 
   async function queryExpressJS<T>(

@@ -1,39 +1,39 @@
 import js from "@eslint/js";
 import jsxA11Y from "eslint-plugin-jsx-a11y";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import reactHooksEslint from "eslint-plugin-react-hooks";
-import reactRefresh from 'eslint-plugin-react-refresh'
 import simpleImportSort from "eslint-plugin-simple-import-sort";
-
-import globals from 'globals'
-import tseslint from 'typescript-eslint'
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: [
-    "**/node_modules",
-    "**/public",
-    "**/playwright-report",
-    "**/dist",
-  ], },
   {
-    extends: [js.configs.recommended, 
-      ...tseslint.configs.recommended],
-    files: ['**/*.{ts,tsx}'],
+    ignores: [
+      "**/node_modules",
+      "**/public",
+      "**/playwright-report",
+      "**/dist",
+    ],
+  },
+  {
+    extends: [
+      js.configs.recommended,
+      ...tseslint.configs.recommended,
+      eslintPluginPrettierRecommended,
+    ],
+    files: ["**/*.{ts,tsx,mjs}"],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
     },
     plugins: {
-      'react-hooks': reactHooksEslint,
-      'react-refresh': reactRefresh,
+      "react-hooks": reactHooksEslint,
       "jsx-a11y": jsxA11Y,
       "simple-import-sort": simpleImportSort,
     },
     rules: {
       ...reactHooksEslint.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      "prettier/prettier": "error",
       "simple-import-sort/imports": [
         "error",
         {
@@ -58,4 +58,4 @@ export default tseslint.config(
       "simple-import-sort/exports": "error",
     },
   },
-)
+);
