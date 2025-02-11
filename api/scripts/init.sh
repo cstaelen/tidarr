@@ -1,22 +1,22 @@
 #!/bin/sh
 echo "Check config running ... "
 
-BASE_URL="/home/app/standalone"
-SETTINGS_URL="$BASE_URL/settings"
-SHARED_URL="$BASE_URL/shared"
-
-if [ -f "/root/.tiddl_config.json" ]; then
-    echo "[Tiddl] Save .tiddl_config.json to shared volume"
-    cp /root/.tiddl_config.json $SHARED_URL/.tiddl_config.json
-    echo "[Tiddl] Config OK"
+if [ "$1" == "development" ]; then
+    SETTINGS_URL="/home/app/build/settings"
 else
-    if [ -f "$SHARED_URL/.tiddl_config.json" ]; then
-        echo "[Tiddl] Load .tiddl_config.json from shared volume"
-        cp $SHARED_URL/.tiddl_config.json /root/.tiddl_config.json
-        echo "[Tiddl] Config OK"
-    else
-        echo "[Tiddl] No token set"
-    fi
+    SETTINGS_URL="/home/app/standalone/settings"
+fi
+SHARED_URL="/home/app/standalone/shared"
+
+if [ -f "$SHARED_URL/tiddl.json" ]; then
+    echo "[Tiddl] Load tiddl.json from shared volume"
+    cp $SHARED_URL/tiddl.json /root/tiddl.json
+    echo "[Tiddl] Load shared config OK "
+else
+    echo "[Tiddl] Load tiddl.json default template"
+    cp $SETTINGS_URL/tiddl.json $SHARED_URL/tiddl.json
+    cp $SETTINGS_URL/tiddl.json /root/tiddl.json
+    echo "[Tiddl] Init config OK"
 fi
 
 if [ ! -f "$SHARED_URL/beets-config.yml" ]; then    

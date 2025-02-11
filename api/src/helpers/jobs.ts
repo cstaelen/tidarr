@@ -8,6 +8,8 @@ export function logs(
   item: ProcessingItemType | LogType,
   message: string,
 ): string {
+  console.log(message);
+
   const formattedMessage = message
     .toString()
     .replace(new RegExp("\\r", "g"), "");
@@ -25,7 +27,9 @@ export function logs(
     (last_output?.includes("threaded download") &&
       message.toString()?.includes("threaded download")) ||
     (last_output?.includes("Single URL") &&
-      message.toString()?.includes("Single URL"))
+      message.toString()?.includes("Single URL")) ||
+    (last_output?.includes("link.tidal.com") &&
+      message.toString()?.includes("link.tidal.com"))
   ) {
     item["output_history"][item["output_history"].length - 1] =
       formattedMessage;
@@ -74,14 +78,19 @@ export async function moveAndClean(
 }
 
 export async function cleanFolder(): Promise<string> {
-  const output_clean = execSync(
-    `rm -rf ${ROOT_PATH}/download/incomplete/* >/dev/null`,
-    {
-      encoding: "utf-8",
-    },
-  );
-  console.log("- Clean folder", output_clean);
-  return output_clean;
+  try {
+    const output_clean = execSync(
+      `rm -rf ${ROOT_PATH}/download/incomplete/* >/dev/null`,
+      {
+        encoding: "utf-8",
+      },
+    );
+    console.log("- Clean folder", output_clean);
+    return output_clean;
+  } catch (e) {
+    console.log("- Error Clean folder", e);
+    return "";
+  }
 }
 
 async function setPermissions() {

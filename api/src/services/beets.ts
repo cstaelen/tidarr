@@ -16,19 +16,15 @@ export async function beets(id: number, app: Express) {
 
       item["output"] = [item["output"], `=== Beets ===`].join("\r\n");
 
-      const response = spawnSync(
-        binary,
-        [
-          "-c",
-          `${ROOT_PATH}/shared/beets-config.yml`,
-          "-l",
-          `${ROOT_PATH}/shared/beets/beets-library.blb`,
-          "import",
-          "-qC",
-          `${ROOT_PATH}/download/incomplete`,
-        ],
-        { encoding: "utf-8" },
-      );
+      const response = spawnSync(binary, [
+        "-c",
+        `${ROOT_PATH}/shared/beets-config.yml`,
+        "-l",
+        `${ROOT_PATH}/shared/beets/beets-library.blb`,
+        "import",
+        "-qC",
+        `${ROOT_PATH}/download/incomplete`,
+      ]);
       if (response.stdout) {
         item["output"] = logs(item, `Beets output:\r\n${response.stdout}`);
       } else if (response.stderr) {

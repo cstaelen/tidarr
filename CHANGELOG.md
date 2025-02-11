@@ -6,8 +6,11 @@ Tidarr notable changes.
 ## 📦 0.1.15
 ### 🖍 Changed
 * [Front] Renovate: move from `react-scripts` to `vitejs`
-* [Front] Renovate: update ReactJS to version 19
+* [Front] Renovate: update `reactjs` from `18` to version `19`
+* [Front] Renovate: update other deps
+* [API] Update `tiddl` from `1.9.4` to version `2.2.1`
 * [API] Update deps
+* [e2e] Update `playwright`
 
 ## 📦 0.1.14
 ### 🐛 Fixed

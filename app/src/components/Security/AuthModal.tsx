@@ -1,5 +1,3 @@
-"use server";
-
 import { FormEvent, useRef, useState } from "react";
 import AlbumIcon from "@mui/icons-material/Album";
 import { Alert, Box, Button, Input, Modal, Typography } from "@mui/material";

@@ -1,0 +1,21 @@
+{
+    "template": {
+        "track": "{artist} - {title}",
+        "video": "{artist} - {title}",
+        "album": "{album_artist}/{album}/{number:02d}. {title}",
+        "playlist": "{playlist}/{playlist_number:02d}. {artist} - {title}"
+    },
+    "download": {
+        "quality": "high",
+        "path": "/home/app/standalone/download/incomplete",
+        "threads": 4
+    },
+    "auth": {
+        "token": "",
+        "refresh_token": "",
+        "expires": 0,
+        "user_id": "",
+        "country_code": ""
+    },
+    "omit_cache": false
+}

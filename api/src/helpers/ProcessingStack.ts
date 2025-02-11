@@ -13,7 +13,7 @@ export const ProcessingStack = (expressApp: Express) => {
 
   function addItem(item: ProcessingItemType) {
     const foundIndex = data.findIndex(
-      (listItem: ProcessingItemType) => listItem.id === item.id,
+      (listItem: ProcessingItemType) => listItem?.id === item?.id,
     );
     if (foundIndex !== -1) return;
     data.push(item);
@@ -27,7 +27,7 @@ export const ProcessingStack = (expressApp: Express) => {
     await item?.process?.kill("SIGKILL");
     await item?.process?.stdin?.end();
     const foundIndex = data.findIndex(
-      (listItem: ProcessingItemType) => listItem.id === item.id,
+      (listItem: ProcessingItemType) => listItem?.id === item?.id,
     );
     delete data[foundIndex];
     data.splice(foundIndex, 1);
@@ -37,7 +37,7 @@ export const ProcessingStack = (expressApp: Express) => {
 
   function updateItem(item: ProcessingItemType) {
     const foundIndex = data.findIndex(
-      (listItem: ProcessingItemType) => listItem.id === item.id,
+      (listItem: ProcessingItemType) => listItem?.id === item?.id,
     );
     data[foundIndex] = item;
     if (item.status === "downloaded") {
@@ -50,7 +50,7 @@ export const ProcessingStack = (expressApp: Express) => {
 
   function getItem(id: number): ProcessingItemType {
     const foundIndex = data.findIndex(
-      (listItem: ProcessingItemType) => listItem.id === id,
+      (listItem: ProcessingItemType) => listItem?.id === id,
     );
     return data[foundIndex];
   }

@@ -8,20 +8,12 @@ dotenv.config({ path: "../.env", override: false });
 
 const CURRENT_VERSION = "0.0.1";
 
-test("Tidarr config : Should display modal error if no tidal token exists", async ({
+test("Tidarr config : Should display token modal if no tidal token exists", async ({
   page,
 }) => {
   await page.route("*/**/check", async (route) => {
     const json = {
       noToken: true,
-      output: "",
-    };
-    await route.fulfill({ json });
-  });
-
-  await page.route("*/**/token_log", async (route) => {
-    const json = {
-      link: "https://token-url/ABC123",
       output: "",
     };
     await route.fulfill({ json });
@@ -33,7 +25,7 @@ test("Tidarr config : Should display modal error if no tidal token exists", asyn
     page.getByRole("heading", { name: "Tidal token not found !" }),
   ).toBeVisible();
   await expect(
-    page.getByRole("link", { name: "https://token-url/ABC123" }),
+    page.getByRole("link", { name: "https://link.tidal.com/" }),
   ).toBeVisible();
 });
 

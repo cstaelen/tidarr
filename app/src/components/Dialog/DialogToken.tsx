@@ -17,7 +17,7 @@ export const DialogToken = () => {
     async function queryLogs() {
       const response = await actions.getTidalTokenLogs();
       if (response?.link) setOutput((response as LogType)?.link);
-      if ((response as LogType)?.output?.includes("authenticated!")) {
+      if ((response as LogType)?.is_athenticated) {
         actions.checkAPI();
       }
     }
@@ -69,7 +69,7 @@ export const DialogToken = () => {
       </Typography>
       <p>... or run this to create Tidal token :</p>
       <Paper elevation={0} sx={{ padding: "1rem" }}>
-        <code>$ docker exec -it tidarr tiddl</code>
+        <code>$ docker exec -it tidarr tiddl auth</code>
       </Paper>
     </DialogHandler>
   );

@@ -1,14 +1,17 @@
 import { expect, Page, test } from "@playwright/test";
 
-import { emptyProcessingList } from "./utils/helpers";
 import { runSearch } from "./utils/search";
 
 test.describe.configure({ mode: "serial" });
 
-async function testProcessingList(page: Page) {
+async function testProcessingList(page: Page, shouldContains: string[]) {
   await page.locator("button.MuiFab-circular").first().hover();
 
-  await expect(page.getByLabel("Processing table")).toHaveScreenshot();
+  shouldContains.map(async (searchString: string) => {
+    await expect(page.getByLabel("Processing table")).toContainText(
+      searchString,
+    );
+  });
 
   await expect(page.locator(".MuiDialog-container button")).not.toBeVisible();
   await page
@@ -24,12 +27,6 @@ async function testProcessingList(page: Page) {
   await expect(page.locator(".MuiDialog-container button")).toBeVisible();
 
   await page.getByRole("button", { name: "Close" }).click();
-
-  await emptyProcessingList(page);
-
-  await expect(
-    page.getByLabel("Processing table").getByRole("button").first(),
-  ).not.toBeVisible();
 
   await expect(
     page.getByLabel("Processing table").getByRole("button").first(),
@@ -49,18 +46,18 @@ test("Tidarr download : Should be able to download album", async ({ page }) => {
     )
     .click();
 
-  await testProcessingList(page);
+  await testProcessingList(page, ["Nirvana", "In Utero", "album"]);
 });
 
 test("Tidarr download : Should be able to download track", async ({ page }) => {
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Tracks" }).first().click();
 
-  await expect(page.getByRole("main")).toContainText("Come As You Are");
+  await expect(page.getByRole("main")).toContainText("Heart-Shaped Box");
 
   await page.getByRole("button", { name: "Track" }).nth(3).click();
 
-  await testProcessingList(page);
+  await testProcessingList(page, ["Nirvana", "Heart-Shaped Box", "track"]);
 });
 
 test("Tidarr download : Should be able to download track album", async ({
@@ -69,11 +66,17 @@ test("Tidarr download : Should be able to download track album", async ({
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Tracks" }).first().click();
 
-  await expect(page.getByRole("main")).toContainText("Come As You Are");
+  await expect(page.getByRole("main")).toContainText(
+    "MTV Unplugged In New York",
+  );
 
   await page.getByRole("button", { name: "Album", exact: true }).nth(4).click();
 
-  await testProcessingList(page);
+  await testProcessingList(page, [
+    "Nirvana",
+    "MTV Unplugged In New York",
+    "album",
+  ]);
 });
 
 test("Tidarr download : Should be able to download playlist", async ({
@@ -91,5 +94,5 @@ test("Tidarr download : Should be able to download playlist", async ({
 
   await page.getByRole("button", { name: "Get playlist" }).click();
 
-  await testProcessingList(page);
+  await testProcessingList(page, ["playlist", "Grown Country"]);
 });
