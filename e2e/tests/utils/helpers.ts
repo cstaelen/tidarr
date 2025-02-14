@@ -30,9 +30,9 @@ export async function emptyProcessingList(page: Page) {
       .getByRole("button")
       .first();
 
-    if (!firstButton.isVisible()) return null;
+    if (!firstButton || !firstButton.isVisible()) return null;
 
-    await firstButton.click();
+    await firstButton?.click();
     await page.waitForTimeout(500);
 
     emptyProcessingList(page);

@@ -249,6 +249,7 @@ test("Tidarr search : Should see quality filtered results", async ({
   // Test localstorage persistence
 
   await page.goto("/artist/3634161");
+  await waitForLoader(page);
 
   await expect(
     await page.getByRole("button", { name: "Lossless" }),

@@ -7,16 +7,19 @@ export async function configureServer() {
   console.log(`=== Set config files ===`);
   console.log(`Executing: init.sh`);
 
-  const output_config = await execSync(`sh ${BUILD_PATH}/api/scripts/init.sh`, {
-    encoding: "utf-8",
-  });
+  const output_config = execSync(
+    `sh ${BUILD_PATH}/api/scripts/init.sh ${process.env.ENVIRONMENT}`,
+    {
+      encoding: "utf-8",
+    },
+  );
   console.log("Tidarr configuration :", output_config);
 
-  const hasTiddlConfig = !output_config?.includes("[Tiddl] No token set");
+  const hasTiddlConfig = !output_config?.includes("[Tiddl] Init config OK");
 
   let tiddl_config = null;
   if (hasTiddlConfig) {
-    const token_output = await execSync(`cat /root/.tiddl_config.json`, {
+    const token_output = await execSync(`cat /root/tiddl.json`, {
       encoding: "utf-8",
     });
 
@@ -30,7 +33,7 @@ export async function configureServer() {
   const version = JSON.parse(version_output)?.version;
 
   return {
-    noToken: !hasTiddlConfig || tiddl_config?.token.length === 0,
+    noToken: !hasTiddlConfig || tiddl_config?.auth?.token.length === 0,
     output: output_config,
     parameters: {
       ENABLE_BEETS: process.env.ENABLE_BEETS || "",

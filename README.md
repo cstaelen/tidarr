@@ -81,16 +81,22 @@ docker run  \
 
 ## Tidal authentication
 
-(if no `.tiddl_config.json` token file provided) :
+(if no `tiddl.json` file provided) :
+
+Authorize your device using the UI token dialog
+
+**or**
 
 ```bash 
-docker compose exec -it tidarr tiddl
+docker compose exec -it tidarr tiddl auth
+docker compose exec tidarr cp -rf /root/tiddl.json /home/app/standalone/shared/tiddl.json
 ```
 
 **or**
 
 ```bash 
-docker exec -it tidarr tiddl
+docker exec -it tidarr tiddl auth
+docker exec tidarr cp -rf /root/tiddl.json /home/app/standalone/shared/tiddl.json
 ```
 ## Options
 
@@ -106,7 +112,7 @@ docker exec -it tidarr tiddl
 N.B. `<country-code>` should match your Tidal account country code.
 You can check it using :
 ```bash
-docker exec tidarr cat /root/.tiddl_config.json
+docker exec tidarr cat /root/tiddl.json
 ```
 
 How to get search token :
@@ -115,14 +121,45 @@ How to get search token :
 
 ### Download settings (optional)
 
-```yaml
- environment:
-  - ...
-  - TIDDL_FORMAT=<format> # default: {artist}/{album}/{title}
-  - TIDDL_PLAYLIST_FORMAT=<format> # default: {playlist}/{playlist_number}-{artist}-{title}
-  - TIDDL_QUALITY=<low|normal|high|master> # default: high (16bit 44.1khz), max available: master (24bit 192khz max)
-  - TIDDL_FORCE_EXT=<flac|mp3|m4a> # default: unset, depending the track downloaded.
+Those old environment variables are not available anymore :
+- ~~TIDDL_FORMAT=<format> # default: {artist}/{album}/{title}~~
+- ~~TIDDL_PLAYLIST_FORMAT=<format> # default: {playlist}/{playlist_number}-{artist}-{title}~~
+- ~~TIDDL_FORCE_EXT=<flac|mp3|m4a> # default: unset, depending the track downloaded.~~
+- ~~TIDDL_QUALITY=<low | normal | high | master> # default: high (16bit 44.1khz), max available: master (24bit 192khz max)~~
+
+-> You can set download options in `/your/docker/path/to/tidarr/config/tiddl.json` (first app run needed).
+
+See default :
+
+```json
+{
+    "template": {
+        "track": "{artist} - {title}",
+        "video": "{artist} - {title}",
+        "album": "{album_artist}/{album}/{number:02d}. {title}",
+        "playlist": "{playlist}/{playlist_number:02d}. {artist} - {title}"
+    },
+    "download": {
+        // Default high (16bit 44.1khz), max available: master (24bit 192khz max)
+        // https://github.com/oskvr37/tiddl?tab=readme-ov-file#download-quality
+        "quality": "high",
+        // /!\ Should not change (otherwise Tidarr download will fail) /!\
+        "path": "/home/app/standalone/download/incomplete",
+        "threads": 4
+    },
+    // Will be automatically filled by in-app authentication
+    "auth": {
+        "token": "",
+        "refresh_token": "",
+        "expires": 0,
+        "user_id": "",
+        "country_code": ""
+    },
+    "omit_cache": false
+}
 ```
+
+For template format update, please see [Tiddl formatting documentation](https://github.com/oskvr37/tiddl/wiki/Template-formatting)
 
 ### PUID PGID (optional)
 
@@ -194,14 +231,14 @@ Doc: https://github.com/oskvr37/tiddl
 
 ## User requests
 As I'am the only maintainer for now, user requested features can takes time.
-1) Feel free to create an issue with `enhancement` tag.
+1) Feel free to create an issue with `enhancement` or `bug` tag.
 2) Be my guest, fork and dev !
 
 ## Donate
 
 If you would like to support this project, please do not hesitate to make a donation. It contributes a lot to motivation, gives me the energy to continue maintaining the project and adding the features requested by the users :)
 
-<a href="https://www.buymeacoffee.com/clst" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+<a href="https://www.buymeacoffee.com/clst" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="40" width="160"></a>
 
 ## Develop
 Want more features and/or contribute ? Be my guest, fork and dev <3
