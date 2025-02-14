@@ -96,3 +96,13 @@ test("Tidarr download : Should be able to download playlist", async ({
 
   await testProcessingList(page, ["playlist", "Grown Country"]);
 });
+
+test("Tidarr download : Should be able to download discography", async ({
+  page,
+}) => {
+  await runSearch("https://listen.tidal.com/artist/17713", page);
+
+  await page.getByRole("button", { name: "Get all releases" }).click();
+
+  await testProcessingList(page, ["All albums", "Pennywise", "artist"]);
+});
