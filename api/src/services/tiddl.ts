@@ -4,8 +4,6 @@ import { Express } from "express";
 import { logs } from "../helpers/jobs";
 import { LogType, ProcessingItemType } from "../types";
 
-const TIDDL_QUALITY = process.env.TIDDL_QUALITY || "high";
-
 export function tidalDL(id: number, app: Express) {
   const item: ProcessingItemType =
     app.settings.processingList.actions.getItem(id);
@@ -13,7 +11,7 @@ export function tidalDL(id: number, app: Express) {
   item["output"] = logs(item, `=== Tiddl ===`);
 
   const binary = "tiddl";
-  const args: string[] = ["url", item.url, "download", "-q", TIDDL_QUALITY];
+  const args: string[] = ["url", item.url, "download"];
 
   item["output"] = logs(item, `Executing: ${binary} ${args.join(" ")}\r\n`);
   const child = spawn(binary, args);

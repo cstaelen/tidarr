@@ -6,7 +6,7 @@ import { mockConfigAPI, mockRelease } from "./utils/mock";
 
 dotenv.config({ path: "../.env", override: false });
 
-const CURRENT_VERSION = "0.0.1";
+const CURRENT_VERSION = "0.0.1-testing";
 
 test("Tidarr config : Should display token modal if no tidal token exists", async ({
   page,

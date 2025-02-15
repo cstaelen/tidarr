@@ -19,6 +19,7 @@ export const DialogToken = () => {
       if (response?.link) setOutput((response as LogType)?.link);
       if ((response as LogType)?.is_athenticated) {
         actions.checkAPI();
+        actions.setShowUpdateMessage(true);
       }
     }
 
