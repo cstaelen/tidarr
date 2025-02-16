@@ -39,7 +39,7 @@ function a11yProps(index: number) {
 export default function Home() {
   const {
     keywords,
-    searchResults: { albums, artists, tracks, playlists },
+    searchResults: { albums, artists, tracks, playlists, videos },
   } = useSearchProvider();
 
   const theme = useTheme();
@@ -76,7 +76,8 @@ export default function Home() {
                   albums?.totalNumberOfItems +
                     artists?.totalNumberOfItems +
                     playlists?.totalNumberOfItems +
-                    tracks?.totalNumberOfItems || 0
+                    tracks?.totalNumberOfItems +
+                    videos?.totalNumberOfItems || 0
                 })`}
                 {...a11yProps(0)}
               />
@@ -95,6 +96,10 @@ export default function Home() {
               <Tab
                 label={`Playlists (${playlists?.totalNumberOfItems || 0})`}
                 {...a11yProps(4)}
+              />
+              <Tab
+                label={`Videos (${videos?.totalNumberOfItems || 0})`}
+                {...a11yProps(5)}
               />
             </Tabs>
           </Container>
@@ -132,6 +137,13 @@ export default function Home() {
               type="playlists"
               data={playlists?.items}
               total={playlists?.totalNumberOfItems}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={5} dir={theme.direction}>
+            <TypeResults
+              type="videos"
+              data={videos?.items}
+              total={videos?.totalNumberOfItems}
             />
           </TabPanel>
         </Container>

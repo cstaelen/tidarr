@@ -13,6 +13,7 @@ export const DialogUpdateMessage = () => {
       onClose={() => actions.setShowUpdateMessage(false)}
       title={"Configuration system update"}
       icon={<InfoRounded color="warning" />}
+      maxWidth="sm"
     >
       <p>
         <strong>

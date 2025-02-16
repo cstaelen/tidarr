@@ -8,7 +8,12 @@ import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
 import NoResult from "./NoResults";
 import TypeResults from "./TypeResults";
 
-type TidalContentType = "albums" | "artists" | "tracks";
+type TidalContentType =
+  | "albums"
+  | "artists"
+  | "tracks"
+  | "playlists"
+  | "videos";
 
 interface TabContentProps {
   children?: React.ReactNode;
@@ -22,7 +27,7 @@ export default function TopResults(
 ) {
   const {
     loading,
-    searchResults: { albums, artists, tracks, playlists },
+    searchResults: { albums, artists, tracks, playlists, videos },
   } = useSearchProvider();
 
   const data = [
@@ -57,6 +62,14 @@ export default function TopResults(
       total: playlists?.totalNumberOfItems,
       limit: 6,
       tab: 4,
+    },
+    {
+      type: "videos",
+      label: "Video(s)",
+      items: videos?.items || [],
+      total: videos?.totalNumberOfItems,
+      limit: 6,
+      tab: 5,
     },
   ];
 

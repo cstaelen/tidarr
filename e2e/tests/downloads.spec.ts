@@ -106,3 +106,19 @@ test("Tidarr download : Should be able to download discography", async ({
 
   await testProcessingList(page, ["All albums", "Pennywise", "artist"]);
 });
+
+test("Tidarr download : Should be able to download video", async ({ page }) => {
+  await runSearch("Nirvana", page);
+  await page.getByRole("tab", { name: "Videos" }).first().click();
+
+  await expect(page.getByRole("main")).toContainText(
+    "Oh Me (Live On MTV Unplugged, 1993 / Unedited)",
+  );
+  await page.getByRole("button", { name: "Get video" }).first().click();
+
+  await testProcessingList(page, [
+    "Nirvana",
+    "Oh Me (Live On MTV Unplugged, 1993 / Unedited)",
+    "video",
+  ]);
+});

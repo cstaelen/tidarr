@@ -98,6 +98,13 @@ export function SearchProvider({ children }: { children: ReactNode }) {
           ...(results?.playlists?.items || []),
         ],
       },
+      videos: {
+        ...results?.videos,
+        items: [
+          ...(page > 1 ? clone?.videos?.items || [] : []),
+          ...(results?.videos?.items || []),
+        ],
+      },
     };
 
     setSearchResults(data as TidalResponseType);

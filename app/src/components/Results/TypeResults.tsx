@@ -1,25 +1,37 @@
 import React from "react";
 import { Box, Grid } from "@mui/material";
 import { useSearchProvider } from "src/provider/SearchProvider";
-import { AlbumType, ArtistType, PlaylistType, TrackType } from "src/types";
+import {
+  AlbumType,
+  ArtistType,
+  PlaylistType,
+  TrackType,
+  VideoType,
+} from "src/types";
 
 import AlbumCard from "../Cards/Album";
 import Artist from "../Cards/Artist";
 import Playlist from "../Cards/Playlist";
 import Track from "../Cards/Track";
+import VideoCard from "../Cards/Video";
 import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
 
 import NoResult from "./NoResults";
 import Pager from "./Pager";
 
-type TidalContentType = "albums" | "artists" | "tracks" | "playlists";
+type TidalContentType =
+  | "albums"
+  | "artists"
+  | "tracks"
+  | "playlists"
+  | "videos";
 
 interface TabContentProps {
   setTabIndex?: (index: number) => void;
   limit?: number;
   total?: number;
   type: TidalContentType;
-  data: AlbumType[] | TrackType[] | PlaylistType[] | ArtistType[];
+  data: AlbumType[] | TrackType[] | PlaylistType[] | ArtistType[] | VideoType[];
 }
 
 export default function TypeResults(props: TabContentProps) {
@@ -32,7 +44,12 @@ export default function TypeResults(props: TabContentProps) {
           ?.slice(0, props.limit || props.data?.length)
           .map(
             (
-              data: AlbumType | ArtistType | TrackType | PlaylistType,
+              data:
+                | AlbumType
+                | ArtistType
+                | TrackType
+                | PlaylistType
+                | VideoType,
               index: number,
             ) => (
               <Grid
@@ -43,6 +60,7 @@ export default function TypeResults(props: TabContentProps) {
                 key={`album-${index}`}
                 sx={{
                   display:
+                    props.type === "videos" ||
                     props.type === "artists" ||
                     (data as PlaylistType).type === "EDITORIAL" ||
                     quality === "all" ||
@@ -61,6 +79,8 @@ export default function TypeResults(props: TabContentProps) {
                   <Track track={data as TrackType} />
                 ) : props.type === "playlists" ? (
                   <Playlist playlist={data as PlaylistType} />
+                ) : props.type === "videos" ? (
+                  <VideoCard video={data as VideoType} />
                 ) : null}
               </Grid>
             ),

@@ -17,7 +17,7 @@ export const DialogToken = () => {
     async function queryLogs() {
       const response = await actions.getTidalTokenLogs();
       if (response?.link) setOutput((response as LogType)?.link);
-      if ((response as LogType)?.is_athenticated) {
+      if ((response as LogType)?.status === "auth") {
         actions.checkAPI();
         actions.setShowUpdateMessage(true);
       }

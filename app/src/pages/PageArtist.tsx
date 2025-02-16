@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Album } from "@mui/icons-material";
-import { Box, Button, Container, Grid, Tab, Tabs } from "@mui/material";
+import { Box, Button, Container, Grid, Portal, Tab, Tabs } from "@mui/material";
+import VideoCard from "src/components/Cards/Video";
 import ArtistHeader from "src/components/Headers/Artist";
 import { TIDAL_ITEMS_PER_PAGE } from "src/contants";
 import { ArtistProvider, useArtist } from "src/provider/ArtistProvider";
@@ -9,7 +9,7 @@ import { ArtistProvider, useArtist } from "src/provider/ArtistProvider";
 import AlbumCard from "../components/Cards/Album";
 import { AlbumsLoader } from "../components/Skeletons/AlbumsLoader";
 import { useSearchProvider } from "../provider/SearchProvider";
-import { AlbumType, TidalModuleListType } from "../types";
+import { AlbumType, TidalModuleListType, VideoType } from "../types";
 
 function a11yProps(index: number) {
   return {
@@ -22,7 +22,7 @@ function Pager({
   data,
   index,
 }: {
-  data: TidalModuleListType<AlbumType>;
+  data: TidalModuleListType<AlbumType | VideoType>;
   index: number;
 }) {
   const {
@@ -93,28 +93,30 @@ function ArtistContent() {
 
   return (
     <Box sx={{ bgcolor: "background.paper", mb: 2 }}>
+      <Portal container={document.getElementById("app-bar")}>
+        <Container maxWidth="lg">
+          <Tabs
+            value={currentTab}
+            onChange={handleChange}
+            indicatorColor="secondary"
+            textColor="inherit"
+            variant={window.innerWidth > 800 ? "fullWidth" : "scrollable"}
+          >
+            {artistResults?.blocks?.map((block, index1) => (
+              <Tab
+                key={`tab-anchor-${index1}`}
+                label={`${block.title} (${block.pagedList.totalNumberOfItems})`}
+                {...a11yProps(index1)}
+                sx={{ alignItems: "center" }}
+              />
+            ))}
+          </Tabs>
+        </Container>
+      </Portal>
       <Container maxWidth="lg" sx={{ mt: 2 }}>
         {artistResults?.artist && (
           <ArtistHeader artist={artistResults.artist} />
         )}
-        <Tabs
-          value={currentTab}
-          onChange={handleChange}
-          indicatorColor="secondary"
-          textColor="inherit"
-          variant={window.innerWidth > 800 ? "fullWidth" : "scrollable"}
-        >
-          {artistResults?.blocks?.map((block, index1) => (
-            <Tab
-              key={`tab-anchor-${index1}`}
-              label={`${block.title} (${block.pagedList.totalNumberOfItems})`}
-              {...a11yProps(index1)}
-              icon={<Album />}
-              iconPosition="start"
-              sx={{ alignItems: "center" }}
-            />
-          ))}
-        </Tabs>
       </Container>
       {artistResults?.blocks?.map((block, index1) => (
         <Container
@@ -130,7 +132,7 @@ function ArtistContent() {
             <hr />
             <br />
             <Grid container spacing={2}>
-              {block.pagedList.items.map((album, index2) => (
+              {block.pagedList.items.map((content, index2) => (
                 <Grid
                   item
                   xs={12}
@@ -140,13 +142,18 @@ function ArtistContent() {
                   sx={{
                     display:
                       quality === "all" ||
-                      (album as AlbumType)?.audioQuality?.toLowerCase() ===
+                      (content as AlbumType)?.audioQuality?.toLowerCase() ===
                         quality
                         ? "block"
                         : "none",
                   }}
                 >
-                  <AlbumCard album={album} />
+                  {block.type === "ALBUM_LIST" && (
+                    <AlbumCard album={content as AlbumType} />
+                  )}
+                  {block.type === "VIDEO_LIST" && (
+                    <VideoCard video={content as VideoType} />
+                  )}
                 </Grid>
               ))}
             </Grid>

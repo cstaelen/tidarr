@@ -70,14 +70,17 @@ export async function moveAndClean(
       `- Error moving files:\r\n${(e as Error).message}`,
     );
   } finally {
-    cleanFolder();
+    const cleaningStatus = await cleanFolder();
+    if (cleaningStatus === "error") {
+      item["status"] = "error";
+    }
     app.settings.processingList.actions.updateItem(item);
   }
 
   return { save: save };
 }
 
-export async function cleanFolder(): Promise<string> {
+export async function cleanFolder(): Promise<"finished" | "error"> {
   try {
     const output_clean = execSync(
       `rm -rf ${ROOT_PATH}/download/incomplete/* >/dev/null`,
@@ -86,10 +89,10 @@ export async function cleanFolder(): Promise<string> {
       },
     );
     console.log("- Clean folder", output_clean);
-    return output_clean;
+    return "finished";
   } catch (e) {
     console.log("- Error Clean folder", e);
-    return "";
+    return "error";
   }
 }
 

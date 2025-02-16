@@ -60,6 +60,32 @@ export type AlbumType = {
   url: string;
 };
 
+export type VideoType = {
+  id: string;
+  title: string;
+  volumeNumber: number;
+  trackNumber: number;
+  releaseDate: string;
+  imagePath: null;
+  imageId: string;
+  duration: number;
+  quality: string;
+  streamReady: boolean;
+  streamStartDate: string;
+  allowStreaming: true;
+  explicit: boolean;
+  popularity: number;
+  type: string;
+  artists: [
+    {
+      id: string;
+      name: string;
+      type: string;
+      picture: string;
+    },
+  ];
+};
+
 // MIX
 
 export type MixType = {
@@ -126,6 +152,7 @@ export type TidalResponseType = {
   tracks: TidalPagedListType<TrackType>;
   artists: TidalPagedListType<ArtistType>;
   playlists: TidalPagedListType<PlaylistType>;
+  videos: TidalPagedListType<VideoType>;
 };
 
 export type TidalModuleResponseType<T> = {
@@ -191,7 +218,6 @@ export type LogType = {
   output: string;
   output_history: string[];
   link: string;
-  is_athenticated: boolean;
   process?: ChildProcessWithoutNullStreams;
   status?: "finished" | "error" | "auth" | undefined;
   loading?: boolean;
@@ -204,7 +230,7 @@ export type ProcessingItemType = {
   id: string;
   artist: string;
   title: string;
-  type: "artist" | "album" | "track" | "playlist";
+  type: "artist" | "album" | "track" | "playlist" | "video";
   status: "queue" | "finished" | "beet" | "processing" | "error";
   url: string;
   loading: boolean;
