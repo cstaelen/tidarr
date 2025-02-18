@@ -13,18 +13,18 @@ export function tidalDL(id: number, app: Express) {
   const binary = "tiddl";
   const args: string[] = ["url", item.url, "download"];
 
-  item["output"] = logs(item, `Executing: ${binary} ${args.join(" ")}\r\n`);
+  item["output"] = logs(item, `Executing: ${binary} ${args.join(" ")}`);
   const child = spawn(binary, args);
 
-  child.stdout.setEncoding("utf8");
-  child.stdout.on("data", (data) => {
+  child.stdout?.setEncoding("utf8");
+  child.stdout?.on("data", (data) => {
     item["output"] = logs(item, data);
     item["process"] = child;
     app.settings.processingList.actions.updateItem(item);
   });
 
-  child.stderr.setEncoding("utf8");
-  child.stderr.on("data", (data) => {
+  child.stderr?.setEncoding("utf8");
+  child.stderr?.on("data", (data) => {
     item["output"] = logs(item, `Tiddl: ${data}`);
     item["process"] = child;
     app.settings.processingList.actions.updateItem(item);
@@ -116,7 +116,7 @@ export function tidalToken(app: Express) {
 export function deleteTiddlConfig() {
   try {
     spawnSync("tiddl", ["auth", "logout"]);
-    spawn("cp", [
+    spawnSync("cp", [
       "-rf",
       "/root/tiddl.json",
       "/home/app/standalone/shared/tiddl.json",
