@@ -1,6 +1,5 @@
-# Selfhosted Tidal media downloader docker image
-Tidarr is a docker image which provides a web interface to download **24 bit 192.0 kHz** medias from Tidal (tracks/albums/playlists/music videos).
-Format on the fly with Beets, Automatically update your Plex library, Push notification with Gotify.
+# Self-hosted Tidal Media Downloader Docker Image
+Tidarr is a Docker image that provides a web interface to download up to **24-bit 192.0 kHz** media from Tidal (tracks, albums, playlists, music videos). Format on the fly with Beets, automatically update your Plex library, and push notifications with Gotify.
 
 [![GitHub Stars](https://img.shields.io/github/stars/cstaelen/tidarr.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr)
 [![GitHub Release](https://img.shields.io/github/release-date/cstaelen/tidarr?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr/releases)
@@ -29,16 +28,22 @@ Format on the fly with Beets, Automatically update your Plex library, Push notif
 - [Donate](#donate)
 - [Develop](#develop)
 
+## Disclaimer
+
+- Need an official Tidal account
+- For educational purposes and personal use only
+- **Do not forget to support your local artists** 🙏❤️
+
 ## Features
 - Search by keywords
 - Search by url : artist url, album url, playlist url, track url, mix url
-- Downloadable media : tracks, albums, playlists, videos
-- Max quality : **24 bit 192.0 kHz** (if available)
-- Admin password available
+- Downloadable media : tracks, albums, playlists, music videos
+- Max quality : FLAC, **24 bit 192.0 kHz** (if available)
+- Admin password
 - Server side download list processing
-- UI build with **React JS** + **Express JS** API
-- Self-hostable using **Docker** with Linuxserver.io base image (uncompressed size: ~ 190 Mo)
-- Download from **Tidal** with Tiddl (python)
+- UI build with **ReactJS** + **ExpressJS** API
+- Self-hostable with **Docker** using a Linuxserver.io base image (uncompressed size: ~ 190 Mo)
+- Download from **Tidal** with [Tiddl (2.2.1)](https://github.com/oskvr37/tiddl/tree/v2.2.1)
 - Tag import using **Beets.io** (python)
 - Push notifications using **Gotify**
 - **Plex** library update
@@ -108,13 +113,13 @@ docker exec tidarr cp -rf /root/tiddl.json /home/app/standalone/shared/tiddl.jso
  environment:
   - ...
   - REACT_APP_TIDAL_COUNTRY_CODE=<country-code>
-  - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token>
-  - REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER=<"lossless" | "high" | "all">
+  - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token> #optional
+  - REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER=<"lossless" | "high" | "all"> #optional
 ```
 N.B. `<country-code>` should match your Tidal account country code.
 You can check it using :
 ```bash
-docker exec tidarr cat /root/tiddl.json
+docker exec tiddl config --print
 ```
 
 How to get search token :
@@ -129,7 +134,7 @@ Those old environment variables are not available anymore :
 - ~~TIDDL_FORCE_EXT=<flac|mp3|m4a> # default: unset, depending the track downloaded.~~
 - ~~TIDDL_QUALITY=<low | normal | high | master> # default: high (16bit 44.1khz), max available: master (24bit 192khz max)~~
 
--> You can set download options in `/your/docker/path/to/tidarr/config/tiddl.json` (first app run needed).
+-> You can set download options in `/your/docker/path/to/tidarr/config/tiddl.json`.
 
 See default :
 
@@ -142,10 +147,10 @@ See default :
         "playlist": "{playlist}/{playlist_number:02d}. {artist} - {title}"
     },
     "download": {
-        // Default high (16bit 44.1khz), max available: master (24bit 192khz max)
+      // Default high (16bit 44.1khz), max available: master (24bit 192khz max)
         // https://github.com/oskvr37/tiddl?tab=readme-ov-file#download-quality
         "quality": "high",
-        // /!\ Should not change (otherwise Tidarr download will fail) /!\
+        // Should not be changed (otherwise downloads will fail) /!\
         "path": "/home/app/standalone/download/incomplete",
         "threads": 4
     },
@@ -265,12 +270,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Renovate old torrent dl media library with full FLAC
 - Just for coding
 - Just for fun
-
-## Disclaimer
-
-- Need an offical Tidal account
-- Private use only
-- **Do not forget to support your local artists** 🙏❤️
 
 ## Resources
 

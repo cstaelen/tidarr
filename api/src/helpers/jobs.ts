@@ -10,10 +10,7 @@ export function logs(
 ): string {
   console.log(message);
 
-  const formattedMessage = message
-    .toString()
-    .replace(new RegExp("\\r", "g"), "");
-
+  const formattedMessage = message.toString();
   if (formattedMessage === "") return "";
 
   const last_output =
@@ -24,20 +21,16 @@ export function logs(
   }
 
   if (
-    (last_output?.includes("threaded download") &&
-      message.toString()?.includes("threaded download")) ||
-    (last_output?.includes("Single URL") &&
-      message.toString()?.includes("Single URL")) ||
-    (last_output?.includes("link.tidal.com") &&
-      message.toString()?.includes("link.tidal.com"))
+    last_output?.includes("link.tidal.com") &&
+    message.toString()?.includes("link.tidal.com")
   ) {
     item["output_history"][item["output_history"].length - 1] =
       formattedMessage;
   } else {
-    item["output_history"].push(formattedMessage);
+    item["output_history"].push(`${formattedMessage}\r\n`);
   }
 
-  item["output"] = [item["output_history"].slice(-500)].join("");
+  item["output"] = [item["output_history"].slice(-500)].join();
   return item["output"];
 }
 

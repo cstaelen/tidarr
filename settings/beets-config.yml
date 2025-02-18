@@ -5,6 +5,9 @@ per_disc_numbering: yes
 id3v23: no
 asciify_paths: true
 
+ui:
+    color: no
+
 paths:
     default: %asciify{$albumartist}/$original_year - %asciify{$album}%aunique{}/$track - %asciify{$title}
     singleton: Non-Album/%asciify{$artist} - %asciify{$title}

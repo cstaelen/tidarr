@@ -20,21 +20,21 @@ export async function emptyProcessingList(page: Page) {
     .first()
     .isVisible();
 
-  if (isVisible) {
-    await page.locator("button.MuiFab-circular").first().hover();
-    const items = await page.locator("#Showprocessinglist-action-1 tbody tr");
-    const count = await items.count();
+  if (!isVisible || page.isClosed()) return null;
 
-    const firstButton = await items
-      .nth(count - 1)
-      .getByRole("button")
-      .first();
+  await page.locator("button.MuiFab-circular").first()?.hover();
+  const items = await page.locator("#Showprocessinglist-action-1 tbody tr");
+  const count = await items.count();
 
-    if (!firstButton || !firstButton.isVisible()) return null;
+  const firstButton = await items
+    .nth(count - 1)
+    .getByRole("button")
+    .first();
 
-    await firstButton?.click();
-    await page.waitForTimeout(500);
+  if (!firstButton || !firstButton.isVisible()) return null;
 
-    emptyProcessingList(page);
-  }
+  await firstButton?.click();
+  await page.waitForTimeout(500);
+
+  emptyProcessingList(page);
 }

@@ -36,7 +36,7 @@ export const DialogUpdateMessage = () => {
           href="https://github.com/cstaelen/tidarr?tab=readme-ov-file#download-settings-optional"
           target="_blank"
         >
-          Further reading.
+          Read more.
         </Link>
       </p>
     </DialogHandler>

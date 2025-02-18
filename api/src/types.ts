@@ -1,4 +1,4 @@
-import { ChildProcessWithoutNullStreams } from "child_process";
+import { ChildProcess, ChildProcessWithoutNullStreams } from "child_process";
 
 export type ProcessingItemType = {
   id: number;
@@ -11,7 +11,7 @@ export type ProcessingItemType = {
   error: boolean;
   output: string;
   output_history: string[];
-  process?: ChildProcessWithoutNullStreams;
+  process?: ChildProcess;
 };
 
 export type TiddlConfig = {

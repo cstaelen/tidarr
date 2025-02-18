@@ -79,6 +79,8 @@ docker-run: ## Run tidarr docker image
 		-v ${PWD}/docker/mnt/config/:/home/app/standalone/shared \
 		-v ${PWD}/docker/mnt/download/albums:/home/app/standalone/download/albums \
 		-v ${PWD}/docker/mnt/download/tracks:/home/app/standalone/download/tracks \
+		-v ${PWD}/docker/mnt/download/playlists:/home/app/standalone/download/playlists \
+		-v ${PWD}/docker/mnt/download/videos:/home/app/standalone/download/videos \
 		-e ENABLE_BEETS=true \
 		-e PUID=501 \
 		-e PGID=501 \

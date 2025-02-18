@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import TerminalIcon from "@mui/icons-material/Terminal";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
@@ -27,6 +27,7 @@ export const TerminalDialog = ({ item }: { item: ProcessingItemType }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         style={{ zIndex: 9999 }}
+        maxWidth="md"
       >
         <DialogTitle id="alert-dialog-title">Console output</DialogTitle>
         <Pre ref={refOutput}>{item.output}</Pre>
