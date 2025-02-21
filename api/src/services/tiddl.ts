@@ -1,8 +1,8 @@
 import { spawn, spawnSync } from "child_process";
-import { Express } from "express";
+import { Express, Request, Response } from "express";
 
 import { logs } from "../helpers/jobs";
-import { LogType, ProcessingItemType } from "../types";
+import { ProcessingItemType } from "../types";
 
 export function tidalDL(id: number, app: Express) {
   const item: ProcessingItemType =
@@ -58,59 +58,35 @@ export function tidalDL(id: number, app: Express) {
   return child;
 }
 
-export function tidalToken(app: Express) {
-  const log: LogType = app.settings.tokenLog.actions.getLogs();
+export function tidalToken(req: Request, res: Response) {
+  const pythonProcess = spawn("tiddl", ["auth", "login"]);
 
-  const child = spawn("tiddl", ["auth", "login"]);
-
-  child.stdout.setEncoding("utf8");
-  child.stdout.on("data", (data) => {
-    log["loading"] = true;
-    log["process"] = child;
-
-    const url = data.match(/https?:\/\/[^\s]+/)?.[0];
-    if (url) {
-      log["link"] = url;
-    }
-
-    app.settings.tokenLog.actions.updateLog(log);
+  pythonProcess.stdout.on("data", (data) => {
+    res.write(`data: ${data.toString()}\n\n`);
   });
 
-  child.stderr.setEncoding("utf8");
-  child.stderr.on("data", (data) => {
-    log["output"] = logs(log, data);
-    log["process"] = child;
-    log["loading"] = true;
-
-    app.settings.tokenLog.actions.updateLog(log);
+  pythonProcess.stderr.on("data", (data) => {
+    res.write(`data: ${data.toString()}\n\n`);
   });
 
-  child.on("close", (code) => {
-    log["output"] = logs(log, `Tiddl process exited with code  ${code}`);
-    log["status"] = code === 0 ? "auth" : "error";
-    log["loading"] = false;
-
+  pythonProcess.on("close", (code) => {
     if (code === 0) {
       spawn("cp", [
         "-rf",
         "/root/tiddl.json",
         "/home/app/standalone/shared/tiddl.json",
       ]);
+      res.write(`data: Authenticated!\n\n`);
+    } else {
+      res.write(`data: closing ${code}\n\n`);
     }
-
-    app.settings.tokenLog.actions.updateLog(log);
+    console.log(`Python script exited with code ${code}`);
+    res.end();
   });
 
-  child.on("error", (err) => {
-    if (err) {
-      log["output"] = [log["output"], `Tiddl Error: ${err}`].join("\r\n");
-      log["status"] = "error";
-      log["loading"] = false;
-      app.settings.tokenLog.actions.updateLog(log);
-    }
+  req.on("close", () => {
+    pythonProcess.kill();
   });
-
-  return child;
 }
 
 export function deleteTiddlConfig() {

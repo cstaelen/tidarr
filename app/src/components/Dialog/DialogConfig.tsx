@@ -14,6 +14,7 @@ import {
   TableRow,
   Tabs,
 } from "@mui/material";
+import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 import { DialogHandler } from ".";
@@ -65,8 +66,11 @@ export const DialogConfig = () => {
 
   const [currentTab, setCurrentTab] = React.useState(0);
   const {
-    actions: { deleteTidalToken, checkAPI },
+    actions: { checkAPI },
   } = useConfigProvider();
+  const {
+    actions: { delete_token },
+  } = useApiFetcher();
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
@@ -142,7 +146,7 @@ export const DialogConfig = () => {
               color="warning"
               startIcon={<KeyOff />}
               onClick={async () => {
-                await deleteTidalToken();
+                await delete_token();
                 actions.toggleModal(false);
                 await checkAPI();
               }}
