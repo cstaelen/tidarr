@@ -9,6 +9,8 @@ export async function beets(id: number, app: Express) {
   const item: ProcessingItemType =
     app.settings.processingList.actions.getItem(id);
 
+  if (!item) return;
+
   try {
     // BEETS
     if (process.env.ENABLE_BEETS === "true") {

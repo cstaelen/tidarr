@@ -18,7 +18,7 @@ export function tidalDL(id: number, app: Express) {
 
   child.stdout?.setEncoding("utf8");
   child.stdout?.on("data", (data) => {
-    item["output"] = logs(item, data);
+    item["output"] = logs(item, data.replace(/[\r\n]+/gm, ""));
     item["process"] = child;
     app.settings.processingList.actions.updateItem(item);
   });

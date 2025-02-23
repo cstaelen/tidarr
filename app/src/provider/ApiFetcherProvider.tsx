@@ -17,12 +17,12 @@ type ApiFetcherContextType = {
   };
   actions: {
     check: () => Promise<ConfigType | undefined>;
-    list: () => Promise<ProcessingItemType[] | undefined>;
+    list_sse: (setData: (data: ProcessingItemType[]) => void) => EventSource;
     save: (body: string) => Promise<unknown>;
     remove: (body: string) => Promise<unknown>;
     auth: (body: string) => Promise<AuthType | undefined>;
     is_auth_active: () => Promise<CheckAuthType | undefined>;
-    get_token: (
+    get_token_sse: (
       setOutput: React.Dispatch<React.SetStateAction<string | undefined>>,
     ) => EventSource;
     delete_token: () => void;
@@ -96,8 +96,25 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     return await queryExpressJS<ConfigType>(`${apiUrl}/check`);
   }
 
-  async function list() {
-    return await queryExpressJS<ProcessingItemType[]>(`${apiUrl}/list`);
+  function list_sse(
+    setData: (data: ProcessingItemType[]) => void,
+  ): EventSource {
+    // return await queryExpressJS<ProcessingItemType[]>(`${apiUrl}/list`);
+
+    const eventSource = new EventSource(`${apiUrl}/list`);
+
+    eventSource.onmessage = function (event) {
+      if (event.data) {
+        setData(JSON.parse(event.data) as ProcessingItemType[]);
+      }
+    };
+
+    eventSource.onerror = function () {
+      console.log("EventSource close.");
+      eventSource.close();
+    };
+
+    return eventSource;
   }
 
   async function save(body: string) {
@@ -134,7 +151,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     return await queryExpressJS<CheckAuthType>(`${apiUrl}/is_auth_active`);
   }
 
-  function get_token(
+  function get_token_sse(
     setOutput: React.Dispatch<React.SetStateAction<string | undefined>>,
   ) {
     const eventSource = new EventSource(`${apiUrl}/run_token`);
@@ -177,12 +194,12 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     },
     actions: {
       check,
-      list,
+      list_sse,
       save,
       remove,
       auth,
       is_auth_active,
-      get_token,
+      get_token_sse,
       delete_token,
     },
   };

@@ -8,29 +8,17 @@ export function logs(
   item: ProcessingItemType | LogType,
   message: string,
 ): string {
-  console.log(message);
+  console.log(`logger: ${message}`);
 
-  const formattedMessage = message.toString();
-  if (formattedMessage === "") return "";
-
-  const last_output =
-    item["output_history"]?.[item["output_history"]?.length - 1];
+  if (!message) return "";
 
   if (!item["output_history"]) {
     item["output_history"] = [];
   }
 
-  if (
-    last_output?.includes("link.tidal.com") &&
-    message.toString()?.includes("link.tidal.com")
-  ) {
-    item["output_history"][item["output_history"].length - 1] =
-      formattedMessage;
-  } else {
-    item["output_history"].push(`${formattedMessage}\r\n`);
-  }
+  item["output_history"].push(message);
 
-  item["output"] = [item["output_history"].slice(-500)].join();
+  item["output"] = item["output_history"].slice(-500).join("\r\n");
   return item["output"];
 }
 
