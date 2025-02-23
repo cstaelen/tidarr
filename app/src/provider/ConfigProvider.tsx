@@ -1,11 +1,6 @@
 import React, { ReactNode, useContext, useState } from "react";
 
-import {
-  ConfigParametersType,
-  ConfigType,
-  LogType,
-  ReleaseGithubType,
-} from "../types";
+import { ConfigParametersType, ConfigType, ReleaseGithubType } from "../types";
 
 import { useApiFetcher } from "./ApiFetcherProvider";
 
@@ -20,11 +15,7 @@ type ConfigContextType = {
   actions: {
     toggleModal: (isOpen: boolean) => void;
     checkAPI: () => void;
-    getTidalToken: () => void;
-    getTidalTokenLogs: () => Promise<LogType | undefined>;
     checkForUpdates: () => void;
-    deleteTidalToken: () => void;
-    stopTokenProcess: () => void;
     setShowUpdateMessage: (show: boolean) => void;
   };
 };
@@ -42,13 +33,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [config, setConfig] = useState<ConfigParametersType>();
 
   const {
-    actions: {
-      check,
-      get_token,
-      get_token_log,
-      delete_token,
-      kill_token_process,
-    },
+    actions: { check },
   } = useApiFetcher();
 
   const reactAppEnvVars = {
@@ -109,26 +94,6 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // Run Tidal token process AP
-  const getTidalToken = async () => {
-    await get_token();
-  };
-
-  // Get Tidal authentication logs
-  const getTidalTokenLogs = async (): Promise<LogType | undefined> => {
-    return await get_token_log();
-  };
-
-  // Remove Tidal token
-  const deleteTidalToken = async () => {
-    await delete_token();
-  };
-
-  // Remove Tidal token
-  const stopTokenProcess = async () => {
-    await kill_token_process();
-  };
-
   const value = {
     isUpdateAvailable,
     releaseData,
@@ -139,12 +104,8 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     showUpdateMessage,
     actions: {
       toggleModal,
-      getTidalToken,
-      getTidalTokenLogs,
       checkAPI,
       checkForUpdates,
-      deleteTidalToken,
-      stopTokenProcess,
       setShowUpdateMessage,
     },
   };

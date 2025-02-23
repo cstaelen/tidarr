@@ -1,43 +1,38 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import WarningIcon from "@mui/icons-material/Warning";
 import { CircularProgress, Link, Paper, Typography } from "@mui/material";
+import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
-import { LogType } from "src/types";
 
 import { DialogHandler } from ".";
 
 export const DialogToken = () => {
   const { tokenMissing, actions } = useConfigProvider();
+  const {
+    actions: { get_token },
+  } = useApiFetcher();
   const [output, setOutput] = useState<string>();
+  const [running, setRunning] = useState<boolean>(false);
   const [forceClose, setForceClose] = useState<boolean>(false);
-
-  let intervalLog: NodeJS.Timeout;
+  const eventSourceRef = useRef<EventSource>(null);
 
   useEffect(() => {
-    async function queryLogs() {
-      const response = await actions.getTidalTokenLogs();
-      if (response?.link) setOutput((response as LogType)?.link);
-      if ((response as LogType)?.status === "auth") {
-        actions.checkAPI();
-        actions.setShowUpdateMessage(true);
-      }
-    }
-
-    if (!tokenMissing || forceClose) {
-      clearInterval(intervalLog);
-      return;
-    }
-
-    actions.getTidalToken();
-
-    intervalLog = setInterval(() => {
-      queryLogs();
-    }, 3000);
+    if (!tokenMissing) return;
+    const eventSource = get_token(setOutput);
 
     return () => {
-      clearInterval(intervalLog);
+      eventSource?.close();
     };
-  }, [tokenMissing, forceClose]);
+  }, [get_token, running, tokenMissing]);
+
+  useEffect(() => {
+    if (!tokenMissing) return;
+    if (output?.includes("Authenticated!")) {
+      actions.setShowUpdateMessage(true);
+      setRunning(false);
+      actions.checkAPI();
+    }
+  }, [actions, output, tokenMissing]);
 
   return (
     <DialogHandler
@@ -45,7 +40,7 @@ export const DialogToken = () => {
       icon={<WarningIcon color="error" />}
       onClose={() => {
         setForceClose(true);
-        actions.stopTokenProcess();
+        eventSourceRef.current?.close();
       }}
       open={!!tokenMissing && !forceClose}
     >

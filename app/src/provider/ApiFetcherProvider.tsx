@@ -10,6 +10,7 @@ import {
 } from "../types";
 
 type ApiFetcherContextType = {
+  apiUrl: string;
   error: {
     apiError: Response | undefined;
     setApiError: (res: Response | undefined) => void;
@@ -21,10 +22,10 @@ type ApiFetcherContextType = {
     remove: (body: string) => Promise<unknown>;
     auth: (body: string) => Promise<AuthType | undefined>;
     is_auth_active: () => Promise<CheckAuthType | undefined>;
-    get_token: () => Promise<unknown>;
-    get_token_log: () => Promise<LogType | undefined>;
+    get_token: (
+      setOutput: React.Dispatch<React.SetStateAction<string | undefined>>,
+    ) => EventSource;
     delete_token: () => void;
-    kill_token_process: () => void;
   };
 };
 
@@ -133,23 +134,43 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     return await queryExpressJS<CheckAuthType>(`${apiUrl}/is_auth_active`);
   }
 
-  async function get_token() {
-    await queryExpressJS(`${apiUrl}/run_token`);
-  }
+  function get_token(
+    setOutput: React.Dispatch<React.SetStateAction<string | undefined>>,
+  ) {
+    const eventSource = new EventSource(`${apiUrl}/run_token`);
+    const lastEventTime = Date.now();
+    const inactivityTimeout = 15000; // 15 seconds
 
-  async function get_token_log(): Promise<LogType | undefined> {
-    return await queryExpressJS<LogType>(`${apiUrl}/token_log`);
+    eventSource.onmessage = (event) => {
+      const url = event.data.match(/https?:\/\/[^\s]+/)?.[0];
+      if (url) {
+        setOutput(url);
+      } else {
+        setOutput((prevOutput) => `${prevOutput} ${event.data}`);
+      }
+    };
+
+    eventSource.onerror = () => {
+      eventSource.close();
+    };
+
+    const intervalId = setInterval(() => {
+      if (Date.now() - lastEventTime > inactivityTimeout) {
+        console.log("Inactivity timeout reached. Closing EventSource.");
+        eventSource.close();
+        clearInterval(intervalId);
+      }
+    }, 5000); // Check every 5 seconds
+
+    return eventSource;
   }
 
   async function delete_token() {
     return await queryExpressJS<LogType>(`${apiUrl}/delete_token`);
   }
 
-  async function kill_token_process() {
-    return await queryExpressJS<LogType>(`${apiUrl}/kill_token_process`);
-  }
-
   const value = {
+    apiUrl,
     error: {
       apiError,
       setApiError,
@@ -162,9 +183,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       auth,
       is_auth_active,
       get_token,
-      get_token_log,
       delete_token,
-      kill_token_process,
     },
   };
 
