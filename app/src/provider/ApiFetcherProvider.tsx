@@ -92,16 +92,18 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     return output;
   }
 
+  // Config
+
   async function check() {
     return await queryExpressJS<ConfigType>(`${apiUrl}/check`);
   }
 
+  // List processing
+
   function list_sse(
     setData: (data: ProcessingItemType[]) => void,
   ): EventSource {
-    // return await queryExpressJS<ProcessingItemType[]>(`${apiUrl}/list`);
-
-    const eventSource = new EventSource(`${apiUrl}/list`);
+    const eventSource = new EventSource(`${apiUrl}/stream_processing`);
 
     eventSource.onmessage = function (event) {
       if (event.data) {
@@ -137,6 +139,8 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  // Authentication
+
   async function auth(body?: string): Promise<AuthType | undefined> {
     return await queryExpressJS<AuthType>(`${apiUrl}/auth`, {
       method: "POST",
@@ -150,6 +154,8 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
   async function is_auth_active(): Promise<CheckAuthType | undefined> {
     return await queryExpressJS<CheckAuthType>(`${apiUrl}/is_auth_active`);
   }
+
+  // Tidal token
 
   function get_token_sse(
     setOutput: React.Dispatch<React.SetStateAction<string | undefined>>,

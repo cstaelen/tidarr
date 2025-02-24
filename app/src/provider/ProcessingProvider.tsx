@@ -1,4 +1,10 @@
-import React, { ReactNode, useContext, useEffect, useState } from "react";
+import React, {
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 import {
   AlbumType,
@@ -37,6 +43,8 @@ const ProcessingContext = React.createContext<ProcessingContextType>(
 
 export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
+  const [processingEventSource, setProcessingEventSource] =
+    useState<EventSource>();
   const {
     actions: { list_sse, remove, save },
   } = useApiFetcher();
@@ -81,6 +89,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     };
 
     await save(JSON.stringify({ item: itemToQueue }));
+    openStreamProcessing();
   };
 
   // Retry failed processing item
@@ -103,6 +112,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
     await removeItem(item.id);
     await save(JSON.stringify({ item: itemToQueue }));
+    openStreamProcessing();
   };
 
   // Remove item to processing list
@@ -111,18 +121,34 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   };
 
   // Update front data
-  const updateFrontList = async () => {
+  const openStreamProcessing = useCallback(async () => {
+    if (processingEventSource) return;
+    console.log("open event source", processingEventSource);
     const eventSource = await list_sse(setProcessingList);
-
-    if (processingList?.length === 0) {
-      console.log("close event source");
-      eventSource.close();
-    }
-  };
+    setProcessingEventSource(eventSource);
+  }, [list_sse, processingEventSource]);
 
   useEffect(() => {
-    updateFrontList();
-  }, []);
+    // First load
+    if (!processingEventSource && processingList === undefined) {
+      openStreamProcessing();
+      return;
+    }
+
+    // If item list is processing
+    if (
+      !processingEventSource ||
+      !processingList ||
+      processingList?.filter((item) => item?.loading === true)?.length > 0
+    ) {
+      return;
+    }
+
+    // Closing event source
+    console.log("close event source");
+    processingEventSource?.close();
+    setProcessingEventSource(undefined);
+  }, [processingEventSource, processingList, openStreamProcessing]);
 
   const value = {
     processingList,

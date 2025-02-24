@@ -63,25 +63,29 @@ app.post(
   },
 );
 
-app.get("/api/list", ensureAccessIsGranted, (req: Request, res: Response) => {
-  res.setHeader("Content-Type", "text/event-stream");
-  res.setHeader("Cache-Control", "no-cache");
-  res.setHeader("Connection", "keep-alive");
-  res.flushHeaders();
+app.get(
+  "/api/stream_processing",
+  ensureAccessIsGranted,
+  (req: Request, res: Response) => {
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+    res.flushHeaders();
 
-  // Add the new connection to the list
-  req.app.settings.activeListConnections.push(res);
+    // Add the new connection to the list
+    req.app.settings.activeListConnections.push(res);
 
-  // Remove the connection from the list when it closes
-  req.on("close", () => {
-    req.app.settings.activeListConnections =
-      req.app.settings.activeListConnections.filter(
-        (conn: Response) => conn !== res,
-      );
-  });
+    // Remove the connection from the list when it closes
+    req.on("close", () => {
+      req.app.settings.activeListConnections =
+        req.app.settings.activeListConnections.filter(
+          (conn: Response) => conn !== res,
+        );
+    });
 
-  sendSSEUpdate(req, res);
-});
+    sendSSEUpdate(req, res);
+  },
+);
 
 // Tidal token endpoints
 
