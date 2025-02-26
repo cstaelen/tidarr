@@ -11,12 +11,10 @@ type ConfigContextType = {
   config: undefined | ConfigParametersType;
   isConfigModalOpen: boolean;
   reactAppEnvVars: ConfigParametersType;
-  showUpdateMessage: boolean;
   actions: {
     toggleModal: (isOpen: boolean) => void;
     checkAPI: () => void;
     checkForUpdates: () => void;
-    setShowUpdateMessage: (show: boolean) => void;
   };
 };
 
@@ -29,7 +27,6 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [isConfigModalOpen, setIsConfigModalOpen] = useState<boolean>(false);
   const [tokenMissing, setTokenMissing] = useState(false);
   const [releaseData, setReleaseData] = useState<ReleaseGithubType>();
-  const [showUpdateMessage, setShowUpdateMessage] = useState<boolean>(false);
   const [config, setConfig] = useState<ConfigParametersType>();
 
   const {
@@ -101,12 +98,10 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     config,
     reactAppEnvVars,
     isConfigModalOpen,
-    showUpdateMessage,
     actions: {
       toggleModal,
       checkAPI,
       checkForUpdates,
-      setShowUpdateMessage,
     },
   };
 

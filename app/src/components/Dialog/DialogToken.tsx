@@ -9,7 +9,7 @@ import { DialogHandler } from ".";
 export const DialogToken = () => {
   const { tokenMissing, actions } = useConfigProvider();
   const {
-    actions: { get_token },
+    actions: { get_token_sse },
   } = useApiFetcher();
   const [output, setOutput] = useState<string>();
   const [running, setRunning] = useState<boolean>(false);
@@ -18,17 +18,16 @@ export const DialogToken = () => {
 
   useEffect(() => {
     if (!tokenMissing) return;
-    const eventSource = get_token(setOutput);
+    const eventSource = get_token_sse(setOutput);
 
     return () => {
       eventSource?.close();
     };
-  }, [get_token, running, tokenMissing]);
+  }, [get_token_sse, running, tokenMissing]);
 
   useEffect(() => {
     if (!tokenMissing) return;
     if (output?.includes("Authenticated!")) {
-      actions.setShowUpdateMessage(true);
       setRunning(false);
       actions.checkAPI();
     }

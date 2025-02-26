@@ -4,11 +4,10 @@ import express, { Express, Request, Response } from "express";
 import fs from "fs";
 
 import { ensureAccessIsGranted } from "./src/helpers/auth";
-import { ProcessingStack } from "./src/helpers/ProcessingStack";
+import { ProcessingStack, sendSSEUpdate } from "./src/helpers/ProcessingStack";
 import { is_auth_active, proceed_auth } from "./src/services/auth";
 import { configureServer } from "./src/services/config";
 import { deleteTiddlConfig, tidalToken } from "./src/services/tiddl";
-import { ProcessingItemType } from "./src/types";
 
 dotenv.config({ path: "../.env", override: false });
 
@@ -21,6 +20,7 @@ app.use(cors());
 
 const processingList = ProcessingStack(app);
 app.set("processingList", processingList);
+app.set("activeListConnections", []);
 
 app.all("*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -63,14 +63,29 @@ app.post(
   },
 );
 
-app.get("/api/list", ensureAccessIsGranted, (req: Request, res: Response) => {
-  const clone = [...req.app.settings.processingList.data].map((x) => x);
-  const response = clone.map((item: ProcessingItemType) => {
-    delete item.process;
-    return item;
-  });
-  res.send(response);
-});
+app.get(
+  "/api/stream_processing",
+  ensureAccessIsGranted,
+  (req: Request, res: Response) => {
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+    res.flushHeaders();
+
+    // Add the new connection to the list
+    req.app.settings.activeListConnections.push(res);
+
+    // Remove the connection from the list when it closes
+    req.on("close", () => {
+      req.app.settings.activeListConnections =
+        req.app.settings.activeListConnections.filter(
+          (conn: Response) => conn !== res,
+        );
+    });
+
+    sendSSEUpdate(req, res);
+  },
+);
 
 // Tidal token endpoints
 

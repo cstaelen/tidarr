@@ -75,6 +75,8 @@ test("Tidarr direct url : Should display playlist result using Tidal playlist ur
     page.getByRole("button", { name: "Get playlist" }),
   ).toBeVisible();
 
+  await waitForLoader(page);
+
   const albumCount = await page.getByRole("button", { name: "Album" }).count();
   await expect(albumCount).toEqual(18);
   const trackCount = await page.getByRole("button", { name: "Track" }).count();

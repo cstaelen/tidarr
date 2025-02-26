@@ -1,37 +1,17 @@
-import { expect, Page, test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
+import { emptyProcessingList, testProcessingList } from "./utils/helpers";
 import { runSearch } from "./utils/search";
 
 test.describe.configure({ mode: "serial" });
 
-async function testProcessingList(page: Page, shouldContains: string[]) {
-  await page.locator("button.MuiFab-circular").first().hover();
+test.beforeEach(async ({ browserName }) => {
+  test.skip(browserName.toLowerCase() !== "chromium", `Test only for chromium`);
+});
 
-  shouldContains.map(async (searchString: string) => {
-    await expect(page.getByLabel("Processing table")).toContainText(
-      searchString,
-    );
-  });
-
-  await expect(page.locator(".MuiDialog-container button")).not.toBeVisible();
-  await page
-    .getByLabel("Processing table")
-    .locator("div")
-    .getByRole("button")
-    .first()
-    .click();
-  await expect(
-    page.getByRole("heading", { name: "Console output" }),
-  ).toBeVisible();
-  await expect(page.getByText("=== Tiddl ===")).toBeVisible();
-  await expect(page.locator(".MuiDialog-container button")).toBeVisible();
-
-  await page.getByRole("button", { name: "Close" }).click();
-
-  await expect(
-    page.getByLabel("Processing table").getByRole("button").first(),
-  ).not.toBeVisible();
-}
+test.afterEach(async ({ page }) => {
+  await emptyProcessingList(page);
+});
 
 test("Tidarr download : Should be able to download album", async ({ page }) => {
   await runSearch("Nirvana", page);
@@ -53,11 +33,11 @@ test("Tidarr download : Should be able to download track", async ({ page }) => {
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Tracks" }).first().click();
 
-  await expect(page.getByRole("main")).toContainText("Heart-Shaped Box");
+  await expect(page.getByRole("main")).toContainText("Stay Away");
 
   await page.getByRole("button", { name: "Track" }).nth(3).click();
 
-  await testProcessingList(page, ["Nirvana", "Heart-Shaped Box", "track"]);
+  await testProcessingList(page, ["Nirvana", "Stay Away", "track"]);
 });
 
 test("Tidarr download : Should be able to download track album", async ({

@@ -1,10 +1,6 @@
 import { expect, Page } from "@playwright/test";
 
-import {
-  emptyProcessingList,
-  waitForImgLoaded,
-  waitForLoader,
-} from "./helpers";
+import { waitForImgLoaded, waitForLoader } from "./helpers";
 import { mockConfigAPI, mockRelease } from "./mock";
 
 export async function runSearch(keyword: string, page: Page) {
@@ -26,7 +22,6 @@ export async function runSearch(keyword: string, page: Page) {
   await page.getByTestId("search-input").locator("input").press("Enter");
   await waitForLoader(page);
   await waitForImgLoaded(page);
-  await emptyProcessingList(page);
 }
 
 export async function countItems(

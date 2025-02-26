@@ -1,4 +1,4 @@
-import { Express } from "express";
+import { Express, Request, Response } from "express";
 
 import { beets } from "../services/beets";
 import { gotifyPush } from "../services/gotify";
@@ -6,7 +6,19 @@ import { plexUpdate } from "../services/plex";
 import { tidalDL } from "../services/tiddl";
 import { ProcessingItemType } from "../types";
 
-import { cleanFolder, moveAndClean } from "./jobs";
+import { cleanFolder, logs, moveAndClean } from "./jobs";
+
+export function sendSSEUpdate(req: Request, res: Response) {
+  res.write(
+    `data: ${JSON.stringify(req.app.settings.processingList.data)}\n\n`,
+  );
+}
+
+export function notifySSEConnections(req: Request) {
+  req.app.settings.activeListConnections.forEach((conn: Response) => {
+    sendSSEUpdate(req, conn);
+  });
+}
 
 export const ProcessingStack = (expressApp: Express) => {
   const data: ProcessingItemType[] = [];
@@ -18,6 +30,8 @@ export const ProcessingStack = (expressApp: Express) => {
     if (foundIndex !== -1) return;
     data.push(item);
     processQueue();
+
+    notifySSEConnections(expressApp.request);
   }
 
   async function removeItem(id: number) {
@@ -26,6 +40,7 @@ export const ProcessingStack = (expressApp: Express) => {
     await item?.process?.kill("SIGTERM");
     await item?.process?.kill("SIGKILL");
     await item?.process?.stdin?.end();
+
     const foundIndex = data.findIndex(
       (listItem: ProcessingItemType) => listItem?.id === item?.id,
     );
@@ -33,19 +48,19 @@ export const ProcessingStack = (expressApp: Express) => {
     data.splice(foundIndex, 1);
     await cleanFolder();
     processQueue();
+
+    notifySSEConnections(expressApp.request);
   }
 
   function updateItem(item: ProcessingItemType) {
-    const foundIndex = data.findIndex(
-      (listItem: ProcessingItemType) => listItem?.id === item?.id,
-    );
-    data[foundIndex] = item;
-    if (item.status === "downloaded") {
+    if (item?.status === "downloaded") {
       postProcessing(item);
     }
-    if (item.status === "finished" || item.status === "error") {
+    if (item?.status === "finished" || item?.status === "error") {
       processQueue();
     }
+
+    notifySSEConnections(expressApp.request);
   }
 
   function getItem(id: number): ProcessingItemType {
@@ -78,10 +93,8 @@ export const ProcessingStack = (expressApp: Express) => {
 
   async function postProcessing(item: ProcessingItemType) {
     const stdout = [];
-    if (item.type === "album" || item.type === "artist") {
-      await beets(item.id, expressApp);
-    }
 
+    await beets(item.id, expressApp);
     await moveAndClean(item.id, expressApp);
 
     if (item["status"] === "finished") {
@@ -94,8 +107,7 @@ export const ProcessingStack = (expressApp: Express) => {
       );
       stdout.push(responseGotify?.output);
 
-      item["output"] = [item["output"], ...stdout].join("\n");
-      item["output"].substr(item["output"].length - 5000);
+      item["output"] = logs(item, stdout.join("\r\n"));
       expressApp.settings.processingList.actions.updateItem(item);
     }
   }

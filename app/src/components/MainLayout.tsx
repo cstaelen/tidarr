@@ -10,7 +10,6 @@ import { SearchProvider } from "../provider/SearchProvider";
 import { DialogConfig } from "./Dialog/DialogConfig";
 import { DialogNoAPI } from "./Dialog/DialogNoAPI";
 import { DialogToken } from "./Dialog/DialogToken";
-import { DialogUpdateMessage } from "./Dialog/DialogUpdateMessage";
 import { ProcessingList } from "./Processing/ProcessingList";
 import { HeaderSearch } from "./Search/HeaderSearch";
 import { Footer } from "./Footer";
@@ -67,7 +66,6 @@ function MainLayout({ children }: { children: ReactNode }) {
               <DialogToken />
               <DialogNoAPI />
               <DialogConfig />
-              <DialogUpdateMessage />
             </ProcessingProvider>
           </SearchProvider>
         </div>

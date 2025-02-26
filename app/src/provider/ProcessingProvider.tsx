@@ -1,4 +1,10 @@
-import React, { ReactNode, useContext, useEffect, useState } from "react";
+import React, {
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 import {
   AlbumType,
@@ -37,8 +43,10 @@ const ProcessingContext = React.createContext<ProcessingContextType>(
 
 export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
+  const [processingEventSource, setProcessingEventSource] =
+    useState<EventSource>();
   const {
-    actions: { list, remove, save },
+    actions: { list_sse, remove, save },
   } = useApiFetcher();
 
   // Add item to processing list
@@ -81,7 +89,6 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     };
 
     await save(JSON.stringify({ item: itemToQueue }));
-    updateFrontList();
   };
 
   // Retry failed processing item
@@ -104,46 +111,24 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
     await removeItem(item.id);
     await save(JSON.stringify({ item: itemToQueue }));
-
-    updateFrontList();
   };
 
   // Remove item to processing list
   const removeItem = async (id: string) => {
     await remove(JSON.stringify({ id: id }));
-    updateFrontList();
   };
 
   // Update front data
-  const updateFrontList = async () => {
-    const data = await list();
+  const openStreamProcessing = useCallback(async () => {
+    if (processingEventSource) return;
+    const eventSource = await list_sse(setProcessingList);
+    setProcessingEventSource(eventSource);
+  }, [list_sse, processingEventSource]);
 
-    if (!data) {
-      setProcessingList(undefined);
-      return;
-    }
-
-    const existingData = data as ProcessingItemType[];
-
-    if (existingData) {
-      const list = existingData || "";
-      setProcessingList(list);
-      if (
-        existingData.filter(
-          (item: ProcessingItemType) =>
-            item.status === "queue" || item.status === "processing",
-        ).length > 0
-      ) {
-        setTimeout(async () => await updateFrontList(), 5000);
-      }
-    } else {
-      setProcessingList(undefined);
-    }
-  };
-
+  // First load
   useEffect(() => {
-    updateFrontList();
-  }, []);
+    openStreamProcessing();
+  }, [openStreamProcessing]);
 
   const value = {
     processingList,
