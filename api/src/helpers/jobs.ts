@@ -30,6 +30,8 @@ export async function moveAndClean(
     app.settings.processingList.actions.getItem(id);
   let save = false;
 
+  if (!item) return { save: false };
+
   setPermissions();
 
   try {

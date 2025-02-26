@@ -8,7 +8,7 @@ export async function configureServer() {
   console.log(`Executing: init.sh`);
 
   const output_config = execSync(
-    `sh ${BUILD_PATH}/api/scripts/init.sh ${process.env.ENVIRONMENT}`,
+    `bash ${BUILD_PATH}/api/scripts/init.sh ${process.env.ENVIRONMENT}`,
     {
       encoding: "utf-8",
     },

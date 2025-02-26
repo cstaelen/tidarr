@@ -53,10 +53,10 @@ export const ProcessingStack = (expressApp: Express) => {
   }
 
   function updateItem(item: ProcessingItemType) {
-    if (item.status === "downloaded") {
+    if (item?.status === "downloaded") {
       postProcessing(item);
     }
-    if (item.status === "finished" || item.status === "error") {
+    if (item?.status === "finished" || item?.status === "error") {
       processQueue();
     }
 

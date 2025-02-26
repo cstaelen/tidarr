@@ -88,8 +88,9 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       output: "",
     };
 
-    await save(JSON.stringify({ item: itemToQueue }));
-    openStreamProcessing();
+    save(JSON.stringify({ item: itemToQueue })).then(() =>
+      openStreamProcessing(),
+    );
   };
 
   // Retry failed processing item
@@ -111,13 +112,14 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     };
 
     await removeItem(item.id);
-    await save(JSON.stringify({ item: itemToQueue }));
-    openStreamProcessing();
+    save(JSON.stringify({ item: itemToQueue })).then(() =>
+      openStreamProcessing(),
+    );
   };
 
   // Remove item to processing list
   const removeItem = async (id: string) => {
-    await remove(JSON.stringify({ id: id }));
+    remove(JSON.stringify({ id: id })).then(() => openStreamProcessing());
   };
 
   // Update front data
@@ -139,7 +141,9 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     if (
       !processingEventSource ||
       !processingList ||
-      processingList?.filter((item) => item?.loading === true)?.length > 0
+      processingList?.filter(
+        (item) => item?.status !== "finished" && item?.status !== "error",
+      )?.length > 0
     ) {
       return;
     }
