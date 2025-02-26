@@ -28,7 +28,6 @@ export const DialogToken = () => {
   useEffect(() => {
     if (!tokenMissing) return;
     if (output?.includes("Authenticated!")) {
-      actions.setShowUpdateMessage(true);
       setRunning(false);
       actions.checkAPI();
     }
