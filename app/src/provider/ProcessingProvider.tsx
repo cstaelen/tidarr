@@ -88,9 +88,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       output: "",
     };
 
-    save(JSON.stringify({ item: itemToQueue })).then(() =>
-      openStreamProcessing(),
-    );
+    await save(JSON.stringify({ item: itemToQueue }));
   };
 
   // Retry failed processing item
@@ -112,47 +110,25 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     };
 
     await removeItem(item.id);
-    save(JSON.stringify({ item: itemToQueue })).then(() =>
-      openStreamProcessing(),
-    );
+    await save(JSON.stringify({ item: itemToQueue }));
   };
 
   // Remove item to processing list
   const removeItem = async (id: string) => {
-    remove(JSON.stringify({ id: id })).then(() => openStreamProcessing());
+    await remove(JSON.stringify({ id: id }));
   };
 
   // Update front data
   const openStreamProcessing = useCallback(async () => {
     if (processingEventSource) return;
-    console.log("open event source", processingEventSource);
     const eventSource = await list_sse(setProcessingList);
     setProcessingEventSource(eventSource);
   }, [list_sse, processingEventSource]);
 
+  // First load
   useEffect(() => {
-    // First load
-    if (!processingEventSource && processingList === undefined) {
-      openStreamProcessing();
-      return;
-    }
-
-    // If item list is processing
-    if (
-      !processingEventSource ||
-      !processingList ||
-      processingList?.filter(
-        (item) => item?.status !== "finished" && item?.status !== "error",
-      )?.length > 0
-    ) {
-      return;
-    }
-
-    // Closing event source
-    console.log("close event source");
-    processingEventSource?.close();
-    setProcessingEventSource(undefined);
-  }, [processingEventSource, processingList, openStreamProcessing]);
+    openStreamProcessing();
+  }, [openStreamProcessing]);
 
   const value = {
     processingList,
