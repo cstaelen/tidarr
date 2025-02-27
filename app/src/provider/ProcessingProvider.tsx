@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { EventSourceController } from "event-source-plus";
 
 import {
   AlbumType,
@@ -44,7 +45,7 @@ const ProcessingContext = React.createContext<ProcessingContextType>(
 export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
   const [processingEventSource, setProcessingEventSource] =
-    useState<EventSource>();
+    useState<EventSourceController>();
   const {
     actions: { list_sse, remove, save },
   } = useApiFetcher();
@@ -121,14 +122,28 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   // Update front data
   const openStreamProcessing = useCallback(async () => {
     if (processingEventSource) return;
-    const eventSource = await list_sse(setProcessingList);
-    setProcessingEventSource(eventSource);
+    const { controller } = await list_sse(setProcessingList);
+    setProcessingEventSource(controller);
   }, [list_sse, processingEventSource]);
+
+  const closeStreamProcessing = useCallback(async () => {
+    if (processingEventSource) {
+      processingEventSource.abort();
+      setProcessingEventSource(undefined);
+    }
+  }, [processingEventSource]);
 
   // First load
   useEffect(() => {
+    if (processingEventSource) return;
     openStreamProcessing();
-  }, [openStreamProcessing]);
+
+    window.addEventListener("beforeunload", closeStreamProcessing);
+
+    return () => {
+      window.removeEventListener("beforeunload", closeStreamProcessing);
+    };
+  }, [processingEventSource, closeStreamProcessing, openStreamProcessing]);
 
   const value = {
     processingList,

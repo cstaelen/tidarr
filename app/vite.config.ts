@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     host: true,
     cors: true,
-    open: true,
+    open: false,
     port: 3000,
   },
   resolve: {

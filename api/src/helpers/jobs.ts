@@ -8,9 +8,7 @@ export function logs(
   item: ProcessingItemType | LogType,
   message: string,
 ): string {
-  console.log(`logger: ${message}`);
-
-  if (!message) return "";
+  if (!message) return item["output"];
 
   if (!item["output_history"]) {
     item["output_history"] = [];

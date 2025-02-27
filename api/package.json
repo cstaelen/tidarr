@@ -1,6 +1,6 @@
 {
   "name": "tidarr-api",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "private": true,
   "devDependencies": {
     "@eslint/js": "^9.20.0",
@@ -28,7 +28,7 @@
   },
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",
-    "start": "concurrently \"npx tsc --project ./tsconfig.json --watch\" \"nodemon -q ./dist/index.js\"",
+    "start": "npx tsx --watch index.ts",
     "prod": "node ./api/dist/index.js",
     "find-deadcode": "ts-prune | (! grep -v 'used in module')",
     "depcheck": "npx depcheck",

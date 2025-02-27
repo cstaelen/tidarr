@@ -40,30 +40,28 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <APIFetcherProvider>
-          <ConfigProvider>
-            <AuthProvider>
-              <Routes>
-                <Route path={ROUTE_LOGIN} element={<Login />} />
-                <Route element={<PrivateRoute />}>
-                  <Route element={<DefaultLayout />}>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/artist/:id" element={<PageArtist />} />
-                    <Route path="/mix/:id" element={<PageMix />} />
-                    <Route path="/playlist/:id" element={<PagePlaylist />} />
-                    <Route path="/album/:id" element={<PageAlbum />} />
-                    <Route path="/track/:id" element={<PageTrack />} />
-                  </Route>
+  <ThemeProvider theme={darkTheme}>
+    <CssBaseline />
+    <BrowserRouter>
+      <APIFetcherProvider>
+        <ConfigProvider>
+          <AuthProvider>
+            <Routes>
+              <Route path={ROUTE_LOGIN} element={<Login />} />
+              <Route element={<PrivateRoute />}>
+                <Route element={<DefaultLayout />}>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/artist/:id" element={<PageArtist />} />
+                  <Route path="/mix/:id" element={<PageMix />} />
+                  <Route path="/playlist/:id" element={<PagePlaylist />} />
+                  <Route path="/album/:id" element={<PageAlbum />} />
+                  <Route path="/track/:id" element={<PageTrack />} />
                 </Route>
-              </Routes>
-            </AuthProvider>
-          </ConfigProvider>
-        </APIFetcherProvider>
-      </BrowserRouter>
-    </ThemeProvider>
-  </React.StrictMode>,
+              </Route>
+            </Routes>
+          </AuthProvider>
+        </ConfigProvider>
+      </APIFetcherProvider>
+    </BrowserRouter>
+  </ThemeProvider>,
 );
