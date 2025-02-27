@@ -1,4 +1,9 @@
 import React, { ReactNode, useContext, useState } from "react";
+import {
+  EventSourceController,
+  EventSourcePlus,
+  SseMessage,
+} from "event-source-plus";
 import { LOCALSTORAGE_TOKEN_KEY } from "src/provider/AuthProvider";
 
 import {
@@ -17,14 +22,20 @@ type ApiFetcherContextType = {
   };
   actions: {
     check: () => Promise<ConfigType | undefined>;
-    list_sse: (setData: (data: ProcessingItemType[]) => void) => EventSource;
+    list_sse: (setData: (data: ProcessingItemType[]) => void) => {
+      eventSource: EventSourcePlus;
+      controller: EventSourceController;
+    };
     save: (body: string) => Promise<unknown>;
     remove: (body: string) => Promise<unknown>;
     auth: (body: string) => Promise<AuthType | undefined>;
     is_auth_active: () => Promise<CheckAuthType | undefined>;
     get_token_sse: (
       setOutput: React.Dispatch<React.SetStateAction<string | undefined>>,
-    ) => EventSource;
+    ) => {
+      eventSource: EventSourcePlus;
+      controller: EventSourceController;
+    };
     delete_token: () => void;
   };
 };
@@ -92,6 +103,37 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     return output;
   }
 
+  function streamExpressJS(
+    url: string,
+    onMessage: (message: SseMessage) => void,
+  ) {
+    const token = localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
+
+    let headers = {};
+    if (token) {
+      headers = { Authorization: `Bearer ${token}` };
+    }
+
+    const eventSource = new EventSourcePlus(url, {
+      headers: headers,
+    });
+
+    const controller = eventSource.listen({
+      onMessage(message) {
+        onMessage(message);
+      },
+      onResponseError({ response }) {
+        console.log(`EventSource close : ${response}`);
+        controller.abort();
+      },
+    });
+
+    return {
+      controller,
+      eventSource,
+    };
+  }
+
   // Config
 
   async function check() {
@@ -100,23 +142,13 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
 
   // List processing
 
-  function list_sse(
-    setData: (data: ProcessingItemType[]) => void,
-  ): EventSource {
-    const eventSource = new EventSource(`${apiUrl}/stream_processing`);
-
-    eventSource.onmessage = function (event) {
-      if (event.data) {
-        setData(JSON.parse(event.data) as ProcessingItemType[]);
-      }
-    };
-
-    eventSource.onerror = function () {
-      console.log("EventSource close.");
-      eventSource.close();
-    };
-
-    return eventSource;
+  function list_sse(setData: (data: ProcessingItemType[]) => void): {
+    eventSource: EventSourcePlus;
+    controller: EventSourceController;
+  } {
+    return streamExpressJS(`${apiUrl}/stream_processing`, (message) => {
+      setData(JSON.parse(message.data) as ProcessingItemType[]);
+    });
   }
 
   async function save(body: string) {
@@ -159,33 +191,34 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
 
   function get_token_sse(
     setOutput: React.Dispatch<React.SetStateAction<string | undefined>>,
-  ) {
-    const eventSource = new EventSource(`${apiUrl}/run_token`);
+  ): {
+    eventSource: EventSourcePlus;
+    controller: EventSourceController;
+  } {
     const lastEventTime = Date.now();
     const inactivityTimeout = 15000; // 15 seconds
 
-    eventSource.onmessage = (event) => {
-      const url = event.data.match(/https?:\/\/[^\s]+/)?.[0];
-      if (url) {
-        setOutput(url);
-      } else {
-        setOutput((prevOutput) => `${prevOutput} ${event.data}`);
-      }
-    };
-
-    eventSource.onerror = () => {
-      eventSource.close();
-    };
+    const { eventSource, controller } = streamExpressJS(
+      `${apiUrl}/run_token`,
+      (message) => {
+        const url = message.data.match(/https?:\/\/[^\s]+/)?.[0];
+        if (url) {
+          setOutput(url);
+        } else {
+          setOutput((prevOutput) => `${prevOutput} ${message.data}`);
+        }
+      },
+    );
 
     const intervalId = setInterval(() => {
       if (Date.now() - lastEventTime > inactivityTimeout) {
         console.log("Inactivity timeout reached. Closing EventSource.");
-        eventSource.close();
+        controller.abort();
         clearInterval(intervalId);
       }
     }, 5000); // Check every 5 seconds
 
-    return eventSource;
+    return { eventSource, controller };
   }
 
   async function delete_token() {

@@ -1,5 +1,5 @@
 IMAGE=cstaelen/tidarr
-VERSION=0.0.8
+VERSION=testing
 DOCKERFILE=./docker/Dockerfile.prod
 DOCKER_COMPOSE  = $(or docker compose, docker-compose)
 
@@ -84,6 +84,7 @@ docker-run: ## Run tidarr docker image
 		-e ENABLE_BEETS=true \
 		-e PUID=501 \
 		-e PGID=501 \
+		-e ADMIN_PASSWORD=tidarr \
 	${IMAGE}
 
 ##

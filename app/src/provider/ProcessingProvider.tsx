@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { EventSourcePlus } from "event-source-plus";
 
 import {
   AlbumType,
@@ -44,7 +45,7 @@ const ProcessingContext = React.createContext<ProcessingContextType>(
 export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
   const [processingEventSource, setProcessingEventSource] =
-    useState<EventSource>();
+    useState<EventSourcePlus>();
   const {
     actions: { list_sse, remove, save },
   } = useApiFetcher();
@@ -121,7 +122,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   // Update front data
   const openStreamProcessing = useCallback(async () => {
     if (processingEventSource) return;
-    const eventSource = await list_sse(setProcessingList);
+    const { eventSource } = await list_sse(setProcessingList);
     setProcessingEventSource(eventSource);
   }, [list_sse, processingEventSource]);
 
