@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const isAccessGranted = useMemo(
     () => !!localStorage.getItem(LOCALSTORAGE_TOKEN_KEY),
-    [localStorage],
+    [],
   );
 
   function redirectAfterLogin() {

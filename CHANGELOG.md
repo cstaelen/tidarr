@@ -3,6 +3,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.16
+### 🖍 Changed
+* [Front] Enhance console modal output
+* [API] Update `tiddl` from `2.2.1` to version `2.2.2`
+* [API] Add server-sent events 
+
 ## 📦 0.1.15
 ### 🚀 Added
 * [Front] New "get all releases" button on artist pages

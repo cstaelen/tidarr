@@ -20,7 +20,7 @@ RUN python -m pip install "tiddl==2.2.2" requests ffmpeg-python mutagen
 RUN mkdir -p /home/app/standalone/shared/beets
 RUN touch /home/app/standalone/shared/beets/beets-library.blb
 RUN mkdir -p /home/app/standalone/download/incomplete/
-RUN npm install -g yarn
+RUN npm install -g yarn tsx
 
 COPY . .
 

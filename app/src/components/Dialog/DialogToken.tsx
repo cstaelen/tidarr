@@ -18,10 +18,10 @@ export const DialogToken = () => {
 
   useEffect(() => {
     if (!tokenMissing) return;
-    const eventSource = get_token_sse(setOutput);
+    const { controller } = get_token_sse(setOutput);
 
     return () => {
-      eventSource?.close();
+      controller?.abort();
     };
   }, [get_token_sse, running, tokenMissing]);
 
