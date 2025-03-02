@@ -146,9 +146,9 @@ export const DialogConfig = () => {
               color="warning"
               startIcon={<KeyOff />}
               onClick={async () => {
-                await delete_token();
                 actions.toggleModal(false);
-                await checkAPI();
+                await delete_token();
+                checkAPI();
               }}
             >
               Revoke Tidal token
