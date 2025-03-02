@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import WarningIcon from "@mui/icons-material/Warning";
 import { CircularProgress, Link, Paper, Typography } from "@mui/material";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
@@ -12,26 +12,36 @@ export const DialogToken = () => {
     actions: { get_token_sse },
   } = useApiFetcher();
   const [output, setOutput] = useState<string>();
-  const [running, setRunning] = useState<boolean>(false);
   const [forceClose, setForceClose] = useState<boolean>(false);
-  const eventSourceRef = useRef<EventSource>(null);
+  const [sseController, setSseController] = useState<AbortController>();
 
   useEffect(() => {
     if (!tokenMissing) return;
+    setOutput("");
+
     const { controller } = get_token_sse(setOutput);
+    setSseController(controller);
 
     return () => {
       controller?.abort();
     };
-  }, [get_token_sse, running, tokenMissing]);
+  }, [get_token_sse, tokenMissing]);
 
   useEffect(() => {
     if (!tokenMissing) return;
-    if (output?.includes("Authenticated!")) {
-      setRunning(false);
+    if (output?.includes("Authenticated!") || output?.includes("closing")) {
+      sseController?.abort();
+      setOutput("Authenticated !");
+      setSseController(undefined);
       actions.checkAPI();
     }
-  }, [actions, output, tokenMissing]);
+  }, [actions, output, sseController, tokenMissing]);
+
+  useEffect(() => {
+    if (!tokenMissing && sseController) {
+      sseController.abort();
+    }
+  }, [sseController, tokenMissing]);
 
   return (
     <DialogHandler
@@ -39,7 +49,7 @@ export const DialogToken = () => {
       icon={<WarningIcon color="error" />}
       onClose={() => {
         setForceClose(true);
-        eventSourceRef.current?.close();
+        sseController?.abort();
       }}
       open={!!tokenMissing && !forceClose}
     >
@@ -57,7 +67,7 @@ export const DialogToken = () => {
         <Link href={output} target="_blank">
           {output}
         </Link>
-        <CircularProgress size={16} sx={{ mx: 2 }} />
+        {sseController && <CircularProgress size={16} sx={{ mx: 2 }} />}
       </Paper>
       <Typography fontStyle="italic" fontSize={14} py={1}>
         This dialog will close after authentication.

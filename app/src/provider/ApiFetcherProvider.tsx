@@ -195,28 +195,19 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     eventSource: EventSourcePlus;
     controller: EventSourceController;
   } {
-    const lastEventTime = Date.now();
-    const inactivityTimeout = 15000; // 15 seconds
-
     const { eventSource, controller } = streamExpressJS(
       `${apiUrl}/run_token`,
       (message) => {
+        if (message.data?.length === 0) return;
+
         const url = message.data.match(/https?:\/\/[^\s]+/)?.[0];
         if (url) {
           setOutput(url);
         } else {
-          setOutput((prevOutput) => `${prevOutput} ${message.data}`);
+          setOutput(message.data);
         }
       },
     );
-
-    const intervalId = setInterval(() => {
-      if (Date.now() - lastEventTime > inactivityTimeout) {
-        console.log("Inactivity timeout reached. Closing EventSource.");
-        controller.abort();
-        clearInterval(intervalId);
-      }
-    }, 5000); // Check every 5 seconds
 
     return { eventSource, controller };
   }
