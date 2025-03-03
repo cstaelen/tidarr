@@ -1,6 +1,6 @@
 {
   "name": "tidarr-api",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "private": true,
   "devDependencies": {
     "@eslint/js": "^9.21.0",
