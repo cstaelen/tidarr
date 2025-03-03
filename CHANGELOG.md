@@ -3,6 +3,13 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.17
+### 🚀 Added
+* [Chore] Setup Dependabot
+### 🖍 Changed
+* [Front] Enhance token console modal output
+* [Chore] Renovate dependencies
+
 ## 📦 0.1.16
 ### 🖍 Changed
 * [Front] Enhance console modal output
