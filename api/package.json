@@ -5,7 +5,7 @@
   "devDependencies": {
     "@eslint/js": "^9.20.0",
     "@types/express": "^5.0.0",
-    "@types/jsonwebtoken": "^9.0.8",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.13.1",
     "@types/cors": "^2.8.17",
     "@typescript-eslint/parser": "^8.23.0",
