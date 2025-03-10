@@ -2,14 +2,19 @@ name: Playwright Tests
 on:
   push:
     branches-ignore: [ main, gh-pages ]
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}    
+    
+  pull_request:
+    branches:
+      - main
+
 jobs:
-  test:
+  queue-job:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     name: 'Playwright Tests'
+    concurrency:
+      group: ${{ github.ref }}
+      cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}    
     steps:
       - uses: actions/checkout@v4
       - name: Create prod build
