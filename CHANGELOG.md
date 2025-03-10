@@ -3,6 +3,11 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.18
+### 🖍 Changed
+* [API] Update `tiddl` from `2.2.2` to version `2.3.1`
+* [Chore] Update dependencies
+
 ## 📦 0.1.17
 ### 🚀 Added
 * [Chore] Setup Dependabot
