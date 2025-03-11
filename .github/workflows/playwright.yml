@@ -2,9 +2,15 @@ name: Playwright Tests
 on:
   push:
     branches-ignore: [ main, gh-pages ]
+    
+  pull_request:
+    branches:
+      - main
+
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}    
+
 jobs:
   test:
     timeout-minutes: 60
