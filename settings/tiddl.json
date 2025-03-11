@@ -8,7 +8,8 @@
     "download": {
         "quality": "high",
         "path": "/home/app/standalone/download/incomplete",
-        "threads": 4
+        "threads": 4,
+        "singles_filter": "none"
     },
     "auth": {
         "token": "",
