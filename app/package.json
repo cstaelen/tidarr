@@ -10,7 +10,7 @@
     "@mui/material": "^6.4.5",
     "@types/node": "^22.13.1",
     "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.3",
+    "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.0.1",
