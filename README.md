@@ -45,7 +45,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Server side download list processing
 - UI build with **ReactJS** + **ExpressJS** API
 - Self-hostable with **Docker** using a Linuxserver.io base image (uncompressed size: ~ 190 Mo)
-- Download from **Tidal** with [Tiddl (2.2.2)](https://github.com/oskvr37/tiddl/tree/v2.2.2)
+- Download from **Tidal** with [Tiddl (2.3.1)](https://github.com/oskvr37/tiddl/tree/v2.3.1)
 - Tag import using **Beets.io** (python)
 - Push notifications using **Gotify**
 - **Plex** library update
@@ -127,14 +127,7 @@ docker exec tiddl config --print
 How to get search token :
 - https://github.com/lucaslg26/TidalAPI/issues/23
 
-
 ### Download settings (optional)
-
-Those old environment variables are not available anymore :
-- ~~TIDDL_FORMAT=<format> # default: {artist}/{album}/{title}~~
-- ~~TIDDL_PLAYLIST_FORMAT=<format> # default: {playlist}/{playlist_number}-{artist}-{title}~~
-- ~~TIDDL_FORCE_EXT=<flac|mp3|m4a> # default: unset, depending the track downloaded.~~
-- ~~TIDDL_QUALITY=<low | normal | high | master> # default: high (16bit 44.1khz), max available: master (24bit 192khz max)~~
 
 -> You can set download options in `/your/docker/path/to/tidarr/config/tiddl.json`.
 
@@ -154,7 +147,9 @@ See default :
         "quality": "high",
         // Should not be changed (otherwise downloads will fail) /!\
         "path": "/home/app/standalone/download/incomplete",
-        "threads": 4
+        "threads": 4,
+        // Include or not singles while downloading "all releases"
+        "singles_filter": "none" // "none", "only", "include"
     },
     // Will be automatically filled by in-app authentication
     "auth": {

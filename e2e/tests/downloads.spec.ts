@@ -33,11 +33,11 @@ test("Tidarr download : Should be able to download track", async ({ page }) => {
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Tracks" }).first().click();
 
-  await expect(page.getByRole("main")).toContainText("Come As You Are");
+  await expect(page.getByRole("main")).toContainText("Stay Away");
 
-  await page.getByRole("button", { name: "Track" }).first().click();
+  await page.getByRole("button", { name: "Track" }).nth(3).click();
 
-  await testProcessingList(page, ["Nirvana", "Come As You Are", "track"]);
+  await testProcessingList(page, ["Nirvana", "Stay Away", "track"]);
 });
 
 test("Tidarr download : Should be able to download track album", async ({

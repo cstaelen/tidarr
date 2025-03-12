@@ -6,6 +6,7 @@ Tidarr notable changes.
 ## 📦 0.1.18
 ### 🖍 Changed
 * [API] Update `tiddl` from `2.2.2` to version `2.3.1`
+* [Chore] "singles_filter" download option is now available
 * [Chore] Update dependencies
 
 ## 📦 0.1.17
