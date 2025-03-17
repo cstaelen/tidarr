@@ -33,11 +33,17 @@ test("Tidarr download : Should be able to download track", async ({ page }) => {
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Tracks" }).first().click();
 
-  await expect(page.getByRole("main")).toContainText("Stay Away");
+  await expect(page.getByRole("main")).toContainText(
+    "Smells Like Teen Spiritlossless5 min.NirvanaAlbum : NevermindAlbumTrack",
+  );
 
-  await page.getByRole("button", { name: "Track" }).nth(3).click();
+  await page.getByRole("button", { name: "Track" }).nth(0).click();
 
-  await testProcessingList(page, ["Nirvana", "Stay Away", "track"]);
+  await testProcessingList(page, [
+    "Nirvana",
+    "Smells Like Teen Spirit",
+    "track",
+  ]);
 });
 
 test("Tidarr download : Should be able to download track album", async ({
