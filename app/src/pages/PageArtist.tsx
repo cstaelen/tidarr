@@ -105,7 +105,11 @@ function ArtistContent() {
             {artistResults?.blocks?.map((block, index1) => (
               <Tab
                 key={`tab-anchor-${index1}`}
-                label={`${block.title} (${block.pagedList.totalNumberOfItems})`}
+                label={`${
+                  block.title.toLowerCase() === "featured albums"
+                    ? "Albums"
+                    : block.title
+                } (${block.pagedList.totalNumberOfItems})`}
                 {...a11yProps(index1)}
                 sx={{ alignItems: "center" }}
               />
@@ -128,7 +132,10 @@ function ArtistContent() {
           <Box marginBottom={5}>
             <hr />
             <h2>
-              {block.title} ({block.pagedList.totalNumberOfItems})
+              {block.title.toLowerCase() === "featured albums"
+                ? "Albums"
+                : block.title}{" "}
+              ({block.pagedList.totalNumberOfItems})
             </h2>
             <hr />
             <br />
