@@ -35,7 +35,7 @@ function StackChips({ track }: { track: TrackType }) {
   const theme = useTheme();
 
   return (
-    <>
+    <Box display="inline-block">
       <Chip
         label={track.audioQuality.toLowerCase()}
         color="primary"
@@ -57,7 +57,7 @@ function StackChips({ track }: { track: TrackType }) {
         color="success"
         size="small"
       />
-    </>
+    </Box>
   );
 }
 
@@ -172,11 +172,10 @@ function TrackCard({ track }: { track: TrackType }) {
         alignItems="center"
         style={{
           minHeight: "60px",
-          padding: "0.4rem 0.5rem 0.5rem",
           backgroundColor: "rgba(255, 255, 255, 0.04)",
         }}
       >
-        <ArtistAvatar track={track} />
+        <CoverLink track={track} height={60} width={60} />
         <div style={{ lineHeight: 1.4, flex: "1 1 0" }}>
           <TitleLink track={track} />
           {` `}
@@ -189,10 +188,11 @@ function TrackCard({ track }: { track: TrackType }) {
             {` `}by{` `}
             <ArtistLink track={track} />
           </Typography>
+          &nbsp;
+          <StackChips track={track} />
         </div>
       </Stack>
       <Stack direction={"row"}>
-        <CoverLink track={track} height={120} width={120} />
         <Box
           sx={{
             display: "flex",
@@ -201,23 +201,21 @@ function TrackCard({ track }: { track: TrackType }) {
             position: "relative",
           }}
         >
-          <CardContent
-            sx={{ flex: "0 0 auto", padding: "0.5rem 1rem !important" }}
-          >
-            <Stack direction="row" flexWrap="wrap" spacing={1} marginBottom={1}>
-              <StackChips track={track} />
+          <CardContent sx={{ p: "0.5rem !important", m: 0 }}>
+            <Stack direction="row">
+              <Box
+                flex="1 1 0"
+                lineHeight={1.2}
+                fontSize={14}
+                minHeight={30}
+                alignContent="center"
+              >
+                <AlbumLink track={track} />
+              </Box>
+              <div>
+                <StackDownloadButtons track={track} />
+              </div>
             </Stack>
-
-            <Box
-              lineHeight={1.2}
-              marginBottom={1}
-              fontSize={14}
-              minHeight={30}
-              alignContent="center"
-            >
-              <AlbumLink track={track} />
-            </Box>
-            <StackDownloadButtons track={track} />
           </CardContent>
         </Box>
       </Stack>

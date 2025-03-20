@@ -4,7 +4,10 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 0.1.19
+### 🐛 Fixed
+* [Front] Show music videos on artist page
 ### 🖍 Changed
+* [Front] Update track mobile template
 * [API] Update `tiddl` from `2.3.1` to version `2.3.2`
 
 ## 📦 0.1.18

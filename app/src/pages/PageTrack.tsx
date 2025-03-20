@@ -27,7 +27,10 @@ export default function PageTrack() {
           </Box>
           {album ? (
             <>
-              <h2>Related album :</h2>
+              <hr />
+              <h2>Related release :</h2>
+              <hr />
+              <br />
               <Box mb={2}>
                 <AlbumHeader album={album} />
               </Box>

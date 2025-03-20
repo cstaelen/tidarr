@@ -13,7 +13,6 @@ export default function ArtistHeader({ artist }: { artist: ArtistType }) {
         /-/g,
         "/",
       )}/750x750.jpg`}
-      beforeTitle={<>Artist(s)</>}
       afterTitle={
         <DownloadButton
           item={artist}
@@ -22,6 +21,7 @@ export default function ArtistHeader({ artist }: { artist: ArtistType }) {
           label="Get all releases"
         />
       }
+      subtitle="Artist(s)"
     />
   );
 }

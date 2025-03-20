@@ -11,6 +11,7 @@ export default function Mix({ mix }: { mix: MixType }) {
         title={mix.title}
         url={mix.url || ""}
         image={mix.images.SMALL.url}
+        subtitle="Mix"
         beforeTitle={<>Mix/Radio</>}
         afterTitle={
           <Typography
