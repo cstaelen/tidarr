@@ -18,6 +18,7 @@ export default function PlaylistHeader({
         /-/g,
         "/",
       )}/750x750.jpg`}
+      subtitle="Playlist"
       beforeTitle={<>Playlist</>}
       afterTitle={
         <Stack direction="row" alignItems="center" flexWrap="wrap" spacing={1}>

@@ -43,10 +43,7 @@ test("Tidarr direct url : Should display album result using Tidal album url", as
   await runSearch("https://listen.tidal.com/album/121121877", page);
 
   await expect(
-    page
-      .locator("div")
-      .filter({ hasText: /^Land Of The Free\?$/ })
-      .getByRole("link"),
+    page.locator("a h1").filter({ hasText: /^Land Of The Free\?$/ }),
   ).toBeVisible();
 
   await expect(
@@ -96,19 +93,15 @@ test("Tidarr direct url : Should display track result using Tidal track url", as
 
   await expect(
     page
-      .locator("div")
+      .locator("a h1")
       .filter({ hasText: /^Lithium$/ })
-      .getByRole("link")
       .first(),
   ).toBeVisible();
 
   // Should see Album
 
   await expect(
-    page
-      .locator("div")
-      .filter({ hasText: /^Nevermind$/ })
-      .getByRole("link"),
+    page.locator("a h1").filter({ hasText: /^Nevermind$/ }),
   ).toBeVisible();
 
   // Should see Album download button

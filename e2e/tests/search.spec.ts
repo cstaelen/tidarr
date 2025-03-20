@@ -148,9 +148,8 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
 
   await expect(
     page
-      .locator("div")
+      .locator("a h1")
       .filter({ hasText: /^Nirvana$/ })
-      .getByRole("link")
       .first(),
   ).toBeVisible();
 
@@ -283,11 +282,11 @@ test("Tidarr search : Should see quality filtered results", async ({
     await page.getByRole("button", { name: "Lossless" }),
   ).toHaveAttribute("aria-pressed", "true");
 
-  await countItems(".MuiGrid-item:visible", 54, page);
+  await countItems(".MuiGrid-item:visible", 64, page);
 
   await page.getByRole("button", { name: "High" }).click();
 
-  await countItems(".MuiGrid-item:visible", 0, page);
+  await countItems(".MuiGrid-item:visible", 10, page);
 });
 
 test("Tidarr search : Should have two display mode", async ({ page }) => {

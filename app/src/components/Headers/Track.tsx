@@ -1,4 +1,12 @@
-import { Chip, Stack, useTheme } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import {
+  Avatar,
+  Button,
+  Chip,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { TrackType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
@@ -7,6 +15,7 @@ import PageHeader from "./Header";
 
 export default function TrackHeader({ track }: { track: TrackType }) {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
     <PageHeader
@@ -17,7 +26,38 @@ export default function TrackHeader({ track }: { track: TrackType }) {
         /-/g,
         "/",
       )}/750x750.jpg`}
-      beforeTitle={<>Track</>}
+      subtitle="Track"
+      beforeTitle={
+        <Stack direction="row" flexWrap="wrap" spacing={1} alignItems="center">
+          <Avatar
+            alt={track.artists?.[0]?.name}
+            sx={{ width: 42, height: 42 }}
+            src={`https://resources.tidal.com/images/${track.artists?.[0]?.picture?.replace(
+              /-/g,
+              "/",
+            )}/750x750.jpg`}
+          />
+          <Typography
+            variant="subtitle2"
+            color="text.secondary"
+            component="span"
+            style={{ lineHeight: 1 }}
+          >
+            {` `}by{` `}
+            <Button
+              variant="text"
+              size="small"
+              color="inherit"
+              style={{ padding: "0 0.15rem" }}
+              onClick={() => {
+                navigate(`/artist/${track.artists[0].id}`);
+              }}
+            >
+              <strong>{track.artists?.[0]?.name}</strong>
+            </Button>
+          </Typography>
+        </Stack>
+      }
       afterTitle={
         <>
           <Stack

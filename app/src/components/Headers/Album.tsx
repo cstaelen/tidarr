@@ -98,6 +98,7 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
           </Typography>
         </Stack>
       }
+      subtitle={album.type}
     />
   );
 }

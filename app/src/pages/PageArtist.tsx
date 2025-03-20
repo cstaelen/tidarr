@@ -126,6 +126,7 @@ function ArtistContent() {
           component="section"
         >
           <Box marginBottom={5}>
+            <hr />
             <h2>
               {block.title} ({block.pagedList.totalNumberOfItems})
             </h2>
@@ -142,6 +143,7 @@ function ArtistContent() {
                   sx={{
                     display:
                       quality === "all" ||
+                      block.type === "VIDEO_LIST" ||
                       (content as AlbumType)?.audioQuality?.toLowerCase() ===
                         quality
                         ? "block"
