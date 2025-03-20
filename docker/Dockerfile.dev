@@ -15,7 +15,7 @@ RUN python3 -m venv $HOME/.venvs
 RUN source $HOME/.venvs/bin/activate
 ENV PATH="$HOME/.venvs/bin:$PATH"
 
-RUN python -m pip install "tiddl==2.3.1" requests ffmpeg-python mutagen
+RUN python -m pip install "tiddl==2.3.2" requests ffmpeg-python mutagen
 
 RUN mkdir -p /home/app/standalone/shared/beets
 RUN touch /home/app/standalone/shared/beets/beets-library.blb
