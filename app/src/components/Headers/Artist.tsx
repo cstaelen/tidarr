@@ -1,9 +1,10 @@
-import { Alert, AlertTitle } from "@mui/material";
+import { Alert, AlertTitle, Link } from "@mui/material";
 import { ArtistType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
 
 import PageHeader from "./Header";
+import { OpenInNew, OpenInNewOutlined } from "@mui/icons-material";
 
 export default function ArtistHeader({ artist }: { artist: ArtistType }) {
   return (
@@ -33,12 +34,12 @@ export default function ArtistHeader({ artist }: { artist: ArtistType }) {
         To include them, please update "singles_filter" parameter in your
         "tiddl.json" file.
         <br />
-        <a
+        <Link
           href="https://github.com/cstaelen/tidarr?tab=readme-ov-file#download-settings-optional"
           target="_blank"
         >
-          More details
-        </a>
+          More details on Github
+        </Link>
         .
       </Alert>
     </>
