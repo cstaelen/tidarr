@@ -4,7 +4,6 @@ import { ArtistType } from "src/types";
 import { DownloadButton } from "../Buttons/DownloadButton";
 
 import PageHeader from "./Header";
-import { OpenInNew, OpenInNewOutlined } from "@mui/icons-material";
 
 export default function ArtistHeader({ artist }: { artist: ArtistType }) {
   return (
