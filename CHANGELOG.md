@@ -9,6 +9,7 @@ Tidarr notable changes.
 ### 🖍 Changed
 * [Front] Update track mobile template
 * [API] Update `tiddl` from `2.3.1` to version `2.3.2`
+* [Chore] Update dependencies
 
 ## 📦 0.1.18
 ### 🖍 Changed
