@@ -4,7 +4,7 @@
   "private": true,
   "devDependencies": {
     "@eslint/js": "^9.22.0",
-    "@types/express": "^5.0.0",
+    "@types/express": "^5.0.1",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.13.10",
     "@types/cors": "^2.8.17",
