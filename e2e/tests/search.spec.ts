@@ -9,7 +9,7 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
 }) => {
   await runSearch("Nirvana", page);
   await expect(page.locator("#full-width-tab-0")).toContainText(
-    "Top results (1192)",
+    "Top results (1193)",
   );
 
   await expect(page.getByRole("heading", { name: "Artist(s)" })).toBeVisible();
@@ -62,7 +62,7 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
   );
 
   await expect(
-    page.getByRole("button", { name: "See all playlists (192)" }),
+    page.getByRole("button", { name: "See all playlists (193)" }),
   ).toBeVisible();
 });
 
@@ -186,10 +186,10 @@ test("Tidarr search : Should see tracks results", async ({ page }) => {
 test("Tidarr search : Should see playlists results", async ({ page }) => {
   await runSearch("Nirvana", page);
   await expect(page.locator("#full-width-tab-4")).toContainText(
-    "Playlists (192)",
+    "Playlists (193)",
   );
 
-  await page.getByRole("tab", { name: "Playlists (192)" }).click();
+  await page.getByRole("tab", { name: "Playlists (193)" }).click();
   await waitForImgLoaded(page);
 
   await countItems("#full-width-tabpanel-4 .MuiGrid-item", 18, page);
