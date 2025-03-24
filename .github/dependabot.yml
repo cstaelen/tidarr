@@ -9,15 +9,31 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    groups:
+      root-dependencies:
+        patterns: 
+          - "*"
   - package-ecosystem: "npm"
     directory: "/app"
     schedule:
       interval: "daily"
+    groups:
+      app-dependencies:
+        patterns: 
+          - "*"
   - package-ecosystem: "npm"
     directory: "/api"
     schedule:
       interval: "daily"
+    groups:
+      api-dependencies:
+        patterns: 
+          - "*"
   - package-ecosystem: "npm"
     directory: "/e2e"
     schedule:
       interval: "daily"
+    groups:
+      e2e-dependencies:
+        patterns: 
+          - "*"
