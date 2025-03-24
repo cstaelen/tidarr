@@ -7,7 +7,7 @@
     "@emotion/styled": "^11.14.0",
     "@eslint/js": "^9.21.0",
     "@mui/icons-material": "^6.4.5",
-    "@mui/material": "^6.4.5",
+    "@mui/material": "^6.4.8",
     "@types/node": "^22.13.10",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
