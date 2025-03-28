@@ -13,27 +13,14 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
   );
 
   await expect(page.getByRole("heading", { name: "Artist(s)" })).toBeVisible();
-  await countItems(
-    "#full-width-tabpanel-0 > div > div:first-child .MuiGrid-item",
-    3,
-    page,
-  );
+  await countItems("#full-width-tabpanel-0 > div > div:nth-child(1)", 3, page);
 
   await expect(
     page.getByRole("button", { name: "See all artists (100)" }),
   ).toBeVisible();
 
   await expect(page.getByRole("heading", { name: "Album(s)" })).toBeVisible();
-  const countAlbums = await page
-    .locator("#full-width-tabpanel-0 > div > div:nth-child(2) .MuiGrid-item")
-    .count();
-  await expect(countAlbums).toEqual(9);
-
-  await countItems(
-    "#full-width-tabpanel-0 > div > div:nth-child(2) .MuiGrid-item",
-    9,
-    page,
-  );
+  await countItems("#full-width-tabpanel-0 > div >  div:nth-child(2)", 9, page);
 
   await expect(
     page.getByRole("button", { name: "See all albums (300)" }),
@@ -41,11 +28,7 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
 
   await expect(page.getByRole("heading", { name: "Track(s)" })).toBeVisible();
 
-  await countItems(
-    "#full-width-tabpanel-0 > div > div:nth-child(3) .MuiGrid-item",
-    6,
-    page,
-  );
+  await countItems("#full-width-tabpanel-0 > div >  div:nth-child(3)", 6, page);
 
   await expect(
     page.getByRole("button", { name: "See all tracks (300)" }),
@@ -55,11 +38,7 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
     page.getByRole("heading", { name: "Playlist(s)" }),
   ).toBeVisible();
 
-  await countItems(
-    "#full-width-tabpanel-0 > div > div:nth-child(4) .MuiGrid-item",
-    6,
-    page,
-  );
+  await countItems("#full-width-tabpanel-0 > div >  div:nth-child(4)", 6, page);
 
   await expect(
     page.getByRole("button", { name: "See all playlists (193)" }),
@@ -73,7 +52,7 @@ test("Tidarr search : Should see albums results", async ({ page }) => {
   await page.getByRole("tab", { name: "Albums (300)" }).click();
   await waitForImgLoaded(page);
 
-  await countItems("#full-width-tabpanel-1 .MuiGrid-item", 18, page);
+  await countItems("#full-width-tabpanel-1", 18, page);
 
   await expect(
     page.getByRole("button", { name: "LOAD MORE (page: 1/17)" }),
@@ -82,7 +61,7 @@ test("Tidarr search : Should see albums results", async ({ page }) => {
   // Test album card snapshot
 
   await expect(
-    page.locator("#full-width-tabpanel-1 .MuiGrid-item").first(),
+    page.locator("#full-width-tabpanel-1").getByTestId("item").first(),
   ).toHaveScreenshot();
 
   // Test pager
@@ -90,7 +69,7 @@ test("Tidarr search : Should see albums results", async ({ page }) => {
   await page.getByRole("button", { name: "LOAD MORE (page: 1/17)" }).click();
   await waitForLoader(page);
 
-  await countItems("#full-width-tabpanel-1 .MuiGrid-item", 36, page);
+  await countItems("#full-width-tabpanel-1", 36, page);
 });
 
 test("Tidarr search : Should see artists results", async ({ page }) => {
@@ -102,7 +81,7 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
   await page.getByRole("tab", { name: "Artists (100)" }).click();
   await waitForImgLoaded(page);
 
-  await countItems("#full-width-tabpanel-2 .MuiGrid-item", 18, page);
+  await countItems("#full-width-tabpanel-2", 18, page);
 
   await expect(
     page.getByRole("button", { name: "LOAD MORE (page: 1/6)" }),
@@ -111,7 +90,7 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
   // Test album card snapshot
 
   await expect(
-    page.locator("#full-width-tabpanel-2 .MuiGrid-item").first(),
+    page.locator("#full-width-tabpanel-2").getByTestId("item").first(),
   ).toHaveScreenshot();
 
   // Test pager
@@ -119,7 +98,7 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
   await page.getByRole("button", { name: "LOAD MORE (page: 1/6)" }).click();
   await waitForLoader(page);
 
-  await countItems("#full-width-tabpanel-2 .MuiGrid-item", 36, page);
+  await countItems("#full-width-tabpanel-2", 36, page);
 
   // On last page, pager should be hidden
 
@@ -139,7 +118,8 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
   // Click on discography should redirect to artist page
 
   await page
-    .locator("#full-width-tabpanel-2 .MuiGrid-item")
+    .locator("#full-width-tabpanel-2")
+    .getByTestId("item")
     .first()
     .getByRole("button", { name: "Show discography" })
     .click();
@@ -163,7 +143,7 @@ test("Tidarr search : Should see tracks results", async ({ page }) => {
   await page.getByRole("tab", { name: "Tracks (300)" }).click();
   await waitForImgLoaded(page);
 
-  await countItems("#full-width-tabpanel-3 .MuiGrid-item", 18, page);
+  await countItems("#full-width-tabpanel-3", 18, page);
 
   await expect(
     page.getByRole("button", { name: "LOAD MORE (page: 1/17)" }),
@@ -172,7 +152,7 @@ test("Tidarr search : Should see tracks results", async ({ page }) => {
   // Test album card snapshot
 
   await expect(
-    page.locator("#full-width-tabpanel-3 .MuiGrid-item").first(),
+    page.locator("#full-width-tabpanel-3").getByTestId("item").first(),
   ).toHaveScreenshot();
 
   // Test pager
@@ -180,7 +160,7 @@ test("Tidarr search : Should see tracks results", async ({ page }) => {
   await page.getByRole("button", { name: "LOAD MORE (page: 1/17)" }).click();
   await waitForLoader(page);
 
-  await countItems("#full-width-tabpanel-3 .MuiGrid-item", 36, page);
+  await countItems("#full-width-tabpanel-3", 36, page);
 });
 
 test("Tidarr search : Should see playlists results", async ({ page }) => {
@@ -192,7 +172,7 @@ test("Tidarr search : Should see playlists results", async ({ page }) => {
   await page.getByRole("tab", { name: "Playlists (193)" }).click();
   await waitForImgLoaded(page);
 
-  await countItems("#full-width-tabpanel-4 .MuiGrid-item", 18, page);
+  await countItems("#full-width-tabpanel-4", 18, page);
 
   await expect(
     page.getByRole("button", { name: "LOAD MORE (page: 1/11)" }),
@@ -201,7 +181,7 @@ test("Tidarr search : Should see playlists results", async ({ page }) => {
   // Test album card snapshot
 
   await expect(
-    page.locator("#full-width-tabpanel-4 .MuiGrid-item").first(),
+    page.locator("#full-width-tabpanel-4").getByTestId("item").first(),
   ).toHaveScreenshot();
 
   // Test pager
@@ -209,7 +189,7 @@ test("Tidarr search : Should see playlists results", async ({ page }) => {
   await page.getByRole("button", { name: "LOAD MORE (page: 1/11)" }).click();
   await waitForLoader(page);
 
-  await countItems("#full-width-tabpanel-4 .MuiGrid-item", 36, page);
+  await countItems("#full-width-tabpanel-4", 36, page);
 });
 
 test("Tidarr search : Should see videos results", async ({ page }) => {
@@ -219,7 +199,7 @@ test("Tidarr search : Should see videos results", async ({ page }) => {
   await page.getByRole("tab", { name: "Videos (300)" }).click();
   await waitForImgLoaded(page);
 
-  await countItems("#full-width-tabpanel-5 .MuiGrid-item", 18, page);
+  await countItems("#full-width-tabpanel-5", 18, page);
 
   await expect(
     page.getByRole("button", { name: "LOAD MORE (page: 1/17)" }),
@@ -228,7 +208,7 @@ test("Tidarr search : Should see videos results", async ({ page }) => {
   // Test album card snapshot
 
   await expect(
-    page.locator("#full-width-tabpanel-5 .MuiGrid-item").first(),
+    page.locator("#full-width-tabpanel-5").getByTestId("item").first(),
   ).toHaveScreenshot();
 
   // Test pager
@@ -236,7 +216,7 @@ test("Tidarr search : Should see videos results", async ({ page }) => {
   await page.getByRole("button", { name: "LOAD MORE (page: 1/17)" }).click();
   await waitForLoader(page);
 
-  await countItems("#full-width-tabpanel-5 .MuiGrid-item", 36, page);
+  await countItems("#full-width-tabpanel-5", 36, page);
 });
 
 test("Tidarr search : Should see quality filtered results", async ({
@@ -249,7 +229,7 @@ test("Tidarr search : Should see quality filtered results", async ({
     page.getByRole("heading", { name: "Albums (21)" }),
   ).toBeInViewport();
 
-  await countItems(".MuiGrid-item", 67, page);
+  await expect(page.getByTestId("item")).toHaveCount(67);
 
   const countLossless = await page
     .locator(".MuiChip-root")
@@ -282,11 +262,21 @@ test("Tidarr search : Should see quality filtered results", async ({
     await page.getByRole("button", { name: "Lossless" }),
   ).toHaveAttribute("aria-pressed", "true");
 
-  await countItems(".MuiGrid-item:visible", 64, page);
+  // await countItems(".MuiPaper-root:visible", 64, page);
+  await expect(
+    page.locator('[data-testid="item"]', {
+      has: page.locator(":visible"),
+    }),
+  ).toHaveCount(64);
 
   await page.getByRole("button", { name: "High" }).click();
 
-  await countItems(".MuiGrid-item:visible", 10, page);
+  // await countItems(".MuiPaper-root:visible", 10, page);
+  await expect(
+    page.locator('[data-testid="item"]', {
+      has: page.locator(":visible"),
+    }),
+  ).toHaveCount(10);
 });
 
 test("Tidarr search : Should have two display mode", async ({ page }) => {
@@ -295,9 +285,8 @@ test("Tidarr search : Should have two display mode", async ({ page }) => {
 
   await expect(
     page
-      .locator(
-        "#full-width-tabpanel-0 > div > div:nth-child(2) > div > div > div",
-      )
+      .locator("#full-width-tabpanel-0 > div > div:nth-child(2)")
+      .getByTestId("item")
       .first(),
   ).toHaveScreenshot();
 
@@ -305,9 +294,8 @@ test("Tidarr search : Should have two display mode", async ({ page }) => {
 
   await expect(
     page
-      .locator(
-        "#full-width-tabpanel-0 > div > div:nth-child(2) > div > div > div",
-      )
+      .locator("#full-width-tabpanel-0 > div > div:nth-child(2)")
+      .getByTestId("item")
       .first(),
   ).toHaveScreenshot();
 });

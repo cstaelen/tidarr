@@ -30,6 +30,6 @@ export async function countItems(
   page: Page,
 ) {
   await page.waitForTimeout(500);
-  const count = await page.locator(wrapperSelector).count();
+  const count = await page.locator(wrapperSelector).getByTestId("item").count();
   await expect(count).toEqual(toEqual);
 }

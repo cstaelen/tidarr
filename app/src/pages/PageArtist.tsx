@@ -142,10 +142,8 @@ function ArtistContent() {
             <Grid container spacing={2}>
               {block.pagedList.items.map((content, index2) => (
                 <Grid
-                  item
-                  xs={12}
-                  md={6}
-                  lg={4}
+                  data-testid="item"
+                  size={{ xs: 12, md: 6, lg: 4 }}
                   key={`card-${index1}-${index2}`}
                   sx={{
                     display:
