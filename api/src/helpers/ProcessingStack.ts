@@ -1,5 +1,6 @@
 import { Express, Request, Response } from "express";
 
+import { appriseApiPush } from "../services/apprise-api";
 import { beets } from "../services/beets";
 import { gotifyPush } from "../services/gotify";
 import { plexUpdate } from "../services/plex";
@@ -94,18 +95,30 @@ export const ProcessingStack = (expressApp: Express) => {
   async function postProcessing(item: ProcessingItemType) {
     const stdout = [];
 
+    // Beets process
     await beets(item.id, expressApp);
+
+    // Move to output folder
     await moveAndClean(item.id, expressApp);
 
     if (item["status"] === "finished") {
+      // Plex library update
       const responsePlex = await plexUpdate();
       stdout.push(responsePlex?.output);
 
+      // Gotify notification
       const responseGotify = await gotifyPush(
         `${item?.title} - ${item?.artist}`,
         item.type,
       );
       stdout.push(responseGotify?.output);
+
+      // Apprise API notification
+      const responseAppriseApi = await appriseApiPush(
+        `${item?.title} - ${item?.artist}`,
+        item.type,
+      );
+      stdout.push(responseAppriseApi?.output);
 
       item["output"] = logs(item, stdout.join("\r\n"));
       expressApp.settings.processingList.actions.updateItem(item);
