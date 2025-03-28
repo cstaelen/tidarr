@@ -9,7 +9,7 @@
   "devDependencies": {
     "@eslint/js": "^9.23.0",
     "@playwright/test": "^1.51.1",
-    "@types/node": "^22.13.13",
+    "@types/node": "^22.13.14",
     "@typescript-eslint/parser": "^8.28.0",
     "dotenv": "^16.4.7",
     "eslint": "^9.23.0",
