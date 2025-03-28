@@ -1,5 +1,7 @@
 import { execSync } from "child_process";
 
+import { curl_escape_all } from "../helpers/curl_escape";
+
 export async function appriseApiPush(title: string, type: string) {
   if (
     process.env.ENABLE_APPRISE_API !== "true" ||
@@ -12,12 +14,11 @@ export async function appriseApiPush(title: string, type: string) {
 
   try {
     const url = process.env.APPRISE_API_ENDPOINT;
-    const pushTitle = `New ${type} added`;
-    const message = `${title} added to music library`;
-    const response = await execSync(
-      `curl -d '{"body":"${message}", "title":"${pushTitle}","tag":"tidarr"}' -H "Content-Type: application/json" ${url}`,
-      { encoding: "utf-8" },
-    );
+    const pushTitle = curl_escape_all(`New ${type} added`);
+    const message = curl_escape_all(`${title} added to music library`);
+    const command = `curl -d '{"body":"${message}", "title":"${pushTitle}","tag":"${process.env.APPRISE_API_TAG || "all"}"}' -H "Content-Type: application/json" ${url}`;
+    console.log(command);
+    const response = await execSync(command, { encoding: "utf-8" });
 
     return {
       error: false,

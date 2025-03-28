@@ -26,6 +26,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Beets](#beets-optional)
   - [Plex/Plexamp](#plex-update-optional)
   - [Gotify](#gotify-optional)
+  - [Apprise Api](#apprise-api-optional)
 - [User requests](#user-requests)
 - [Donate](#donate)
 - [Develop](#develop)
@@ -45,9 +46,9 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Server side download list processing
 - UI build with **ReactJS** + **ExpressJS** API
 - Self-hostable with **Docker** using a Linuxserver.io base image (uncompressed size: ~ 190 Mo)
-- Download from **Tidal** with [Tiddl (2.3.1)](https://github.com/oskvr37/tiddl/tree/v2.3.1)
+- Download from **Tidal** with [Tiddl (2.3.2)](https://github.com/oskvr37/tiddl/tree/v2.3.2)
 - Tag import using **Beets.io** (python)
-- Push notifications using **Gotify**
+- Push notifications using **Gotify** and **Apprise API**
 - **Plex** library update
 
 ### Companion
@@ -231,7 +232,18 @@ environment:
   - GOTIFY_TOKEN=<gotify_app_token>
 ```
 
-Doc: https://github.com/oskvr37/tiddl
+### Apprise API (optional)
+
+Add to your *docker-compose* file in `environment:` section :
+
+```yaml
+environment:
+  - ...
+  - ENABLE_APPRISE_API=true
+  - APPRISE_API_ENDPOINT=http://{apprise_api_url}:{port}/notify/{config_id}
+  - APPRISE_API_TAG=tidarr # optional
+```
+If no tag is defined, default tag value will be "all".
 
 ## User requests
 As I'am the only maintainer for now, user requested features can takes time.
