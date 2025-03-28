@@ -52,10 +52,12 @@ export default function TypeResults(props: TabContentProps) {
               index: number,
             ) => (
               <Grid
-                item
-                xs={12}
-                md={display === "small" && props.type === "tracks" ? 12 : 6}
-                lg={display === "small" && props.type === "tracks" ? 12 : 4}
+                data-testid="item"
+                size={{
+                  xs: 12,
+                  md: display === "small" && props.type === "tracks" ? 12 : 6,
+                  lg: display === "small" && props.type === "tracks" ? 12 : 4,
+                }}
                 key={`album-${index}`}
                 sx={{
                   display:

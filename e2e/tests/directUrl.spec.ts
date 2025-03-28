@@ -20,7 +20,7 @@ async function testArtistSection(
   ).toBeVisible();
 
   await countItems(
-    `div > section.MuiContainer-root:nth-child(${sectionIndex + 1}) .MuiGrid-item`,
+    `div > section.MuiContainer-root:nth-child(${sectionIndex + 1})`,
     count < 18 ? count : 18,
     page,
   );
@@ -30,7 +30,7 @@ async function testArtistSection(
     await waitForLoader(page);
 
     await countItems(
-      `div > section.MuiContainer-root:nth-child(${sectionIndex + 1}) .MuiGrid-item`,
+      `div > section.MuiContainer-root:nth-child(${sectionIndex + 1})`,
       count,
       page,
     );
