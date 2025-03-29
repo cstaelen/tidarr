@@ -60,6 +60,8 @@ export type AlbumType = {
   url: string;
 };
 
+// VIDEO
+
 export type VideoType = {
   id: string;
   title: string;

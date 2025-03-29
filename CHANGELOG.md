@@ -3,6 +3,14 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.20
+### 🚀 Added
+* [API] Support for Apprise API notifications
+### 🐛 Fixed
+* [API] Gotify notification failed on double quotes present in title
+### 🖍 Changed
+* [Chore] Update dependencies
+
 ## 📦 0.1.19
 ### 🐛 Fixed
 * [Front] Show music videos on artist page

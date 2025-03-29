@@ -1,5 +1,7 @@
 import { execSync } from "child_process";
 
+import { curl_escape_double_quote } from "../helpers/curl_escape";
+
 export async function gotifyPush(title: string, type: string) {
   if (
     process.env.ENABLE_GOTIFY === "true" &&
@@ -12,8 +14,10 @@ export async function gotifyPush(title: string, type: string) {
       const url = `${process.env.GOTIFY_URL}/message?token=${encodeURIComponent(process.env.GOTIFY_TOKEN)}`;
       console.log("URL:", url);
 
-      const pushTitle = `New ${type} added`;
-      const message = `${title} added to music library`;
+      const pushTitle = curl_escape_double_quote(`New ${type} added`);
+      const message = curl_escape_double_quote(
+        `${title} added to music library`,
+      );
       const response = await execSync(
         `curl -s ${url} -F title="${pushTitle}" -F message="${message}" -F priority=5`,
         { encoding: "utf-8" },
