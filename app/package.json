@@ -26,8 +26,8 @@
     "react-router-dom": "^7.4.1",
     "ts-prune": "^0.10.3",
     "typescript": "^5.8.2",
-    "typescript-eslint": "^8.28.0",
-    "vite": "^6.2.3"
+    "typescript-eslint": "^8.29.0",
+    "vite": "^6.2.4"
   },
   "scripts": {
     "start": "vite dev",
