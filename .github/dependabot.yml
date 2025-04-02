@@ -7,33 +7,24 @@ version: 2
 updates:
   - package-ecosystem: "npm"
     directory: "/"
+    rebase-strategy: auto
     schedule:
       interval: "daily"
-    groups:
-      root-dependencies:
-        patterns: 
-          - "*"
+
   - package-ecosystem: "npm"
     directory: "/app"
+    rebase-strategy: auto
     schedule:
       interval: "daily"
-    groups:
-      app-dependencies:
-        patterns: 
-          - "*"
+
   - package-ecosystem: "npm"
     directory: "/api"
+    rebase-strategy: auto
     schedule:
       interval: "daily"
-    groups:
-      api-dependencies:
-        patterns: 
-          - "*"
+
   - package-ecosystem: "npm"
     directory: "/e2e"
+    rebase-strategy: auto
     schedule:
       interval: "daily"
-    groups:
-      e2e-dependencies:
-        patterns: 
-          - "*"
