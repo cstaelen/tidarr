@@ -9,7 +9,7 @@
     "@mui/icons-material": "^7.0.1",
     "@mui/material": "^7.0.1",
     "@types/node": "^22.14.0",
-    "@types/react": "^19.0.12",
+    "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.1",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.23.0",
