@@ -8,9 +8,7 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
   page,
 }) => {
   await runSearch("Nirvana", page);
-  await expect(page.locator("#full-width-tab-0")).toContainText(
-    "Top results (1193)",
-  );
+  await expect(page.locator("#full-width-tab-0")).toContainText("Top results");
 
   await expect(page.getByRole("heading", { name: "Artist(s)" })).toBeVisible();
   await countItems("#full-width-tabpanel-0 > div > div:nth-child(1)", 3, page);
@@ -41,7 +39,7 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
   await countItems("#full-width-tabpanel-0 > div >  div:nth-child(4)", 6, page);
 
   await expect(
-    page.getByRole("button", { name: "See all playlists (193)" }),
+    page.getByRole("button", { name: "See all playlists" }),
   ).toBeVisible();
 });
 
@@ -165,11 +163,9 @@ test("Tidarr search : Should see tracks results", async ({ page }) => {
 
 test("Tidarr search : Should see playlists results", async ({ page }) => {
   await runSearch("Nirvana", page);
-  await expect(page.locator("#full-width-tab-4")).toContainText(
-    "Playlists (193)",
-  );
+  await expect(page.locator("#full-width-tab-4")).toContainText("Playlists");
 
-  await page.getByRole("tab", { name: "Playlists (193)" }).click();
+  await page.getByRole("tab", { name: "Playlists" }).click();
   await waitForImgLoaded(page);
 
   await countItems("#full-width-tabpanel-4", 18, page);
