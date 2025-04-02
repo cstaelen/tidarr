@@ -9,8 +9,8 @@
   "devDependencies": {
     "@eslint/js": "^9.23.0",
     "@playwright/test": "^1.51.1",
-    "@types/node": "^22.13.14",
-    "@typescript-eslint/parser": "^8.28.0",
+    "@types/node": "^22.13.17",
+    "@typescript-eslint/parser": "^8.29.0",
     "dotenv": "^16.4.7",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
@@ -19,7 +19,7 @@
     "playwright": "^1.50.1",
     "prettier": "^3.5.3",
     "typescript": "^5.8.2",
-    "typescript-eslint": "^8.28.0"
+    "typescript-eslint": "^8.29.0"
   },
   "scripts": {
     "playwright:test": "playwright test",
