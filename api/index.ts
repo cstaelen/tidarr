@@ -22,7 +22,7 @@ const processingList = ProcessingStack(app);
 app.set("processingList", processingList);
 app.set("activeListConnections", []);
 
-app.all("/*splat", function (req, res, next) {
+app.all("/{*any}", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
@@ -131,7 +131,7 @@ app.listen(port, () => {
 const frontendFiles = "/home/app/standalone/app/build";
 if (fs.existsSync(frontendFiles)) {
   app.use(express.static(frontendFiles));
-  app.get("/*", (_, res) => {
+  app.get("/{*any}", (_, res) => {
     res.sendFile(frontendFiles + "/index.html");
   });
 }

@@ -9,6 +9,12 @@ RUN npm install -g yarn
 
 COPY . .
 
+# Common app
+
+RUN \
+      --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \
+      yarn --prefer-offline --frozen-lockfile
+
 # Build app
 
 RUN \

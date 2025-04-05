@@ -3,21 +3,10 @@
   "version": "0.1.20",
   "private": true,
   "devDependencies": {
-    "@eslint/js": "^9.22.0",
     "@types/express": "^5.0.1",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.13.14",
-    "@types/cors": "^2.8.17",
-    "@typescript-eslint/parser": "^8.28.0",
-    "eslint": "^9.23.0",
-    "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-prettier": "^5.2.6",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
-    "prettier": "^3.5.3",
-    "ts-prune": "^0.10.3",
-    "typescript": "^5.8.2",
-    "typescript-eslint": "^8.28.0"
+    "@types/cors": "^2.8.17"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -30,8 +19,6 @@
     "start": "npx tsx --watch index.ts",
     "prod": "node ./api/dist/index.js",
     "find-deadcode": "ts-prune | (! grep -v 'used in module')",
-    "depcheck": "npx depcheck",
-    "eslint": "eslint .",
-    "eslint-fix": "eslint --fix ."
+    "depcheck": "npx depcheck"
   }
 }
