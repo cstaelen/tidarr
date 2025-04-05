@@ -33,11 +33,5 @@ jobs:
           npm install prettier@3.3.3
 
       - name: Check code lint and format for API
-        run: eslint -c ./api/eslint.config.mjs .
-
-      - name: Check code lint and format for APP
-        run: eslint -c ./app/eslint.config.mjs .
-
-      - name: Check code lint and format for E2E
-        run: eslint -c ./e2e/eslint.config.mjs .
+        run: eslint -c ./eslint.config.mjs .
       

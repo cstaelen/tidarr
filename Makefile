@@ -54,14 +54,10 @@ quality-depcheck: ## Check dependencies
 	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e tidarr yarn depcheck
 
 quality-lint: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /home/app/build/api tidarr yarn eslint
-	$(DOCKER_COMPOSE) exec -w /home/app/build/app tidarr yarn eslint
-	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e tidarr yarn eslint
+	$(DOCKER_COMPOSE) exec -w /home/app/build tidarr yarn eslint
 
 quality-lint-fix: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /home/app/build/api tidarr yarn eslint-fix
-	$(DOCKER_COMPOSE) exec -w /home/app/build/app tidarr yarn eslint-fix
-	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e tidarr yarn eslint-fix
+	$(DOCKER_COMPOSE) exec -w /home/app/build tidarr yarn eslint-fix
 
 ##
 ## Builder 🚀
