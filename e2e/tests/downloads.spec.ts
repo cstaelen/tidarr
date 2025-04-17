@@ -17,9 +17,7 @@ test("Tidarr download : Should be able to download album", async ({ page }) => {
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Albums" }).first().click();
 
-  await expect(page.getByRole("main")).toContainText(
-    "MTV Unplugged In New York",
-  );
+  await expect(page.getByRole("main")).toContainText("Nevermind");
   await page
     .locator(
       "div:nth-child(2) > .MuiPaper-root > div:nth-child(2) > .MuiBox-root > .MuiCardContent-root > .MuiButtonBase-root",
@@ -52,17 +50,11 @@ test("Tidarr download : Should be able to download track album", async ({
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Tracks" }).first().click();
 
-  await expect(page.getByRole("main")).toContainText(
-    "MTV Unplugged In New York",
-  );
+  await expect(page.getByRole("main")).toContainText("Nevermind");
 
   await page.getByRole("button", { name: "Album", exact: true }).nth(4).click();
 
-  await testProcessingList(page, [
-    "Nirvana",
-    "MTV Unplugged In New York",
-    "album",
-  ]);
+  await testProcessingList(page, ["Nirvana", "Nevermind", "album"]);
 });
 
 test("Tidarr download : Should be able to download playlist", async ({
@@ -97,14 +89,12 @@ test("Tidarr download : Should be able to download video", async ({ page }) => {
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Videos" }).first().click();
 
-  await expect(page.getByRole("main")).toContainText(
-    "Oh Me (Live On MTV Unplugged, 1993 / Unedited)",
-  );
+  await expect(page.getByRole("main")).toContainText("Smells Like Teen Spirit");
   await page.getByRole("button", { name: "Get video" }).first().click();
 
   await testProcessingList(page, [
     "Nirvana",
-    "Oh Me (Live On MTV Unplugged, 1993 / Unedited)",
+    "Smells Like Teen Spirit",
     "video",
   ]);
 });
