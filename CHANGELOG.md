@@ -3,6 +3,11 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.1.21
+### 🖍 Changed
+* [API] Update `tiddl` from `2.3.2` to version `2.3.3`
+* [Chore] Update dependencies
+
 ## 📦 0.1.20
 ### 🚀 Added
 * [API] Support for Apprise API notifications
