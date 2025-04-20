@@ -28,3 +28,6 @@ updates:
     rebase-strategy: auto
     schedule:
       interval: "daily"
+    ignore:
+      - dependency-name: "playwright*"
+      - dependency-name: "@playwright*"
