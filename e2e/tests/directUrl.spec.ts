@@ -144,7 +144,7 @@ test("Tidarr direct url : Should display artist page using Tidal artist url", as
   ).toBeVisible();
 
   await testArtistSection(1, "Albums", 13, page);
-  await testArtistSection(2, "EP & Singles", 2, page);
+  await testArtistSection(2, "EP & Singles", 1, page);
   await testArtistSection(3, "Compilations", 1, page);
   await testArtistSection(4, "Live albums", 1, page);
   await testArtistSection(5, "Videos", 1, page);
