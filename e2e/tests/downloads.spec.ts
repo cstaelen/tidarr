@@ -51,14 +51,14 @@ test("Tidarr download : Should be able to download track album", async ({
   await page.getByRole("tab", { name: "Tracks" }).first().click();
 
   await expect(page.getByRole("main")).toContainText(
-    "MTV Unplugged In New York (25th Anniversary)",
+    "MTV Unplugged In New York",
   );
 
   await page.getByRole("button", { name: "Album", exact: true }).nth(4).click();
 
   await testProcessingList(page, [
     "Nirvana",
-    "MTV Unplugged In New York (25th Anniversary)",
+    "MTV Unplugged In New York",
     "album",
   ]);
 });
