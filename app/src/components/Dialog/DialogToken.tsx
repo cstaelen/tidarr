@@ -74,7 +74,7 @@ export const DialogToken = () => {
       </Typography>
       <p>... or run this to create Tidal token :</p>
       <Paper elevation={0} sx={{ padding: "1rem" }}>
-        <code>$ docker exec -it tidarr tiddl auth</code>
+        <code>$ docker exec -it tidarr tiddl auth login</code>
       </Paper>
     </DialogHandler>
   );
