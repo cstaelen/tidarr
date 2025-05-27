@@ -1,6 +1,6 @@
 {
   "name": "tidarr-react",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "private": true,
   "devDependencies": {
     "@emotion/react": "^11.14.0",
