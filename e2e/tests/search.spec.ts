@@ -205,7 +205,7 @@ test("Tidarr search : Should see videos results", async ({ page }) => {
 
   await expect(
     page.locator("#full-width-tabpanel-5").getByTestId("item").first(),
-  ).toHaveScreenshot();
+  ).toContainText("Smells Like Teen Spirit  by Nirvana5 min.Get video");
 
   // Test pager
 
