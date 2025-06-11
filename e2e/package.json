@@ -1,16 +1,16 @@
 {
   "name": "tidarr-testing",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "description": "",
   "main": "index.js",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.52.0",
-    "@types/node": "^22.15.21",
+    "@playwright/test": "^1.53.0",
+    "@types/node": "^24.0.0",
     "dotenv": "^16.5.0",
-    "playwright": "^1.52.0"
+    "playwright": "^1.53.0"
   },
   "scripts": {
     "playwright:test": "playwright test",

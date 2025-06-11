@@ -39,6 +39,7 @@ services:
     volumes:
       - .:/home/app/build
     ports:
+      - 7357:8484
       - 9323:9323
     environment:
       - REACT_APP_TIDAL_COUNTRY_CODE=FR
