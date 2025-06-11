@@ -3,7 +3,7 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
-## 📦 0.1.23
+## 📦 0.2.0
 ### 🖍 Changed
 * [API] Update `tiddl` from `2.3.4` to version `2.4.0`
 * [API] Add cover download feature
