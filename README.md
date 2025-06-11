@@ -35,7 +35,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 
 - Need an official (shared ?) Tidal account
 - For educational purposes and personal use only
-- **Do not forget to support your local artists** 🙏❤️
+- **Do not forget to support your local artists (merch, live, ...)** 🙏❤️
 
 ## Features
 - Search by keywords
@@ -46,7 +46,8 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Server side download list processing
 - UI build with **ReactJS** + **ExpressJS** API
 - Self-hostable with **Docker** using a Linuxserver.io base image (uncompressed size: ~ 190 Mo)
-- Download from **Tidal** with [Tiddl (2.4.0)](https://github.com/oskvr37/tiddl/tree/v2.4.0)
+- Download **Tidal** content with [Tiddl (2.4.0)](https://github.com/oskvr37/tiddl/tree/v2.4.0)
+- Download covers
 - Tag import using **Beets.io** (python)
 - Push notifications using **Gotify** and **Apprise API**
 - **Plex** library update
@@ -151,6 +152,11 @@ See default :
         "threads": 4,
         // Include or not singles while downloading "all releases"
         "singles_filter": "none" // "none", "only", "include"
+    },
+    "cover": {
+        "save": false,
+        "size": 1280,
+        "filename": "cover.jpg"
     },
     // Will be automatically filled by in-app authentication
     "auth": {

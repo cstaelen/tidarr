@@ -11,6 +11,11 @@
         "threads": 4,
         "singles_filter": "none"
     },
+    "cover": {
+        "save": true,
+        "size": 1280,
+        "filename": "cover.jpg"
+    },
     "auth": {
         "token": "",
         "refresh_token": "",
