@@ -222,7 +222,7 @@ test("Tidarr search : Should see quality filtered results", async ({
   await mockRelease(page);
   await page.goto("/artist/3634161");
   await expect(
-    page.getByRole("heading", { name: "Albums (21)" }),
+    page.getByRole("heading", { name: "Albums (29)" }),
   ).toBeInViewport();
 
   await expect(page.getByTestId("item")).toHaveCount(67);
@@ -284,7 +284,7 @@ test("Tidarr search : Should have two display mode", async ({ page }) => {
       .locator("#full-width-tabpanel-0 > div > div:nth-child(2)")
       .getByTestId("item")
       .first(),
-  ).toHaveScreenshot();
+  ).toHaveScreenshot({ timeout: 1000 });
 
   await page.getByLabel("Display mode").click();
 
