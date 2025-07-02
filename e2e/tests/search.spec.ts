@@ -222,7 +222,7 @@ test("Tidarr search : Should see quality filtered results", async ({
   await mockRelease(page);
   await page.goto("/artist/3634161");
   await expect(
-    page.getByRole("heading", { name: "Albums (29)" }),
+    page.getByRole("heading", { name: "Albums (22)" }),
   ).toBeInViewport();
 
   await expect(page.getByTestId("item")).toHaveCount(67);
