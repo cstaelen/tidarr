@@ -4,19 +4,19 @@
   "private": true,
   "devDependencies": {
     "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.1.2",
     "@mui/material": "^7.1.2",
-    "@types/node": "^24.0.3",
+    "@types/node": "^24.0.7",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "@vitejs/plugin-react": "^4.5.2",
+    "@vitejs/plugin-react": "^4.6.0",
     "event-source-plus": "0.1.11",
     "globals": "^16.2.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.2",
-    "vite": "^6.3.5"
+    "react-router-dom": "^7.6.3",
+    "vite": "^7.0.0"
   },
   "scripts": {
     "start": "vite dev",
