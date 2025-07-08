@@ -1,0 +1,106 @@
+# Page snapshot
+
+```yaml
+- main:
+  - text: Tidal search (keywords, artist URL, album URL, playlist URL)
+  - textbox "Tidal search (keywords, artist URL, album URL, playlist URL)": Nirvana
+  - group "Platform":
+    - button "Lossless"
+    - button "High"
+    - button "All" [pressed]
+  - button "Display mode"
+  - button "Settings"
+  - tablist "Tidal result tabs":
+    - tab "Top results (289)" [selected]
+    - tab "Albums (0)"
+    - tab "Artists (100)"
+    - tab "Tracks (0)"
+    - tab "Playlists (189)"
+    - tab "Videos (0)"
+  - tabpanel "Top results (289)":
+    - heading "Artist(s)" [level=2]
+    - link "N":
+      - /url: /artist/57205861
+    - link "Nirvana":
+      - /url: /artist/57205861
+      - strong: Nirvana
+    - text: "Popularity: 0"
+    - button "Show discography"
+    - link "Nirvana":
+      - /url: /artist/19368
+      - img "Nirvana"
+    - link "Nirvana":
+      - /url: /artist/19368
+      - strong: Nirvana
+    - text: "Popularity: 88"
+    - button "Show discography"
+    - link "N":
+      - /url: /artist/7742591
+    - link "Nirvana":
+      - /url: /artist/7742591
+      - strong: Nirvana
+    - text: "Popularity: 37"
+    - button "Show discography"
+    - button "See all artists (100)"
+    - heading "Playlist(s)" [level=2]
+    - link "Nirvana Live Essentials":
+      - /url: /playlist/d488550a-abcb-4a92-b2ab-fd93f556c666
+      - strong: Nirvana Live Essentials
+    - link "Live from space album cover":
+      - /url: /playlist/d488550a-abcb-4a92-b2ab-fd93f556c666
+      - img "Live from space album cover"
+    - text: 100 min. 26 tracks
+    - button
+    - button "Playlist"
+    - link "Nirvana Essentials":
+      - /url: /playlist/2e151dcc-fa86-405a-9b56-4f4399035c29
+      - strong: Nirvana Essentials
+    - link "Live from space album cover":
+      - /url: /playlist/2e151dcc-fa86-405a-9b56-4f4399035c29
+      - img "Live from space album cover"
+    - text: 91 min. 25 tracks
+    - button
+    - button "Playlist"
+    - 'link "Nirvana: MTV Unplugged in New York"':
+      - /url: /playlist/40904230-3ec9-403a-83a8-2c34eb0b8693
+      - strong: "Nirvana: MTV Unplugged in New York"
+    - link "Live from space album cover":
+      - /url: /playlist/40904230-3ec9-403a-83a8-2c34eb0b8693
+      - img "Live from space album cover"
+    - text: 64 min. 0 tracks
+    - button
+    - button "Playlist"
+    - 'link "Nirvana: Nevermind - The Story"':
+      - /url: /playlist/70f494c4-c318-4c61-9a7d-856117d915b0
+      - strong: "Nirvana: Nevermind - The Story"
+    - link "Live from space album cover":
+      - /url: /playlist/70f494c4-c318-4c61-9a7d-856117d915b0
+      - img "Live from space album cover"
+    - text: 102 min. 43 tracks
+    - button
+    - button "Playlist"
+    - 'link "Great Sounds From the Puget Sound: Kingsmen to Nirvana"':
+      - /url: /playlist/a0fe5f68-af7c-46c6-91f0-d04ec10d84f2
+      - strong: "Great Sounds From the Puget Sound: Kingsmen to Nirvana"
+    - link "Live from space album cover":
+      - /url: /playlist/a0fe5f68-af7c-46c6-91f0-d04ec10d84f2
+      - img "Live from space album cover"
+    - text: 133 min. 36 tracks
+    - button
+    - button "Playlist"
+    - 'link "Check The Rhyme: Nirvana"':
+      - /url: /playlist/9299e25f-8845-4240-9e62-151175dcc76e
+      - strong: "Check The Rhyme: Nirvana"
+    - link "Live from space album cover":
+      - /url: /playlist/9299e25f-8845-4240-9e62-151175dcc76e
+      - img "Live from space album cover"
+    - text: 88 min. 20 tracks
+    - button
+    - button "Playlist"
+    - button "See all playlists (189)"
+- text: 👋
+- strong: Private use only. Do not forget to support your local artists 🙏❤️
+- text: • Tidarr • v0.0.1-testing •
+- link:
+  - /url: https://github.com/cstaelen/tidarr
+```
