@@ -34,6 +34,7 @@ export async function configureServer() {
 
   return {
     noToken: !hasTiddlConfig || tiddl_config?.auth?.token.length === 0,
+    tiddl_config: tiddl_config,
     output: output_config,
     parameters: {
       ENABLE_BEETS: process.env.ENABLE_BEETS || "",

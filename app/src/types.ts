@@ -192,9 +192,39 @@ export type ConfigType = {
   noToken: boolean;
   output: string;
   parameters: ConfigParametersType;
+  tiddl_config: ConfigTiddleType;
 };
 
 export type ConfigParametersType = { [key: string]: string | undefined };
+
+export type ConfigTiddleType = {
+  template: {
+    track: string;
+    video: string;
+    album: string;
+    playlist: string;
+  };
+  download: {
+    quality: string;
+    path: string;
+    threads: number;
+    singles_filter: string;
+    embed_lyrics: boolean;
+  };
+  cover: {
+    save: boolean;
+    size: number;
+    filename: string;
+  };
+  auth: {
+    token: string;
+    refresh_token: string;
+    expires: number;
+    user_id: string;
+    country_code: string;
+  };
+  omit_cache: boolean;
+};
 
 export type ReleaseGithubType = {
   name: string;
