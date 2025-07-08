@@ -48,7 +48,7 @@ function StackChips({ track }: { track: TrackType }) {
               : theme.palette.common.black,
           backgroundColor:
             track?.audioQuality?.toLowerCase() === "lossless"
-              ? theme.palette.gold
+              ? theme.customColors.gold
               : theme.palette.primary.main,
         }}
       />

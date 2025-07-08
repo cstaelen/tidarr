@@ -20,10 +20,12 @@ import { ConfigProvider } from "./provider/ConfigProvider";
 import "./index.css";
 
 const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
+  customColors: {
     gold: "#a57c00",
     alert: "#e47964",
+  },
+  palette: {
+    mode: "dark",
   },
 });
 
@@ -36,7 +38,7 @@ function DefaultLayout() {
 }
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement,
+  document.getElementById("root") as HTMLElement
 );
 
 root.render(
@@ -63,5 +65,5 @@ root.render(
         </ConfigProvider>
       </APIFetcherProvider>
     </BrowserRouter>
-  </ThemeProvider>,
+  </ThemeProvider>
 );
