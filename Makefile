@@ -64,7 +64,7 @@ quality-lint-fix: ## Check dependencies
 ##-----------
 
 docker-build: ## Build Tidarr docker image
-	docker build --platform=linux/amd64 -f ${DOCKERFILE} -t ${IMAGE}:${VERSION} .
+	docker build --platform=linux/amd64 --build-arg VERSION=0.0.0.PROD -f ${DOCKERFILE} -t ${IMAGE}:${VERSION} .
 
 docker-run: ## Run tidarr docker image
 	docker run \

@@ -14,4 +14,7 @@ RUN apk add npm nodejs py3-pip beets ffmpeg
 INCLUDE docker/stages/Dockerfile.python
 INCLUDE docker/stages/Dockerfile.runner
 
+ARG VERSION
+ENV VERSION=$VERSION
+
 ENTRYPOINT ["sh", "/home/app/standalone/docker/run-prod.sh"]

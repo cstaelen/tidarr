@@ -26,12 +26,6 @@ export async function configureServer() {
     tiddl_config = JSON.parse(token_output) as TiddlConfig;
   }
 
-  const version_output = await execSync(`cat package.json`, {
-    encoding: "utf-8",
-  });
-
-  const version = JSON.parse(version_output)?.version;
-
   return {
     noToken: !hasTiddlConfig || tiddl_config?.auth?.token.length === 0,
     tiddl_config: tiddl_config,
@@ -48,7 +42,7 @@ export async function configureServer() {
       GOTIFY_TOKEN: process.env.GOTIFY_TOKEN || "",
       PUID: process.env.PUID || "",
       PGID: process.env.PGID || "",
-      TIDARR_VERSION: version || "",
+      TIDARR_VERSION: process.env.VERSION || "",
     },
   };
 }
