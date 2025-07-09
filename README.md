@@ -116,14 +116,8 @@ docker exec tidarr cp -rf /root/tiddl.json /home/app/standalone/shared/tiddl.jso
 ```yaml
  environment:
   - ...
-  - REACT_APP_TIDAL_COUNTRY_CODE=<country-code>
   - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token> #optional
   - REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER=<"lossless" | "high" | "all"> #optional
-```
-N.B. `<country-code>` should match your Tidal account country code.
-You can check it using :
-```bash
-docker exec tiddl config --print
 ```
 
 How to get search token :
