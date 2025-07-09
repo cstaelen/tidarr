@@ -1,9 +1,10 @@
 import { expect, test } from "@playwright/test";
 
-import { mockAuthAPI } from "./utils/mock";
+import { mockAuthAPI, mockConfigAPI } from "./utils/mock";
 
 test("Tidarr security : Should see login page", async ({ page }) => {
   await mockAuthAPI(page, "tokenABCXYZ");
+  await mockConfigAPI(page);
   await page.goto("/login");
   await page.evaluate("localStorage.clear()");
   await expect(
@@ -57,6 +58,7 @@ test("Tidarr security : Should be redirected to requested url after login", asyn
   page,
 }) => {
   await mockAuthAPI(page, "tokenABCXYZ");
+  await mockConfigAPI(page);
   await page.goto("/?query=nirvana");
   await expect(
     page.getByRole("heading", { name: "Tidarr authentication" }),
@@ -74,6 +76,7 @@ test("Tidarr security : Should be redirected to requested url after login", asyn
 
 test("Tidarr security : Should be able to log out", async ({ page }) => {
   await mockAuthAPI(page, "tokenABCXYZ");
+  await mockConfigAPI(page);
   await page.goto("/login");
   await page.evaluate("localStorage.clear()");
 

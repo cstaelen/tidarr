@@ -38,7 +38,7 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
                   : theme.palette.common.black,
               backgroundColor:
                 album?.audioQuality?.toLowerCase() === "lossless"
-                  ? theme.palette.gold
+                  ? theme.customColors.gold
                   : theme.palette.primary.main,
             }}
           />

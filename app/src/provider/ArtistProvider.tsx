@@ -1,7 +1,8 @@
 import { ReactNode, useContext, useState } from "react";
 import React from "react";
+import { useFetchTidal } from "src/utils/useFetchTidal";
 
-import { TIDAL_API_LISTEN_URL, TIDAL_ITEMS_PER_PAGE } from "../contants";
+import { TIDAL_ITEMS_PER_PAGE } from "../contants";
 import {
   AlbumType,
   ArtistType,
@@ -10,7 +11,6 @@ import {
   TidalPagedListType,
   VideoType,
 } from "../types";
-import { fetchTidal } from "../utils/fetch";
 
 type ArtistResultsType = {
   title: string;
@@ -38,13 +38,14 @@ export function ArtistProvider({ children }: { children: ReactNode }) {
   const [artistResults, setArtistResults] = useState<ArtistResultsType>(
     {} as ArtistResultsType,
   );
+  const { fetchTidal } = useFetchTidal();
 
   async function queryArtist(id: string) {
     setLoading(true);
 
     const data_artist = await fetchTidal<
       TidalModuleResponseType<AlbumType | VideoType>
-    >(`${TIDAL_API_LISTEN_URL}/pages/artist?artistId=${id}`);
+    >(`/pages/artist?artistId=${id}`);
 
     if (data_artist && data_artist?.rows?.length > 0) {
       const blocks = data_artist?.rows
@@ -76,7 +77,7 @@ export function ArtistProvider({ children }: { children: ReactNode }) {
   async function queryArtistPage(url: string, index: number, page: number) {
     setArtistPagerLoading(index);
     const data_artist_page = await fetchTidal<TidalPagedListType<AlbumType>>(
-      `${TIDAL_API_LISTEN_URL}/${url}&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
+      `/${url}&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
         page * TIDAL_ITEMS_PER_PAGE
       }`,
     );

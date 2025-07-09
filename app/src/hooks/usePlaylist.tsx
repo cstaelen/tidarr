@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import { useFetchTidal } from "src/utils/useFetchTidal";
 
-import { TIDAL_API_LISTEN_URL, TIDAL_ITEMS_PER_PAGE } from "../contants";
+import { TIDAL_ITEMS_PER_PAGE } from "../contants";
 import { PlaylistType, TidalPagedListType, TrackType } from "../types";
-import { fetchTidal } from "../utils/fetch";
 
 type PlaylistContextType = {
   loading: boolean;
@@ -23,19 +23,19 @@ export const usePlaylist = (id: string | undefined): PlaylistContextType => {
   const [total, setTotal] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
 
+  const { fetchTidal } = useFetchTidal();
+
   async function queryPlaylist() {
     setLoading(true);
 
-    const data_playlist = await fetchTidal<PlaylistType>(
-      `${TIDAL_API_LISTEN_URL}/playlists/${id}`,
-    );
+    const data_playlist = await fetchTidal<PlaylistType>(`/playlists/${id}`);
 
     setPlaylist(data_playlist);
 
     const data_tracks = await fetchTidal<
       TidalPagedListType<{ item: TrackType }>
     >(
-      `${TIDAL_API_LISTEN_URL}/playlists/${id}/items?limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
+      `/playlists/${id}/items?limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
         (page - 1) * TIDAL_ITEMS_PER_PAGE
       }`,
     );

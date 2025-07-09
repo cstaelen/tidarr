@@ -21,7 +21,7 @@ export default tseslint.config(
       ...tseslint.configs.recommended,
       eslintPluginPrettierRecommended,
     ],
-    files: ["**/*.{ts,tsx,mjs}"],
+    files: ["**/*.{spec.ts,ts,tsx,mjs}"],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -56,6 +56,7 @@ export default tseslint.config(
         },
       ],
       "simple-import-sort/exports": "error",
+      "comma-dangle": ["error", "always-multiline"],
     },
   },
 );

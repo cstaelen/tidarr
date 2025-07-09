@@ -6,7 +6,7 @@ import { mockConfigAPI, mockRelease } from "./utils/mock";
 
 dotenv.config({ path: "../.env", override: false });
 
-const CURRENT_VERSION = "0.0.1-testing";
+const CURRENT_VERSION = "0.0.0-testing";
 
 test("Tidarr config : Should display token modal if no tidal token exists", async ({
   page,
@@ -15,6 +15,12 @@ test("Tidarr config : Should display token modal if no tidal token exists", asyn
     const json = {
       noToken: true,
       output: "",
+      parameters: {},
+      tiddl_config: {
+        auth: {
+          country_code: "FR",
+        },
+      },
     };
     await route.fulfill({ json });
   });
@@ -76,6 +82,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     page
       .locator("#alert-dialog-description div")
       .filter({ hasText: "Environment" }),
+    "test",
   ).toHaveScreenshot();
 
   // Tab Tidal token

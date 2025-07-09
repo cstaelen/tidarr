@@ -20,10 +20,12 @@ import { ConfigProvider } from "./provider/ConfigProvider";
 import "./index.css";
 
 const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
+  customColors: {
     gold: "#a57c00",
     alert: "#e47964",
+  },
+  palette: {
+    mode: "dark",
   },
 });
 

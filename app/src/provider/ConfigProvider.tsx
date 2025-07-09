@@ -1,6 +1,11 @@
 import React, { ReactNode, useContext, useState } from "react";
 
-import { ConfigParametersType, ConfigType, ReleaseGithubType } from "../types";
+import {
+  ConfigParametersType,
+  ConfigTiddleType,
+  ConfigType,
+  ReleaseGithubType,
+} from "../types";
 
 import { useApiFetcher } from "./ApiFetcherProvider";
 
@@ -9,6 +14,7 @@ type ConfigContextType = {
   releaseData: undefined | ReleaseGithubType;
   tokenMissing: boolean;
   config: undefined | ConfigParametersType;
+  tiddlConfig: undefined | ConfigTiddleType;
   isConfigModalOpen: boolean;
   reactAppEnvVars: ConfigParametersType;
   actions: {
@@ -28,6 +34,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [tokenMissing, setTokenMissing] = useState(false);
   const [releaseData, setReleaseData] = useState<ReleaseGithubType>();
   const [config, setConfig] = useState<ConfigParametersType>();
+  const [tiddlConfig, setTiddlConfig] = useState<ConfigTiddleType>();
 
   const {
     actions: { check },
@@ -36,8 +43,6 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const reactAppEnvVars = {
     REACT_APP_TIDAL_SEARCH_TOKEN:
       window._env_.REACT_APP_TIDAL_SEARCH_TOKEN || "",
-    REACT_APP_TIDAL_COUNTRY_CODE:
-      window._env_.REACT_APP_TIDAL_COUNTRY_CODE || "",
     REACT_APP_TIDARR_SEARCH_URL: window._env_.REACT_APP_TIDARR_SEARCH_URL || "",
     REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER:
       window._env_.REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER || "",
@@ -56,8 +61,10 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     }
     const output = await check();
     const data = output as ConfigType;
+    console.log(data);
     setTokenMissing(data?.noToken);
     setConfig(data?.parameters);
+    setTiddlConfig(data?.tiddl_config);
   };
 
   // Check Updates
@@ -98,6 +105,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     config,
     reactAppEnvVars,
     isConfigModalOpen,
+    tiddlConfig,
     actions: {
       toggleModal,
       checkAPI,

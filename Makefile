@@ -8,7 +8,7 @@ DOCKER_COMPOSE  = $(or docker compose, docker-compose)
 ##-------
 
 dev: ## Boot dev environnement
-	$(DOCKER_COMPOSE) up tidarr --build --remove-orphans --no-recreate
+	$(DOCKER_COMPOSE) up tidarr --build --remove-orphans
 
 install: ## Install deps
 	$(DOCKER_COMPOSE) exec -w /home/app/build/api tidarr yarn install
@@ -64,7 +64,7 @@ quality-lint-fix: ## Check dependencies
 ##-----------
 
 docker-build: ## Build Tidarr docker image
-	docker build --platform=linux/amd64 -f ${DOCKERFILE} -t ${IMAGE}:${VERSION} .
+	docker build --platform=linux/amd64 --build-arg VERSION=0.0.0-prod -f ${DOCKERFILE} -t ${IMAGE}:${VERSION} .
 
 docker-run: ## Run tidarr docker image
 	docker run \

@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
+import { useFetchTidal } from "src/utils/useFetchTidal";
 
-import { TIDAL_API_LISTEN_URL } from "../contants";
 import { TrackType } from "../types";
-import { fetchTidal } from "../utils/fetch";
 
 type ArtistContextType = {
   loading: boolean;
@@ -15,13 +14,12 @@ type ArtistContextType = {
 export const useTrack = (id?: string): ArtistContextType => {
   const [loading, setLoading] = useState<boolean>(false);
   const [track, setTrack] = useState<TrackType>();
+  const { fetchTidal } = useFetchTidal();
 
   async function queryTrack() {
     setLoading(true);
 
-    const data_track = await fetchTidal<TrackType>(
-      `${TIDAL_API_LISTEN_URL}/tracks/${id}`,
-    );
+    const data_track = await fetchTidal<TrackType>(`/tracks/${id}`);
 
     setTrack(data_track);
     setLoading(false);

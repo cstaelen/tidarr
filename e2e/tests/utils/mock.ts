@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 
-export async function mockRelease(page: Page, version = "0.0.1-testing") {
+export async function mockRelease(page: Page, version = "0.0.0-testing") {
   await page.route("*/**/releases", async (route) => {
     const json = [
       {
@@ -28,7 +28,12 @@ export async function mockConfigAPI(page: Page) {
           ENABLE_GOTIFY: "true",
           GOTIFY_URL: "http://gotify.url",
           GOTIFY_TOKEN: "abc-gotify-token-xyz",
-          TIDARR_VERSION: "0.0.1-testing",
+          TIDARR_VERSION: "0.0.0-testing",
+        },
+        tiddl_config: {
+          auth: {
+            country_code: "FR",
+          },
         },
       };
       await route.fulfill({ json });
@@ -40,7 +45,12 @@ export async function mockConfigAPI(page: Page) {
     json = {
       ...json,
       noToken: false,
-      parameters: { ...json.parameters, TIDARR_VERSION: "0.0.1-testing" },
+      parameters: { ...json.parameters, TIDARR_VERSION: "0.0.0-testing" },
+      tiddl_config: {
+        auth: {
+          country_code: "FR",
+        },
+      },
     };
     await route.fulfill({ json });
   });

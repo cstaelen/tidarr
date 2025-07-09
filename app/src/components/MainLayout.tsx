@@ -14,18 +14,6 @@ import { ProcessingList } from "./Processing/ProcessingList";
 import { HeaderSearch } from "./Search/HeaderSearch";
 import { Footer } from "./Footer";
 
-declare module "@mui/material/styles/createPalette" {
-  interface Palette {
-    gold: string;
-    alert: string;
-  }
-
-  interface PaletteOptions {
-    gold: string;
-    alert: string;
-  }
-}
-
 function MainLayout({ children }: { children: ReactNode }) {
   const [appLoaded, setAppLoaded] = useState(false);
   const {
@@ -44,7 +32,7 @@ function MainLayout({ children }: { children: ReactNode }) {
     if (config) checkForUpdates();
   }, [config]);
 
-  if (!appLoaded) return null;
+  if (!appLoaded || !config) return null;
 
   return (
     <>

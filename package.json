@@ -1,6 +1,5 @@
 {
   "name": "tidarr-main",
-  "version": "0.2.0",
   "private": true,
   "devDependencies": {
     "@eslint/js": "^9.30.1",

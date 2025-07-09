@@ -176,6 +176,8 @@ test("Tidarr search : Should see playlists results", async ({ page }) => {
 
   // Test album card snapshot
 
+  await page.waitForTimeout(500);
+
   await expect(
     page.locator("#full-width-tabpanel-4").getByTestId("item").first(),
   ).toHaveScreenshot();
@@ -279,12 +281,14 @@ test("Tidarr search : Should have two display mode", async ({ page }) => {
   await runSearch("Nirvana", page);
   await expect(page.locator("#full-width-tab-3")).toContainText("Tracks (300)");
 
+  await page.waitForTimeout(500);
+
   await expect(
     page
       .locator("#full-width-tabpanel-0 > div > div:nth-child(2)")
       .getByTestId("item")
       .first(),
-  ).toHaveScreenshot({ timeout: 1000 });
+  ).toHaveScreenshot();
 
   await page.getByLabel("Display mode").click();
 

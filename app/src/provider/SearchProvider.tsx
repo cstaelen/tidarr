@@ -1,9 +1,9 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useFetchTidal } from "src/utils/useFetchTidal";
 
-import { TIDAL_API_LISTEN_URL, TIDAL_ITEMS_PER_PAGE } from "../contants";
+import { TIDAL_ITEMS_PER_PAGE } from "../contants";
 import { TidalResponseType } from "../types";
-import { fetchTidal } from "../utils/fetch";
 
 type QualityType = "lossless" | "high" | "all";
 type DisplayType = "small" | "large";
@@ -51,6 +51,8 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   const [params] = useSearchParams();
   const navigate = useNavigate();
 
+  const { fetchTidal } = useFetchTidal();
+
   async function runSearch(searchString: string) {
     setLoading(true);
     if (searchString.substring(0, 4) === "http") {
@@ -63,7 +65,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
   async function queryTidal(query: string) {
     const results = await fetchTidal<TidalResponseType>(
-      `${TIDAL_API_LISTEN_URL}/search/top-hits?query=${query}&type=lossless&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
+      `/search/top-hits?query=${query}&type=lossless&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
         (page - 1) * TIDAL_ITEMS_PER_PAGE
       }`,
     );
