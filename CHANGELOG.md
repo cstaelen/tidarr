@@ -3,6 +3,11 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.2.1
+### 🖍 Changed
+* [API] Country code is taken from `tiddl_config` instead of environment variable (you can remove it in your docker compose file).
+* [Ops] App version is handle by github tag versioning
+
 ## 📦 0.2.0
 ### 🖍 Changed
 * [API] Update `tiddl` from `2.3.4` to version `2.4.0`

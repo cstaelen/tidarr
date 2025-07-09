@@ -7,7 +7,7 @@ ENV NODE_ENV="${NODE_ENV}"
 ENV PYTHONUNBUFFERED=1
 ENV ENVIRONMENT="development"
 
-ENV VERSION="0.0.0.DEV"
+ENV VERSION="0.0.0-dev"
 
 RUN apk update && apk upgrade
 RUN apk add npm nodejs py-pip ffmpeg beets
