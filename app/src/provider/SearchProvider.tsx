@@ -1,9 +1,9 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useFetchTidal } from "src/utils/useFetchTidal";
 
 import { TIDAL_ITEMS_PER_PAGE } from "../contants";
 import { TidalResponseType } from "../types";
-import { useFetchTidal } from "src/utils/useFetchTidal";
 
 type QualityType = "lossless" | "high" | "all";
 type DisplayType = "small" | "large";
@@ -25,7 +25,7 @@ type SearchContextType = {
 };
 
 const SearchContext = React.createContext<SearchContextType>(
-  {} as SearchContextType
+  {} as SearchContextType,
 );
 
 export const LOCALSTORAGE_QUALITY_FILTER = "tidarr-quality-filter";
@@ -36,16 +36,16 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   const [page, setPage] = useState<number>(1);
   const [keywords, setKeywords] = useState<string>();
   const [display, setDisplay] = useState<DisplayType>(
-    (localStorage.getItem(LOCALSTORAGE_DISPLAY_MODE) as DisplayType) || "small"
+    (localStorage.getItem(LOCALSTORAGE_DISPLAY_MODE) as DisplayType) || "small",
   );
   const [quality, setQuality] = useState<QualityType>(
     (window._env_.REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER as QualityType) ||
       (localStorage.getItem(LOCALSTORAGE_QUALITY_FILTER) as QualityType) ||
-      "all"
+      "all",
   );
 
   const [searchResults, setSearchResults] = useState<TidalResponseType>(
-    {} as TidalResponseType
+    {} as TidalResponseType,
   );
 
   const [params] = useSearchParams();
@@ -67,7 +67,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     const results = await fetchTidal<TidalResponseType>(
       `/search/top-hits?query=${query}&type=lossless&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
         (page - 1) * TIDAL_ITEMS_PER_PAGE
-      }`
+      }`,
     );
 
     const clone = { ...searchResults };

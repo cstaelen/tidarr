@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { useFetchTidal } from "src/utils/useFetchTidal";
 
 import { MixType, TidalModuleResponseType, TrackType } from "../types";
-import { useFetchTidal } from "src/utils/useFetchTidal";
 
 type ArtistContextType = {
   loading: boolean;
@@ -27,7 +27,7 @@ export const useMix = (): ArtistContextType => {
     setLoading(true);
 
     const data_mix = await fetchTidal<TidalModuleResponseType<TrackType>>(
-      `/pages/mix?mixId=${id}`
+      `/pages/mix?mixId=${id}`,
     );
 
     setLoading(false);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { useFetchTidal } from "src/utils/useFetchTidal";
 
 import { TrackType } from "../types";
-import { useFetchTidal } from "src/utils/useFetchTidal";
 
 type ArtistContextType = {
   loading: boolean;

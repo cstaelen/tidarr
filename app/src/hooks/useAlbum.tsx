@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { useFetchTidal } from "src/utils/useFetchTidal";
 
 import { AlbumType, TidalModuleResponseType, TrackType } from "../types";
-import { useFetchTidal } from "src/utils/useFetchTidal";
 
 type AlbumContextType = {
   loading: boolean;
@@ -28,7 +28,7 @@ export const useAlbum = (id: string | undefined): AlbumContextType => {
     setAlbum(data_album?.rows[0].modules[0].album);
 
     const data_tracks = data_album?.rows[1].modules[0].pagedList.items.map(
-      (track) => track.item
+      (track) => track.item,
     );
 
     setTracks(data_tracks);

@@ -34,7 +34,6 @@ export default tseslint.config(
     rules: {
       ...reactHooksEslint.configs.recommended.rules,
       "prettier/prettier": "error",
-      trailingComma: "none",
       "simple-import-sort/imports": [
         "error",
         {
@@ -57,6 +56,7 @@ export default tseslint.config(
         },
       ],
       "simple-import-sort/exports": "error",
+      "comma-dangle": ["error", "always-multiline"],
     },
   },
 );

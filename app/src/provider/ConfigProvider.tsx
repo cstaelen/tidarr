@@ -25,7 +25,7 @@ type ConfigContextType = {
 };
 
 const ConfigContext = React.createContext<ConfigContextType>(
-  {} as ConfigContextType
+  {} as ConfigContextType,
 );
 
 export function ConfigProvider({ children }: { children: ReactNode }) {
@@ -72,24 +72,24 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     if (config?.TIDARR_VERSION) {
       try {
         const response = await fetch(
-          `https://api.github.com/repos/${window._env_.REACT_APP_TIDARR_REPO_URL}/releases`
+          `https://api.github.com/repos/${window._env_.REACT_APP_TIDARR_REPO_URL}/releases`,
         );
 
         const data = (await response?.json()) as ReleaseGithubType[];
         const filteredData = data.filter(
-          (release) => (release.prerelease = true)
+          (release) => (release.prerelease = true),
         );
         if (!filteredData?.[0]) return;
         const latestVersion = filteredData[0].tag_name.substring(
           1,
-          filteredData[0].tag_name.length
+          filteredData[0].tag_name.length,
         );
         const currentVersion = config?.TIDARR_VERSION.substring(
           1,
-          filteredData[0].tag_name.length
+          filteredData[0].tag_name.length,
         );
         setIsUpdateAvailable(
-          latestVersion !== currentVersion && latestVersion > currentVersion
+          latestVersion !== currentVersion && latestVersion > currentVersion,
         );
         setReleaseData(filteredData[0]);
       } catch (e) {

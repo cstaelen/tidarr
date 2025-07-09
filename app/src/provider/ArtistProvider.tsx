@@ -1,5 +1,6 @@
 import { ReactNode, useContext, useState } from "react";
 import React from "react";
+import { useFetchTidal } from "src/utils/useFetchTidal";
 
 import { TIDAL_ITEMS_PER_PAGE } from "../contants";
 import {
@@ -10,7 +11,6 @@ import {
   TidalPagedListType,
   VideoType,
 } from "../types";
-import { useFetchTidal } from "src/utils/useFetchTidal";
 
 type ArtistResultsType = {
   title: string;
@@ -29,14 +29,14 @@ type ArtistContextType = {
 };
 
 const ArtistContext = React.createContext<ArtistContextType>(
-  {} as ArtistContextType
+  {} as ArtistContextType,
 );
 
 export function ArtistProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [artistPagerLoading, setArtistPagerLoading] = useState<number>();
   const [artistResults, setArtistResults] = useState<ArtistResultsType>(
-    {} as ArtistResultsType
+    {} as ArtistResultsType,
   );
   const { fetchTidal } = useFetchTidal();
 
@@ -53,8 +53,8 @@ export function ArtistProvider({ children }: { children: ReactNode }) {
           (row) =>
             row.modules.filter(
               (module) =>
-                module.type === "ALBUM_LIST" || module.type === "VIDEO_LIST"
-            ).length > 0
+                module.type === "ALBUM_LIST" || module.type === "VIDEO_LIST",
+            ).length > 0,
         )
         .map((row) => row.modules[0])
         .map((block) => ({
@@ -79,7 +79,7 @@ export function ArtistProvider({ children }: { children: ReactNode }) {
     const data_artist_page = await fetchTidal<TidalPagedListType<AlbumType>>(
       `/${url}&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
         page * TIDAL_ITEMS_PER_PAGE
-      }`
+      }`,
     );
 
     if (data_artist_page && data_artist_page?.items?.length > 0) {

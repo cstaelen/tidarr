@@ -1,4 +1,5 @@
 import { useConfigProvider } from "src/provider/ConfigProvider";
+
 import { TIDAL_API_LISTEN_URL } from "../contants";
 
 const jsonMimeType = "application/json";
@@ -6,7 +7,7 @@ const jsonMimeType = "application/json";
 async function fetchTidal<T>(
   url: string,
   options: RequestInit = {},
-  countryCode: string
+  countryCode: string,
 ): Promise<T | undefined> {
   const TOKEN = window._env_.REACT_APP_TIDAL_SEARCH_TOKEN;
 
