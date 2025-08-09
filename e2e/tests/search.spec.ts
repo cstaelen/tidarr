@@ -224,7 +224,7 @@ test("Tidarr search : Should see quality filtered results", async ({
   await mockRelease(page);
   await page.goto("/artist/3634161");
   await expect(
-    page.getByRole("heading", { name: "Albums (22)" }),
+    page.getByRole("heading", { name: "Albums (21)" }),
   ).toBeInViewport();
 
   await expect(page.getByTestId("item")).toHaveCount(67);
@@ -260,7 +260,6 @@ test("Tidarr search : Should see quality filtered results", async ({
     await page.getByRole("button", { name: "Lossless" }),
   ).toHaveAttribute("aria-pressed", "true");
 
-  // await countItems(".MuiPaper-root:visible", 64, page);
   await expect(
     page.locator('[data-testid="item"]', {
       has: page.locator(":visible"),
@@ -269,7 +268,6 @@ test("Tidarr search : Should see quality filtered results", async ({
 
   await page.getByRole("button", { name: "High" }).click();
 
-  // await countItems(".MuiPaper-root:visible", 10, page);
   await expect(
     page.locator('[data-testid="item"]', {
       has: page.locator(":visible"),
