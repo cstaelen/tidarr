@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFetchTidal } from "src/utils/useFetchTidal";
 
 import { TIDAL_ITEMS_PER_PAGE } from "../contants";
@@ -48,7 +48,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     {} as TidalResponseType,
   );
 
-  const [params] = useSearchParams();
+  const params = useParams();
   const navigate = useNavigate();
 
   const { fetchTidal } = useFetchTidal();
@@ -141,7 +141,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
   // If url query exists on load
   useEffect(() => {
-    const search = params.get("query");
+    const search = params.keywords;
     if (search) {
       setKeywords(search);
       return;

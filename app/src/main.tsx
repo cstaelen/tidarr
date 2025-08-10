@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
@@ -13,9 +12,11 @@ import PageArtist from "./pages/PageArtist";
 import PageMix from "./pages/PageMix";
 import PagePlaylist from "./pages/PagePlaylist";
 import PageTrack from "./pages/PageTrack";
+import Search from "./pages/Search";
 import { APIFetcherProvider } from "./provider/ApiFetcherProvider";
 import { AuthProvider } from "./provider/AuthProvider";
 import { ConfigProvider } from "./provider/ConfigProvider";
+import { SearchProvider } from "./provider/SearchProvider";
 
 import "./index.css";
 
@@ -53,6 +54,7 @@ root.render(
               <Route element={<PrivateRoute />}>
                 <Route element={<DefaultLayout />}>
                   <Route path="/" element={<Home />} />
+                  <Route path="/search/:keywords" element={<Search />} />
                   <Route path="/artist/:id" element={<PageArtist />} />
                   <Route path="/mix/:id" element={<PageMix />} />
                   <Route path="/playlist/:id" element={<PagePlaylist />} />

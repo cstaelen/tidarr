@@ -41,9 +41,6 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   } = useApiFetcher();
 
   const reactAppEnvVars = {
-    REACT_APP_TIDAL_SEARCH_TOKEN:
-      window._env_.REACT_APP_TIDAL_SEARCH_TOKEN || "",
-    REACT_APP_TIDARR_SEARCH_URL: window._env_.REACT_APP_TIDARR_SEARCH_URL || "",
     REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER:
       window._env_.REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER || "",
   };

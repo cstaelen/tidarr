@@ -116,12 +116,8 @@ docker exec tidarr cp -rf /root/tiddl.json /home/app/standalone/shared/tiddl.jso
 ```yaml
  environment:
   - ...
-  - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token> #optional
   - REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER=<"lossless" | "high" | "all"> #optional
 ```
-
-How to get search token :
-- https://github.com/lucaslg26/TidalAPI/issues/23
 
 ### Download settings (optional)
 
@@ -284,5 +280,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 - https://github.com/oskvr37/tiddl
 - https://github.com/yaronzz/Tidal-Media-Downloader
-- https://github.com/lucaslg26/TidalAPI
+- https://github.com/hmelder/TIDAL/wiki/search
 - https://github.com/RandomNinjaAtk/arr-scripts (Lidarr extended scripts)
