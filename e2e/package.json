@@ -6,10 +6,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.54.1",
+    "@playwright/test": "^1.54.2",
     "@types/node": "^24.0.13",
     "dotenv": "^17.2.0",
-    "playwright": "^1.54.1"
+    "playwright": "^1.54.2"
   },
   "scripts": {
     "playwright:test": "playwright test",
