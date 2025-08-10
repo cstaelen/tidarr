@@ -18,20 +18,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'yarn'
 
-      - name: Install ESLint + Prettier
+      - name: Install deps
         run: |
-          npm install -g eslint@9.15.0
-          npm install @eslint/js@9.15.0
-          npm install typescript-eslint@8.15.0
-          npm install eslint-plugin-jsx-a11y@6.10.2
-          npm install eslint-plugin-react@7.37.2
-          npm install eslint-plugin-react-hooks@5.0.0
-          npm install eslint-config-prettier@9.1.0
-          npm install eslint-plugin-prettier@5.2.1
-          npm install eslint-plugin-simple-import-sort@12.1.1
-          npm install prettier@3.3.3
+          yarn install
 
-      - name: Check code lint and format for API
-        run: eslint -c ./eslint.config.mjs .
+      - name: Run ESLINT
+        run: |
+          yarn eslint
       
