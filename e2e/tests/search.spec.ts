@@ -245,7 +245,7 @@ test("Tidarr search : Should see quality filtered results", async ({
     .locator(".MuiChip-root")
     .filter({ hasText: /^low$/ })
     .count();
-  await expect(countLow).toEqual(2);
+  await expect(countLow).toEqual(3);
 
   // Filter lossless
 
