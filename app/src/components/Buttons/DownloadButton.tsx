@@ -4,6 +4,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import DownloadIcon from "@mui/icons-material/Download";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Button, CircularProgress } from "@mui/material";
+import { TIDAL_ALBUM_URL } from "src/contants";
 
 import { useProcessingProvider } from "../../provider/ProcessingProvider";
 import {
@@ -44,7 +45,7 @@ export const DownloadButton = ({
         {
           ...(item as TrackType).album,
           artists: [...(item as TrackType).artists],
-          url: `${window._env_.REACT_APP_TIDARR_SEARCH_URL}${(item as TrackType).album.id}`,
+          url: `${TIDAL_ALBUM_URL}${(item as TrackType).album.id}`,
         } as AlbumType,
         type,
       );

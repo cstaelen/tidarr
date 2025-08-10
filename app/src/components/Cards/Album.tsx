@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Box, Button, Chip, Stack, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
