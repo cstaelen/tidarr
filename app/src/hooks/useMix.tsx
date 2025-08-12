@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useFetchTidal } from "src/utils/useFetchTidal";
+import { useFetchTidal } from "src/hooks/useFetchTidal";
 
 import { MixType, TidalModuleResponseType, TrackType } from "../types";
 

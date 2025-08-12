@@ -5,18 +5,12 @@ import VideoCard from "src/components/Cards/Video";
 import ArtistHeader from "src/components/Headers/Artist";
 import { TIDAL_ITEMS_PER_PAGE } from "src/contants";
 import { ArtistProvider, useArtist } from "src/provider/ArtistProvider";
+import { a11yProps } from "src/utils/helpers";
 
 import AlbumCard from "../components/Cards/Album";
 import { AlbumsLoader } from "../components/Skeletons/AlbumsLoader";
 import { useSearchProvider } from "../provider/SearchProvider";
 import { AlbumType, TidalModuleListType, VideoType } from "../types";
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
 
 function Pager({
   data,

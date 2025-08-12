@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Container, Tab, Tabs, useTheme } from "@mui/material";
+import { a11yProps } from "src/utils/helpers";
 
 import TopResults from "../components/Results/TopResults";
 import TypeResults from "../components/Results/TypeResults";
@@ -27,13 +28,6 @@ function TabPanel(props: TabPanelProps) {
       {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
     </div>
   );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`,
-  };
 }
 
 export default function Search() {

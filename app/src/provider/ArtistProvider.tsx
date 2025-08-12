@@ -1,6 +1,6 @@
 import { ReactNode, useContext, useState } from "react";
 import React from "react";
-import { useFetchTidal } from "src/utils/useFetchTidal";
+import { useFetchTidal } from "src/hooks/useFetchTidal";
 
 import { TIDAL_ITEMS_PER_PAGE } from "../contants";
 import {

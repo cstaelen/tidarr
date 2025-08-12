@@ -1,38 +1,26 @@
 import React, { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Box, Container, Tabs, useTheme } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
+import TypeResults, {
+  TidalContentType,
+} from "src/components/Results/TypeResults";
+import { ModulePager } from "src/components/TidalModule/Pager";
+import { useModules } from "src/hooks/useModules";
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  dir?: string;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
-    </div>
-  );
-}
+const MediaTypeMap: { [keyof: string]: TidalContentType } = {
+  ALBUM_LIST: "albums",
+  VIDEO_LIST: "videos",
+  TRACK_LIST: "tracks",
+  PLAYLIST_LIST: "playlists",
+};
 
 export default function Home() {
-  const theme = useTheme();
   const [value, setValue] = React.useState(0);
   const [params] = useSearchParams();
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+  const {
+    data,
+    actions: { queryModules },
+  } = useModules();
 
   useEffect(() => {
     setValue(0);
@@ -40,23 +28,46 @@ export default function Home() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    queryModules(`/pages/home`);
   }, [value]);
 
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
       <Container maxWidth="lg">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="secondary"
-          textColor="inherit"
-          variant={window.innerWidth > 800 ? "fullWidth" : "scrollable"}
-          aria-label="Tidal result tabs"
-        ></Tabs>
-      </Container>
-
-      <Container maxWidth="lg">
-        <TabPanel value={value} index={0} dir={theme.direction}></TabPanel>
+        {data?.rows?.map((row, index1) => (
+          <Container
+            maxWidth="lg"
+            sx={{ mt: 2 }}
+            key={`card-${index1}`}
+            component="section"
+          >
+            <Box marginBottom={5}>
+              <hr />
+              <h2>
+                {row.modules[0].title.toLowerCase() === "featured albums"
+                  ? "Albums"
+                  : row.modules[0].title}{" "}
+                ({row.modules[0].pagedList.totalNumberOfItems})
+              </h2>
+              <hr />
+              <br />
+              <Grid container spacing={2}>
+                {row.modules[0]?.type && (
+                  <>
+                    <TypeResults
+                      type={MediaTypeMap[row.modules[0].type]}
+                      data={row.modules[0].pagedList.items}
+                    />
+                    <ModulePager
+                      data={row.modules[0]}
+                      type={MediaTypeMap[row.modules[0].type]}
+                    />
+                  </>
+                )}
+              </Grid>
+            </Box>
+          </Container>
+        ))}
       </Container>
     </Box>
   );
