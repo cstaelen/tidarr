@@ -18,7 +18,7 @@ import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
 import NoResult from "./NoResults";
 import Pager from "./Pager";
 
-type TidalContentType =
+export type TidalContentType =
   | "albums"
   | "artists"
   | "tracks"
@@ -30,7 +30,7 @@ interface TabContentProps {
   limit?: number;
   total?: number;
   type: TidalContentType;
-  data: AlbumType[] | TrackType[] | PlaylistType[] | ArtistType[] | VideoType[];
+  data: (AlbumType | TrackType | PlaylistType | ArtistType | VideoType)[];
 }
 
 export default function TypeResults(props: TabContentProps) {

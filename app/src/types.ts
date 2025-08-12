@@ -169,7 +169,7 @@ export type TidalModuleResponseType<T> = {
 export type TidalModuleListType<T> = {
   type?: string;
   title: string;
-  album: AlbumType;
+  album?: AlbumType;
   pagedList: TidalPagedListType<T>;
   mix?: MixType;
   artist?: ArtistType;

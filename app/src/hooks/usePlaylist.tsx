@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useFetchTidal } from "src/utils/useFetchTidal";
+import { useFetchTidal } from "src/hooks/useFetchTidal";
 
 import { TIDAL_ITEMS_PER_PAGE } from "../contants";
 import { PlaylistType, TidalPagedListType, TrackType } from "../types";
