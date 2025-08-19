@@ -57,7 +57,7 @@ export const useModules = (): ModuleContextType => {
   async function queryModulePage(url: string, page: number, limit: number) {
     setPagedModuleLoading(true);
     const modulePageData = await fetchTidal<PagedModuleResponseType>(
-      `/${url}?limit=${limit}&offset=${page * limit}`,
+      `/${url}${url.includes("?") ? "&" : "?"}limit=${limit}&offset=${page * limit}`,
     );
     setPagedModuleLoading(false);
 

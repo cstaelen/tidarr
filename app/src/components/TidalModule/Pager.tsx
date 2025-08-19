@@ -5,20 +5,20 @@ import { ModuleResponseType, useModules } from "src/hooks/useModules";
 import {
   AlbumType,
   ArtistType,
+  ModuleTypeKeys,
   PlaylistType,
   TrackType,
   VideoType,
 } from "src/types";
 
-import TypeResults, { TidalContentType } from "../Results/TypeResults";
-import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
+import Module from "./Module";
 
 export function ModulePager({
   data,
   type,
 }: {
   data: ModuleResponseType;
-  type: TidalContentType;
+  type: ModuleTypeKeys;
 }) {
   const [page, setPage] = useState(1);
   const [paginatedData, setPaginatedData] =
@@ -43,28 +43,22 @@ export function ModulePager({
     setPaginatedData([...(paginatedData || []), ...(pageData?.items || [])]);
   }
 
-  if (pagedModuleLoading) {
-    return (
-      <Box marginTop={2}>
-        <AlbumsLoader />
-      </Box>
-    );
-  }
-
-  if (page === nbPages || isNaN(nbPages) || !url) return null;
+  if (isNaN(nbPages) || !url) return null;
 
   return (
-    <>
-      {paginatedData && <TypeResults type={type} data={paginatedData} />}
-      <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
-        <Button
-          variant="contained"
-          size="large"
-          onClick={async () => paginate()}
-        >
-          LOAD MORE (page: {page}/{nbPages})
-        </Button>
-      </Box>
-    </>
+    <Box sx={{ my: 2 }}>
+      <Module type={type} data={paginatedData} loading={pagedModuleLoading} />
+      {page < nbPages && (
+        <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
+          <Button
+            variant="contained"
+            size="large"
+            onClick={async () => paginate()}
+          >
+            LOAD MORE (page: {page}/{nbPages})
+          </Button>
+        </Box>
+      )}
+    </Box>
   );
 }

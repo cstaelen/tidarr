@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Container, Tab, Tabs, useTheme } from "@mui/material";
+import { Box, Container, Portal, Tab, Tabs, useTheme } from "@mui/material";
 import { a11yProps } from "src/utils/helpers";
 
-import TopResults from "../components/Results/TopResults";
-import TypeResults from "../components/Results/TypeResults";
+import TopResults from "../components/Search/TopResults";
+import TypeResults from "../components/Search/TypeResults";
 import { useSearchProvider } from "../provider/SearchProvider";
 
 interface TabPanelProps {
@@ -55,7 +55,7 @@ export default function Search() {
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
       {keywords && (
-        <Box sx={{ bgcolor: "#212121" }}>
+        <Portal container={document.getElementById("app-bar")}>
           <Container maxWidth="lg">
             <Tabs
               value={value}
@@ -97,7 +97,7 @@ export default function Search() {
               />
             </Tabs>
           </Container>
-        </Box>
+        </Portal>
       )}
 
       {keywords && (

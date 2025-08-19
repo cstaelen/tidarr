@@ -92,6 +92,7 @@ export const HeaderSearch = () => {
 
 const Header = styled.div`
   background-color: #212121;
+  box-shadow: 0 0 10px #000;
   left: 0;
   top: 0;
   text-align: center;

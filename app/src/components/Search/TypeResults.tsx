@@ -14,8 +14,8 @@ import Playlist from "../Cards/Playlist";
 import Track from "../Cards/Track";
 import VideoCard from "../Cards/Video";
 import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
+import NoResult from "../TidalModule/NoResults";
 
-import NoResult from "./NoResults";
 import Pager from "./Pager";
 
 export type TidalContentType =
