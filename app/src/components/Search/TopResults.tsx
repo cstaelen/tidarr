@@ -4,8 +4,8 @@ import { Box, Button, Typography } from "@mui/material";
 import { useSearchProvider } from "src/provider/SearchProvider";
 
 import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
+import NoResult from "../TidalModule/NoResults";
 
-import NoResult from "./NoResults";
 import TypeResults from "./TypeResults";
 
 type TidalContentType =
@@ -94,8 +94,6 @@ export default function TopResults(
               <TypeResults
                 type={block.type as TidalContentType}
                 data={block.items}
-                limit={block.limit}
-                total={block.total}
               />
               {block?.limit && block?.items.length > block?.limit ? (
                 <Box marginTop={3} justifyContent="flex-end" display="flex">

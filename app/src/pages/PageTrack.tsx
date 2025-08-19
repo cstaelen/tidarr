@@ -2,12 +2,11 @@ import { useParams } from "react-router-dom";
 import { Box, Container } from "@mui/material";
 import AlbumHeader from "src/components/Headers/Album";
 import TrackHeader from "src/components/Headers/Track";
-import NoResult from "src/components/Results/NoResults";
-import TypeResults from "src/components/Results/TypeResults";
+import Module from "src/components/TidalModule/Module";
+import NoResult from "src/components/TidalModule/NoResults";
+import { ModuleTitle } from "src/components/TidalModule/Title";
 import { useAlbum } from "src/hooks/useAlbum";
 import { useTrack } from "src/hooks/useTrack";
-
-import { AlbumsLoader } from "../components/Skeletons/AlbumsLoader";
 
 export default function PageTrack() {
   const { id } = useParams();
@@ -20,35 +19,18 @@ export default function PageTrack() {
 
   return (
     <Container maxWidth="lg" sx={{ py: 3 }}>
-      {track ? (
-        <>
-          <Box mb={2}>
-            <TrackHeader track={track} />
-          </Box>
-          {album ? (
-            <>
-              <hr />
-              <h2>Related release :</h2>
-              <hr />
-              <br />
-              <Box mb={2}>
-                <AlbumHeader album={album} />
-              </Box>
-              {tracks && tracks?.length > 0 && (
-                <Box>
-                  <TypeResults type="tracks" data={tracks} />
-                </Box>
-              )}
-            </>
-          ) : null}
-        </>
-      ) : null}
-
-      {(loadingTrack || loadingAlbum) && (
-        <Box py={2}>
-          <AlbumsLoader />
+      <>
+        <Box mb={2}>{track && <TrackHeader track={track} />}</Box>
+        <ModuleTitle title="Related release" />
+        <Box mb={2}>{album && <AlbumHeader album={album} />}</Box>
+        <Box>
+          <Module
+            type="TRACK_LIST"
+            data={tracks}
+            loading={loadingTrack || loadingAlbum}
+          />
         </Box>
-      )}
+      </>
     </Container>
   );
 }

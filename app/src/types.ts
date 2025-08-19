@@ -167,7 +167,7 @@ export type TidalModuleResponseType<T> = {
 };
 
 export type TidalModuleListType<T> = {
-  type?: string;
+  type?: ModuleTypeKeys;
   title: string;
   album?: AlbumType;
   pagedList: TidalPagedListType<T>;
@@ -185,6 +185,22 @@ export type TidalPagedListType<T> = {
   offset?: number;
   dataApiPath?: string;
 };
+
+export type ModuleItemLevelType<T> = {
+  item: T;
+};
+
+export type ModuleTypeKeys =
+  | "ALBUM_LIST"
+  | "ALBUM_HEADER"
+  | "ALBUM_ITEMS"
+  | "VIDEO_LIST"
+  | "TRACK_LIST"
+  | "PLAYLIST_LIST"
+  | "MIXED_TYPES_LIST"
+  | "EDITORIAL"
+  | "ARTIST_HEADER"
+  | "ARTIST_LIST";
 
 // CONFIG
 
