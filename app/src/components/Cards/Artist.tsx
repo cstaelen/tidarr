@@ -44,7 +44,7 @@ export default function Artist({ artist }: { artist: ArtistType }) {
               </Typography>
             </Link>
           </Stack>
-          {artist.popularity && (
+          {artist.popularity ? (
             <Stack direction="row" spacing={1} sx={{ py: 1.5 }}>
               <Chip
                 label={`Popularity: ${artist.popularity}`}
@@ -59,7 +59,7 @@ export default function Artist({ artist }: { artist: ArtistType }) {
                 }
               />
             </Stack>
-          )}
+          ) : null}
           <Stack direction="row" flexWrap="wrap" spacing={1} sx={{ mt: 1 }}>
             <Button
               variant="outlined"
