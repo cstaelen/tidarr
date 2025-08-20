@@ -1,12 +1,13 @@
 import React from "react";
 import { ArrowRightAlt } from "@mui/icons-material";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useSearchProvider } from "src/provider/SearchProvider";
+import { ModuleTypeKeys } from "src/types";
 
 import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
+import Module from "../TidalModule/Module";
 import NoResult from "../TidalModule/NoResults";
-
-import TypeResults from "./TypeResults";
+import { ModuleTitle } from "../TidalModule/Title";
 
 type TidalContentType =
   | "albums"
@@ -32,40 +33,40 @@ export default function TopResults(
 
   const data = [
     {
-      type: "artists",
-      label: "Artist(s)",
+      type: "ARTIST_LIST",
+      label: "Artists",
       items: artists?.items,
       total: artists?.totalNumberOfItems,
       limit: 3,
       tab: 2,
     },
     {
-      type: "albums",
-      label: "Album(s)",
+      type: "ALBUM_LIST",
+      label: "Albums",
       items: albums?.items,
       total: albums?.totalNumberOfItems,
       limit: 9,
       tab: 1,
     },
     {
-      type: "tracks",
-      label: "Track(s)",
+      type: "TRACK_LIST",
+      label: "Tracks",
       items: tracks?.items,
       total: tracks?.totalNumberOfItems,
       limit: 6,
       tab: 3,
     },
     {
-      type: "playlists",
-      label: "Playlist(s)",
+      type: "PLAYLIST_LIST",
+      label: "Playlists",
       items: playlists?.items || [],
       total: playlists?.totalNumberOfItems,
       limit: 6,
       tab: 4,
     },
     {
-      type: "videos",
-      label: "Video(s)",
+      type: "VIDEO_LIST",
+      label: "Videos",
       items: videos?.items || [],
       total: videos?.totalNumberOfItems,
       limit: 6,
@@ -88,12 +89,11 @@ export default function TopResults(
         <div key={`top-${block.type}`}>
           {block?.items?.length > 0 ? (
             <Box paddingBottom={3} key={`top-${block.type}`}>
-              <Typography component="h2" variant="h4" paddingBottom={2}>
-                {block.label}
-              </Typography>
-              <TypeResults
-                type={block.type as TidalContentType}
-                data={block.items}
+              <ModuleTitle title={block.label} total={block.total} />
+              <Module
+                type={block.type as ModuleTypeKeys}
+                data={block.items.slice(0, block.limit)}
+                loading={loading}
               />
               {block?.limit && block?.items.length > block?.limit ? (
                 <Box marginTop={3} justifyContent="flex-end" display="flex">
@@ -102,7 +102,7 @@ export default function TopResults(
                     onClick={() => props.changeTab(block.tab)}
                     variant="contained"
                   >
-                    See all {block?.type} ({block?.total})
+                    See all {block?.label} ({block?.total})
                   </Button>
                 </Box>
               ) : null}

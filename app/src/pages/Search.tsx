@@ -106,39 +106,19 @@ export default function Search() {
             <TopResults changeTab={setValue} />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <TypeResults
-              type="albums"
-              data={albums?.items}
-              total={albums?.totalNumberOfItems}
-            />
+            <TypeResults type="ALBUM_LIST" data={albums} />
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
-            <TypeResults
-              type="artists"
-              data={artists?.items}
-              total={artists?.totalNumberOfItems}
-            />
+            <TypeResults type="ARTIST_LIST" data={artists} />
           </TabPanel>
           <TabPanel value={value} index={3} dir={theme.direction}>
-            <TypeResults
-              type="tracks"
-              data={tracks?.items}
-              total={tracks?.totalNumberOfItems}
-            />
+            <TypeResults type="TRACK_LIST" data={tracks} />
           </TabPanel>
           <TabPanel value={value} index={4} dir={theme.direction}>
-            <TypeResults
-              type="playlists"
-              data={playlists?.items}
-              total={playlists?.totalNumberOfItems}
-            />
+            <TypeResults type="PLAYLIST_LIST" data={playlists} />
           </TabPanel>
           <TabPanel value={value} index={5} dir={theme.direction}>
-            <TypeResults
-              type="videos"
-              data={videos?.items}
-              total={videos?.totalNumberOfItems}
-            />
+            <TypeResults type="VIDEO_LIST" data={videos} />
           </TabPanel>
         </Container>
       )}
