@@ -1,18 +1,17 @@
 import { ReactNode, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { AppBar } from "@mui/material";
+import { SearchProvider } from "src/provider/SearchProvider";
 
 import { useConfigProvider } from "../provider/ConfigProvider";
 import { ProcessingProvider } from "../provider/ProcessingProvider";
-import { SearchProvider } from "../provider/SearchProvider";
 
 import { DialogConfig } from "./Dialog/DialogConfig";
 import { DialogNoAPI } from "./Dialog/DialogNoAPI";
 import { DialogToken } from "./Dialog/DialogToken";
+import { Footer } from "./Layout/Footer";
+import { HeaderSearch } from "./Layout/HeaderSearch";
 import { ProcessingList } from "./Processing/ProcessingList";
-import { HeaderSearch } from "./Search/HeaderSearch";
-import { Footer } from "./Footer";
 
 function MainLayout({ children }: { children: ReactNode }) {
   const [appLoaded, setAppLoaded] = useState(false);
@@ -20,8 +19,6 @@ function MainLayout({ children }: { children: ReactNode }) {
     config,
     actions: { checkAPI, checkForUpdates },
   } = useConfigProvider();
-
-  const [params] = useSearchParams();
 
   useEffect(() => {
     setAppLoaded(true);
@@ -41,11 +38,7 @@ function MainLayout({ children }: { children: ReactNode }) {
           <SearchProvider>
             <ProcessingProvider>
               <Content>
-                <AppBar
-                  id="app-bar"
-                  position="sticky"
-                  style={!params.get("query") ? { boxShadow: "none" } : {}}
-                >
+                <AppBar id="app-bar" position="sticky">
                   <HeaderSearch />
                 </AppBar>
                 {children}

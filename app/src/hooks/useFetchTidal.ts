@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { useConfigProvider } from "src/provider/ConfigProvider";
+import { ConfigTiddleType } from "src/types";
 
 import { TIDAL_API_LISTEN_URL } from "../contants";
 
@@ -7,13 +9,17 @@ const jsonMimeType = "application/json";
 async function fetchTidal<T>(
   url: string,
   options: RequestInit = {},
-  countryCode: string,
+  tiddlConfig?: ConfigTiddleType,
 ): Promise<T | undefined> {
-  const TOKEN = window._env_.REACT_APP_TIDAL_SEARCH_TOKEN;
+  const countryCode = tiddlConfig?.auth.country_code || "EN";
+  const TOKEN = tiddlConfig?.auth.token;
 
-  options.headers = new Headers(options?.headers);
+  options.headers = new Headers({
+    ...options?.headers,
+    Authorization: `Bearer ${TOKEN}`,
+  });
 
-  const url_suffix = `${url.includes("?") ? "&" : "?"}token=${TOKEN}&countryCode=${countryCode}&deviceType=BROWSER&locale=en_US`;
+  const url_suffix = `${url.includes("?") ? "&" : "?"}countryCode=${countryCode}&deviceType=BROWSER&locale=en_US`;
   // POST, PUT payload encoding
   if (
     "undefined" !== options.body &&
@@ -36,12 +42,17 @@ async function fetchTidal<T>(
 
 export function useFetchTidal() {
   const { tiddlConfig } = useConfigProvider();
+  const [loading, setLoading] = useState<boolean>(false);
 
-  function fetcher<T>(url: string, options?: RequestInit) {
-    return fetchTidal<T>(url, options, tiddlConfig?.auth.country_code || "EN");
+  async function fetcher<T>(url: string, options?: RequestInit) {
+    setLoading(true);
+    const data = await fetchTidal<T>(url, options, tiddlConfig);
+    setLoading(false);
+    return data;
   }
 
   return {
+    loading,
     fetchTidal: fetcher,
   };
 }

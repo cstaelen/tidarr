@@ -46,7 +46,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Server side download list processing
 - UI build with **ReactJS** + **ExpressJS** API
 - Self-hostable with **Docker** using a Linuxserver.io base image (uncompressed size: ~ 190 Mo)
-- Download **Tidal** content with [Tiddl (2.4.0)](https://github.com/oskvr37/tiddl/tree/v2.4.0)
+- Download **Tidal** content with [Tiddl (2.5.1)](https://github.com/oskvr37/tiddl/tree/v2.5.1)
 - Download covers
 - Tag import using **Beets.io** (python)
 - Push notifications using **Gotify** and **Apprise API**
@@ -116,12 +116,8 @@ docker exec tidarr cp -rf /root/tiddl.json /home/app/standalone/shared/tiddl.jso
 ```yaml
  environment:
   - ...
-  - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token> #optional
   - REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER=<"lossless" | "high" | "all"> #optional
 ```
-
-How to get search token :
-- https://github.com/lucaslg26/TidalAPI/issues/23
 
 ### Download settings (optional)
 
@@ -284,5 +280,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 - https://github.com/oskvr37/tiddl
 - https://github.com/yaronzz/Tidal-Media-Downloader
-- https://github.com/lucaslg26/TidalAPI
+- https://github.com/hmelder/TIDAL/wiki/search
 - https://github.com/RandomNinjaAtk/arr-scripts (Lidarr extended scripts)

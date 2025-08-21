@@ -44,21 +44,23 @@ export default function Artist({ artist }: { artist: ArtistType }) {
               </Typography>
             </Link>
           </Stack>
-          <Stack direction="row" spacing={1} sx={{ py: 1.5 }}>
-            <Chip
-              label={`Popularity: ${artist.popularity}`}
-              variant="outlined"
-              size="small"
-              color={
-                artist.popularity > 75
-                  ? "success"
-                  : artist.popularity > 33
-                    ? "warning"
-                    : "error"
-              }
-            />
-          </Stack>
-          <Stack direction="row" flexWrap="wrap" spacing={1}>
+          {artist.popularity ? (
+            <Stack direction="row" spacing={1} sx={{ py: 1.5 }}>
+              <Chip
+                label={`Popularity: ${artist.popularity}`}
+                variant="outlined"
+                size="small"
+                color={
+                  artist.popularity > 75
+                    ? "success"
+                    : artist.popularity > 33
+                      ? "warning"
+                      : "error"
+                }
+              />
+            </Stack>
+          ) : null}
+          <Stack direction="row" flexWrap="wrap" spacing={1} sx={{ mt: 1 }}>
             <Button
               variant="outlined"
               endIcon={<AlbumIcon />}

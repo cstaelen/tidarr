@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Box, Container, Portal, Tab, Tabs, useTheme } from "@mui/material";
+import { a11yProps } from "src/utils/helpers";
 
-import TopResults from "../components/Results/TopResults";
-import TypeResults from "../components/Results/TypeResults";
+import TopResults from "../components/Search/TopResults";
+import TypeResults from "../components/Search/TypeResults";
 import { useSearchProvider } from "../provider/SearchProvider";
 
 interface TabPanelProps {
@@ -29,14 +30,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-function a11yProps(index: number) {
-  return {
-    id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`,
-  };
-}
-
-export default function Home() {
+export default function Search() {
   const {
     keywords,
     searchResults: { albums, artists, tracks, playlists, videos },
@@ -44,7 +38,7 @@ export default function Home() {
 
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
-  const [params] = useSearchParams();
+  const params = useParams();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -112,39 +106,19 @@ export default function Home() {
             <TopResults changeTab={setValue} />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <TypeResults
-              type="albums"
-              data={albums?.items}
-              total={albums?.totalNumberOfItems}
-            />
+            <TypeResults type="ALBUM_LIST" data={albums} />
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
-            <TypeResults
-              type="artists"
-              data={artists?.items}
-              total={artists?.totalNumberOfItems}
-            />
+            <TypeResults type="ARTIST_LIST" data={artists} />
           </TabPanel>
           <TabPanel value={value} index={3} dir={theme.direction}>
-            <TypeResults
-              type="tracks"
-              data={tracks?.items}
-              total={tracks?.totalNumberOfItems}
-            />
+            <TypeResults type="TRACK_LIST" data={tracks} />
           </TabPanel>
           <TabPanel value={value} index={4} dir={theme.direction}>
-            <TypeResults
-              type="playlists"
-              data={playlists?.items}
-              total={playlists?.totalNumberOfItems}
-            />
+            <TypeResults type="PLAYLIST_LIST" data={playlists} />
           </TabPanel>
           <TabPanel value={value} index={5} dir={theme.direction}>
-            <TypeResults
-              type="videos"
-              data={videos?.items}
-              total={videos?.totalNumberOfItems}
-            />
+            <TypeResults type="VIDEO_LIST" data={videos} />
           </TabPanel>
         </Container>
       )}
