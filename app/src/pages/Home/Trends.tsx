@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 import { Box, Container } from "@mui/material";
 import Module from "src/components/TidalModule/Module";
-import ModuleNavigation from "src/components/TidalModule/Navigation";
 import { ModulePager } from "src/components/TidalModule/Pagination";
 import { ModuleTitle } from "src/components/TidalModule/Title";
 import { useModules } from "src/hooks/useModules";
 
-export default function Home() {
+export default function Trends() {
   const {
     data,
     loading,
@@ -21,7 +20,6 @@ export default function Home() {
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
       <Container maxWidth="lg">
-        {data && <ModuleNavigation data={data} />}
         {data?.rows?.map((row, index1) => (
           <Box marginBottom={5} key={`block-${index1}`}>
             <ModuleTitle

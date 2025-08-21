@@ -198,6 +198,7 @@ export type ModuleTypeKeys =
   | "TRACK_LIST"
   | "PLAYLIST_LIST"
   | "MIXED_TYPES_LIST"
+  | "MIX_LIST"
   | "EDITORIAL"
   | "ARTIST_HEADER"
   | "ARTIST_LIST";

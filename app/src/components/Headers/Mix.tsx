@@ -1,10 +1,13 @@
-import { Alert, AlertTitle } from "@mui/material";
+import { Link } from "react-router-dom";
+import { Alert, AlertTitle, useTheme } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { MixType } from "src/types";
 
 import PageHeader from "./Header";
 
 export default function Mix({ mix }: { mix: MixType }) {
+  const theme = useTheme();
+
   return (
     <>
       <PageHeader
@@ -30,6 +33,19 @@ export default function Mix({ mix }: { mix: MixType }) {
         <ol style={{ paddingLeft: "1.5rem" }}>
           <li>Create a new playlist from the mix/radio</li>
           <li>Download the playlist using playlist URL</li>
+          <li>
+            Go to{" "}
+            <Link
+              to="/my-playlists"
+              style={{
+                lineHeight: 1,
+                color: theme.palette.primary.main,
+              }}
+            >
+              "My Playlists"
+            </Link>{" "}
+            to download.
+          </li>
         </ol>
       </Alert>
     </>

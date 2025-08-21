@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { ConfigTiddleType } from "src/types";
 
@@ -41,12 +42,17 @@ async function fetchTidal<T>(
 
 export function useFetchTidal() {
   const { tiddlConfig } = useConfigProvider();
+  const [loading, setLoading] = useState<boolean>(false);
 
-  function fetcher<T>(url: string, options?: RequestInit) {
-    return fetchTidal<T>(url, options, tiddlConfig);
+  async function fetcher<T>(url: string, options?: RequestInit) {
+    setLoading(true);
+    const data = await fetchTidal<T>(url, options, tiddlConfig);
+    setLoading(false);
+    return data;
   }
 
   return {
+    loading,
     fetchTidal: fetcher,
   };
 }
