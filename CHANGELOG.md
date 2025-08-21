@@ -3,6 +3,14 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.2.2
+### 🖍 Changed
+* [Front] Add home page suggest content
+* [Front] Refacto tidal content fetching
+* [Front] Search Tidal with Tiddl credentials
+* [Chore] Update dependencies
+* [API] Update `tiddl` from `2.4.0` to version `2.5.1`
+
 ## 📦 0.2.1
 ### 🖍 Changed
 * [API] Country code is taken from `tiddl_config` instead of environment variable (you can remove it in your docker compose file).
