@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { TextField } from "@mui/material";
 
 export const SearchForm = () => {
   const [inputValue, setInputValue] = useState<string>();
   const { pathname } = useLocation();
+  const params = useParams();
 
   const navigate = useNavigate();
 
@@ -29,8 +30,12 @@ export const SearchForm = () => {
   useEffect(() => {
     if (pathname === "/") {
       setInputValue("");
+      return;
     }
-  }, [pathname]);
+    if (params) {
+      setInputValue(params.keywords);
+    }
+  }, [pathname, params]);
 
   return (
     <form onSubmit={performSearch}>
