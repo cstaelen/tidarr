@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Avatar, Button, Chip, Stack, useTheme } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import { customColors } from "src/utils/theme";
 
 import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
@@ -38,7 +39,7 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
                   : theme.palette.common.black,
               backgroundColor:
                 album?.audioQuality?.toLowerCase() === "lossless"
-                  ? theme.customColors.gold
+                  ? customColors.gold
                   : theme.palette.primary.main,
             }}
           />

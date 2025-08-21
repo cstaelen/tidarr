@@ -4,6 +4,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useSearchProvider } from "src/provider/SearchProvider";
+import { customColors } from "src/utils/theme";
 
 import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
@@ -109,7 +110,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
                       : theme.palette.common.black,
                   backgroundColor:
                     album?.audioQuality?.toLowerCase() === "lossless"
-                      ? theme.customColors.gold
+                      ? customColors.gold
                       : theme.palette.primary.main,
                 }}
               />

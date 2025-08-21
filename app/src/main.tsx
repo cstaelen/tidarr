@@ -16,15 +16,10 @@ import Search from "./pages/Search";
 import { APIFetcherProvider } from "./provider/ApiFetcherProvider";
 import { AuthProvider } from "./provider/AuthProvider";
 import { ConfigProvider } from "./provider/ConfigProvider";
-import { SearchProvider } from "./provider/SearchProvider";
 
 import "./index.css";
 
 const darkTheme = createTheme({
-  customColors: {
-    gold: "#a57c00",
-    alert: "#e47964",
-  },
   palette: {
     mode: "dark",
   },

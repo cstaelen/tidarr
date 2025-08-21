@@ -8,6 +8,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { TrackType } from "src/types";
+import { customColors } from "src/utils/theme";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
 
@@ -79,7 +80,7 @@ export default function TrackHeader({ track }: { track: TrackType }) {
                     : theme.palette.common.black,
                 backgroundColor:
                   track?.audioQuality?.toLowerCase() === "lossless"
-                    ? theme.customColors.gold
+                    ? customColors.gold
                     : theme.palette.primary.main,
               }}
             />
