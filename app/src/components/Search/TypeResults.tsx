@@ -1,4 +1,3 @@
-import { Box, Button } from "@mui/material";
 import { TIDAL_ITEMS_PER_PAGE } from "src/contants";
 import { useSearchProvider } from "src/provider/SearchProvider";
 import {
@@ -11,6 +10,7 @@ import {
   VideoType,
 } from "src/types";
 
+import PagerButton from "../Buttons/PagerButton";
 import Module from "../TidalModule/Module";
 
 interface TabContentProps {
@@ -29,17 +29,12 @@ export default function TypeResults(props: TabContentProps) {
   return (
     <>
       <Module data={props.data.items} type={props.type} loading={loading} />
-
-      <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
-        <Button
-          variant="contained"
-          size="large"
-          onClick={() => actions.setPage(page + 1)}
-        >
-          LOAD MORE (page: {page}/
-          {Math.ceil(props.data.totalNumberOfItems / TIDAL_ITEMS_PER_PAGE)})
-        </Button>
-      </Box>
+      <PagerButton
+        page={page}
+        setPage={() => actions.setPage(page + 1)}
+        itemPerPage={TIDAL_ITEMS_PER_PAGE}
+        totalItems={props.data.totalNumberOfItems}
+      />
     </>
   );
 }

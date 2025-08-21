@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Box, Container } from "@mui/material";
 import Module from "src/components/TidalModule/Module";
 import ModuleNavigation from "src/components/TidalModule/Navigation";
-import { ModulePager } from "src/components/TidalModule/Pager";
+import { ModulePager } from "src/components/TidalModule/Pagination";
 import { ModuleTitle } from "src/components/TidalModule/Title";
 import { useModules } from "src/hooks/useModules";
 
