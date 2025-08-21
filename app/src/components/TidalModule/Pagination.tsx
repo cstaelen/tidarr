@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import { TIDAL_ITEMS_PER_PAGE } from "src/contants";
 import { ModuleResponseType, useModules } from "src/hooks/useModules";
 import {
@@ -10,6 +10,8 @@ import {
   TrackType,
   VideoType,
 } from "src/types";
+
+import PagerButton from "../Buttons/PagerButton";
 
 import Module from "./Module";
 
@@ -48,17 +50,12 @@ export function ModulePager({
   return (
     <Box sx={{ my: 2 }}>
       <Module type={type} data={paginatedData} loading={pagedModuleLoading} />
-      {page < nbPages && (
-        <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
-          <Button
-            variant="contained"
-            size="large"
-            onClick={async () => paginate()}
-          >
-            LOAD MORE (page: {page}/{nbPages})
-          </Button>
-        </Box>
-      )}
+      <PagerButton
+        page={page}
+        setPage={paginate}
+        itemPerPage={limit}
+        totalItems={data.pagedList?.totalNumberOfItems}
+      />
     </Box>
   );
 }

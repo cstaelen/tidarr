@@ -9,9 +9,9 @@ import { ProcessingProvider } from "../provider/ProcessingProvider";
 import { DialogConfig } from "./Dialog/DialogConfig";
 import { DialogNoAPI } from "./Dialog/DialogNoAPI";
 import { DialogToken } from "./Dialog/DialogToken";
+import { Footer } from "./Layout/Footer";
 import { HeaderSearch } from "./Layout/HeaderSearch";
 import { ProcessingList } from "./Processing/ProcessingList";
-import { Footer } from "./Footer";
 
 function MainLayout({ children }: { children: ReactNode }) {
   const [appLoaded, setAppLoaded] = useState(false);
