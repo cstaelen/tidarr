@@ -11,15 +11,14 @@ async function fetchTidal<T>(
   tiddlConfig?: ConfigTiddleType,
 ): Promise<T | undefined> {
   const countryCode = tiddlConfig?.auth.country_code || "EN";
-  // const TOKEN = tiddlConfig?.auth.token;
-  const TOKEN = "CzET4vdadNUFQ5JU";
+  const TOKEN = tiddlConfig?.auth.token;
 
   options.headers = new Headers({
     ...options?.headers,
-    // Authorization: `Bearer ${TOKEN}`,
+    Authorization: `Bearer ${TOKEN}`,
   });
 
-  const url_suffix = `${url.includes("?") ? "&" : "?"}token=${TOKEN}&countryCode=${countryCode}&deviceType=BROWSER&locale=en_US`;
+  const url_suffix = `${url.includes("?") ? "&" : "?"}countryCode=${countryCode}&deviceType=BROWSER&locale=en_US`;
   // POST, PUT payload encoding
   if (
     "undefined" !== options.body &&
