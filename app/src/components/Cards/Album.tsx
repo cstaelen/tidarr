@@ -100,7 +100,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
               style={{ marginBottom: "0.5rem" }}
             >
               <Chip
-                label={album.audioQuality.toLowerCase()}
+                label={album.audioQuality?.toLowerCase()}
                 size="small"
                 style={{
                   margin: "0.2rem",

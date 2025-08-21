@@ -3,6 +3,7 @@ import { useSearchProvider } from "src/provider/SearchProvider";
 import {
   AlbumType,
   ArtistType,
+  MixType,
   ModuleItemLevelType,
   ModuleTypeKeys,
   PlaylistType,
@@ -12,6 +13,7 @@ import {
 
 import AlbumCard from "../Cards/Album";
 import Artist from "../Cards/Artist";
+import Mix from "../Cards/Mix";
 import Playlist from "../Cards/Playlist";
 import Track from "../Cards/Track";
 import VideoCard from "../Cards/Video";
@@ -40,6 +42,7 @@ export default function Module(props: ModuleContentProps) {
                 | ArtistType
                 | TrackType
                 | PlaylistType
+                | MixType
                 | VideoType
                 | ModuleItemLevelType<PlaylistType>
                 | ModuleItemLevelType<TrackType>,
@@ -64,6 +67,7 @@ export default function Module(props: ModuleContentProps) {
                 sx={{
                   display:
                     props.type === "VIDEO_LIST" ||
+                    props.type === "MIX_LIST" ||
                     props.type === "ARTIST_LIST" ||
                     (data as PlaylistType).type === "EDITORIAL" ||
                     quality === "all" ||
@@ -90,6 +94,8 @@ export default function Module(props: ModuleContentProps) {
                   <Playlist
                     playlist={(data as ModuleItemLevelType<PlaylistType>)?.item}
                   />
+                ) : props.type === "MIX_LIST" ? (
+                  <Mix mix={data as MixType} />
                 ) : props.type === "VIDEO_LIST" ? (
                   <VideoCard video={data as VideoType} />
                 ) : null}

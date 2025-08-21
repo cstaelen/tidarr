@@ -5,7 +5,7 @@ import { createTheme, CssBaseline } from "@mui/material";
 
 import MainLayout from "./components/MainLayout";
 import PrivateRoute, { ROUTE_LOGIN } from "./components/Security/PrivateRoute";
-import Home from "./pages/Home";
+import HomeTabs from "./pages/Home/HomeTabs";
 import Login from "./pages/Login";
 import PageAlbum from "./pages/PageAlbum";
 import PageArtist from "./pages/PageArtist";
@@ -48,7 +48,7 @@ root.render(
               <Route path={ROUTE_LOGIN} element={<Login />} />
               <Route element={<PrivateRoute />}>
                 <Route element={<DefaultLayout />}>
-                  <Route path="/" element={<Home />} />
+                  <Route path="/" element={<HomeTabs />} />
                   <Route path="/search/:keywords" element={<Search />} />
                   <Route path="/artist/:id" element={<PageArtist />} />
                   <Route path="/mix/:id" element={<PageMix />} />
