@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 import Module from "src/components/TidalModule/Module";
 import { ModulePager } from "src/components/TidalModule/Pagination";
 import { ModuleTitle } from "src/components/TidalModule/Title";
@@ -14,31 +14,31 @@ export default function MyMixes() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    queryModules(`/pages/my_collection_my_mixes`);
-  }, []);
+    if (!data && !loading) {
+      queryModules(`/pages/my_collection_my_mixes`);
+    }
+  }, [data, loading, queryModules]);
 
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
-      <Container maxWidth="lg">
-        {data?.rows?.map((row, index1) => (
-          <Box marginBottom={5} key={`block-${index1}`}>
-            <ModuleTitle
-              title="My Mixes"
-              total={row.modules[0].pagedList.totalNumberOfItems}
-            />
-            {row.modules[0]?.type && (
-              <>
-                <Module
-                  type={row.modules[0].type}
-                  data={row.modules[0].pagedList.items}
-                  loading={loading}
-                />
-                <ModulePager data={row.modules[0]} type={row.modules[0].type} />
-              </>
-            )}
-          </Box>
-        ))}
-      </Container>
+      {data?.rows?.map((row, index1) => (
+        <Box marginBottom={5} key={`block-${index1}`}>
+          <ModuleTitle
+            title="My Mixes"
+            total={row.modules[0].pagedList.totalNumberOfItems}
+          />
+          {row.modules[0]?.type && (
+            <>
+              <Module
+                type={row.modules[0].type}
+                data={row.modules[0].pagedList.items}
+                loading={loading}
+              />
+              <ModulePager data={row.modules[0]} type={row.modules[0].type} />
+            </>
+          )}
+        </Box>
+      ))}
     </Box>
   );
 }

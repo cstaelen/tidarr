@@ -32,9 +32,8 @@ export default function Mix({ mix }: { mix: MixType }) {
         <AlertTitle>To download the entire track list :</AlertTitle>
         <ol style={{ paddingLeft: "1.5rem" }}>
           <li>Create a new playlist from the mix/radio</li>
-          <li>Download the playlist using playlist URL</li>
           <li>
-            Go to{" "}
+            Download the playlist using playlist URL or go to{" "}
             <Link
               to="/my-playlists"
               style={{

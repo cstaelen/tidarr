@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Container, Portal, Tab, Tabs, useTheme } from "@mui/material";
 
+import MyFavorites from "./MyFavorites";
 import MyMixes from "./MyMixes";
 import MyPlaylists from "./MyPlaylists";
 import Trends from "./Trends";
@@ -35,7 +36,7 @@ export default function HomeTabs() {
   const [pageLoaded, setPageLoaded] = React.useState(false);
   const params = useParams();
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
@@ -68,6 +69,7 @@ export default function HomeTabs() {
             <Tab label="Tidal Trends" />
             <Tab label="My Mixes" />
             <Tab label="My Playlists" />
+            <Tab label="My Favorites" />
           </Tabs>
         </Container>
       </Portal>
@@ -81,6 +83,9 @@ export default function HomeTabs() {
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <MyPlaylists />
+        </TabPanel>
+        <TabPanel value={value} index={3} dir={theme.direction}>
+          <MyFavorites />
         </TabPanel>
       </Container>
     </Box>

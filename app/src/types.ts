@@ -188,6 +188,7 @@ export type TidalPagedListType<T> = {
 
 export type ModuleItemLevelType<T> = {
   item: T;
+  playlist: T;
 };
 
 export type ModuleTypeKeys =
@@ -201,7 +202,11 @@ export type ModuleTypeKeys =
   | "MIX_LIST"
   | "EDITORIAL"
   | "ARTIST_HEADER"
-  | "ARTIST_LIST";
+  | "ARTIST_LIST"
+  | "USER_ALBUM_LIST"
+  | "USER_ARTIST_LIST"
+  | "USER_PLAYLIST_LIST"
+  | "USER_TRACK_LIST";
 
 // CONFIG
 

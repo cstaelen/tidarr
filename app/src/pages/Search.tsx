@@ -40,7 +40,7 @@ export default function Search() {
   const [value, setValue] = React.useState(0);
   const params = useParams();
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 

@@ -42,7 +42,7 @@ export const SearchForm = () => {
       <TextField
         id="search-input"
         label="Tidal search (keywords, artist URL, album URL, playlist URL)"
-        value={inputValue}
+        value={inputValue || ""}
         variant="filled"
         fullWidth
         data-testid="search-input"

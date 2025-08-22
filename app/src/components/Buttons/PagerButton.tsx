@@ -12,7 +12,7 @@ export default function PagerButton({
   itemPerPage?: number;
   setPage: (page: number) => void;
 }) {
-  if (page * itemPerPage > totalItems) return null;
+  if (page * itemPerPage >= totalItems) return null;
   return (
     <Box sx={{ textAlign: "center", width: "100%", margin: "1rem" }}>
       <Button

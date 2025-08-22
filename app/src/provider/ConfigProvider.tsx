@@ -58,7 +58,6 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     }
     const output = await check();
     const data = output as ConfigType;
-    console.log(data);
     setTokenMissing(data?.noToken);
     setConfig(data?.parameters);
     setTiddlConfig(data?.tiddl_config);

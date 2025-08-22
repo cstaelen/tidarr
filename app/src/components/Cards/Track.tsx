@@ -12,6 +12,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useSearchProvider } from "src/provider/SearchProvider";
 import { TrackType } from "src/types";
+import { customColors } from "src/utils/theme";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
 
@@ -48,7 +49,7 @@ function StackChips({ track }: { track: TrackType }) {
               : theme.palette.common.black,
           backgroundColor:
             track?.audioQuality?.toLowerCase() === "lossless"
-              ? theme.palette.primary.dark
+              ? customColors.gold
               : theme.palette.primary.main,
         }}
       />

@@ -45,7 +45,9 @@ export default function Module(props: ModuleContentProps) {
                 | MixType
                 | VideoType
                 | ModuleItemLevelType<PlaylistType>
-                | ModuleItemLevelType<TrackType>,
+                | ModuleItemLevelType<TrackType>
+                | ModuleItemLevelType<AlbumType>
+                | ModuleItemLevelType<ArtistType>,
               index: number,
             ) => (
               <Grid
@@ -69,6 +71,7 @@ export default function Module(props: ModuleContentProps) {
                     props.type === "VIDEO_LIST" ||
                     props.type === "MIX_LIST" ||
                     props.type === "ARTIST_LIST" ||
+                    props.type === "USER_ARTIST_LIST" ||
                     (data as PlaylistType).type === "EDITORIAL" ||
                     quality === "all" ||
                     (
@@ -96,6 +99,20 @@ export default function Module(props: ModuleContentProps) {
                   />
                 ) : props.type === "MIX_LIST" ? (
                   <Mix mix={data as MixType} />
+                ) : props.type === "USER_ALBUM_LIST" ? (
+                  <AlbumCard
+                    album={(data as ModuleItemLevelType<AlbumType>)?.item}
+                  />
+                ) : props.type === "USER_ARTIST_LIST" ? (
+                  <Artist
+                    artist={(data as ModuleItemLevelType<ArtistType>)?.item}
+                  />
+                ) : props.type === "USER_PLAYLIST_LIST" ? (
+                  <Playlist
+                    playlist={
+                      (data as ModuleItemLevelType<PlaylistType>)?.playlist
+                    }
+                  />
                 ) : props.type === "VIDEO_LIST" ? (
                   <VideoCard video={data as VideoType} />
                 ) : null}
