@@ -26,6 +26,7 @@ export default function Home() {
     "ITEM_LIST_WITH_ROLES",
     "ARTICLE_LIST",
     "ARTIST_HEADER",
+    "SOCIAL",
   ];
 
   return (
@@ -38,33 +39,35 @@ export default function Home() {
           data?.rows?.[0]?.modules[0]?.artist && (
             <ArtistHeader artist={data.rows[0].modules[0].artist} />
           )}
-        {data?.rows
-          ?.filter(
-            (item) =>
-              ModuleFilters.indexOf(item.modules[0].type as string) === -1,
-          )
-          .map((row, index1) => (
-            <Box marginBottom={5} key={`block-${index1}`}>
-              <ModuleTitle
-                title={row.modules[0]?.title}
-                total={row.modules[0]?.pagedList?.totalNumberOfItems}
-              />
+        <div className="list-modules">
+          {data?.rows
+            ?.filter(
+              (item) =>
+                ModuleFilters.indexOf(item.modules[0].type as string) === -1,
+            )
+            .map((row, index1) => (
+              <Box marginBottom={5} key={`block-${index1}`}>
+                <ModuleTitle
+                  title={row.modules[0]?.title}
+                  total={row.modules[0]?.pagedList?.totalNumberOfItems}
+                />
 
-              {row.modules[0]?.type && row.modules[0]?.pagedList?.items && (
-                <>
-                  <Module
-                    type={row.modules[0].type}
-                    data={row.modules[0]?.pagedList?.items}
-                    loading={loading}
-                  />
-                  <ModulePager
-                    data={row.modules[0]}
-                    type={row.modules[0].type}
-                  />
-                </>
-              )}
-            </Box>
-          ))}
+                {row.modules[0]?.type && row.modules[0]?.pagedList?.items && (
+                  <>
+                    <Module
+                      type={row.modules[0].type}
+                      data={row.modules[0]?.pagedList?.items}
+                      loading={loading}
+                    />
+                    <ModulePager
+                      data={row.modules[0]}
+                      type={row.modules[0].type}
+                    />
+                  </>
+                )}
+              </Box>
+            ))}
+        </div>
       </Container>
     </Box>
   );

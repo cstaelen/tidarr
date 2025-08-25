@@ -4,10 +4,15 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 0.2.2
+### 🚀 Added
+* [Front] Add home page Tidal trends
+* [Front] Add "My Favorites" page
+* [Front] Add "My Playlists" page
+* [Front] Add "My Mixes" page
+* [Front] Add content to "Artist" page
 ### 🖍 Changed
-* [Front] Add home page suggest content
 * [Front] Refacto tidal content fetching
-* [Front] Search Tidal with Tiddl credentials
+* [Front] Use API Tidal using Tiddl credentials
 * [Chore] Update dependencies
 * [API] Update `tiddl` from `2.4.0` to version `2.5.1`
 

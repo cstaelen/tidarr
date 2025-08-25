@@ -15,11 +15,26 @@ export const SearchForm = () => {
     setInputValue(e.target.value);
   }
 
+  async function directDownload(url: string) {
+    const id = url
+      .substring(url.lastIndexOf("/") + 1, url.length)
+      .split("?")?.[0];
+    const splittedUrl = url.split("/");
+    const type = splittedUrl[splittedUrl?.length - 2].split("?")?.[0];
+
+    navigate(`/${type}/${id}`);
+  }
+
   function performSearch(e: React.SyntheticEvent) {
     e.preventDefault();
     const target = e.target as typeof e.target & HTMLInputElement[];
     const searchString = target?.[0]?.value as string;
+
     if (searchString) {
+      if (searchString.substring(0, 4) === "http") {
+        directDownload(searchString);
+        return;
+      }
       navigate(`/search/${searchString}`);
       return;
     }

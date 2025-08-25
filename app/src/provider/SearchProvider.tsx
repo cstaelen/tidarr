@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useFetchTidal } from "src/hooks/useFetchTidal";
 
 import { TIDAL_ITEMS_PER_PAGE } from "../contants";
@@ -49,17 +49,12 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   );
 
   const params = useParams();
-  const navigate = useNavigate();
 
   const { fetchTidal } = useFetchTidal();
 
   async function runSearch(searchString: string) {
     setLoading(true);
-    if (searchString.substring(0, 4) === "http") {
-      await directDownload(searchString);
-    } else {
-      await queryTidal(searchString);
-    }
+    await queryTidal(searchString);
     setLoading(false);
   }
 
@@ -110,16 +105,6 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     };
 
     setSearchResults(data as TidalResponseType);
-  }
-
-  async function directDownload(url: string) {
-    const id = url
-      .substring(url.lastIndexOf("/") + 1, url.length)
-      .split("?")?.[0];
-    const splittedUrl = url.split("/");
-    const type = splittedUrl[splittedUrl?.length - 2].split("?")?.[0];
-
-    navigate(`/${type}/${id}`);
   }
 
   // Fetch on page change

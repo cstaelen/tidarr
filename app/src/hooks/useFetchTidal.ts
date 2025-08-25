@@ -44,9 +44,7 @@ async function fetchTidal<T>(
 
   // success
 
-  if (response?.ok) {
-    return await response.json();
-  }
+  return await response.json();
 }
 
 export function useFetchTidal() {

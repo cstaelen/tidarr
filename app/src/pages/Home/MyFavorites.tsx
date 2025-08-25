@@ -23,7 +23,7 @@ export default function MyFavorites() {
       />
       <PagedModule
         url={`users/${tiddlConfig?.auth.user_id}/favorites/playlists`}
-        type="PLAYLIST_LIST"
+        type="MIXED_TYPES_LIST"
         title="My Favorite playlists"
       />
       <PagedModule
