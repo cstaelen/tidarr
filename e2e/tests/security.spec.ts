@@ -1,11 +1,13 @@
 import { expect, test } from "@playwright/test";
 
-import { mockAuthAPI, mockConfigAPI } from "./utils/mock";
+import { goToHome } from "./utils/helpers";
+import { mockAuthAPI, mockConfigAPI, mockTidalQueries } from "./utils/mock";
 
 test("Tidarr security : Should see login page", async ({ page }) => {
   await mockAuthAPI(page, "tokenABCXYZ");
   await mockConfigAPI(page);
-  await page.goto("/login");
+  await mockTidalQueries(page);
+  await goToHome(page);
   await page.evaluate("localStorage.clear()");
   await expect(
     page.getByRole("heading", { name: "Tidarr authentication" }),
@@ -16,7 +18,7 @@ test("Tidarr security : Should see login page", async ({ page }) => {
   await page.getByRole("button", { name: "Submit" }).click();
 
   // Then I should be on homepage
-  await expect(page.getByText("Unofficial Tidal© media")).toBeInViewport();
+  await expect(page.getByRole("heading", { name: "Tidarr" })).toBeInViewport();
 
   // And A new token should be set
   const token = await page.evaluate("localStorage.getItem('tidarr-token')");
@@ -32,7 +34,7 @@ test("Tidarr security : Should see login page", async ({ page }) => {
   ).toBeInViewport();
 
   // When I go to homepage
-  await page.goto("/");
+  await goToHome(page);
   // Then I should be redirected to login page
   await expect(
     page.getByRole("heading", { name: "Tidarr authentication" }),
@@ -47,7 +49,7 @@ test("Tidarr security : Should be redirected to login page", async ({
   await page.evaluate("localStorage.clear()");
 
   // When I go to homepage
-  await page.goto("/");
+  await goToHome(page);
   // Then I should be redirected to login page
   await expect(
     page.getByRole("heading", { name: "Tidarr authentication" }),
@@ -59,7 +61,8 @@ test("Tidarr security : Should be redirected to requested url after login", asyn
 }) => {
   await mockAuthAPI(page, "tokenABCXYZ");
   await mockConfigAPI(page);
-  await page.goto("/?query=nirvana");
+  await mockTidalQueries(page);
+  await page.goto("/search/Nirvana");
   await expect(
     page.getByRole("heading", { name: "Tidarr authentication" }),
   ).toBeInViewport();
@@ -77,6 +80,7 @@ test("Tidarr security : Should be redirected to requested url after login", asyn
 test("Tidarr security : Should be able to log out", async ({ page }) => {
   await mockAuthAPI(page, "tokenABCXYZ");
   await mockConfigAPI(page);
+  await mockTidalQueries(page);
   await page.goto("/login");
   await page.evaluate("localStorage.clear()");
 
@@ -85,7 +89,7 @@ test("Tidarr security : Should be able to log out", async ({ page }) => {
   await page.getByRole("button", { name: "Submit" }).click();
 
   // Then I should be on the homepage
-  await expect(page.getByText("Unofficial Tidal© media")).toBeInViewport();
+  await expect(page.getByRole("heading", { name: "Tidarr" })).toBeInViewport();
   await expect(page.getByLabel("Logout")).toBeInViewport();
 
   // When I click on logout button
@@ -101,10 +105,11 @@ test("Tidarr security : Login page should redirect to home in public mode", asyn
   page,
 }) => {
   // When I go to login page in public mode
+  await mockTidalQueries(page);
   await page.goto("/login");
   await page.evaluate("localStorage.clear()");
   // then I should be redirected to homepage
-  await expect(page.getByText("Unofficial Tidal© media")).toBeInViewport();
+  await expect(page.getByRole("heading", { name: "Tidarr" })).toBeInViewport();
 });
 
 test("Tidarr security : Wrong credentials should display an error", async ({
@@ -117,7 +122,7 @@ test("Tidarr security : Wrong credentials should display an error", async ({
       json: { error: true, message: "Invalid credentials" },
     });
   });
-  await page.goto("/");
+  await goToHome(page);
   await expect(
     page.getByRole("heading", { name: "Tidarr authentication" }),
   ).toBeInViewport();

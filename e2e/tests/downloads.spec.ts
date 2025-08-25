@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test";
 
+import mockHome from "./mocks/home.json";
+import mockSearch from "./mocks/search.json";
 import { emptyProcessingList, testProcessingList } from "./utils/helpers";
 import { runSearch } from "./utils/search";
 
@@ -14,6 +16,12 @@ test.afterEach(async ({ page }) => {
 });
 
 test("Tidarr download : Should be able to download album", async ({ page }) => {
+  await page.route("**/home", async (route) => {
+    await route.fulfill({ json: mockHome });
+  });
+  await page.route("**/search", async (route) => {
+    await route.fulfill({ json: mockSearch });
+  });
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Albums" }).first().click();
 
@@ -84,11 +92,11 @@ test("Tidarr download : Should be able to download playlist", async ({
 test("Tidarr download : Should be able to download discography", async ({
   page,
 }) => {
-  await runSearch("https://listen.tidal.com/artist/17713", page);
+  await runSearch("https://listen.tidal.com/artist/19368", page);
 
   await page.getByRole("button", { name: "Get all releases" }).click();
 
-  await testProcessingList(page, ["All albums", "Pennywise", "artist"]);
+  await testProcessingList(page, ["All albums", "Nirvana", "artist"]);
 });
 
 test("Tidarr download : Should be able to download video", async ({ page }) => {

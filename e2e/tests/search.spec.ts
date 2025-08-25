@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 import { waitForImgLoaded, waitForLoader } from "./utils/helpers";
-import { mockConfigAPI, mockRelease } from "./utils/mock";
+import { mockConfigAPI, mockRelease, mockTidalQueries } from "./utils/mock";
 import { countItems, runSearch } from "./utils/search";
 
 test("Tidarr search : Should see 'Top results' tab content", async ({
@@ -10,21 +10,21 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
   await runSearch("Nirvana", page);
   await expect(page.locator("#full-width-tab-0")).toContainText("Top results");
 
-  await expect(page.getByRole("heading", { name: "Artist(s)" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Artists" })).toBeVisible();
   await countItems("#full-width-tabpanel-0 > div > div:nth-child(1)", 3, page);
 
   await expect(
     page.getByRole("button", { name: "See all artists (100)" }),
   ).toBeVisible();
 
-  await expect(page.getByRole("heading", { name: "Album(s)" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Albums" })).toBeVisible();
   await countItems("#full-width-tabpanel-0 > div >  div:nth-child(2)", 9, page);
 
   await expect(
     page.getByRole("button", { name: "See all albums (300)" }),
   ).toBeVisible();
 
-  await expect(page.getByRole("heading", { name: "Track(s)" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Tracks" })).toBeVisible();
 
   await countItems("#full-width-tabpanel-0 > div >  div:nth-child(3)", 6, page);
 
@@ -32,9 +32,7 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
     page.getByRole("button", { name: "See all tracks (300)" }),
   ).toBeVisible();
 
-  await expect(
-    page.getByRole("heading", { name: "Playlist(s)" }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Playlists" })).toBeVisible();
 
   await countItems("#full-width-tabpanel-0 > div >  div:nth-child(4)", 6, page);
 
@@ -222,18 +220,20 @@ test("Tidarr search : Should see quality filtered results", async ({
 }) => {
   await mockConfigAPI(page);
   await mockRelease(page);
-  await page.goto("/artist/3634161");
+  await mockTidalQueries(page);
+  await page.goto("/artist/19368");
+
   await expect(
-    page.getByRole("heading", { name: "Albums (22)" }),
+    page.getByRole("heading", { name: "Top Tracks (300)" }),
   ).toBeInViewport();
 
-  await expect(page.getByTestId("item")).toHaveCount(69);
+  await expect(page.getByTestId("item")).toHaveCount(166);
 
   const countLossless = await page
     .locator(".MuiChip-root")
     .filter({ hasText: /^lossless$/ })
     .count();
-  await expect(countLossless).toEqual(55);
+  await expect(countLossless).toEqual(47);
 
   const countHigh = await page
     .locator(".MuiChip-root")
@@ -245,7 +245,7 @@ test("Tidarr search : Should see quality filtered results", async ({
     .locator(".MuiChip-root")
     .filter({ hasText: /^low$/ })
     .count();
-  await expect(countLow).toEqual(3);
+  await expect(countLow).toEqual(0);
 
   // Filter lossless
 
@@ -253,7 +253,7 @@ test("Tidarr search : Should see quality filtered results", async ({
 
   // Test localstorage persistence
 
-  await page.goto("/artist/3634161");
+  await page.goto("/artist/19368");
   await waitForLoader(page);
 
   await expect(
@@ -264,7 +264,7 @@ test("Tidarr search : Should see quality filtered results", async ({
     page.locator('[data-testid="item"]', {
       has: page.locator(":visible"),
     }),
-  ).toHaveCount(66);
+  ).toHaveCount(127);
 
   await page.getByRole("button", { name: "High" }).click();
 
@@ -272,7 +272,7 @@ test("Tidarr search : Should see quality filtered results", async ({
     page.locator('[data-testid="item"]', {
       has: page.locator(":visible"),
     }),
-  ).toHaveCount(11);
+  ).toHaveCount(80);
 });
 
 test("Tidarr search : Should have two display mode", async ({ page }) => {

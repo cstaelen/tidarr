@@ -56,3 +56,9 @@ export async function emptyProcessingList(page: Page) {
   await firstButton?.click();
   await expect(page.locator("button.MuiFab-circular")).not.toBeVisible();
 }
+
+export async function goToHome(page: Page) {
+  await page.goto("/");
+  // await page.waitForLoadState("networkidle");
+  await page.evaluateHandle("document.fonts.ready");
+}

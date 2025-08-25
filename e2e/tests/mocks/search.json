@@ -1,0 +1,4087 @@
+{
+    "artists": {
+        "limit": 18,
+        "offset": 0,
+        "totalNumberOfItems": 100,
+        "items": [
+            {
+                "id": 19368,
+                "name": "Nirvana",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/19368",
+                "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                "selectedAlbumCoverFallback": null,
+                "popularity": 88,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    },
+                    {
+                        "categoryId": 1,
+                        "category": "Producer"
+                    },
+                    {
+                        "categoryId": 3,
+                        "category": "Engineer"
+                    },
+                    {
+                        "categoryId": 11,
+                        "category": "Performer"
+                    },
+                    {
+                        "categoryId": 10,
+                        "category": "Production team"
+                    },
+                    {
+                        "categoryId": 99,
+                        "category": "Misc"
+                    }
+                ],
+                "mixes": {
+                    "ARTIST_MIX": "000aa824749d0ebd070d39bd8e2d93"
+                },
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 2753,
+                "name": "Foo Fighters",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/2753",
+                "picture": "88cea88e-1eeb-4e18-bc9a-c3303bff9a61",
+                "selectedAlbumCoverFallback": null,
+                "popularity": 80,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    },
+                    {
+                        "categoryId": 1,
+                        "category": "Producer"
+                    },
+                    {
+                        "categoryId": 11,
+                        "category": "Performer"
+                    },
+                    {
+                        "categoryId": 99,
+                        "category": "Misc"
+                    }
+                ],
+                "mixes": {
+                    "ARTIST_MIX": "000241bdceed8421181088363301c3"
+                },
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 4006161,
+                "name": "Approaching Nirvana",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/4006161",
+                "picture": "d4dd5ad5-85c2-467e-a4a1-62cff6503493",
+                "selectedAlbumCoverFallback": null,
+                "popularity": 40,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    }
+                ],
+                "mixes": {
+                    "ARTIST_MIX": "00018aeeab5245d5b68ceae6b701c2"
+                },
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 37534913,
+                "name": "Nirvana",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/37534913",
+                "picture": null,
+                "selectedAlbumCoverFallback": null,
+                "popularity": 14,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 23650934,
+                "name": "Nirvana Melodies",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/23650934",
+                "picture": "f112ea6b-8c0d-4bcd-b4db-9a97e728427d",
+                "selectedAlbumCoverFallback": null,
+                "popularity": 25,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 7742591,
+                "name": "Nirvana",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/7742591",
+                "picture": null,
+                "selectedAlbumCoverFallback": null,
+                "popularity": 10,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    },
+                    {
+                        "categoryId": 10,
+                        "category": "Production team"
+                    }
+                ],
+                "mixes": {
+                    "ARTIST_MIX": "00039d35494ef5a9695fc87259b97a"
+                },
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 16285456,
+                "name": "Territoire du Nirvana",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/16285456",
+                "picture": null,
+                "selectedAlbumCoverFallback": null,
+                "popularity": 24,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 29423336,
+                "name": "Nirvanah",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/29423336",
+                "picture": null,
+                "selectedAlbumCoverFallback": null,
+                "popularity": 17,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 6046440,
+                "name": "Nirvana Meditation School Master",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/6046440",
+                "picture": null,
+                "selectedAlbumCoverFallback": null,
+                "popularity": 16,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 23407372,
+                "name": "Noise Nirvana",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/23407372",
+                "picture": null,
+                "selectedAlbumCoverFallback": null,
+                "popularity": 19,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 31862332,
+                "name": "Nirvana",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/31862332",
+                "picture": "d48913f5-18fa-438f-859f-f0fe97c85292",
+                "selectedAlbumCoverFallback": null,
+                "popularity": 2,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 57205861,
+                "name": "Nirvana",
+                "artistTypes": [
+                    "ARTIST"
+                ],
+                "url": "http://www.tidal.com/artist/57205861",
+                "picture": null,
+                "selectedAlbumCoverFallback": null,
+                "popularity": 0,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 63707087,
+                "name": "nirvana",
+                "artistTypes": [
+                    "ARTIST"
+                ],
+                "url": "http://www.tidal.com/artist/63707087",
+                "picture": null,
+                "selectedAlbumCoverFallback": null,
+                "popularity": 0,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 58332568,
+                "name": "nirvana",
+                "artistTypes": [
+                    "ARTIST"
+                ],
+                "url": "http://www.tidal.com/artist/58332568",
+                "picture": null,
+                "selectedAlbumCoverFallback": null,
+                "popularity": 0,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 59685349,
+                "name": "nirvana",
+                "artistTypes": [
+                    "ARTIST"
+                ],
+                "url": "http://www.tidal.com/artist/59685349",
+                "picture": null,
+                "selectedAlbumCoverFallback": null,
+                "popularity": 0,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 59516701,
+                "name": "Nirvana",
+                "artistTypes": [
+                    "ARTIST"
+                ],
+                "url": "http://www.tidal.com/artist/59516701",
+                "picture": null,
+                "selectedAlbumCoverFallback": null,
+                "popularity": 0,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 59073236,
+                "name": "Nirvana",
+                "artistTypes": [
+                    "ARTIST"
+                ],
+                "url": "http://www.tidal.com/artist/59073236",
+                "picture": null,
+                "selectedAlbumCoverFallback": null,
+                "popularity": 0,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            },
+            {
+                "id": 59207990,
+                "name": "Nirvana",
+                "artistTypes": [
+                    "ARTIST"
+                ],
+                "url": "http://www.tidal.com/artist/59207990",
+                "picture": null,
+                "selectedAlbumCoverFallback": null,
+                "popularity": 0,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        ]
+    },
+    "albums": {
+        "limit": 18,
+        "offset": 0,
+        "totalNumberOfItems": 300,
+        "items": [
+            {
+                "id": 77610756,
+                "title": "Nevermind",
+                "duration": 2963,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 13,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "1991-09-24",
+                "copyright": "© 2011 Geffen Records",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/77610756",
+                "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                "vibrantColor": "#56afc9",
+                "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                "explicit": true,
+                "upc": "00602537498659",
+                "popularity": 93,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 77610844,
+                "title": "In Utero",
+                "duration": 2491,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-09-24T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 12,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "1993-09-21",
+                "copyright": "© 2013 UMG Recordings, Inc.",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/77610844",
+                "cover": "e680f7cf-f8af-421b-a2ac-3b0b074e3866",
+                "vibrantColor": "#f1eab5",
+                "videoCover": "b5b8236c-b15b-4353-979b-340e97481740",
+                "explicit": false,
+                "upc": "00602537528677",
+                "popularity": 82,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 2570671,
+                "title": "MTV Unplugged In New York",
+                "duration": 3237,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2006-02-01T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 14,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "1994-11-01",
+                "copyright": "© 1994 Geffen Records Inc.",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/2570671",
+                "cover": "621c5170-fa02-4b63-902c-dd3e814187f6",
+                "vibrantColor": "#d498a0",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "00720642472729",
+                "popularity": 80,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 92239126,
+                "title": "Nirvana",
+                "duration": 2946,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2018-07-18T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 14,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2002-10-29",
+                "copyright": "© 2002 UMG Recordings, Inc.",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/92239126",
+                "cover": "c5348b67-c43d-428f-8869-5216a18ec81f",
+                "vibrantColor": "#FFFFFF",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "00602567924166",
+                "popularity": 66,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 7886993,
+                "title": "Nevermind (Remastered)",
+                "duration": 2954,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2011-09-23T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 13,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "1991-09-24",
+                "copyright": "© 2011 Geffen Records",
+                "type": "ALBUM",
+                "version": "Remastered",
+                "url": "http://www.tidal.com/album/7886993",
+                "cover": "25710635-c088-46ae-ac66-7f3970f70576",
+                "vibrantColor": "#56afc9",
+                "videoCover": null,
+                "explicit": true,
+                "upc": "00602527856865",
+                "popularity": 64,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 94436656,
+                "title": "Incesticide",
+                "duration": 2674,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2018-09-07T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 15,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "1992-12-01",
+                "copyright": "© 1992 UMG Recordings, Inc.",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/94436656",
+                "cover": "6c1c7df4-f424-49e1-bccb-4d1cc52bd0f9",
+                "vibrantColor": "#e55b50",
+                "videoCover": null,
+                "explicit": true,
+                "upc": "00602567822837",
+                "popularity": 62,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 22302297,
+                "title": "In Utero (Deluxe Edition)",
+                "duration": 9150,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-09-24T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 43,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 2,
+                "releaseDate": "1993-09-21",
+                "copyright": "© 2013 UMG Recordings, Inc.",
+                "type": "ALBUM",
+                "version": "Deluxe Edition",
+                "url": "http://www.tidal.com/album/22302297",
+                "cover": "2f86c69d-32c4-442a-a4fe-1b69aa36f542",
+                "vibrantColor": "#efe7aa",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "00602537502974",
+                "popularity": 60,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 7772082,
+                "title": "Nevermind (Deluxe Edition)",
+                "duration": 8826,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2022-03-21T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 40,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 2,
+                "releaseDate": "1991-09-24",
+                "copyright": "© 2011 Geffen Records",
+                "type": "ALBUM",
+                "version": "Deluxe Edition",
+                "url": "http://www.tidal.com/album/7772082",
+                "cover": "e3ea4ce4-40ca-44a3-a4ab-c6b64266539d",
+                "vibrantColor": "#b3c1e3",
+                "videoCover": null,
+                "explicit": true,
+                "upc": "00602527809045",
+                "popularity": 60,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 68639771,
+                "title": "Bleach (Deluxe Edition)",
+                "duration": 4597,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2018-09-19T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 25,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "1989-06-01",
+                "copyright": "© 2009 Sub Pop Records",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/68639771",
+                "cover": "b2a5c3a4-e428-4e60-b0e1-5407fd579a32",
+                "vibrantColor": "#FFFFFF",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "098787083484",
+                "popularity": 58,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 203937587,
+                "title": "Nevermind (30th Anniversary Super Deluxe)",
+                "duration": 16278,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2021-11-12T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 75,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 5,
+                "releaseDate": "1991-09-24",
+                "copyright": "© 2021 UMG Recordings, Inc.",
+                "type": "ALBUM",
+                "version": "30th Anniversary Super Deluxe",
+                "url": "http://www.tidal.com/album/203937587",
+                "cover": "fa54a21b-72c9-4369-8a19-ed183ba5a9e2",
+                "vibrantColor": "#9dc8da",
+                "videoCover": "0e411cb7-cbfe-4fea-a0d8-671668492a3f",
+                "explicit": true,
+                "upc": "00602438888900",
+                "popularity": 58,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 203938225,
+                "title": "Nevermind (Remastered 2021)",
+                "duration": 2957,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2021-11-12T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 13,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "1991-09-24",
+                "copyright": "© 2021 UMG Recordings, Inc.",
+                "type": "ALBUM",
+                "version": "Remastered 2021",
+                "url": "http://www.tidal.com/album/203938225",
+                "cover": "870f3556-40d9-4482-87a6-d1339f4cc749",
+                "vibrantColor": "#9cc5d8",
+                "videoCover": "81755f5e-52df-49a1-8bb8-a85b206daa2b",
+                "explicit": true,
+                "upc": "00602438970858",
+                "popularity": 57,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 34983411,
+                "title": "Bleach",
+                "duration": 2563,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2018-09-19T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 13,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "1989-06-01",
+                "copyright": "© 2005 Sub Pop Records",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/34983411",
+                "cover": "d139cf1b-0880-41bf-8c7c-e80a5db5ed45",
+                "vibrantColor": "#FFFFFF",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "098787003468",
+                "popularity": 57,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 3161789,
+                "title": "Bleach (Deluxe)",
+                "duration": 4601,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2018-09-19T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 25,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "1989-06-01",
+                "copyright": "© 2009 Sub Pop Records",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/3161789",
+                "cover": "1278cfd9-1ecb-402b-a026-e57473921851",
+                "vibrantColor": "#FFFFFF",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "098787083460",
+                "popularity": 54,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 168606745,
+                "title": "MTV Unplugged In New York (25th Anniversary)",
+                "duration": 4593,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2021-01-15T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 19,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "1994-11-01",
+                "copyright": "© 2019 UMG Recordings, Inc.",
+                "type": "ALBUM",
+                "version": "25th Anniversary",
+                "url": "http://www.tidal.com/album/168606745",
+                "cover": "8309ec4f-7fa1-4b78-9537-d7a817776509",
+                "vibrantColor": "#d69fa5",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "00602435687742",
+                "popularity": 54,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 7772125,
+                "title": "Nevermind (Super Deluxe Edition)",
+                "duration": 15200,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2022-03-28T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 70,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 4,
+                "releaseDate": "1991-09-24",
+                "copyright": "© 2011 Geffen Records",
+                "type": "ALBUM",
+                "version": "Super Deluxe Edition",
+                "url": "http://www.tidal.com/album/7772125",
+                "cover": "5063288f-1330-4aa9-beb8-1d975302156f",
+                "vibrantColor": "#8fbacb",
+                "videoCover": null,
+                "explicit": true,
+                "upc": "00602527829463",
+                "popularity": 52,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 22302341,
+                "title": "In Utero (Super Deluxe Edition)",
+                "duration": 13380,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-09-24T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 60,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 3,
+                "releaseDate": "1993-09-21",
+                "copyright": "© 2013 UMG Recordings, Inc.",
+                "type": "ALBUM",
+                "version": "Super Deluxe Edition",
+                "url": "http://www.tidal.com/album/22302341",
+                "cover": "bee770f3-1964-40ed-920c-99b62a5a69a2",
+                "vibrantColor": "#f5eeaf",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "00602537533848",
+                "popularity": 50,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 3160050,
+                "title": "Live at Reading",
+                "duration": 4680,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2009-11-03T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 24,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2009-11-03",
+                "copyright": "© 2009 Geffen Records",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/3160050",
+                "cover": "08925061-87ae-44b8-a48f-6c18b6b42f44",
+                "vibrantColor": "#f0af41",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "00602527203676",
+                "popularity": 50,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            },
+            {
+                "id": 30235923,
+                "title": "With The Lights Out - Box Set",
+                "duration": 12908,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2011-03-22T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 61,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 3,
+                "releaseDate": "2004-11-23",
+                "copyright": "© 2011 Geffen Records Inc.",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/30235923",
+                "cover": "dc785e6f-5a5e-491a-8b0a-b2b2b5abea34",
+                "vibrantColor": "#FFFFFF",
+                "videoCover": null,
+                "explicit": true,
+                "upc": "00602527685885",
+                "popularity": 49,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ]
+            }
+        ]
+    },
+    "playlists": {
+        "limit": 18,
+        "offset": 0,
+        "totalNumberOfItems": 189,
+        "items": [
+            {
+                "uuid": "2e151dcc-fa86-405a-9b56-4f4399035c29",
+                "title": "Nirvana Essentials",
+                "numberOfTracks": 25,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "Nothing was ever quite the same after Nirvana. The band’s second album, 1991’s ‘Nevermind,’ revolutionized popular music by bringing alternative rock above ground, introducing mainstream audiences to sounds and concepts that had previously existed only in shadowy record store corners and on low-frequency college radio airwaves. ‘Nevermind’’s noisy, dissonant guitar rock, mumbled or howled surrealistic lyrics, and generally angsty punk attitudes were unlikely candidates for chart success, but the band undercut their grungy songs with enough pop melodicism to create a sound unlike anything average listeners had ever heard before, striking at the exact right moment to become an unprecedented success. Since Nirvana were rooted in an indie aesthetic but loved pop music, they fought their stardom while courting it, becoming some of the most notorious anti-rock stars in history. They consciously attempted to shed their audience with their abrasive, Steve Albini-produced third album, ‘In Utero,’ but by that point, the fate of the band and vocalist/guitarist/songwriter Kurt Cobain had been sealed. Suffering from drug addiction and manic depression, Cobain had become destructive and suicidal, though his management and label were able to hide the extent of his problems from the public until April 8, 1994, when he was found dead of a self-inflicted shotgun wound. Cobain’s death cut Nirvana’s story tragically short, but their legacy stands as one of the most influential in rock & roll history. (Photo and bio: Rovi)",
+                "duration": 5462,
+                "lastUpdated": "2024-04-05T00:00:00.000+0000",
+                "created": "2014-09-30T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/2e151dcc-fa86-405a-9b56-4f4399035c29",
+                "image": "5d568dac-f2b1-4822-8648-7c4925385061",
+                "popularity": 68,
+                "squareImage": "6409c1db-b731-4c55-b3d9-da51067956b3",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "lastItemAddedAt": "2024-04-05T00:00:00.000+0000"
+            },
+            {
+                "uuid": "d488550a-abcb-4a92-b2ab-fd93f556c666",
+                "title": "Nirvana Live Essentials",
+                "numberOfTracks": 26,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "One of Nirvana's most memorable live performances was its episode of MTV Unplugged, where they played everything from Nevermind cuts to songs by David Bowie and Meat Puppets. In this playlist, you'll hear tracks from that album plus music from their legendary Reading concert and 'Live at the Paramount.' (Photo: Rovi)",
+                "duration": 5983,
+                "lastUpdated": "2023-09-29T00:00:00.000+0000",
+                "created": "2021-10-05T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/d488550a-abcb-4a92-b2ab-fd93f556c666",
+                "image": null,
+                "popularity": 37,
+                "squareImage": "a8f5e0fe-ca05-45a6-9df6-f5b98f5af20e",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "lastItemAddedAt": "2023-09-29T00:00:00.000+0000"
+            },
+            {
+                "uuid": "70f494c4-c318-4c61-9a7d-856117d915b0",
+                "title": "Nirvana: Nevermind - The Story",
+                "numberOfTracks": 43,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "‘Nevermind, It’s an Interview’ was released as a limited edition, promo only interview CD by Geffen Records in 1992. The interviews were conducted by Kurt St. Thomas whilst Music Director of WFNX in Boston, MA. Krist Novoselic and Dave Grohl's contributions were recorded on January 10th 1992 (after Nirvana’s appearance on MTV's '120 Minutes') whilst Kurt Cobain's part was recorded on January 11th 1992 (after their appearance on 'Saturday Night Live’). The CD was intended for radio airplay, and never released for sale to the public. Now, you can listen to the entire recording in a newly edited version back to back with a wide selection of classic Nirvana songs from ‘Bleach’ to ‘Nevermind’. This is 'Nevermind - the Story'. (Photo: UMG, press) ",
+                "duration": 6133,
+                "lastUpdated": "2021-11-19T00:00:00.000+0000",
+                "created": "2021-11-18T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/70f494c4-c318-4c61-9a7d-856117d915b0",
+                "image": "7bef88e6-d5b5-436f-a2c6-44b2b4a5601e",
+                "popularity": 15,
+                "squareImage": "31d461f8-0fff-4e51-98c6-c3c457dd5b77",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 29351837,
+                        "name": "Nirvana: Nevermind - the Story",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    },
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    },
+                    {
+                        "id": 29351837,
+                        "name": "Nirvana: Nevermind - the Story",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    },
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "lastItemAddedAt": "2021-11-18T00:00:00.000+0000"
+            },
+            {
+                "uuid": "b3fb1503-32b3-449f-aea3-fbc9f35ccfc1",
+                "title": "Tracks & Traces: Nirvana",
+                "numberOfTracks": 53,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "Nirvana is by far one of the most beloved and influential bands of the 20th century. Among countless other achievements, the band from Aberdeen, Washington defined the grunge sound of the late '80s, spearheaded the alternative explosion of the early '90s, and, with Kurt Cobain, inhabited a frontman of iconic proportions. But even though their formula was based on the very basic principles of rock, not many, if any, has ever been able to match their incredibly well-adjusted mix of explosive power and catchy anthems, where vulnerability and anger always went hand in hand. Nirvana in general, and Cobain in particular, was always open to share the sources of their inspiration, past and present, and Nirvana never tried to hide the rich soil from where they managed to harvest new seeds. Many a band are in debt to Cobain for his including attitude, and many a music fan can thank Nirvana for getting help to explore further the sounds under their feet. This playlist aims to shed some light on the bands that shaped Nirvana – as well as those who followed in the enormous wake of their tragic and triumphant career. (Photo: Rovi)",
+                "duration": 12199,
+                "lastUpdated": "2020-03-25T00:00:00.000+0000",
+                "created": "2016-09-19T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/b3fb1503-32b3-449f-aea3-fbc9f35ccfc1",
+                "image": "0833ebe1-3bb1-4ee4-a7ed-fdf4edc4903a",
+                "popularity": 20,
+                "squareImage": "a1152559-dea5-4c37-983f-b1c3cef58bfb",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 205,
+                        "name": "Neil Young",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "5bd389b5-a9fa-4fae-9a05-7f78ca80f5d0"
+                    },
+                    {
+                        "id": 10572,
+                        "name": "The Stooges",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "5c02aabe-b9a3-4e10-b4da-912b60150cf7"
+                    },
+                    {
+                        "id": 86,
+                        "name": "Black Sabbath",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "6a2874d8-f693-4e0a-a4c8-682c990b5e13"
+                    },
+                    {
+                        "id": 3603543,
+                        "name": "Black Flag",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "e4971467-6c98-41c1-a17f-cc2d8842a816"
+                    }
+                ],
+                "lastItemAddedAt": null
+            },
+            {
+                "uuid": "a0fe5f68-af7c-46c6-91f0-d04ec10d84f2",
+                "title": "Great Sounds From the Puget Sound: Kingsmen to Nirvana ",
+                "numberOfTracks": 36,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "Before Nirvana and the grunge craze hit the global mainstream in the early 1990s, Seattle and the greater Pacific Northwest was commonly regarded as a music backwoods region defined by isolation and bad weather. But in truth the Great Northwest has a long and unbroken lineage of rock ’n’ roll to its history, and today remains one of the finest and most creative hubs in the U.S. This playlist guides you through some great moments of Northwestern rock ’n’ roll pride, from the two anthems “Louie Louie” to “Smells Like Teen Spirit”, and beginning with '50s and '60s classics like The Ventures, The Wailers, The Sonics and Paul Revere and the Raiders who all shape the sounds of their time. Also including Seattle-born icon Jimi Hendrix (even though not based in town when he launched his solo career), the true midpoint of this tour centers around rock legends Heart, who fusion of metal and radio-friendly hard rock in the early 1970s bridges the gap between the glorious garage rock heyday and the '90s alternative rock boom. This is just a brief glimpse of what was going on, including influential bands in many directions; Mecca Normal (Vancouver, Riot Grrrl), D.O.A (Vancouver, hardcore), Wipers (Portland, DIY), Queenrÿche (Seattle, metal), Beat Happening (Olympia, lo-fi), Young Fresh Fellows (Seattle, power pop), U-Men (Seattle, grunge) and Melvins (Aberdeen, grunge). And since Nirvana, Alice in Chains, Pearl Jam and others permanently put the region on the map, it has continued to spew out an ever wider musical platter of great sounds from the Puget Sound – more than enough to fill up a sequel to this overview.  (Photo: Unsplash)",
+                "duration": 7994,
+                "lastUpdated": "2020-03-25T00:00:00.000+0000",
+                "created": "2016-07-06T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/a0fe5f68-af7c-46c6-91f0-d04ec10d84f2",
+                "image": "d0a17772-0725-4aa8-a4fc-f016fd91e7d2",
+                "popularity": 16,
+                "squareImage": "c4cc61d2-4969-407b-aa50-53c38657e553",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 7353781,
+                        "name": "Northwest Recorders",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    },
+                    {
+                        "id": 7846543,
+                        "name": "The Wailers",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    },
+                    {
+                        "id": 3852911,
+                        "name": "Fleetwoods",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    },
+                    {
+                        "id": 57015,
+                        "name": "The Ventures",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "fd64cd92-1fbe-47f6-bfd7-6eea32a22612"
+                    }
+                ],
+                "lastItemAddedAt": null
+            },
+            {
+                "uuid": "40904230-3ec9-403a-83a8-2c34eb0b8693",
+                "title": "Nirvana: MTV Unplugged in New York",
+                "numberOfTracks": 0,
+                "numberOfVideos": 14,
+                "creator": {},
+                "description": "Experience Nirvana's MTV Unplugged concert in New York, 1994. (Photo: Rovi)",
+                "duration": 3852,
+                "lastUpdated": "2021-01-27T00:00:00.000+0000",
+                "created": "2021-01-27T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/40904230-3ec9-403a-83a8-2c34eb0b8693",
+                "image": null,
+                "popularity": 0,
+                "squareImage": "284a0bc1-2c74-4369-b72c-f22e1d85aa14",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    },
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    },
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    },
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "lastItemAddedAt": "2021-01-27T00:00:00.000+0000"
+            },
+            {
+                "uuid": "549e6e94-05f2-4c5c-91d5-92a08a03665a",
+                "title": "Remember...the 1990s",
+                "numberOfTracks": 150,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "What a memorable decade! R.E.M. and U2 ascended as world stars, while grunge changed many people's perception of what could top the charts. Pop-punk (Green Day, The Offspring) and Britpop (Oasis, Blur) were born, just as hip-hop was gaining traction on the charts (Jay-Z, Eminem). Many promising hitmakers would go on to have long, healthy careers, while others would never see the 2000s. But they all belong in our collective memory of the 1990's. (Cover: The Notorious B.I.G. - Ready to Die, Bad Boy/WMG)",
+                "duration": 41095,
+                "lastUpdated": "2025-02-10T00:00:00.000+0000",
+                "created": "2014-09-30T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/549e6e94-05f2-4c5c-91d5-92a08a03665a",
+                "image": "c40ffe70-5619-425f-9ccb-e15885ff8326",
+                "popularity": 86,
+                "squareImage": "39dcfb02-fa45-4df4-ad1b-9bab68e34e3f",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 7804,
+                        "name": "JAY Z",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "a437c542-e9b5-4050-aced-c75ca0565c4f"
+                    },
+                    {
+                        "id": 3565368,
+                        "name": "The Notorious B.I.G.",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "c9958b83-d473-450f-91f7-e32a24718753"
+                    },
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    },
+                    {
+                        "id": 17275,
+                        "name": "Eminem",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "480b074a-58da-469e-b4aa-d4e53fd1d5f5"
+                    }
+                ],
+                "lastItemAddedAt": "2025-02-10T00:00:00.000+0000"
+            },
+            {
+                "uuid": "b11428b1-8ba8-4aa1-af7e-9c335d8588fb",
+                "title": "Nirvana: Classic Rock Influences, curated by Michael Azerrad",
+                "numberOfTracks": 20,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "This playlist, curated by Michael Azerrad, whose new book is ‘The Amplified Come as You Are: The Story of Nirvana,’ surveys the surprising yet essential impact that classic rock, hard rock and metal had on the legendary grunge band. To learn more, read Azerrad’s essay ‘To Be Totally Led Zeppelin: Nirvana’s Unsung Classic Rock Roots’ on TIDAL Magazine. ",
+                "duration": 4982,
+                "lastUpdated": "2023-10-20T00:00:00.000+0000",
+                "created": "2023-10-20T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/b11428b1-8ba8-4aa1-af7e-9c335d8588fb",
+                "image": null,
+                "popularity": 18,
+                "squareImage": "08d12374-774d-4e53-a377-cf6e15c14f74",
+                "customImageUrl": null,
+                "promotedArtists": [],
+                "lastItemAddedAt": "2023-10-20T00:00:00.000+0000"
+            },
+            {
+                "uuid": "ee3d10fd-b598-4d69-85ec-1054b8892541",
+                "title": "Headphone Classics",
+                "numberOfTracks": 50,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "Experience every single detail of some of our favorite tracks available in HiRes FLAC. With our TIDAL Headphone Classics playlists, we highlight the very best examples of high fidelity audio available on the TIDAL platform: Get the most out of your stereo, your headphones, and your TIDAL membership. (Image: Beck - Credit: Rovi)",
+                "duration": 14937,
+                "lastUpdated": "2024-09-16T00:00:00.000+0000",
+                "created": "2020-07-13T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/ee3d10fd-b598-4d69-85ec-1054b8892541",
+                "image": "7202cd45-c315-4606-9d3e-144e8c64b62e",
+                "popularity": 76,
+                "squareImage": "a9790bcf-2057-418f-bf75-c8593e1de991",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 9706,
+                        "name": "Pink Floyd",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "c83f2a72-6373-42e5-8985-e12ad9400c0c"
+                    },
+                    {
+                        "id": 3634161,
+                        "name": "The Beatles",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "ad7946a6-2ec4-43f8-b573-1073d73dfe31"
+                    },
+                    {
+                        "id": 29893,
+                        "name": "Dire Straits",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "a41bf32a-4a1d-471c-acc8-c7aa4408c38f"
+                    },
+                    {
+                        "id": 9606,
+                        "name": "Peter Gabriel",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "b59ed009-1eaa-46ed-ad6c-c691439d9694"
+                    }
+                ],
+                "lastItemAddedAt": "2024-09-16T00:00:00.000+0000"
+            },
+            {
+                "uuid": "3fbb2452-04d8-4624-8bc3-ee08d337788e",
+                "title": "Rock: Headphone Classics ",
+                "numberOfTracks": 49,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "Experience every single detail of some of our favorite tracks available in HiRes FLAC. With our TIDAL Headphone Classics playlists, we highlight the very best examples of high fidelity audio available on the TIDAL platform: Get the most out of your stereo, your headphones, and your TIDAL membership. (Cover: The Who / Photo: Trinifold Archive/UMG/Press)",
+                "duration": 15380,
+                "lastUpdated": "2024-07-30T00:00:00.000+0000",
+                "created": "2020-07-07T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/3fbb2452-04d8-4624-8bc3-ee08d337788e",
+                "image": "bfb0176e-da32-4262-b135-d768b60eae87",
+                "popularity": 74,
+                "squareImage": "88d7b1ff-941e-443c-a590-b3b2d1b2c851",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 9706,
+                        "name": "Pink Floyd",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "c83f2a72-6373-42e5-8985-e12ad9400c0c"
+                    },
+                    {
+                        "id": 5027,
+                        "name": "Audioslave",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "0d940473-c98a-442b-a4a3-33d188fcd250"
+                    },
+                    {
+                        "id": 1115,
+                        "name": "Jeff Buckley",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "32bcf68e-6f28-4821-9733-9b37de356343"
+                    },
+                    {
+                        "id": 37348,
+                        "name": "Opeth",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "aa0fc288-b0b8-4c3f-a708-03c4c3149b99"
+                    },
+                    {
+                        "id": 19141,
+                        "name": "Rush",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "b6ebc330-8f76-4ddb-9dbe-ef994e211662"
+                    },
+                    {
+                        "id": 509,
+                        "name": "Bruce Springsteen",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "30303de3-7c5e-4bdb-9fdc-6aac90240f99"
+                    },
+                    {
+                        "id": 24915,
+                        "name": "The Who",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "0f782232-18c8-40b7-bb13-91c6039e40e6"
+                    },
+                    {
+                        "id": 8992,
+                        "name": "Queen",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "9d3fa5da-7e18-4320-af5a-fa93829fca81"
+                    },
+                    {
+                        "id": 3116,
+                        "name": "Pearl Jam",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "36863f02-6c8e-4017-b0e9-d6120dd0a63d"
+                    },
+                    {
+                        "id": 29893,
+                        "name": "Dire Straits",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "a41bf32a-4a1d-471c-acc8-c7aa4408c38f"
+                    },
+                    {
+                        "id": 13686,
+                        "name": "Yes",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "4c8491f3-8d49-4b57-b21e-b052d0f677fd"
+                    },
+                    {
+                        "id": 3634161,
+                        "name": "The Beatles",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "ad7946a6-2ec4-43f8-b573-1073d73dfe31"
+                    },
+                    {
+                        "id": 9366,
+                        "name": "R.E.M.",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "598806d2-8866-410e-b7e6-0d724a9d84b0"
+                    },
+                    {
+                        "id": 1134,
+                        "name": "Fleetwood Mac",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "9187cc65-91ab-4fd0-8bf3-ab362e17f3e6"
+                    },
+                    {
+                        "id": 573,
+                        "name": "The Rolling Stones",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "6db7a583-e1ba-486c-a175-4d940b095aeb"
+                    },
+                    {
+                        "id": 3355,
+                        "name": "Deep Purple",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "b65c5f59-a8e2-4392-aa31-d66e87e8994e"
+                    },
+                    {
+                        "id": 86,
+                        "name": "Black Sabbath",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "6a2874d8-f693-4e0a-a4c8-682c990b5e13"
+                    },
+                    {
+                        "id": 3850668,
+                        "name": "TOOL",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "756b13e4-2195-4a8c-8758-d3a3a0bff04f"
+                    },
+                    {
+                        "id": 3869,
+                        "name": "Tom Waits",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "942cf8f2-0b8e-4464-84c8-648f96465820"
+                    },
+                    {
+                        "id": 30192,
+                        "name": "Jimi Hendrix",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "ebd23047-d38e-471c-aff6-2dd8ff84d138"
+                    },
+                    {
+                        "id": 13961,
+                        "name": "Tom Petty",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "82795654-d521-4168-8424-29711ddf29d2"
+                    },
+                    {
+                        "id": 4768,
+                        "name": "David Bowie",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "eb9b4956-8298-4586-8b5f-5b41c85d8e7d"
+                    },
+                    {
+                        "id": 222,
+                        "name": "Grateful Dead",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "dd18c780-4a7e-4c94-bf35-ebc7612405d1"
+                    },
+                    {
+                        "id": 14283,
+                        "name": "Ramones",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "ebef25d5-6329-4820-9d6c-439d323107ec"
+                    },
+                    {
+                        "id": 17123,
+                        "name": "U2",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "bcc0e5a1-3ab6-4991-8f96-63f59a75ac08"
+                    },
+                    {
+                        "id": 9371,
+                        "name": "The Beach Boys",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "24582869-9f7b-4cd4-93f5-7a4bc9fd9b6a"
+                    },
+                    {
+                        "id": 250,
+                        "name": "The Byrds",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "26c07589-c009-4a50-b34e-3b9da0383ac3"
+                    },
+                    {
+                        "id": 80,
+                        "name": "Bob Dylan",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "df701644-8cb3-42ae-9d2e-f852e9396838"
+                    },
+                    {
+                        "id": 3888317,
+                        "name": "Frank Zappa",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "aa0136fb-0e2a-43e8-86a0-5dd2c08028f9"
+                    },
+                    {
+                        "id": 14143,
+                        "name": "Steely Dan",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "51fb4ed9-97bd-4843-8746-f232ea73dfec"
+                    },
+                    {
+                        "id": 65,
+                        "name": "The Clash",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "f53ddbdf-017f-42dc-8bdf-c92a7d954ff5"
+                    },
+                    {
+                        "id": 14833,
+                        "name": "Lynyrd Skynyrd",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "205d49ec-a79f-471c-907e-fe78701443f9"
+                    },
+                    {
+                        "id": 575,
+                        "name": "The Kinks",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "ce7132d5-c1f7-4612-a14e-b770dc20d25f"
+                    },
+                    {
+                        "id": 950,
+                        "name": "Aerosmith",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "76baebbc-63cb-4f74-be62-298db903ed0e"
+                    },
+                    {
+                        "id": 1936,
+                        "name": "Jefferson Airplane",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "7462624f-f5a8-47a9-aa2b-26e6ada3d99a"
+                    },
+                    {
+                        "id": 123,
+                        "name": "George Harrison",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "607f07d2-e73d-4387-a03b-a0126cdabd98"
+                    },
+                    {
+                        "id": 13594,
+                        "name": "The Cars",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "608ab629-f476-4d0a-b888-d3918b855954"
+                    },
+                    {
+                        "id": 27807,
+                        "name": "Smashing Pumpkins",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "b21fd2fc-2d76-4ebc-a434-8686c475fc10"
+                    },
+                    {
+                        "id": 15574,
+                        "name": "My Chemical Romance",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "f55bbce1-e2e7-4f1d-8b6f-65eb1f88d39f"
+                    },
+                    {
+                        "id": 8762,
+                        "name": "MC5",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "3509b462-2538-4644-9d2e-48d12cd8659a"
+                    },
+                    {
+                        "id": 8405,
+                        "name": "Metallica",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "0b6a87b1-54a4-4014-9ac2-a2c7b978ae19"
+                    },
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    },
+                    {
+                        "id": 67522,
+                        "name": "Led Zeppelin",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "6d20dd65-6a17-4f24-ae21-d0d97348c760"
+                    },
+                    {
+                        "id": 74,
+                        "name": "Santana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "3e50e746-7e57-4778-af8f-7166545e5f94"
+                    },
+                    {
+                        "id": 13586,
+                        "name": "The Velvet Underground",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "e18c7341-e1e9-4cc8-8d31-7e5717610cb2"
+                    },
+                    {
+                        "id": 8803,
+                        "name": "John Lennon",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "f2e17d60-319b-4820-94ed-83999bc12d4d"
+                    }
+                ],
+                "lastItemAddedAt": "2024-07-17T00:00:00.000+0000"
+            },
+            {
+                "uuid": "8b093ae5-d367-494f-b4bb-9a7dce404692",
+                "title": "Alt Classics",
+                "numberOfTracks": 100,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "All your favourite indie classics in one place. (Cover: Mother Love Bone celebrating the 2025 remastered versions of 'Apple' and 'Shine' / Photo: press)   ",
+                "duration": 24042,
+                "lastUpdated": "2025-08-15T00:00:00.000+0000",
+                "created": "2019-08-02T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/8b093ae5-d367-494f-b4bb-9a7dce404692",
+                "image": "87896bd5-3769-423b-894b-5a31289eb0af",
+                "popularity": 72,
+                "squareImage": "51604bda-5bd9-4429-820a-592ded0afc5a",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 3555494,
+                        "name": "MOTHER LOVE BONE",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "c0781eae-1b5d-4dcc-ae8f-c4ac263c5166"
+                    },
+                    {
+                        "id": 17231,
+                        "name": "Fall Out Boy",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "638af8c1-04d6-4149-b474-26bdff4d5bdc"
+                    },
+                    {
+                        "id": 3503590,
+                        "name": "Six Finger Satellite",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "47505a96-09ad-4b11-b170-8b9f1c6d974a"
+                    },
+                    {
+                        "id": 4899,
+                        "name": "Modest Mouse",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "71d90d11-3e14-42c9-8eb2-c47dd2413e57"
+                    }
+                ],
+                "lastItemAddedAt": "2025-08-15T00:00:00.000+0000"
+            },
+            {
+                "uuid": "eacd9536-3a86-4841-a930-0d3a4cdb6a21",
+                "title": "Rolling Stone: Best Songs of All Time",
+                "numberOfTracks": 496,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "In 2010, institutional music magazine Rolling Stone updated its list of the “500 Greatest Songs of All Time\". Releases from ‘60s and ‘70s are the most represented, but it includes a good share of songs from all decades, all the way back to 1940. [This playlist is updated with the 2021 edition]",
+                "duration": 126980,
+                "lastUpdated": "2025-06-12T00:00:00.000+0000",
+                "created": "2014-10-01T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/eacd9536-3a86-4841-a930-0d3a4cdb6a21",
+                "image": "bc79eb20-914b-4bf2-9003-54183487c390",
+                "popularity": 74,
+                "squareImage": "818d657d-0bd3-4c6f-8077-4167a1cb0308",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 152,
+                        "name": "Aretha Franklin",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "0134bd5b-6450-4719-a8e5-1f25cfddb28a"
+                    },
+                    {
+                        "id": 30307,
+                        "name": "Public Enemy",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "551c2610-7c15-4b55-8f01-60aeaee77b29"
+                    },
+                    {
+                        "id": 3500082,
+                        "name": "Sam Cooke",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "4f0ecf57-f222-4e8a-b75e-ea61e2b4aa38"
+                    },
+                    {
+                        "id": 80,
+                        "name": "Bob Dylan",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "df701644-8cb3-42ae-9d2e-f852e9396838"
+                    }
+                ],
+                "lastItemAddedAt": "2025-06-12T00:00:00.000+0000"
+            },
+            {
+                "uuid": "5761d19b-44f5-421a-a977-709dfe783493",
+                "title": "Années 90 - Les hits de l'été",
+                "numberOfTracks": 54,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "Revivez les étés des 90's.\n\n(cover : Spice Girls / ROVI)",
+                "duration": 15100,
+                "lastUpdated": "2024-08-23T00:00:00.000+0000",
+                "created": "2020-06-30T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/5761d19b-44f5-421a-a977-709dfe783493",
+                "image": "b0b09360-96c6-4e15-b2b8-6e17d350822f",
+                "popularity": 67,
+                "squareImage": "fb1f0cb3-220f-4133-97e2-924e06850a1b",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 3564491,
+                        "name": "Warren G.",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "0011d921-322b-47df-a560-2cbb20c01237"
+                    },
+                    {
+                        "id": 533,
+                        "name": "Destiny's Child",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "a2a6e32d-1b9b-496c-8e7f-3aaa05a8de96"
+                    },
+                    {
+                        "id": 3513445,
+                        "name": "Alliance Ethnik",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    },
+                    {
+                        "id": 878,
+                        "name": "Fugees",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "20dc6389-ff8b-4b18-bb8a-3614f0c0839d"
+                    }
+                ],
+                "lastItemAddedAt": "2022-01-31T00:00:00.000+0000"
+            },
+            {
+                "uuid": "805bc343-888f-43de-a88a-f92811108d61",
+                "title": "Rock for Beginners",
+                "numberOfTracks": 20,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "New to rock? These carefully selected 20 tracks will serve as your beginner's guide to some of the best the genre has to offer. Use them as a jumping-off point to discover even more great rock.",
+                "duration": 5672,
+                "lastUpdated": "2025-08-05T00:00:00.000+0000",
+                "created": "2022-08-04T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/805bc343-888f-43de-a88a-f92811108d61",
+                "image": null,
+                "popularity": 60,
+                "squareImage": "d89212eb-24b5-43d7-b2cf-ba3956888ab0",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 67522,
+                        "name": "Led Zeppelin",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "6d20dd65-6a17-4f24-ae21-d0d97348c760"
+                    },
+                    {
+                        "id": 3634161,
+                        "name": "The Beatles",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "ad7946a6-2ec4-43f8-b573-1073d73dfe31"
+                    },
+                    {
+                        "id": 80,
+                        "name": "Bob Dylan",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "df701644-8cb3-42ae-9d2e-f852e9396838"
+                    },
+                    {
+                        "id": 573,
+                        "name": "The Rolling Stones",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "6db7a583-e1ba-486c-a175-4d940b095aeb"
+                    }
+                ],
+                "lastItemAddedAt": "2025-08-05T00:00:00.000+0000"
+            },
+            {
+                "uuid": "8a7bc0cb-c4c0-4016-9b97-2af4d984b9b7",
+                "title": "Rock Party Classics",
+                "numberOfTracks": 50,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "Rock and roll all night, and party every day, with these essential shout-along cuts. (Photo: Aleksandar Pasaric / Pexels) ",
+                "duration": 11563,
+                "lastUpdated": "2024-03-28T00:00:00.000+0000",
+                "created": "2022-06-29T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/8a7bc0cb-c4c0-4016-9b97-2af4d984b9b7",
+                "image": null,
+                "popularity": 65,
+                "squareImage": "56a1197c-fa6b-4090-a21a-e9a130e5084e",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 19050,
+                        "name": "Thin Lizzy",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "e0b2f96a-71fc-41b9-b41e-9d04873028c3"
+                    },
+                    {
+                        "id": 3520510,
+                        "name": "The White Stripes",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "a50c68ab-f9f7-44d5-8300-9043d3847fbf"
+                    },
+                    {
+                        "id": 29037,
+                        "name": "The Strokes",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "a4f4d92c-a78d-4a97-9b41-f16f3454dd2e"
+                    },
+                    {
+                        "id": 27439,
+                        "name": "Franz Ferdinand",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "d36d89fb-48c7-4096-b50e-71e9d509a88e"
+                    }
+                ],
+                "lastItemAddedAt": "2024-03-26T00:00:00.000+0000"
+            },
+            {
+                "uuid": "8db572f2-5d36-4584-9c3f-126a50c0a494",
+                "title": "Rock Workout",
+                "numberOfTracks": 40,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "Put those headphones in, get in your body in beast mode and prepare to rock out while you work out. (Photo: Unsplash)",
+                "duration": 8136,
+                "lastUpdated": "2025-04-30T00:00:00.000+0000",
+                "created": "2017-08-02T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/8db572f2-5d36-4584-9c3f-126a50c0a494",
+                "image": "3f80df78-9390-453f-b041-36916fcce285",
+                "popularity": 64,
+                "squareImage": "38782c51-82cc-48b6-aea7-07c7c711d0ce",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 945,
+                        "name": "AC/DC",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "4e22a750-9dea-4f7d-9c70-5ece4fa3b129"
+                    },
+                    {
+                        "id": 14123,
+                        "name": "Linkin Park",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "fbd7e516-5e69-439d-babb-485b98f60f89"
+                    },
+                    {
+                        "id": 27418,
+                        "name": "Bon Jovi",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "6c1cf93f-178d-454a-bb97-9e7b9c57975f"
+                    },
+                    {
+                        "id": 30050,
+                        "name": "Jimmy Eat World",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "0de5e54f-2df9-4130-8bfd-5576cd9880ea"
+                    }
+                ],
+                "lastItemAddedAt": "2025-04-30T00:00:00.000+0000"
+            },
+            {
+                "uuid": "9299e25f-8845-4240-9e62-151175dcc76e",
+                "title": "Check The Rhyme: Nirvana",
+                "numberOfTracks": 20,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "Kurt Cobain's legacy lives on through the rhymes of rappers who have drawn inspiration from the grunge-era rock star. Revisit these Cobain and Nirvana name-drops. (Photo: Rovi)",
+                "duration": 5287,
+                "lastUpdated": "2024-04-04T00:00:00.000+0000",
+                "created": "2018-09-24T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/9299e25f-8845-4240-9e62-151175dcc76e",
+                "image": "78c8c6b3-71bb-495a-a50f-87a91995cddd",
+                "popularity": 0,
+                "squareImage": "477f18d5-9eb4-471b-8434-4c693fce3519",
+                "customImageUrl": null,
+                "promotedArtists": [
+                    {
+                        "id": 7975889,
+                        "name": "J A Y  E L E C T R O N I C A",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "4a416383-2d69-444a-8073-a4048b6d6ebc"
+                    },
+                    {
+                        "id": 33004,
+                        "name": "Juelz Santana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "cf7ae7e2-e32a-45b2-a844-b8aaa9710972"
+                    },
+                    {
+                        "id": 7804,
+                        "name": "JAY Z",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "a437c542-e9b5-4050-aced-c75ca0565c4f"
+                    },
+                    {
+                        "id": 3816041,
+                        "name": "Kendrick Lamar",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "84d81b7a-a12e-4a3e-bda4-d0527cb1c8cf"
+                    }
+                ],
+                "lastItemAddedAt": "2024-04-04T00:00:00.000+0000"
+            },
+            {
+                "uuid": "bddc879c-2ba2-448d-b51a-b645918c35ab",
+                "title": "2000s Rock Hits",
+                "numberOfTracks": 98,
+                "numberOfVideos": 0,
+                "creator": {},
+                "description": "A trip down memory lane to revisit some of the finest rock songs of the 2000s. Enjoy the big hits, timeless classics and forgotten favorites. (Cover: Nickelback - Silver Side Up, Roadrunner/WMG)",
+                "duration": 23688,
+                "lastUpdated": "2023-10-09T00:00:00.000+0000",
+                "created": "2023-08-04T00:00:00.000+0000",
+                "type": "EDITORIAL",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/bddc879c-2ba2-448d-b51a-b645918c35ab",
+                "image": null,
+                "popularity": 63,
+                "squareImage": "0da4f35d-1dcd-489f-aca8-af8adf2d6d5c",
+                "customImageUrl": null,
+                "promotedArtists": [],
+                "lastItemAddedAt": "2023-08-04T00:00:00.000+0000"
+            }
+        ]
+    },
+    "tracks": {
+        "limit": 18,
+        "offset": 0,
+        "totalNumberOfItems": 300,
+        "items": [
+            {
+                "id": 77610757,
+                "title": "Smells Like Teen Spirit",
+                "duration": 301,
+                "replayGain": -10.79,
+                "peak": 0.990322,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 89,
+                "copyright": "℗ 1991 UMG Recordings, Inc.",
+                "bpm": 117,
+                "url": "http://www.tidal.com/track/77610757",
+                "isrc": "USGF19942501",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 77610756,
+                    "title": "Nevermind",
+                    "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                    "vibrantColor": "#56afc9",
+                    "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                    "releaseDate": "1991-09-24"
+                },
+                "mixes": {
+                    "TRACK_MIX": "0017731f1e3fa642e293467b0c8607"
+                }
+            },
+            {
+                "id": 77610759,
+                "title": "Come As You Are",
+                "duration": 219,
+                "replayGain": -10.79,
+                "peak": 0.989604,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 3,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 85,
+                "copyright": "℗ 1991 UMG Recordings, Inc.",
+                "bpm": 121,
+                "url": "http://www.tidal.com/track/77610759",
+                "isrc": "USGF19942503",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 77610756,
+                    "title": "Nevermind",
+                    "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                    "vibrantColor": "#56afc9",
+                    "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                    "releaseDate": "1991-09-24"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001d8c0b74579da517b5482eef2be2"
+                }
+            },
+            {
+                "id": 77610761,
+                "title": "Lithium",
+                "duration": 257,
+                "replayGain": -10.79,
+                "peak": 0.989595,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 5,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 82,
+                "copyright": "℗ 1991 UMG Recordings, Inc.",
+                "bpm": 123,
+                "url": "http://www.tidal.com/track/77610761",
+                "isrc": "USGF19942505",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 77610756,
+                    "title": "Nevermind",
+                    "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                    "vibrantColor": "#56afc9",
+                    "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                    "releaseDate": "1991-09-24"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001d2e9d0e008944b361447484f9e5"
+                }
+            },
+            {
+                "id": 77610847,
+                "title": "Heart-Shaped Box",
+                "duration": 281,
+                "replayGain": -7.28,
+                "peak": 0.994311,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-09-24T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 3,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 79,
+                "copyright": "A Geffen Records release; ℗ 1993 UMG Recordings, Inc.",
+                "bpm": 100,
+                "url": "http://www.tidal.com/track/77610847",
+                "isrc": "USGF19960703",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 77610844,
+                    "title": "In Utero",
+                    "cover": "e680f7cf-f8af-421b-a2ac-3b0b074e3866",
+                    "vibrantColor": "#f1eab5",
+                    "videoCover": "b5b8236c-b15b-4353-979b-340e97481740",
+                    "releaseDate": "1993-09-21"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001fbc7c4ea463f7949560c41d1992"
+                }
+            },
+            {
+                "id": 2570675,
+                "title": "The Man Who Sold The World",
+                "duration": 261,
+                "replayGain": -7.27,
+                "peak": 0.995453,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2006-02-01T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 4,
+                "volumeNumber": 1,
+                "version": "Live",
+                "popularity": 75,
+                "copyright": "℗ 1994 UMG Recordings, Inc.",
+                "bpm": 117,
+                "url": "http://www.tidal.com/track/2570675",
+                "isrc": "USGF19972704",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 2570671,
+                    "title": "MTV Unplugged In New York",
+                    "cover": "621c5170-fa02-4b63-902c-dd3e814187f6",
+                    "vibrantColor": "#d498a0",
+                    "videoCover": null,
+                    "releaseDate": "1994-11-01"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001209254acb5b7fad3f8c86a5a9b7"
+                }
+            },
+            {
+                "id": 77610769,
+                "title": "Something In The Way",
+                "duration": 235,
+                "replayGain": -10.79,
+                "peak": 0.98876,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 12,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 75,
+                "copyright": "℗ 1991 Geffen Records",
+                "bpm": 106,
+                "url": "http://www.tidal.com/track/77610769",
+                "isrc": "USGF19942512",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 77610756,
+                    "title": "Nevermind",
+                    "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                    "vibrantColor": "#56afc9",
+                    "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                    "releaseDate": "1991-09-24"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001c767bca863c46a6035b1ff7d1ee"
+                }
+            },
+            {
+                "id": 77610848,
+                "title": "Rape Me",
+                "duration": 170,
+                "replayGain": -7.28,
+                "peak": 0.988852,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-09-24T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 4,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 72,
+                "copyright": "A Geffen Records release; ℗ 1993 UMG Recordings, Inc.",
+                "bpm": 112,
+                "url": "http://www.tidal.com/track/77610848",
+                "isrc": "USGF19960704",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 77610844,
+                    "title": "In Utero",
+                    "cover": "e680f7cf-f8af-421b-a2ac-3b0b074e3866",
+                    "vibrantColor": "#f1eab5",
+                    "videoCover": "b5b8236c-b15b-4353-979b-340e97481740",
+                    "releaseDate": "1993-09-21"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001b4147f50c6eaee9453d818f8316"
+                }
+            },
+            {
+                "id": 77610758,
+                "title": "In Bloom",
+                "duration": 255,
+                "replayGain": -10.79,
+                "peak": 0.990883,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 2,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 69,
+                "copyright": "℗ 1991 UMG Recordings, Inc.",
+                "bpm": 155,
+                "url": "http://www.tidal.com/track/77610758",
+                "isrc": "USGF19942502",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 77610756,
+                    "title": "Nevermind",
+                    "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                    "vibrantColor": "#56afc9",
+                    "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                    "releaseDate": "1991-09-24"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001e6f77242dbab5d74fd42b2cd439"
+                }
+            },
+            {
+                "id": 77610765,
+                "title": "Drain You",
+                "duration": 224,
+                "replayGain": -10.79,
+                "peak": 0.989584,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 8,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 67,
+                "copyright": "℗ 1991 UMG Recordings, Inc.",
+                "bpm": 135,
+                "url": "http://www.tidal.com/track/77610765",
+                "isrc": "USGF19942508",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 77610756,
+                    "title": "Nevermind",
+                    "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                    "vibrantColor": "#56afc9",
+                    "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                    "releaseDate": "1991-09-24"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001fdd02422d501cada3c51fdab338"
+                }
+            },
+            {
+                "id": 77610760,
+                "title": "Breed",
+                "duration": 184,
+                "replayGain": -10.79,
+                "peak": 0.99062,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 4,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 66,
+                "copyright": "℗ 1991 UMG Recordings, Inc.",
+                "bpm": 162,
+                "url": "http://www.tidal.com/track/77610760",
+                "isrc": "USGF19942504",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 77610756,
+                    "title": "Nevermind",
+                    "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                    "vibrantColor": "#56afc9",
+                    "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                    "releaseDate": "1991-09-24"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001a88a1959e3715ec16b2cacac744"
+                }
+            },
+            {
+                "id": 2570685,
+                "title": "Where Did You Sleep Last Night",
+                "duration": 308,
+                "replayGain": -7.27,
+                "peak": 0.999969,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2006-02-01T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 14,
+                "volumeNumber": 1,
+                "version": "Live",
+                "popularity": 66,
+                "copyright": "℗ 1994 UMG Recordings, Inc.",
+                "bpm": null,
+                "url": "http://www.tidal.com/track/2570685",
+                "isrc": "USGF19972714",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 2570671,
+                    "title": "MTV Unplugged In New York",
+                    "cover": "621c5170-fa02-4b63-902c-dd3e814187f6",
+                    "vibrantColor": "#d498a0",
+                    "videoCover": null,
+                    "releaseDate": "1994-11-01"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001a8a7ceed900d60911edc6224f49"
+                }
+            },
+            {
+                "id": 77610856,
+                "title": "All Apologies",
+                "duration": 236,
+                "replayGain": -7.28,
+                "peak": 0.987106,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-09-24T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 12,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 66,
+                "copyright": "A Geffen Records release; ℗ 1993 UMG Recordings, Inc.",
+                "bpm": null,
+                "url": "http://www.tidal.com/track/77610856",
+                "isrc": "USGF19960712",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 77610844,
+                    "title": "In Utero",
+                    "cover": "e680f7cf-f8af-421b-a2ac-3b0b074e3866",
+                    "vibrantColor": "#f1eab5",
+                    "videoCover": "b5b8236c-b15b-4353-979b-340e97481740",
+                    "releaseDate": "1993-09-21"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001e09918c8504ec7708093e485c2e"
+                }
+            },
+            {
+                "id": 77610766,
+                "title": "Lounge Act",
+                "duration": 157,
+                "replayGain": -10.79,
+                "peak": 0.98965,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 9,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 64,
+                "copyright": "℗ 1991 UMG Recordings, Inc.",
+                "bpm": 152,
+                "url": "http://www.tidal.com/track/77610766",
+                "isrc": "USGF19942509",
+                "editable": false,
+                "explicit": true,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 77610756,
+                    "title": "Nevermind",
+                    "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                    "vibrantColor": "#56afc9",
+                    "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                    "releaseDate": "1991-09-24"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001b043b4f297eff2a6eb161f5231d"
+                }
+            },
+            {
+                "id": 2570672,
+                "title": "About A Girl",
+                "duration": 217,
+                "replayGain": -7.27,
+                "peak": 0.983154,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2006-02-01T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": "Live",
+                "popularity": 63,
+                "copyright": "℗ 1994 UMG Recordings, Inc.",
+                "bpm": 122,
+                "url": "http://www.tidal.com/track/2570672",
+                "isrc": "USGF19972701",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 2570671,
+                    "title": "MTV Unplugged In New York",
+                    "cover": "621c5170-fa02-4b63-902c-dd3e814187f6",
+                    "vibrantColor": "#d498a0",
+                    "videoCover": null,
+                    "releaseDate": "1994-11-01"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001139e4d807c0a5a3b97d17b36335"
+                }
+            },
+            {
+                "id": 77610762,
+                "title": "Polly",
+                "duration": 177,
+                "replayGain": -10.79,
+                "peak": 0.988639,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 6,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 63,
+                "copyright": "℗ 1991 UMG Recordings, Inc.",
+                "bpm": 122,
+                "url": "http://www.tidal.com/track/77610762",
+                "isrc": "USGF19942506",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 77610756,
+                    "title": "Nevermind",
+                    "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                    "vibrantColor": "#56afc9",
+                    "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                    "releaseDate": "1991-09-24"
+                },
+                "mixes": {
+                    "TRACK_MIX": "0013993e3ca14ebed72340a11b9e7e"
+                }
+            },
+            {
+                "id": 77610850,
+                "title": "Dumb",
+                "duration": 152,
+                "replayGain": -7.28,
+                "peak": 0.992604,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-09-24T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 6,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 63,
+                "copyright": "A Geffen Records release; ℗ 1993 UMG Recordings, Inc.",
+                "bpm": null,
+                "url": "http://www.tidal.com/track/77610850",
+                "isrc": "USGF19960706",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 77610844,
+                    "title": "In Utero",
+                    "cover": "e680f7cf-f8af-421b-a2ac-3b0b074e3866",
+                    "vibrantColor": "#f1eab5",
+                    "videoCover": "b5b8236c-b15b-4353-979b-340e97481740",
+                    "releaseDate": "1993-09-21"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001a3ce91bac8e2632103b974161f6"
+                }
+            },
+            {
+                "id": 2570673,
+                "title": "Come As You Are",
+                "duration": 254,
+                "replayGain": -7.27,
+                "peak": 0.999969,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2006-02-01T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 2,
+                "volumeNumber": 1,
+                "version": "Live",
+                "popularity": 62,
+                "copyright": "℗ 1994 UMG Recordings, Inc.",
+                "bpm": 119,
+                "url": "http://www.tidal.com/track/2570673",
+                "isrc": "USGF19972702",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 2570671,
+                    "title": "MTV Unplugged In New York",
+                    "cover": "621c5170-fa02-4b63-902c-dd3e814187f6",
+                    "vibrantColor": "#d498a0",
+                    "videoCover": null,
+                    "releaseDate": "1994-11-01"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001909e0901f1a3faa3a49efc10af8"
+                }
+            },
+            {
+                "id": 77610763,
+                "title": "Territorial Pissings",
+                "duration": 143,
+                "replayGain": -10.79,
+                "peak": 0.98973,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 7,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 62,
+                "copyright": "℗ 1991 UMG Recordings, Inc.",
+                "bpm": 92,
+                "url": "http://www.tidal.com/track/77610763",
+                "isrc": "USGF19942507",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": null,
+                "spotlighted": false,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": {
+                    "id": 77610756,
+                    "title": "Nevermind",
+                    "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                    "vibrantColor": "#56afc9",
+                    "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                    "releaseDate": "1991-09-24"
+                },
+                "mixes": {
+                    "TRACK_MIX": "0012520234aa461581c5b0899217b4"
+                }
+            }
+        ]
+    },
+    "videos": {
+        "limit": 18,
+        "offset": 0,
+        "totalNumberOfItems": 300,
+        "items": [
+            {
+                "id": 25740250,
+                "title": "Smells Like Teen Spirit",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-01-01T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "7bd9a4c2-424a-49cf-afd9-31f6e526a71e",
+                "vibrantColor": null,
+                "duration": 275,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2008-11-10T00:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 73,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 121471781,
+                "title": "About A Girl (Live On MTV Unplugged, 1993 / Unedited)",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-11-19T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "894bdcac-7d64-4acd-af0b-32f4edbf946b",
+                "vibrantColor": "#ddc08f",
+                "duration": 262,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2019-11-01T18:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 66,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 121490462,
+                "title": "Come As You Are",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-11-19T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "869fada7-2e85-4a83-9aa9-3e75eb54dac1",
+                "vibrantColor": "#e4c4d5",
+                "duration": 281,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2019-11-05T19:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 56,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 121746207,
+                "title": "The Man Who Sold The World (Live On MTV Unplugged, 1993 / Unedited)",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-11-19T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "049191b6-8c4e-4441-87f1-b6236bb5aa5d",
+                "vibrantColor": "#15acdd",
+                "duration": 257,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2019-11-12T19:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 56,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 121743769,
+                "title": "Jesus Doesn't Want Me For A Sunbeam (Live On MTV Unplugged, 1993 / Unedited)",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-11-19T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "6e2125cd-0e6e-4f01-9acb-eabc796d8d09",
+                "vibrantColor": "#e26387",
+                "duration": 275,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2019-11-07T19:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 48,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 121991684,
+                "title": "Pennyroyal Tea (Live On MTV Unplugged, 1993 / Rehearsal)",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-11-19T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "7f95531b-b2bf-462a-ade9-0c0b10b9eacf",
+                "vibrantColor": "#d090a3",
+                "duration": 267,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2019-11-22T19:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 46,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 124335571,
+                "title": "Plateau (Live On MTV Unplugged, 1993 / Unedited)",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-11-19T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "6f7572b5-6ed2-4efd-8c32-6c38563f4a0b",
+                "vibrantColor": "#c8a15d",
+                "duration": 212,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2019-12-10T19:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 44,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 123976969,
+                "title": "Something In The Way",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-11-19T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "6e6a4f66-d9e5-4334-99ef-faee5081fa5d",
+                "vibrantColor": "#4114eb",
+                "duration": 487,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2019-12-06T19:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 44,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 123655268,
+                "title": "On A Plain (Live On MTV Unplugged, 1993 / Unedited)",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-11-19T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "4f2e5db4-3a18-4fa7-9eea-1978c8d9f263",
+                "vibrantColor": "#61a2de",
+                "duration": 220,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2019-12-03T19:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 43,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 204915090,
+                "title": "Lithium",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2021-11-19T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "118903bb-e8c4-453c-bd07-eab442a0cb06",
+                "vibrantColor": "#88c9ea",
+                "duration": 248,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2021-11-19T15:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 42,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 123271846,
+                "title": "Polly (Live On MTV Unplugged, 1993 / Unedited)",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-11-19T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "611a9860-3edb-438f-b301-988375039bed",
+                "vibrantColor": "#84d9ea",
+                "duration": 225,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2019-11-29T19:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 41,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 122983917,
+                "title": "Dumb (Live On MTV Unplugged, 1993 / Unedited)",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-11-19T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "c3bd2336-97cb-43e2-93d3-28c4213c9276",
+                "vibrantColor": "#7aa1dc",
+                "duration": 279,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2019-11-26T19:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 41,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 124758191,
+                "title": "Oh Me (Live On MTV Unplugged, 1993 / Unedited)",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-11-19T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "60a35a2e-c2b6-4b17-9477-46744e258df4",
+                "vibrantColor": "#e4aeb9",
+                "duration": 203,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2019-12-13T19:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 40,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 107147820,
+                "title": "Smells Like Teen Spirit",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2011-09-27T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "7adf90b8-af20-4e6f-882a-2fd9c938a688",
+                "vibrantColor": "#d16683",
+                "duration": 276,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2019-04-12T06:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 37,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 125622437,
+                "title": "Where Did You Sleep Last Night (Live On MTV Unplugged Unedited)",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-11-19T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "5d20fddf-a6a3-436e-94cd-7c54b923d6a3",
+                "vibrantColor": "#a0c0eb",
+                "duration": 409,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2019-12-21T19:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 35,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 125183835,
+                "title": "Lake Of Fire (Live On MTV Unplugged, 1993 / Unedited)",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-11-19T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "f1b8beea-ffee-4b4c-adc2-d9a42707b19d",
+                "vibrantColor": "#d0bc95",
+                "duration": 239,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2019-12-17T19:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 33,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 25837570,
+                "title": "The Man Who Sold The World (Live - MTV Unplugged)",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-01-01T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "2cdcc07d-27e5-413c-bbcd-31b863db3ae3",
+                "vibrantColor": "#6b7ee2",
+                "duration": 216,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2008-11-10T00:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 32,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            },
+            {
+                "id": 34155432,
+                "title": "All Apologies",
+                "volumeNumber": 0,
+                "trackNumber": 0,
+                "releaseDate": "2007-01-01T00:00:00.000+0000",
+                "imagePath": null,
+                "imageId": "1cb01b9f-4856-40cf-903e-1170f27be979",
+                "vibrantColor": "#ab9dda",
+                "duration": 218,
+                "quality": "MP4_1080P",
+                "streamReady": true,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2020-03-04T00:00:00.000+0000",
+                "allowStreaming": true,
+                "explicit": false,
+                "popularity": 30,
+                "type": "Music Video",
+                "adsUrl": null,
+                "adsPrePaywallOnly": true,
+                "artists": [
+                    {
+                        "id": 19368,
+                        "name": "Nirvana",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+                    }
+                ],
+                "album": null
+            }
+        ]
+    },
+    "topHit": {
+        "value": {
+            "id": 19368,
+            "name": "Nirvana",
+            "artistTypes": [
+                "ARTIST",
+                "CONTRIBUTOR"
+            ],
+            "url": "http://www.tidal.com/artist/19368",
+            "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+            "selectedAlbumCoverFallback": null,
+            "popularity": 88,
+            "artistRoles": [
+                {
+                    "categoryId": -1,
+                    "category": "Artist"
+                },
+                {
+                    "categoryId": 2,
+                    "category": "Songwriter"
+                },
+                {
+                    "categoryId": 1,
+                    "category": "Producer"
+                },
+                {
+                    "categoryId": 3,
+                    "category": "Engineer"
+                },
+                {
+                    "categoryId": 11,
+                    "category": "Performer"
+                },
+                {
+                    "categoryId": 10,
+                    "category": "Production team"
+                },
+                {
+                    "categoryId": 99,
+                    "category": "Misc"
+                }
+            ],
+            "mixes": {
+                "ARTIST_MIX": "000aa824749d0ebd070d39bd8e2d93"
+            },
+            "handle": null,
+            "userId": null,
+            "spotlighted": false
+        },
+        "type": "ARTISTS"
+    }
+}
