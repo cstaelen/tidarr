@@ -1,0 +1,1703 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - main [ref=e3]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e9]:
+          - generic [ref=e12]:
+            - generic: Tidal search (keywords, artist URL, album URL, playlist URL)
+            - textbox "Tidal search (keywords, artist URL, album URL, playlist URL)" [ref=e14]
+          - generic [ref=e15]:
+            - group "Platform" [ref=e17]:
+              - button "Lossless" [ref=e18] [cursor=pointer]
+              - button "High" [ref=e19] [cursor=pointer]
+              - button "All" [pressed] [ref=e20] [cursor=pointer]
+            - button "Display mode" [ref=e22] [cursor=pointer]:
+              - img [ref=e23] [cursor=pointer]
+            - button "Settings" [ref=e26] [cursor=pointer]:
+              - img [ref=e28] [cursor=pointer]
+        - tablist [ref=e34]:
+          - tab "Albums (21)" [selected] [ref=e35] [cursor=pointer]
+          - tab "EP & Singles (4)" [ref=e36] [cursor=pointer]
+          - tab "Compilations (12)" [ref=e37] [cursor=pointer]
+          - tab "Live albums (6)" [ref=e38] [cursor=pointer]
+          - tab "Videos (10)" [ref=e39] [cursor=pointer]
+          - tab "Appears On (19)" [ref=e40] [cursor=pointer]
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - paragraph [ref=e45]: Artist(s)
+          - link "The Beatles" [ref=e48]:
+            - /url: http://www.tidal.com/artist/3634161
+            - heading "The Beatles" [level=1] [ref=e49]:
+              - strong [ref=e50]: The Beatles
+              - img [ref=e51]
+          - generic [ref=e54]:
+            - img "Live from space album cover" [ref=e57]
+            - button "Get all releases" [ref=e60] [cursor=pointer]:
+              - text: Get all releases
+              - img [ref=e62] [cursor=pointer]
+          - alert [ref=e64]:
+            - img [ref=e66]
+            - generic [ref=e68]:
+              - generic [ref=e69]: "\"Get all releases\" button."
+              - text: By default, Singles and EP's are not concerned by the "Get all releases" button.
+              - text: To include them, please update "singles_filter" parameter in your "tiddl.json" file.
+              - link "More details on Github" [ref=e70]:
+                - /url: https://github.com/cstaelen/tidarr?tab=readme-ov-file#download-settings-optional
+              - text: .
+        - generic [ref=e72]:
+          - separator [ref=e73]
+          - heading "Albums (21)" [level=2] [ref=e74]
+          - separator [ref=e75]
+          - generic [ref=e76]:
+            - generic [ref=e78]:
+              - generic [ref=e79]:
+                - img "The Beatles" [ref=e81]
+                - generic [ref=e82]:
+                  - link "The Beatles 1962 – 1966 (2023 Edition)" [ref=e83]:
+                    - /url: /album/327655668
+                    - strong [ref=e85]: The Beatles 1962 – 1966 (2023 Edition)
+                  - generic [ref=e86]:
+                    - text: by
+                    - button "The Beatles" [ref=e87] [cursor=pointer]:
+                      - strong [ref=e88] [cursor=pointer]: The Beatles
+              - generic [ref=e89]:
+                - link "Live from space album cover" [ref=e90]:
+                  - /url: /album/327655668
+                  - img "Live from space album cover" [ref=e92]
+                - generic [ref=e94]:
+                  - generic [ref=e95]:
+                    - generic [ref=e97]: lossless
+                    - generic [ref=e99]: 38 tracks
+                    - generic [ref=e101]: 95 min
+                    - generic [ref=e103]: "2023"
+                  - button "Get album" [ref=e104] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e106] [cursor=pointer]
+            - generic [ref=e109]:
+              - generic [ref=e110]:
+                - img "The Beatles" [ref=e112]
+                - generic [ref=e113]:
+                  - link "Let It Be (2021 Mix)" [ref=e114]:
+                    - /url: /album/200566137
+                    - strong [ref=e116]: Let It Be (2021 Mix)
+                  - generic [ref=e117]:
+                    - text: by
+                    - button "The Beatles" [ref=e118] [cursor=pointer]:
+                      - strong [ref=e119] [cursor=pointer]: The Beatles
+              - generic [ref=e120]:
+                - link "Live from space album cover" [ref=e121]:
+                  - /url: /album/200566137
+                  - img "Live from space album cover" [ref=e123]
+                - generic [ref=e125]:
+                  - generic [ref=e126]:
+                    - generic [ref=e128]: lossless
+                    - generic [ref=e130]: 12 tracks
+                    - generic [ref=e132]: 35 min
+                    - generic [ref=e134]: "1970"
+                  - button "Get album" [ref=e135] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e137] [cursor=pointer]
+            - generic [ref=e140]:
+              - generic [ref=e141]:
+                - img "The Beatles" [ref=e143]
+                - generic [ref=e144]:
+                  - link "Let It Be (Super Deluxe)" [ref=e145]:
+                    - /url: /album/200566630
+                    - strong [ref=e147]: Let It Be (Super Deluxe)
+                  - generic [ref=e148]:
+                    - text: by
+                    - button "The Beatles" [ref=e149] [cursor=pointer]:
+                      - strong [ref=e150] [cursor=pointer]: The Beatles
+              - generic [ref=e151]:
+                - link "Live from space album cover" [ref=e152]:
+                  - /url: /album/200566630
+                  - img "Live from space album cover" [ref=e154]
+                - generic [ref=e156]:
+                  - generic [ref=e157]:
+                    - generic [ref=e159]: lossless
+                    - generic [ref=e161]: 57 tracks
+                    - generic [ref=e163]: 165 min
+                    - generic [ref=e165]: "1970"
+                  - button "Get album" [ref=e166] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e168] [cursor=pointer]
+            - generic [ref=e171]:
+              - generic [ref=e172]:
+                - img "The Beatles" [ref=e174]
+                - generic [ref=e175]:
+                  - link "Let It Be (2021 Mix) [With Commentary]" [ref=e176]:
+                    - /url: /album/201377541
+                    - strong [ref=e178]: Let It Be (2021 Mix) [With Commentary]
+                  - generic [ref=e179]:
+                    - text: by
+                    - button "The Beatles" [ref=e180] [cursor=pointer]:
+                      - strong [ref=e181] [cursor=pointer]: The Beatles
+              - generic [ref=e182]:
+                - link "Live from space album cover" [ref=e183]:
+                  - /url: /album/201377541
+                  - img "Live from space album cover" [ref=e185]
+                - generic [ref=e187]:
+                  - generic [ref=e188]:
+                    - generic [ref=e190]: lossless
+                    - generic [ref=e192]: 24 tracks
+                    - generic [ref=e194]: 47 min
+                    - generic [ref=e196]: "1970"
+                  - button "Get album" [ref=e197] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e199] [cursor=pointer]
+            - generic [ref=e202]:
+              - generic [ref=e203]:
+                - img "The Beatles" [ref=e205]
+                - generic [ref=e206]:
+                  - link "Abbey Road (Super Deluxe Edition)" [ref=e207]:
+                    - /url: /album/118390427
+                    - strong [ref=e209]: Abbey Road (Super Deluxe Edition)
+                  - generic [ref=e210]:
+                    - text: by
+                    - button "The Beatles" [ref=e211] [cursor=pointer]:
+                      - strong [ref=e212] [cursor=pointer]: The Beatles
+              - generic [ref=e213]:
+                - link "Live from space album cover" [ref=e214]:
+                  - /url: /album/118390427
+                  - img "Live from space album cover" [ref=e216]
+                - generic [ref=e218]:
+                  - generic [ref=e219]:
+                    - generic [ref=e221]: lossless
+                    - generic [ref=e223]: 40 tracks
+                    - generic [ref=e225]: 133 min
+                    - generic [ref=e227]: "1969"
+                  - button "Get album" [ref=e228] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e230] [cursor=pointer]
+            - generic [ref=e233]:
+              - generic [ref=e234]:
+                - img "The Beatles" [ref=e236]
+                - generic [ref=e237]:
+                  - link "Abbey Road (Remastered)" [ref=e238]:
+                    - /url: /album/55130630
+                    - strong [ref=e240]: Abbey Road (Remastered)
+                  - generic [ref=e241]:
+                    - text: by
+                    - button "The Beatles" [ref=e242] [cursor=pointer]:
+                      - strong [ref=e243] [cursor=pointer]: The Beatles
+              - generic [ref=e244]:
+                - link "Live from space album cover" [ref=e245]:
+                  - /url: /album/55130630
+                  - img "Live from space album cover" [ref=e247]
+                - generic [ref=e249]:
+                  - generic [ref=e250]:
+                    - generic [ref=e252]: lossless
+                    - generic [ref=e254]: 17 tracks
+                    - generic [ref=e256]: 47 min
+                    - generic [ref=e258]: "1969"
+                  - button "Get album" [ref=e259] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e261] [cursor=pointer]
+            - generic [ref=e264]:
+              - generic [ref=e265]:
+                - img "The Beatles" [ref=e267]
+                - generic [ref=e268]:
+                  - link "Yellow Submarine (Remastered)" [ref=e269]:
+                    - /url: /album/55130781
+                    - strong [ref=e271]: Yellow Submarine (Remastered)
+                  - generic [ref=e272]:
+                    - text: by
+                    - button "The Beatles" [ref=e273] [cursor=pointer]:
+                      - strong [ref=e274] [cursor=pointer]: The Beatles
+              - generic [ref=e275]:
+                - link "Live from space album cover" [ref=e276]:
+                  - /url: /album/55130781
+                  - img "Live from space album cover" [ref=e278]
+                - generic [ref=e280]:
+                  - generic [ref=e281]:
+                    - generic [ref=e283]: lossless
+                    - generic [ref=e285]: 13 tracks
+                    - generic [ref=e287]: 40 min
+                    - generic [ref=e289]: "1969"
+                  - button "Get album" [ref=e290] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e292] [cursor=pointer]
+            - generic [ref=e295]:
+              - generic [ref=e296]:
+                - img "The Beatles" [ref=e298]
+                - generic [ref=e299]:
+                  - link "The Beatles (White Album / Super Deluxe)" [ref=e300]:
+                    - /url: /album/97872030
+                    - strong [ref=e302]: The Beatles (White Album / Super Deluxe)
+                  - generic [ref=e303]:
+                    - text: by
+                    - button "The Beatles" [ref=e304] [cursor=pointer]:
+                      - strong [ref=e305] [cursor=pointer]: The Beatles
+              - generic [ref=e306]:
+                - link "Live from space album cover" [ref=e307]:
+                  - /url: /album/97872030
+                  - img "Live from space album cover" [ref=e309]
+                - generic [ref=e311]:
+                  - generic [ref=e312]:
+                    - generic [ref=e314]: lossless
+                    - generic [ref=e316]: 107 tracks
+                    - generic [ref=e318]: 327 min
+                    - generic [ref=e320]: "1968"
+                  - button "Get album" [ref=e321] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e323] [cursor=pointer]
+            - generic [ref=e326]:
+              - generic [ref=e327]:
+                - img "The Beatles" [ref=e329]
+                - generic [ref=e330]:
+                  - link "The Beatles (Remastered)" [ref=e331]:
+                    - /url: /album/55163302
+                    - strong [ref=e333]: The Beatles (Remastered)
+                  - generic [ref=e334]:
+                    - text: by
+                    - button "The Beatles" [ref=e335] [cursor=pointer]:
+                      - strong [ref=e336] [cursor=pointer]: The Beatles
+              - generic [ref=e337]:
+                - link "Live from space album cover" [ref=e338]:
+                  - /url: /album/55163302
+                  - img "Live from space album cover" [ref=e340]
+                - generic [ref=e342]:
+                  - generic [ref=e343]:
+                    - generic [ref=e345]: lossless
+                    - generic [ref=e347]: 30 tracks
+                    - generic [ref=e349]: 93 min
+                    - generic [ref=e351]: "1968"
+                  - button "Get album" [ref=e352] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e354] [cursor=pointer]
+            - generic [ref=e357]:
+              - generic [ref=e358]:
+                - img "The Beatles" [ref=e360]
+                - generic [ref=e361]:
+                  - link "Magical Mystery Tour (Remastered)" [ref=e362]:
+                    - /url: /album/55130767
+                    - strong [ref=e364]: Magical Mystery Tour (Remastered)
+                  - generic [ref=e365]:
+                    - text: by
+                    - button "The Beatles" [ref=e366] [cursor=pointer]:
+                      - strong [ref=e367] [cursor=pointer]: The Beatles
+              - generic [ref=e368]:
+                - link "Live from space album cover" [ref=e369]:
+                  - /url: /album/55130767
+                  - img "Live from space album cover" [ref=e371]
+                - generic [ref=e373]:
+                  - generic [ref=e374]:
+                    - generic [ref=e376]: lossless
+                    - generic [ref=e378]: 11 tracks
+                    - generic [ref=e380]: 36 min
+                    - generic [ref=e382]: "1967"
+                  - button "Get album" [ref=e383] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e385] [cursor=pointer]
+            - generic [ref=e388]:
+              - generic [ref=e389]:
+                - img "The Beatles" [ref=e391]
+                - generic [ref=e392]:
+                  - link "Sgt. Pepper's Lonely Hearts Club Band (Super Deluxe Edition)" [ref=e393]:
+                    - /url: /album/95648356
+                    - strong [ref=e395]: Sgt. Pepper's Lonely Hearts Club Band (Super Deluxe Edition)
+                  - generic [ref=e396]:
+                    - text: by
+                    - button "The Beatles" [ref=e397] [cursor=pointer]:
+                      - strong [ref=e398] [cursor=pointer]: The Beatles
+              - generic [ref=e399]:
+                - link "Live from space album cover" [ref=e400]:
+                  - /url: /album/95648356
+                  - img "Live from space album cover" [ref=e402]
+                - generic [ref=e404]:
+                  - generic [ref=e405]:
+                    - generic [ref=e407]: lossless
+                    - generic [ref=e409]: 65 tracks
+                    - generic [ref=e411]: 204 min
+                    - generic [ref=e413]: "1967"
+                  - button "Get album" [ref=e414] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e416] [cursor=pointer]
+            - generic [ref=e419]:
+              - generic [ref=e420]:
+                - img "The Beatles" [ref=e422]
+                - generic [ref=e423]:
+                  - link "Sgt. Pepper's Lonely Hearts Club Band (Deluxe Anniversary Edition)" [ref=e424]:
+                    - /url: /album/82697541
+                    - strong [ref=e426]: Sgt. Pepper's Lonely Hearts Club Band (Deluxe Anniversary Edition)
+                  - generic [ref=e427]:
+                    - text: by
+                    - button "The Beatles" [ref=e428] [cursor=pointer]:
+                      - strong [ref=e429] [cursor=pointer]: The Beatles
+              - generic [ref=e430]:
+                - link "Live from space album cover" [ref=e431]:
+                  - /url: /album/82697541
+                  - img "Live from space album cover" [ref=e433]
+                - generic [ref=e435]:
+                  - generic [ref=e436]:
+                    - generic [ref=e438]: lossless
+                    - generic [ref=e440]: 31 tracks
+                    - generic [ref=e442]: 100 min
+                    - generic [ref=e444]: "1967"
+                  - button "Get album" [ref=e445] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e447] [cursor=pointer]
+            - generic [ref=e450]:
+              - generic [ref=e451]:
+                - img "The Beatles" [ref=e453]
+                - generic [ref=e454]:
+                  - link "Sgt. Pepper's Lonely Hearts Club Band (Remastered)" [ref=e455]:
+                    - /url: /album/55163288
+                    - strong [ref=e457]: Sgt. Pepper's Lonely Hearts Club Band (Remastered)
+                  - generic [ref=e458]:
+                    - text: by
+                    - button "The Beatles" [ref=e459] [cursor=pointer]:
+                      - strong [ref=e460] [cursor=pointer]: The Beatles
+              - generic [ref=e461]:
+                - link "Live from space album cover" [ref=e462]:
+                  - /url: /album/55163288
+                  - img "Live from space album cover" [ref=e464]
+                - generic [ref=e466]:
+                  - generic [ref=e467]:
+                    - generic [ref=e469]: lossless
+                    - generic [ref=e471]: 13 tracks
+                    - generic [ref=e473]: 40 min
+                    - generic [ref=e475]: "1967"
+                  - button "Get album" [ref=e476] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e478] [cursor=pointer]
+            - generic [ref=e481]:
+              - generic [ref=e482]:
+                - img "The Beatles" [ref=e484]
+                - generic [ref=e485]:
+                  - link "Revolver (Super Deluxe)" [ref=e486]:
+                    - /url: /album/256794892
+                    - strong [ref=e488]: Revolver (Super Deluxe)
+                  - generic [ref=e489]:
+                    - text: by
+                    - button "The Beatles" [ref=e490] [cursor=pointer]:
+                      - strong [ref=e491] [cursor=pointer]: The Beatles
+              - generic [ref=e492]:
+                - link "Live from space album cover" [ref=e493]:
+                  - /url: /album/256794892
+                  - img "Live from space album cover" [ref=e495]
+                - generic [ref=e497]:
+                  - generic [ref=e498]:
+                    - generic [ref=e500]: lossless
+                    - generic [ref=e502]: 63 tracks
+                    - generic [ref=e504]: 162 min
+                    - generic [ref=e506]: "1966"
+                  - button "Get album" [ref=e507] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e509] [cursor=pointer]
+            - generic [ref=e512]:
+              - generic [ref=e513]:
+                - img "The Beatles" [ref=e515]
+                - generic [ref=e516]:
+                  - link "Revolver (Remastered)" [ref=e517]:
+                    - /url: /album/55163258
+                    - strong [ref=e519]: Revolver (Remastered)
+                  - generic [ref=e520]:
+                    - text: by
+                    - button "The Beatles" [ref=e521] [cursor=pointer]:
+                      - strong [ref=e522] [cursor=pointer]: The Beatles
+              - generic [ref=e523]:
+                - link "Live from space album cover" [ref=e524]:
+                  - /url: /album/55163258
+                  - img "Live from space album cover" [ref=e526]
+                - generic [ref=e528]:
+                  - generic [ref=e529]:
+                    - generic [ref=e531]: lossless
+                    - generic [ref=e533]: 14 tracks
+                    - generic [ref=e535]: 35 min
+                    - generic [ref=e537]: "1966"
+                  - button "Get album" [ref=e538] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e540] [cursor=pointer]
+            - generic [ref=e543]:
+              - generic [ref=e544]:
+                - img "The Beatles" [ref=e546]
+                - generic [ref=e547]:
+                  - link "Rubber Soul (Remastered 2009)" [ref=e548]:
+                    - /url: /album/55163273
+                    - strong [ref=e550]: Rubber Soul (Remastered 2009)
+                  - generic [ref=e551]:
+                    - text: by
+                    - button "The Beatles" [ref=e552] [cursor=pointer]:
+                      - strong [ref=e553] [cursor=pointer]: The Beatles
+              - generic [ref=e554]:
+                - link "Live from space album cover" [ref=e555]:
+                  - /url: /album/55163273
+                  - img "Live from space album cover" [ref=e557]
+                - generic [ref=e559]:
+                  - generic [ref=e560]:
+                    - generic [ref=e562]: lossless
+                    - generic [ref=e564]: 14 tracks
+                    - generic [ref=e566]: 35 min
+                    - generic [ref=e568]: "1965"
+                  - button "Get album" [ref=e569] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e571] [cursor=pointer]
+            - generic [ref=e574]:
+              - generic [ref=e575]:
+                - img "The Beatles" [ref=e577]
+                - generic [ref=e578]:
+                  - link "Help! (Remastered)" [ref=e579]:
+                    - /url: /album/55130681
+                    - strong [ref=e581]: Help! (Remastered)
+                  - generic [ref=e582]:
+                    - text: by
+                    - button "The Beatles" [ref=e583] [cursor=pointer]:
+                      - strong [ref=e584] [cursor=pointer]: The Beatles
+              - generic [ref=e585]:
+                - link "Live from space album cover" [ref=e586]:
+                  - /url: /album/55130681
+                  - img "Live from space album cover" [ref=e588]
+                - generic [ref=e590]:
+                  - generic [ref=e591]:
+                    - generic [ref=e593]: lossless
+                    - generic [ref=e595]: 14 tracks
+                    - generic [ref=e597]: 34 min
+                    - generic [ref=e599]: "1965"
+                  - button "Get album" [ref=e600] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e602] [cursor=pointer]
+            - generic [ref=e605]:
+              - generic [ref=e606]:
+                - img "The Beatles" [ref=e608]
+                - generic [ref=e609]:
+                  - link "Beatles For Sale (Remastered)" [ref=e610]:
+                    - /url: /album/55130661
+                    - strong [ref=e612]: Beatles For Sale (Remastered)
+                  - generic [ref=e613]:
+                    - text: by
+                    - button "The Beatles" [ref=e614] [cursor=pointer]:
+                      - strong [ref=e615] [cursor=pointer]: The Beatles
+              - generic [ref=e616]:
+                - link "Live from space album cover" [ref=e617]:
+                  - /url: /album/55130661
+                  - img "Live from space album cover" [ref=e619]
+                - generic [ref=e621]:
+                  - generic [ref=e622]:
+                    - generic [ref=e624]: lossless
+                    - generic [ref=e626]: 14 tracks
+                    - generic [ref=e628]: 34 min
+                    - generic [ref=e630]: "1964"
+                  - button "Get album" [ref=e631] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e633] [cursor=pointer]
+          - 'button "LOAD MORE (page: 1/2)" [ref=e636] [cursor=pointer]'
+        - generic [ref=e638]:
+          - separator [ref=e639]
+          - heading "EP & Singles (4)" [level=2] [ref=e640]
+          - separator [ref=e641]
+          - generic [ref=e642]:
+            - generic [ref=e644]:
+              - generic [ref=e645]:
+                - img "The Beatles" [ref=e647]
+                - generic [ref=e648]:
+                  - link "Now And Then" [ref=e649]:
+                    - /url: /album/325682279
+                    - strong [ref=e651]: Now And Then
+                  - generic [ref=e652]:
+                    - text: by
+                    - button "The Beatles" [ref=e653] [cursor=pointer]:
+                      - strong [ref=e654] [cursor=pointer]: The Beatles
+              - generic [ref=e655]:
+                - link "Live from space album cover" [ref=e656]:
+                  - /url: /album/325682279
+                  - img "Live from space album cover" [ref=e658]
+                - generic [ref=e660]:
+                  - generic [ref=e661]:
+                    - generic [ref=e663]: lossless
+                    - generic [ref=e665]: 2 tracks
+                    - generic [ref=e667]: 7 min
+                    - generic [ref=e669]: "2023"
+                  - button "Get album" [ref=e670] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e672] [cursor=pointer]
+            - generic [ref=e675]:
+              - generic [ref=e676]:
+                - img "The Beatles" [ref=e678]
+                - generic [ref=e679]:
+                  - link "Paperback Writer / Rain" [ref=e680]:
+                    - /url: /album/255426175
+                    - strong [ref=e682]: Paperback Writer / Rain
+                  - generic [ref=e683]:
+                    - text: by
+                    - button "The Beatles" [ref=e684] [cursor=pointer]:
+                      - strong [ref=e685] [cursor=pointer]: The Beatles
+              - generic [ref=e686]:
+                - link "Live from space album cover" [ref=e687]:
+                  - /url: /album/255426175
+                  - img "Live from space album cover" [ref=e689]
+                - generic [ref=e691]:
+                  - generic [ref=e692]:
+                    - generic [ref=e694]: low
+                    - generic [ref=e696]: 2 tracks
+                    - generic [ref=e698]: 5 min
+                    - generic [ref=e700]: "2022"
+                  - button "Get album" [ref=e701] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e703] [cursor=pointer]
+            - generic [ref=e706]:
+              - generic [ref=e707]:
+                - img "The Beatles" [ref=e709]
+                - generic [ref=e710]:
+                  - link "Strawberry Fields Forever / Penny Lane" [ref=e711]:
+                    - /url: /album/218257588
+                    - strong [ref=e713]: Strawberry Fields Forever / Penny Lane
+                  - generic [ref=e714]:
+                    - text: by
+                    - button "The Beatles" [ref=e715] [cursor=pointer]:
+                      - strong [ref=e716] [cursor=pointer]: The Beatles
+              - generic [ref=e717]:
+                - link "Live from space album cover" [ref=e718]:
+                  - /url: /album/218257588
+                  - img "Live from space album cover" [ref=e720]
+                - generic [ref=e722]:
+                  - generic [ref=e723]:
+                    - generic [ref=e725]: low
+                    - generic [ref=e727]: 2 tracks
+                    - generic [ref=e729]: 7 min
+                    - generic [ref=e731]: "2022"
+                  - button "Get album" [ref=e732] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e734] [cursor=pointer]
+            - generic [ref=e737]:
+              - generic [ref=e738]:
+                - img "The Beatles" [ref=e740]
+                - generic [ref=e741]:
+                  - link "Free As A Bird (2025 Mix)" [ref=e742]:
+                    - /url: /album/454894894
+                    - strong [ref=e744]: Free As A Bird (2025 Mix)
+                  - generic [ref=e745]:
+                    - text: by
+                    - button "The Beatles" [ref=e746] [cursor=pointer]:
+                      - strong [ref=e747] [cursor=pointer]: The Beatles
+              - generic [ref=e748]:
+                - link "Live from space album cover" [ref=e749]:
+                  - /url: /album/454894894
+                  - img "Live from space album cover" [ref=e751]
+                - generic [ref=e753]:
+                  - generic [ref=e754]:
+                    - generic [ref=e756]: lossless
+                    - generic [ref=e758]: 1 tracks
+                    - generic [ref=e760]: 4 min
+                    - generic [ref=e762]: "1995"
+                  - button "Get album" [ref=e763] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e765] [cursor=pointer]
+        - generic [ref=e768]:
+          - separator [ref=e769]
+          - heading "Compilations (12)" [level=2] [ref=e770]
+          - separator [ref=e771]
+          - generic [ref=e772]:
+            - generic [ref=e774]:
+              - generic [ref=e775]:
+                - img "The Beatles" [ref=e777]
+                - generic [ref=e778]:
+                  - link "Beatles '64 (Music from the Disney+ Documentary)" [ref=e779]:
+                    - /url: /album/400380622
+                    - strong [ref=e781]: Beatles '64 (Music from the Disney+ Documentary)
+                  - generic [ref=e782]:
+                    - text: by
+                    - button "The Beatles" [ref=e783] [cursor=pointer]:
+                      - strong [ref=e784] [cursor=pointer]: The Beatles
+              - generic [ref=e785]:
+                - link "Live from space album cover" [ref=e786]:
+                  - /url: /album/400380622
+                  - img "Live from space album cover" [ref=e788]
+                - generic [ref=e790]:
+                  - generic [ref=e791]:
+                    - generic [ref=e793]: lossless
+                    - generic [ref=e795]: 20 tracks
+                    - generic [ref=e797]: 50 min
+                    - generic [ref=e799]: "2024"
+                  - button "Get album" [ref=e800] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e802] [cursor=pointer]
+            - generic [ref=e805]:
+              - generic [ref=e806]:
+                - img "The Beatles" [ref=e808]
+                - generic [ref=e809]:
+                  - link "The First Recordings" [ref=e810]:
+                    - /url: /album/151585634
+                    - strong [ref=e812]: The First Recordings
+                  - generic [ref=e813]:
+                    - text: by
+                    - button "The Beatles" [ref=e814] [cursor=pointer]:
+                      - strong [ref=e815] [cursor=pointer]: The Beatles
+              - generic [ref=e816]:
+                - link "Live from space album cover" [ref=e817]:
+                  - /url: /album/151585634
+                  - img "Live from space album cover" [ref=e819]
+                - generic [ref=e821]:
+                  - generic [ref=e822]:
+                    - generic [ref=e824]: lossless
+                    - generic [ref=e826]: 14 tracks
+                    - generic [ref=e828]: 41 min
+                    - generic [ref=e830]: "2013"
+                  - button "Get album" [ref=e831] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e833] [cursor=pointer]
+            - generic [ref=e836]:
+              - generic [ref=e837]:
+                - img "The Beatles" [ref=e839]
+                - generic [ref=e840]:
+                  - link "Love" [ref=e841]:
+                    - /url: /album/61818737
+                    - strong [ref=e843]: Love
+                  - generic [ref=e844]:
+                    - text: by
+                    - button "The Beatles" [ref=e845] [cursor=pointer]:
+                      - strong [ref=e846] [cursor=pointer]: The Beatles
+              - generic [ref=e847]:
+                - link "Live from space album cover" [ref=e848]:
+                  - /url: /album/61818737
+                  - img "Live from space album cover" [ref=e850]
+                - generic [ref=e852]:
+                  - generic [ref=e853]:
+                    - generic [ref=e855]: lossless
+                    - generic [ref=e857]: 28 tracks
+                    - generic [ref=e859]: 87 min
+                    - generic [ref=e861]: "2006"
+                  - button "Get album" [ref=e862] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e864] [cursor=pointer]
+            - generic [ref=e867]:
+              - generic [ref=e868]:
+                - img "The Beatles" [ref=e870]
+                - generic [ref=e871]:
+                  - link "Let It Be... Naked (Remastered)" [ref=e872]:
+                    - /url: /album/97491884
+                    - strong [ref=e874]: Let It Be... Naked (Remastered)
+                  - generic [ref=e875]:
+                    - text: by
+                    - button "The Beatles" [ref=e876] [cursor=pointer]:
+                      - strong [ref=e877] [cursor=pointer]: The Beatles
+              - generic [ref=e878]:
+                - link "Live from space album cover" [ref=e879]:
+                  - /url: /album/97491884
+                  - img "Live from space album cover" [ref=e881]
+                - generic [ref=e883]:
+                  - generic [ref=e884]:
+                    - generic [ref=e886]: lossless
+                    - generic [ref=e888]: 11 tracks
+                    - generic [ref=e890]: 35 min
+                    - generic [ref=e892]: "2003"
+                  - button "Get album" [ref=e893] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e895] [cursor=pointer]
+            - generic [ref=e898]:
+              - generic [ref=e899]:
+                - img "The Beatles" [ref=e901]
+                - generic [ref=e902]:
+                  - link "1 (Remastered)" [ref=e903]:
+                    - /url: /album/55130596
+                    - strong [ref=e905]: 1 (Remastered)
+                  - generic [ref=e906]:
+                    - text: by
+                    - button "The Beatles" [ref=e907] [cursor=pointer]:
+                      - strong [ref=e908] [cursor=pointer]: The Beatles
+              - generic [ref=e909]:
+                - link "Live from space album cover" [ref=e910]:
+                  - /url: /album/55130596
+                  - img "Live from space album cover" [ref=e912]
+                - generic [ref=e914]:
+                  - generic [ref=e915]:
+                    - generic [ref=e917]: lossless
+                    - generic [ref=e919]: 27 tracks
+                    - generic [ref=e921]: 79 min
+                    - generic [ref=e923]: "2000"
+                  - button "Get album" [ref=e924] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e926] [cursor=pointer]
+            - generic [ref=e929]:
+              - generic [ref=e930]:
+                - img "The Beatles" [ref=e932]
+                - generic [ref=e933]:
+                  - link "Yellow Submarine Songtrack" [ref=e934]:
+                    - /url: /album/174078188
+                    - strong [ref=e936]: Yellow Submarine Songtrack
+                  - generic [ref=e937]:
+                    - text: by
+                    - button "The Beatles" [ref=e938] [cursor=pointer]:
+                      - strong [ref=e939] [cursor=pointer]: The Beatles
+              - generic [ref=e940]:
+                - link "Live from space album cover" [ref=e941]:
+                  - /url: /album/174078188
+                  - img "Live from space album cover" [ref=e943]
+                - generic [ref=e945]:
+                  - generic [ref=e946]:
+                    - generic [ref=e948]: lossless
+                    - generic [ref=e950]: 15 tracks
+                    - generic [ref=e952]: 46 min
+                    - generic [ref=e954]: "1999"
+                  - button "Get album" [ref=e955] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e957] [cursor=pointer]
+            - generic [ref=e960]:
+              - generic [ref=e961]:
+                - img "The Beatles" [ref=e963]
+                - generic [ref=e964]:
+                  - link "Anthology 3" [ref=e965]:
+                    - /url: /album/454895001
+                    - strong [ref=e967]: Anthology 3
+                  - generic [ref=e968]:
+                    - text: by
+                    - button "The Beatles" [ref=e969] [cursor=pointer]:
+                      - strong [ref=e970] [cursor=pointer]: The Beatles
+              - generic [ref=e971]:
+                - link "Live from space album cover" [ref=e972]:
+                  - /url: /album/454895001
+                  - img "Live from space album cover" [ref=e974]
+                - generic [ref=e976]:
+                  - generic [ref=e977]:
+                    - generic [ref=e979]: lossless
+                    - generic [ref=e981]: 50 tracks
+                    - generic [ref=e983]: 146 min
+                    - generic [ref=e985]: "1996"
+                  - button "Get album" [ref=e986] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e988] [cursor=pointer]
+            - generic [ref=e991]:
+              - generic [ref=e992]:
+                - img "The Beatles" [ref=e994]
+                - generic [ref=e995]:
+                  - link "Past Masters (Vols. 1 & 2 / Remastered)" [ref=e996]:
+                    - /url: /album/55163407
+                    - strong [ref=e998]: Past Masters (Vols. 1 & 2 / Remastered)
+                  - generic [ref=e999]:
+                    - text: by
+                    - button "The Beatles" [ref=e1000] [cursor=pointer]:
+                      - strong [ref=e1001] [cursor=pointer]: The Beatles
+              - generic [ref=e1002]:
+                - link "Live from space album cover" [ref=e1003]:
+                  - /url: /album/55163407
+                  - img "Live from space album cover" [ref=e1005]
+                - generic [ref=e1007]:
+                  - generic [ref=e1008]:
+                    - generic [ref=e1010]: lossless
+                    - generic [ref=e1012]: 33 tracks
+                    - generic [ref=e1014]: 93 min
+                    - generic [ref=e1016]: "1988"
+                  - button "Get album" [ref=e1017] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1019] [cursor=pointer]
+            - generic [ref=e1022]:
+              - generic [ref=e1023]:
+                - img "The Beatles" [ref=e1025]
+                - generic [ref=e1026]:
+                  - link "The Beatles 1967 – 1970 (2023 Edition)" [ref=e1027]:
+                    - /url: /album/327655831
+                    - strong [ref=e1029]: The Beatles 1967 – 1970 (2023 Edition)
+                  - generic [ref=e1030]:
+                    - text: by
+                    - button "The Beatles" [ref=e1031] [cursor=pointer]:
+                      - strong [ref=e1032] [cursor=pointer]: The Beatles
+              - generic [ref=e1033]:
+                - link "Live from space album cover" [ref=e1034]:
+                  - /url: /album/327655831
+                  - img "Live from space album cover" [ref=e1036]
+                - generic [ref=e1038]:
+                  - generic [ref=e1039]:
+                    - generic [ref=e1041]: lossless
+                    - generic [ref=e1043]: 37 tracks
+                    - generic [ref=e1045]: 135 min
+                    - generic [ref=e1047]: "1973"
+                  - button "Get album" [ref=e1048] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1050] [cursor=pointer]
+            - generic [ref=e1053]:
+              - generic [ref=e1054]:
+                - img "The Beatles" [ref=e1056]
+                - generic [ref=e1057]:
+                  - link "The Beatles 1962 - 1966 (Remastered)" [ref=e1058]:
+                    - /url: /album/55163333
+                    - strong [ref=e1060]: The Beatles 1962 - 1966 (Remastered)
+                  - generic [ref=e1061]:
+                    - text: by
+                    - button "The Beatles" [ref=e1062] [cursor=pointer]:
+                      - strong [ref=e1063] [cursor=pointer]: The Beatles
+              - generic [ref=e1064]:
+                - link "Live from space album cover" [ref=e1065]:
+                  - /url: /album/55163333
+                  - img "Live from space album cover" [ref=e1067]
+                - generic [ref=e1069]:
+                  - generic [ref=e1070]:
+                    - generic [ref=e1072]: lossless
+                    - generic [ref=e1074]: 26 tracks
+                    - generic [ref=e1076]: 63 min
+                    - generic [ref=e1078]: "1973"
+                  - button "Get album" [ref=e1079] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1081] [cursor=pointer]
+            - generic [ref=e1084]:
+              - generic [ref=e1085]:
+                - img "The Beatles" [ref=e1087]
+                - generic [ref=e1088]:
+                  - link "The Beatles 1967 - 1970 (Remastered)" [ref=e1089]:
+                    - /url: /album/55163360
+                    - strong [ref=e1091]: The Beatles 1967 - 1970 (Remastered)
+                  - generic [ref=e1092]:
+                    - text: by
+                    - button "The Beatles" [ref=e1093] [cursor=pointer]:
+                      - strong [ref=e1094] [cursor=pointer]: The Beatles
+              - generic [ref=e1095]:
+                - link "Live from space album cover" [ref=e1096]:
+                  - /url: /album/55163360
+                  - img "Live from space album cover" [ref=e1098]
+                - generic [ref=e1100]:
+                  - generic [ref=e1101]:
+                    - generic [ref=e1103]: lossless
+                    - generic [ref=e1105]: 28 tracks
+                    - generic [ref=e1107]: 100 min
+                    - generic [ref=e1109]: "1973"
+                  - button "Get album" [ref=e1110] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1112] [cursor=pointer]
+            - generic [ref=e1115]:
+              - generic [ref=e1116]:
+                - img "The Beatles" [ref=e1118]
+                - generic [ref=e1119]:
+                  - link "The Beatles 1967 – 1970 (2023 Edition)" [ref=e1120]:
+                    - /url: /album/327665959
+                    - strong [ref=e1122]: The Beatles 1967 – 1970 (2023 Edition)
+                  - generic [ref=e1123]:
+                    - text: by
+                    - button "The Beatles" [ref=e1124] [cursor=pointer]:
+                      - strong [ref=e1125] [cursor=pointer]: The Beatles
+              - generic [ref=e1126]:
+                - link "Live from space album cover" [ref=e1127]:
+                  - /url: /album/327665959
+                  - img "Live from space album cover" [ref=e1129]
+                - generic [ref=e1131]:
+                  - generic [ref=e1132]:
+                    - generic [ref=e1134]: low
+                    - generic [ref=e1136]: 37 tracks
+                    - generic [ref=e1138]: 135 min
+                    - generic [ref=e1140]: "1973"
+                  - button "Get album" [ref=e1141] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1143] [cursor=pointer]
+        - generic [ref=e1146]:
+          - separator [ref=e1147]
+          - heading "Live albums (6)" [level=2] [ref=e1148]
+          - separator [ref=e1149]
+          - generic [ref=e1150]:
+            - generic [ref=e1152]:
+              - generic [ref=e1153]:
+                - img "The Beatles" [ref=e1155]
+                - generic [ref=e1156]:
+                  - link "Get Back (Rooftop Performance)" [ref=e1157]:
+                    - /url: /album/213891547
+                    - strong [ref=e1159]: Get Back (Rooftop Performance)
+                  - generic [ref=e1160]:
+                    - text: by
+                    - button "The Beatles" [ref=e1161] [cursor=pointer]:
+                      - strong [ref=e1162] [cursor=pointer]: The Beatles
+              - generic [ref=e1163]:
+                - link "Live from space album cover" [ref=e1164]:
+                  - /url: /album/213891547
+                  - img "Live from space album cover" [ref=e1166]
+                - generic [ref=e1168]:
+                  - generic [ref=e1169]:
+                    - generic [ref=e1171]: lossless
+                    - generic [ref=e1173]: 10 tracks
+                    - generic [ref=e1175]: 39 min
+                    - generic [ref=e1177]: "2022"
+                  - button "Get album" [ref=e1178] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1180] [cursor=pointer]
+            - generic [ref=e1183]:
+              - generic [ref=e1184]:
+                - img "The Beatles" [ref=e1186]
+                - generic [ref=e1187]:
+                  - link "Live At The Hollywood Bowl" [ref=e1188]:
+                    - /url: /album/64494533
+                    - strong [ref=e1190]: Live At The Hollywood Bowl
+                  - generic [ref=e1191]:
+                    - text: by
+                    - button "The Beatles" [ref=e1192] [cursor=pointer]:
+                      - strong [ref=e1193] [cursor=pointer]: The Beatles
+              - generic [ref=e1194]:
+                - link "Live from space album cover" [ref=e1195]:
+                  - /url: /album/64494533
+                  - img "Live from space album cover" [ref=e1197]
+                - generic [ref=e1199]:
+                  - generic [ref=e1200]:
+                    - generic [ref=e1202]: lossless
+                    - generic [ref=e1204]: 17 tracks
+                    - generic [ref=e1206]: 44 min
+                    - generic [ref=e1208]: "2016"
+                  - button "Get album" [ref=e1209] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1211] [cursor=pointer]
+            - generic [ref=e1214]:
+              - generic [ref=e1215]:
+                - img "The Beatles" [ref=e1217]
+                - generic [ref=e1218]:
+                  - link "On Air - Live At The BBC (Vol.2)" [ref=e1219]:
+                    - /url: /album/172988540
+                    - strong [ref=e1221]: On Air - Live At The BBC (Vol.2)
+                  - generic [ref=e1222]:
+                    - text: by
+                    - button "The Beatles" [ref=e1223] [cursor=pointer]:
+                      - strong [ref=e1224] [cursor=pointer]: The Beatles
+              - generic [ref=e1225]:
+                - link "Live from space album cover" [ref=e1226]:
+                  - /url: /album/172988540
+                  - img "Live from space album cover" [ref=e1228]
+                - generic [ref=e1230]:
+                  - generic [ref=e1231]:
+                    - generic [ref=e1233]: lossless
+                    - generic [ref=e1235]: 63 tracks
+                    - generic [ref=e1237]: 130 min
+                    - generic [ref=e1239]: "2013"
+                  - button "Get album" [ref=e1240] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1242] [cursor=pointer]
+            - generic [ref=e1245]:
+              - generic [ref=e1246]:
+                - img "The Beatles" [ref=e1248]
+                - generic [ref=e1249]:
+                  - link "Anthology 2" [ref=e1250]:
+                    - /url: /album/454895173
+                    - strong [ref=e1252]: Anthology 2
+                  - generic [ref=e1253]:
+                    - text: by
+                    - button "The Beatles" [ref=e1254] [cursor=pointer]:
+                      - strong [ref=e1255] [cursor=pointer]: The Beatles
+              - generic [ref=e1256]:
+                - link "Live from space album cover" [ref=e1257]:
+                  - /url: /album/454895173
+                  - img "Live from space album cover" [ref=e1259]
+                - generic [ref=e1261]:
+                  - generic [ref=e1262]:
+                    - generic [ref=e1264]: lossless
+                    - generic [ref=e1266]: 45 tracks
+                    - generic [ref=e1268]: 128 min
+                    - generic [ref=e1270]: "1996"
+                  - button "Get album" [ref=e1271] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1273] [cursor=pointer]
+            - generic [ref=e1276]:
+              - generic [ref=e1277]:
+                - img "The Beatles" [ref=e1279]
+                - generic [ref=e1280]:
+                  - link "Anthology 1" [ref=e1281]:
+                    - /url: /album/454895235
+                    - strong [ref=e1283]: Anthology 1
+                  - generic [ref=e1284]:
+                    - text: by
+                    - button "The Beatles" [ref=e1285] [cursor=pointer]:
+                      - strong [ref=e1286] [cursor=pointer]: The Beatles
+              - generic [ref=e1287]:
+                - link "Live from space album cover" [ref=e1288]:
+                  - /url: /album/454895235
+                  - img "Live from space album cover" [ref=e1290]
+                - generic [ref=e1292]:
+                  - generic [ref=e1293]:
+                    - generic [ref=e1295]: lossless
+                    - generic [ref=e1297]: 60 tracks
+                    - generic [ref=e1299]: 123 min
+                    - generic [ref=e1301]: "1995"
+                  - button "Get album" [ref=e1302] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1304] [cursor=pointer]
+            - generic [ref=e1307]:
+              - generic [ref=e1308]:
+                - img "The Beatles" [ref=e1310]
+                - generic [ref=e1311]:
+                  - link "Live At The BBC (Remastered)" [ref=e1312]:
+                    - /url: /album/172988284
+                    - strong [ref=e1314]: Live At The BBC (Remastered)
+                  - generic [ref=e1315]:
+                    - text: by
+                    - button "The Beatles" [ref=e1316] [cursor=pointer]:
+                      - strong [ref=e1317] [cursor=pointer]: The Beatles
+              - generic [ref=e1318]:
+                - link "Live from space album cover" [ref=e1319]:
+                  - /url: /album/172988284
+                  - img "Live from space album cover" [ref=e1321]
+                - generic [ref=e1323]:
+                  - generic [ref=e1324]:
+                    - generic [ref=e1326]: lossless
+                    - generic [ref=e1328]: 71 tracks
+                    - generic [ref=e1330]: 136 min
+                    - generic [ref=e1332]: "1994"
+                  - button "Get album" [ref=e1333] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1335] [cursor=pointer]
+        - generic [ref=e1338]:
+          - separator [ref=e1339]
+          - heading "Videos (10)" [level=2] [ref=e1340]
+          - separator [ref=e1341]
+          - generic [ref=e1342]:
+            - generic [ref=e1344]:
+              - generic [ref=e1345]:
+                - img "The Beatles" [ref=e1347]
+                - generic [ref=e1348]:
+                  - link "Now And Then" [ref=e1349]:
+                    - /url: https://tidal.com/browse/video/396638727
+                    - strong [ref=e1351]: Now And Then
+                    - img [ref=e1352]
+                  - generic [ref=e1354]:
+                    - text: by
+                    - button "The Beatles" [ref=e1355] [cursor=pointer]:
+                      - strong [ref=e1356] [cursor=pointer]: The Beatles
+              - generic [ref=e1357]:
+                - button "Live from space album cover" [ref=e1358] [cursor=pointer]:
+                  - generic [ref=e1359] [cursor=pointer]:
+                    - img "Live from space album cover" [ref=e1360] [cursor=pointer]
+                    - img [ref=e1361] [cursor=pointer]
+                - generic [ref=e1365]:
+                  - generic [ref=e1368]: 4 min.
+                  - button "Get video" [ref=e1369] [cursor=pointer]:
+                    - text: Get video
+                    - img [ref=e1371] [cursor=pointer]
+            - generic [ref=e1374]:
+              - generic [ref=e1375]:
+                - img "The Beatles" [ref=e1377]
+                - generic [ref=e1378]:
+                  - link "Let It Be" [ref=e1379]:
+                    - /url: https://tidal.com/browse/video/362104941
+                    - strong [ref=e1381]: Let It Be
+                    - img [ref=e1382]
+                  - generic [ref=e1384]:
+                    - text: by
+                    - button "The Beatles" [ref=e1385] [cursor=pointer]:
+                      - strong [ref=e1386] [cursor=pointer]: The Beatles
+              - generic [ref=e1387]:
+                - button "Live from space album cover" [ref=e1388] [cursor=pointer]:
+                  - generic [ref=e1389] [cursor=pointer]:
+                    - img "Live from space album cover" [ref=e1390] [cursor=pointer]
+                    - img [ref=e1391] [cursor=pointer]
+                - generic [ref=e1395]:
+                  - generic [ref=e1398]: 4 min.
+                  - button "Get video" [ref=e1399] [cursor=pointer]:
+                    - text: Get video
+                    - img [ref=e1401] [cursor=pointer]
+            - generic [ref=e1404]:
+              - generic [ref=e1405]:
+                - img "The Beatles" [ref=e1407]
+                - generic [ref=e1408]:
+                  - link "Now And Then" [ref=e1409]:
+                    - /url: https://tidal.com/browse/video/325670229
+                    - strong [ref=e1411]: Now And Then
+                    - img [ref=e1412]
+                  - generic [ref=e1414]:
+                    - text: by
+                    - button "The Beatles" [ref=e1415] [cursor=pointer]:
+                      - strong [ref=e1416] [cursor=pointer]: The Beatles
+              - generic [ref=e1417]:
+                - button "Live from space album cover" [ref=e1418] [cursor=pointer]:
+                  - generic [ref=e1419] [cursor=pointer]:
+                    - img "Live from space album cover" [ref=e1420] [cursor=pointer]
+                    - img [ref=e1421] [cursor=pointer]
+                - generic [ref=e1425]:
+                  - generic [ref=e1428]: 5 min.
+                  - button "Get video" [ref=e1429] [cursor=pointer]:
+                    - text: Get video
+                    - img [ref=e1431] [cursor=pointer]
+            - generic [ref=e1434]:
+              - generic [ref=e1435]:
+                - img "The Beatles" [ref=e1437]
+                - generic [ref=e1438]:
+                  - link "Now And Then - The Last Beatles Song (Short Film)" [ref=e1439]:
+                    - /url: https://tidal.com/browse/video/325695459
+                    - strong [ref=e1441]: Now And Then - The Last Beatles Song (Short Film)
+                    - img [ref=e1442]
+                  - generic [ref=e1444]:
+                    - text: by
+                    - button "The Beatles" [ref=e1445] [cursor=pointer]:
+                      - strong [ref=e1446] [cursor=pointer]: The Beatles
+              - generic [ref=e1447]:
+                - button "Live from space album cover" [ref=e1448] [cursor=pointer]:
+                  - generic [ref=e1449] [cursor=pointer]:
+                    - img "Live from space album cover" [ref=e1450] [cursor=pointer]
+                    - img [ref=e1451] [cursor=pointer]
+                - generic [ref=e1455]:
+                  - generic [ref=e1458]: 12 min.
+                  - button "Get video" [ref=e1459] [cursor=pointer]:
+                    - text: Get video
+                    - img [ref=e1461] [cursor=pointer]
+            - generic [ref=e1464]:
+              - generic [ref=e1465]:
+                - img "The Beatles" [ref=e1467]
+                - generic [ref=e1468]:
+                  - link "Here, There and Everywhere" [ref=e1469]:
+                    - /url: https://tidal.com/browse/video/263565159
+                    - strong [ref=e1471]: Here, There and Everywhere
+                    - img [ref=e1472]
+                  - generic [ref=e1474]:
+                    - text: by
+                    - button "The Beatles" [ref=e1475] [cursor=pointer]:
+                      - strong [ref=e1476] [cursor=pointer]: The Beatles
+              - generic [ref=e1477]:
+                - button "Live from space album cover" [ref=e1478] [cursor=pointer]:
+                  - generic [ref=e1479] [cursor=pointer]:
+                    - img "Live from space album cover" [ref=e1480] [cursor=pointer]
+                    - img [ref=e1481] [cursor=pointer]
+                - generic [ref=e1485]:
+                  - generic [ref=e1488]: 3 min.
+                  - button "Get video" [ref=e1489] [cursor=pointer]:
+                    - text: Get video
+                    - img [ref=e1491] [cursor=pointer]
+            - generic [ref=e1494]:
+              - generic [ref=e1495]:
+                - img "The Beatles" [ref=e1497]
+                - generic [ref=e1498]:
+                  - link "I'm Only Sleeping" [ref=e1499]:
+                    - /url: https://tidal.com/browse/video/256806995
+                    - strong [ref=e1501]: I'm Only Sleeping
+                    - img [ref=e1502]
+                  - generic [ref=e1504]:
+                    - text: by
+                    - button "The Beatles" [ref=e1505] [cursor=pointer]:
+                      - strong [ref=e1506] [cursor=pointer]: The Beatles
+              - generic [ref=e1507]:
+                - button "Live from space album cover" [ref=e1508] [cursor=pointer]:
+                  - generic [ref=e1509] [cursor=pointer]:
+                    - img "Live from space album cover" [ref=e1510] [cursor=pointer]
+                    - img [ref=e1511] [cursor=pointer]
+                - generic [ref=e1515]:
+                  - generic [ref=e1518]: 3 min.
+                  - button "Get video" [ref=e1519] [cursor=pointer]:
+                    - text: Get video
+                    - img [ref=e1521] [cursor=pointer]
+            - generic [ref=e1524]:
+              - generic [ref=e1525]:
+                - img "The Beatles" [ref=e1527]
+                - generic [ref=e1528]:
+                  - link "Taxman" [ref=e1529]:
+                    - /url: https://tidal.com/browse/video/253555468
+                    - strong [ref=e1531]: Taxman
+                    - img [ref=e1532]
+                  - generic [ref=e1534]:
+                    - text: by
+                    - button "The Beatles" [ref=e1535] [cursor=pointer]:
+                      - strong [ref=e1536] [cursor=pointer]: The Beatles
+              - generic [ref=e1537]:
+                - button "Live from space album cover" [ref=e1538] [cursor=pointer]:
+                  - generic [ref=e1539] [cursor=pointer]:
+                    - img "Live from space album cover" [ref=e1540] [cursor=pointer]
+                    - img [ref=e1541] [cursor=pointer]
+                - generic [ref=e1545]:
+                  - generic [ref=e1548]: 3 min.
+                  - button "Get video" [ref=e1549] [cursor=pointer]:
+                    - text: Get video
+                    - img [ref=e1551] [cursor=pointer]
+            - generic [ref=e1554]:
+              - generic [ref=e1555]:
+                - img "The Beatles" [ref=e1557]
+                - generic [ref=e1558]:
+                  - link "Back In The U.S.S.R." [ref=e1559]:
+                    - /url: https://tidal.com/browse/video/97776844
+                    - strong [ref=e1561]: Back In The U.S.S.R.
+                    - img [ref=e1562]
+                  - generic [ref=e1564]:
+                    - text: by
+                    - button "The Beatles" [ref=e1565] [cursor=pointer]:
+                      - strong [ref=e1566] [cursor=pointer]: The Beatles
+              - generic [ref=e1567]:
+                - button "Live from space album cover" [ref=e1568] [cursor=pointer]:
+                  - generic [ref=e1569] [cursor=pointer]:
+                    - img "Live from space album cover" [ref=e1570] [cursor=pointer]
+                    - img [ref=e1571] [cursor=pointer]
+                - generic [ref=e1575]:
+                  - generic [ref=e1578]: 3 min.
+                  - button "Get video" [ref=e1579] [cursor=pointer]:
+                    - text: Get video
+                    - img [ref=e1581] [cursor=pointer]
+            - generic [ref=e1584]:
+              - generic [ref=e1585]:
+                - img "The Beatles" [ref=e1587]
+                - generic [ref=e1588]:
+                  - link "All You Need Is Love" [ref=e1589]:
+                    - /url: https://tidal.com/browse/video/90557939
+                    - strong [ref=e1591]: All You Need Is Love
+                    - img [ref=e1592]
+                  - generic [ref=e1594]:
+                    - text: by
+                    - button "The Beatles" [ref=e1595] [cursor=pointer]:
+                      - strong [ref=e1596] [cursor=pointer]: The Beatles
+              - generic [ref=e1597]:
+                - button "Live from space album cover" [ref=e1598] [cursor=pointer]:
+                  - generic [ref=e1599] [cursor=pointer]:
+                    - img "Live from space album cover" [ref=e1600] [cursor=pointer]
+                    - img [ref=e1601] [cursor=pointer]
+                - generic [ref=e1605]:
+                  - generic [ref=e1608]: 4 min.
+                  - button "Get video" [ref=e1609] [cursor=pointer]:
+                    - text: Get video
+                    - img [ref=e1611] [cursor=pointer]
+            - generic [ref=e1614]:
+              - generic [ref=e1615]:
+                - img "The Beatles" [ref=e1617]
+                - generic [ref=e1618]:
+                  - link "Blue Jay Way" [ref=e1619]:
+                    - /url: https://tidal.com/browse/video/84971224
+                    - strong [ref=e1621]: Blue Jay Way
+                    - img [ref=e1622]
+                  - generic [ref=e1624]:
+                    - text: by
+                    - button "The Beatles" [ref=e1625] [cursor=pointer]:
+                      - strong [ref=e1626] [cursor=pointer]: The Beatles
+              - generic [ref=e1627]:
+                - button "Live from space album cover" [ref=e1628] [cursor=pointer]:
+                  - generic [ref=e1629] [cursor=pointer]:
+                    - img "Live from space album cover" [ref=e1630] [cursor=pointer]
+                    - img [ref=e1631] [cursor=pointer]
+                - generic [ref=e1635]:
+                  - generic [ref=e1638]: 4 min.
+                  - button "Get video" [ref=e1639] [cursor=pointer]:
+                    - text: Get video
+                    - img [ref=e1641] [cursor=pointer]
+        - generic [ref=e1644]:
+          - separator [ref=e1645]
+          - heading "Appears On (19)" [level=2] [ref=e1646]
+          - separator [ref=e1647]
+          - generic [ref=e1648]:
+            - generic [ref=e1650]:
+              - generic [ref=e1651]:
+                - generic [ref=e1652]: V
+                - generic [ref=e1653]:
+                  - link "The Vietnam War - A Film By Ken Burns & Lynn Novick (The Soundtrack)" [ref=e1654]:
+                    - /url: /album/78447220
+                    - strong [ref=e1656]: The Vietnam War - A Film By Ken Burns & Lynn Novick (The Soundtrack)
+                  - generic [ref=e1657]:
+                    - text: by
+                    - button "Various Artists" [ref=e1658] [cursor=pointer]:
+                      - strong [ref=e1659] [cursor=pointer]: Various Artists
+              - generic [ref=e1660]:
+                - link "Live from space album cover" [ref=e1661]:
+                  - /url: /album/78447220
+                  - img "Live from space album cover" [ref=e1663]
+                - generic [ref=e1665]:
+                  - generic [ref=e1666]:
+                    - generic [ref=e1668]: lossless
+                    - generic [ref=e1670]: 38 tracks
+                    - generic [ref=e1672]: 136 min
+                    - generic [ref=e1674]: "2017"
+                  - button "Get album" [ref=e1675] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1677] [cursor=pointer]
+            - generic [ref=e1680]:
+              - generic [ref=e1681]:
+                - generic [ref=e1682]: V
+                - generic [ref=e1683]:
+                  - link "Discover More Classic Rock" [ref=e1684]:
+                    - /url: /album/151380680
+                    - strong [ref=e1686]: Discover More Classic Rock
+                  - generic [ref=e1687]:
+                    - text: by
+                    - button "Various Artists" [ref=e1688] [cursor=pointer]:
+                      - strong [ref=e1689] [cursor=pointer]: Various Artists
+              - generic [ref=e1690]:
+                - link "Live from space album cover" [ref=e1691]:
+                  - /url: /album/151380680
+                  - img "Live from space album cover" [ref=e1693]
+                - generic [ref=e1695]:
+                  - generic [ref=e1696]:
+                    - generic [ref=e1698]: lossless
+                    - generic [ref=e1700]: 29 tracks
+                    - generic [ref=e1702]: 131 min
+                    - generic [ref=e1704]: "2020"
+                  - button "Get album" [ref=e1705] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1707] [cursor=pointer]
+            - generic [ref=e1710]:
+              - generic [ref=e1711]:
+                - generic [ref=e1712]: V
+                - generic [ref=e1713]:
+                  - 'link "Eric Clapton: Life In 12 Bars (Original Motion Picture Soundtrack)" [ref=e1714]':
+                    - /url: /album/89752220
+                    - strong [ref=e1716]: "Eric Clapton: Life In 12 Bars (Original Motion Picture Soundtrack)"
+                  - generic [ref=e1717]:
+                    - text: by
+                    - button "Various Artists" [ref=e1718] [cursor=pointer]:
+                      - strong [ref=e1719] [cursor=pointer]: Various Artists
+              - generic [ref=e1720]:
+                - link "Live from space album cover" [ref=e1721]:
+                  - /url: /album/89752220
+                  - img "Live from space album cover" [ref=e1723]
+                - generic [ref=e1725]:
+                  - generic [ref=e1726]:
+                    - generic [ref=e1728]: lossless
+                    - generic [ref=e1730]: 32 tracks
+                    - generic [ref=e1732]: 154 min
+                    - generic [ref=e1734]: "2018"
+                  - button "Get album" [ref=e1735] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1737] [cursor=pointer]
+            - generic [ref=e1740]:
+              - generic [ref=e1741]:
+                - generic [ref=e1742]: V
+                - generic [ref=e1743]:
+                  - link "Jojo Rabbit (Original Motion Picture Soundtrack)" [ref=e1744]:
+                    - /url: /album/119969716
+                    - strong [ref=e1746]: Jojo Rabbit (Original Motion Picture Soundtrack)
+                  - generic [ref=e1747]:
+                    - text: by
+                    - button "Various Artists" [ref=e1748] [cursor=pointer]:
+                      - strong [ref=e1749] [cursor=pointer]: Various Artists
+              - generic [ref=e1750]:
+                - link "Live from space album cover" [ref=e1751]:
+                  - /url: /album/119969716
+                  - img "Live from space album cover" [ref=e1753]
+                - generic [ref=e1755]:
+                  - generic [ref=e1756]:
+                    - generic [ref=e1758]: lossless
+                    - generic [ref=e1760]: 12 tracks
+                    - generic [ref=e1762]: 41 min
+                    - generic [ref=e1764]: "2019"
+                  - button "Get album" [ref=e1765] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1767] [cursor=pointer]
+            - generic [ref=e1770]:
+              - generic [ref=e1771]:
+                - generic [ref=e1772]: V
+                - generic [ref=e1773]:
+                  - 'link "Jukebox Magazine: L''Epopée du Rock (Tous les Hits des légendes du Rock''n'' Roll)" [ref=e1774]':
+                    - /url: /album/65691299
+                    - strong [ref=e1776]: "Jukebox Magazine: L'Epopée du Rock (Tous les Hits des légendes du Rock'n' Roll)"
+                  - generic [ref=e1777]:
+                    - text: by
+                    - button "Various Artists" [ref=e1778] [cursor=pointer]:
+                      - strong [ref=e1779] [cursor=pointer]: Various Artists
+              - generic [ref=e1780]:
+                - link "Live from space album cover" [ref=e1781]:
+                  - /url: /album/65691299
+                  - img "Live from space album cover" [ref=e1783]
+                - generic [ref=e1785]:
+                  - generic [ref=e1786]:
+                    - generic [ref=e1788]: lossless
+                    - generic [ref=e1790]: 100 tracks
+                    - generic [ref=e1792]: 226 min
+                    - generic [ref=e1794]: "2016"
+                  - button "Get album" [ref=e1795] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1797] [cursor=pointer]
+            - generic [ref=e1800]:
+              - generic [ref=e1801]:
+                - generic [ref=e1802]: V
+                - generic [ref=e1803]:
+                  - link "Pop & Rock - 50 Hits From The Early Years" [ref=e1804]:
+                    - /url: /album/57050608
+                    - strong [ref=e1806]: Pop & Rock - 50 Hits From The Early Years
+                  - generic [ref=e1807]:
+                    - text: by
+                    - button "Various Artists" [ref=e1808] [cursor=pointer]:
+                      - strong [ref=e1809] [cursor=pointer]: Various Artists
+              - generic [ref=e1810]:
+                - link "Live from space album cover" [ref=e1811]:
+                  - /url: /album/57050608
+                  - img "Live from space album cover" [ref=e1813]
+                - generic [ref=e1815]:
+                  - generic [ref=e1816]:
+                    - generic [ref=e1818]: lossless
+                    - generic [ref=e1820]: 50 tracks
+                    - generic [ref=e1822]: 134 min
+                    - generic [ref=e1824]: "2014"
+                  - button "Get album" [ref=e1825] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1827] [cursor=pointer]
+            - generic [ref=e1830]:
+              - generic [ref=e1831]:
+                - generic [ref=e1832]: V
+                - generic [ref=e1833]:
+                  - link "Backline, Vol. 423" [ref=e1834]:
+                    - /url: /album/419173927
+                    - strong [ref=e1836]: Backline, Vol. 423
+                  - generic [ref=e1837]:
+                    - text: by
+                    - button "Various Artists" [ref=e1838] [cursor=pointer]:
+                      - strong [ref=e1839] [cursor=pointer]: Various Artists
+              - generic [ref=e1840]:
+                - link "Live from space album cover" [ref=e1841]:
+                  - /url: /album/419173927
+                  - img "Live from space album cover" [ref=e1843]
+                - generic [ref=e1845]:
+                  - generic [ref=e1846]:
+                    - generic [ref=e1848]: lossless
+                    - generic [ref=e1850]: 50 tracks
+                    - generic [ref=e1852]: 125 min
+                    - generic [ref=e1854]: "2018"
+                  - button "Get album" [ref=e1855] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1857] [cursor=pointer]
+            - generic [ref=e1860]:
+              - generic [ref=e1861]:
+                - generic [ref=e1862]: V
+                - generic [ref=e1863]:
+                  - link "Les Années Teppaz" [ref=e1864]:
+                    - /url: /album/56985880
+                    - strong [ref=e1866]: Les Années Teppaz
+                  - generic [ref=e1867]:
+                    - text: by
+                    - button "Various Artists" [ref=e1868] [cursor=pointer]:
+                      - strong [ref=e1869] [cursor=pointer]: Various Artists
+              - generic [ref=e1870]:
+                - link "Live from space album cover" [ref=e1871]:
+                  - /url: /album/56985880
+                  - img "Live from space album cover" [ref=e1873]
+                - generic [ref=e1875]:
+                  - generic [ref=e1876]:
+                    - generic [ref=e1878]: lossless
+                    - generic [ref=e1880]: 100 tracks
+                    - generic [ref=e1882]: 249 min
+                    - generic [ref=e1884]: "2014"
+                  - button "Get album" [ref=e1885] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1887] [cursor=pointer]
+            - generic [ref=e1890]:
+              - generic [ref=e1891]:
+                - generic [ref=e1892]: V
+                - generic [ref=e1893]:
+                  - link "Backline, Vol. 440" [ref=e1894]:
+                    - /url: /album/419185921
+                    - strong [ref=e1896]: Backline, Vol. 440
+                  - generic [ref=e1897]:
+                    - text: by
+                    - button "Various Artists" [ref=e1898] [cursor=pointer]:
+                      - strong [ref=e1899] [cursor=pointer]: Various Artists
+              - generic [ref=e1900]:
+                - link "Live from space album cover" [ref=e1901]:
+                  - /url: /album/419185921
+                  - img "Live from space album cover" [ref=e1903]
+                - generic [ref=e1905]:
+                  - generic [ref=e1906]:
+                    - generic [ref=e1908]: lossless
+                    - generic [ref=e1910]: 50 tracks
+                    - generic [ref=e1912]: 120 min
+                    - generic [ref=e1914]: "2018"
+                  - button "Get album" [ref=e1915] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1917] [cursor=pointer]
+            - generic [ref=e1920]:
+              - generic [ref=e1921]:
+                - generic [ref=e1922]: V
+                - generic [ref=e1923]:
+                  - link "Med Hjartet På Rette Staden 2" [ref=e1924]:
+                    - /url: /album/19290889
+                    - strong [ref=e1926]: Med Hjartet På Rette Staden 2
+                  - generic [ref=e1927]:
+                    - text: by
+                    - button "Various Artists" [ref=e1928] [cursor=pointer]:
+                      - strong [ref=e1929] [cursor=pointer]: Various Artists
+              - generic [ref=e1930]:
+                - link "Live from space album cover" [ref=e1931]:
+                  - /url: /album/19290889
+                  - img "Live from space album cover" [ref=e1933]
+                - generic [ref=e1935]:
+                  - generic [ref=e1936]:
+                    - generic [ref=e1938]: lossless
+                    - generic [ref=e1940]: 25 tracks
+                    - generic [ref=e1942]: 69 min
+                    - generic [ref=e1944]: "2006"
+                  - button "Get album" [ref=e1945] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1947] [cursor=pointer]
+            - generic [ref=e1950]:
+              - generic [ref=e1951]:
+                - generic [ref=e1952]: V
+                - generic [ref=e1953]:
+                  - link "Backline, Vol. 532" [ref=e1954]:
+                    - /url: /album/365028151
+                    - strong [ref=e1956]: Backline, Vol. 532
+                  - generic [ref=e1957]:
+                    - text: by
+                    - button "Various Artists" [ref=e1958] [cursor=pointer]:
+                      - strong [ref=e1959] [cursor=pointer]: Various Artists
+              - generic [ref=e1960]:
+                - link "Live from space album cover" [ref=e1961]:
+                  - /url: /album/365028151
+                  - img "Live from space album cover" [ref=e1963]
+                - generic [ref=e1965]:
+                  - generic [ref=e1966]:
+                    - generic [ref=e1968]: lossless
+                    - generic [ref=e1970]: 50 tracks
+                    - generic [ref=e1972]: 118 min
+                    - generic [ref=e1974]: "2020"
+                  - button "Get album" [ref=e1975] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e1977] [cursor=pointer]
+            - generic [ref=e1980]:
+              - generic [ref=e1981]:
+                - generic [ref=e1982]: V
+                - generic [ref=e1983]:
+                  - link "Backline, Vol. 428" [ref=e1984]:
+                    - /url: /album/419177100
+                    - strong [ref=e1986]: Backline, Vol. 428
+                  - generic [ref=e1987]:
+                    - text: by
+                    - button "Various Artists" [ref=e1988] [cursor=pointer]:
+                      - strong [ref=e1989] [cursor=pointer]: Various Artists
+              - generic [ref=e1990]:
+                - link "Live from space album cover" [ref=e1991]:
+                  - /url: /album/419177100
+                  - img "Live from space album cover" [ref=e1993]
+                - generic [ref=e1995]:
+                  - generic [ref=e1996]:
+                    - generic [ref=e1998]: lossless
+                    - generic [ref=e2000]: 50 tracks
+                    - generic [ref=e2002]: 122 min
+                    - generic [ref=e2004]: "2018"
+                  - button "Get album" [ref=e2005] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e2007] [cursor=pointer]
+            - generic [ref=e2010]:
+              - generic [ref=e2011]:
+                - generic [ref=e2012]: V
+                - generic [ref=e2013]:
+                  - link "Backline, Vol. 524" [ref=e2014]:
+                    - /url: /album/365016349
+                    - strong [ref=e2016]: Backline, Vol. 524
+                  - generic [ref=e2017]:
+                    - text: by
+                    - button "Various Artists" [ref=e2018] [cursor=pointer]:
+                      - strong [ref=e2019] [cursor=pointer]: Various Artists
+              - generic [ref=e2020]:
+                - link "Live from space album cover" [ref=e2021]:
+                  - /url: /album/365016349
+                  - img "Live from space album cover" [ref=e2023]
+                - generic [ref=e2025]:
+                  - generic [ref=e2026]:
+                    - generic [ref=e2028]: lossless
+                    - generic [ref=e2030]: 50 tracks
+                    - generic [ref=e2032]: 117 min
+                    - generic [ref=e2034]: "2020"
+                  - button "Get album" [ref=e2035] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e2037] [cursor=pointer]
+            - generic [ref=e2040]:
+              - generic [ref=e2041]:
+                - generic [ref=e2042]: V
+                - generic [ref=e2043]:
+                  - link "Backline, Vol. 163" [ref=e2044]:
+                    - /url: /album/402520587
+                    - strong [ref=e2046]: Backline, Vol. 163
+                  - generic [ref=e2047]:
+                    - text: by
+                    - button "Various Artists" [ref=e2048] [cursor=pointer]:
+                      - strong [ref=e2049] [cursor=pointer]: Various Artists
+              - generic [ref=e2050]:
+                - link "Live from space album cover" [ref=e2051]:
+                  - /url: /album/402520587
+                  - img "Live from space album cover" [ref=e2053]
+                - generic [ref=e2055]:
+                  - generic [ref=e2056]:
+                    - generic [ref=e2058]: lossless
+                    - generic [ref=e2060]: 50 tracks
+                    - generic [ref=e2062]: 119 min
+                    - generic [ref=e2064]: "2018"
+                  - button "Get album" [ref=e2065] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e2067] [cursor=pointer]
+            - generic [ref=e2070]:
+              - generic [ref=e2071]:
+                - img "Paul McCartney" [ref=e2073]
+                - generic [ref=e2074]:
+                  - link "Liverpool Sound Collage" [ref=e2075]:
+                    - /url: /album/21160438
+                    - strong [ref=e2077]: Liverpool Sound Collage
+                  - generic [ref=e2078]:
+                    - text: by
+                    - button "Paul McCartney" [ref=e2079] [cursor=pointer]:
+                      - strong [ref=e2080] [cursor=pointer]: Paul McCartney
+              - generic [ref=e2081]:
+                - link "Live from space album cover" [ref=e2082]:
+                  - /url: /album/21160438
+                  - img "Live from space album cover" [ref=e2084]
+                - generic [ref=e2086]:
+                  - generic [ref=e2087]:
+                    - generic [ref=e2089]: lossless
+                    - generic [ref=e2091]: 5 tracks
+                    - generic [ref=e2093]: 58 min
+                    - generic [ref=e2095]: "2000"
+                  - button "Get album" [ref=e2096] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e2098] [cursor=pointer]
+            - generic [ref=e2101]:
+              - generic [ref=e2102]:
+                - generic [ref=e2103]: V
+                - generic [ref=e2104]:
+                  - link "The Music Art of London 1962" [ref=e2105]:
+                    - /url: /album/68307271
+                    - strong [ref=e2107]: The Music Art of London 1962
+                  - generic [ref=e2108]:
+                    - text: by
+                    - button "Various Artists" [ref=e2109] [cursor=pointer]:
+                      - strong [ref=e2110] [cursor=pointer]: Various Artists
+              - generic [ref=e2111]:
+                - link "Live from space album cover" [ref=e2112]:
+                  - /url: /album/68307271
+                  - img "Live from space album cover" [ref=e2114]
+                - generic [ref=e2116]:
+                  - generic [ref=e2117]:
+                    - generic [ref=e2119]: lossless
+                    - generic [ref=e2121]: 29 tracks
+                    - generic [ref=e2123]: 72 min
+                    - generic [ref=e2125]: "2016"
+                  - button "Get album" [ref=e2126] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e2128] [cursor=pointer]
+            - generic [ref=e2131]:
+              - generic [ref=e2132]:
+                - generic [ref=e2133]: V
+                - generic [ref=e2134]:
+                  - link "Backline, Vol. 175" [ref=e2135]:
+                    - /url: /album/92329735
+                    - strong [ref=e2137]: Backline, Vol. 175
+                  - generic [ref=e2138]:
+                    - text: by
+                    - button "Various Artists" [ref=e2139] [cursor=pointer]:
+                      - strong [ref=e2140] [cursor=pointer]: Various Artists
+              - generic [ref=e2141]:
+                - link "Live from space album cover" [ref=e2142]:
+                  - /url: /album/92329735
+                  - img "Live from space album cover" [ref=e2144]
+                - generic [ref=e2146]:
+                  - generic [ref=e2147]:
+                    - generic [ref=e2149]: lossless
+                    - generic [ref=e2151]: 50 tracks
+                    - generic [ref=e2153]: 115 min
+                    - generic [ref=e2155]: "2018"
+                  - button "Get album" [ref=e2156] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e2158] [cursor=pointer]
+            - generic [ref=e2161]:
+              - generic [ref=e2162]:
+                - generic [ref=e2163]: V
+                - generic [ref=e2164]:
+                  - link "Backline, Vol. 445" [ref=e2165]:
+                    - /url: /album/419195809
+                    - strong [ref=e2167]: Backline, Vol. 445
+                  - generic [ref=e2168]:
+                    - text: by
+                    - button "Various Artists" [ref=e2169] [cursor=pointer]:
+                      - strong [ref=e2170] [cursor=pointer]: Various Artists
+              - generic [ref=e2171]:
+                - link "Live from space album cover" [ref=e2172]:
+                  - /url: /album/419195809
+                  - img "Live from space album cover" [ref=e2174]
+                - generic [ref=e2176]:
+                  - generic [ref=e2177]:
+                    - generic [ref=e2179]: lossless
+                    - generic [ref=e2181]: 50 tracks
+                    - generic [ref=e2183]: 125 min
+                    - generic [ref=e2185]: "2018"
+                  - button "Get album" [ref=e2186] [cursor=pointer]:
+                    - text: Get album
+                    - img [ref=e2188] [cursor=pointer]
+          - 'button "LOAD MORE (page: 1/2)" [ref=e2191] [cursor=pointer]'
+  - generic [ref=e2192]:
+    - text: 👋
+    - strong [ref=e2193]: Private use only. Do not forget to support your local artists 🙏❤️
+    - text: • Tidarr •
+    - generic [ref=e2194]: v0.0.0-testing
+    - text: •
+    - link [ref=e2195]:
+      - /url: https://github.com/cstaelen/tidarr
+      - img [ref=e2196]
+```
