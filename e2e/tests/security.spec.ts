@@ -6,7 +6,6 @@ import { mockAuthAPI, mockConfigAPI, mockTidalQueries } from "./utils/mock";
 test("Tidarr security : Should see login page", async ({ page }) => {
   await mockAuthAPI(page, "tokenABCXYZ");
   await mockConfigAPI(page);
-  await mockTidalQueries(page);
   await goToHome(page);
   await page.evaluate("localStorage.clear()");
   await expect(
@@ -105,7 +104,9 @@ test("Tidarr security : Login page should redirect to home in public mode", asyn
   page,
 }) => {
   // When I go to login page in public mode
-  await mockTidalQueries(page);
+  mockTidalQueries(page);
+  mockConfigAPI(page);
+
   await page.goto("/login");
   await page.evaluate("localStorage.clear()");
   // then I should be redirected to homepage

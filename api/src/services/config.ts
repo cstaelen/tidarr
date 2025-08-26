@@ -43,6 +43,9 @@ export async function configureServer() {
       PUID: process.env.PUID || "",
       PGID: process.env.PGID || "",
       TIDARR_VERSION: process.env.VERSION || "",
+      ENABLE_APPRISE_API: process.env.ENABLE_APPRISE_API || "",
+      APPRISE_API_ENDPOINT: process.env.APPRISE_API_ENDPOINT || "",
+      APPRISE_API_TAG: process.env.APPRISE_API_TAG || "",
     },
   };
 }

@@ -1,5 +1,7 @@
 import { expect, Page } from "@playwright/test";
 
+import { mockTidalQueries } from "./mock";
+
 export async function waitForLoader(page: Page) {
   const loader = await page.getByTestId("loader")?.isVisible();
   if (loader) {
@@ -58,6 +60,7 @@ export async function emptyProcessingList(page: Page) {
 }
 
 export async function goToHome(page: Page) {
+  mockTidalQueries(page);
   await page.goto("/");
   // await page.waitForLoadState("networkidle");
   await page.evaluateHandle("document.fonts.ready");

@@ -109,6 +109,11 @@ export async function mockConfigAPI(page: Page) {
           GOTIFY_URL: "http://gotify.url",
           GOTIFY_TOKEN: "abc-gotify-token-xyz",
           TIDARR_VERSION: "0.0.0-testing",
+          PUID: "",
+          PGID: "",
+          ENABLE_APPRISE_API: "",
+          APPRISE_API_ENDPOINT: "",
+          APPRISE_API_TAG: "",
         },
         tiddl_config: {
           auth: {

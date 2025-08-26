@@ -29,6 +29,11 @@ services:
       - ENABLE_GOTIFY=
       - GOTIFY_URL=
       - GOTIFY_TOKEN=
+      - REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER=
+      - ADMIN_PASSWORD
+      - ENABLE_APPRISE_API=
+      - APPRISE_API_ENDPOINT=
+      - APPRISE_API_TAG=
       
   testing:
     build: 

@@ -37,7 +37,6 @@ test("Tidarr config : Should display token modal if no tidal token exists", asyn
 
 test("Tidarr config : Should see app version", async ({ page }) => {
   mockConfigAPI(page);
-
   await goToHome(page);
   await emptyProcessingList(page);
 
@@ -69,26 +68,59 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
   // Tab API
   await expect(page.getByRole("tab", { name: "API" })).toBeVisible();
   await page.getByRole("tab", { name: "API" }).click();
-  await expect(
-    page
-      .locator("#alert-dialog-description div")
-      .filter({ hasText: "Environment" }),
-  ).toHaveScreenshot();
+
+  const dataAPIRows = [
+    ["ENABLE_BEETS", "true"],
+    ["ENABLE_PLEX_UPDATE", "true"],
+    ["PLEX_URL", "http://plex.url"],
+    ["PLEX_LIBRARY", "3"],
+    ["PLEX_TOKEN", "abc-plex-token-xyz"],
+    ["PLEX_PATH", "/fodler/to/plex/music"],
+    ["ENABLE_GOTIFY", "true"],
+    ["GOTIFY_URL", "http://gotify.url"],
+    ["GOTIFY_TOKEN", "abc-gotify-token-xyz"],
+    ["TIDARR_VERSION", "0.0.0-testing"],
+    ["PUID", ""],
+    ["PGID", ""],
+    ["ENABLE_APPRISE_API", ""],
+    ["APPRISE_API_ENDPOINT", ""],
+    ["APPRISE_API_TAG", ""],
+  ];
+  const tableAPIRows = await page
+    .locator("#alert-dialog-description div")
+    .filter({ hasText: "Environment" })
+    .locator("table tbody tr")
+    .all();
+
+  expect(tableAPIRows.length).toEqual(dataAPIRows?.length);
+  tableAPIRows.forEach((row, index) => {
+    expect(row.locator("td").first()).toContainText(dataAPIRows[index][0]);
+    expect(row.locator("td").last()).toContainText(dataAPIRows[index][1]);
+  });
 
   // Tab APP
   await expect(page.getByRole("tab", { name: "Application" })).toBeVisible();
   await page.getByRole("tab", { name: "Application" }).click();
-  await expect(
-    page
-      .locator("#alert-dialog-description div")
-      .filter({ hasText: "Environment" }),
-    "test",
-  ).toHaveScreenshot();
+
+  const dataAPPRows = [["REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER", ""]];
+  const tableAPPRows = await page
+    .locator("#alert-dialog-description div")
+    .filter({ hasText: "Environment" })
+    .locator("table tbody tr")
+    .all();
+
+  expect(dataAPPRows.length).toEqual(tableAPPRows?.length);
+  tableAPPRows.forEach((row, index) => {
+    expect(row.locator("td").first()).toContainText(dataAPPRows[index][0]);
+    expect(row.locator("td").last()).toContainText(dataAPPRows[index][1]);
+  });
 
   // Tab Tidal token
   await expect(page.getByRole("tab", { name: "Tidal token" })).toBeVisible();
   await page.getByRole("tab", { name: "Tidal token" }).click();
-  await expect(page.locator("#alert-dialog-description")).toHaveScreenshot();
+  await expect(
+    page.getByRole("button", { name: "Revoke Tidal token" }),
+  ).toBeInViewport();
 });
 
 test("Tidarr config : Should see update button", async ({ page }) => {
