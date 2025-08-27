@@ -227,13 +227,13 @@ test("Tidarr search : Should see quality filtered results", async ({
     page.getByRole("heading", { name: "Albums (21)" }),
   ).toBeInViewport();
 
-  await expect(page.getByTestId("item")).toHaveCount(67);
+  await expect(page.getByTestId("item")).toHaveCount(68);
 
   const countLossless = await page
     .locator(".MuiChip-root")
     .filter({ hasText: /^lossless$/ })
     .count();
-  await expect(countLossless).toEqual(54);
+  await expect(countLossless).toEqual(55);
 
   const countHigh = await page
     .locator(".MuiChip-root")
@@ -264,7 +264,7 @@ test("Tidarr search : Should see quality filtered results", async ({
     page.locator('[data-testid="item"]', {
       has: page.locator(":visible"),
     }),
-  ).toHaveCount(64);
+  ).toHaveCount(65);
 
   await page.getByRole("button", { name: "High" }).click();
 
