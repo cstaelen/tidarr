@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Box } from "@mui/material";
+import { AlbumsLoader } from "src/components/Skeletons/AlbumsLoader";
 import Module from "src/components/TidalModule/Module";
 import { ModulePager } from "src/components/TidalModule/Pagination";
 import { ModuleTitle } from "src/components/TidalModule/Title";
@@ -27,18 +28,19 @@ export default function Trends() {
             title={row.modules[0].title}
             total={row.modules[0].pagedList.totalNumberOfItems}
           />
-          {row.modules[0]?.type && (
-            <>
-              <Module
-                type={row.modules[0].type}
-                data={row.modules[0].pagedList.items}
-                loading={loading}
-              />
-              <ModulePager data={row.modules[0]} type={row.modules[0].type} />
-            </>
-          )}
+          <Module
+            type={row.modules[0].type}
+            data={row.modules[0].pagedList.items}
+            loading={loading}
+          />
+          <ModulePager data={row.modules[0]} type={row.modules[0].type} />
         </Box>
       ))}
+      {loading && (
+        <Box marginTop={2}>
+          <AlbumsLoader />
+        </Box>
+      )}
     </Box>
   );
 }

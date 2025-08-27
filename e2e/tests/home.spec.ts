@@ -15,4 +15,7 @@ test("Tidarr Home : Should see 'Tidal trends' tab content", async ({
   await expect(page.getByRole("heading").first()).toContainText("Tidarr");
 
   await expect(page.getByText("Tidal Trends")).toBeVisible();
+  await expect(page.getByText("My Mixes")).toBeVisible();
+  await expect(page.getByText("My Favorites")).toBeVisible();
+  await expect(page.getByText("My Playlists")).toBeVisible();
 });
