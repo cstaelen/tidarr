@@ -94,43 +94,26 @@ export async function mockRelease(page: Page, version = "0.0.0-testing") {
 
 export async function mockConfigAPI(page: Page) {
   await page.route("**/check", async (route) => {
-    if (!process.env.IS_DOCKER) {
-      const json = {
-        noToken: false,
-        output: "",
-        parameters: {
-          ENABLE_BEETS: "true",
-          ENABLE_PLEX_UPDATE: "true",
-          PLEX_URL: "http://plex.url",
-          PLEX_LIBRARY: "3",
-          PLEX_TOKEN: "abc-plex-token-xyz",
-          PLEX_PATH: "/fodler/to/plex/music",
-          ENABLE_GOTIFY: "true",
-          GOTIFY_URL: "http://gotify.url",
-          GOTIFY_TOKEN: "abc-gotify-token-xyz",
-          TIDARR_VERSION: "0.0.0-testing",
-          PUID: "",
-          PGID: "",
-          ENABLE_APPRISE_API: "",
-          APPRISE_API_ENDPOINT: "",
-          APPRISE_API_TAG: "",
-        },
-        tiddl_config: {
-          auth: {
-            country_code: "FR",
-          },
-        },
-      };
-      await route.fulfill({ json });
-      return;
-    }
-
-    const response = await route.fetch();
-    let json = await response.json();
-    json = {
-      ...json,
+    const json = {
       noToken: false,
-      parameters: { ...json.parameters, TIDARR_VERSION: "0.0.0-testing" },
+      output: "",
+      parameters: {
+        ENABLE_BEETS: "true",
+        ENABLE_PLEX_UPDATE: "true",
+        PLEX_URL: "http://plex.url",
+        PLEX_LIBRARY: "3",
+        PLEX_TOKEN: "abc-plex-token-xyz",
+        PLEX_PATH: "/fodler/to/plex/music",
+        ENABLE_GOTIFY: "true",
+        GOTIFY_URL: "http://gotify.url",
+        GOTIFY_TOKEN: "abc-gotify-token-xyz",
+        TIDARR_VERSION: "0.0.0-testing",
+        PUID: "",
+        PGID: "",
+        ENABLE_APPRISE_API: "",
+        APPRISE_API_ENDPOINT: "",
+        APPRISE_API_TAG: "",
+      },
       tiddl_config: {
         auth: {
           country_code: "FR",
@@ -138,6 +121,7 @@ export async function mockConfigAPI(page: Page) {
       },
     };
     await route.fulfill({ json });
+    return;
   });
 }
 

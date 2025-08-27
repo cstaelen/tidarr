@@ -60,8 +60,6 @@ export async function emptyProcessingList(page: Page) {
 }
 
 export async function goToHome(page: Page) {
-  mockTidalQueries(page);
+  await mockTidalQueries(page);
   await page.goto("/");
-  // await page.waitForLoadState("networkidle");
-  await page.evaluateHandle("document.fonts.ready");
 }

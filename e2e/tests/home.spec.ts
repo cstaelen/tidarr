@@ -12,7 +12,7 @@ test("Tidarr Home : Should see 'Tidal trends' tab content", async ({
   await goToHome(page);
   await page.evaluate("localStorage.clear()");
 
-  await expect(page.getByRole("heading")).toContainText("Tidarr");
+  await expect(page.getByRole("heading").first()).toContainText("Tidarr");
 
   await expect(page.getByText("Tidal Trends")).toBeVisible();
 });

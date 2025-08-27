@@ -36,7 +36,7 @@ test("Tidarr config : Should display token modal if no tidal token exists", asyn
 });
 
 test("Tidarr config : Should see app version", async ({ page }) => {
-  mockConfigAPI(page);
+  await mockConfigAPI(page);
   await goToHome(page);
   await emptyProcessingList(page);
 
@@ -51,8 +51,8 @@ test("Tidarr config : Should see app version", async ({ page }) => {
 });
 
 test("Tidarr config : Should see configuration dialog", async ({ page }) => {
-  mockConfigAPI(page);
-  mockRelease(page);
+  await mockConfigAPI(page);
+  await mockRelease(page);
 
   await goToHome(page);
   await emptyProcessingList(page);
@@ -124,8 +124,8 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
 });
 
 test("Tidarr config : Should see update button", async ({ page }) => {
-  mockConfigAPI(page);
-  mockRelease(page, "9.9.9");
+  await mockConfigAPI(page);
+  await mockRelease(page, "9.9.9");
 
   await goToHome(page);
   await emptyProcessingList(page);

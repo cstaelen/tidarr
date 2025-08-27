@@ -104,8 +104,8 @@ test("Tidarr security : Login page should redirect to home in public mode", asyn
   page,
 }) => {
   // When I go to login page in public mode
-  mockTidalQueries(page);
-  mockConfigAPI(page);
+  await mockTidalQueries(page);
+  await mockConfigAPI(page);
 
   await page.goto("/login");
   await page.evaluate("localStorage.clear()");

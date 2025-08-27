@@ -3,6 +3,7 @@ import test, { expect, Page } from "@playwright/test";
 import mockAlbum from "./mocks/album.json";
 import mockHome from "./mocks/home.json";
 import { waitForLoader } from "./utils/helpers";
+import { mockConfigAPI } from "./utils/mock";
 import { countItems, runSearch } from "./utils/search";
 
 test.describe.configure({ mode: "serial" });
@@ -39,6 +40,7 @@ async function testArtistSection(
 test("Tidarr direct url : Should display album result using Tidal album url", async ({
   page,
 }) => {
+  await mockConfigAPI(page);
   await page.route("**/pages/home", async (route) => {
     await route.fulfill({ json: mockHome });
   });
