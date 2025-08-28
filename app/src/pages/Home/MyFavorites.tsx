@@ -28,7 +28,7 @@ export default function MyFavorites() {
       />
       <PagedModule
         url={`favorites/mixes`}
-        type="MIXED_TYPES_LIST"
+        type="MIX_LIST"
         title="My Favorite mixes"
       />
     </>

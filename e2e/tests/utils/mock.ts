@@ -98,7 +98,7 @@ export async function mockTidalQueries(page: Page) {
     },
   );
   await page.route(
-    "https://api.tidal.com/v1/users/192283714/favorites/mixes?limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "https://api.tidal.com/v2/favorites/mixes?limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteMixes });
     },
