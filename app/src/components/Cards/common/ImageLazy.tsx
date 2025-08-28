@@ -9,15 +9,22 @@ const Placeholder = () => {
         background:
           "linear-gradient(180deg, rgba(20,20,20,1) 0%, rgba(50,50,50,1) 100%)",
         display: "flex",
-        height: "100%",
+        height: 0,
         justifyContent: "center",
-        left: 0,
-        position: "absolute",
-        top: 0,
+        paddingBottom: "100%",
         width: "100%",
       }}
     >
-      <Image sx={{ color: "white", opacity: 0.3, fontSize: "3rem" }} />
+      <Image
+        sx={{
+          color: "white",
+          opacity: 0.3,
+          fontSize: "3rem",
+          position: "absolute",
+          transform: "translateY(-50%)",
+          top: "50%",
+        }}
+      />
     </div>
   );
 };
