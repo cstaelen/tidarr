@@ -5,6 +5,13 @@ import mockArtist from "../mocks/artist.json";
 import mockArtistPager from "../mocks/artist_pager.json";
 import mockHome from "../mocks/home.json";
 import mockMix from "../mocks/mix.json";
+import mockMyFavoriteAlbums from "../mocks/my_favorite_albums.json";
+import mockMyFavoriteArtists from "../mocks/my_favorite_artists.json";
+import mockMyFavoriteMixes from "../mocks/my_favorite_mixes.json";
+import mockMyFavoritePlaylists from "../mocks/my_favorite_playlists.json";
+import mockMyFavoriteTracks from "../mocks/my_favorite_tracks.json";
+import mockMyMixes from "../mocks/my_mixes.json";
+import mockMyPlaylists from "../mocks/my_playlists.json";
 import mockPlaylist from "../mocks/playlist.json";
 import mockPlaylistTracks from "../mocks/playlist_tracks.json";
 import mockSearch from "../mocks/search.json";
@@ -58,6 +65,48 @@ export async function mockTidalQueries(page: Page) {
     "https://api.tidal.com/v1/pages/data/feddf2f1-0ea1-4663-8804-beaf21ace6a2?artistId=19368&limit=15&offset=15&countryCode=FR&deviceType=BROWSER&locale=en_US",
     async (route) => {
       await route.fulfill({ json: mockArtistPager });
+    },
+  );
+  await page.route(
+    "https://api.tidal.com/v1/pages/my_collection_my_mixes?countryCode=FR&deviceType=BROWSER&locale=en_US",
+    async (route) => {
+      await route.fulfill({ json: mockMyMixes });
+    },
+  );
+  await page.route(
+    "https://api.tidal.com/v1/users/192283714/playlistsAndFavoritePlaylists?limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    async (route) => {
+      await route.fulfill({ json: mockMyPlaylists });
+    },
+  );
+  await page.route(
+    "https://api.tidal.com/v1/users/192283714/favorites/albums?limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    async (route) => {
+      await route.fulfill({ json: mockMyFavoriteAlbums });
+    },
+  );
+  await page.route(
+    "https://api.tidal.com/v1/users/192283714/favorites/artists?limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    async (route) => {
+      await route.fulfill({ json: mockMyFavoriteArtists });
+    },
+  );
+  await page.route(
+    "https://api.tidal.com/v1/users/192283714/favorites/tracks?limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    async (route) => {
+      await route.fulfill({ json: mockMyFavoriteTracks });
+    },
+  );
+  await page.route(
+    "https://api.tidal.com/v1/users/192283714/favorites/mixes?limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    async (route) => {
+      await route.fulfill({ json: mockMyFavoriteMixes });
+    },
+  );
+  await page.route(
+    "https://api.tidal.com/v1/users/192283714/favorites/playlists?limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    async (route) => {
+      await route.fulfill({ json: mockMyFavoritePlaylists });
     },
   );
   await page.route(
@@ -116,6 +165,7 @@ export async function mockConfigAPI(page: Page) {
       },
       tiddl_config: {
         auth: {
+          user_id: 192283714,
           country_code: "FR",
         },
       },

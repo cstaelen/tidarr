@@ -1,0 +1,1019 @@
+{
+    "limit": 18,
+    "offset": 0,
+    "totalNumberOfItems": 18,
+    "items": [
+        {
+            "created": "2023-04-24T14:44:16.835+0000",
+            "item": {
+                "id": 201935632,
+                "title": "a place I need to be",
+                "duration": 1837,
+                "streamReady": false,
+                "payToStream": false,
+                "adSupportedStreamReady": false,
+                "djReady": false,
+                "stemReady": false,
+                "streamStartDate": null,
+                "allowStreaming": false,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 6,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2021-11-05",
+                "copyright": "Zealrecords",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/201935632",
+                "cover": "eede211d-10e2-4418-889b-319684cdddd4",
+                "vibrantColor": "#d1b35a",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "5407005333426",
+                "popularity": 11,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 9138799,
+                    "name": "Wouter Dewit",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "45bcf5ed-8a08-4344-9f40-1012a4d60971"
+                },
+                "artists": [
+                    {
+                        "id": 9138799,
+                        "name": "Wouter Dewit",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "45bcf5ed-8a08-4344-9f40-1012a4d60971"
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:16.835+0000",
+            "item": {
+                "id": 240474,
+                "title": "Big Calm",
+                "duration": 2807,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2015-07-09T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 11,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "1998-03-16",
+                "copyright": "© 1998 China Records Ltd",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/240474",
+                "cover": "e0038c2e-e92a-4c0e-8a05-188e1f9ffdea",
+                "vibrantColor": "#eed399",
+                "videoCover": null,
+                "explicit": true,
+                "upc": "639842224468",
+                "popularity": 75,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 12034,
+                    "name": "Morcheeba",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "09fa3f79-fdeb-4bb7-9b35-503f2d7ba4d9"
+                },
+                "artists": [
+                    {
+                        "id": 12034,
+                        "name": "Morcheeba",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "09fa3f79-fdeb-4bb7-9b35-503f2d7ba4d9"
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:16.835+0000",
+            "item": {
+                "id": 53843020,
+                "title": "Commune",
+                "duration": 2332,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2015-11-13T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 9,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2014-09-23",
+                "copyright": "Rocket Recordings",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/53843020",
+                "cover": "84e1433e-8e1e-47ba-8875-f80274fc72f1",
+                "vibrantColor": "#b59f30",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "888831328476",
+                "popularity": 38,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 778,
+                    "name": "Goat",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "0725f930-f4a6-4b6f-93ae-8c196461f367"
+                },
+                "artists": [
+                    {
+                        "id": 778,
+                        "name": "Goat",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "0725f930-f4a6-4b6f-93ae-8c196461f367"
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2024-01-16T15:47:54.804+0000",
+            "item": {
+                "id": 76324167,
+                "title": "Everything Now",
+                "duration": 2836,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2017-07-28T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 13,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2017-07-28",
+                "copyright": "(P) 2017 Arcade Fire Music under exclusive licence to Sony Music Entertainment  UK Limited",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/76324167",
+                "cover": "c00503d5-602c-4e7e-8bb8-ec75878218e0",
+                "vibrantColor": "#fabea6",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "886446538617",
+                "popularity": 63,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 17364,
+                    "name": "Arcade Fire",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "299ae24d-61a7-4fcc-8366-af5342664ec3"
+                },
+                "artists": [
+                    {
+                        "id": 17364,
+                        "name": "Arcade Fire",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "299ae24d-61a7-4fcc-8366-af5342664ec3"
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2023-09-30T11:07:19.269+0000",
+            "item": {
+                "id": 287629424,
+                "title": "First Two Pages of Frankenstein",
+                "duration": 2860,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-03-13T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 11,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2023-04-28",
+                "copyright": "The National under exclusive license to 4AD Ltd",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/287629424",
+                "cover": "68287f06-aa54-4ade-a250-cc0f00a3cdee",
+                "vibrantColor": "#FFFFFF",
+                "videoCover": "49ec6af1-99a6-4a9c-b76c-df9904fe9c3f",
+                "explicit": false,
+                "upc": "191400056657",
+                "popularity": 61,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 3566009,
+                    "name": "The National",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "0754f59f-a5a9-4014-9e26-b9ddd2918122"
+                },
+                "artists": [
+                    {
+                        "id": 3566009,
+                        "name": "The National",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "0754f59f-a5a9-4014-9e26-b9ddd2918122"
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2025-03-25T10:34:57.293+0000",
+            "item": {
+                "id": 308321798,
+                "title": "Hadsel",
+                "duration": 2864,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2023-11-10T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 12,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2023-11-10",
+                "copyright": "2023 Pompeii Records",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/308321798",
+                "cover": "16cd5bd7-57e7-43e5-85ce-faf449db32be",
+                "vibrantColor": "#FFFFFF",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "617308058277",
+                "popularity": 50,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 3555856,
+                    "name": "Beirut",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "dc1a223c-d1dd-4739-b674-c5cb9e5041cb"
+                },
+                "artists": [
+                    {
+                        "id": 3555856,
+                        "name": "Beirut",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "dc1a223c-d1dd-4739-b674-c5cb9e5041cb"
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:16.835+0000",
+            "item": {
+                "id": 44022808,
+                "title": "III",
+                "duration": 2911,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2014-05-05T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 9,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2014-05-13",
+                "copyright": "2014 Innovative Leisure",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/44022808",
+                "cover": "b0a248bb-7176-49eb-9bd6-8e1ad0002a52",
+                "vibrantColor": "#FFFFFF",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "5060281618382",
+                "popularity": 33,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 4512972,
+                    "name": "Badbadnotgood",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "147c1c0c-b270-4dd9-904a-7124e6aea320"
+                },
+                "artists": [
+                    {
+                        "id": 4512972,
+                        "name": "Badbadnotgood",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "147c1c0c-b270-4dd9-904a-7124e6aea320"
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:16.835+0000",
+            "item": {
+                "id": 214097910,
+                "title": "Indian Ocean",
+                "duration": 2819,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2014-10-14T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 11,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2014-10-14",
+                "copyright": "Saltwater Productions Inc. under exclusive license to Nettwerk Music Group Inc.",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/214097910",
+                "cover": "e2e54581-72db-4cc9-bee1-86f638975df0",
+                "vibrantColor": "#e5e59f",
+                "videoCover": null,
+                "explicit": true,
+                "upc": "067003103459",
+                "popularity": 59,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 3669374,
+                    "name": "Frazey Ford",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "cefeb347-a4d6-4153-9fea-68a7047017a2"
+                },
+                "artists": [
+                    {
+                        "id": 3669374,
+                        "name": "Frazey Ford",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "cefeb347-a4d6-4153-9fea-68a7047017a2"
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2024-02-15T15:38:28.384+0000",
+            "item": {
+                "id": 61799588,
+                "title": "In Rainbows",
+                "duration": 2554,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2024-12-04T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 10,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2007-10-10",
+                "copyright": "LLLP LLP under exclusive license to XL Recordings Ltd",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/61799588",
+                "cover": "c2f01a2d-7230-45cc-af34-fd00a72b46c3",
+                "vibrantColor": "#e8e045",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "634904032463",
+                "popularity": 85,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 64518,
+                    "name": "Radiohead",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "600a6117-32bb-4f9a-ac2b-206cbf1db419"
+                },
+                "artists": [
+                    {
+                        "id": 64518,
+                        "name": "Radiohead",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "600a6117-32bb-4f9a-ac2b-206cbf1db419"
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:16.835+0000",
+            "item": {
+                "id": 72371462,
+                "title": "Les plus belles berceuses jazz",
+                "duration": 2531,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2017-04-28T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 15,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2012-10-09",
+                "copyright": "Didier Jeunesse",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/72371462",
+                "cover": "05fa2331-c568-4781-a6e1-bf91cd9c4541",
+                "vibrantColor": "#f7f0d7",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "9782278067855",
+                "popularity": 34,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 3703442,
+                    "name": "Misja Fitzgerald Michel",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "5760568c-154a-4afd-9547-d37062f5ee46"
+                },
+                "artists": [
+                    {
+                        "id": 3703442,
+                        "name": "Misja Fitzgerald Michel",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "5760568c-154a-4afd-9547-d37062f5ee46"
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2025-04-07T09:18:57.425+0000",
+            "item": {
+                "id": 5695093,
+                "title": "The Darjeeling Limited",
+                "duration": 3359,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2007-09-25T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 22,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2007-09-25",
+                "copyright": "© 2007 Twentieth Century Fox Film Corportation",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/5695093",
+                "cover": "51e88043-c47e-4a90-a49c-52060c073adf",
+                "vibrantColor": "#e9d19d",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "00018771924029",
+                "popularity": 42,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 2935,
+                    "name": "Various Artists",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": null
+                },
+                "artists": [
+                    {
+                        "id": 2935,
+                        "name": "Various Artists",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2023-04-27T13:12:03.602+0000",
+            "item": {
+                "id": 2215056,
+                "title": "The Eraser",
+                "duration": 2462,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2024-10-28T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 9,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2006-07-11",
+                "copyright": "Unsustainabubble Ltd under exclusive license to XL Recordings Ltd.",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/2215056",
+                "cover": "ca7150bf-5f7a-48ef-873a-fdd0c0844b66",
+                "vibrantColor": "#e98589",
+                "videoCover": null,
+                "explicit": true,
+                "upc": "634904020064",
+                "popularity": 66,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 3544256,
+                    "name": "Thom Yorke",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "72b09015-4d22-498b-80b8-ede0d0930338"
+                },
+                "artists": [
+                    {
+                        "id": 3544256,
+                        "name": "Thom Yorke",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "72b09015-4d22-498b-80b8-ede0d0930338"
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:16.835+0000",
+            "item": {
+                "id": 59165034,
+                "title": "The Hope Six Demolition Project",
+                "duration": 2499,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2016-04-15T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 11,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2016-04-15",
+                "copyright": "© 2016 Island Records, a division of Universal Music Operations Limited",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/59165034",
+                "cover": "c187867c-62e0-4cff-baf1-673652e90935",
+                "vibrantColor": "#db9792",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "00602547771261",
+                "popularity": 45,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 24912,
+                    "name": "PJ Harvey",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "62753528-86ae-4f6b-9fe9-95f970416e4b"
+                },
+                "artists": [
+                    {
+                        "id": 24912,
+                        "name": "PJ Harvey",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "62753528-86ae-4f6b-9fe9-95f970416e4b"
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2024-02-19T16:00:20.282+0000",
+            "item": {
+                "id": 60019915,
+                "title": "The King Of Limbs",
+                "duration": 2248,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2023-08-12T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 8,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2011-02-18",
+                "copyright": "LLLP LLP under exclusive license to XL Recordings Ltd",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/60019915",
+                "cover": "5e78df41-985d-488d-8196-220843f4c2f1",
+                "vibrantColor": "#dea29e",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "634904078768",
+                "popularity": 62,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 64518,
+                    "name": "Radiohead",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "600a6117-32bb-4f9a-ac2b-206cbf1db419"
+                },
+                "artists": [
+                    {
+                        "id": 64518,
+                        "name": "Radiohead",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "600a6117-32bb-4f9a-ac2b-206cbf1db419"
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2024-02-05T15:07:41.151+0000",
+            "item": {
+                "id": 77555182,
+                "title": "The Secret Life Of Walter Mitty (Music From And Inspired By The Motion Picture)",
+                "duration": 2980,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-12-17T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 12,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2013-01-01",
+                "copyright": "© 2013 Twentieth Century Fox Film Corporation. All rights reserved., Distributed by Universal Music Distribution. All rights reserved.",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/77555182",
+                "cover": "41dedeb3-e0c5-4683-8dd3-5fd38d3b9fdd",
+                "vibrantColor": "#f8c0a2",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "00602537659548",
+                "popularity": 55,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 2935,
+                    "name": "Various Artists",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": null
+                },
+                "artists": [
+                    {
+                        "id": 2935,
+                        "name": "Various Artists",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2024-02-05T14:59:51.109+0000",
+            "item": {
+                "id": 23999186,
+                "title": "The Secret Life of Walter Mitty (Original Motion Picture Score)",
+                "duration": 2914,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2013-12-16T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 27,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2013-12-16",
+                "copyright": "(P) 2013 Twentieth Century Fox Film Corporation under exclusive license to Sony Classical, a division of Sony Music Entertainment",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/23999186",
+                "cover": "7ed20685-7132-4d14-b6c2-e33de2a2dde1",
+                "vibrantColor": "#a0494c",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "886444332415",
+                "popularity": 36,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 3578858,
+                    "name": "Theodore Shapiro",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "cc2a434d-fbbe-4776-b0f9-42b23406e044"
+                },
+                "artists": [
+                    {
+                        "id": 3578858,
+                        "name": "Theodore Shapiro",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "cc2a434d-fbbe-4776-b0f9-42b23406e044"
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2024-04-12T09:22:25.092+0000",
+            "item": {
+                "id": 75572501,
+                "title": "The Suburbs",
+                "duration": 3847,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2018-01-03T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 16,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2010-08-03",
+                "copyright": "(P) 2010 Arcade Fire Music Under Exclusive License to Sony Music Entertainment",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/75572501",
+                "cover": "a76a8f18-b261-4d73-a06c-06bd74707850",
+                "vibrantColor": "#aa383c",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "886446576510",
+                "popularity": 71,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 17364,
+                    "name": "Arcade Fire",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "299ae24d-61a7-4fcc-8366-af5342664ec3"
+                },
+                "artists": [
+                    {
+                        "id": 17364,
+                        "name": "Arcade Fire",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "299ae24d-61a7-4fcc-8366-af5342664ec3"
+                    }
+                ]
+            }
+        },
+        {
+            "created": "2025-08-09T10:12:36.578+0000",
+            "item": {
+                "id": 390710654,
+                "title": "Wolfgang Amadeus Phoenix",
+                "duration": 2188,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2009-05-25T00:00:00.000+0000",
+                "allowStreaming": true,
+                "premiumStreamingOnly": false,
+                "numberOfTracks": 10,
+                "numberOfVideos": 0,
+                "numberOfVolumes": 1,
+                "releaseDate": "2009-05-25",
+                "copyright": "© 2009 Ghettoblaster S.A.R.L. under exlcusive license to Glassnote Entertainment Group LLC in the United States and Canada",
+                "type": "ALBUM",
+                "version": null,
+                "url": "http://www.tidal.com/album/390710654",
+                "cover": "ec411e18-d3fd-436b-8a10-951264049753",
+                "vibrantColor": "#fdbcd0",
+                "videoCover": null,
+                "explicit": false,
+                "upc": "00892038002190",
+                "popularity": 78,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "artist": {
+                    "id": 9120,
+                    "name": "phoenix",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "d613c0ac-be8c-4d28-9db7-2a12751f0865"
+                },
+                "artists": [
+                    {
+                        "id": 9120,
+                        "name": "phoenix",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "d613c0ac-be8c-4d28-9db7-2a12751f0865"
+                    }
+                ]
+            }
+        }
+    ]
+}

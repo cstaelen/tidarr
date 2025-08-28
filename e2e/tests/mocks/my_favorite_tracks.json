@@ -1,0 +1,1145 @@
+{
+    "limit": 18,
+    "offset": 0,
+    "totalNumberOfItems": 364,
+    "items": [
+        {
+            "created": "2023-04-24T14:44:50.381+0000",
+            "item": {
+                "id": 84884948,
+                "title": "1982",
+                "duration": 205,
+                "replayGain": -9.8,
+                "peak": 0.984314,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2017-10-27T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 4,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 32,
+                "copyright": "Domino Recording Co Ltd",
+                "bpm": null,
+                "url": "http://www.tidal.com/track/84884948",
+                "isrc": "GBCEL1600509",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 4099791,
+                    "name": "Fránçois & The Atlas Mountains",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "1e99d6ed-30ca-43b5-8a64-98e8923a0f82"
+                },
+                "artists": [
+                    {
+                        "id": 4099791,
+                        "name": "Fránçois & The Atlas Mountains",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "1e99d6ed-30ca-43b5-8a64-98e8923a0f82"
+                    }
+                ],
+                "album": {
+                    "id": 84884944,
+                    "title": "Solide Mirage (Deluxe Edition)",
+                    "cover": "eb0dd89e-deb1-4866-a7aa-13f0f325e449",
+                    "vibrantColor": "#dc6a6c",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "001de8630a16516bad8ec710358ee4"
+                }
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:48.758+0000",
+            "item": {
+                "id": 20278873,
+                "title": "4/17/1975",
+                "duration": 169,
+                "replayGain": -9.75,
+                "peak": 1.0,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2010-01-12T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 4,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 53,
+                "copyright": "2013 Low Post Music",
+                "bpm": 85,
+                "url": "http://www.tidal.com/track/20278873",
+                "isrc": "USTCE1028144",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 4928500,
+                    "name": "Rob Viktum",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": null
+                },
+                "artists": [
+                    {
+                        "id": 4928500,
+                        "name": "Rob Viktum",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    }
+                ],
+                "album": {
+                    "id": 20278869,
+                    "title": "Progress 2",
+                    "cover": "3b1358e1-99e4-42e1-b3aa-0583023fb622",
+                    "vibrantColor": "#dcf4c4",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "0011dc1ac3df8a54e0e391c9389f93"
+                }
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:49.278+0000",
+            "item": {
+                "id": 24839133,
+                "title": "Abesses",
+                "duration": 193,
+                "replayGain": -11.24,
+                "peak": 0.981842,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2010-11-08T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 7,
+                "volumeNumber": 1,
+                "version": "Beat Torrent Remix",
+                "popularity": 50,
+                "copyright": "Kif Music",
+                "bpm": null,
+                "url": "http://www.tidal.com/track/24839133",
+                "isrc": "FR6V80731097",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 3558747,
+                    "name": "Birdy Nam Nam",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "fc07a9c0-4aa5-4a5c-8e8f-750d14a12d4b"
+                },
+                "artists": [
+                    {
+                        "id": 3558747,
+                        "name": "Birdy Nam Nam",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "fc07a9c0-4aa5-4a5c-8e8f-750d14a12d4b"
+                    }
+                ],
+                "album": {
+                    "id": 24839126,
+                    "title": "Beat Torrent Reworks",
+                    "cover": "5d41ee7a-6b3b-4c26-aa5e-f6f4604debe8",
+                    "vibrantColor": "#aed1e3",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "00117c444f829bfa1c933a3e59c1ff"
+                }
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:50.381+0000",
+            "item": {
+                "id": 33773444,
+                "title": "Acapulco, Dos de la Tarde",
+                "duration": 185,
+                "replayGain": -8.88,
+                "peak": 0.996399,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2014-09-30T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 3,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 31,
+                "copyright": "2013 Heavenly Sweetness",
+                "bpm": 113,
+                "url": "http://www.tidal.com/track/33773444",
+                "isrc": "BRPGD7600005",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 4958687,
+                    "name": "The Coppers",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": null
+                },
+                "artists": [
+                    {
+                        "id": 4958687,
+                        "name": "The Coppers",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    }
+                ],
+                "album": {
+                    "id": 33773441,
+                    "title": "Beach Diggin’, Vol. 1",
+                    "cover": "d509bd5d-4228-4f13-878e-3d1f807a9f97",
+                    "vibrantColor": "#f7e7a3",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "001ba5c179200752db2bccfc5c77cc"
+                }
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:48.688+0000",
+            "item": {
+                "id": 26810498,
+                "title": "A Dream of You and Me",
+                "duration": 239,
+                "replayGain": -10.72,
+                "peak": 0.991302,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2024-01-13T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 10,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 42,
+                "copyright": "4AD Ltd",
+                "bpm": null,
+                "url": "http://www.tidal.com/track/26810498",
+                "isrc": "GBAFL1300215",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 4287262,
+                    "name": "Future Islands",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "d1c7e4c2-518f-4a96-91f4-4b4eb79170b3"
+                },
+                "artists": [
+                    {
+                        "id": 4287262,
+                        "name": "Future Islands",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "d1c7e4c2-518f-4a96-91f4-4b4eb79170b3"
+                    }
+                ],
+                "album": {
+                    "id": 26810488,
+                    "title": "Singles",
+                    "cover": "b4b22950-455c-4368-ae55-2575f5951406",
+                    "vibrantColor": "#dacca6",
+                    "videoCover": "1d6ffd2f-e805-4ec0-9030-3fc0a6fff4b6"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001db9dfa4ddf43a7d0915d27bb9fd"
+                }
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:50.514+0000",
+            "item": {
+                "id": 539204,
+                "title": "Africa",
+                "duration": 295,
+                "replayGain": -10.2,
+                "peak": 0.977246,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "1983-06-28T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 10,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 85,
+                "copyright": "(P) 1982 Columbia Records, a division of Sony Music Entertainment",
+                "bpm": 93,
+                "url": "http://www.tidal.com/track/539204",
+                "isrc": "USSM19801941",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 76,
+                    "name": "TOTO",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "03a6e31a-3d23-4ac8-b9d1-2aa5768a5392"
+                },
+                "artists": [
+                    {
+                        "id": 76,
+                        "name": "TOTO",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "03a6e31a-3d23-4ac8-b9d1-2aa5768a5392"
+                    }
+                ],
+                "album": {
+                    "id": 539203,
+                    "title": "Toto IV",
+                    "cover": "5789ef3a-b814-4f26-9f1f-02001f6e7f7d",
+                    "vibrantColor": "#c42b37",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "0014492f16864764a68a0ec0185800"
+                }
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:48.260+0000",
+            "item": {
+                "id": 47963034,
+                "title": "A Heartbreak",
+                "duration": 257,
+                "replayGain": -11.67,
+                "peak": 0.99884,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2014-07-28T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 55,
+                "copyright": "Angus and Julia Stone, under exclusive licence to Discograph",
+                "bpm": null,
+                "url": "http://www.tidal.com/track/47963034",
+                "isrc": "AUAP11400002",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 4524903,
+                    "name": "Angus Stone",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "800da3dd-699d-4ae4-b7d4-1ca2904d5f8c"
+                },
+                "artists": [
+                    {
+                        "id": 4524903,
+                        "name": "Angus Stone",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "800da3dd-699d-4ae4-b7d4-1ca2904d5f8c"
+                    },
+                    {
+                        "id": 3722143,
+                        "name": "Julia Stone",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "9ae1ab5d-fcc2-4b2d-a0cd-e8702441efd0"
+                    }
+                ],
+                "album": {
+                    "id": 47963033,
+                    "title": "Angus & Julia Stone",
+                    "cover": "b23c3fad-9526-4f92-92ca-f37c82a3f823",
+                    "vibrantColor": "#de9389",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "0015a73a461228df1b12f3235b9aad"
+                }
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:50.092+0000",
+            "item": {
+                "id": 58513599,
+                "title": "Ain't Got No, I Got Life",
+                "duration": 204,
+                "replayGain": -7.77,
+                "peak": 0.946502,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2016-04-15T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 5,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 49,
+                "copyright": "Le Chant du Monde under exclusive licence to harmonia mundi s.a.s. | JazzVillage, a label of harmonia mundi",
+                "bpm": null,
+                "url": "http://www.tidal.com/track/58513599",
+                "isrc": "FR7JM1539050",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 5942358,
+                    "name": "Rosemary Standley",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": null
+                },
+                "artists": [
+                    {
+                        "id": 5942358,
+                        "name": "Rosemary Standley",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    },
+                    {
+                        "id": 7685027,
+                        "name": "Sylvain Griotto",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    }
+                ],
+                "album": {
+                    "id": 58513594,
+                    "title": "A Queen of Hearts",
+                    "cover": "75d579fe-8776-4fd6-811f-5e6684f92f89",
+                    "vibrantColor": "#d9b0b1",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "001be4cd4842bba350490e97d28504"
+                }
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:49.522+0000",
+            "item": {
+                "id": 33087950,
+                "title": "A l'aube",
+                "duration": 284,
+                "replayGain": -9.9,
+                "peak": 0.988525,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2014-09-08T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 3,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 67,
+                "copyright": "2014 Feu! Chatterton",
+                "bpm": null,
+                "url": "http://www.tidal.com/track/33087950",
+                "isrc": "FR9W11405624",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 5877725,
+                    "name": "Feu! Chatterton",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "54d6c51e-6b3e-408b-be6c-7b41e8fadcc3"
+                },
+                "artists": [
+                    {
+                        "id": 5877725,
+                        "name": "Feu! Chatterton",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "54d6c51e-6b3e-408b-be6c-7b41e8fadcc3"
+                    }
+                ],
+                "album": {
+                    "id": 33087947,
+                    "title": "Feu! Chatterton - EP",
+                    "cover": "d13be6ec-08be-442b-a232-16869c159b36",
+                    "vibrantColor": "#6707f8",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "001eefd2181be4643fe1b503ffaac8"
+                }
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:48.688+0000",
+            "item": {
+                "id": 59165037,
+                "title": "A Line In The Sand",
+                "duration": 213,
+                "replayGain": -8.62,
+                "peak": 0.999969,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2016-04-15T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 3,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 28,
+                "copyright": "℗ 2015 Island Records, a division of Universal Music Operations Limited",
+                "bpm": null,
+                "url": "http://www.tidal.com/track/59165037",
+                "isrc": "GBUM71507419",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 24912,
+                    "name": "PJ Harvey",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "62753528-86ae-4f6b-9fe9-95f970416e4b"
+                },
+                "artists": [
+                    {
+                        "id": 24912,
+                        "name": "PJ Harvey",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "62753528-86ae-4f6b-9fe9-95f970416e4b"
+                    }
+                ],
+                "album": {
+                    "id": 59165034,
+                    "title": "The Hope Six Demolition Project",
+                    "cover": "c187867c-62e0-4cff-baf1-673652e90935",
+                    "vibrantColor": "#db9792",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "001b6f9d47b93ce6f3470a4add1658"
+                }
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:50.381+0000",
+            "item": {
+                "id": 207736,
+                "title": "All Along the Watchtower",
+                "duration": 194,
+                "replayGain": -6.9,
+                "peak": 0.988617,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2016-11-25T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 37,
+                "copyright": "℗ 1972 Reprise Records",
+                "bpm": null,
+                "url": "http://www.tidal.com/track/207736",
+                "isrc": "USWB10400117",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 13412,
+                    "name": "Barbara Keith",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": null
+                },
+                "artists": [
+                    {
+                        "id": 13412,
+                        "name": "Barbara Keith",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    }
+                ],
+                "album": {
+                    "id": 207735,
+                    "title": "Barbara Keith",
+                    "cover": "4e67689a-9956-4513-90ae-fdaa4427b6df",
+                    "vibrantColor": "#fbefca",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "001e78b94ea138a061ed4ca2bfcae9"
+                }
+            }
+        },
+        {
+            "created": "2024-01-08T13:16:51.782+0000",
+            "item": {
+                "id": 1477893,
+                "title": "All I Need (feat. Beth Hirsch)",
+                "duration": 268,
+                "replayGain": -11.17,
+                "peak": 0.99748,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2015-02-05T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 3,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 71,
+                "copyright": "Label Parlophone, ℗ 1997 Warner Music France",
+                "bpm": 95,
+                "url": "http://www.tidal.com/track/1477893",
+                "isrc": "FRS639700570",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 9101,
+                    "name": "Air",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "70cce1e4-817f-438a-9884-bf56d3904f82"
+                },
+                "artists": [
+                    {
+                        "id": 9101,
+                        "name": "Air",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "70cce1e4-817f-438a-9884-bf56d3904f82"
+                    }
+                ],
+                "album": {
+                    "id": 1477890,
+                    "title": "Moon Safari",
+                    "cover": "0b981bb1-6e3b-4fd6-995c-8a6ecb5308c8",
+                    "vibrantColor": "#eece66",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "001979364bc4ed1d8eb51bb28dd3e0"
+                }
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:50.016+0000",
+            "item": {
+                "id": 86677718,
+                "title": "And The Living Is Easy",
+                "duration": 311,
+                "replayGain": -9.12,
+                "peak": 0.891844,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": false,
+                "djReady": false,
+                "stemReady": false,
+                "streamStartDate": "2008-05-19T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 11,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 27,
+                "copyright": "CKP Recordings",
+                "bpm": 115,
+                "url": "http://www.tidal.com/track/86677718",
+                "isrc": "FRQ040700041",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 3854010,
+                    "name": "Guts",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "fd19a33e-ac06-4b56-9787-3ddb3f68bbd2"
+                },
+                "artists": [
+                    {
+                        "id": 3854010,
+                        "name": "Guts",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "fd19a33e-ac06-4b56-9787-3ddb3f68bbd2"
+                    }
+                ],
+                "album": {
+                    "id": 86677707,
+                    "title": "Feelibiza",
+                    "cover": "b8acda09-6d7f-4722-9ecf-3f84d47d723e",
+                    "vibrantColor": "#e7be6e",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "001423bf8219caf338ac744e703575"
+                }
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:49.595+0000",
+            "item": {
+                "id": 63889275,
+                "title": "Angie",
+                "duration": 189,
+                "replayGain": -5.62,
+                "peak": 0.945435,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2017-03-01T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 13,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 33,
+                "copyright": "℗ 1965 Sanctuary Records Group Ltd., a BMG Company",
+                "bpm": null,
+                "url": "http://www.tidal.com/track/63889275",
+                "isrc": "GBAJE6500488",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 3538050,
+                    "name": "Bert Jansch",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "e4cd661e-3ca6-48b0-8135-ca45e4b9c4e6"
+                },
+                "artists": [
+                    {
+                        "id": 3538050,
+                        "name": "Bert Jansch",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "e4cd661e-3ca6-48b0-8135-ca45e4b9c4e6"
+                    }
+                ],
+                "album": {
+                    "id": 63889262,
+                    "title": "Folk Guitar",
+                    "cover": "be8ff09d-9c78-47ed-aff9-ef79599e4af8",
+                    "vibrantColor": "#8aaee0",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "001bf6c7acf82a99fb22e2a550bca1"
+                }
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:49.595+0000",
+            "item": {
+                "id": 69021262,
+                "title": "Ankle Injuries",
+                "duration": 305,
+                "replayGain": -9.02,
+                "peak": 0.98706,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2006-05-22T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 42,
+                "copyright": "2006 Fujiya & Miyagi",
+                "bpm": null,
+                "url": "http://www.tidal.com/track/69021262",
+                "isrc": "GBRSN0900001",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 3558136,
+                    "name": "Fujiya & Miyagi",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "43c4bb89-fbba-495d-9b95-0a8edc2b3572"
+                },
+                "artists": [
+                    {
+                        "id": 3558136,
+                        "name": "Fujiya & Miyagi",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "43c4bb89-fbba-495d-9b95-0a8edc2b3572"
+                    }
+                ],
+                "album": {
+                    "id": 69021261,
+                    "title": "Transparent Things",
+                    "cover": "73605584-aed0-4a1b-be07-b139d86cbc13",
+                    "vibrantColor": "#fb7c63",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "00123d0141f2062b6cca43bfa29e85"
+                }
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:49.430+0000",
+            "item": {
+                "id": 2902752,
+                "title": "Anyone Who Knows What Love Is (Will Understand)",
+                "duration": 181,
+                "replayGain": -8.8,
+                "peak": 0.982513,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2004-05-17T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 16,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 47,
+                "copyright": "℗ 1966 Capitol Records, LLC",
+                "bpm": 93,
+                "url": "http://www.tidal.com/track/2902752",
+                "isrc": "USCA26400283",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 10532,
+                    "name": "Irma Thomas",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "16168e6d-bdae-4bdc-ba04-e6d47a812ae8"
+                },
+                "artists": [
+                    {
+                        "id": 10532,
+                        "name": "Irma Thomas",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "16168e6d-bdae-4bdc-ba04-e6d47a812ae8"
+                    }
+                ],
+                "album": {
+                    "id": 2902736,
+                    "title": "Straight From The Soul",
+                    "cover": "558c5815-0f8e-4b75-9404-9f0d7cef9c70",
+                    "vibrantColor": "#eca2b6",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "001814cd16c43b1d54b6c587ce7d2f"
+                }
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:49.733+0000",
+            "item": {
+                "id": 54481212,
+                "title": "Aoede",
+                "duration": 277,
+                "replayGain": -9.27,
+                "peak": 0.975189,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2015-11-28T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 25,
+                "copyright": "2015 Mashrou' Leila",
+                "bpm": null,
+                "url": "http://www.tidal.com/track/54481212",
+                "isrc": "USHM81527610",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 4571374,
+                    "name": "Mashrou' Leila",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": null
+                },
+                "artists": [
+                    {
+                        "id": 4571374,
+                        "name": "Mashrou' Leila",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    }
+                ],
+                "album": {
+                    "id": 54481211,
+                    "title": "Ibn El Leil",
+                    "cover": "bd516127-9f50-4b69-90a0-2b45e437247d",
+                    "vibrantColor": "#95d6e2",
+                    "videoCover": null
+                },
+                "mixes": {
+                    "TRACK_MIX": "00185d055da62f966ffbe0742e1f2a"
+                }
+            }
+        }
+    ]
+}

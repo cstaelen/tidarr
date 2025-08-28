@@ -1,0 +1,662 @@
+{
+    "selfLink": null,
+    "id": "eyJwIjoiY2Y4OGYzZjItNDRjYy00ZDVmLTgxNzMtNGNiMzdiZjIyZmJlIiwicFYiOjE2fQ==",
+    "title": "My Mix",
+    "rows": [
+        {
+            "modules": [
+                {
+                    "id": "eyJwIjoiY2Y4OGYzZjItNDRjYy00ZDVmLTgxNzMtNGNiMzdiZjIyZmJlIiwicFYiOjE2LCJtIjoiYmU5YTIwNjctMDAxYy00YTBjLWJiYzItNWU0ODdkNWEwYzQxIiwibVYiOjIsIm1IIjoiMmY2ZDdmOTIifQ==",
+                    "type": "MIX_LIST",
+                    "width": 100,
+                    "scroll": "VERTICAL",
+                    "title": "",
+                    "description": "",
+                    "showMore": null,
+                    "listFormat": null,
+                    "pagedList": {
+                        "dataApiPath": "pages/data/511992bd-800b-4a85-9a25-4c2eeeefdb6b",
+                        "limit": 20,
+                        "offset": 0,
+                        "totalNumberOfItems": 17,
+                        "items": [
+                            {
+                                "id": "016a819bea9d349406b1cf31d7c83e",
+                                "title": "My Daily Discovery",
+                                "subTitle": "Songs by new and familiar artists inspired by your listening. Updates every morning.",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Daily Discovery",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 320,
+                                        "height": 320,
+                                        "url": "https://images.tidal.com/0/EMACGMAC/CAEQCCIDMjM5KgcjRkJEMjkzMAQ?token=22d0d9de0b9b45fd43635624cc53c50a0207ee02"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 640,
+                                        "height": 640,
+                                        "url": "https://images.tidal.com/0/EIAFGIAF/CAEQCCIDMjM5KgcjRkJEMjkzMAQ?token=16174ec89df3f6d6ac1b9d8a4978b06134a76c19"
+                                    },
+                                    "LARGE": {
+                                        "width": 1500,
+                                        "height": 1500,
+                                        "url": "https://images.tidal.com/0/ENwLGNwL/CAEQCCIDMjM5KgcjRkJEMjkzMAQ?token=2caf98f243fccc7d58409f361e77fd95f3efac3e"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "DISCOVERY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "00212f7e43e80c324075e0d8cfb086",
+                                "title": "My Mix 1",
+                                "subTitle": "Lali Puna, Philip Selway, Sóley and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Mix 1",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 320,
+                                        "height": 320,
+                                        "url": "https://images.tidal.com/0/EMACGMACIKABKKAB/CAEaJDMzOWY1OWQyLzdlZDkvNGQ1Yy9hYjM3LzI5YmRhOGZiZTgyMRokNzUxYzAyNmIvZDQ4OS80NTY2Lzg5MWMvY2I1NzExN2M4OTM1GiRkMzc0MGM1ZC9kNWVhLzQ4NDkvYmU3MS8yY2ZmZjZhNDVkYWMiATEqByNEQkQwQTAwAg?token=9cce039e3cdfb118b38f2ca451fcec613b84d70e"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 640,
+                                        "height": 640,
+                                        "url": "https://images.tidal.com/0/EIAFGIAFIMACKMAC/CAEaJDMzOWY1OWQyLzdlZDkvNGQ1Yy9hYjM3LzI5YmRhOGZiZTgyMRokNzUxYzAyNmIvZDQ4OS80NTY2Lzg5MWMvY2I1NzExN2M4OTM1GiRkMzc0MGM1ZC9kNWVhLzQ4NDkvYmU3MS8yY2ZmZjZhNDVkYWMiATEqByNEQkQwQTAwAg?token=b74f03d852dc67c37d324ccf76eae03551cc1904"
+                                    },
+                                    "LARGE": {
+                                        "width": 1500,
+                                        "height": 1500,
+                                        "url": "https://images.tidal.com/0/ENwLGNwLIO4FKO4F/CAEaJDMzOWY1OWQyLzdlZDkvNGQ1Yy9hYjM3LzI5YmRhOGZiZTgyMRokNzUxYzAyNmIvZDQ4OS80NTY2Lzg5MWMvY2I1NzExN2M4OTM1GiRkMzc0MGM1ZC9kNWVhLzQ4NDkvYmU3MS8yY2ZmZjZhNDVkYWMiATEqByNEQkQwQTAwAg?token=67c11ad1a76ca5ef3eb59e18ae37a2a19fef18f5"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "00245848b8bbd7d6dbac3d505cd358",
+                                "title": "My Mix 2",
+                                "subTitle": "My Morning Jacket, Nick Drake, Kurt Vile and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Mix 2",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 320,
+                                        "height": 320,
+                                        "url": "https://images.tidal.com/0/EMACGMACIKABKKAB/CAEaJDkxMWQ3NDc3LzgxOGUvNDY2NC84ZDg1L2IyNDY5MjVmMWNkNRokOTljOWMyOTgvYTZiOS80N2I2L2I1ZmYvZTdjZmQ2NDc1ZTQxGiQ5MTMzZGVhOC9lY2Q3LzRkNDUvODM1YS84M2U4YzQ2MmU3NTgiATIqByNDNjVGNEYwAg?token=4f8bbbde2e9103305202f773a9a51f127e090b39"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 640,
+                                        "height": 640,
+                                        "url": "https://images.tidal.com/0/EIAFGIAFIMACKMAC/CAEaJDkxMWQ3NDc3LzgxOGUvNDY2NC84ZDg1L2IyNDY5MjVmMWNkNRokOTljOWMyOTgvYTZiOS80N2I2L2I1ZmYvZTdjZmQ2NDc1ZTQxGiQ5MTMzZGVhOC9lY2Q3LzRkNDUvODM1YS84M2U4YzQ2MmU3NTgiATIqByNDNjVGNEYwAg?token=a65f1bb8f738a1a3311e2a3b37193fdabcbbf3ab"
+                                    },
+                                    "LARGE": {
+                                        "width": 1500,
+                                        "height": 1500,
+                                        "url": "https://images.tidal.com/0/ENwLGNwLIO4FKO4F/CAEaJDkxMWQ3NDc3LzgxOGUvNDY2NC84ZDg1L2IyNDY5MjVmMWNkNRokOTljOWMyOTgvYTZiOS80N2I2L2I1ZmYvZTdjZmQ2NDc1ZTQxGiQ5MTMzZGVhOC9lY2Q3LzRkNDUvODM1YS84M2U4YzQ2MmU3NTgiATIqByNDNjVGNEYwAg?token=5f8634884b53306ac6e4437f4da574aa30241247"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "00214a336226aeac95bad749a0ceaf",
+                                "title": "My Mix 3",
+                                "subTitle": "Bobby Fuller Four, The Velvet Underground, Aphrodite's Child and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Mix 3",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 320,
+                                        "height": 320,
+                                        "url": "https://images.tidal.com/0/EMACGMACIKABKKAB/CAEaJDM5MjMyNTRkLzRiODEvNDk3Mi9iNDU1LzVlYjkyNWY5YmRmYxokZTE4YzczNDEvZTFlOS80Y2M4LzhkMzEvN2U1NzE3NjEwY2IyGiQ4MDRkZWI0OC9iOTE1LzQ1OTIvYmI0MC82YjExMDM3NTZjMzQiATMqByM1RUI4RTQwAg?token=f5d1c21bc77b9004c8e433c4a97cffb49e9c8828"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 640,
+                                        "height": 640,
+                                        "url": "https://images.tidal.com/0/EIAFGIAFIMACKMAC/CAEaJDM5MjMyNTRkLzRiODEvNDk3Mi9iNDU1LzVlYjkyNWY5YmRmYxokZTE4YzczNDEvZTFlOS80Y2M4LzhkMzEvN2U1NzE3NjEwY2IyGiQ4MDRkZWI0OC9iOTE1LzQ1OTIvYmI0MC82YjExMDM3NTZjMzQiATMqByM1RUI4RTQwAg?token=84e1c0aac45037dbf01fa0dbb748ff5b16043361"
+                                    },
+                                    "LARGE": {
+                                        "width": 1500,
+                                        "height": 1500,
+                                        "url": "https://images.tidal.com/0/ENwLGNwLIO4FKO4F/CAEaJDM5MjMyNTRkLzRiODEvNDk3Mi9iNDU1LzVlYjkyNWY5YmRmYxokZTE4YzczNDEvZTFlOS80Y2M4LzhkMzEvN2U1NzE3NjEwY2IyGiQ4MDRkZWI0OC9iOTE1LzQ1OTIvYmI0MC82YjExMDM3NTZjMzQiATMqByM1RUI4RTQwAg?token=f92d3c93819535f07b4e9bd27a20fd234da69c4d"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "002caa0482590d8102353abd5aef90",
+                                "title": "My Mix 4",
+                                "subTitle": "Crash Test Dummies, Nirvana, Mercury Rev and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Mix 4",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 320,
+                                        "height": 320,
+                                        "url": "https://images.tidal.com/0/EMACGMACIKABKKAB/CAEaJDM1NDI1MWQwL2Q0MzQvNDExYS9hODg5LzA2Y2Y3ZGFlZmZlZhokYjdjYzk3MzYvNGRjOC80ZWM1LzhiOTgvZjAyYjNjNzMwNTM2GiQwM2NjNWNiNS9hNjUzLzRiMjAvOGRmMy8yZmM3NzkyMmU5ZWIiATQqByNBM0UyRDUwAg?token=ff5a9b328937dc6ebae5155cd0f01cfa3e685ae0"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 640,
+                                        "height": 640,
+                                        "url": "https://images.tidal.com/0/EIAFGIAFIMACKMAC/CAEaJDM1NDI1MWQwL2Q0MzQvNDExYS9hODg5LzA2Y2Y3ZGFlZmZlZhokYjdjYzk3MzYvNGRjOC80ZWM1LzhiOTgvZjAyYjNjNzMwNTM2GiQwM2NjNWNiNS9hNjUzLzRiMjAvOGRmMy8yZmM3NzkyMmU5ZWIiATQqByNBM0UyRDUwAg?token=ed7a1383fa9923f9ed60995ed2a8dbbed3315d06"
+                                    },
+                                    "LARGE": {
+                                        "width": 1500,
+                                        "height": 1500,
+                                        "url": "https://images.tidal.com/0/ENwLGNwLIO4FKO4F/CAEaJDM1NDI1MWQwL2Q0MzQvNDExYS9hODg5LzA2Y2Y3ZGFlZmZlZhokYjdjYzk3MzYvNGRjOC80ZWM1LzhiOTgvZjAyYjNjNzMwNTM2GiQwM2NjNWNiNS9hNjUzLzRiMjAvOGRmMy8yZmM3NzkyMmU5ZWIiATQqByNBM0UyRDUwAg?token=586773654dc9ab5272c13ec0dd738c24f3c20de0"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "002b9c0ac94a7632434aa5f90dd898",
+                                "title": "My Mix 5",
+                                "subTitle": "The Budos Band, Son Little, Badbadnotgood and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Mix 5",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 320,
+                                        "height": 320,
+                                        "url": "https://images.tidal.com/0/EMACGMACIKABKKAB/CAEaJGJjNGQxMGE0LzFhMTQvNDNiNi84Y2Y0LzA2ZmM0YzdjZDUyMRokNzU5MDJjNWQvZDY2MS80MjVkL2FlZWIvODQ2ZDFjMmE1MzM3GiRhMWFiZjZiZS81YTQwLzRmNWIvOGY4Ny82YjA1OTFkNDYzNmIiATUqByNGNEExOTQwAg?token=b47c15044e99e2fe8b1517b0dd7a0865dcc0f67e"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 640,
+                                        "height": 640,
+                                        "url": "https://images.tidal.com/0/EIAFGIAFIMACKMAC/CAEaJGJjNGQxMGE0LzFhMTQvNDNiNi84Y2Y0LzA2ZmM0YzdjZDUyMRokNzU5MDJjNWQvZDY2MS80MjVkL2FlZWIvODQ2ZDFjMmE1MzM3GiRhMWFiZjZiZS81YTQwLzRmNWIvOGY4Ny82YjA1OTFkNDYzNmIiATUqByNGNEExOTQwAg?token=079b530474af495f70fa22e50346b8653a4b1162"
+                                    },
+                                    "LARGE": {
+                                        "width": 1500,
+                                        "height": 1500,
+                                        "url": "https://images.tidal.com/0/ENwLGNwLIO4FKO4F/CAEaJGJjNGQxMGE0LzFhMTQvNDNiNi84Y2Y0LzA2ZmM0YzdjZDUyMRokNzU5MDJjNWQvZDY2MS80MjVkL2FlZWIvODQ2ZDFjMmE1MzM3GiRhMWFiZjZiZS81YTQwLzRmNWIvOGY4Ny82YjA1OTFkNDYzNmIiATUqByNGNEExOTQwAg?token=17277df1e8285ae2c68a23e28f31e6d6f7c3e24c"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "0029c559b36d7bc46f1b2ef6ce3fc6",
+                                "title": "My Mix 6",
+                                "subTitle": "Kate Bush, The Clash, Alan Vega and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Mix 6",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 320,
+                                        "height": 320,
+                                        "url": "https://images.tidal.com/0/EMACGMACIKABKKAB/CAEaJDNlYWViYWNiLzAyYWYvNDBiNy9iNjQ5LzgzOTFkMTI2OTY0ZBokNTBiNzA2YmMvNjFhMi80ZTM5Lzg3MjcvNjAxZTQzMjkxZjUyGiRlZjAzN2U0Zi9lZmZiLzRjZTYvODI0YS8xMjFmNjExMjU5MTciATYqByNFODc3NzAwAg?token=21105f9ac474725e438a8eeb01b0a202a35618b7"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 640,
+                                        "height": 640,
+                                        "url": "https://images.tidal.com/0/EIAFGIAFIMACKMAC/CAEaJDNlYWViYWNiLzAyYWYvNDBiNy9iNjQ5LzgzOTFkMTI2OTY0ZBokNTBiNzA2YmMvNjFhMi80ZTM5Lzg3MjcvNjAxZTQzMjkxZjUyGiRlZjAzN2U0Zi9lZmZiLzRjZTYvODI0YS8xMjFmNjExMjU5MTciATYqByNFODc3NzAwAg?token=d6e7865178e7aa802688b9e3ed6624ad6ee1c7ec"
+                                    },
+                                    "LARGE": {
+                                        "width": 1500,
+                                        "height": 1500,
+                                        "url": "https://images.tidal.com/0/ENwLGNwLIO4FKO4F/CAEaJDNlYWViYWNiLzAyYWYvNDBiNy9iNjQ5LzgzOTFkMTI2OTY0ZBokNTBiNzA2YmMvNjFhMi80ZTM5Lzg3MjcvNjAxZTQzMjkxZjUyGiRlZjAzN2U0Zi9lZmZiLzRjZTYvODI0YS8xMjFmNjExMjU5MTciATYqByNFODc3NzAwAg?token=e6391cf5d932817cac231accc7aab35e96a2d778"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "0023556c75fc825b0d9c8845ed729d",
+                                "title": "My Mix 7",
+                                "subTitle": "Rodrigo y Gabriela, Felix Laband, richard houghten and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Mix 7",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 320,
+                                        "height": 320,
+                                        "url": "https://images.tidal.com/0/EMACGMACIKABKKAB/CAEaJGJmZTMyZGZkL2IwOGIvNDA1OS84OTZlLzg3ZWRlOTkzNDI1MRokYWVkM2E2YjAvNWUwYy80NDhmLzk5ZDgvMzk2NjJlYjAyYjEyGiQ2ZTcxMzJkMi9hYjdkLzQ4NjgvYTQyMy83NDYzYWQ1YmNhYjgiATcqByNGMUQ5QTgwAg?token=fbb924a205a45632a59e5bc9edda06efbd6ac847"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 640,
+                                        "height": 640,
+                                        "url": "https://images.tidal.com/0/EIAFGIAFIMACKMAC/CAEaJGJmZTMyZGZkL2IwOGIvNDA1OS84OTZlLzg3ZWRlOTkzNDI1MRokYWVkM2E2YjAvNWUwYy80NDhmLzk5ZDgvMzk2NjJlYjAyYjEyGiQ2ZTcxMzJkMi9hYjdkLzQ4NjgvYTQyMy83NDYzYWQ1YmNhYjgiATcqByNGMUQ5QTgwAg?token=910220dbba15a89cbf8c38df6993c829ace3bb32"
+                                    },
+                                    "LARGE": {
+                                        "width": 1500,
+                                        "height": 1500,
+                                        "url": "https://images.tidal.com/0/ENwLGNwLIO4FKO4F/CAEaJGJmZTMyZGZkL2IwOGIvNDA1OS84OTZlLzg3ZWRlOTkzNDI1MRokYWVkM2E2YjAvNWUwYy80NDhmLzk5ZDgvMzk2NjJlYjAyYjEyGiQ2ZTcxMzJkMi9hYjdkLzQ4NjgvYTQyMy83NDYzYWQ1YmNhYjgiATcqByNGMUQ5QTgwAg?token=7e5b732c080595e679a41b1006e1d53bcd280aca"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "002cf59224f8cefe4dcbed36d9b2dc",
+                                "title": "My Mix 8",
+                                "subTitle": "Chancha Via Circuito, Vaudou Game, Yom and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Mix 8",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 320,
+                                        "height": 320,
+                                        "url": "https://images.tidal.com/0/EMACGMACIKABKKAB/CAEaJDdlMTJmNjM3L2E1MmMvNDY1Mi84NWYyLzUxMDExNjIzMTk2YhokYWJkMjcwNmMvZWRiYi80NDdkL2FjZTIvYWEyNmZiN2M0YjRiGiRkZGQ1ZTU2Ni8wOGRlLzQxZjMvYTQwZi9lY2VjMTUzMmFiZDciATgqByNFNzlCQzYwAg?token=3da0165cad8a7b6c3d4d2eca57dfab6963e7214d"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 640,
+                                        "height": 640,
+                                        "url": "https://images.tidal.com/0/EIAFGIAFIMACKMAC/CAEaJDdlMTJmNjM3L2E1MmMvNDY1Mi84NWYyLzUxMDExNjIzMTk2YhokYWJkMjcwNmMvZWRiYi80NDdkL2FjZTIvYWEyNmZiN2M0YjRiGiRkZGQ1ZTU2Ni8wOGRlLzQxZjMvYTQwZi9lY2VjMTUzMmFiZDciATgqByNFNzlCQzYwAg?token=cf7df0b499a22a31a9410d05c59ae926f6773982"
+                                    },
+                                    "LARGE": {
+                                        "width": 1500,
+                                        "height": 1500,
+                                        "url": "https://images.tidal.com/0/ENwLGNwLIO4FKO4F/CAEaJDdlMTJmNjM3L2E1MmMvNDY1Mi84NWYyLzUxMDExNjIzMTk2YhokYWJkMjcwNmMvZWRiYi80NDdkL2FjZTIvYWEyNmZiN2M0YjRiGiRkZGQ1ZTU2Ni8wOGRlLzQxZjMvYTQwZi9lY2VjMTUzMmFiZDciATgqByNFNzlCQzYwAg?token=8ab61a8ba44ed3a61da5f3ef51a5877508c7d622"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "0041ea97471dd336fde017d66d76cb",
+                                "title": "My Video Mix 1",
+                                "subTitle": "Portishead, Vampire Weekend, Metronomy and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Video Mix 1",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 427,
+                                        "height": 427,
+                                        "url": "https://images.tidal.com/0/EKsDGKsDIMACKNYB/CAEQARokYWYyNTkxZGQvYmM4OS80NDMzL2JiM2YvNjRhZjc1ZTViMDNlGiRlMGMwNjM3MS80NGE5LzQyZjIvODdjNS80ZGYzYmEzNjliMjcaJDBhMTA1MTA4LzE5Y2QvNGMzZS85MjljLzU5ZGYwNTM4NWUwNyIBMSoHI0JCNTY0QjAC?token=9e9e055217d446a142d4887e1f59d740b7705a8e"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 854,
+                                        "height": 854,
+                                        "url": "https://images.tidal.com/0/ENYGGNYGIIAFKKwD/CAEQARokYWYyNTkxZGQvYmM4OS80NDMzL2JiM2YvNjRhZjc1ZTViMDNlGiRlMGMwNjM3MS80NGE5LzQyZjIvODdjNS80ZGYzYmEzNjliMjcaJDBhMTA1MTA4LzE5Y2QvNGMzZS85MjljLzU5ZGYwNTM4NWUwNyIBMSoHI0JCNTY0QjAC?token=12c54816de1b5f1ea01a79c91fe8958db839f791"
+                                    },
+                                    "LARGE": {
+                                        "width": 1440,
+                                        "height": 1440,
+                                        "url": "https://images.tidal.com/0/EKALGKALILgIKNAF/CAEQARokYWYyNTkxZGQvYmM4OS80NDMzL2JiM2YvNjRhZjc1ZTViMDNlGiRlMGMwNjM3MS80NGE5LzQyZjIvODdjNS80ZGYzYmEzNjliMjcaJDBhMTA1MTA4LzE5Y2QvNGMzZS85MjljLzU5ZGYwNTM4NWUwNyIBMSoHI0JCNTY0QjAC?token=6eaac1e46f9cd2929a016fd1ddc3480888ce2a58"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "VIDEO_DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "00474218c642af51cbf4aaeab359f7",
+                                "title": "My Video Mix 2",
+                                "subTitle": "Gillian Welch, Sharon Van Etten, Waxahatchee and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Video Mix 2",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 427,
+                                        "height": 427,
+                                        "url": "https://images.tidal.com/0/EKsDGKsDIMACKNYB/CAEQARokNTY3ODY4NWEvMDNhOC80NjdjL2IyMjAvMWVjMTlhNTZiZGViGiQ1ODdhZWE3MS9kM2YzLzRjZWMvYjJlYS81MmZmNTMzMDU4ZTIaJDllNmVhYWU4LzUwZDEvNDlmNy9iNzMxLzVhZDBmMTg5NjI0OSIBMioHI0JFN0M3NjAC?token=9f3a66aa7dcdb56a87d910d034c9e73f9ca3166c"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 854,
+                                        "height": 854,
+                                        "url": "https://images.tidal.com/0/ENYGGNYGIIAFKKwD/CAEQARokNTY3ODY4NWEvMDNhOC80NjdjL2IyMjAvMWVjMTlhNTZiZGViGiQ1ODdhZWE3MS9kM2YzLzRjZWMvYjJlYS81MmZmNTMzMDU4ZTIaJDllNmVhYWU4LzUwZDEvNDlmNy9iNzMxLzVhZDBmMTg5NjI0OSIBMioHI0JFN0M3NjAC?token=d548cf0e95046bc3c30b087efa0d39d3cd928d3d"
+                                    },
+                                    "LARGE": {
+                                        "width": 1440,
+                                        "height": 1440,
+                                        "url": "https://images.tidal.com/0/EKALGKALILgIKNAF/CAEQARokNTY3ODY4NWEvMDNhOC80NjdjL2IyMjAvMWVjMTlhNTZiZGViGiQ1ODdhZWE3MS9kM2YzLzRjZWMvYjJlYS81MmZmNTMzMDU4ZTIaJDllNmVhYWU4LzUwZDEvNDlmNy9iNzMxLzVhZDBmMTg5NjI0OSIBMioHI0JFN0M3NjAC?token=a6dc605faad3be1a39caede63e30a8dde43b5972"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "VIDEO_DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "00448f45d2808c81272c0c3e4fd67e",
+                                "title": "My Video Mix 3",
+                                "subTitle": "The Doors, The Animals, The Kinks and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Video Mix 3",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 427,
+                                        "height": 427,
+                                        "url": "https://images.tidal.com/0/EKsDGKsDIMACKNYB/CAEQARokY2U3MTMyZDUvYzFmNy80NjEyL2ExNGUvYjc3MGRjMjBkMjVmGiQyNmMwNzU4OS9jMDA5LzRhNTAvYjM0ZS8zYjlkYTAzODNhYzMaJDJiZDZmMjU2L2IwODgvNDhmMi84ODkyL2NmMTUxZDcyZDNjMSIBMyoHI0IzNTk0NzAC?token=c50737b11a049c741921b42623ab10f1ca781b5d"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 854,
+                                        "height": 854,
+                                        "url": "https://images.tidal.com/0/ENYGGNYGIIAFKKwD/CAEQARokY2U3MTMyZDUvYzFmNy80NjEyL2ExNGUvYjc3MGRjMjBkMjVmGiQyNmMwNzU4OS9jMDA5LzRhNTAvYjM0ZS8zYjlkYTAzODNhYzMaJDJiZDZmMjU2L2IwODgvNDhmMi84ODkyL2NmMTUxZDcyZDNjMSIBMyoHI0IzNTk0NzAC?token=b84f85cee1adfd2da7c6d4a1d78bcf26f115b17e"
+                                    },
+                                    "LARGE": {
+                                        "width": 1440,
+                                        "height": 1440,
+                                        "url": "https://images.tidal.com/0/EKALGKALILgIKNAF/CAEQARokY2U3MTMyZDUvYzFmNy80NjEyL2ExNGUvYjc3MGRjMjBkMjVmGiQyNmMwNzU4OS9jMDA5LzRhNTAvYjM0ZS8zYjlkYTAzODNhYzMaJDJiZDZmMjU2L2IwODgvNDhmMi84ODkyL2NmMTUxZDcyZDNjMSIBMyoHI0IzNTk0NzAC?token=4b92d95cf7d39c5dc4ad3ea253690b0ba23ce642"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "VIDEO_DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "00400a5eb449a4639be69c307808de",
+                                "title": "My Video Mix 4",
+                                "subTitle": "Nirvana, R.E.M., Beck and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Video Mix 4",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 427,
+                                        "height": 427,
+                                        "url": "https://images.tidal.com/0/EKsDGKsDIMACKNYB/CAEQARokMzU0MjUxZDAvZDQzNC80MTFhL2E4ODkvMDZjZjdkYWVmZmVmGiRlNzM5ODRkYy8wMzUzLzQxYzcvYWQ3OC81OTMyYjFlOTc1NDYaJDFjZDcyYmI5LzBlNGQvNDkwMi85NzVlLzVjMTY3MjE4ODYwMyIBNCoHI0EzRTJENTAC?token=41022a69c05598b8c540665de571578d3c6ee030"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 854,
+                                        "height": 854,
+                                        "url": "https://images.tidal.com/0/ENYGGNYGIIAFKKwD/CAEQARokMzU0MjUxZDAvZDQzNC80MTFhL2E4ODkvMDZjZjdkYWVmZmVmGiRlNzM5ODRkYy8wMzUzLzQxYzcvYWQ3OC81OTMyYjFlOTc1NDYaJDFjZDcyYmI5LzBlNGQvNDkwMi85NzVlLzVjMTY3MjE4ODYwMyIBNCoHI0EzRTJENTAC?token=5a5f6b23ac44dcb7b3c428ad515ac974fd0ee4e6"
+                                    },
+                                    "LARGE": {
+                                        "width": 1440,
+                                        "height": 1440,
+                                        "url": "https://images.tidal.com/0/EKALGKALILgIKNAF/CAEQARokMzU0MjUxZDAvZDQzNC80MTFhL2E4ODkvMDZjZjdkYWVmZmVmGiRlNzM5ODRkYy8wMzUzLzQxYzcvYWQ3OC81OTMyYjFlOTc1NDYaJDFjZDcyYmI5LzBlNGQvNDkwMi85NzVlLzVjMTY3MjE4ODYwMyIBNCoHI0EzRTJENTAC?token=e5246fdaf7c94ea8caae8dd5e879c52259e12d23"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "VIDEO_DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "004b293117ba0ac56b3c54e842cd45",
+                                "title": "My Video Mix 5",
+                                "subTitle": "Khruangbin, KAYTRANADA, Badbadnotgood and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Video Mix 5",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 427,
+                                        "height": 427,
+                                        "url": "https://images.tidal.com/0/EKsDGKsDIMACKNYB/CAEQARokMjhlN2QxYTcvMTE4OS80YzJkL2EzZGQvODFjMWY1OTc2YzIzGiQwNWRlNzFlZi85YTFmLzRjYTQvYTVkNy84NDA0MGViMDI3NWIaJDMzZDExZDg2L2FiNmQvNDIxZS9hYTgxL2NiYzc3NWI0OTczNCIBNSoHI0I2RENEQjAC?token=248969f7b610ba9c018a3885c58005671617074d"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 854,
+                                        "height": 854,
+                                        "url": "https://images.tidal.com/0/ENYGGNYGIIAFKKwD/CAEQARokMjhlN2QxYTcvMTE4OS80YzJkL2EzZGQvODFjMWY1OTc2YzIzGiQwNWRlNzFlZi85YTFmLzRjYTQvYTVkNy84NDA0MGViMDI3NWIaJDMzZDExZDg2L2FiNmQvNDIxZS9hYTgxL2NiYzc3NWI0OTczNCIBNSoHI0I2RENEQjAC?token=ad17ee0d9939577ec598a98c57457ef6e86b4e02"
+                                    },
+                                    "LARGE": {
+                                        "width": 1440,
+                                        "height": 1440,
+                                        "url": "https://images.tidal.com/0/EKALGKALILgIKNAF/CAEQARokMjhlN2QxYTcvMTE4OS80YzJkL2EzZGQvODFjMWY1OTc2YzIzGiQwNWRlNzFlZi85YTFmLzRjYTQvYTVkNy84NDA0MGViMDI3NWIaJDMzZDExZDg2L2FiNmQvNDIxZS9hYTgxL2NiYzc3NWI0OTczNCIBNSoHI0I2RENEQjAC?token=d6505614212a3501e6fb8f37388dff8f295e9f98"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "VIDEO_DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "0048f8e54a0f66d3f71cdeaca70315",
+                                "title": "My Video Mix 6",
+                                "subTitle": "Depeche Mode, David Bowie, New Order and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Video Mix 6",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 427,
+                                        "height": 427,
+                                        "url": "https://images.tidal.com/0/EKsDGKsDIMACKNYB/CAEQARokMzk3Y2JjZDYvYWVhOC80ZTgwLzg3ZGYvZjM3ZTExMjAwOTUzGiRmNTNkZGJkZi8wMTdmLzQyZGMvOGJkZi9jOTJhN2Q5NTRmZjUaJDM0ZDgwYTVjLzkwYjUvNDc4Yi85ODVkL2NhYTNhNzIwMjlmNSIBNioHIzlGQzZENzAC?token=ae2868ea221d927e93f9ec3864b5e7167c47d8ae"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 854,
+                                        "height": 854,
+                                        "url": "https://images.tidal.com/0/ENYGGNYGIIAFKKwD/CAEQARokMzk3Y2JjZDYvYWVhOC80ZTgwLzg3ZGYvZjM3ZTExMjAwOTUzGiRmNTNkZGJkZi8wMTdmLzQyZGMvOGJkZi9jOTJhN2Q5NTRmZjUaJDM0ZDgwYTVjLzkwYjUvNDc4Yi85ODVkL2NhYTNhNzIwMjlmNSIBNioHIzlGQzZENzAC?token=22594850bbf86acf5da772ae9dd162a302ae1b99"
+                                    },
+                                    "LARGE": {
+                                        "width": 1440,
+                                        "height": 1440,
+                                        "url": "https://images.tidal.com/0/EKALGKALILgIKNAF/CAEQARokMzk3Y2JjZDYvYWVhOC80ZTgwLzg3ZGYvZjM3ZTExMjAwOTUzGiRmNTNkZGJkZi8wMTdmLzQyZGMvOGJkZi9jOTJhN2Q5NTRmZjUaJDM0ZDgwYTVjLzkwYjUvNDc4Yi85ODVkL2NhYTNhNzIwMjlmNSIBNioHIzlGQzZENzAC?token=e3d81eb73bfb579ac256fb6c89f77f50e392282e"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "VIDEO_DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "004e3c7a524dae0336a9e186b0ed5b",
+                                "title": "My Video Mix 7",
+                                "subTitle": "Max Richter, Bonobo, Arooj Aftab and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Video Mix 7",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 427,
+                                        "height": 427,
+                                        "url": "https://images.tidal.com/0/EKsDGKsDIMACKNYB/CAEQARokNjhiMzAwOTgvMzZhOC80ZmI1L2E0M2EvZjAzMGY5MTI0NzM2GiQwNzAwMWE1Mi83MjI4LzQ5ODMvOGExZS9lNmY3M2E4YTdkYjMaJGMwMDM4OGJlLzYyYjMvNGQ3OC85MTY2L2NiNzY2ZTMyNzlhNyIBNyoHI0NDOUM5NTAC?token=5410d602712ee5c818b64e9989718c21cfeaee7e"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 854,
+                                        "height": 854,
+                                        "url": "https://images.tidal.com/0/ENYGGNYGIIAFKKwD/CAEQARokNjhiMzAwOTgvMzZhOC80ZmI1L2E0M2EvZjAzMGY5MTI0NzM2GiQwNzAwMWE1Mi83MjI4LzQ5ODMvOGExZS9lNmY3M2E4YTdkYjMaJGMwMDM4OGJlLzYyYjMvNGQ3OC85MTY2L2NiNzY2ZTMyNzlhNyIBNyoHI0NDOUM5NTAC?token=f06463ac80d74d9a64d39e6c8253acde7aff7f87"
+                                    },
+                                    "LARGE": {
+                                        "width": 1440,
+                                        "height": 1440,
+                                        "url": "https://images.tidal.com/0/EKALGKALILgIKNAF/CAEQARokNjhiMzAwOTgvMzZhOC80ZmI1L2E0M2EvZjAzMGY5MTI0NzM2GiQwNzAwMWE1Mi83MjI4LzQ5ODMvOGExZS9lNmY3M2E4YTdkYjMaJGMwMDM4OGJlLzYyYjMvNGQ3OC85MTY2L2NiNzY2ZTMyNzlhNyIBNyoHI0NDOUM5NTAC?token=b64370fd0556bc655d2fd05594aeda361ed1607f"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "VIDEO_DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            },
+                            {
+                                "id": "004492692aa333c01bc8c4d637d139",
+                                "title": "My Video Mix 8",
+                                "subTitle": "Fink, Joe Bonamassa, John Lee Hooker and more",
+                                "graphic": {
+                                    "type": "SQUARES_GRID",
+                                    "text": "My Video Mix 8",
+                                    "images": [
+                                        {
+                                            "id": "dummy-placeholder",
+                                            "vibrantColor": "#FFFFFF",
+                                            "type": "ARTIST"
+                                        }
+                                    ]
+                                },
+                                "images": {
+                                    "SMALL": {
+                                        "width": 427,
+                                        "height": 427,
+                                        "url": "https://images.tidal.com/0/EKsDGKsDIMACKNYB/CAEQARokMTFjNGJhZDUvZTlmMC80M2U0LzgyYjAvZTYxMTllOTk4MzY1GiQ4MDY0YmEwYi8xZjZiLzQ5NjMvYjI0ZS82ZDgyNzhkMTc4NDEaJDBiM2E2M2I1L2I0MmQvNDU3OS85ZTlmL2JjZmFkYThlZjcwYSIBOCoHI0IzOEM0QjAC?token=d64022b2dd08c23f13a57f68fdc33620e821c43a"
+                                    },
+                                    "MEDIUM": {
+                                        "width": 854,
+                                        "height": 854,
+                                        "url": "https://images.tidal.com/0/ENYGGNYGIIAFKKwD/CAEQARokMTFjNGJhZDUvZTlmMC80M2U0LzgyYjAvZTYxMTllOTk4MzY1GiQ4MDY0YmEwYi8xZjZiLzQ5NjMvYjI0ZS82ZDgyNzhkMTc4NDEaJDBiM2E2M2I1L2I0MmQvNDU3OS85ZTlmL2JjZmFkYThlZjcwYSIBOCoHI0IzOEM0QjAC?token=cdcc29915a8e2d294b123f1d7b7414bbf41726eb"
+                                    },
+                                    "LARGE": {
+                                        "width": 1440,
+                                        "height": 1440,
+                                        "url": "https://images.tidal.com/0/EKALGKALILgIKNAF/CAEQARokMTFjNGJhZDUvZTlmMC80M2U0LzgyYjAvZTYxMTllOTk4MzY1GiQ4MDY0YmEwYi8xZjZiLzQ5NjMvYjI0ZS82ZDgyNzhkMTc4NDEaJDBiM2E2M2I1L2I0MmQvNDU3OS85ZTlmL2JjZmFkYThlZjcwYSIBOCoHI0IzOEM0QjAC?token=2bb230a4d28763502855998b46312d3a7d81508f"
+                                    }
+                                },
+                                "sharingImages": null,
+                                "mixType": "VIDEO_DAILY_MIX",
+                                "contentBehavior": "UNRESTRICTED",
+                                "shortSubtitle": "Created by TIDAL"
+                            }
+                        ]
+                    },
+                    "supportsPaging": false,
+                    "layout": null,
+                    "quickPlay": true,
+                    "preTitle": null
+                }
+            ]
+        }
+    ]
+}

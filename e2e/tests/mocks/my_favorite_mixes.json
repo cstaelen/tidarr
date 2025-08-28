@@ -1,0 +1,40 @@
+{
+    "items": [
+        {
+            "dateAdded": "2020-12-21T11:28:56.472365Z",
+            "updated": "2020-12-21T05:03:30.683Z",
+            "id": "xxxxxxxxxxxxxxxxxxxxx",
+            "title": "My Mix 2",
+            "mixType": "DAILY_MIX",
+            "master": false,
+            "images": {
+                "SMALL": {
+                    "width": 320,
+                    "height": 320,
+                    "url": "https://images.tidal.com/0/xxxxxxxxx"
+                },
+                "MEDIUM": {
+                    "width": 640,
+                    "height": 640,
+                    "url": "https://images.tidal.com/0/xxxxxxxxx"
+                },
+                "LARGE": {
+                    "width": 1500,
+                    "height": 1500,
+                    "url": "https://images.tidal.com/0/xxxxxxxxx"
+                }
+            },
+            "subTitle": "Dave Brubeck, Keith Jarrett, John Coltrane and more",
+            "subTitleTextInfo": {
+                "text": "Dave Brubeck, Keith Jarrett, John Coltrane and more",
+                "color": "#EAD8AB"
+            },
+            "titleTextInfo": {
+                "text": "My Mix 2",
+                "color": "#EAD8AB"
+            }
+        }
+    ],
+    "cursor": null,
+    "lastModifiedAt": "2020-12-21T11:28:56.472365Z"
+}
