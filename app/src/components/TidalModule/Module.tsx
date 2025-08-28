@@ -1,5 +1,5 @@
 import { Box, Grid } from "@mui/material";
-import { useSearchProvider } from "src/provider/SearchProvider";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 import {
   AlbumType,
   ArtistType,
@@ -29,7 +29,7 @@ interface ModuleContentProps {
 }
 
 export default function Module(props: ModuleContentProps) {
-  const { quality, display } = useSearchProvider();
+  const { quality, display } = useConfigProvider();
 
   return (
     <Grid container spacing={2} className="module">
@@ -73,6 +73,7 @@ export default function Module(props: ModuleContentProps) {
                   props.type === "MIX_LIST" ||
                   props.type === "ARTIST_LIST" ||
                   props.type === "USER_ARTIST_LIST" ||
+                  props.type === "USER_PLAYLIST_LIST" ||
                   (data as PlaylistType).type === "EDITORIAL" ||
                   quality === "all" ||
                   (

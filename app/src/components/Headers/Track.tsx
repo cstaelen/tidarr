@@ -73,7 +73,6 @@ export default function TrackHeader({ track }: { track: TrackType }) {
               color="primary"
               size="small"
               sx={{
-                margin: "0.2rem",
                 color:
                   track?.audioQuality?.toLowerCase() === "lossless"
                     ? theme.palette.common.white
@@ -89,6 +88,9 @@ export default function TrackHeader({ track }: { track: TrackType }) {
               color="success"
               size="small"
             />
+            {track.explicit && (
+              <Chip label="Explicit" size="small" variant="outlined" />
+            )}
           </Stack>
           <Stack
             direction="row"

@@ -4,13 +4,13 @@ import { Box, Button, Stack, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useSearchProvider } from "src/provider/SearchProvider";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 import { MixType } from "src/types";
 
 import ImageLazy from "./common/ImageLazy";
 
 export default function Mix({ mix }: { mix: MixType }) {
-  const { display } = useSearchProvider();
+  const { display } = useConfigProvider();
   const theme = useTheme();
   const navigate = useNavigate();
 

@@ -5,20 +5,13 @@ import { useFetchTidal } from "src/hooks/useFetchTidal";
 import { TIDAL_ITEMS_PER_PAGE } from "../contants";
 import { TidalResponseType } from "../types";
 
-type QualityType = "lossless" | "high" | "all";
-type DisplayType = "small" | "large";
-
 type SearchContextType = {
   searchResults: TidalResponseType;
   keywords: string | undefined;
   loading: boolean;
   page: number;
-  quality: QualityType;
-  display: DisplayType;
   actions: {
     setPage: (page: number) => void;
-    setQuality: (quality: QualityType) => void;
-    setDisplay: (mode: DisplayType) => void;
     runSearch: (keywords: string) => void;
     queryTidal: (query: string, page: number) => void;
   };
@@ -28,21 +21,10 @@ const SearchContext = React.createContext<SearchContextType>(
   {} as SearchContextType,
 );
 
-export const LOCALSTORAGE_QUALITY_FILTER = "tidarr-quality-filter";
-export const LOCALSTORAGE_DISPLAY_MODE = "tidarr-display-mode";
-
 export function SearchProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [keywords, setKeywords] = useState<string>();
-  const [display, setDisplay] = useState<DisplayType>(
-    (localStorage.getItem(LOCALSTORAGE_DISPLAY_MODE) as DisplayType) || "small",
-  );
-  const [quality, setQuality] = useState<QualityType>(
-    (window._env_.REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER as QualityType) ||
-      (localStorage.getItem(LOCALSTORAGE_QUALITY_FILTER) as QualityType) ||
-      "all",
-  );
 
   const [searchResults, setSearchResults] = useState<TidalResponseType>(
     {} as TidalResponseType,
@@ -134,25 +116,13 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     setKeywords(undefined);
   }, [params]);
 
-  useEffect(() => {
-    localStorage.setItem(LOCALSTORAGE_DISPLAY_MODE, display);
-  }, [display]);
-
-  useEffect(() => {
-    localStorage.setItem(LOCALSTORAGE_QUALITY_FILTER, quality);
-  }, [quality]);
-
   const value = {
     searchResults,
     loading,
     keywords,
     page,
-    quality,
-    display,
     actions: {
       setPage,
-      setQuality,
-      setDisplay,
       queryTidal,
       runSearch,
     },

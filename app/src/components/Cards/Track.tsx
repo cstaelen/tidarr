@@ -10,7 +10,7 @@ import {
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useSearchProvider } from "src/provider/SearchProvider";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 import { TrackType } from "src/types";
 import { customColors } from "src/utils/theme";
 
@@ -36,13 +36,18 @@ function StackChips({ track }: { track: TrackType }) {
   const theme = useTheme();
 
   return (
-    <Box display="inline-block">
+    <Box
+      display="flex"
+      flexWrap="wrap"
+      gap={0.5}
+      alignItems="flex-start"
+      my={1}
+    >
       <Chip
         label={track.audioQuality.toLowerCase()}
         color="primary"
         size="small"
         sx={{
-          margin: "0.2rem",
           color:
             track?.audioQuality?.toLowerCase() === "lossless"
               ? theme.palette.common.white
@@ -58,6 +63,9 @@ function StackChips({ track }: { track: TrackType }) {
         color="success"
         size="small"
       />
+      {track?.explicit && (
+        <Chip label="Explicit" variant="outlined" size="small" />
+      )}
     </Box>
   );
 }
@@ -170,7 +178,7 @@ function TrackCard({ track }: { track: TrackType }) {
         direction="row"
         flexWrap="wrap"
         spacing={1}
-        alignItems="center"
+        alignItems="flex-start"
         style={{
           minHeight: "60px",
           backgroundColor: "rgba(255, 255, 255, 0.04)",
@@ -203,7 +211,7 @@ function TrackCard({ track }: { track: TrackType }) {
           }}
         >
           <CardContent sx={{ p: "0.5rem !important", m: 0 }}>
-            <Stack direction="row">
+            <Stack direction="row" gap={1}>
               <Box
                 flex="1 1 0"
                 lineHeight={1.2}
@@ -275,7 +283,7 @@ function TrackInline({ track }: { track: TrackType }) {
 }
 
 export default function Track({ track }: { track: TrackType }) {
-  const { display } = useSearchProvider();
+  const { display } = useConfigProvider();
   const theme = useTheme();
   const isLarge = useMediaQuery(theme.breakpoints.up("md"));
 

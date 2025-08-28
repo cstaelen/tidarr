@@ -17,6 +17,7 @@ export type TrackType = {
   id: string;
   url: string;
   allowStreaming: boolean;
+  explicit: boolean;
 };
 
 export type TrackAlbumType = {
@@ -58,6 +59,7 @@ export type AlbumType = {
   id: string;
   popularity: number;
   url: string;
+  explicit: boolean;
 };
 
 // VIDEO

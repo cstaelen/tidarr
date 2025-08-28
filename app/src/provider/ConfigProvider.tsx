@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useState } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
 
 import {
   ConfigParametersType,
@@ -9,10 +9,15 @@ import {
 
 import { useApiFetcher } from "./ApiFetcherProvider";
 
+type QualityType = "lossless" | "high" | "all";
+type DisplayType = "small" | "large";
+
 type ConfigContextType = {
   isUpdateAvailable: boolean;
   releaseData: undefined | ReleaseGithubType;
   tokenMissing: boolean;
+  quality: QualityType;
+  display: DisplayType;
   config: undefined | ConfigParametersType;
   tiddlConfig: undefined | ConfigTiddleType;
   isConfigModalOpen: boolean;
@@ -21,8 +26,13 @@ type ConfigContextType = {
     toggleModal: (isOpen: boolean) => void;
     checkAPI: () => void;
     checkForUpdates: () => void;
+    setQuality: (quality: QualityType) => void;
+    setDisplay: (mode: DisplayType) => void;
   };
 };
+
+export const LOCALSTORAGE_QUALITY_FILTER = "tidarr-quality-filter";
+export const LOCALSTORAGE_DISPLAY_MODE = "tidarr-display-mode";
 
 const ConfigContext = React.createContext<ConfigContextType>(
   {} as ConfigContextType,
@@ -35,6 +45,16 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [releaseData, setReleaseData] = useState<ReleaseGithubType>();
   const [config, setConfig] = useState<ConfigParametersType>();
   const [tiddlConfig, setTiddlConfig] = useState<ConfigTiddleType>();
+
+  const [quality, setQuality] = useState<QualityType>(
+    (window._env_.REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER as QualityType) ||
+      (localStorage.getItem(LOCALSTORAGE_QUALITY_FILTER) as QualityType) ||
+      "all",
+  );
+
+  const [display, setDisplay] = useState<DisplayType>(
+    (localStorage.getItem(LOCALSTORAGE_DISPLAY_MODE) as DisplayType) || "small",
+  );
 
   const {
     actions: { check },
@@ -94,11 +114,21 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  useEffect(() => {
+    localStorage.setItem(LOCALSTORAGE_DISPLAY_MODE, display);
+  }, [display]);
+
+  useEffect(() => {
+    localStorage.setItem(LOCALSTORAGE_QUALITY_FILTER, quality);
+  }, [quality]);
+
   const value = {
     isUpdateAvailable,
     releaseData,
     tokenMissing,
     config,
+    quality,
+    display,
     reactAppEnvVars,
     isConfigModalOpen,
     tiddlConfig,
@@ -106,6 +136,8 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
       toggleModal,
       checkAPI,
       checkForUpdates,
+      setQuality,
+      setDisplay,
     },
   };
 

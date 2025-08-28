@@ -3,7 +3,7 @@ import { Avatar, Box, Button, Chip, Stack, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useSearchProvider } from "src/provider/SearchProvider";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 import { customColors } from "src/utils/theme";
 
 import { AlbumType } from "../../types";
@@ -12,7 +12,7 @@ import { DownloadButton } from "../Buttons/DownloadButton";
 import ImageLazy from "./common/ImageLazy";
 
 export default function AlbumCard({ album }: { album: AlbumType }) {
-  const { display } = useSearchProvider();
+  const { display } = useConfigProvider();
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -131,6 +131,14 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
                 variant="outlined"
                 style={{ margin: "0.2rem" }}
               />
+              {album.explicit && (
+                <Chip
+                  label="Explicit"
+                  size="small"
+                  variant="outlined"
+                  style={{ margin: "0.2rem" }}
+                />
+              )}
             </Stack>
             <DownloadButton
               item={album}

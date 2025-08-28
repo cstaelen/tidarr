@@ -3,8 +3,8 @@ import styled from "@emotion/styled";
 import AlbumIcon from "@mui/icons-material/Album";
 import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useAuth } from "src/provider/AuthProvider";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 
-import { useSearchProvider } from "../../provider/SearchProvider";
 import DisplayButton from "../Buttons/displayButton";
 import LogoutButton from "../Buttons/LogoutButton";
 import SettingsButton from "../Buttons/SettingsButton";
@@ -12,7 +12,7 @@ import SettingsButton from "../Buttons/SettingsButton";
 import { SearchForm } from "./SearchForm";
 
 export const HeaderSearch = () => {
-  const { quality, actions } = useSearchProvider();
+  const { quality, actions } = useConfigProvider();
   const { isAuthActive } = useAuth();
 
   return (
