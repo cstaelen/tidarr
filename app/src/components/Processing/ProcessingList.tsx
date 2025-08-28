@@ -101,6 +101,7 @@ export const ProcessingList = () => {
                 <TableCell>Title</TableCell>
                 <TableCell>Artist</TableCell>
                 <TableCell>Type</TableCell>
+                <TableCell>Quality</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

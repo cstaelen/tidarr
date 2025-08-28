@@ -29,7 +29,7 @@ interface ModuleContentProps {
 }
 
 export default function Module(props: ModuleContentProps) {
-  const { quality, display } = useConfigProvider();
+  const { display } = useConfigProvider();
 
   return (
     <Grid container spacing={2} className="module">
@@ -67,21 +67,6 @@ export default function Module(props: ModuleContentProps) {
                     : 4,
               }}
               key={`album-${index}`}
-              sx={{
-                display:
-                  props.type === "VIDEO_LIST" ||
-                  props.type === "MIX_LIST" ||
-                  props.type === "ARTIST_LIST" ||
-                  props.type === "USER_ARTIST_LIST" ||
-                  props.type === "USER_PLAYLIST_LIST" ||
-                  (data as PlaylistType).type === "EDITORIAL" ||
-                  quality === "all" ||
-                  (
-                    data as AlbumType | TrackType
-                  )?.audioQuality?.toLowerCase() === quality
-                    ? "block"
-                    : "none",
-              }}
             >
               {props.type === "ALBUM_LIST" ? (
                 <AlbumCard album={data as AlbumType} />

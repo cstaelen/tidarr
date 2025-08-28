@@ -4,12 +4,12 @@ import {
   ConfigParametersType,
   ConfigTiddleType,
   ConfigType,
+  QualityType,
   ReleaseGithubType,
 } from "../types";
 
 import { useApiFetcher } from "./ApiFetcherProvider";
 
-type QualityType = "lossless" | "high" | "all";
 type DisplayType = "small" | "large";
 
 type ConfigContextType = {
@@ -21,7 +21,6 @@ type ConfigContextType = {
   config: undefined | ConfigParametersType;
   tiddlConfig: undefined | ConfigTiddleType;
   isConfigModalOpen: boolean;
-  reactAppEnvVars: ConfigParametersType;
   actions: {
     toggleModal: (isOpen: boolean) => void;
     checkAPI: () => void;
@@ -31,7 +30,7 @@ type ConfigContextType = {
   };
 };
 
-export const LOCALSTORAGE_QUALITY_FILTER = "tidarr-quality-filter";
+export const LOCALSTORAGE_QUALITY_DOWNLOAD = "tidarr-quality-download";
 export const LOCALSTORAGE_DISPLAY_MODE = "tidarr-display-mode";
 
 const ConfigContext = React.createContext<ConfigContextType>(
@@ -47,9 +46,9 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [tiddlConfig, setTiddlConfig] = useState<ConfigTiddleType>();
 
   const [quality, setQuality] = useState<QualityType>(
-    (window._env_.REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER as QualityType) ||
-      (localStorage.getItem(LOCALSTORAGE_QUALITY_FILTER) as QualityType) ||
-      "all",
+    (localStorage.getItem(LOCALSTORAGE_QUALITY_DOWNLOAD) as QualityType) ||
+      tiddlConfig?.download.quality ||
+      "high",
   );
 
   const [display, setDisplay] = useState<DisplayType>(
@@ -59,11 +58,6 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const {
     actions: { check },
   } = useApiFetcher();
-
-  const reactAppEnvVars = {
-    REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER:
-      window._env_.REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER || "",
-  };
 
   // Open/close config modal
   const toggleModal = (isOpen: boolean) => {
@@ -119,7 +113,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   }, [display]);
 
   useEffect(() => {
-    localStorage.setItem(LOCALSTORAGE_QUALITY_FILTER, quality);
+    localStorage.setItem(LOCALSTORAGE_QUALITY_DOWNLOAD, quality);
   }, [quality]);
 
   const value = {
@@ -129,7 +123,6 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     config,
     quality,
     display,
-    reactAppEnvVars,
     isConfigModalOpen,
     tiddlConfig,
     actions: {

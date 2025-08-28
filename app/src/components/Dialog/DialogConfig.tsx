@@ -57,7 +57,6 @@ export const DialogConfig = () => {
   const {
     tokenMissing,
     config,
-    reactAppEnvVars,
     isUpdateAvailable,
     releaseData,
     isConfigModalOpen,
@@ -80,7 +79,7 @@ export const DialogConfig = () => {
     <DialogHandler
       open={isConfigModalOpen}
       onClose={() => actions.toggleModal(false)}
-      title={"Settings"}
+      title={"Tidarr settings"}
       icon={<InfoRounded color="primary" />}
     >
       <Tabs
@@ -91,14 +90,13 @@ export const DialogConfig = () => {
         aria-label="scrollable auto tabs example"
       >
         <Tab label="Updates" />
-        <Tab label="API" />
-        <Tab label="Application" />
+        <Tab label="Environment vars" />
         <Tab label="Tidal Token" />
       </Tabs>
 
       {currentTab === 0 && (
         <>
-          <p>Current version: {config?.TIDARR_VERSION}</p>
+          <p>Current version: Tidarr {config?.TIDARR_VERSION}</p>
           {isUpdateAvailable ? (
             <>
               <Paper sx={{ p: 2 }}>
@@ -130,15 +128,6 @@ export const DialogConfig = () => {
         </>
       )}
       {currentTab === 2 && (
-        <>
-          {reactAppEnvVars ? (
-            <TableParameters rows={Object.entries(reactAppEnvVars)} />
-          ) : (
-            "Not found."
-          )}
-        </>
-      )}
-      {currentTab === 3 && (
         <Box display="flex" justifyContent="center" my={4}>
           {!tokenMissing ? (
             <Button

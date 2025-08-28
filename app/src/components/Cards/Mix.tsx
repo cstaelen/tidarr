@@ -36,7 +36,13 @@ export default function Mix({ mix }: { mix: MixType }) {
               textDecoration: "none",
             }}
           >
-            <Typography component="span" style={{ lineHeight: 1 }}>
+            <Typography
+              component="span"
+              sx={{
+                lineHeight: 1,
+                ":hover": { textDecoration: "underline" },
+              }}
+            >
               <strong>{mix.title}</strong>
             </Typography>
           </Link>

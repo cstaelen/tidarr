@@ -11,6 +11,7 @@ Tidarr notable changes.
 * [Front] Add "My Mixes" page
 * [Front] Add content to "Artist" page
 * [Front] Add "Explicit" tag on tracks and albums
+* [Front] Quality button now define the download format/quality
 ### 🖍 Changed
 * [Front] Refacto tidal content fetching
 * [Front] Use API Tidal using Tiddl credentials

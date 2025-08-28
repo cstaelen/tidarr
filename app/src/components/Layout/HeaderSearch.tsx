@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import AlbumIcon from "@mui/icons-material/Album";
-import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import {
+  Box,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+} from "@mui/material";
 import { useAuth } from "src/provider/AuthProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
@@ -29,17 +35,19 @@ export const HeaderSearch = () => {
             },
           }}
         >
-          <Box flex="0 0 auto" px={2}>
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <Title>
-                <AlbumIcon />
-                Tidarr
-              </Title>
-            </Link>
-          </Box>
-          <Box flex="1 1 0">
-            <SearchForm />
-          </Box>
+          <Stack flex="1 1 0" direction="row" alignItems="center">
+            <Box flex="0 0 auto" px={2}>
+              <Link to="/" style={{ textDecoration: "none" }}>
+                <Title>
+                  <AlbumIcon />
+                  <span>Tidarr</span>
+                </Title>
+              </Link>
+            </Box>
+            <Box flex="1 1 0">
+              <SearchForm />
+            </Box>
+          </Stack>
 
           <Box
             flex="0 0 auto"
@@ -63,12 +71,21 @@ export const HeaderSearch = () => {
                 fullWidth
                 size={window.innerWidth > 1024 ? "large" : "small"}
                 exclusive
-                onChange={(e, value) => actions.setQuality(value)}
+                onChange={(_e, value) => actions.setQuality(value)}
                 aria-label="Platform"
               >
-                <ToggleButton value="lossless">Lossless</ToggleButton>
-                <ToggleButton value="high">High</ToggleButton>
-                <ToggleButton value="all">All</ToggleButton>
+                <Tooltip title="Download format: '.m4a' files, 96 kbps">
+                  <ToggleButton value="low">Low</ToggleButton>
+                </Tooltip>
+                <Tooltip title="Download format: '.m4a' files, 320 kbps">
+                  <ToggleButton value="normal">Normal</ToggleButton>
+                </Tooltip>
+                <Tooltip title="Download format: '.flac' files, 16-bit, 44.1 kHz">
+                  <ToggleButton value="high">High</ToggleButton>
+                </Tooltip>
+                <Tooltip title="Download format: '.flac' files, Up to 24-bit, 192 kHz">
+                  <ToggleButton value="master">Master</ToggleButton>
+                </Tooltip>
               </ToggleButtonGroup>
             </Box>
             &nbsp;
@@ -115,8 +132,27 @@ const Title = styled.h1`
   text-align: center;
   text-transform: uppercase;
 
+  @media screen and (max-width: 30rem) {
+    font-size: 0.75rem;
+  }
+
+  span {
+    animation: hideText 1s forwards 2s;
+    display: inline-block;
+    padding-left: 0.75rem;
+    overflow: hidden;
+    width: 5rem;
+  }
+
   svg {
-    margin-right: 0.75rem;
     transform: scale(1.5);
+  }
+
+  @keyframes hideText {
+    to {
+      opacity: 0;
+      padding: 0px;
+      width: 0px;
+    }
   }
 `;

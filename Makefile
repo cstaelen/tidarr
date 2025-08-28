@@ -78,9 +78,6 @@ docker-run: ## Run tidarr docker image
 		-v ${PWD}/docker/mnt/download/playlists:/home/app/standalone/download/playlists \
 		-v ${PWD}/docker/mnt/download/videos:/home/app/standalone/download/videos \
 		-e ENABLE_BEETS=true \
-		-e ENABLE_APPRISE_API=true \
-		-e APPRISE_API_ENDPOINT=http://192.168.1.20:8000/notify/apprise \
-		-e ENABLE_BEETS=true \
 		-e PUID=501 \
 		-e PGID=501 \
 		-e ADMIN_PASSWORD=tidarr \

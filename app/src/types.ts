@@ -282,10 +282,13 @@ export type LogType = {
 
 // PROCESSING LIST
 
+export type QualityType = "low" | "normal" | "high" | "master";
+
 export type ProcessingItemType = {
   id: string;
   artist: string;
   title: string;
+  quality: QualityType;
   type: "artist" | "album" | "track" | "playlist" | "video";
   status: "queue" | "finished" | "beet" | "processing" | "error";
   url: string;

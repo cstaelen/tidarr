@@ -7,11 +7,11 @@ export default function SettingsButton() {
 
   return (
     <Tooltip
-      title={`Settings ${isUpdateAvailable ? "(update available)" : ""}`}
+      title={`Tidarr settings ${isUpdateAvailable ? "(update available)" : ""}`}
     >
       <IconButton
         onClick={() => actions.toggleModal(true)}
-        aria-label="Settings"
+        aria-label="Tidarr settings"
         size={window.innerWidth > 1024 ? "large" : "small"}
       >
         <Badge color="warning" variant="dot" invisible={!isUpdateAvailable}>

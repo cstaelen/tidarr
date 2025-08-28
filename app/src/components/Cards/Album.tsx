@@ -29,14 +29,16 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
           backgroundColor: "rgba(255, 255, 255, 0.04)",
         }}
       >
-        <Avatar
-          alt={album.artists?.[0]?.name}
-          sx={{ width: 42, height: 42 }}
-          src={`https://resources.tidal.com/images/${album.artists?.[0]?.picture?.replace(
-            /-/g,
-            "/",
-          )}/750x750.jpg`}
-        />
+        <Link to={`/album/${album.id}`}>
+          <Avatar
+            alt={album.artists?.[0]?.name}
+            sx={{ width: 42, height: 42 }}
+            src={`https://resources.tidal.com/images/${album.artists?.[0]?.picture?.replace(
+              /-/g,
+              "/",
+            )}/750x750.jpg`}
+          />
+        </Link>
         <div style={{ lineHeight: 1.4, flex: "1 1 0" }}>
           <Link
             to={`/album/${album.id}`}
@@ -46,7 +48,10 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
               textDecoration: "none",
             }}
           >
-            <Typography component="span" style={{ lineHeight: 1 }}>
+            <Typography
+              component="span"
+              sx={{ lineHeight: 1, ":hover": { textDecoration: "underline" } }}
+            >
               <strong>{album.title}</strong>
             </Typography>
           </Link>

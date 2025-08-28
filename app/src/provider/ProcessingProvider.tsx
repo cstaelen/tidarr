@@ -18,6 +18,7 @@ import {
 } from "../types";
 
 import { useApiFetcher } from "./ApiFetcherProvider";
+import { useConfigProvider } from "./ConfigProvider";
 
 type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
@@ -49,6 +50,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   const {
     actions: { list_sse, remove, save },
   } = useApiFetcher();
+  const { quality } = useConfigProvider();
 
   // Add item to processing list
   const addItem = async (
@@ -82,6 +84,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
           ? "All albums"
           : (item as TrackType | AlbumType)?.title,
       type: type,
+      quality: quality,
       status: "queue",
       loading: true,
       error: false,
