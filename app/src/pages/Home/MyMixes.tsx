@@ -14,7 +14,6 @@ export default function MyMixes() {
   } = useModules();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     if (!data && !loading) {
       queryModules(`/v1/pages/my_collection_my_mixes`);
     }

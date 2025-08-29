@@ -14,7 +14,6 @@ export default function Trends() {
   } = useModules();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     if (!data && !loading) {
       queryModules(`/v1/pages/home`);
     }
