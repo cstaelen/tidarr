@@ -5,6 +5,8 @@ import { useFetchTidal } from "src/hooks/useFetchTidal";
 import { TIDAL_ITEMS_PER_PAGE } from "../contants";
 import { TidalResponseType } from "../types";
 
+import { useConfigProvider } from "./ConfigProvider";
+
 type SearchContextType = {
   searchResults: TidalResponseType;
   keywords: string | undefined;
@@ -25,6 +27,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [keywords, setKeywords] = useState<string>();
+  const { config } = useConfigProvider();
 
   const [searchResults, setSearchResults] = useState<TidalResponseType>(
     {} as TidalResponseType,
@@ -108,13 +111,12 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
   // If url query exists on load
   useEffect(() => {
-    const search = params.keywords;
-    if (search) {
-      setKeywords(search);
+    if (!params.keywords || !config) {
+      setKeywords(undefined);
       return;
     }
-    setKeywords(undefined);
-  }, [params]);
+    setKeywords(params.keywords);
+  }, [params, config]);
 
   const value = {
     searchResults,
