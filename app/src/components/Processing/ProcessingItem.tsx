@@ -56,7 +56,9 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
       </TableCell>
       <TableCell scope="row">{item.artist}</TableCell>
       <TableCell scope="row">{item.type}</TableCell>
-      <TableCell scope="row">{item.quality}</TableCell>
+      <TableCell scope="row">
+        {item.type !== "video" ? item.quality : ""}
+      </TableCell>
     </TableRow>
   );
 };

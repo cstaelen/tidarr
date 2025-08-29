@@ -18,15 +18,14 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - [Getting Started](#getting-started)
 - [Tidal authentication](#tidal-authentication)
 - [Options](#options)
-  - [Tidal search options](#tidal-search-optional)
-  - [Download options](#download-settings-optional)
-  - [PUID/PGID](#puid-pgid-optional)
-  - [Password protection](#password-protection-optional)
+  - [Download options](#download-settings)
+  - [PUID/PGID](#puid-pgid)
+  - [Password protection](#password-protection)
 - [Services](#services):
-  - [Beets](#beets-optional)
-  - [Plex/Plexamp](#plex-update-optional)
-  - [Gotify](#gotify-optional)
-  - [Apprise Api](#apprise-api-optional)
+  - [Beets](#beets)
+  - [Plex/Plexamp](#plex-update)
+  - [Gotify](#gotify)
+  - [Apprise Api](#apprise-api)
 - [User requests](#user-requests)
 - [Donate](#donate)
 - [Develop](#develop)
@@ -38,22 +37,36 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - **Do not forget to support your local artists (merch, live, ...)** 🙏❤️
 
 ## Features
-- Search by keywords
-- Search by url : artist url, album url, playlist url, track url, mix url
+
+### Main
 - Downloadable media : tracks, albums, playlists, music videos
 - Max quality : FLAC, **24 bit 192.0 kHz** (if available)
-- Admin password
-- Server side download list processing
-- UI build with **ReactJS** + **ExpressJS** API
-- Self-hostable with **Docker** using a Linuxserver.io base image (uncompressed size: ~ 190 Mo)
-- Download **Tidal** content with [Tiddl (2.5.1)](https://github.com/oskvr37/tiddl/tree/v2.5.1)
+- Tidal trends content
+- User playlists, mixes, favorites 
+- Search by keywords
+- Search by url : artist url, album url, playlist url, track url, mix url
 - Download covers
-- Tag import using **Beets.io** (python)
-- Push notifications using **Gotify** and **Apprise API**
-- **Plex** library update
+- Admin password
 
-### Companion
+### Service integration
+
+- **[Beets.io](https://beets.readthedocs.io/en/stable/)** - Tag releases 
+- **[Gotify](https://gotify.net/)** - Push notifications 
+- **[Apprise API](https://github.com/caronc/apprise-api)** - Push notifications
+- **[Plex](https://www.plex.tv/)** - Library update
+
+### Companion app
+
 - Song recognition : [Shazarr project](https://github.com/cstaelen/shazarr) (Android) 
+
+### Technicals
+
+- Server-side download list processing
+- UI built with **ReactJS** + **ExpressJS** API
+- Self-hostable with **Docker** using a Linuxserver.io base image (uncompressed size: ~190 MB)
+- Download Tidal content with [Tiddl (2.5.1)](https://github.com/oskvr37/tiddl/tree/v2.5.1)
+
+
 
 ## Getting Started
 
@@ -111,15 +124,7 @@ docker exec tidarr cp -rf /root/tiddl.json /home/app/standalone/shared/tiddl.jso
 ```
 ## Options
 
-### Tidal search (optional)
-
-```yaml
- environment:
-  - ...
-  - REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER=<"lossless" | "high" | "all"> #optional
-```
-
-### Download settings (optional)
+### Download settings
 
 -> You can set download options in `/your/docker/path/to/tidarr/config/tiddl.json`.
 
@@ -141,7 +146,9 @@ See default :
         "path": "/home/app/standalone/download/incomplete",
         "threads": 4,
         // Include or not singles while downloading "all releases"
-        "singles_filter": "none" // "none", "only", "include"
+        "singles_filter": "none", // "none", "only", "include"
+        // Allow video download
+        "download_video": true
     },
     "cover": {
         "save": false,
@@ -162,7 +169,7 @@ See default :
 
 For template format update, please see [Tiddl formatting documentation](https://github.com/oskvr37/tiddl/wiki/Template-formatting)
 
-### PUID PGID (optional)
+### PUID PGID
 
 ```yaml
 environment:
@@ -171,7 +178,7 @@ environment:
   - PGID=123
 ```
 
-### Password protection (optional)
+### Password protection
 
 If not set, no password is required to access the app.
 
@@ -183,7 +190,7 @@ If not set, no password is required to access the app.
 
 ## Services
 
-### Beets (optional)
+### Beets
 
 Add to your *docker-compose* file in `environment:` section :
 
@@ -195,7 +202,7 @@ environment:
 
 Beets options in `</mounted/config/folder/>beets-config.yml`:
 
-### Plex update (optional)
+### Plex update
 
 Add to your *docker-compose* file in `environment:` section :
 
@@ -216,7 +223,7 @@ environment:
 
 Doc : https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
 
-### Gotify (optional)
+### Gotify
 
 Add to your *docker-compose* file in `environment:` section :
 
@@ -228,7 +235,7 @@ environment:
   - GOTIFY_TOKEN=<gotify_app_token>
 ```
 
-### Apprise API (optional)
+### Apprise API
 
 Add to your *docker-compose* file in `environment:` section :
 

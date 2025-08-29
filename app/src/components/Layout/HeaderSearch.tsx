@@ -38,7 +38,7 @@ export const HeaderSearch = () => {
           <Stack flex="1 1 0" direction="row" alignItems="center">
             <Box flex="0 0 auto" px={2}>
               <Link to="/" style={{ textDecoration: "none" }}>
-                <Title>
+                <Title data-testid="logo">
                   <AlbumIcon />
                   <span>Tidarr</span>
                 </Title>
@@ -131,6 +131,11 @@ const Title = styled.h1`
   font-size: 1rem;
   text-align: center;
   text-transform: uppercase;
+  transition: color 300ms ease;
+
+  &:hover {
+    color: #ce93d8;
+  }
 
   @media screen and (max-width: 30rem) {
     font-size: 0.75rem;

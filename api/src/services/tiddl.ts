@@ -11,7 +11,11 @@ export function tidalDL(id: number, app: Express) {
   item["output"] = logs(item, `=== Tiddl ===`);
 
   const binary = "tiddl";
-  const args: string[] = ["url", item.url, "download", "-q", item.quality];
+  const args: string[] = ["url", item.url, "download"];
+  if (item.type !== "video") {
+    args.push("-q");
+    args.push(item.quality);
+  }
 
   item["output"] = logs(item, `Executing: ${binary} ${args.join(" ")}`);
   const child = spawn(binary, args);

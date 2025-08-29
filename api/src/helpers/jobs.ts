@@ -8,6 +8,7 @@ export function logs(
   item: ProcessingItemType | LogType,
   message: string,
 ): string {
+  console.log(message);
   if (!message) return item["output"];
 
   if (!item["output_history"]) {

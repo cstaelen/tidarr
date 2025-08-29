@@ -32,7 +32,7 @@ test("Tidarr download : Should be able to download album", async ({ page }) => {
     )
     .click();
 
-  await testProcessingList(page, ["Nirvana", "In Utero", "album"]);
+  await testProcessingList(page, ["Nirvana", "In Utero", "album"], "high");
 });
 
 test("Tidarr download : Should be able to download track", async ({ page }) => {
@@ -43,13 +43,20 @@ test("Tidarr download : Should be able to download track", async ({ page }) => {
     "Smells Like Teen Spiritlossless5 min.NirvanaAlbum : NevermindAlbumTrack",
   );
 
+  // Test other quality
+  await page
+    .getByRole("button", {
+      name: "Download format: '.m4a' files, 96 kbps",
+    })
+    .click();
+
   await page.getByRole("button", { name: "Track" }).nth(0).click();
 
-  await testProcessingList(page, [
-    "Nirvana",
-    "Smells Like Teen Spirit",
-    "track",
-  ]);
+  await testProcessingList(
+    page,
+    ["Nirvana", "Smells Like Teen Spirit", "track"],
+    "low",
+  );
 });
 
 test("Tidarr download : Should be able to download track album", async ({
@@ -64,11 +71,11 @@ test("Tidarr download : Should be able to download track album", async ({
 
   await page.getByRole("button", { name: "Album", exact: true }).nth(4).click();
 
-  await testProcessingList(page, [
-    "Nirvana",
-    "MTV Unplugged In New York",
-    "album",
-  ]);
+  await testProcessingList(
+    page,
+    ["Nirvana", "MTV Unplugged In New York", "album"],
+    "high",
+  );
 });
 
 test("Tidarr download : Should be able to download playlist", async ({
@@ -79,14 +86,11 @@ test("Tidarr download : Should be able to download playlist", async ({
     page,
   );
 
-  // Quality filter should have no impact
-  await page.getByRole("button", { name: "Lossless" }).click();
-
   await expect(page.getByRole("main")).toContainText("Grown Country");
 
   await page.getByRole("button", { name: "Get playlist" }).click();
 
-  await testProcessingList(page, ["playlist", "Grown Country"]);
+  await testProcessingList(page, ["playlist", "Grown Country"], "high");
 });
 
 test("Tidarr download : Should be able to download discography", async ({
@@ -96,7 +100,7 @@ test("Tidarr download : Should be able to download discography", async ({
 
   await page.getByRole("button", { name: "Get all releases" }).click();
 
-  await testProcessingList(page, ["All albums", "Nirvana", "artist"]);
+  await testProcessingList(page, ["All albums", "Nirvana", "artist"], "high");
 });
 
 test("Tidarr download : Should be able to download video", async ({ page }) => {

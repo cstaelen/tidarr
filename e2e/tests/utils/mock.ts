@@ -168,6 +168,9 @@ export async function mockConfigAPI(page: Page) {
           user_id: 192283714,
           country_code: "FR",
         },
+        download: {
+          quality: "high",
+        },
       },
     };
     await route.fulfill({ json });

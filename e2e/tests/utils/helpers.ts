@@ -16,7 +16,11 @@ export async function waitForImgLoaded(page: Page) {
   });
 }
 
-export async function testProcessingList(page: Page, shouldContains: string[]) {
+export async function testProcessingList(
+  page: Page,
+  shouldContains: string[],
+  quality?: string,
+) {
   await expect(page.locator("button.MuiFab-circular")).toBeVisible();
   await page.locator("button.MuiFab-circular").click();
 
@@ -25,6 +29,10 @@ export async function testProcessingList(page: Page, shouldContains: string[]) {
       searchString,
     );
   });
+
+  if (quality) {
+    await expect(page.getByLabel("Processing table")).toContainText(quality);
+  }
 
   await expect(page.locator(".MuiDialog-container button")).not.toBeVisible();
 
@@ -40,7 +48,12 @@ export async function testProcessingList(page: Page, shouldContains: string[]) {
   ).toBeVisible();
 
   await expect(page.getByText("=== Tiddl ===")).toBeVisible();
+
+  if (quality) {
+    await expect(page.getByText(`-q ${quality}`)).toBeVisible();
+  }
   await page.getByRole("button", { name: "Close" }).click();
+  await emptyProcessingList(page);
 }
 
 export async function emptyProcessingList(page: Page) {

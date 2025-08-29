@@ -30,6 +30,7 @@ test("Tidarr config : Should display token modal if no tidal token exists", asyn
   await expect(
     page.getByRole("heading", { name: "Tidal token not found !" }),
   ).toBeVisible();
+
   await expect(
     page.getByRole("link", { name: "https://link.tidal.com/" }),
   ).toBeVisible();
@@ -46,7 +47,7 @@ test("Tidarr config : Should see app version", async ({ page }) => {
 
   // Tab updates
   await expect(
-    page.getByText(`Current version: ${CURRENT_VERSION}`),
+    page.getByText(`Current version: Tidarr ${CURRENT_VERSION}`),
   ).toBeVisible();
 });
 
@@ -66,8 +67,10 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
   await expect(page.getByText("Tidarr is up to date.")).toBeVisible();
 
   // Tab API
-  await expect(page.getByRole("tab", { name: "API" })).toBeVisible();
-  await page.getByRole("tab", { name: "API" }).click();
+  await expect(
+    page.getByRole("tab", { name: "Environment vars" }),
+  ).toBeVisible();
+  await page.getByRole("tab", { name: "Environment vars" }).click();
 
   const dataAPIRows = [
     ["ENABLE_BEETS", "true"],
@@ -96,23 +99,6 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
   tableAPIRows.forEach((row, index) => {
     expect(row.locator("td").first()).toContainText(dataAPIRows[index][0]);
     expect(row.locator("td").last()).toContainText(dataAPIRows[index][1]);
-  });
-
-  // Tab APP
-  await expect(page.getByRole("tab", { name: "Application" })).toBeVisible();
-  await page.getByRole("tab", { name: "Application" }).click();
-
-  const dataAPPRows = [["REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER", ""]];
-  const tableAPPRows = await page
-    .locator("#alert-dialog-description div")
-    .filter({ hasText: "Environment" })
-    .locator("table tbody tr")
-    .all();
-
-  expect(dataAPPRows.length).toEqual(tableAPPRows?.length);
-  tableAPPRows.forEach((row, index) => {
-    expect(row.locator("td").first()).toContainText(dataAPPRows[index][0]);
-    expect(row.locator("td").last()).toContainText(dataAPPRows[index][1]);
   });
 
   // Tab Tidal token

@@ -47,7 +47,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
 
   const [quality, setQuality] = useState<QualityType>(
     (localStorage.getItem(LOCALSTORAGE_QUALITY_DOWNLOAD) as QualityType) ||
-      tiddlConfig?.download.quality ||
+      tiddlConfig?.download?.quality ||
       "high",
   );
 

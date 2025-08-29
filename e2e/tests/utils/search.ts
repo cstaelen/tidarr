@@ -11,7 +11,7 @@ export async function runSearch(keyword: string, page: Page) {
   await goToHome(page);
   await page.evaluate("localStorage.clear()");
 
-  await expect(page.getByRole("heading").first()).toContainText("Tidarr");
+  await expect(page.getByTestId("logo")).toBeInViewport();
   await expect(
     page.getByLabel(
       "Tidal search (keywords, artist URL, album URL, playlist URL)",

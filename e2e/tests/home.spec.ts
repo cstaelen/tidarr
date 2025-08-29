@@ -11,7 +11,7 @@ test("Tidarr Home : Should see the homepage and tabs", async ({ page }) => {
   await goToHome(page);
   await page.evaluate("localStorage.clear()");
 
-  await expect(page.getByRole("heading").first()).toContainText("Tidarr");
+  await expect(page.getByTestId("logo")).toBeInViewport();
 
   await expect(page.getByText("Tidal Trends")).toBeVisible();
   await expect(page.getByText("My Mixes")).toBeVisible();
