@@ -19,7 +19,7 @@ export const useTrack = (id?: string): ArtistContextType => {
   async function queryTrack() {
     setLoading(true);
 
-    const data_track = await fetchTidal<TrackType>(`/tracks/${id}`);
+    const data_track = await fetchTidal<TrackType>(`/v1/tracks/${id}`);
 
     setTrack(data_track);
     setLoading(false);

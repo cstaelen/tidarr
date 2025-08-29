@@ -139,7 +139,7 @@ See default :
         "playlist": "{playlist}/{playlist_number:02d}. {artist} - {title}"
     },
     "download": {
-      // Default high (16bit 44.1khz), max available: master (24bit 192khz max)
+        // Default high (16bit 44.1khz), max available: master (24bit 192khz max)
         // https://github.com/oskvr37/tiddl?tab=readme-ov-file#download-quality
         "quality": "high",
         // Should not be changed (otherwise downloads will fail) /!\

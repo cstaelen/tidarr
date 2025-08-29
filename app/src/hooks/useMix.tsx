@@ -27,7 +27,7 @@ export const useMix = (): ArtistContextType => {
     setLoading(true);
 
     const data_mix = await fetchTidal<TidalModuleResponseType<TrackType>>(
-      `/pages/mix?mixId=${id}`,
+      `/v1/pages/mix?mixId=${id}`,
     );
 
     setLoading(false);

@@ -42,7 +42,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
   async function queryTidal(query: string) {
     const results = await fetchTidal<TidalResponseType>(
-      `/search?query=${query}&type=lossless&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
+      `/v2/search?query=${query}&type=lossless&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
         (page - 1) * TIDAL_ITEMS_PER_PAGE
       }`,
     );

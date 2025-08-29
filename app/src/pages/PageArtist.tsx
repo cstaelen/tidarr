@@ -19,7 +19,7 @@ export default function Home() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    queryModules(`/pages/artist?artistId=${id}`);
+    queryModules(`/v1/pages/artist?artistId=${id}`);
   }, [id]);
 
   const ModuleFilters = [

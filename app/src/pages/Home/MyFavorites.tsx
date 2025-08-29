@@ -7,27 +7,27 @@ export default function MyFavorites() {
   return (
     <>
       <PagedModule
-        url={`users/${tiddlConfig?.auth.user_id}/favorites/albums`}
+        url={`/v1/users/${tiddlConfig?.auth.user_id}/favorites/albums`}
         type="USER_ALBUM_LIST"
         title="My Favorite albums"
       />
       <PagedModule
-        url={`users/${tiddlConfig?.auth.user_id}/favorites/tracks`}
+        url={`/v1/users/${tiddlConfig?.auth.user_id}/favorites/tracks`}
         type="ALBUM_ITEMS"
         title="My Favorite tracks"
       />
       <PagedModule
-        url={`users/${tiddlConfig?.auth.user_id}/favorites/artists`}
+        url={`/v1/users/${tiddlConfig?.auth.user_id}/favorites/artists`}
         type="USER_ARTIST_LIST"
         title="My Favorite artists"
       />
       <PagedModule
-        url={`users/${tiddlConfig?.auth.user_id}/favorites/playlists`}
+        url={`/v1/users/${tiddlConfig?.auth.user_id}/favorites/playlists`}
         type="MIXED_TYPES_LIST"
         title="My Favorite playlists"
       />
       <PagedModule
-        url={`favorites/mixes`}
+        url={`/v2/favorites/mixes`}
         type="MIX_LIST"
         title="My Favorite mixes"
       />

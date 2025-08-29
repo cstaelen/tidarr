@@ -2,15 +2,9 @@ import { useState } from "react";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { ConfigTiddleType } from "src/types";
 
-import { TIDAL_API_V1_LISTEN_URL, TIDAL_API_V2_LISTEN_URL } from "../contants";
+import { TIDAL_API_URL } from "../contants";
 
 const jsonMimeType = "application/json";
-
-const ApiV2Endpoints = ["favorites/mixes"];
-
-function containsApiV2Endpoint(url: string): boolean {
-  return ApiV2Endpoints.some((endpoint) => url.includes(endpoint));
-}
 
 async function fetchTidal<T>(
   url: string,
@@ -35,12 +29,9 @@ async function fetchTidal<T>(
     options.headers.set("Content-Type", jsonMimeType);
   }
 
-  const response = await fetch(
-    `${containsApiV2Endpoint(url) ? TIDAL_API_V2_LISTEN_URL : TIDAL_API_V1_LISTEN_URL}${url}${url_suffix}`,
-    {
-      ...options,
-    },
-  );
+  const response = await fetch(`${TIDAL_API_URL}${url}${url_suffix}`, {
+    ...options,
+  });
 
   // success
 

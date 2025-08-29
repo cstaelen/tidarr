@@ -6,7 +6,7 @@ export default function MyPlaylist() {
 
   return (
     <PagedModule
-      url={`users/${tiddlConfig?.auth.user_id}/playlistsAndFavoritePlaylists`}
+      url={`/v1/users/${tiddlConfig?.auth.user_id}/playlistsAndFavoritePlaylists`}
       type="USER_PLAYLIST_LIST"
       title="My Playlists"
     />

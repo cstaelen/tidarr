@@ -28,14 +28,14 @@ export const usePlaylist = (id: string | undefined): PlaylistContextType => {
   async function queryPlaylist() {
     setLoading(true);
 
-    const data_playlist = await fetchTidal<PlaylistType>(`/playlists/${id}`);
+    const data_playlist = await fetchTidal<PlaylistType>(`/v1/playlists/${id}`);
 
     setPlaylist(data_playlist);
 
     const data_tracks = await fetchTidal<
       TidalPagedListType<{ item: TrackType }>
     >(
-      `/playlists/${id}/items?limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
+      `/v1/playlists/${id}/items?limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
         (page - 1) * TIDAL_ITEMS_PER_PAGE
       }`,
     );

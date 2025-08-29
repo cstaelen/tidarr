@@ -23,7 +23,7 @@ export const useAlbum = (id: string | undefined): AlbumContextType => {
 
     const data_album = await fetchTidal<
       TidalModuleResponseType<{ item: TrackType }>
-    >(`/pages/album?albumId=${id}`);
+    >(`/v1/pages/album?albumId=${id}`);
 
     setAlbum(data_album?.rows[0].modules[0].album);
 
