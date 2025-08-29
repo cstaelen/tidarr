@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { TextField } from "@mui/material";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 
 export const SearchForm = () => {
   const [inputValue, setInputValue] = useState<string>();
   const { pathname } = useLocation();
+  const { config } = useConfigProvider();
   const params = useParams();
-
   const navigate = useNavigate();
 
   function handleInputChange(
@@ -59,6 +60,7 @@ export const SearchForm = () => {
         label="Tidal search (keywords, artist URL, album URL, playlist URL)"
         value={inputValue || ""}
         variant="filled"
+        disabled={!config}
         fullWidth
         data-testid="search-input"
         margin="none"

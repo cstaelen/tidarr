@@ -12,7 +12,7 @@ Tidarr notable changes.
 * [Front] Add content to "Artist" page
 * [Front] Add "Explicit" tag on tracks and albums
 * [Front] Quality button now define the download format/quality
-* [API] Add `"download_video": true` Tiddl parameter
+* [API] Add `"download_video": true` Tiddl parameter in `tiddl.json`
 ### 🖍 Changed
 * [Front] Refacto tidal content fetching
 * [Front] Use API Tidal using Tiddl credentials
