@@ -7,7 +7,14 @@ import { plexUpdate } from "../services/plex";
 import { tidalDL } from "../services/tiddl";
 import { ProcessingItemType } from "../types";
 
+import { get_tiddl_config } from "./get_tiddl_config";
 import { cleanFolder, logs, moveAndClean } from "./jobs";
+import {
+  addTracksToPlaylist,
+  createNewPlaylist,
+  deletePlaylist,
+  getTracksByMixId,
+} from "./tidal";
 
 export function sendSSEUpdate(req: Request, res: Response) {
   res.write(
@@ -85,9 +92,21 @@ export const ProcessingStack = (expressApp: Express) => {
     }
   }
 
-  function processItem(item: ProcessingItemType) {
+  async function processItem(item: ProcessingItemType) {
+    const config = await get_tiddl_config();
     item["status"] = "processing";
-    expressApp.settings.processingList.actions.updateItem(item);
+
+    if (item.type === "mix") {
+      const tracks = await getTracksByMixId(item.id, config);
+      const playlistId = await createNewPlaylist(item.title, config);
+      await addTracksToPlaylist(playlistId, tracks, config);
+
+      item["url"] = `playlist/${playlistId}`;
+      expressApp.settings.processingList.actions.updateItem(item);
+
+      tidalDL(item.id, expressApp, () => deletePlaylist(playlistId, config));
+      return;
+    }
 
     tidalDL(item.id, expressApp);
   }

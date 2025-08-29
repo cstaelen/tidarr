@@ -289,7 +289,7 @@ export type ProcessingItemType = {
   artist: string;
   title: string;
   quality: QualityType;
-  type: "artist" | "album" | "track" | "playlist" | "video";
+  type: "artist" | "album" | "track" | "playlist" | "video" | "mix";
   status: "queue" | "finished" | "beet" | "processing" | "error";
   url: string;
   loading: boolean;

@@ -1,11 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
-import { MusicNote } from "@mui/icons-material";
+import { List, MusicNote } from "@mui/icons-material";
 import { Box, Button, Stack, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { MixType } from "src/types";
+
+import { DownloadButton } from "../Buttons/DownloadButton";
 
 import ImageLazy from "./common/ImageLazy";
 
@@ -79,8 +81,14 @@ export default function Mix({ mix }: { mix: MixType }) {
                 sx={{ minWidth: 0, pl: 0 }}
               >
                 <MusicNote />
-                See details
+                <List />
               </Button>
+              <DownloadButton
+                item={mix}
+                id={mix.id}
+                type="mix"
+                label="Get mix"
+              />
             </Stack>
           </CardContent>
         </Box>

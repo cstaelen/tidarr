@@ -39,7 +39,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 ## Features
 
 ### Main
-- Downloadable media : tracks, albums, playlists, music videos
+- Downloadable media : tracks, albums, playlists, mixes, music videos
 - Max quality : FLAC, **24 bit 192.0 kHz** (if available)
 - Tidal trends content
 - User playlists, mixes, favorites 

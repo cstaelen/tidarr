@@ -4,7 +4,7 @@ import { Express, Request, Response } from "express";
 import { logs } from "../helpers/jobs";
 import { ProcessingItemType } from "../types";
 
-export function tidalDL(id: number, app: Express) {
+export function tidalDL(id: number, app: Express, onFinish?: () => void) {
   const item: ProcessingItemType =
     app.settings.processingList.actions.getItem(id);
 
@@ -48,6 +48,7 @@ export function tidalDL(id: number, app: Express) {
     item["status"] = code === 0 ? "downloaded" : "error";
     item["loading"] = false;
     app.settings.processingList.actions.updateItem(item);
+    if (onFinish) onFinish();
   });
 
   child.on("error", (err) => {
@@ -56,6 +57,7 @@ export function tidalDL(id: number, app: Express) {
       item["status"] = "error";
       item["loading"] = false;
       app.settings.processingList.actions.updateItem(item);
+      if (onFinish) onFinish();
     }
   });
 

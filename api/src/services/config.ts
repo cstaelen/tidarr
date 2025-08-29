@@ -1,7 +1,7 @@
 import { execSync } from "child_process";
 
 import { BUILD_PATH } from "../../constants";
-import { TiddlConfig } from "../types";
+import { get_tiddl_config } from "../helpers/get_tiddl_config";
 
 export async function configureServer() {
   console.log(`=== Set config files ===`);
@@ -20,11 +20,7 @@ export async function configureServer() {
 
     let tiddl_config = null;
     if (hasTiddlConfig) {
-      const token_output = await execSync(`cat /root/tiddl.json`, {
-        encoding: "utf-8",
-      });
-
-      tiddl_config = JSON.parse(token_output) as TiddlConfig;
+      tiddl_config = await get_tiddl_config();
     }
 
     return {

@@ -32,7 +32,7 @@ type ProcessingContextType = {
         | PlaylistType
         | MixType
         | VideoType,
-      type: "album" | "track" | "artist" | "playlist" | "video",
+      type: "album" | "track" | "artist" | "playlist" | "video" | "mix",
     ) => void;
     removeItem: (id: string) => void;
     retryItem: (item: ProcessingItemType) => void;
@@ -61,7 +61,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       | PlaylistType
       | MixType
       | VideoType,
-    type: "album" | "track" | "artist" | "playlist" | "video",
+    type: "album" | "track" | "artist" | "playlist" | "video" | "mix",
   ) => {
     const id =
       (item as AlbumType | TrackType | ArtistType).id ||

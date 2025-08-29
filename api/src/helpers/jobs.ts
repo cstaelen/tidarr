@@ -34,7 +34,13 @@ export async function moveAndClean(
   setPermissions();
 
   try {
-    const folder = item.type === "artist" ? "album" : item.type;
+    let folder = item.type;
+    if (item.type === "artist") {
+      folder = "album";
+    }
+    if (item.type === "mix") {
+      folder = "playlist";
+    }
     item["output"] = logs(item, `=== Move processed items ===`);
     const output_move = execSync(
       `cp -rf ${ROOT_PATH}/download/incomplete/* ${ROOT_PATH}/download/${folder}s/ >/dev/null`,

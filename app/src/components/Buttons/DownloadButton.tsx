@@ -24,7 +24,7 @@ export const DownloadButton = ({
 }: {
   item: TrackType | AlbumType | ArtistType | PlaylistType | MixType | VideoType;
   id: string;
-  type: "album" | "artist" | "track" | "playlist" | "video";
+  type: "album" | "artist" | "track" | "playlist" | "video" | "mix";
   label: string;
 }) => {
   const [status, setStatus] = React.useState<string>();
