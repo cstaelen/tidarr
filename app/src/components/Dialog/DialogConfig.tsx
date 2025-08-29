@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "@emotion/styled";
 import { InfoRounded, KeyOff, Warning } from "@mui/icons-material";
 import {
   Alert,
@@ -14,6 +15,7 @@ import {
   TableRow,
   Tabs,
 } from "@mui/material";
+import Markdown from "markdown-to-jsx";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
@@ -116,6 +118,26 @@ export const DialogConfig = () => {
               </strong>
             </Paper>
           )}
+          {releaseData?.body && (
+            <>
+              <p>Changelog</p>
+              <Paper
+                sx={{
+                  maxWidth: "500px",
+                  maxHeight: "300px",
+                  fontSize: "12px",
+                  overflow: "auto",
+                  px: 2,
+                }}
+              >
+                <code>
+                  <MarkdownStyled options={{ wrapper: "article" }}>
+                    {releaseData?.body}
+                  </MarkdownStyled>
+                </code>
+              </Paper>
+            </>
+          )}
         </>
       )}
       {currentTab === 1 && (
@@ -156,3 +178,13 @@ export const DialogConfig = () => {
     </DialogHandler>
   );
 };
+
+const MarkdownStyled = styled(Markdown)`
+  a {
+    color: rgb(144, 202, 249);
+  }
+
+  ul {
+    padding-left: 1rem;
+  }
+`;

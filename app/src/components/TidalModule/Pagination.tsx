@@ -33,7 +33,7 @@ export function ModulePager({
     actions: { queryModulePage },
   } = useModules();
 
-  const url = data.pagedList?.dataApiPath;
+  const url = `/v1/${data.pagedList?.dataApiPath}`;
   const limit = data?.pagedList?.limit || TIDAL_ITEMS_PER_PAGE;
   const nbPages = Math.ceil(data.pagedList?.totalNumberOfItems / limit);
 

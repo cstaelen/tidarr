@@ -14,6 +14,7 @@ Tidarr notable changes.
 * [Front] Quality button now define the download format/quality
 * [Front/API] Mixes are now downloadable as playlist
 * [API] Add `"download_video": true` Tiddl parameter in `tiddl.json`
+* [Front] Add changelog in settings dialog
 ### 🖍 Changed
 * [Front] Refacto tidal content fetching
 * [Front] Use API Tidal using Tiddl credentials

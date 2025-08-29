@@ -41,7 +41,7 @@ function MainLayout({ children }: { children: ReactNode }) {
                   <HeaderSearch />
                 </AppBar>
                 {!appLoaded || !config ? (
-                  <Loader data-testid="logo">
+                  <Loader>
                     <Title>
                       <AlbumIcon />
                       Tidarr
