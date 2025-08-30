@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React from "react";
 import { Box, Container, Portal, Tab, Tabs, useTheme } from "@mui/material";
 
 import MyFavorites from "./MyFavorites";
@@ -33,26 +32,10 @@ function TabPanel(props: TabPanelProps) {
 export default function HomeTabs() {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
-  const [pageLoaded, setPageLoaded] = React.useState(false);
-  const params = useParams();
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-  useEffect(() => {
-    setValue(0);
-  }, [params]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [value]);
-
-  useEffect(() => {
-    setPageLoaded(true);
-  }, []);
-
-  if (!pageLoaded) return;
 
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
