@@ -1,6 +1,6 @@
 WORKDIR /home/app/build
 
-ENV SHELL bash
+ENV SHELL=bash
 ENV PYTHONUNBUFFERED=1
 
 RUN mkdir -p $HOME/.venvs

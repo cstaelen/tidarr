@@ -110,18 +110,18 @@ export async function mockTidalQueries(page: Page) {
     },
   );
   await page.route(
-    "https://api.tidal.com/v2/search?query=Nirvana&type=lossless&limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "https://api.tidal.com/v1/search?query=Nirvana&type=lossless&limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
     async (route) => {
       await route.fulfill({ json: mockSearch });
     },
   );
 
   [
-    "https://api.tidal.com/v2/search?query=Nirvana&type=lossless&limit=18&offset=18&countryCode=FR&deviceType=BROWSER&locale=en_US",
-    "https://api.tidal.com/v2/search?query=Nirvana&type=lossless&limit=18&offset=36&countryCode=FR&deviceType=BROWSER&locale=en_US",
-    "https://api.tidal.com/v2/search?query=Nirvana&type=lossless&limit=18&offset=54&countryCode=FR&deviceType=BROWSER&locale=en_US",
-    "https://api.tidal.com/v2/search?query=Nirvana&type=lossless&limit=18&offset=72&countryCode=FR&deviceType=BROWSER&locale=en_US",
-    "https://api.tidal.com/v2/search?query=Nirvana&type=lossless&limit=18&offset=90&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "https://api.tidal.com/v1/search?query=Nirvana&type=lossless&limit=18&offset=18&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "https://api.tidal.com/v1/search?query=Nirvana&type=lossless&limit=18&offset=36&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "https://api.tidal.com/v1/search?query=Nirvana&type=lossless&limit=18&offset=54&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "https://api.tidal.com/v1/search?query=Nirvana&type=lossless&limit=18&offset=72&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "https://api.tidal.com/v1/search?query=Nirvana&type=lossless&limit=18&offset=90&countryCode=FR&deviceType=BROWSER&locale=en_US",
   ].forEach(async (url) => {
     await page.route(url, async (route) => {
       await route.fulfill({ json: mockSearchPager });

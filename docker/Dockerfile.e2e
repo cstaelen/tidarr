@@ -22,8 +22,8 @@ INCLUDE docker/stages/Dockerfile.runner
 
 RUN mkdir -p /home/app/standalone/download/incomplete/
 
-ENV VERSION="0.0.0-testing"
 ENV IS_DOCKER=true
+ENV VERSION="0.0.0-testing"
 
 ENTRYPOINT ["sh", "/home/app/standalone/docker/run-prod.sh"]
 

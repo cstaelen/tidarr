@@ -24,11 +24,11 @@ testing-build: ## Build container with Playwright tests and production build ima
 
 testing-run: ## Run Playwright tests with production build image (arg: f=filter)
 	$(DOCKER_COMPOSE) restart testing
-	$(DOCKER_COMPOSE) exec -e -w /home/app/build/e2e testing npx playwright test $(f)
+	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e testing npx playwright test $(f)
 
 testing-update-snapshots: ## Update Playwright snapshots (arg: f=filter)
 	$(DOCKER_COMPOSE) restart testing
-	$(DOCKER_COMPOSE) exec -e -w /home/app/build/e2e testing npx playwright test $(f) --reporter=list --update-snapshots
+	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e testing npx playwright test $(f) --reporter=list --update-snapshots
 
 testing-show-report: ## Show last playwright report
 	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e testing npx playwright show-report --host 0.0.0.0

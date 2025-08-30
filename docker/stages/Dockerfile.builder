@@ -1,6 +1,6 @@
 WORKDIR /home/app/build
 
-ENV SHELL bash
+ENV SHELL=bash
 ARG NODE_ENV
 ENV NODE_ENV="${NODE_ENV}"
 

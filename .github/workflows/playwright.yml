@@ -21,7 +21,7 @@ jobs:
       - name: Run test suite
         run: |
           docker compose logs testing
-          docker compose exec -e CI=true -e IS_DOCKER=true -w /home/app/build/e2e testing npx playwright test
+          docker compose exec -e CI=true -w /home/app/build/e2e testing npx playwright test
 
       - uses: actions/upload-artifact@v4
         if: failure()
