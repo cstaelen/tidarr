@@ -147,6 +147,7 @@ test("Tidarr direct url : Should display mix result using Tidal mix url", async 
   await expect(
     page.getByRole("link", { name: "Horizons" }).first(),
   ).toBeVisible();
+  await expect(page.getByRole("button", { name: "Get mix" })).toBeVisible();
   const albumCount = await page.getByRole("button", { name: "Album" }).count();
   await expect(albumCount).toEqual(100);
   const trackCount = await page.getByRole("button", { name: "Track" }).count();

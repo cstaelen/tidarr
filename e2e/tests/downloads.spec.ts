@@ -2,7 +2,12 @@ import { expect, test } from "@playwright/test";
 
 import mockHome from "./mocks/home.json";
 import mockSearch from "./mocks/search.json";
-import { emptyProcessingList, testProcessingList } from "./utils/helpers";
+import {
+  emptyProcessingList,
+  goToHome,
+  testProcessingList,
+} from "./utils/helpers";
+import { mockConfigAPI } from "./utils/mock";
 import { runSearch } from "./utils/search";
 
 test.describe.configure({ mode: "serial" });
@@ -115,4 +120,15 @@ test("Tidarr download : Should be able to download video", async ({ page }) => {
     "Smells Like Teen Spirit",
     "video",
   ]);
+});
+
+test("Tidarr download : Should be able to download mix", async ({ page }) => {
+  await mockConfigAPI(page);
+  await goToHome(page);
+  await page.getByRole("tab", { name: "My Mixes" }).first().click();
+
+  await expect(page.getByRole("main")).toContainText("My Daily Discovery");
+  await page.getByRole("button", { name: "Get mix" }).first().click();
+
+  await testProcessingList(page, ["My Daily Discovery", "high", "mix"]);
 });
