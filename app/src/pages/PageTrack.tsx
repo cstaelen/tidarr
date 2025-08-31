@@ -4,7 +4,6 @@ import AlbumHeader from "src/components/Headers/Album";
 import TrackHeader from "src/components/Headers/Track";
 import Module from "src/components/TidalModule/Module";
 import NoResult from "src/components/TidalModule/NoResults";
-import { ModuleTitle } from "src/components/TidalModule/Title";
 import { useAlbum } from "src/hooks/useAlbum";
 import { useTrack } from "src/hooks/useTrack";
 
@@ -18,10 +17,9 @@ export default function PageTrack() {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 3 }}>
+    <Container maxWidth="lg">
       <>
         <Box mb={2}>{track && <TrackHeader track={track} />}</Box>
-        <ModuleTitle title="Related release" />
         <Box mb={2}>{album && <AlbumHeader album={album} />}</Box>
         <Box>
           <Module

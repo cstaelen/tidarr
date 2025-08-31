@@ -25,7 +25,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
+      {value === index && children}
     </div>
   );
 }
@@ -106,19 +106,23 @@ export default function Search() {
             <TopResults changeTab={setValue} />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <TypeResults type="ALBUM_LIST" data={albums} />
+            <TypeResults title="Albums" type="ALBUM_LIST" data={albums} />
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
-            <TypeResults type="ARTIST_LIST" data={artists} />
+            <TypeResults title="Artists" type="ARTIST_LIST" data={artists} />
           </TabPanel>
           <TabPanel value={value} index={3} dir={theme.direction}>
-            <TypeResults type="TRACK_LIST" data={tracks} />
+            <TypeResults title="Tracks" type="TRACK_LIST" data={tracks} />
           </TabPanel>
           <TabPanel value={value} index={4} dir={theme.direction}>
-            <TypeResults type="PLAYLIST_LIST" data={playlists} />
+            <TypeResults
+              title="Playlists"
+              type="PLAYLIST_LIST"
+              data={playlists}
+            />
           </TabPanel>
           <TabPanel value={value} index={5} dir={theme.direction}>
-            <TypeResults type="VIDEO_LIST" data={videos} />
+            <TypeResults title="Videos" type="VIDEO_LIST" data={videos} />
           </TabPanel>
         </Container>
       )}

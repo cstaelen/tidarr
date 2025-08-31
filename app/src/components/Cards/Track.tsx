@@ -180,12 +180,12 @@ function TrackCard({ track }: { track: TrackType }) {
         spacing={1}
         alignItems="flex-start"
         style={{
-          minHeight: "60px",
+          minHeight: "72px",
           backgroundColor: "rgba(255, 255, 255, 0.04)",
         }}
       >
-        <CoverLink track={track} height={60} width={60} />
-        <div style={{ lineHeight: 1.4, flex: "1 1 0" }}>
+        <CoverLink track={track} height={72} width={72} />
+        <div style={{ lineHeight: 1.4, flex: "1 1 0", padding: "5px 0" }}>
           <TitleLink track={track} />
           {` `}
           <Typography
@@ -248,7 +248,7 @@ function TrackInline({ track }: { track: TrackType }) {
           alignItems: "center",
           width: "100%",
           display: "grid",
-          gridTemplateColumns: "5rem 1.5fr 1fr 1.5fr 2fr auto",
+          gridTemplateColumns: "4.5rem 1.5fr 1fr 1.5fr 2fr auto",
         }}
       >
         <div>

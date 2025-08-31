@@ -32,33 +32,34 @@ function MainLayout({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center justify-between">
-        <div className="relative">
-          <SearchProvider>
-            <ProcessingProvider>
-              <Content>
-                <AppBar id="app-bar" position="sticky">
-                  <HeaderSearch />
-                </AppBar>
-                {!appLoaded || !config ? (
-                  <Loader>
-                    <Title>
-                      <AlbumIcon />
-                      Tidarr
-                    </Title>
-                    <CircularProgress />
-                  </Loader>
-                ) : (
-                  children
-                )}
-              </Content>
-              <ProcessingList />
-              <DialogToken />
-              <DialogNoAPI />
-              <DialogConfig />
-            </ProcessingProvider>
-          </SearchProvider>
-        </div>
+      <main
+        className="flex min-h-screen flex-col items-center justify-between"
+        style={{ paddingBottom: "1rem" }}
+      >
+        <SearchProvider>
+          <ProcessingProvider>
+            <Content>
+              <AppBar id="app-bar" position="sticky">
+                <HeaderSearch />
+              </AppBar>
+              {!appLoaded || !config ? (
+                <Loader>
+                  <Title>
+                    <AlbumIcon />
+                    Tidarr
+                  </Title>
+                  <CircularProgress />
+                </Loader>
+              ) : (
+                children
+              )}
+            </Content>
+            <ProcessingList />
+            <DialogToken />
+            <DialogNoAPI />
+            <DialogConfig />
+          </ProcessingProvider>
+        </SearchProvider>
       </main>
       <Footer />
     </>

@@ -25,7 +25,7 @@ export default function PageMix() {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 3 }}>
+    <Container maxWidth="lg">
       <Box>
         {mix?.info && <Mix mix={mix?.info} />}
         <Module type="TRACK_LIST" data={mix?.items} loading={loading} />

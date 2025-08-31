@@ -15,7 +15,7 @@ export default function PagePlaylist() {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 3 }}>
+    <Container maxWidth="lg">
       {playlist ? (
         <Box mb={2}>
           <PlaylistHeader playlist={playlist} />
