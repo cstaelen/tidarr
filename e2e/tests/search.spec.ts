@@ -10,14 +10,14 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
   await expect(page.locator("#full-width-tab-0")).toContainText("Top results");
 
   await expect(page.getByRole("heading", { name: "Artists" })).toBeVisible();
-  await countItems("#full-width-tabpanel-0 > div > div:nth-child(1)", 3, page);
+  await countItems("#full-width-tabpanel-0 > div:nth-child(1)", 3, page);
 
   await expect(
     page.getByRole("button", { name: "See all artists (100)" }),
   ).toBeVisible();
 
   await expect(page.getByRole("heading", { name: "Albums" })).toBeVisible();
-  await countItems("#full-width-tabpanel-0 > div >  div:nth-child(2)", 9, page);
+  await countItems("#full-width-tabpanel-0 >  div:nth-child(2)", 9, page);
 
   await expect(
     page.getByRole("button", { name: "See all albums (300)" }),
@@ -25,7 +25,7 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
 
   await expect(page.getByRole("heading", { name: "Tracks" })).toBeVisible();
 
-  await countItems("#full-width-tabpanel-0 > div >  div:nth-child(3)", 6, page);
+  await countItems("#full-width-tabpanel-0 >  div:nth-child(3)", 6, page);
 
   await expect(
     page.getByRole("button", { name: "See all tracks (300)" }),
@@ -33,7 +33,7 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
 
   await expect(page.getByRole("heading", { name: "Playlists" })).toBeVisible();
 
-  await countItems("#full-width-tabpanel-0 > div >  div:nth-child(4)", 6, page);
+  await countItems("#full-width-tabpanel-0 >  div:nth-child(4)", 6, page);
 
   await expect(
     page.getByRole("button", { name: "See all playlists" }),
@@ -222,7 +222,7 @@ test("Tidarr search : Should have two display mode", async ({ page }) => {
 
   await expect(
     page
-      .locator("#full-width-tabpanel-0 > div > div:nth-child(2)")
+      .locator("#full-width-tabpanel-0 > div:nth-child(2)")
       .getByTestId("item")
       .first(),
   ).toHaveScreenshot();
@@ -231,7 +231,7 @@ test("Tidarr search : Should have two display mode", async ({ page }) => {
 
   await expect(
     page
-      .locator("#full-width-tabpanel-0 > div > div:nth-child(2)")
+      .locator("#full-width-tabpanel-0 > div:nth-child(2)")
       .getByTestId("item")
       .first(),
   ).toHaveScreenshot();
