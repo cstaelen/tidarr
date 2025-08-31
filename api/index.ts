@@ -1,3 +1,5 @@
+import apicache from "apicache";
+import compression from "compression";
 import cors from "cors";
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
@@ -15,6 +17,8 @@ const port = 8484;
 const hostname = "0.0.0.0";
 
 const app: Express = express();
+const cache = apicache.middleware;
+
 app.use(express.json());
 app.use(cors());
 
@@ -114,6 +118,8 @@ app.get(
 
 app.get(
   "/api/check",
+  cache("10 minutes"),
+  compression(),
   ensureAccessIsGranted,
   async (req: Request, res: Response) => {
     const response = await configureServer();
