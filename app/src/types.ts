@@ -38,6 +38,7 @@ export type ArtistType = {
   picture: string;
   url: string;
   popularity: number;
+  mixes?: { ARTIST_MIX: string } & { [key: string]: string }[];
 };
 
 // ALBUM

@@ -31,7 +31,10 @@ export const DownloadButton = ({
   const { processingList, actions } = useProcessingProvider();
 
   useEffect(() => {
-    if (!processingList || processingList?.length === 0 || !id) return;
+    if (!processingList || processingList?.length === 0 || !id) {
+      setStatus(undefined);
+      return;
+    }
 
     const index = processingList.findIndex(
       (x) => x.id.toString() === id.toString(),

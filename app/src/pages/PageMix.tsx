@@ -27,7 +27,7 @@ export default function PageMix() {
   return (
     <Container maxWidth="lg">
       <Box>
-        {mix?.info && <Mix mix={mix?.info} />}
+        {mix?.info && <Mix mix={mix?.info} total={mix?.totalNumberOfItems} />}
         <Module type="TRACK_LIST" data={mix?.items} loading={loading} />
       </Box>
     </Container>

@@ -4,7 +4,13 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import WarningIcon from "@mui/icons-material/Warning";
-import { Button, CircularProgress, TableCell, TableRow } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  TableCell,
+  TableRow,
+} from "@mui/material";
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 import { ProcessingItemType } from "src/types";
 
@@ -22,39 +28,39 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
 
   return (
     <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-      <TableCell
-        style={{ alignItems: "center", display: "flex", flex: "0 0 auto" }}
-      >
-        <RemoveButton onClick={() => actions.removeItem(item.id)}>
-          <ClearIcon />
-        </RemoveButton>
-        {step === "finished" ? (
-          <CheckIcon color="success" />
-        ) : step === "error" ? (
-          <WarningIcon color="error" />
-        ) : step === "queue" ? (
-          <AccessTimeIcon />
-        ) : (
-          <CircularProgress size={20} />
-        )}
-        {step === "error" ? (
-          <>
-            &nbsp;&nbsp;
-            <Button variant="outlined" size="small" onClick={() => run()}>
-              Retry
-            </Button>
-          </>
-        ) : null}
-        &nbsp;&nbsp;
-        {item.output && <TerminalDialog item={item} />}
-        {step}
+      <TableCell>
+        <Box sx={{ alignItems: "center", display: "flex", flex: "0 0 auto" }}>
+          <RemoveButton onClick={() => actions.removeItem(item.id)}>
+            <ClearIcon />
+          </RemoveButton>
+          {step === "finished" ? (
+            <CheckIcon color="success" />
+          ) : step === "error" ? (
+            <WarningIcon color="error" />
+          ) : step === "queue" ? (
+            <AccessTimeIcon />
+          ) : (
+            <CircularProgress size={20} />
+          )}
+          {step === "error" ? (
+            <>
+              &nbsp;&nbsp;
+              <Button variant="outlined" size="small" onClick={() => run()}>
+                Retry
+              </Button>
+            </>
+          ) : null}
+          &nbsp;&nbsp;
+          {item.output && <TerminalDialog item={item} />}
+          {step}
+        </Box>
       </TableCell>
       <TableCell scope="row">
         <Link to={item.url} target="_blank" style={{ color: "white" }}>
           {item.title}
         </Link>
       </TableCell>
-      <TableCell scope="row">{item.artist}</TableCell>
+      <TableCell>{item.artist}</TableCell>
       <TableCell scope="row">{item.type}</TableCell>
       <TableCell scope="row">
         {item.type !== "video" ? item.quality : ""}

@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Box } from "@mui/material";
+import { Alert, AlertTitle, Box, Chip } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { MixType } from "src/types";
 
@@ -6,7 +6,7 @@ import { DownloadButton } from "../Buttons/DownloadButton";
 
 import PageHeader from "./Header";
 
-export default function Mix({ mix }: { mix: MixType }) {
+export default function Mix({ mix, total }: { mix: MixType; total: number }) {
   return (
     <>
       <PageHeader
@@ -27,6 +27,8 @@ export default function Mix({ mix }: { mix: MixType }) {
               <strong>{mix.subTitle}</strong>
             </Typography>
             <Box mt={2}>
+              <Chip label={`${total} tracks`} />
+              {` `}
               <DownloadButton
                 item={mix}
                 id={mix.id}

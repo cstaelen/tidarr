@@ -34,6 +34,7 @@ export const useMix = (): ArtistContextType => {
 
     const mix = data_mix?.rows[0].modules[0].mix;
     const items = data_mix?.rows[1].modules[0].pagedList.items;
+    const total = data_mix?.rows[1].modules[0].pagedList.totalNumberOfItems;
 
     if (!mix || !items) return;
 
@@ -43,7 +44,7 @@ export const useMix = (): ArtistContextType => {
         url: `https://tidal.com/mix/${data_mix?.rows[0].modules[0].mix?.id}`,
       },
       items: items,
-      totalNumberOfItems: 1,
+      totalNumberOfItems: total || 0,
     });
   }
 
