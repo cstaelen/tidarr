@@ -9,7 +9,8 @@ Tidarr notable changes.
 * [Front] Add "My Favorites" page
 * [Front] Add "My Playlists" page
 * [Front] Add "My Mixes" page
-* [Front] Add content to "Artist" page
+* [Front] Add additional content to "Artist" page
+* [Front] Add Artist mix button to "Artist" page
 * [Front] Add "Explicit" tag on tracks and albums
 * [Front] Quality button now define the download format/quality
 * [Front/API] Mixes are now downloadable as playlist
@@ -21,6 +22,8 @@ Tidarr notable changes.
 * [API] Update `tiddl` from `2.4.0` to version `2.5.1`
 * [API] Update `cp` command for download content by removing `-p` parameter
 * [Chore] Update dependencies
+### 🐛 Fixed
+* [Front] Download button states strange behavior
 
 ## 📦 0.2.1
 ### 🖍 Changed

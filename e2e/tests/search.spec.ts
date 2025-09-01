@@ -128,6 +128,14 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
       .first(),
   ).toBeVisible();
 
+  await expect(
+    page.getByRole("button", { name: "Get all releases" }),
+  ).toBeVisible();
+
+  await expect(
+    page.getByRole("button", { name: "See artist mix" }),
+  ).toBeVisible();
+
   await expect(page.url()).toContain("/artist/19368");
 });
 

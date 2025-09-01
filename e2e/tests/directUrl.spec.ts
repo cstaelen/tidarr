@@ -154,6 +154,7 @@ test("Tidarr direct url : Should display mix result using Tidal mix url", async 
   await expect(trackCount).toEqual(100);
 
   await expect(page.url()).toContain("/mix/00166fec481604e645532e233b958b");
+  await expect(page.getByText("100 tracks")).toBeVisible();
 });
 
 test("Tidarr direct url : Should display artist page using Tidal artist url", async ({

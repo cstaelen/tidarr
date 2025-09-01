@@ -36,12 +36,7 @@ export async function testProcessingList(
 
   await expect(page.locator(".MuiDialog-container button")).not.toBeVisible();
 
-  await page
-    .getByLabel("Processing table")
-    .locator("div")
-    .getByRole("button")
-    .first()
-    .click();
+  await page.getByTestId("btn-console").click();
 
   await expect(
     page.getByRole("heading", { name: "Console output" }),
