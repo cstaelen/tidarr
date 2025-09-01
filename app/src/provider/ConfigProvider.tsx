@@ -114,7 +114,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     localStorage.setItem(LOCALSTORAGE_QUALITY_DOWNLOAD, quality);
-  }, [quality]);
+  }, [quality, tiddlConfig]);
 
   const value = {
     isUpdateAvailable,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckIcon from "@mui/icons-material/Check";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -30,13 +30,14 @@ export const DownloadButton = ({
   const [status, setStatus] = React.useState<string>();
   const { processingList, actions } = useProcessingProvider();
 
-  React.useEffect(() => {
-    const index =
-      processingList?.findIndex((x) => x?.id?.toString() === id?.toString()) ||
-      -1;
-    if (index > -1) {
-      setStatus(processingList?.[index]?.status);
-    }
+  useEffect(() => {
+    if (!processingList || processingList?.length === 0 || !id) return;
+
+    const index = processingList.findIndex(
+      (x) => x.id.toString() === id.toString(),
+    );
+
+    setStatus(index > -1 ? processingList?.[index]?.status : undefined);
   }, [processingList, id]);
 
   const downloadItem = async () => {

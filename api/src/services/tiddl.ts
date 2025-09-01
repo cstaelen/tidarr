@@ -12,7 +12,11 @@ export function tidalDL(id: number, app: Express, onFinish?: () => void) {
 
   const binary = "tiddl";
   const args: string[] = ["url", item.url, "download"];
-  if (item.type !== "video") {
+  if (
+    item.type !== "video" &&
+    item.quality &&
+    item.quality.toString() !== "null"
+  ) {
     args.push("-q");
     args.push(item.quality);
   }
