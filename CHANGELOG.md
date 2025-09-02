@@ -6,7 +6,7 @@ Tidarr notable changes.
 ## 📦 0.3.1
 ### 🖍 Changed
 * [API] Use tiddl `-V` parameters for video DL
-* [Front] Hide video lists if tiddl `download_video` parameter is false.
+* [Front] Hide/Show video lists if tiddl `download_video` parameter is false/true.
 ### 🐛 Fixed
 * [Front] Fix skeleton loaders
 
