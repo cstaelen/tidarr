@@ -60,7 +60,7 @@ export const ProcessingList = () => {
     if (hasError) {
       actions.checkAPI();
     }
-  }, [actions, hasError]);
+  }, [hasError]);
 
   if (!processingList || processingList?.length === 0) return null;
 
