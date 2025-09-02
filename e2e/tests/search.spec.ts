@@ -224,10 +224,10 @@ test("Tidarr search : Should see quality filtered results", async ({
   await mockRelease(page);
   await page.goto("/artist/3634161");
   await expect(
-    page.getByRole("heading", { name: "Albums (21)" }),
+    page.getByRole("heading", { name: "Albums (22)" }),
   ).toBeInViewport();
 
-  await expect(page.getByTestId("item")).toHaveCount(68);
+  await expect(page.getByTestId("item")).toHaveCount(69);
 
   const countLossless = await page
     .locator(".MuiChip-root")
@@ -264,7 +264,7 @@ test("Tidarr search : Should see quality filtered results", async ({
     page.locator('[data-testid="item"]', {
       has: page.locator(":visible"),
     }),
-  ).toHaveCount(65);
+  ).toHaveCount(66);
 
   await page.getByRole("button", { name: "High" }).click();
 
@@ -272,7 +272,7 @@ test("Tidarr search : Should see quality filtered results", async ({
     page.locator('[data-testid="item"]', {
       has: page.locator(":visible"),
     }),
-  ).toHaveCount(10);
+  ).toHaveCount(11);
 });
 
 test("Tidarr search : Should have two display mode", async ({ page }) => {
