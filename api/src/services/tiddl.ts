@@ -27,11 +27,15 @@ export function tidalDL(id: number, app: Express, onFinish?: () => void) {
 
   item["output"] = logs(item, `Executing: ${binary} ${args.join(" ")}`);
   const child = spawn(binary, args);
-
+  const signal = child.signalCode || undefined;
   child.stdout?.setEncoding("utf8");
-  child.stdout?.on("data", (data) => {
+  child.stdout?.on("data", (data: string) => {
     item["output"] = logs(item, data.replace(/[\r\n]+/gm, ""));
     item["process"] = child;
+    if (data.includes("ERROR")) {
+      child.emit("error", new Error(data));
+      child.kill(signal);
+    }
     app.settings.processingList.actions.updateItem(item);
   });
 

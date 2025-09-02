@@ -1,9 +1,9 @@
 {
     "template": {
-        "track": "{artist} - {title}",
-        "video": "{artist} - {title}",
-        "album": "{album_artist}/{album}/{number:02d}. {title}",
-        "playlist": "{playlist}/{playlist_number:02d}. {artist} - {title}"
+        "track": "tracks/{artist}/{artist} - {title}",
+        "video": "videos/{artist}/{artist} - {title}",
+        "album": "albums/{album_artist}/{album}/{number:02d}. {title}",
+        "playlist": "playlists/{playlist}/{playlist_number:02d}. {artist} - {title}"
     },
     "download": {
         "quality": "high",
