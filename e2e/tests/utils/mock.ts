@@ -167,10 +167,10 @@ export async function mockConfigAPI(page: Page) {
         auth: {
           user_id: 192283714,
           country_code: "FR",
-          download_video: true,
         },
         download: {
           quality: "high",
+          download_video: true,
         },
       },
     };

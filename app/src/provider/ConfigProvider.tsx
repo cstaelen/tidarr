@@ -82,7 +82,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     if (config?.TIDARR_VERSION) {
       try {
         const response = await fetch(
-          `https://api.github.com/repos/${window._env_.REACT_APP_TIDARR_REPO_URL}/releases`,
+          `https://api.github.com/repos/${import.meta.env?.VITE_TIDARR_REPO_URL}/releases`,
         );
 
         const data = (await response?.json()) as ReleaseGithubType[];

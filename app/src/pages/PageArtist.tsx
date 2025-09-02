@@ -30,7 +30,6 @@ export default function Home() {
     "ARTICLE_LIST",
     "ARTIST_HEADER",
     "SOCIAL",
-    "VIDEO_LIST",
   ];
 
   if (!tiddlConfig?.download.download_video) {

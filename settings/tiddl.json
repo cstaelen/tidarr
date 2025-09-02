@@ -10,7 +10,7 @@
         "path": "/home/app/standalone/download/incomplete",
         "threads": 4,
         "singles_filter": "none",
-        "download_video": false
+        "download_video": true
     },
     "cover": {
         "save": true,
