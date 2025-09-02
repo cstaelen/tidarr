@@ -1,24 +1,19 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useFetchTidal } from "src/utils/useFetchTidal";
+import { useParams } from "react-router-dom";
+import { useFetchTidal } from "src/hooks/useFetchTidal";
 
 import { TIDAL_ITEMS_PER_PAGE } from "../contants";
 import { TidalResponseType } from "../types";
 
-type QualityType = "lossless" | "high" | "all";
-type DisplayType = "small" | "large";
+import { useConfigProvider } from "./ConfigProvider";
 
 type SearchContextType = {
   searchResults: TidalResponseType;
   keywords: string | undefined;
   loading: boolean;
   page: number;
-  quality: QualityType;
-  display: DisplayType;
   actions: {
     setPage: (page: number) => void;
-    setQuality: (quality: QualityType) => void;
-    setDisplay: (mode: DisplayType) => void;
     runSearch: (keywords: string) => void;
     queryTidal: (query: string, page: number) => void;
   };
@@ -28,44 +23,29 @@ const SearchContext = React.createContext<SearchContextType>(
   {} as SearchContextType,
 );
 
-export const LOCALSTORAGE_QUALITY_FILTER = "tidarr-quality-filter";
-export const LOCALSTORAGE_DISPLAY_MODE = "tidarr-display-mode";
-
 export function SearchProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [keywords, setKeywords] = useState<string>();
-  const [display, setDisplay] = useState<DisplayType>(
-    (localStorage.getItem(LOCALSTORAGE_DISPLAY_MODE) as DisplayType) || "small",
-  );
-  const [quality, setQuality] = useState<QualityType>(
-    (window._env_.REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER as QualityType) ||
-      (localStorage.getItem(LOCALSTORAGE_QUALITY_FILTER) as QualityType) ||
-      "all",
-  );
+  const { config } = useConfigProvider();
 
   const [searchResults, setSearchResults] = useState<TidalResponseType>(
     {} as TidalResponseType,
   );
 
-  const [params] = useSearchParams();
-  const navigate = useNavigate();
+  const params = useParams();
 
   const { fetchTidal } = useFetchTidal();
 
   async function runSearch(searchString: string) {
     setLoading(true);
-    if (searchString.substring(0, 4) === "http") {
-      await directDownload(searchString);
-    } else {
-      await queryTidal(searchString);
-    }
+    await queryTidal(searchString);
     setLoading(false);
   }
 
   async function queryTidal(query: string) {
     const results = await fetchTidal<TidalResponseType>(
-      `/search/top-hits?query=${query}&type=lossless&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
+      `/v1/search?query=${query}&type=lossless&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
         (page - 1) * TIDAL_ITEMS_PER_PAGE
       }`,
     );
@@ -112,16 +92,6 @@ export function SearchProvider({ children }: { children: ReactNode }) {
     setSearchResults(data as TidalResponseType);
   }
 
-  async function directDownload(url: string) {
-    const id = url
-      .substring(url.lastIndexOf("/") + 1, url.length)
-      .split("?")?.[0];
-    const splittedUrl = url.split("/");
-    const type = splittedUrl[splittedUrl?.length - 2].split("?")?.[0];
-
-    navigate(`/${type}/${id}`);
-  }
-
   // Fetch on page change
   useEffect(() => {
     if (keywords) runSearch(keywords);
@@ -129,7 +99,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (keywords) {
-      window.scrollTo(0, 0);
+      // window.scrollTo(0, 0);
       setSearchResults({} as TidalResponseType);
       if (page > 1) {
         setPage(1);
@@ -141,33 +111,20 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
   // If url query exists on load
   useEffect(() => {
-    const search = params.get("query");
-    if (search) {
-      setKeywords(search);
+    if (!params.keywords || !config) {
+      setKeywords(undefined);
       return;
     }
-    setKeywords(undefined);
-  }, [params]);
-
-  useEffect(() => {
-    localStorage.setItem(LOCALSTORAGE_DISPLAY_MODE, display);
-  }, [display]);
-
-  useEffect(() => {
-    localStorage.setItem(LOCALSTORAGE_QUALITY_FILTER, quality);
-  }, [quality]);
+    setKeywords(params.keywords);
+  }, [params, config]);
 
   const value = {
     searchResults,
     loading,
     keywords,
     page,
-    quality,
-    display,
     actions: {
       setPage,
-      setQuality,
-      setDisplay,
       queryTidal,
       runSearch,
     },

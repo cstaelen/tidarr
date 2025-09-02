@@ -1,10 +1,10 @@
-import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Box, Button, Chip, Stack, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useSearchProvider } from "src/provider/SearchProvider";
+import { useConfigProvider } from "src/provider/ConfigProvider";
+import { customColors } from "src/utils/theme";
 
 import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
@@ -12,7 +12,7 @@ import { DownloadButton } from "../Buttons/DownloadButton";
 import ImageLazy from "./common/ImageLazy";
 
 export default function AlbumCard({ album }: { album: AlbumType }) {
-  const { display } = useSearchProvider();
+  const { display } = useConfigProvider();
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -29,14 +29,16 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
           backgroundColor: "rgba(255, 255, 255, 0.04)",
         }}
       >
-        <Avatar
-          alt={album.artists?.[0]?.name}
-          sx={{ width: 42, height: 42 }}
-          src={`https://resources.tidal.com/images/${album.artists?.[0]?.picture?.replace(
-            /-/g,
-            "/",
-          )}/750x750.jpg`}
-        />
+        <Link to={`/album/${album.id}`}>
+          <Avatar
+            alt={album.artists?.[0]?.name}
+            sx={{ width: 42, height: 42 }}
+            src={`https://resources.tidal.com/images/${album.artists?.[0]?.picture?.replace(
+              /-/g,
+              "/",
+            )}/750x750.jpg`}
+          />
+        </Link>
         <div style={{ lineHeight: 1.4, flex: "1 1 0" }}>
           <Link
             to={`/album/${album.id}`}
@@ -46,7 +48,10 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
               textDecoration: "none",
             }}
           >
-            <Typography component="span" style={{ lineHeight: 1 }}>
+            <Typography
+              component="span"
+              sx={{ lineHeight: 1, ":hover": { textDecoration: "underline" } }}
+            >
               <strong>{album.title}</strong>
             </Typography>
           </Link>
@@ -100,7 +105,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
               style={{ marginBottom: "0.5rem" }}
             >
               <Chip
-                label={album.audioQuality.toLowerCase()}
+                label={album.audioQuality?.toLowerCase()}
                 size="small"
                 style={{
                   margin: "0.2rem",
@@ -110,7 +115,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
                       : theme.palette.common.black,
                   backgroundColor:
                     album?.audioQuality?.toLowerCase() === "lossless"
-                      ? theme.customColors.gold
+                      ? customColors.gold
                       : theme.palette.primary.main,
                 }}
               />
@@ -131,6 +136,14 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
                 variant="outlined"
                 style={{ margin: "0.2rem" }}
               />
+              {album.explicit && (
+                <Chip
+                  label="Explicit"
+                  size="small"
+                  variant="outlined"
+                  style={{ margin: "0.2rem" }}
+                />
+              )}
             </Stack>
             <DownloadButton
               item={album}

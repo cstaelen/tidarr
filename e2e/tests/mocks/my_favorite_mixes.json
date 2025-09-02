@@ -1,0 +1,46 @@
+{
+    "limit": 18,
+    "offset": 0,
+    "totalNumberOfItems": 1,
+    "items": [
+        {
+            "id": "016a819bea9d349406b1cf31d7c83e",
+            "title": "My Daily Discovery",
+            "subTitle": "Songs by new and familiar artists inspired by your listening. Updates every morning.",
+            "graphic": {
+                "type": "SQUARES_GRID",
+                "text": "My Daily Discovery",
+                "images": [
+                    {
+                        "id": "dummy-placeholder",
+                        "vibrantColor": "#FFFFFF",
+                        "type": "ARTIST"
+                    }
+                ]
+            },
+            "images": {
+                "SMALL": {
+                    "width": 320,
+                    "height": 320,
+                    "url": "https://images.tidal.com/0/EMACGMAC/CAEQCCIDMjM5KgcjRkJEMjkzMAQ?token=22d0d9de0b9b45fd43635624cc53c50a0207ee02"
+                },
+                "MEDIUM": {
+                    "width": 640,
+                    "height": 640,
+                    "url": "https://images.tidal.com/0/EIAFGIAF/CAEQCCIDMjM5KgcjRkJEMjkzMAQ?token=16174ec89df3f6d6ac1b9d8a4978b06134a76c19"
+                },
+                "LARGE": {
+                    "width": 1500,
+                    "height": 1500,
+                    "url": "https://images.tidal.com/0/ENwLGNwL/CAEQCCIDMjM5KgcjRkJEMjkzMAQ?token=2caf98f243fccc7d58409f361e77fd95f3efac3e"
+                }
+            },
+            "sharingImages": null,
+            "mixType": "DISCOVERY_MIX",
+            "contentBehavior": "UNRESTRICTED",
+            "shortSubtitle": "Created by TIDAL"
+        }
+    ],
+    "cursor": null,
+    "lastModifiedAt": "2020-12-21T11:28:56.472365Z"
+}

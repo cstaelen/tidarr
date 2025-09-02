@@ -1,0 +1,3155 @@
+{
+    "selfLink": null,
+    "id": "eyJwIjoiZTZlM2ZmMWItZDZjNC00NzczLTg4ZDAtMGNmOTdjY2ZjYjU5IiwicFYiOjEzfQ==",
+    "title": "Nevermind",
+    "rows": [
+        {
+            "modules": [
+                {
+                    "id": "eyJwIjoiZTZlM2ZmMWItZDZjNC00NzczLTg4ZDAtMGNmOTdjY2ZjYjU5IiwicFYiOjEzLCJtIjoiOTg3YjJiZGUtMGE5MS00YzYxLWFkNGItNzllYzdkNGY5NmU0IiwibVYiOjEsIm1IIjoiNzVhOGNkZiJ9",
+                    "type": "ALBUM_HEADER",
+                    "width": 100,
+                    "description": "",
+                    "album": {
+                        "id": 77610756,
+                        "title": "Nevermind",
+                        "duration": 2963,
+                        "streamReady": true,
+                        "payToStream": false,
+                        "streamStartDate": "2013-10-15T00:00:00.000+00:00",
+                        "allowStreaming": true,
+                        "numberOfTracks": 13,
+                        "numberOfVideos": 0,
+                        "numberOfVolumes": 1,
+                        "releaseDate": "1991-09-24",
+                        "copyright": "© 2011 Geffen Records",
+                        "type": "ALBUM",
+                        "version": null,
+                        "url": "http://www.tidal.com/album/77610756",
+                        "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                        "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                        "explicit": true,
+                        "popularity": 93,
+                        "audioQuality": "LOSSLESS",
+                        "audioModes": [
+                            "STEREO"
+                        ],
+                        "artists": [
+                            {
+                                "id": 19368,
+                                "name": "Nirvana",
+                                "type": "MAIN",
+                                "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                "handle": null,
+                                "userId": null,
+                                "contributionLinkUrl": null
+                            }
+                        ],
+                        "mediaMetadata": {
+                            "tags": [
+                                "LOSSLESS",
+                                "HIRES_LOSSLESS"
+                            ]
+                        },
+                        "upload": false
+                    },
+                    "review": {
+                        "text": "Nevermind was never meant to change the world, but you can never predict when the Zeitgeist will hit, and [wimpLink artistId=\"19368\"]Nirvana[/wimpLink]'s second album turned out to be the place where alternative rock crashed into the mainstream. This wasn't entirely an accident, either, since [wimpLink artistId=\"19368\"]Nirvana[/wimpLink] did sign with a major label, and they did release a record with a shiny surface, no matter how humongous the guitars sounded. And, yes, Nevermind is probably a little shinier than it should be, positively glistening with echo and fuzzbox distortion, especially when compared with the black-and-white murk of [wimpLink albumId=\"68639771\"]Bleach[/wimpLink]. This doesn't discount the record, since it's not only much harder than any mainstream rock of 1991, its character isn't on the surface, it's in the exhilaratingly raw music and haunting songs. [wimpLink artistId=\"3985235\"]Kurt Cobain[/wimpLink]'s personal problems and subsequent suicide naturally deepen the dark undercurrents, but no matter how much anguish there is on Nevermind, it's bracing because he exorcizes those demons through his evocative wordplay and mangled screams -- and because the band has a tremendous, unbridled power that transcends the pain, turning into pure catharsis. And that's as key to the record's success as [wimpLink artistId=\"3985235\"]Cobain[/wimpLink]'s songwriting, since [wimpLink artistId=\"6425436\"]Krist Novoselic[/wimpLink] and [wimpLink artistId=\"5948383\"]Dave Grohl[/wimpLink] help turn this into music that is gripping, powerful, and even fun (and, really, there's no other way to characterize \"Territorial Pissings\" or the surging \"Breed\"). In retrospect, Nevermind may seem a little too unassuming for its mythic status -- it's simply a great modern punk record -- but even though it may no longer seem life-changing, it is certainly life-affirming, which may just be better. ~ Stephen Thomas Erlewine",
+                        "source": "TiVo"
+                    },
+                    "credits": {
+                        "items": [
+                            {
+                                "type": "Primary Artist",
+                                "contributors": [
+                                    {
+                                        "name": "Nirvana",
+                                        "id": 19368
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "playbackControls": [
+                        {
+                            "shuffle": false,
+                            "playbackMode": "PLAY",
+                            "title": "Play",
+                            "icon": "play_tracks",
+                            "targetModuleId": "eyJwIjoiZTZlM2ZmMWItZDZjNC00NzczLTg4ZDAtMGNmOTdjY2ZjYjU5IiwicFYiOjEzLCJtIjoiNjJmY2NhZTUtNDIwZC00MGJlLWJjZGMtZTUzODIwYzAwZjA5IiwibVYiOjEsIm1IIjoiOGFiOTZjNGQifQ=="
+                        },
+                        {
+                            "shuffle": true,
+                            "playbackMode": "SHUFFLE",
+                            "title": "Shuffle",
+                            "icon": "shuffle_tracks",
+                            "targetModuleId": "eyJwIjoiZTZlM2ZmMWItZDZjNC00NzczLTg4ZDAtMGNmOTdjY2ZjYjU5IiwicFYiOjEzLCJtIjoiNjJmY2NhZTUtNDIwZC00MGJlLWJjZGMtZTUzODIwYzAwZjA5IiwibVYiOjEsIm1IIjoiOGFiOTZjNGQifQ=="
+                        }
+                    ],
+                    "title": "",
+                    "preTitle": ""
+                }
+            ]
+        },
+        {
+            "modules": [
+                {
+                    "id": "eyJwIjoiZTZlM2ZmMWItZDZjNC00NzczLTg4ZDAtMGNmOTdjY2ZjYjU5IiwicFYiOjEzLCJtIjoiNjJmY2NhZTUtNDIwZC00MGJlLWJjZGMtZTUzODIwYzAwZjA5IiwibVYiOjEsIm1IIjoiOGFiOTZjNGQifQ==",
+                    "type": "ALBUM_ITEMS",
+                    "width": 100,
+                    "showMore": null,
+                    "title": "",
+                    "description": "",
+                    "releaseDate": "1991-09-24",
+                    "copyright": "© 2011 Geffen Records",
+                    "listFormat": "NUMBERS",
+                    "pagedList": {
+                        "dataApiPath": "pages/data/2fbf68c2-dc58-49b1-b1be-6958e66383f3?albumId=77610756",
+                        "limit": 9999,
+                        "offset": 0,
+                        "totalNumberOfItems": 13,
+                        "items": [
+                            {
+                                "item": {
+                                    "id": 77610757,
+                                    "title": "Smells Like Teen Spirit",
+                                    "duration": 301,
+                                    "version": null,
+                                    "url": "https://tidal.com/browse/track/77610757",
+                                    "artists": [
+                                        {
+                                            "id": 19368,
+                                            "name": "Nirvana",
+                                            "type": "MAIN",
+                                            "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                            "handle": null,
+                                            "userId": null
+                                        }
+                                    ],
+                                    "album": {
+                                        "id": 77610756,
+                                        "title": "Nevermind",
+                                        "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                                        "vibrantColor": "#56afc9",
+                                        "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                                        "url": "https://tidal.com/browse/album/77610756",
+                                        "releaseDate": "1991-09-24"
+                                    },
+                                    "explicit": false,
+                                    "volumeNumber": 1,
+                                    "trackNumber": 1,
+                                    "popularity": 89,
+                                    "doublePopularity": 0.8851964126012535,
+                                    "allowStreaming": true,
+                                    "streamReady": true,
+                                    "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                                    "adSupportedStreamReady": true,
+                                    "djReady": true,
+                                    "stemReady": false,
+                                    "editable": false,
+                                    "replayGain": -10.79,
+                                    "audioQuality": "LOSSLESS",
+                                    "audioModes": [
+                                        "STEREO"
+                                    ],
+                                    "mixes": {
+                                        "TRACK_MIX": "0017731f1e3fa642e293467b0c8607"
+                                    },
+                                    "mediaMetadata": {
+                                        "tags": [
+                                            "LOSSLESS",
+                                            "HIRES_LOSSLESS"
+                                        ]
+                                    },
+                                    "upload": false,
+                                    "payToStream": false,
+                                    "accessType": "PUBLIC",
+                                    "spotlighted": false
+                                },
+                                "type": "track"
+                            },
+                            {
+                                "item": {
+                                    "id": 77610758,
+                                    "title": "In Bloom",
+                                    "duration": 255,
+                                    "version": null,
+                                    "url": "https://tidal.com/browse/track/77610758",
+                                    "artists": [
+                                        {
+                                            "id": 19368,
+                                            "name": "Nirvana",
+                                            "type": "MAIN",
+                                            "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                            "handle": null,
+                                            "userId": null
+                                        }
+                                    ],
+                                    "album": {
+                                        "id": 77610756,
+                                        "title": "Nevermind",
+                                        "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                                        "vibrantColor": "#56afc9",
+                                        "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                                        "url": "https://tidal.com/browse/album/77610756",
+                                        "releaseDate": "1991-09-24"
+                                    },
+                                    "explicit": false,
+                                    "volumeNumber": 1,
+                                    "trackNumber": 2,
+                                    "popularity": 69,
+                                    "doublePopularity": 0.687847023369646,
+                                    "allowStreaming": true,
+                                    "streamReady": true,
+                                    "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                                    "adSupportedStreamReady": true,
+                                    "djReady": true,
+                                    "stemReady": false,
+                                    "editable": false,
+                                    "replayGain": -10.79,
+                                    "audioQuality": "LOSSLESS",
+                                    "audioModes": [
+                                        "STEREO"
+                                    ],
+                                    "mixes": {
+                                        "TRACK_MIX": "001e6f77242dbab5d74fd42b2cd439"
+                                    },
+                                    "mediaMetadata": {
+                                        "tags": [
+                                            "LOSSLESS",
+                                            "HIRES_LOSSLESS"
+                                        ]
+                                    },
+                                    "upload": false,
+                                    "payToStream": false,
+                                    "accessType": "PUBLIC",
+                                    "spotlighted": false
+                                },
+                                "type": "track"
+                            },
+                            {
+                                "item": {
+                                    "id": 77610759,
+                                    "title": "Come As You Are",
+                                    "duration": 219,
+                                    "version": null,
+                                    "url": "https://tidal.com/browse/track/77610759",
+                                    "artists": [
+                                        {
+                                            "id": 19368,
+                                            "name": "Nirvana",
+                                            "type": "MAIN",
+                                            "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                            "handle": null,
+                                            "userId": null
+                                        }
+                                    ],
+                                    "album": {
+                                        "id": 77610756,
+                                        "title": "Nevermind",
+                                        "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                                        "vibrantColor": "#56afc9",
+                                        "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                                        "url": "https://tidal.com/browse/album/77610756",
+                                        "releaseDate": "1991-09-24"
+                                    },
+                                    "explicit": false,
+                                    "volumeNumber": 1,
+                                    "trackNumber": 3,
+                                    "popularity": 85,
+                                    "doublePopularity": 0.8483119756487505,
+                                    "allowStreaming": true,
+                                    "streamReady": true,
+                                    "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                                    "adSupportedStreamReady": true,
+                                    "djReady": true,
+                                    "stemReady": false,
+                                    "editable": false,
+                                    "replayGain": -10.79,
+                                    "audioQuality": "LOSSLESS",
+                                    "audioModes": [
+                                        "STEREO"
+                                    ],
+                                    "mixes": {
+                                        "TRACK_MIX": "001d8c0b74579da517b5482eef2be2"
+                                    },
+                                    "mediaMetadata": {
+                                        "tags": [
+                                            "LOSSLESS",
+                                            "HIRES_LOSSLESS"
+                                        ]
+                                    },
+                                    "upload": false,
+                                    "payToStream": false,
+                                    "accessType": "PUBLIC",
+                                    "spotlighted": false
+                                },
+                                "type": "track"
+                            },
+                            {
+                                "item": {
+                                    "id": 77610760,
+                                    "title": "Breed",
+                                    "duration": 184,
+                                    "version": null,
+                                    "url": "https://tidal.com/browse/track/77610760",
+                                    "artists": [
+                                        {
+                                            "id": 19368,
+                                            "name": "Nirvana",
+                                            "type": "MAIN",
+                                            "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                            "handle": null,
+                                            "userId": null
+                                        }
+                                    ],
+                                    "album": {
+                                        "id": 77610756,
+                                        "title": "Nevermind",
+                                        "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                                        "vibrantColor": "#56afc9",
+                                        "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                                        "url": "https://tidal.com/browse/album/77610756",
+                                        "releaseDate": "1991-09-24"
+                                    },
+                                    "explicit": false,
+                                    "volumeNumber": 1,
+                                    "trackNumber": 4,
+                                    "popularity": 66,
+                                    "doublePopularity": 0.6599387450303161,
+                                    "allowStreaming": true,
+                                    "streamReady": true,
+                                    "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                                    "adSupportedStreamReady": true,
+                                    "djReady": true,
+                                    "stemReady": false,
+                                    "editable": false,
+                                    "replayGain": -10.79,
+                                    "audioQuality": "LOSSLESS",
+                                    "audioModes": [
+                                        "STEREO"
+                                    ],
+                                    "mixes": {
+                                        "TRACK_MIX": "001a88a1959e3715ec16b2cacac744"
+                                    },
+                                    "mediaMetadata": {
+                                        "tags": [
+                                            "LOSSLESS",
+                                            "HIRES_LOSSLESS"
+                                        ]
+                                    },
+                                    "upload": false,
+                                    "payToStream": false,
+                                    "accessType": "PUBLIC",
+                                    "spotlighted": false
+                                },
+                                "type": "track"
+                            },
+                            {
+                                "item": {
+                                    "id": 77610761,
+                                    "title": "Lithium",
+                                    "duration": 257,
+                                    "version": null,
+                                    "url": "https://tidal.com/browse/track/77610761",
+                                    "artists": [
+                                        {
+                                            "id": 19368,
+                                            "name": "Nirvana",
+                                            "type": "MAIN",
+                                            "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                            "handle": null,
+                                            "userId": null
+                                        }
+                                    ],
+                                    "album": {
+                                        "id": 77610756,
+                                        "title": "Nevermind",
+                                        "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                                        "vibrantColor": "#56afc9",
+                                        "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                                        "url": "https://tidal.com/browse/album/77610756",
+                                        "releaseDate": "1991-09-24"
+                                    },
+                                    "explicit": false,
+                                    "volumeNumber": 1,
+                                    "trackNumber": 5,
+                                    "popularity": 82,
+                                    "doublePopularity": 0.8167548403971979,
+                                    "allowStreaming": true,
+                                    "streamReady": true,
+                                    "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                                    "adSupportedStreamReady": true,
+                                    "djReady": true,
+                                    "stemReady": false,
+                                    "editable": false,
+                                    "replayGain": -10.79,
+                                    "audioQuality": "LOSSLESS",
+                                    "audioModes": [
+                                        "STEREO"
+                                    ],
+                                    "mixes": {
+                                        "TRACK_MIX": "001d2e9d0e008944b361447484f9e5"
+                                    },
+                                    "mediaMetadata": {
+                                        "tags": [
+                                            "LOSSLESS",
+                                            "HIRES_LOSSLESS"
+                                        ]
+                                    },
+                                    "upload": false,
+                                    "payToStream": false,
+                                    "accessType": "PUBLIC",
+                                    "spotlighted": false
+                                },
+                                "type": "track"
+                            },
+                            {
+                                "item": {
+                                    "id": 77610762,
+                                    "title": "Polly",
+                                    "duration": 177,
+                                    "version": null,
+                                    "url": "https://tidal.com/browse/track/77610762",
+                                    "artists": [
+                                        {
+                                            "id": 19368,
+                                            "name": "Nirvana",
+                                            "type": "MAIN",
+                                            "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                            "handle": null,
+                                            "userId": null
+                                        }
+                                    ],
+                                    "album": {
+                                        "id": 77610756,
+                                        "title": "Nevermind",
+                                        "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                                        "vibrantColor": "#56afc9",
+                                        "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                                        "url": "https://tidal.com/browse/album/77610756",
+                                        "releaseDate": "1991-09-24"
+                                    },
+                                    "explicit": false,
+                                    "volumeNumber": 1,
+                                    "trackNumber": 6,
+                                    "popularity": 63,
+                                    "doublePopularity": 0.6277672689127063,
+                                    "allowStreaming": true,
+                                    "streamReady": true,
+                                    "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                                    "adSupportedStreamReady": true,
+                                    "djReady": true,
+                                    "stemReady": false,
+                                    "editable": false,
+                                    "replayGain": -10.79,
+                                    "audioQuality": "LOSSLESS",
+                                    "audioModes": [
+                                        "STEREO"
+                                    ],
+                                    "mixes": {
+                                        "TRACK_MIX": "0013993e3ca14ebed72340a11b9e7e"
+                                    },
+                                    "mediaMetadata": {
+                                        "tags": [
+                                            "LOSSLESS",
+                                            "HIRES_LOSSLESS"
+                                        ]
+                                    },
+                                    "upload": false,
+                                    "payToStream": false,
+                                    "accessType": "PUBLIC",
+                                    "spotlighted": false
+                                },
+                                "type": "track"
+                            },
+                            {
+                                "item": {
+                                    "id": 77610763,
+                                    "title": "Territorial Pissings",
+                                    "duration": 143,
+                                    "version": null,
+                                    "url": "https://tidal.com/browse/track/77610763",
+                                    "artists": [
+                                        {
+                                            "id": 19368,
+                                            "name": "Nirvana",
+                                            "type": "MAIN",
+                                            "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                            "handle": null,
+                                            "userId": null
+                                        }
+                                    ],
+                                    "album": {
+                                        "id": 77610756,
+                                        "title": "Nevermind",
+                                        "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                                        "vibrantColor": "#56afc9",
+                                        "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                                        "url": "https://tidal.com/browse/album/77610756",
+                                        "releaseDate": "1991-09-24"
+                                    },
+                                    "explicit": false,
+                                    "volumeNumber": 1,
+                                    "trackNumber": 7,
+                                    "popularity": 62,
+                                    "doublePopularity": 0.6212446820548868,
+                                    "allowStreaming": true,
+                                    "streamReady": true,
+                                    "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                                    "adSupportedStreamReady": true,
+                                    "djReady": true,
+                                    "stemReady": false,
+                                    "editable": false,
+                                    "replayGain": -10.79,
+                                    "audioQuality": "LOSSLESS",
+                                    "audioModes": [
+                                        "STEREO"
+                                    ],
+                                    "mixes": {
+                                        "TRACK_MIX": "0012520234aa461581c5b0899217b4"
+                                    },
+                                    "mediaMetadata": {
+                                        "tags": [
+                                            "LOSSLESS",
+                                            "HIRES_LOSSLESS"
+                                        ]
+                                    },
+                                    "upload": false,
+                                    "payToStream": false,
+                                    "accessType": "PUBLIC",
+                                    "spotlighted": false
+                                },
+                                "type": "track"
+                            },
+                            {
+                                "item": {
+                                    "id": 77610765,
+                                    "title": "Drain You",
+                                    "duration": 224,
+                                    "version": null,
+                                    "url": "https://tidal.com/browse/track/77610765",
+                                    "artists": [
+                                        {
+                                            "id": 19368,
+                                            "name": "Nirvana",
+                                            "type": "MAIN",
+                                            "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                            "handle": null,
+                                            "userId": null
+                                        }
+                                    ],
+                                    "album": {
+                                        "id": 77610756,
+                                        "title": "Nevermind",
+                                        "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                                        "vibrantColor": "#56afc9",
+                                        "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                                        "url": "https://tidal.com/browse/album/77610756",
+                                        "releaseDate": "1991-09-24"
+                                    },
+                                    "explicit": false,
+                                    "volumeNumber": 1,
+                                    "trackNumber": 8,
+                                    "popularity": 67,
+                                    "doublePopularity": 0.6725595642962575,
+                                    "allowStreaming": true,
+                                    "streamReady": true,
+                                    "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                                    "adSupportedStreamReady": true,
+                                    "djReady": true,
+                                    "stemReady": false,
+                                    "editable": false,
+                                    "replayGain": -10.79,
+                                    "audioQuality": "LOSSLESS",
+                                    "audioModes": [
+                                        "STEREO"
+                                    ],
+                                    "mixes": {
+                                        "TRACK_MIX": "001fdd02422d501cada3c51fdab338"
+                                    },
+                                    "mediaMetadata": {
+                                        "tags": [
+                                            "LOSSLESS",
+                                            "HIRES_LOSSLESS"
+                                        ]
+                                    },
+                                    "upload": false,
+                                    "payToStream": false,
+                                    "accessType": "PUBLIC",
+                                    "spotlighted": false
+                                },
+                                "type": "track"
+                            },
+                            {
+                                "item": {
+                                    "id": 77610766,
+                                    "title": "Lounge Act",
+                                    "duration": 157,
+                                    "version": null,
+                                    "url": "https://tidal.com/browse/track/77610766",
+                                    "artists": [
+                                        {
+                                            "id": 19368,
+                                            "name": "Nirvana",
+                                            "type": "MAIN",
+                                            "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                            "handle": null,
+                                            "userId": null
+                                        }
+                                    ],
+                                    "album": {
+                                        "id": 77610756,
+                                        "title": "Nevermind",
+                                        "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                                        "vibrantColor": "#56afc9",
+                                        "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                                        "url": "https://tidal.com/browse/album/77610756",
+                                        "releaseDate": "1991-09-24"
+                                    },
+                                    "explicit": true,
+                                    "volumeNumber": 1,
+                                    "trackNumber": 9,
+                                    "popularity": 64,
+                                    "doublePopularity": 0.6414268676160279,
+                                    "allowStreaming": true,
+                                    "streamReady": true,
+                                    "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                                    "adSupportedStreamReady": true,
+                                    "djReady": true,
+                                    "stemReady": false,
+                                    "editable": false,
+                                    "replayGain": -10.79,
+                                    "audioQuality": "LOSSLESS",
+                                    "audioModes": [
+                                        "STEREO"
+                                    ],
+                                    "mixes": {
+                                        "TRACK_MIX": "001b043b4f297eff2a6eb161f5231d"
+                                    },
+                                    "mediaMetadata": {
+                                        "tags": [
+                                            "LOSSLESS",
+                                            "HIRES_LOSSLESS"
+                                        ]
+                                    },
+                                    "upload": false,
+                                    "payToStream": false,
+                                    "accessType": "PUBLIC",
+                                    "spotlighted": false
+                                },
+                                "type": "track"
+                            },
+                            {
+                                "item": {
+                                    "id": 77610767,
+                                    "title": "Stay Away",
+                                    "duration": 212,
+                                    "version": null,
+                                    "url": "https://tidal.com/browse/track/77610767",
+                                    "artists": [
+                                        {
+                                            "id": 19368,
+                                            "name": "Nirvana",
+                                            "type": "MAIN",
+                                            "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                            "handle": null,
+                                            "userId": null
+                                        }
+                                    ],
+                                    "album": {
+                                        "id": 77610756,
+                                        "title": "Nevermind",
+                                        "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                                        "vibrantColor": "#56afc9",
+                                        "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                                        "url": "https://tidal.com/browse/album/77610756",
+                                        "releaseDate": "1991-09-24"
+                                    },
+                                    "explicit": false,
+                                    "volumeNumber": 1,
+                                    "trackNumber": 10,
+                                    "popularity": 59,
+                                    "doublePopularity": 0.5863744259616426,
+                                    "allowStreaming": true,
+                                    "streamReady": true,
+                                    "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                                    "adSupportedStreamReady": true,
+                                    "djReady": true,
+                                    "stemReady": false,
+                                    "editable": false,
+                                    "replayGain": -10.79,
+                                    "audioQuality": "LOSSLESS",
+                                    "audioModes": [
+                                        "STEREO"
+                                    ],
+                                    "mixes": {
+                                        "TRACK_MIX": "00136e47fbe30e5eeb23e13736e723"
+                                    },
+                                    "mediaMetadata": {
+                                        "tags": [
+                                            "LOSSLESS",
+                                            "HIRES_LOSSLESS"
+                                        ]
+                                    },
+                                    "upload": false,
+                                    "payToStream": false,
+                                    "accessType": "PUBLIC",
+                                    "spotlighted": false
+                                },
+                                "type": "track"
+                            },
+                            {
+                                "item": {
+                                    "id": 77610768,
+                                    "title": "On A Plain",
+                                    "duration": 196,
+                                    "version": null,
+                                    "url": "https://tidal.com/browse/track/77610768",
+                                    "artists": [
+                                        {
+                                            "id": 19368,
+                                            "name": "Nirvana",
+                                            "type": "MAIN",
+                                            "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                            "handle": null,
+                                            "userId": null
+                                        }
+                                    ],
+                                    "album": {
+                                        "id": 77610756,
+                                        "title": "Nevermind",
+                                        "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                                        "vibrantColor": "#56afc9",
+                                        "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                                        "url": "https://tidal.com/browse/album/77610756",
+                                        "releaseDate": "1991-09-24"
+                                    },
+                                    "explicit": false,
+                                    "volumeNumber": 1,
+                                    "trackNumber": 11,
+                                    "popularity": 61,
+                                    "doublePopularity": 0.6133006744697582,
+                                    "allowStreaming": true,
+                                    "streamReady": true,
+                                    "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                                    "adSupportedStreamReady": true,
+                                    "djReady": true,
+                                    "stemReady": false,
+                                    "editable": false,
+                                    "replayGain": -10.79,
+                                    "audioQuality": "LOSSLESS",
+                                    "audioModes": [
+                                        "STEREO"
+                                    ],
+                                    "mixes": {
+                                        "TRACK_MIX": "00146dca2a754a5e2738d3602b8ce5"
+                                    },
+                                    "mediaMetadata": {
+                                        "tags": [
+                                            "LOSSLESS",
+                                            "HIRES_LOSSLESS"
+                                        ]
+                                    },
+                                    "upload": false,
+                                    "payToStream": false,
+                                    "accessType": "PUBLIC",
+                                    "spotlighted": false
+                                },
+                                "type": "track"
+                            },
+                            {
+                                "item": {
+                                    "id": 77610769,
+                                    "title": "Something In The Way",
+                                    "duration": 235,
+                                    "version": null,
+                                    "url": "https://tidal.com/browse/track/77610769",
+                                    "artists": [
+                                        {
+                                            "id": 19368,
+                                            "name": "Nirvana",
+                                            "type": "MAIN",
+                                            "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                            "handle": null,
+                                            "userId": null
+                                        }
+                                    ],
+                                    "album": {
+                                        "id": 77610756,
+                                        "title": "Nevermind",
+                                        "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                                        "vibrantColor": "#56afc9",
+                                        "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                                        "url": "https://tidal.com/browse/album/77610756",
+                                        "releaseDate": "1991-09-24"
+                                    },
+                                    "explicit": false,
+                                    "volumeNumber": 1,
+                                    "trackNumber": 12,
+                                    "popularity": 75,
+                                    "doublePopularity": 0.7470072560433221,
+                                    "allowStreaming": true,
+                                    "streamReady": true,
+                                    "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                                    "adSupportedStreamReady": true,
+                                    "djReady": true,
+                                    "stemReady": false,
+                                    "editable": false,
+                                    "replayGain": -10.79,
+                                    "audioQuality": "LOSSLESS",
+                                    "audioModes": [
+                                        "STEREO"
+                                    ],
+                                    "mixes": {
+                                        "TRACK_MIX": "001c767bca863c46a6035b1ff7d1ee"
+                                    },
+                                    "mediaMetadata": {
+                                        "tags": [
+                                            "LOSSLESS",
+                                            "HIRES_LOSSLESS"
+                                        ]
+                                    },
+                                    "upload": false,
+                                    "payToStream": false,
+                                    "accessType": "PUBLIC",
+                                    "spotlighted": false
+                                },
+                                "type": "track"
+                            },
+                            {
+                                "item": {
+                                    "id": 77610770,
+                                    "title": "Endless, Nameless",
+                                    "duration": 403,
+                                    "version": null,
+                                    "url": "https://tidal.com/browse/track/77610770",
+                                    "artists": [
+                                        {
+                                            "id": 19368,
+                                            "name": "Nirvana",
+                                            "type": "MAIN",
+                                            "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                            "handle": null,
+                                            "userId": null
+                                        }
+                                    ],
+                                    "album": {
+                                        "id": 77610756,
+                                        "title": "Nevermind",
+                                        "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+                                        "vibrantColor": "#56afc9",
+                                        "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a",
+                                        "url": "https://tidal.com/browse/album/77610756",
+                                        "releaseDate": "1991-09-24"
+                                    },
+                                    "explicit": false,
+                                    "volumeNumber": 1,
+                                    "trackNumber": 13,
+                                    "popularity": 56,
+                                    "doublePopularity": 0.5573815473128819,
+                                    "allowStreaming": true,
+                                    "streamReady": true,
+                                    "streamStartDate": "2013-10-15T00:00:00.000+0000",
+                                    "adSupportedStreamReady": true,
+                                    "djReady": true,
+                                    "stemReady": false,
+                                    "editable": false,
+                                    "replayGain": -10.79,
+                                    "audioQuality": "LOSSLESS",
+                                    "audioModes": [
+                                        "STEREO"
+                                    ],
+                                    "mixes": {
+                                        "TRACK_MIX": "0017fd9ccafcb76bad59e53507ef19"
+                                    },
+                                    "mediaMetadata": {
+                                        "tags": [
+                                            "LOSSLESS",
+                                            "HIRES_LOSSLESS"
+                                        ]
+                                    },
+                                    "upload": false,
+                                    "payToStream": false,
+                                    "accessType": "PUBLIC",
+                                    "spotlighted": false
+                                },
+                                "type": "track"
+                            }
+                        ]
+                    },
+                    "playButton": true,
+                    "shuffleButton": true,
+                    "supportsPaging": false,
+                    "quickPlay": false,
+                    "preTitle": null
+                }
+            ]
+        },
+        {
+            "modules": [
+                {
+                    "id": "eyJwIjoiZTZlM2ZmMWItZDZjNC00NzczLTg4ZDAtMGNmOTdjY2ZjYjU5IiwicFYiOjEzLCJtIjoiM2Y0MTAyNDItNzc3Yi00M2I2LTlhY2YtNmVkOTFjYjk1MzI3IiwibVYiOjEsIm1IIjoiNDgwYTczZmIifQ==",
+                    "type": "ALBUM_LIST",
+                    "width": 100,
+                    "scroll": "HORIZONTAL",
+                    "title": "More Albums by Nirvana",
+                    "description": "",
+                    "showMore": {
+                        "title": "View all",
+                        "apiPath": "pages/single-module-page/e6e3ff1b-d6c4-4773-88d0-0cf97ccfcb59/13/3f410242-777b-43b6-9acf-6ed91cb95327/1?albumId=77610756&artistId=19368"
+                    },
+                    "listFormat": null,
+                    "pagedList": {
+                        "dataApiPath": "pages/data/46ef43c4-689a-4413-9917-65616c02b257?albumId=77610756&artistId=19368",
+                        "limit": 20,
+                        "offset": 0,
+                        "totalNumberOfItems": 21,
+                        "items": [
+                            {
+                                "id": 116146431,
+                                "title": "Live And Loud",
+                                "cover": "f69ef21b-aacc-44e1-afbb-1fda71d705af",
+                                "vibrantColor": "#eee6a4",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/116146431",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2019-08-30T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 17,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2019-08-30",
+                                "duration": 4227,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 423338474,
+                                "title": "Estadio Velez Sarsfield, Buenos Aires, Argentina, October 30th, 1992 (Remastered, Live On Broadcasting)",
+                                "cover": "dc38f3a5-5855-48d0-9b9a-df2a643dc2e7",
+                                "vibrantColor": "#d3a3df",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/423338474",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2025-03-21T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 20,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2016-05-03",
+                                "duration": 3817,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 107591937,
+                                "title": "Live At The Paramount",
+                                "cover": "91d6a69b-28d9-410d-a4d9-1a6b146de025",
+                                "vibrantColor": "#9ed2e9",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/107591937",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2019-04-12T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 19,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2011-09-27",
+                                "duration": 3997,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 3160050,
+                                "title": "Live at Reading",
+                                "cover": "08925061-87ae-44b8-a48f-6c18b6b42f44",
+                                "vibrantColor": "#f0af41",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/3160050",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2009-11-03T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 24,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2009-11-03",
+                                "duration": 4680,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 2269903,
+                                "title": "Sliver - The Best Of The Box",
+                                "cover": "0bbefa7d-cbed-467d-b09d-1c50616a3ab4",
+                                "vibrantColor": "#f4c072",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/2269903",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2007-06-07T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 22,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2005-11-01",
+                                "duration": 4441,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 30235923,
+                                "title": "With The Lights Out - Box Set",
+                                "cover": "dc785e6f-5a5e-491a-8b0a-b2b2b5abea34",
+                                "vibrantColor": "#FFFFFF",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/30235923",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2011-03-22T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 61,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2004-11-23",
+                                "duration": 12908,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 92239126,
+                                "title": "Nirvana",
+                                "cover": "c5348b67-c43d-428f-8869-5216a18ec81f",
+                                "vibrantColor": "#FFFFFF",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/92239126",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2018-07-18T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 14,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2002-10-29",
+                                "duration": 2946,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 634556,
+                                "title": "From The Muddy Banks Of The Wishkah (Live)",
+                                "cover": "364f659c-e437-46bb-a95c-4ef6bd3cb8c5",
+                                "vibrantColor": "#ead9a6",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/634556",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2004-03-30T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 17,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1996-10-01",
+                                "duration": 3241,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 2570671,
+                                "title": "MTV Unplugged In New York",
+                                "cover": "621c5170-fa02-4b63-902c-dd3e814187f6",
+                                "vibrantColor": "#d498a0",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/2570671",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2006-02-01T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 14,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1994-11-01",
+                                "duration": 3237,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 168606745,
+                                "title": "MTV Unplugged In New York (25th Anniversary)",
+                                "cover": "8309ec4f-7fa1-4b78-9537-d7a817776509",
+                                "vibrantColor": "#d69fa5",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/168606745",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2021-01-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 19,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1994-11-01",
+                                "duration": 4593,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 452930934,
+                                "title": "Palaghiaccio, Rome, Italy, February 22, 1994 (Live)",
+                                "cover": "2e0dd5a3-b8ea-4652-9bb1-2da618ae4eed",
+                                "vibrantColor": null,
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/452930934",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-16T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 24,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1994-08-05",
+                                "duration": 4545,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 79237095,
+                                "title": "In Utero (20th Anniversary Deluxe Edition)",
+                                "cover": "202c06b9-c991-403e-8678-4da68dbe07be",
+                                "vibrantColor": "#efe7aa",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/79237095",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2013-09-30T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 43,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1993-09-21",
+                                "duration": 9162,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 77610844,
+                                "title": "In Utero",
+                                "cover": "e680f7cf-f8af-421b-a2ac-3b0b074e3866",
+                                "vibrantColor": "#f1eab5",
+                                "videoCover": "b5b8236c-b15b-4353-979b-340e97481740",
+                                "url": "https://tidal.com/browse/album/77610844",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2013-09-24T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 12,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1993-09-21",
+                                "duration": 2491,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 322890193,
+                                "title": "In Utero (30th Anniversary Super Deluxe)",
+                                "cover": "669c1f6f-3f6d-43db-a96b-f12853e5aeaf",
+                                "vibrantColor": "#d5ac5a",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/322890193",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2023-10-27T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 72,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1993-09-21",
+                                "duration": 15976,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 79237516,
+                                "title": "In Utero (20th Anniversary Super Deluxe)",
+                                "cover": "249735d6-ca90-4952-bc88-ef78dbd3f5f6",
+                                "vibrantColor": "#f7f0b4",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/79237516",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2013-09-27T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 60,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1993-09-21",
+                                "duration": 13389,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 94436656,
+                                "title": "Incesticide",
+                                "cover": "6c1c7df4-f424-49e1-bccb-4d1cc52bd0f9",
+                                "vibrantColor": "#e55b50",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/94436656",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2018-09-07T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 15,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1992-12-01",
+                                "duration": 2674,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 7772082,
+                                "title": "Nevermind (Deluxe Edition)",
+                                "cover": "e3ea4ce4-40ca-44a3-a4ab-c6b64266539d",
+                                "vibrantColor": "#b3c1e3",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/7772082",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2022-03-21T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 40,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1991-09-24",
+                                "duration": 8826,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 203937587,
+                                "title": "Nevermind (30th Anniversary Super Deluxe)",
+                                "cover": "fa54a21b-72c9-4369-8a19-ed183ba5a9e2",
+                                "vibrantColor": "#9dc8da",
+                                "videoCover": "0e411cb7-cbfe-4fea-a0d8-671668492a3f",
+                                "url": "https://tidal.com/browse/album/203937587",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2021-11-12T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 75,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1991-09-24",
+                                "duration": 16278,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 7772125,
+                                "title": "Nevermind (Super Deluxe Edition)",
+                                "cover": "5063288f-1330-4aa9-beb8-1d975302156f",
+                                "vibrantColor": "#8fbacb",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/7772125",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2022-03-28T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 70,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1991-09-24",
+                                "duration": 15200,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 68639771,
+                                "title": "Bleach (Deluxe Edition)",
+                                "cover": "b2a5c3a4-e428-4e60-b0e1-5407fd579a32",
+                                "vibrantColor": "#FFFFFF",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/68639771",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2018-09-19T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 25,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1989-06-01",
+                                "duration": 4597,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "header": null,
+                    "supportsPaging": true,
+                    "layout": null,
+                    "quickPlay": false,
+                    "preTitle": ""
+                }
+            ]
+        },
+        {
+            "modules": [
+                {
+                    "id": "eyJwIjoiZTZlM2ZmMWItZDZjNC00NzczLTg4ZDAtMGNmOTdjY2ZjYjU5IiwicFYiOjEzLCJtIjoiZDc4ODA0MWUtMzQ0OS00ZDIxLTgxMzctNGFlNTlhNzBjYjNlIiwibVYiOjEsIm1IIjoiYzM1MGVhOWEifQ==",
+                    "type": "ALBUM_LIST",
+                    "width": 100,
+                    "scroll": "HORIZONTAL",
+                    "title": "Related Albums",
+                    "description": "",
+                    "showMore": {
+                        "title": "View all",
+                        "apiPath": "pages/single-module-page/e6e3ff1b-d6c4-4773-88d0-0cf97ccfcb59/13/d788041e-3449-4d21-8137-4ae59a70cb3e/1?albumId=77610756"
+                    },
+                    "listFormat": null,
+                    "pagedList": {
+                        "dataApiPath": "pages/data/a8449d6d-a8bc-4586-b3e7-8ab5c767b798?albumId=77610756",
+                        "limit": 20,
+                        "offset": 0,
+                        "totalNumberOfItems": 20,
+                        "items": [
+                            {
+                                "id": 304838,
+                                "title": "Blood Sugar Sex Magik (Deluxe Edition)",
+                                "cover": "b3990b84-29d9-41b1-aeb7-c528089a5bef",
+                                "vibrantColor": "#d69999",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/304838",
+                                "artists": [
+                                    {
+                                        "id": 13957,
+                                        "name": "Red Hot Chili Peppers",
+                                        "type": "MAIN",
+                                        "picture": "f839b39b-2e6e-487a-9362-f45f762114e3",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2014-12-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 19,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1991-09-24",
+                                "duration": 4794,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 225469,
+                                "title": "Dookie",
+                                "cover": "f0737dee-7386-4904-bb87-97077a5b32eb",
+                                "vibrantColor": "#d8c98b",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/225469",
+                                "artists": [
+                                    {
+                                        "id": 13866,
+                                        "name": "Green Day",
+                                        "type": "MAIN",
+                                        "picture": "2d0d9bcc-ab61-4942-bbfe-5e79b08c9a41",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2008-06-30T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 15,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1994-02-01",
+                                "duration": 2303,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 5120022,
+                                "title": "Ten",
+                                "cover": "0d51300c-4d64-4750-994b-b135a5fbd37d",
+                                "vibrantColor": "#cb5870",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/5120022",
+                                "artists": [
+                                    {
+                                        "id": 3116,
+                                        "name": "Pearl Jam",
+                                        "type": "MAIN",
+                                        "picture": "36863f02-6c8e-4017-b0e9-d6120dd0a63d",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "1992-01-14T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 11,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1991-08-27",
+                                "duration": 3202,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 156876004,
+                                "title": "(What's The Story) Morning Glory? (Remastered)",
+                                "cover": "5f3fe6a7-b773-44c8-bfaf-da21d56ae6e4",
+                                "vibrantColor": "#c7b769",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/156876004",
+                                "artists": [
+                                    {
+                                        "id": 109,
+                                        "name": "Oasis",
+                                        "type": "MAIN",
+                                        "picture": "0491c8eb-c16f-409c-915d-36a79d9e6384",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2020-10-02T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 12,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1995-10-03",
+                                "duration": 3013,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 196435443,
+                                "title": "Metallica (Remastered 2021)",
+                                "cover": "b48d21ef-2b65-4f2f-b41e-1223481fa6bf",
+                                "vibrantColor": "#FFFFFF",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/196435443",
+                                "artists": [
+                                    {
+                                        "id": 8405,
+                                        "name": "Metallica",
+                                        "type": "MAIN",
+                                        "picture": "0b6a87b1-54a4-4014-9ac2-a2c7b978ae19",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2021-09-10T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 12,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1991-08-12",
+                                "duration": 3759,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 3146486,
+                                "title": "Greatest Hits",
+                                "cover": "2d75d1e2-6249-4d2a-8af2-adeff8c805d6",
+                                "vibrantColor": "#e78f92",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/3146486",
+                                "artists": [
+                                    {
+                                        "id": 2753,
+                                        "name": "Foo Fighters",
+                                        "type": "MAIN",
+                                        "picture": "ee3dd374-68c6-4b4c-a085-5fca78f46aff",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2009-11-02T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 16,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2009-11-03",
+                                "duration": 3821,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 304802,
+                                "title": "Californication (Deluxe Edition)",
+                                "cover": "543575fc-ad02-419b-ae61-671558dc019d",
+                                "vibrantColor": "#a5c9e6",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/304802",
+                                "artists": [
+                                    {
+                                        "id": 13957,
+                                        "name": "Red Hot Chili Peppers",
+                                        "type": "MAIN",
+                                        "picture": "9be9e74c-1b06-479a-a79e-5c62733d74ac",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2014-12-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 18,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1999-06-08",
+                                "duration": 4074,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 77610844,
+                                "title": "In Utero",
+                                "cover": "e680f7cf-f8af-421b-a2ac-3b0b074e3866",
+                                "vibrantColor": "#f1eab5",
+                                "videoCover": "b5b8236c-b15b-4353-979b-340e97481740",
+                                "url": "https://tidal.com/browse/album/77610844",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2013-09-24T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 12,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1993-09-21",
+                                "duration": 2491,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 81118012,
+                                "title": "Greatest Hits: God's Favorite Band",
+                                "cover": "68a15291-8a3a-4f82-a8ac-94166c6630ec",
+                                "vibrantColor": "#dcc161",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/81118012",
+                                "artists": [
+                                    {
+                                        "id": 13866,
+                                        "name": "Green Day",
+                                        "type": "MAIN",
+                                        "picture": "2d0d9bcc-ab61-4942-bbfe-5e79b08c9a41",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2017-11-17T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 22,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2017-11-17",
+                                "duration": 4570,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 16009770,
+                                "title": "Blur (Special Edition)",
+                                "cover": "574d2bd4-4495-4aac-a49a-5fec92b7f7da",
+                                "vibrantColor": "#fdd46a",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/16009770",
+                                "artists": [
+                                    {
+                                        "id": 10052,
+                                        "name": "Blur",
+                                        "type": "MAIN",
+                                        "picture": "1cd72bb9-0e4d-4902-975e-5c1672188603",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2012-07-30T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 32,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1997-02-10",
+                                "duration": 7416,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 6099415,
+                                "title": "Vs.",
+                                "cover": "eaeeadc2-b806-4014-832f-fbf6cc7a3cd7",
+                                "vibrantColor": "#FFFFFF",
+                                "videoCover": "5bec78fe-7102-4b13-a5df-34e6a7c2f2f8",
+                                "url": "https://tidal.com/browse/album/6099415",
+                                "artists": [
+                                    {
+                                        "id": 3116,
+                                        "name": "Pearl Jam",
+                                        "type": "MAIN",
+                                        "picture": "36863f02-6c8e-4017-b0e9-d6120dd0a63d",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2011-03-28T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 15,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1993-10-19",
+                                "duration": 3599,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 17825550,
+                                "title": "Toxicity",
+                                "cover": "cd36047c-81ca-450a-b681-189887e0b6a3",
+                                "vibrantColor": "#eeebcb",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/17825550",
+                                "artists": [
+                                    {
+                                        "id": 721,
+                                        "name": "System Of A Down",
+                                        "type": "MAIN",
+                                        "picture": "b45f6499-0636-4874-9e41-796be9a8c2b8",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-04-30T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 15,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2001-09-04",
+                                "duration": 2642,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 144505620,
+                                "title": "Definitely Maybe (Deluxe Edition Remastered)",
+                                "cover": "9a2bfe06-d603-45fd-9c3d-d338b9b26b16",
+                                "vibrantColor": "#d3b989",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/144505620",
+                                "artists": [
+                                    {
+                                        "id": 109,
+                                        "name": "Oasis",
+                                        "type": "MAIN",
+                                        "picture": "0491c8eb-c16f-409c-915d-36a79d9e6384",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2020-08-11T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 44,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1994-08-01",
+                                "duration": 12259,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 77553045,
+                                "title": "Out Of Time (25th Anniversary Edition)",
+                                "cover": "d6d03e08-47fc-4840-864b-fe003c553da1",
+                                "vibrantColor": "#eddb5d",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/77553045",
+                                "artists": [
+                                    {
+                                        "id": 9366,
+                                        "name": "R.E.M.",
+                                        "type": "MAIN",
+                                        "picture": "598806d2-8866-410e-b7e6-0d724a9d84b0",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2016-11-18T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 30,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1991-03-12",
+                                "duration": 7115,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 145434577,
+                                "title": "Master Of Puppets (Remastered)",
+                                "cover": "c465de57-25ab-471e-84a5-f4c0d67205da",
+                                "vibrantColor": "#ef762d",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/145434577",
+                                "artists": [
+                                    {
+                                        "id": 8405,
+                                        "name": "Metallica",
+                                        "type": "MAIN",
+                                        "picture": "0b6a87b1-54a4-4014-9ac2-a2c7b978ae19",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2020-06-19T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 8,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1986-03-03",
+                                "duration": 3286,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 77647353,
+                                "title": "Superunknown (20th Anniversary)",
+                                "cover": "79bbdb0f-8fcf-4993-b034-e1efc3c27140",
+                                "vibrantColor": "#f39626",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/77647353",
+                                "artists": [
+                                    {
+                                        "id": 34477,
+                                        "name": "Soundgarden",
+                                        "type": "MAIN",
+                                        "picture": "bcf6a3d6-7d2e-45a1-aee4-0e5273c044ac",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2014-06-03T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 15,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1994-03-08",
+                                "duration": 4225,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 33816889,
+                                "title": "The Colour And The Shape",
+                                "cover": "af9111b4-553b-40a5-a677-41dbe8bac7a2",
+                                "vibrantColor": "#be353f",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/33816889",
+                                "artists": [
+                                    {
+                                        "id": 2753,
+                                        "name": "Foo Fighters",
+                                        "type": "MAIN",
+                                        "picture": "88cea88e-1eeb-4e18-bc9a-c3303bff9a61",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2014-10-29T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 14,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1997-05-20",
+                                "duration": 3015,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 58990484,
+                                "title": "Pablo Honey",
+                                "cover": "ccc50c5e-b347-4faa-9524-924dc8f071fc",
+                                "vibrantColor": "#ecbf5c",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/58990484",
+                                "artists": [
+                                    {
+                                        "id": 64518,
+                                        "name": "Radiohead",
+                                        "type": "MAIN",
+                                        "picture": "0968a9dd-9536-4bc2-84a2-ab65c8926bdc",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-06T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 12,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "1993-04-20",
+                                "duration": 2537,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 92239126,
+                                "title": "Nirvana",
+                                "cover": "c5348b67-c43d-428f-8869-5216a18ec81f",
+                                "vibrantColor": "#FFFFFF",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/92239126",
+                                "artists": [
+                                    {
+                                        "id": 19368,
+                                        "name": "Nirvana",
+                                        "type": "MAIN",
+                                        "picture": "354251d0-d434-411a-a889-06cf7daeffef",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2018-07-18T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 14,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2002-10-29",
+                                "duration": 2946,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 233351,
+                                "title": "Greatest Hits",
+                                "cover": "1abb149a-6ca4-4d03-b62f-5d1a4180c626",
+                                "vibrantColor": "#b9a66a",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/233351",
+                                "artists": [
+                                    {
+                                        "id": 13957,
+                                        "name": "Red Hot Chili Peppers",
+                                        "type": "MAIN",
+                                        "picture": "f839b39b-2e6e-487a-9362-f45f762114e3",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2014-12-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 16,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2003-11-18",
+                                "duration": 3996,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "header": null,
+                    "supportsPaging": true,
+                    "layout": null,
+                    "quickPlay": false,
+                    "preTitle": null
+                }
+            ]
+        },
+        {
+            "modules": [
+                {
+                    "id": "eyJwIjoiZTZlM2ZmMWItZDZjNC00NzczLTg4ZDAtMGNmOTdjY2ZjYjU5IiwicFYiOjEzLCJtIjoiYzAyOTZlODQtM2E2ZC00NzVhLTllOGEtY2FmMzljMmExNGM0IiwibVYiOjEsIm1IIjoiZGIwMDdjOCJ9",
+                    "type": "ARTIST_LIST",
+                    "width": 100,
+                    "scroll": "HORIZONTAL",
+                    "title": "Related Artists",
+                    "description": "",
+                    "showMore": {
+                        "title": "View all",
+                        "apiPath": "pages/single-module-page/e6e3ff1b-d6c4-4773-88d0-0cf97ccfcb59/13/c0296e84-3a6d-475a-9e8a-caf39c2a14c4/1?albumId=77610756"
+                    },
+                    "pagedList": {
+                        "dataApiPath": "pages/data/13f97524-5f7b-466d-949e-f9c597a9e3bc?albumId=77610756",
+                        "limit": 20,
+                        "offset": 0,
+                        "totalNumberOfItems": 20,
+                        "items": [
+                            {
+                                "id": 2753,
+                                "name": "Foo Fighters",
+                                "picture": "88cea88e-1eeb-4e18-bc9a-c3303bff9a61",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Performer",
+                                        "categoryId": 11
+                                    },
+                                    {
+                                        "category": "Misc",
+                                        "categoryId": 99
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "000241bdceed8421181088363301c3"
+                                }
+                            },
+                            {
+                                "id": 27538,
+                                "name": "The Cranberries",
+                                "picture": "4222d423-f55e-4004-9137-5a58712320c6",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Performer",
+                                        "categoryId": 11
+                                    },
+                                    {
+                                        "category": "Engineer",
+                                        "categoryId": 3
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "000a25f4ced95809df52290d41df4b"
+                                }
+                            },
+                            {
+                                "id": 3520510,
+                                "name": "The White Stripes",
+                                "picture": "a50c68ab-f9f7-44d5-8300-9043d3847fbf",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Production team",
+                                        "categoryId": 10
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "000834f02c11cd991328248ff26ac9"
+                                }
+                            },
+                            {
+                                "id": 34477,
+                                "name": "Soundgarden",
+                                "picture": "bcf6a3d6-7d2e-45a1-aee4-0e5273c044ac",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Engineer",
+                                        "categoryId": 3
+                                    },
+                                    {
+                                        "category": "Production team",
+                                        "categoryId": 10
+                                    },
+                                    {
+                                        "category": "Performer",
+                                        "categoryId": 11
+                                    },
+                                    {
+                                        "category": "Misc",
+                                        "categoryId": 99
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "000f5befc09788cce88f7b60999b55"
+                                }
+                            },
+                            {
+                                "id": 608,
+                                "name": "Alice In Chains",
+                                "picture": "d1891eaf-b367-4181-9775-e5a3940d97c7",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Performer",
+                                        "categoryId": 11
+                                    },
+                                    {
+                                        "category": "Misc",
+                                        "categoryId": 99
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "000012a30fbd694e83f909d14e287e"
+                                }
+                            },
+                            {
+                                "id": 27807,
+                                "name": "Smashing Pumpkins",
+                                "picture": "b21fd2fc-2d76-4ebc-a434-8686c475fc10",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Engineer",
+                                        "categoryId": 3
+                                    },
+                                    {
+                                        "category": "Performer",
+                                        "categoryId": 11
+                                    },
+                                    {
+                                        "category": "Misc",
+                                        "categoryId": 99
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "000019e5d2e6e75be983ab9bf072f8"
+                                }
+                            },
+                            {
+                                "id": 3116,
+                                "name": "Pearl Jam",
+                                "picture": "36863f02-6c8e-4017-b0e9-d6120dd0a63d",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Performer",
+                                        "categoryId": 11
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "0008b29f35c018eb78b183ebcd58a1"
+                                }
+                            },
+                            {
+                                "id": 13866,
+                                "name": "Green Day",
+                                "picture": "2d0d9bcc-ab61-4942-bbfe-5e79b08c9a41",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Engineer",
+                                        "categoryId": 3
+                                    },
+                                    {
+                                        "category": "Production team",
+                                        "categoryId": 10
+                                    },
+                                    {
+                                        "category": "Performer",
+                                        "categoryId": 11
+                                    },
+                                    {
+                                        "category": "Misc",
+                                        "categoryId": 99
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "000932f0ff3c88255167520480ef19"
+                                }
+                            },
+                            {
+                                "id": 64518,
+                                "name": "Radiohead",
+                                "picture": "0968a9dd-9536-4bc2-84a2-ab65c8926bdc",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Production team",
+                                        "categoryId": 10
+                                    },
+                                    {
+                                        "category": "Performer",
+                                        "categoryId": 11
+                                    },
+                                    {
+                                        "category": "Engineer",
+                                        "categoryId": 3
+                                    },
+                                    {
+                                        "category": "Misc",
+                                        "categoryId": 99
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "00050f72f4f635c60f93ee39b0c79e"
+                                }
+                            },
+                            {
+                                "id": 109,
+                                "name": "Oasis",
+                                "picture": "0491c8eb-c16f-409c-915d-36a79d9e6384",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Production team",
+                                        "categoryId": 10
+                                    },
+                                    {
+                                        "category": "Engineer",
+                                        "categoryId": 3
+                                    },
+                                    {
+                                        "category": "Performer",
+                                        "categoryId": 11
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "0008bbf0227e6ee579a85f4957a66e"
+                                }
+                            },
+                            {
+                                "id": 13957,
+                                "name": "Red Hot Chili Peppers",
+                                "picture": "f839b39b-2e6e-487a-9362-f45f762114e3",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Performer",
+                                        "categoryId": 11
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Engineer",
+                                        "categoryId": 3
+                                    },
+                                    {
+                                        "category": "Misc",
+                                        "categoryId": 99
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "000eb4adbc0d27eb9ffb8334bde8d6"
+                                }
+                            },
+                            {
+                                "id": 10052,
+                                "name": "Blur",
+                                "picture": "1cd72bb9-0e4d-4902-975e-5c1672188603",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Production team",
+                                        "categoryId": 10
+                                    },
+                                    {
+                                        "category": "Performer",
+                                        "categoryId": 11
+                                    },
+                                    {
+                                        "category": "Engineer",
+                                        "categoryId": 3
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "000253a51c6e68c7c78febd639b2b6"
+                                }
+                            },
+                            {
+                                "id": 8405,
+                                "name": "Metallica",
+                                "picture": "0b6a87b1-54a4-4014-9ac2-a2c7b978ae19",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Performer",
+                                        "categoryId": 11
+                                    },
+                                    {
+                                        "category": "Production team",
+                                        "categoryId": 10
+                                    },
+                                    {
+                                        "category": "Engineer",
+                                        "categoryId": 3
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "0008a92f59f8b301581f70ca9ee481"
+                                }
+                            },
+                            {
+                                "id": 14836,
+                                "name": "Stone Temple Pilots",
+                                "picture": "92cd3fda-3324-4a41-8d8a-43abdbdfd28f",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Performer",
+                                        "categoryId": 11
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "0008fb11d3ce925c4eb5672c1fcc19"
+                                }
+                            },
+                            {
+                                "id": 29902,
+                                "name": "Queens Of The Stone Age",
+                                "picture": "e93c0d36-742b-484f-85ee-daea94b011ce",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Production team",
+                                        "categoryId": 10
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "0002b674873c83d22807f851927ab8"
+                                }
+                            },
+                            {
+                                "id": 3565255,
+                                "name": "Pixies",
+                                "picture": "2a2b3a03-6e5e-4074-be60-5193c5c5a80f",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Performer",
+                                        "categoryId": 11
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "0001e4fbca854fdfe6481695fadf66"
+                                }
+                            },
+                            {
+                                "id": 721,
+                                "name": "System Of A Down",
+                                "picture": "b45f6499-0636-4874-9e41-796be9a8c2b8",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Misc",
+                                        "categoryId": 99
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "000e34768c802b4c075fb7d5cf9c27"
+                                }
+                            },
+                            {
+                                "id": 950,
+                                "name": "Aerosmith",
+                                "picture": "76baebbc-63cb-4f74-be62-298db903ed0e",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Production team",
+                                        "categoryId": 10
+                                    },
+                                    {
+                                        "category": "Performer",
+                                        "categoryId": 11
+                                    },
+                                    {
+                                        "category": "Misc",
+                                        "categoryId": 99
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "000d4bd2406b118cdc1ebce4ebfb9c"
+                                }
+                            },
+                            {
+                                "id": 7992099,
+                                "name": "Piano Covers",
+                                "picture": null,
+                                "selectedAlbumCoverFallback": "0c8f27a6-65d4-472c-a9e0-d5ddbd68e72f",
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "00093b9045909e6dcfc9171492c3d6"
+                                }
+                            },
+                            {
+                                "id": 32944,
+                                "name": "Guns N' Roses",
+                                "picture": "37d696c4-fa3f-4415-82ec-1d1eee498232",
+                                "selectedAlbumCoverFallback": null,
+                                "artistTypes": null,
+                                "artistRoles": [
+                                    {
+                                        "category": "Artist",
+                                        "categoryId": -1
+                                    },
+                                    {
+                                        "category": "Songwriter",
+                                        "categoryId": 2
+                                    },
+                                    {
+                                        "category": "Producer",
+                                        "categoryId": 1
+                                    },
+                                    {
+                                        "category": "Production team",
+                                        "categoryId": 10
+                                    },
+                                    {
+                                        "category": "Misc",
+                                        "categoryId": 99
+                                    }
+                                ],
+                                "mixes": {
+                                    "ARTIST_MIX": "000212a449d688cdf58f9fecb56db2"
+                                }
+                            }
+                        ]
+                    },
+                    "supportsPaging": true,
+                    "layout": null,
+                    "quickPlay": false,
+                    "header": null,
+                    "preTitle": null
+                }
+            ]
+        }
+    ]
+}

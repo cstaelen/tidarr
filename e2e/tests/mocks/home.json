@@ -1,0 +1,3347 @@
+{
+    "selfLink": null,
+    "id": "eyJwIjoiZjdiYzc5MTctNmJjZC00NDZjLThlMjYtNjE1MzMyNzYzMzdkIiwicFYiOjd9",
+    "title": "Home",
+    "rows": [
+        {
+            "modules": [
+                {
+                    "id": "eyJwIjoiZjdiYzc5MTctNmJjZC00NDZjLThlMjYtNjE1MzMyNzYzMzdkIiwicFYiOjcsIm0iOiI1ZWI0MzcyYi0xZjk5LTQxZDMtYjc1OC0zNjJkOTI1NGI1ZjkiLCJtViI6MSwibUgiOiI2ZGFkZGY5ZSJ9",
+                    "type": "PLAYLIST_LIST",
+                    "width": 100,
+                    "scroll": "HORIZONTAL",
+                    "title": "The Hits",
+                    "description": "",
+                    "showMore": {
+                        "title": "View all",
+                        "apiPath": "pages/single-module-page/f7bc7917-6bcd-446c-8e26-61533276337d/7/5eb4372b-1f99-41d3-b758-362d9254b5f9/1"
+                    },
+                    "pagedList": {
+                        "dataApiPath": "pages/data/dba67408-bd39-46fb-99ac-f2593aa716bf",
+                        "limit": 15,
+                        "offset": 0,
+                        "totalNumberOfItems": 9,
+                        "items": [
+                            {
+                                "uuid": "edf3b7d2-cb42-41d7-93c0-afa2a395521b",
+                                "title": "TIDAL's Top Hits",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/edf3b7d2-cb42-41d7-93c0-afa2a395521b",
+                                "image": "6799373e-e7cd-4f51-8d61-9d8eafbcaa45",
+                                "squareImage": "b9056fb5-a8db-491e-a95e-d9484f4e0944",
+                                "duration": 19519,
+                                "numberOfTracks": 100,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2025-08-14T19:27:02.88Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 3261,
+                                        "name": "Chris Brown",
+                                        "type": "MAIN",
+                                        "picture": "7fb0547f-51a0-4ca1-9cf1-f7cee74aeaa6",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 6200831,
+                                        "name": "Bryson Tiller",
+                                        "type": "MAIN",
+                                        "picture": "f1c41553-7afc-439a-b48a-47fa971ab771",
+                                        "handle": null,
+                                        "userId": 0,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4332,
+                                        "name": "Clipse",
+                                        "type": "MAIN",
+                                        "picture": "cb9c35d6-4139-478e-ad35-5e8f8532ca0b",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3816041,
+                                        "name": "Kendrick Lamar",
+                                        "type": "MAIN",
+                                        "picture": "01417c98-7f2e-48fc-9b5f-9a83777c8462",
+                                        "handle": null,
+                                        "userId": 0,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "The hits of today, on TIDAL. A taste of everything happening in music, featuring Kendrick Lamar, SZA, Drake, Beyoncé and more. Updated regularly. (Cover: Chris Brown x Bryson Tiller// Credit: Press) "
+                            },
+                            {
+                                "uuid": "36ea71a8-445e-41a4-82ab-6628c581535d",
+                                "title": "Pop Hits",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/36ea71a8-445e-41a4-82ab-6628c581535d",
+                                "image": "6b4154f7-6aad-456f-be70-8f978dac400b",
+                                "squareImage": "caebe925-bc19-4cea-a7ac-565e49c9347b",
+                                "duration": 9569,
+                                "numberOfTracks": 51,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2025-08-21T20:00:15.065Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 3639248,
+                                        "name": "Justin Bieber",
+                                        "type": "MAIN",
+                                        "picture": "1b0673e7-e408-44eb-b79a-bc86fb372a9a",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 8965597,
+                                        "name": "Alex Warren",
+                                        "type": "MAIN",
+                                        "picture": "276e2ec1-7db9-4c5f-914d-42538a970b10",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 23409727,
+                                        "name": "PinkPantheress",
+                                        "type": "MAIN",
+                                        "picture": "224393ce-7f5a-4848-8800-fead1ffa37dc",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4751756,
+                                        "name": "Sabrina Carpenter",
+                                        "type": "MAIN",
+                                        "picture": "854a8a1a-43f1-44b2-8e59-474e83abd578",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "The hottest pop and pop crossover hits topping the charts right now. (Cover: Justin Bieber// Photo: Republic Records/press) "
+                            },
+                            {
+                                "uuid": "94fe2b9b-096d-4b39-8129-d5b8e774e9b3",
+                                "title": "Rock Hits",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/94fe2b9b-096d-4b39-8129-d5b8e774e9b3",
+                                "image": "fb4715fa-874e-482f-a3ec-58e2df756e0e",
+                                "squareImage": "5a0f7e78-f2c8-4fc2-a62e-d0baede8e539",
+                                "duration": 11054,
+                                "numberOfTracks": 50,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2025-07-18T22:43:27.507Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 3565225,
+                                        "name": "Five Finger Death Punch",
+                                        "type": "MAIN",
+                                        "picture": "cdfea9b9-1b13-45b6-8ec1-e2a4f6a2c727",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3569545,
+                                        "name": "In This Moment",
+                                        "type": "MAIN",
+                                        "picture": "f91bae1a-8964-46dc-8f04-fd73d64eb80e",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 22125127,
+                                        "name": "Mammoth",
+                                        "type": "MAIN",
+                                        "picture": "48ff789e-a281-4c7d-ab70-ea887fe5acf4",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5947,
+                                        "name": "Chevelle",
+                                        "type": "MAIN",
+                                        "picture": "42f0719b-bfb8-4aec-ad4f-36b805e5fd5b",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Hot mainstream and alternative rock songs dominating the airwaves. (Cover: Five Finger Death Punch / Photo: Fuga, press)  "
+                            },
+                            {
+                                "uuid": "c2f010a0-0465-49df-9d0c-fdb350b0429a",
+                                "title": "Country Hits",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/c2f010a0-0465-49df-9d0c-fdb350b0429a",
+                                "image": "5e316117-ab3e-4569-8580-8aef193743a2",
+                                "squareImage": "04adb747-6566-49bf-ab2d-eaf525e767ac",
+                                "duration": 9851,
+                                "numberOfTracks": 50,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2025-08-09T14:39:06.07Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 17327364,
+                                        "name": "Tucker Wetmore",
+                                        "type": "MAIN",
+                                        "picture": "6b576615-7d93-4946-af2b-e79ad5204ac6",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 6326493,
+                                        "name": "Morgan Wallen",
+                                        "type": "MAIN",
+                                        "picture": "e3cdd69b-2ef4-43db-b5a9-54575bf8137e",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 14775190,
+                                        "name": "Tyler Hubbard",
+                                        "type": "MAIN",
+                                        "picture": "b586f092-6958-412b-905a-5e37f18376e0",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5326703,
+                                        "name": "Thomas Rhett",
+                                        "type": "MAIN",
+                                        "picture": "03ef0447-6d45-4b99-a199-dbcd4ca71be8",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 7250145,
+                                        "name": "Marshmello",
+                                        "type": "MAIN",
+                                        "picture": "bf395e45-b877-4148-9f88-d5d804a66bab",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4913595,
+                                        "name": "Russell Dickerson",
+                                        "type": "MAIN",
+                                        "picture": "0b197acf-52ef-4e79-8141-2da123f462e9",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 16568778,
+                                        "name": "Zach Bryan",
+                                        "type": "MAIN",
+                                        "picture": "3aa3cfb9-ea65-4bfb-8560-7291880dcd77",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5083562,
+                                        "name": "Sam Hunt",
+                                        "type": "MAIN",
+                                        "picture": "ada6a0e0-c421-4151-aeb5-d9772003fbae",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 17042393,
+                                        "name": "BigXthaPlug",
+                                        "type": "MAIN",
+                                        "picture": "c34db67a-82a8-4f2f-9593-2b49e8f7895c",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 27903275,
+                                        "name": "Gavin Adcock",
+                                        "type": "MAIN",
+                                        "picture": "1721a25c-eaaa-4494-8db2-6f181f07e6c3",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 23263192,
+                                        "name": "Bailey Zimmerman",
+                                        "type": "MAIN",
+                                        "picture": "c8b270d1-888b-4cf1-bf5a-d36592d6f80d",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 24341141,
+                                        "name": "Zach Top",
+                                        "type": "MAIN",
+                                        "picture": "22293039-9eb8-4395-b1fb-e0855c83d516",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 17181139,
+                                        "name": "Tyler Nance",
+                                        "type": "MAIN",
+                                        "picture": null,
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3864332,
+                                        "name": "Nate Smith",
+                                        "type": "MAIN",
+                                        "picture": "71969763-180a-4b01-9177-8c451937d7aa",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 10462785,
+                                        "name": "HARDY",
+                                        "type": "MAIN",
+                                        "picture": "59e07976-a648-4ef2-86b0-b240a0de9461",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 38784350,
+                                        "name": "Max McNown",
+                                        "type": "MAIN",
+                                        "picture": "11a07c5b-9812-4d18-aca4-ac8949f4d208",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 9628484,
+                                        "name": "Josh Ross",
+                                        "type": "MAIN",
+                                        "picture": "67983b45-2a07-423a-8929-0d1aee6bb3b8",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 11765471,
+                                        "name": "Corey Kent",
+                                        "type": "MAIN",
+                                        "picture": "60ed4112-1c65-4d67-8386-b964bb201ecd",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 9850354,
+                                        "name": "Ella Langley",
+                                        "type": "MAIN",
+                                        "picture": "ee32b7d8-7440-4002-9447-7b08de2fba34",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5944768,
+                                        "name": "Shaboozey",
+                                        "type": "MAIN",
+                                        "picture": "1b7cf9c3-015e-47e6-abf8-f02312c38176",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3506343,
+                                        "name": "Luke Bryan",
+                                        "type": "MAIN",
+                                        "picture": "54e9a7fa-3f6d-448b-8660-19455e23460f",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5558145,
+                                        "name": "Tyler Childers",
+                                        "type": "MAIN",
+                                        "picture": "681df2fe-f447-4f88-a260-463a9b5ba3be",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 23440615,
+                                        "name": "Megan Moroney",
+                                        "type": "MAIN",
+                                        "picture": "ebf9d2ec-eec9-4806-9e19-f8955ac8fd58",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4630531,
+                                        "name": "Scotty McCreery",
+                                        "type": "MAIN",
+                                        "picture": "43a60fe0-60af-4eb4-ab58-e93900a974d4",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4190297,
+                                        "name": "Jelly Roll",
+                                        "type": "MAIN",
+                                        "picture": "14e41e31-8260-449d-b910-c76f50f118bc",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 6160546,
+                                        "name": "Kane Brown",
+                                        "type": "MAIN",
+                                        "picture": "54e0825a-6e07-4fc0-a083-77ecd6ec18bf",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3505667,
+                                        "name": "Eric Church",
+                                        "type": "MAIN",
+                                        "picture": "fa9a561f-ecae-4092-b8ea-bba097c0c5dc",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4562976,
+                                        "name": "Jon Pardi",
+                                        "type": "MAIN",
+                                        "picture": "1228e55c-5e00-45ef-b592-0dcda143488b",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 8777076,
+                                        "name": "Jordan Davis",
+                                        "type": "MAIN",
+                                        "picture": "faa8b8f4-39cb-4d07-87e0-89c1e531b8b1",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 7736760,
+                                        "name": "Jackson Dean",
+                                        "type": "MAIN",
+                                        "picture": "2a0ee0b6-6e7f-480c-bf57-f29a733fb8ce",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5170897,
+                                        "name": "Parker McCollum",
+                                        "type": "MAIN",
+                                        "picture": "cfbbaff5-12f3-4876-b5d3-8f5a9aeb10c7",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 47066094,
+                                        "name": "Hudson Westbrook",
+                                        "type": "MAIN",
+                                        "picture": "e0e0b357-3c64-4eca-875e-31aab0d1f400",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3659836,
+                                        "name": "Jason Aldean",
+                                        "type": "MAIN",
+                                        "picture": "6b272bb5-58a5-46d6-b5bf-57231b09430c",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4973047,
+                                        "name": "Riley Green",
+                                        "type": "MAIN",
+                                        "picture": "4cee1019-571f-4e36-a77b-348a84ae1db1",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5168209,
+                                        "name": "Drew Baldridge",
+                                        "type": "MAIN",
+                                        "picture": "be49cf46-0b04-4129-8022-f4a22e264f74",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 27779125,
+                                        "name": "John Morgan",
+                                        "type": "MAIN",
+                                        "picture": "e2a950e6-7a9c-4bb8-9b42-9f5a7030e856",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 6402525,
+                                        "name": "LOCASH",
+                                        "type": "MAIN",
+                                        "picture": "414cdecc-be80-45a5-81ca-65f548906c1d",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 8029640,
+                                        "name": "Koe Wetzel",
+                                        "type": "MAIN",
+                                        "picture": "7426a559-977d-4f95-9d45-db537704bf22",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 6521080,
+                                        "name": "Post Malone",
+                                        "type": "MAIN",
+                                        "picture": "039dedb4-2e50-41df-ae8f-54ad371a31f3",
+                                        "handle": null,
+                                        "userId": 0,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4766006,
+                                        "name": "Carly Pearce",
+                                        "type": "MAIN",
+                                        "picture": "ce0e8f30-a1d0-4feb-9dbf-9d8268448b6a",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 14126,
+                                        "name": "Blake Shelton",
+                                        "type": "MAIN",
+                                        "picture": "2afe23ad-b888-4ded-8d83-de2889033c5f",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 9848,
+                                        "name": "Keith Urban",
+                                        "type": "MAIN",
+                                        "picture": "c672be3d-5e08-412d-ae8b-7ebeb8108d1a",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 6526926,
+                                        "name": "Dylan Scott",
+                                        "type": "MAIN",
+                                        "picture": "10e11656-d603-4140-91f9-14307e5c9e1c",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 47456293,
+                                        "name": "Dasha",
+                                        "type": "MAIN",
+                                        "picture": "1ff695d6-97eb-43f8-b572-d7351ca60bca",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 7400952,
+                                        "name": "Luke Combs",
+                                        "type": "MAIN",
+                                        "picture": "3f5fc379-6241-4ff3-a9dd-c28b5a0fce9d",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5177804,
+                                        "name": "Cole Swindell",
+                                        "type": "MAIN",
+                                        "picture": "f7362c2a-3ad1-4dd5-9594-6f8c6a40ea5f",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Listen to today's biggest country hits and chart climbers. (Cover: Tucker Wetmore / Photo: Jarrod Anthonee, press)"
+                            },
+                            {
+                                "uuid": "406948b1-a8d4-493d-9672-90df47580540",
+                                "title": "Rap Hits",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/406948b1-a8d4-493d-9672-90df47580540",
+                                "image": "9fa7041a-26bd-43c8-b0e3-4a4868bcc068",
+                                "squareImage": "30b848d9-4bc3-4aff-89b5-a786fc5c7575",
+                                "duration": 9212,
+                                "numberOfTracks": 50,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2025-08-08T10:30:25.488Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 4332,
+                                        "name": "Clipse",
+                                        "type": "MAIN",
+                                        "picture": "cb9c35d6-4139-478e-ad35-5e8f8532ca0b",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3908662,
+                                        "name": "Tyler, The Creator",
+                                        "type": "MAIN",
+                                        "picture": "effc434a-d1e3-46f0-b8db-65b051717b72",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3972883,
+                                        "name": "Pusha T",
+                                        "type": "MAIN",
+                                        "picture": "1a66b643-d534-4c74-88fa-4e61109149f7",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5059421,
+                                        "name": "Malice",
+                                        "type": "MAIN",
+                                        "picture": "bfd0f879-fea6-411f-931c-10e83aff5838",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Popular rap songs that are still going strong. (Cover: Clipse / Photo: Roc Nation Distribution, Press) "
+                            },
+                            {
+                                "uuid": "3dd419f2-ab69-4c94-b418-9e8f7595c684",
+                                "title": "R&B Hits",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/3dd419f2-ab69-4c94-b418-9e8f7595c684",
+                                "image": "662e2007-89a3-43ce-87f6-699178edfbb9",
+                                "squareImage": "a77dd21e-1fc3-4331-ad96-2060c9b7524f",
+                                "duration": 10568,
+                                "numberOfTracks": 50,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2025-08-01T04:48:06.315Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 10251336,
+                                        "name": "Leon Thomas",
+                                        "type": "MAIN",
+                                        "picture": "6a82a634-2a23-4290-abea-d189c67ddcdf",
+                                        "handle": null,
+                                        "userId": 190367077,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3261,
+                                        "name": "Chris Brown",
+                                        "type": "MAIN",
+                                        "picture": "7fb0547f-51a0-4ca1-9cf1-f7cee74aeaa6",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5652094,
+                                        "name": "Kehlani",
+                                        "type": "MAIN",
+                                        "picture": "ebb935b0-029c-439c-93d1-6518f5d90d0e",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5416271,
+                                        "name": "SZA",
+                                        "type": "MAIN",
+                                        "picture": "30b0349b-e229-4099-a1f0-aeeb87ad2dc6",
+                                        "handle": null,
+                                        "userId": 0,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Popular R&B songs that are still going strong. (Cover: Leon Thomas // Photo: Press) "
+                            },
+                            {
+                                "uuid": "13f9d6c8-58e6-4869-8d9b-000d0ff95f0b",
+                                "title": "Indie Hits",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/13f9d6c8-58e6-4869-8d9b-000d0ff95f0b",
+                                "image": "5e060127-d6f7-4b86-a2ae-958eaa57f28c",
+                                "squareImage": "22114f8a-2cd5-48f8-b285-38f09a30a71e",
+                                "duration": 11431,
+                                "numberOfTracks": 50,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2025-08-22T10:06:29.517Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 21925535,
+                                        "name": "Royel Otis",
+                                        "type": "MAIN",
+                                        "picture": "f6d558a2-61f2-499a-810c-c9f8cfbe0300",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3736815,
+                                        "name": "Tame Impala",
+                                        "type": "MAIN",
+                                        "picture": "d431b889-6873-4d9f-bc05-54d6c3339fa9",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3653311,
+                                        "name": "Hayley Williams",
+                                        "type": "MAIN",
+                                        "picture": "058e0ec9-2cab-4f4e-aec5-2d62408b84b6",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4915442,
+                                        "name": "Wolf Alice",
+                                        "type": "MAIN",
+                                        "picture": "021b3c39-525e-471d-a95b-9492050fd542",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Recent alternative/indie favorites in heavy rotation. (Cover: Royel Otis / Photo: Capitol, press)  "
+                            },
+                            {
+                                "uuid": "e4d5a592-5957-421c-8106-a28616a5feff",
+                                "title": "Éxitos De Hoy",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/e4d5a592-5957-421c-8106-a28616a5feff",
+                                "image": "2ec828b1-8d27-4b84-99b9-7892cfc12d2a",
+                                "squareImage": "e5cc9033-0cb6-41d9-8049-f2978b3e2adb",
+                                "duration": 9988,
+                                "numberOfTracks": 50,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2025-08-22T16:30:59.324Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 5237820,
+                                        "name": "KAROL G",
+                                        "type": "MAIN",
+                                        "picture": "c92a05dd-0e4b-4728-beff-2547b55b5cea",
+                                        "handle": null,
+                                        "userId": 194595340,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 8027279,
+                                        "name": "Bad Bunny",
+                                        "type": "MAIN",
+                                        "picture": "e19dd144-e0af-4c88-a843-89cea0f62d8a",
+                                        "handle": null,
+                                        "userId": 0,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4480814,
+                                        "name": "Feid",
+                                        "type": "MAIN",
+                                        "picture": "3ba350ef-73d5-41fb-8641-4a4869cb33f3",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 8239477,
+                                        "name": "Rauw Alejandro",
+                                        "type": "MAIN",
+                                        "picture": "e65c30e3-1725-4f8b-9113-d5748da21c33",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 31803858,
+                                        "name": "W Sound",
+                                        "type": "MAIN",
+                                        "picture": null,
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 8593050,
+                                        "name": "Myke Towers",
+                                        "type": "MAIN",
+                                        "picture": "45501762-4738-4f15-b0d0-52ac27f94684",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4903321,
+                                        "name": "Becky G",
+                                        "type": "MAIN",
+                                        "picture": "be1fae42-aa52-4262-8a19-66a072384bea",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5023237,
+                                        "name": "NATTI NATASHA",
+                                        "type": "MAIN",
+                                        "picture": "a1420c4c-c0e6-4d08-a3be-c2a93ef76a1a",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 17614478,
+                                        "name": "Peso Pluma",
+                                        "type": "MAIN",
+                                        "picture": "3a49cd55-3c9c-4965-9a58-f82d37554aa5",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 27015158,
+                                        "name": "Young Miko",
+                                        "type": "MAIN",
+                                        "picture": "d435d8f6-cb56-4b42-88a9-8c5e0e9927df",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 7909855,
+                                        "name": "Sebastián Yatra",
+                                        "type": "MAIN",
+                                        "picture": "cc63a41e-048d-481f-a7c5-8b090849ffc4",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5054713,
+                                        "name": "J Balvin",
+                                        "type": "MAIN",
+                                        "picture": "42207e0f-a60a-49db-ae6b-5fa4c3813f2c",
+                                        "handle": null,
+                                        "userId": 194033645,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 44549037,
+                                        "name": "Kapo",
+                                        "type": "MAIN",
+                                        "picture": "f0cc0079-acd7-4986-a380-9c5146646a9b",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 16234339,
+                                        "name": "Beéle",
+                                        "type": "MAIN",
+                                        "picture": "5d974b95-529c-44e4-997a-5682c7d6f351",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 9435954,
+                                        "name": "Fuerza Regida",
+                                        "type": "MAIN",
+                                        "picture": "d24e8981-257b-4b48-9ce3-96f8fc1ae98b",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5032091,
+                                        "name": "Piso 21",
+                                        "type": "MAIN",
+                                        "picture": "8e4479d6-348f-42e7-9125-8efdbf5bb117",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 8032249,
+                                        "name": "Luis Figueroa",
+                                        "type": "MAIN",
+                                        "picture": "5749b423-1027-452e-ad2a-fb5044f179d9",
+                                        "handle": null,
+                                        "userId": 191819648,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 18060454,
+                                        "name": "Blessd",
+                                        "type": "MAIN",
+                                        "picture": "ffde8558-583b-49d9-877e-a6798395af77",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 9738332,
+                                        "name": "Omar Courtz",
+                                        "type": "MAIN",
+                                        "picture": "2540f7f7-900e-4435-81b2-31e661c9a6e5",
+                                        "handle": null,
+                                        "userId": 193711146,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4361254,
+                                        "name": "Yandel",
+                                        "type": "MAIN",
+                                        "picture": "89c5b52d-c8df-45b1-a025-629254d4a0e6",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4748331,
+                                        "name": "ROSALÍA",
+                                        "type": "MAIN",
+                                        "picture": "391bd2ee-6a5c-4a00-a598-0589aa3b58a1",
+                                        "handle": null,
+                                        "userId": 192630136,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 1087,
+                                        "name": "Shakira",
+                                        "type": "MAIN",
+                                        "picture": "11eced9f-ff93-4d4c-8808-04f0a59498f2",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 10755069,
+                                        "name": "Luar La L",
+                                        "type": "MAIN",
+                                        "picture": "9d00fb45-73e1-4ee6-8533-508ebefd810f",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 6367239,
+                                        "name": "Rvssian",
+                                        "type": "MAIN",
+                                        "picture": "0057a9dc-54ed-4aaf-beeb-4cd6d7e5ae28",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 7389804,
+                                        "name": "Chencho Corleone",
+                                        "type": "MAIN",
+                                        "picture": "ac8460f0-3a29-4057-afaa-e0a604bfc46b",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 8118923,
+                                        "name": "Lyanno",
+                                        "type": "MAIN",
+                                        "picture": "af42e123-1029-4f45-8037-fbb487a4cfd3",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 6846360,
+                                        "name": "Sech",
+                                        "type": "MAIN",
+                                        "picture": "c68b795a-b6ac-4d8d-83ff-24af5acfa593",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 36092291,
+                                        "name": "FloyyMenor",
+                                        "type": "MAIN",
+                                        "picture": "1d0b1831-5b48-47ba-801b-8b16b8ef88d0",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "All the hit (reggaeton, Latin trap, dembow, etc.) songs that are burning up the charts. (Cover: Karol G / Photo: Interscope)  "
+                            },
+                            {
+                                "uuid": "a8273c93-e8b9-4c5d-bfcb-171649a31e9b",
+                                "title": "Gospel Hits",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/a8273c93-e8b9-4c5d-bfcb-171649a31e9b",
+                                "image": "a1afbe4c-ffbe-4d16-9ee1-f6b260ecc921",
+                                "squareImage": "e47436f6-1db7-4105-9255-9f6cca72747f",
+                                "duration": 15306,
+                                "numberOfTracks": 50,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2025-05-21T15:40:33.41Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 5746156,
+                                        "name": "Chandler Moore",
+                                        "type": "MAIN",
+                                        "picture": "ffea46fb-ab6f-4e67-91ef-993abd063a76",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4333302,
+                                        "name": "Tamela Mann",
+                                        "type": "MAIN",
+                                        "picture": "39d9d5bf-1b4b-4c09-a780-2cd937b9ce0a",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 14878,
+                                        "name": "Bebe Winans",
+                                        "type": "MAIN",
+                                        "picture": "b9c72103-1da1-4862-8bbf-be2a26ddefe9",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 7673379,
+                                        "name": "Nia Allen",
+                                        "type": "MAIN",
+                                        "picture": null,
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Find today's biggest gospel hits and chart climbers presented in this playlist. (Cover: Chandler Moore/ Photo: Getty Images, Press) "
+                            }
+                        ]
+                    },
+                    "supportsPaging": false,
+                    "layout": null,
+                    "quickPlay": false,
+                    "playlistStyle": null,
+                    "preTitle": null
+                }
+            ]
+        },
+        {
+            "modules": [
+                {
+                    "id": "eyJwIjoiZjdiYzc5MTctNmJjZC00NDZjLThlMjYtNjE1MzMyNzYzMzdkIiwicFYiOjcsIm0iOiJmMjRlNWIyZC05ZjNlLTQ4ZWQtYjY4ZC05OGIxMTg0YmI0OTMiLCJtViI6MSwibUgiOiIxZTgzZDBiIn0=",
+                    "type": "TRACK_LIST",
+                    "width": 100,
+                    "title": "New Tracks",
+                    "description": "",
+                    "listFormat": "COVERS",
+                    "scroll": null,
+                    "showMore": {
+                        "title": "View all",
+                        "apiPath": "pages/single-module-page/f7bc7917-6bcd-446c-8e26-61533276337d/7/f24e5b2d-9f3e-48ed-b68d-98b1184bb493/1"
+                    },
+                    "pagedList": {
+                        "dataApiPath": "pages/data/6eebf48e-fc39-4480-ad57-bdb217164971",
+                        "limit": 5,
+                        "offset": 0,
+                        "totalNumberOfItems": 46,
+                        "items": [
+                            {
+                                "id": 453698864,
+                                "title": "Imaginary Playerz",
+                                "duration": 207,
+                                "version": null,
+                                "url": "https://tidal.com/browse/track/453698864",
+                                "artists": [
+                                    {
+                                        "id": 7301626,
+                                        "name": "Cardi B",
+                                        "type": "MAIN",
+                                        "picture": "263194b1-ab17-4a79-91df-dda8d96f9993",
+                                        "handle": null,
+                                        "userId": null
+                                    }
+                                ],
+                                "album": {
+                                    "id": 453698863,
+                                    "title": "Imaginary Playerz",
+                                    "cover": "3cc2e3f3-6eaa-4d7a-8745-9c48f8d6033a",
+                                    "vibrantColor": "#cf948d",
+                                    "videoCover": null,
+                                    "url": "https://tidal.com/browse/album/453698863",
+                                    "releaseDate": "2025-08-15"
+                                },
+                                "explicit": true,
+                                "volumeNumber": 1,
+                                "trackNumber": 1,
+                                "popularity": 62,
+                                "doublePopularity": 0.6196521096848097,
+                                "allowStreaming": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T06:00:00.000+0000",
+                                "adSupportedStreamReady": true,
+                                "djReady": true,
+                                "stemReady": false,
+                                "editable": false,
+                                "replayGain": -7.68,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "mixes": {
+                                    "TRACK_MIX": "001de6e0cf263a5c7ca1a27e2b8652"
+                                },
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                },
+                                "upload": false,
+                                "payToStream": false,
+                                "accessType": "PUBLIC",
+                                "spotlighted": false
+                            },
+                            {
+                                "id": 454244444,
+                                "title": "Both Eyes Closed (From \"Highest 2 Lowest\")",
+                                "duration": 254,
+                                "version": null,
+                                "url": "https://tidal.com/browse/track/454244444",
+                                "artists": [
+                                    {
+                                        "id": 4315444,
+                                        "name": "A$AP Rocky",
+                                        "type": "MAIN",
+                                        "picture": "410553b6-fe93-46ed-aa93-0a96f4a17af0",
+                                        "handle": null,
+                                        "userId": 0
+                                    }
+                                ],
+                                "album": {
+                                    "id": 454244443,
+                                    "title": "Both Eyes Closed (From \"Highest 2 Lowest\")",
+                                    "cover": "86e002c4-7f20-47c1-af8a-210bc599ff22",
+                                    "vibrantColor": null,
+                                    "videoCover": null,
+                                    "url": "https://tidal.com/browse/album/454244443",
+                                    "releaseDate": "2025-08-14"
+                                },
+                                "explicit": false,
+                                "volumeNumber": 1,
+                                "trackNumber": 1,
+                                "popularity": 65,
+                                "doublePopularity": 0.6532064883993121,
+                                "allowStreaming": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T06:00:00.000+0000",
+                                "adSupportedStreamReady": true,
+                                "djReady": true,
+                                "stemReady": false,
+                                "editable": false,
+                                "replayGain": -8.24,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "mixes": {
+                                    "TRACK_MIX": "001c09deefae72ed664131a7b4dd95"
+                                },
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                },
+                                "upload": false,
+                                "payToStream": false,
+                                "accessType": "PUBLIC",
+                                "spotlighted": false
+                            },
+                            {
+                                "id": 453499138,
+                                "title": "Helium",
+                                "duration": 139,
+                                "version": null,
+                                "url": "https://tidal.com/browse/track/453499138",
+                                "artists": [
+                                    {
+                                        "id": 4818468,
+                                        "name": "The Chainsmokers",
+                                        "type": "MAIN",
+                                        "picture": "b1fc7e39-a604-4688-8777-48d7b89ec7af",
+                                        "handle": null,
+                                        "userId": 192630341
+                                    },
+                                    {
+                                        "id": 15381286,
+                                        "name": "Anna Sofia",
+                                        "type": "MAIN",
+                                        "picture": "a964996e-88c7-4cd1-92b1-d47478774e6d",
+                                        "handle": null,
+                                        "userId": null
+                                    }
+                                ],
+                                "album": {
+                                    "id": 453499137,
+                                    "title": "Helium",
+                                    "cover": "bb5dd46b-52a5-474e-b60d-7e178d85e54c",
+                                    "vibrantColor": "#e5dc5e",
+                                    "videoCover": null,
+                                    "url": "https://tidal.com/browse/album/453499137",
+                                    "releaseDate": "2025-08-15"
+                                },
+                                "explicit": false,
+                                "volumeNumber": 1,
+                                "trackNumber": 1,
+                                "popularity": 62,
+                                "doublePopularity": 0.622471933020412,
+                                "allowStreaming": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T00:00:00.000+0000",
+                                "adSupportedStreamReady": true,
+                                "djReady": true,
+                                "stemReady": false,
+                                "editable": false,
+                                "replayGain": -7.79,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "mixes": {
+                                    "TRACK_MIX": "001c057dac860381613bdf00186c19"
+                                },
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                },
+                                "upload": false,
+                                "payToStream": false,
+                                "accessType": "PUBLIC",
+                                "spotlighted": false
+                            },
+                            {
+                                "id": 452119916,
+                                "title": "in plain sight",
+                                "duration": 145,
+                                "version": null,
+                                "url": "https://tidal.com/browse/track/452119916",
+                                "artists": [
+                                    {
+                                        "id": 4916222,
+                                        "name": "Khalid",
+                                        "type": "MAIN",
+                                        "picture": "6064ded8-bd93-4b92-b9d1-2aa28daf86b5",
+                                        "handle": null,
+                                        "userId": null
+                                    }
+                                ],
+                                "album": {
+                                    "id": 452119915,
+                                    "title": "in plain sight",
+                                    "cover": "c33d82c7-9297-47a0-8b03-a67d90b2e3c6",
+                                    "vibrantColor": "#074d92",
+                                    "videoCover": null,
+                                    "url": "https://tidal.com/browse/album/452119915",
+                                    "releaseDate": "2025-08-15"
+                                },
+                                "explicit": false,
+                                "volumeNumber": 1,
+                                "trackNumber": 1,
+                                "popularity": 62,
+                                "doublePopularity": 0.6220383556421388,
+                                "allowStreaming": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T00:00:00.000+0000",
+                                "adSupportedStreamReady": true,
+                                "djReady": true,
+                                "stemReady": false,
+                                "editable": false,
+                                "replayGain": -8.65,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "mixes": {
+                                    "TRACK_MIX": "0019ac0dcd4ca3d16b6a451837e493"
+                                },
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                },
+                                "upload": false,
+                                "payToStream": false,
+                                "accessType": "PUBLIC",
+                                "spotlighted": false
+                            },
+                            {
+                                "id": 453746726,
+                                "title": "Metaphysics",
+                                "duration": 161,
+                                "version": null,
+                                "url": "https://tidal.com/browse/track/453746726",
+                                "artists": [
+                                    {
+                                        "id": 1041,
+                                        "name": "Ghostface Killah",
+                                        "type": "MAIN",
+                                        "picture": "5f6807c3-6a75-4566-a9d0-cb8a2e44881c",
+                                        "handle": null,
+                                        "userId": null
+                                    }
+                                ],
+                                "album": {
+                                    "id": 453746725,
+                                    "title": "Metaphysics",
+                                    "cover": "0c452bea-7ff9-401d-adf5-63904797badb",
+                                    "vibrantColor": null,
+                                    "videoCover": null,
+                                    "url": "https://tidal.com/browse/album/453746725",
+                                    "releaseDate": "2025-08-08"
+                                },
+                                "explicit": true,
+                                "volumeNumber": 1,
+                                "trackNumber": 1,
+                                "popularity": 56,
+                                "doublePopularity": 0.5641257829694165,
+                                "allowStreaming": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T06:00:00.000+0000",
+                                "adSupportedStreamReady": true,
+                                "djReady": true,
+                                "stemReady": false,
+                                "editable": false,
+                                "replayGain": -9.29,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "mixes": {
+                                    "TRACK_MIX": "0019068fa58f983a4dab67ff9b7281"
+                                },
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                },
+                                "upload": false,
+                                "payToStream": false,
+                                "accessType": "PUBLIC",
+                                "spotlighted": false
+                            }
+                        ]
+                    },
+                    "supportsPaging": false,
+                    "showTableHeaders": false,
+                    "layout": null,
+                    "quickPlay": false,
+                    "preTitle": null
+                }
+            ]
+        },
+        {
+            "modules": [
+                {
+                    "id": "eyJwIjoiZjdiYzc5MTctNmJjZC00NDZjLThlMjYtNjE1MzMyNzYzMzdkIiwicFYiOjcsIm0iOiIwMmYxODU3ZC01MjJlLTRhYzktODZhMS00ZGRkNjU4Y2VjMWEiLCJtViI6MSwibUgiOiJlODljNDUxMSJ9",
+                    "type": "ALBUM_LIST",
+                    "width": 100,
+                    "scroll": "HORIZONTAL",
+                    "title": "New Albums",
+                    "description": "",
+                    "showMore": {
+                        "title": "View all",
+                        "apiPath": "pages/single-module-page/f7bc7917-6bcd-446c-8e26-61533276337d/7/02f1857d-522e-4ac9-86a1-4ddd658cec1a/1"
+                    },
+                    "listFormat": null,
+                    "pagedList": {
+                        "dataApiPath": "pages/data/b047c1c8-9512-4244-9333-cc0f0f75673f",
+                        "limit": 20,
+                        "offset": 0,
+                        "totalNumberOfItems": 50,
+                        "items": [
+                            {
+                                "id": 453448915,
+                                "title": "AIN'T NO DAMN WAY!",
+                                "cover": "1e62e3f4-eed2-46fc-a1f2-efe279133cf5",
+                                "vibrantColor": "#812c25",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/453448915",
+                                "artists": [
+                                    {
+                                        "id": 4844164,
+                                        "name": "KAYTRANADA",
+                                        "type": "MAIN",
+                                        "picture": "05de71ef-9a1f-4ca4-a5d7-84040eb0275b",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 12,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-15",
+                                "duration": 2096,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 452880370,
+                                "title": "Why Not More? (MORE!)",
+                                "cover": "bb67bdad-124d-4145-920f-d26e6ed2a949",
+                                "vibrantColor": "#9ac6ee",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/452880370",
+                                "artists": [
+                                    {
+                                        "id": 4562844,
+                                        "name": "Coco Jones",
+                                        "type": "MAIN",
+                                        "picture": "bf4682d7-d066-40a1-b8e3-e239f4315802",
+                                        "handle": null,
+                                        "userId": 190861888,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 22,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-15",
+                                "duration": 3992,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 453723113,
+                                "title": "STAR LINE",
+                                "cover": "8ec6febc-83ea-4f86-a67f-b780eb4612a8",
+                                "vibrantColor": "#aad3dd",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/453723113",
+                                "artists": [
+                                    {
+                                        "id": 5026732,
+                                        "name": "Chance the Rapper",
+                                        "type": "MAIN",
+                                        "picture": "186a9dd7-81dc-4c35-b570-ae77782bd88b",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 17,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-14",
+                                "duration": 4077,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 452879173,
+                                "title": "Love Is Like",
+                                "cover": "72e1f108-e4c5-419c-b2c6-59febf4e9a9a",
+                                "vibrantColor": "#e0c05e",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/452879173",
+                                "artists": [
+                                    {
+                                        "id": 1565,
+                                        "name": "Maroon 5",
+                                        "type": "MAIN",
+                                        "picture": "0db7eb1b-6132-4929-a700-7d3f3cc098b7",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 10,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-14",
+                                "duration": 1660,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 449628377,
+                                "title": "Hail to the Thief (Live Recordings 2003-2009)",
+                                "cover": "c6c59496-0060-49c6-9340-d1bbbf0836f2",
+                                "vibrantColor": null,
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/449628377",
+                                "artists": [
+                                    {
+                                        "id": 64518,
+                                        "name": "Radiohead",
+                                        "type": "MAIN",
+                                        "picture": "0968a9dd-9536-4bc2-84a2-ab65c8926bdc",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-20T17:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 12,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-13",
+                                "duration": 2865,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 452880357,
+                                "title": "Wishbone",
+                                "cover": "bc69d726-ec61-4a71-b9bc-64c6cfeea94b",
+                                "vibrantColor": "#c63227",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/452880357",
+                                "artists": [
+                                    {
+                                        "id": 9042401,
+                                        "name": "Conan Gray",
+                                        "type": "MAIN",
+                                        "picture": "b45f4c0f-45e5-46cb-a264-0792c44006b1",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 12,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-15",
+                                "duration": 2607,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 452873223,
+                                "title": "The Collection",
+                                "cover": "f288de43-47bd-42d2-b974-53ebfd34608e",
+                                "vibrantColor": "#b69c64",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/452873223",
+                                "artists": [
+                                    {
+                                        "id": 64665,
+                                        "name": "OneRepublic",
+                                        "type": "MAIN",
+                                        "picture": "fadac3b8-76b0-4723-bae2-e504bc911e17",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 26,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-15",
+                                "duration": 5292,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 447536121,
+                                "title": "Honest Conversations",
+                                "cover": "f2f031f1-3a16-4741-ba34-cd59376cb762",
+                                "vibrantColor": null,
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/447536121",
+                                "artists": [
+                                    {
+                                        "id": 30276292,
+                                        "name": "Katy Nichole",
+                                        "type": "MAIN",
+                                        "picture": "b9c1a55a-8b4c-417d-9d68-76a69c87d688",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2025-04-18T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 12,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-15",
+                                "duration": 2366,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 452457461,
+                                "title": "Mixteip",
+                                "cover": "11b506f4-47fa-4601-8cba-77ac1b6ea1fb",
+                                "vibrantColor": "#FFFFFF",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/452457461",
+                                "artists": [
+                                    {
+                                        "id": 5054713,
+                                        "name": "J Balvin",
+                                        "type": "MAIN",
+                                        "picture": "42207e0f-a60a-49db-ae6b-5fa4c3813f2c",
+                                        "handle": null,
+                                        "userId": 194033645,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T02:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 12,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-07-18",
+                                "duration": 1913,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 452207809,
+                                "title": "Greetings From Your Hometown (Deluxe Edition)",
+                                "cover": "0b63a5c4-77db-4f55-ae4d-1b4ea209fc26",
+                                "vibrantColor": "#bcdae5",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/452207809",
+                                "artists": [
+                                    {
+                                        "id": 10103,
+                                        "name": "Jonas Brothers",
+                                        "type": "MAIN",
+                                        "picture": "4d103ad1-9d83-46c1-b08d-ea92b69ea449",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3544814,
+                                        "name": "Joe Jonas",
+                                        "type": "MAIN",
+                                        "picture": "0e82c288-6a55-4fc3-ab65-ca3ccbf44311",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3718691,
+                                        "name": "Nick Jonas",
+                                        "type": "MAIN",
+                                        "picture": "ab54cccb-ac4f-42f9-ad25-97b6b15b7ade",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 6170849,
+                                        "name": "Kevin Jonas",
+                                        "type": "MAIN",
+                                        "picture": "908933f9-b499-419a-a5ff-cd763e975373",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-12T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 16,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-08",
+                                "duration": 3106,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 452889414,
+                                "title": "Tchaikovsky: The Seasons (Deluxe Edition)",
+                                "cover": "dc1a4299-48f6-4c67-ada2-8009d15b6632",
+                                "vibrantColor": "#fbd7d2",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/452889414",
+                                "artists": [
+                                    {
+                                        "id": 27894830,
+                                        "name": "Bruce Liu",
+                                        "type": "MAIN",
+                                        "picture": "57d6dbaf-396d-4f47-ba73-23b516d2267d",
+                                        "handle": null,
+                                        "userId": 195124427,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 19,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2024-11-01",
+                                "duration": 4416,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 453073765,
+                                "title": "Recess",
+                                "cover": "b39bb63b-381d-4250-b4e9-6bc0f6d97714",
+                                "vibrantColor": "#689cc7",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/453073765",
+                                "artists": [
+                                    {
+                                        "id": 27356672,
+                                        "name": "That Mexican OT",
+                                        "type": "MAIN",
+                                        "picture": "498352f0-66c3-446c-a730-448b482da4d7",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 22,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-14",
+                                "duration": 2991,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 452871357,
+                                "title": "Learn The Hard Way",
+                                "cover": "519e868a-db64-47f7-a1d5-1d2635afbfee",
+                                "vibrantColor": "#d55445",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/452871357",
+                                "artists": [
+                                    {
+                                        "id": 8777076,
+                                        "name": "Jordan Davis",
+                                        "type": "MAIN",
+                                        "picture": "faa8b8f4-39cb-4d07-87e0-89c1e531b8b1",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 17,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-15",
+                                "duration": 3037,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 452379985,
+                                "title": "Fine Dining (Deluxe Edition)",
+                                "cover": "4e9418df-8cfa-4be1-8fca-2ff5e6c8c229",
+                                "vibrantColor": "#ce6564",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/452379985",
+                                "artists": [
+                                    {
+                                        "id": 5432743,
+                                        "name": "Dave East",
+                                        "type": "MAIN",
+                                        "picture": "fc1db452-f6e1-4753-8a89-46a1810b5b44",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3619995,
+                                        "name": "Young Chris",
+                                        "type": "MAIN",
+                                        "picture": "4566e910-6e05-4742-b1d0-7178b52b24fc",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-13T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 11,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-06-20",
+                                "duration": 1972,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 452567631,
+                                "title": "City Woman",
+                                "cover": "cbf859d7-d585-4472-95ab-b78913743888",
+                                "vibrantColor": null,
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/452567631",
+                                "artists": [
+                                    {
+                                        "id": 4078013,
+                                        "name": "Rosie",
+                                        "type": "MAIN",
+                                        "picture": null,
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 15,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-15",
+                                "duration": 2641,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 451281643,
+                                "title": "Codeine Cowboy",
+                                "cover": "f3a68b0a-8638-4a92-ad03-601a28e6a800",
+                                "vibrantColor": "#af90cb",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/451281643",
+                                "artists": [
+                                    {
+                                        "id": 5942805,
+                                        "name": "BabyFace Ray",
+                                        "type": "MAIN",
+                                        "picture": "98458723-ec90-4c86-a121-093061fe9bb4",
+                                        "handle": null,
+                                        "userId": 191223913,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 19,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-14",
+                                "duration": 3492,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 441096064,
+                                "title": "Modesty Of The Magic Thing",
+                                "cover": "f4724649-24db-4735-a730-1087ddcab0b1",
+                                "vibrantColor": null,
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/441096064",
+                                "artists": [
+                                    {
+                                        "id": 19080,
+                                        "name": "Zeena Parkins",
+                                        "type": "MAIN",
+                                        "picture": "81a32e3d-fc40-421b-9b1d-15cc7e7003b5",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 11,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-15",
+                                "duration": 2241,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 443167514,
+                                "title": "Gold Star Baby",
+                                "cover": "845bf084-1ffa-4c84-a2c2-b8226c6d56e4",
+                                "vibrantColor": "#66b0c1",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/443167514",
+                                "artists": [
+                                    {
+                                        "id": 8790544,
+                                        "name": "The Aces",
+                                        "type": "MAIN",
+                                        "picture": "b8561e75-d15f-4a18-b1ef-7be2ac406198",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-06-27T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 12,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-15",
+                                "duration": 2025,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 450720010,
+                                "title": "Sunshine",
+                                "cover": "7aa7b5cd-a509-4c42-a2a6-6b6154035456",
+                                "vibrantColor": null,
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/450720010",
+                                "artists": [
+                                    {
+                                        "id": 8063431,
+                                        "name": "Jordan Fletcher",
+                                        "type": "MAIN",
+                                        "picture": null,
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": false,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 1,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-15",
+                                "duration": 261,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 449928721,
+                                "title": "The Naught",
+                                "cover": "6786876c-4e1f-4a96-bc50-3554b9b8cce3",
+                                "vibrantColor": "#FFFFFF",
+                                "videoCover": null,
+                                "url": "https://tidal.com/browse/album/449928721",
+                                "artists": [
+                                    {
+                                        "id": 33196,
+                                        "name": "Insane Clown Posse",
+                                        "type": "MAIN",
+                                        "picture": "a69af948-f36b-4335-8ecb-a800301713d2",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "explicit": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-12T00:00:00.000+00:00",
+                                "allowStreaming": true,
+                                "payToStream": false,
+                                "numberOfTracks": 17,
+                                "numberOfVideos": 0,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "releaseDate": "2025-08-12",
+                                "duration": 3976,
+                                "upload": false,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS"
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "header": null,
+                    "supportsPaging": false,
+                    "layout": null,
+                    "quickPlay": false,
+                    "preTitle": null
+                }
+            ]
+        },
+        {
+            "modules": [
+                {
+                    "id": "eyJwIjoiZjdiYzc5MTctNmJjZC00NDZjLThlMjYtNjE1MzMyNzYzMzdkIiwicFYiOjcsIm0iOiIwZDlmZWRkZi00ZDU5LTQ4MmEtYjA2NC05OGYyZGU2NWNlMDkiLCJtViI6MiwibUgiOiIxZDVmNzY5In0=",
+                    "type": "TRACK_LIST",
+                    "width": 100,
+                    "title": "Upload: Spotlight",
+                    "description": "",
+                    "listFormat": "COVERS",
+                    "scroll": null,
+                    "showMore": {
+                        "title": "View all",
+                        "apiPath": "pages/single-module-page/f7bc7917-6bcd-446c-8e26-61533276337d/7/0d9feddf-4d59-482a-b064-98f2de65ce09/2"
+                    },
+                    "pagedList": {
+                        "dataApiPath": "pages/data/44753606-8a7e-4c49-9403-cb5ecc804ad2",
+                        "limit": 5,
+                        "offset": 0,
+                        "totalNumberOfItems": 5,
+                        "items": [
+                            {
+                                "id": 445476848,
+                                "title": "There’s Gonna Be a Reckoning (Acoustic Version)",
+                                "duration": 196,
+                                "version": null,
+                                "url": "https://tidal.com/browse/track/445476848",
+                                "artists": [
+                                    {
+                                        "id": 63014479,
+                                        "name": "Zoey Tess",
+                                        "type": "MAIN",
+                                        "picture": null,
+                                        "handle": "zoeytess",
+                                        "userId": 194132865
+                                    }
+                                ],
+                                "album": {
+                                    "id": 445476849,
+                                    "title": "There’s Gonna Be a Reckoning (Acoustic Version)",
+                                    "cover": "d6766932-0b13-49c0-a2db-423ded2b71c2",
+                                    "vibrantColor": "#e5d196",
+                                    "videoCover": null,
+                                    "url": "https://tidal.com/browse/album/445476849",
+                                    "releaseDate": "2025-07-01"
+                                },
+                                "explicit": true,
+                                "volumeNumber": 1,
+                                "trackNumber": 1,
+                                "popularity": 5,
+                                "doublePopularity": 0.05267633590750365,
+                                "allowStreaming": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-07-01T02:00:00.000+0000",
+                                "adSupportedStreamReady": true,
+                                "djReady": true,
+                                "stemReady": false,
+                                "editable": false,
+                                "replayGain": -6.48,
+                                "audioQuality": "HIGH",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "mixes": null,
+                                "mediaMetadata": {
+                                    "tags": []
+                                },
+                                "upload": true,
+                                "payToStream": false,
+                                "accessType": "PUBLIC",
+                                "spotlighted": true
+                            },
+                            {
+                                "id": 445764631,
+                                "title": "a second chance at girlhood",
+                                "duration": 168,
+                                "version": null,
+                                "url": "https://tidal.com/browse/track/445764631",
+                                "artists": [
+                                    {
+                                        "id": 62866513,
+                                        "name": "Laura May",
+                                        "type": "MAIN",
+                                        "picture": null,
+                                        "handle": "lauramaywrite",
+                                        "userId": 204173354
+                                    }
+                                ],
+                                "album": {
+                                    "id": 445764632,
+                                    "title": "a second chance at girlhood",
+                                    "cover": "da000455-d0a0-4bfc-8f0c-74c84efedcd9",
+                                    "vibrantColor": null,
+                                    "videoCover": null,
+                                    "url": "https://tidal.com/browse/album/445764632",
+                                    "releaseDate": "2025-07-02"
+                                },
+                                "explicit": false,
+                                "volumeNumber": 1,
+                                "trackNumber": 1,
+                                "popularity": 5,
+                                "doublePopularity": 0.05293207539234517,
+                                "allowStreaming": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-07-02T02:00:00.000+0000",
+                                "adSupportedStreamReady": true,
+                                "djReady": true,
+                                "stemReady": false,
+                                "editable": false,
+                                "replayGain": -1.04,
+                                "audioQuality": "HIGH",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "mixes": null,
+                                "mediaMetadata": {
+                                    "tags": []
+                                },
+                                "upload": true,
+                                "payToStream": false,
+                                "accessType": "PUBLIC",
+                                "spotlighted": true
+                            },
+                            {
+                                "id": 454328193,
+                                "title": "TALK DIRRTY",
+                                "duration": 206,
+                                "version": null,
+                                "url": "https://tidal.com/browse/track/454328193",
+                                "artists": [
+                                    {
+                                        "id": 57454328,
+                                        "name": "Bouka",
+                                        "type": "MAIN",
+                                        "picture": null,
+                                        "handle": "bouka",
+                                        "userId": 167368666
+                                    }
+                                ],
+                                "album": {
+                                    "id": 454328194,
+                                    "title": "TALK DIRRTY",
+                                    "cover": "f9b2c39f-4563-450a-b3e3-5868d5810da0",
+                                    "vibrantColor": "#a98138",
+                                    "videoCover": null,
+                                    "url": "https://tidal.com/browse/album/454328194",
+                                    "releaseDate": "2025-08-15"
+                                },
+                                "explicit": false,
+                                "volumeNumber": 1,
+                                "trackNumber": 1,
+                                "popularity": 14,
+                                "doublePopularity": 0.13517145008618306,
+                                "allowStreaming": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-15T02:00:00.000+0000",
+                                "adSupportedStreamReady": true,
+                                "djReady": true,
+                                "stemReady": false,
+                                "editable": false,
+                                "replayGain": -4.66,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "mixes": null,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                },
+                                "upload": true,
+                                "payToStream": false,
+                                "accessType": "PUBLIC",
+                                "spotlighted": true
+                            },
+                            {
+                                "id": 447748242,
+                                "title": "Howlin at the Moon ",
+                                "duration": 308,
+                                "version": null,
+                                "url": "https://tidal.com/browse/track/447748242",
+                                "artists": [
+                                    {
+                                        "id": 63577698,
+                                        "name": "Just Jess",
+                                        "type": "MAIN",
+                                        "picture": null,
+                                        "handle": "just_jess",
+                                        "userId": 204380145
+                                    }
+                                ],
+                                "album": {
+                                    "id": 447748243,
+                                    "title": "Howlin at the Moon ",
+                                    "cover": "74a408cd-abc3-4288-bed1-8b7a55909cbc",
+                                    "vibrantColor": "#FFFFFF",
+                                    "videoCover": null,
+                                    "url": "https://tidal.com/browse/album/447748243",
+                                    "releaseDate": "2025-07-13"
+                                },
+                                "explicit": false,
+                                "volumeNumber": 1,
+                                "trackNumber": 1,
+                                "popularity": 5,
+                                "doublePopularity": 0.05293207539234517,
+                                "allowStreaming": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-07-13T02:00:00.000+0000",
+                                "adSupportedStreamReady": true,
+                                "djReady": true,
+                                "stemReady": false,
+                                "editable": false,
+                                "replayGain": -8.96,
+                                "audioQuality": "HIGH",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "mixes": null,
+                                "mediaMetadata": {
+                                    "tags": []
+                                },
+                                "upload": true,
+                                "payToStream": false,
+                                "accessType": "PUBLIC",
+                                "spotlighted": true
+                            },
+                            {
+                                "id": 454640426,
+                                "title": "66 or Southeast 2nd",
+                                "duration": 286,
+                                "version": null,
+                                "url": "https://tidal.com/browse/track/454640426",
+                                "artists": [
+                                    {
+                                        "id": 64268928,
+                                        "name": "Nathaniel Smiley",
+                                        "type": "MAIN",
+                                        "picture": null,
+                                        "handle": "nsmiles",
+                                        "userId": 204587015
+                                    }
+                                ],
+                                "album": {
+                                    "id": 454640427,
+                                    "title": "66 or Southeast 2nd",
+                                    "cover": "296987fb-fc12-4719-90ff-8429b2307bc4",
+                                    "vibrantColor": "#c4c17e",
+                                    "videoCover": null,
+                                    "url": "https://tidal.com/browse/album/454640427",
+                                    "releaseDate": "2025-08-17"
+                                },
+                                "explicit": false,
+                                "volumeNumber": 1,
+                                "trackNumber": 1,
+                                "popularity": 5,
+                                "doublePopularity": 0.05229145492380363,
+                                "allowStreaming": true,
+                                "streamReady": true,
+                                "streamStartDate": "2025-08-17T02:00:00.000+0000",
+                                "adSupportedStreamReady": true,
+                                "djReady": true,
+                                "stemReady": false,
+                                "editable": false,
+                                "replayGain": -0.02,
+                                "audioQuality": "LOSSLESS",
+                                "audioModes": [
+                                    "STEREO"
+                                ],
+                                "mixes": null,
+                                "mediaMetadata": {
+                                    "tags": [
+                                        "LOSSLESS",
+                                        "HIRES_LOSSLESS"
+                                    ]
+                                },
+                                "upload": true,
+                                "payToStream": false,
+                                "accessType": "PUBLIC",
+                                "spotlighted": true
+                            }
+                        ]
+                    },
+                    "supportsPaging": false,
+                    "showTableHeaders": false,
+                    "layout": null,
+                    "quickPlay": false,
+                    "preTitle": null
+                }
+            ]
+        },
+        {
+            "modules": [
+                {
+                    "id": "eyJwIjoiZjdiYzc5MTctNmJjZC00NDZjLThlMjYtNjE1MzMyNzYzMzdkIiwicFYiOjcsIm0iOiIwNWY1ZDk0Ni1iY2Y5LTRjNzctYWZkMS05MWIzM2MyMTBiYzciLCJtViI6MSwibUgiOiJmZTYwMTRjNSJ9",
+                    "type": "PLAYLIST_LIST",
+                    "width": 100,
+                    "scroll": "HORIZONTAL",
+                    "title": "From our editors",
+                    "description": "",
+                    "showMore": {
+                        "title": "View all",
+                        "apiPath": "pages/single-module-page/f7bc7917-6bcd-446c-8e26-61533276337d/7/05f5d946-bcf9-4c77-afd1-91b33c210bc7/1"
+                    },
+                    "pagedList": {
+                        "dataApiPath": "pages/data/202c0e67-a076-4f3c-b794-f42429e8b5e7",
+                        "limit": 20,
+                        "offset": 0,
+                        "totalNumberOfItems": 42,
+                        "items": [
+                            {
+                                "uuid": "1b418bb8-90a7-4f87-901d-707993838346",
+                                "title": "New Arrivals",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/1b418bb8-90a7-4f87-901d-707993838346",
+                                "image": "9dce9f1d-7236-46d0-a626-bfe2dbe7b277",
+                                "squareImage": "4f4a33f3-a3be-4452-80b2-8bf79130b37d",
+                                "duration": 10156,
+                                "numberOfTracks": 54,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2025-08-22T13:05:33.294Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 5467779,
+                                        "name": "Doja Cat",
+                                        "type": "MAIN",
+                                        "picture": "a162d428-6bd2-48ee-a098-1deeb7d3c2d9",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 17042393,
+                                        "name": "BigXthaPlug",
+                                        "type": "MAIN",
+                                        "picture": "c34db67a-82a8-4f2f-9593-2b49e8f7895c",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4190297,
+                                        "name": "Jelly Roll",
+                                        "type": "MAIN",
+                                        "picture": "14e41e31-8260-449d-b910-c76f50f118bc",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3628370,
+                                        "name": "Florence + the Machine",
+                                        "type": "MAIN",
+                                        "picture": "2e1f7b0c-2365-4e16-8e16-3dff794951e3",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Dig into fresh new releases with this playlist highlighting the most notable songs in a broad range of genres. (Cover: Doja Cat / Photo: press)          "
+                            },
+                            {
+                                "uuid": "b3aa74f5-4fe3-49ee-9cfa-92b53192053b",
+                                "title": "New Arrivals: Hip-Hop and R&B",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/b3aa74f5-4fe3-49ee-9cfa-92b53192053b",
+                                "image": "d821cd50-6933-4bbd-887e-d59ce2223bba",
+                                "squareImage": "6918aecf-cf1b-45ca-98ae-e4c92a4b82ec",
+                                "duration": 15371,
+                                "numberOfTracks": 79,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2025-08-22T17:37:58.229Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 40326202,
+                                        "name": "4batz",
+                                        "type": "MAIN",
+                                        "picture": "cf3c9b45-8649-427d-ab37-8bc0bd0c50b3",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5734523,
+                                        "name": "Teyana Taylor",
+                                        "type": "MAIN",
+                                        "picture": "0b045641-47d2-487a-b1a0-038e5f6a7a08",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 8389112,
+                                        "name": "Lucky Daye",
+                                        "type": "MAIN",
+                                        "picture": "608eadde-0e5f-4b8c-b213-9d3e7fc8dffe",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5026732,
+                                        "name": "Chance the Rapper",
+                                        "type": "MAIN",
+                                        "picture": "186a9dd7-81dc-4c35-b570-ae77782bd88b",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "The number one source for the best new Hip-Hop and R&B. (Cover: 4batz / Teyana Taylor // Photo: Press / Def Jam, Press)"
+                            },
+                            {
+                                "uuid": "da0d8a6d-de60-4528-9f1a-1316f054b4c4",
+                                "title": "New Arrivals: Pop and R&B",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/da0d8a6d-de60-4528-9f1a-1316f054b4c4",
+                                "image": "3ff58ddc-d921-444f-8144-ae8d3fce78c3",
+                                "squareImage": "461b000d-5524-4721-bc80-710cfb25c717",
+                                "duration": 14872,
+                                "numberOfTracks": 79,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2025-08-22T18:20:28.398Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 1562,
+                                        "name": "Ciara",
+                                        "type": "MAIN",
+                                        "picture": "ba67dcc2-2545-433e-bd06-b8a48aa9ca89",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 7090790,
+                                        "name": "Daniel Caesar",
+                                        "type": "MAIN",
+                                        "picture": "b60e4adb-7ebc-4bf2-b5cd-10c180944779",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 5467779,
+                                        "name": "Doja Cat",
+                                        "type": "MAIN",
+                                        "picture": "a162d428-6bd2-48ee-a098-1deeb7d3c2d9",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 16492776,
+                                        "name": "Mariah the Scientist",
+                                        "type": "MAIN",
+                                        "picture": "770590c6-a60f-4876-9f27-b717acfef1be",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "This playlist highlights the newest and standout Pop and R&B releases of the week. (Cover: Ciara / Daniel Caesar // ADA, Press / Republic Records, Press)"
+                            },
+                            {
+                                "uuid": "27a0e725-0807-4fd4-952b-d79c93da6ec6",
+                                "title": "New Arrivals: Hip-Hop and Latin",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/27a0e725-0807-4fd4-952b-d79c93da6ec6",
+                                "image": "e1730b15-0b7b-4d8a-b91d-a6854a5e265c",
+                                "squareImage": "8c71b713-f16a-44aa-826e-57b73d3db24d",
+                                "duration": 13776,
+                                "numberOfTracks": 74,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2025-08-22T13:44:47.221Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 8718491,
+                                        "name": "J.I the Prince of N.Y",
+                                        "type": "MAIN",
+                                        "picture": "13e755fb-4e13-45f1-9cb7-a547bd106506",
+                                        "handle": null,
+                                        "userId": 194714553,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 4480814,
+                                        "name": "Feid",
+                                        "type": "MAIN",
+                                        "picture": "3ba350ef-73d5-41fb-8641-4a4869cb33f3",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3670233,
+                                        "name": "French Montana",
+                                        "type": "MAIN",
+                                        "picture": "34c1df1d-20c0-4c92-b61f-8c44e4f9ddcb",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 7091904,
+                                        "name": "Cash Cobain",
+                                        "type": "MAIN",
+                                        "picture": "d5b81681-cf6c-438d-a454-10a30d9764f7",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Hip-hop culture is universal and it's evident in the way we consume music today. With the influx of Latinx stars (Nicky Jam, J Balvin, Bad Bunny) on the charts and collaborating with their fellow mainstream hip-hop MCs (Drake, Cardi B, Meek Mill), it only made sense to combine the worlds. Because at the end of the day, it's all hip-hop, baby. Listen to the best new Hip-Hop & Latin music releases. Playlist previously known as Dímelo Flow. (Cover: J.I the Prince of N.Y // Photo: Press)"
+                            },
+                            {
+                                "uuid": "593ba64d-2cbb-4858-bc31-336e3cd990dd",
+                                "title": "Fat Joe Essentials ",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/593ba64d-2cbb-4858-bc31-336e3cd990dd",
+                                "image": "ca105e9f-701f-4b3a-80a1-3b3f51af3fc7",
+                                "squareImage": "4a8397c0-4a9f-4fa3-8831-06a00a1650cd",
+                                "duration": 5690,
+                                "numberOfTracks": 25,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2023-09-13T21:39:09.013Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 10094,
+                                        "name": "Fat Joe",
+                                        "type": "MAIN",
+                                        "picture": "2d7f1379-6fc9-4952-ae1c-87990695172b",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 27435,
+                                        "name": "Remy Ma",
+                                        "type": "MAIN",
+                                        "picture": "e6e777e7-91a4-4229-a175-349e6f2ab659",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3670233,
+                                        "name": "French Montana",
+                                        "type": "MAIN",
+                                        "picture": "34c1df1d-20c0-4c92-b61f-8c44e4f9ddcb",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Fat Joe is one of a chosen few who has stayed relevant with smash hits over the past three decades. Here's proof that Joey Crack will remain all the way up. (Photo: Empire)              "
+                            },
+                            {
+                                "uuid": "9afeaed2-7b81-4cf6-a51e-cae76a216cb1",
+                                "title": "Nate Dogg Essentials",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/9afeaed2-7b81-4cf6-a51e-cae76a216cb1",
+                                "image": "68e62592-c024-42ec-9e3d-e1f38d30b097",
+                                "squareImage": "40dffb81-3a46-4619-9a1d-0203a39eddb8",
+                                "duration": 6316,
+                                "numberOfTracks": 25,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2023-09-05T03:16:26.916Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 3564491,
+                                        "name": "Warren G.",
+                                        "type": "MAIN",
+                                        "picture": "254c1b0e-4d75-466a-8c79-57c2b481108a",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 24907,
+                                        "name": "Ludacris",
+                                        "type": "MAIN",
+                                        "picture": "e4a99d8e-6ab3-4470-a727-f41006d666cd",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 17548,
+                                        "name": "50 Cent",
+                                        "type": "MAIN",
+                                        "picture": "5067c307-a417-48b7-93b3-83eece517f1a",
+                                        "handle": null,
+                                        "userId": 0,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 14711,
+                                        "name": "Fabolous",
+                                        "type": "MAIN",
+                                        "picture": "f321127f-fff7-43b0-bfdc-5330036d9831",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Regulate and pay homage to hip-hop's hook master. One of the best to ever do it.  (Photo: Rovi)"
+                            },
+                            {
+                                "uuid": "797f476b-fcd7-4a5f-a295-c40b87c95969",
+                                "title": "Feid Esenciales",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/797f476b-fcd7-4a5f-a295-c40b87c95969",
+                                "image": "75fc049d-b664-4ae4-80cd-71b1adade8f5",
+                                "squareImage": "88cff5bb-1960-4c14-91ff-2dabef40ae60",
+                                "duration": 8639,
+                                "numberOfTracks": 50,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2023-12-01T04:38:48.787Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 4480814,
+                                        "name": "Feid",
+                                        "type": "MAIN",
+                                        "picture": "3ba350ef-73d5-41fb-8641-4a4869cb33f3",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 27015158,
+                                        "name": "Young Miko",
+                                        "type": "MAIN",
+                                        "picture": "d435d8f6-cb56-4b42-88a9-8c5e0e9927df",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Producer, singer, and songwriter Feid began his career in the early 2010s as a songwriter for Latin superstars such as J Balvin (“Ginza”) and Reykon (“Secretos”).  In 2016, he released his first hit single “Morena.” In 2019, he released his full-length album 19 with the hit singles “Nuestra Canción” and “Sígueme”.  Listen to an essential of the best from Colombia’s newest hitmaker.  (Photo: ULME/Press)"
+                            },
+                            {
+                                "uuid": "df2d9cc9-ed6e-41d2-8312-82761e66fc66",
+                                "title": "Bon Jovi Essentials",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/df2d9cc9-ed6e-41d2-8312-82761e66fc66",
+                                "image": "670e0047-4487-4109-b38e-d2a32d49ec21",
+                                "squareImage": "32c7b853-3ccd-4db6-a805-5d206277655b",
+                                "duration": 7238,
+                                "numberOfTracks": 22,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2024-04-25T17:17:08.389Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 27418,
+                                        "name": "Bon Jovi",
+                                        "type": "MAIN",
+                                        "picture": "6c1cf93f-178d-454a-bb97-9e7b9c57975f",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Bon Jovi is one of rock's great success stories. Given their relatively humble beginnings in New Jersey, Jon Bon Jovi & Co. managed to become one of the world's most popular bands - a status they have maintained for over 25 years. Like fellow Jersey-natives Bruce Springsteen & The E-Street Band and Southside Johnny & The Asbury Jukes, the band proved that pairing honest workingman’s rock with guitar-heavy stadium anthems was a winning formula for the mid-‘80s. Although Bon Jovi achieved success with their first two albums, having landed debut single \"Runaway\" on the Billboard charts in 1984, it was Slippery When Wet (1986) that made the band megastars. Tracks like \"You Give Love A Bad Name\", \"Livin 'On A Prayer\" and \"Wanted Dead Or Alive\" helped lift the album to become the highest selling record of 1987, as well as the band’s best-selling work to date. The sequel, New Jersey (1988) charted five singles on the Billboard Hot 100 - a record for a hard rock band. The endless touring that their popularity demanded eventually took a toll on the band, forcing its members into a brief hiatus, where they focused on other projects. Their 1992 return initiated a second phase of their career, marked by a musical shift reflecting a popular decline in hair metal. Toning down guitar solos and drums, in favor of a more mature sound and expressive lyrics, Bon Jovi managed to both preserve core fans and gain new ones with Keep The Faith (1992) and These Days (1995), which both achieved platinum sales levels. After another break, this time for four years, Bon Jovi returned again in 2000 with megahit \"It's My Life,\" marking a new era for the adaptive rock giants, and proof of their everlasting appeal. (Photo: Rovi)"
+                            },
+                            {
+                                "uuid": "c8d6fd12-d5e3-430a-b0c1-42ae8345d315",
+                                "title": "Aphex Twin Essentials",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/c8d6fd12-d5e3-430a-b0c1-42ae8345d315",
+                                "image": "7985c45c-6d63-4f8e-8841-449a98e3f50e",
+                                "squareImage": "9b34a645-110b-4d24-b4db-7004a0bab0af",
+                                "duration": 7831,
+                                "numberOfTracks": 25,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2023-07-11T17:53:02.286Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 3531604,
+                                        "name": "Aphex Twin",
+                                        "type": "MAIN",
+                                        "picture": "ffbe2d5c-f42a-4911-9cb6-c8a95269e560",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Describing Aphex Twin is tough. He's an inimitable, generational genius — that much is clear. After that, though, it's hard to tell where fact ends and fiction begins. Did he, for instance, spend the '90's living in a converted bank vault in London's Elephant & Castle area? How about the time he (supposedly) turned up to a gig and spun sandpaper instead of records? Or his repeated claim to have purchased a 9,500lb tank to terrorize the neighbors of his remote estate? One thing's for certain — as evinced by numerous classic albums and quality new releases throughout the 2010s and 2020s, Richard D. James remains one of the most pivotal figures in contemporary electronic music. From his early days as an underground provocateur to his formidable cult following today, the legend of AFX/RDJ continues to endure, inspire, & confound. (Photo: Rovi)"
+                            },
+                            {
+                                "uuid": "f4644c68-a2a9-454b-92ee-787734eddb01",
+                                "title": "G-Dragon Essentials",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/f4644c68-a2a9-454b-92ee-787734eddb01",
+                                "image": "25281a81-9840-4675-9223-7ab680b560a0",
+                                "squareImage": "3a3b9b33-3873-4e35-98d5-3d97c36f1174",
+                                "duration": 4094,
+                                "numberOfTracks": 20,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2023-10-03T16:48:33.784Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 5092715,
+                                        "name": "G-Dragon",
+                                        "type": "MAIN",
+                                        "picture": "94f4d902-46d5-4a11-a18d-5f798f1cd014",
+                                        "handle": null,
+                                        "userId": 186877474,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "A K-pop icon who brings his avant-garde, artistic flair to whatever genre he tackles. (Photo: YG Entertainment)  "
+                            },
+                            {
+                                "uuid": "394f0a98-e7fc-4cef-bfac-b2479573397e",
+                                "title": "Craig David Essentials",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/394f0a98-e7fc-4cef-bfac-b2479573397e",
+                                "image": "49e2e0a9-1b17-4b43-a1f0-efa32bd9c25e",
+                                "squareImage": "d999c434-2899-44cd-97bc-169ac86f416c",
+                                "duration": 4483,
+                                "numberOfTracks": 20,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2021-05-05T14:33:23.766Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 12674,
+                                        "name": "Craig David",
+                                        "type": "MAIN",
+                                        "picture": "2c2d1aab-e77d-4460-838d-d947ceea8483",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 6569773,
+                                        "name": "Sigala",
+                                        "type": "MAIN",
+                                        "picture": "bde0c40f-d62d-4e47-a7ba-c8433f4c4fb7",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Craig David broke into the U.K. music scene at 19 years old with the hit single \"Fill Me In\". Over the last two decades, his music has experimented with pop and dance/club sounds without losing the essence of his vocal range. Listen to the best from Craig David. (Photo: Rovi)"
+                            },
+                            {
+                                "uuid": "dceae8f0-99d9-42cd-9d81-78d0734b0653",
+                                "title": "David Crosby Essentials",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/dceae8f0-99d9-42cd-9d81-78d0734b0653",
+                                "image": "77c25036-490a-4482-8fd8-d20e30a44f0e",
+                                "squareImage": "4c4499f5-6ea0-4262-96f2-7f9d5a3facaf",
+                                "duration": 5195,
+                                "numberOfTracks": 20,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2023-01-19T23:16:35.819Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 15314,
+                                        "name": "David Crosby",
+                                        "type": "MAIN",
+                                        "picture": "9940befe-ad0e-4023-946c-5d72a9426e8b",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Singer, songwriter and guitarist David Crosby (1941 - 2023) was not only a founding member of folk-rock pioneers the Byrds and Crosby, Stills and Nash, he was also a solo artist whose past couple decades were some of the most prolific years of his career. David Crosby passed away on January 19, 2023, 81 years old. (Photo: Rovi) "
+                            },
+                            {
+                                "uuid": "2bcd6aab-a550-4cd9-a12c-9b643dbbe0c7",
+                                "title": "Stray Kids Essentials",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/2bcd6aab-a550-4cd9-a12c-9b643dbbe0c7",
+                                "image": "c5f08294-357f-4d4b-a941-b19a61a98b2e",
+                                "squareImage": "9f14b989-9854-4281-8e12-3b0651e0e40c",
+                                "duration": 5823,
+                                "numberOfTracks": 30,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2023-11-10T05:00:20.396Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 9838474,
+                                        "name": "Stray Kids",
+                                        "type": "MAIN",
+                                        "picture": "43e908a3-a768-4a73-a59f-9f14b84576c2",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "From their first 'Mixtape,' Stray Kids have set out to tell the story of their generation with self-written and self-produced songs. From the banging EDM tracks to the intimate ballads, get lost in the voices of Stray Kids. (Photo: InGrooves)"
+                            },
+                            {
+                                "uuid": "285d6293-8f77-4dc1-8dab-a262f3d0cb43",
+                                "title": "JAY-Z Essentials",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/285d6293-8f77-4dc1-8dab-a262f3d0cb43",
+                                "image": "687f1693-7b14-4260-9553-e1a9f743fb00",
+                                "squareImage": "6e2c2202-badf-489c-a81c-c779f2ddfdd8",
+                                "duration": 12079,
+                                "numberOfTracks": 50,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2023-07-21T05:50:16.973Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 7804,
+                                        "name": "JAY Z",
+                                        "type": "MAIN",
+                                        "picture": "a437c542-e9b5-4050-aced-c75ca0565c4f",
+                                        "handle": null,
+                                        "userId": 0,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Hear the finest from the Brooklyn legend in this career-spanning collection by Hov. (Photo: Courtesy of Roc Nation, Press)"
+                            },
+                            {
+                                "uuid": "44b0e595-7b22-4b5f-8b61-c483deaafd9e",
+                                "title": "Check The Rhyme: Dapper Dan",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/44b0e595-7b22-4b5f-8b61-c483deaafd9e",
+                                "image": "c3bded44-be78-4ac6-a6d8-fe77d8b21c1c",
+                                "squareImage": "64cc2919-77de-48ea-99a4-aab1f19d558a",
+                                "duration": 10034,
+                                "numberOfTracks": 43,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2022-08-08T14:49:39.976Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 7804,
+                                        "name": "JAY Z",
+                                        "type": "MAIN",
+                                        "picture": "a437c542-e9b5-4050-aced-c75ca0565c4f",
+                                        "handle": null,
+                                        "userId": 0,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3972883,
+                                        "name": "Pusha T",
+                                        "type": "MAIN",
+                                        "picture": "1a66b643-d534-4c74-88fa-4e61109149f7",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 9975470,
+                                        "name": "THE CARTERS",
+                                        "type": "MAIN",
+                                        "picture": "d9dee9ac-a5ca-400a-b286-1936e840be55",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 10094,
+                                        "name": "Fat Joe",
+                                        "type": "MAIN",
+                                        "picture": "2d7f1379-6fc9-4952-ae1c-87990695172b",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "For those who might not be familiar with Dapper Dan and his impact on hip-hop, treat this playlist as an introduction. Here are the rappers who have paid homage to the Harlem fashion legend. (Photo: Getty Images)"
+                            },
+                            {
+                                "uuid": "5acd13d1-4ec6-4e76-b22b-90df53ce3105",
+                                "title": "Shawn Mendes Essentials",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/5acd13d1-4ec6-4e76-b22b-90df53ce3105",
+                                "image": "b8c75133-bd96-45ff-9ae0-58ac6f2ee2db",
+                                "squareImage": "8a7b0914-ec60-46eb-806d-2913a580bd5c",
+                                "duration": 4834,
+                                "numberOfTracks": 25,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2023-09-25T20:30:58.696Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 5747802,
+                                        "name": "Shawn Mendes",
+                                        "type": "MAIN",
+                                        "picture": "42b307e2-d48d-4ea2-a64a-2a5694ac4eb3",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Toronto, Canada born Shawn Mendes is known for his guitar infused love songs. These are his essential songs. (Photo: Island)"
+                            },
+                            {
+                                "uuid": "f9f1275e-a391-4d84-a47a-384fe09c4723",
+                                "title": "Carlos Vives Esenciales",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/f9f1275e-a391-4d84-a47a-384fe09c4723",
+                                "image": "581ddf35-756a-4442-bda2-6bb0658d2b00",
+                                "squareImage": "0ca6ace0-0780-495e-a554-88bcd666193c",
+                                "duration": 9852,
+                                "numberOfTracks": 45,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2023-08-07T22:29:08.798Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 3628717,
+                                        "name": "Carlos Vives",
+                                        "type": "MAIN",
+                                        "picture": "f4a97f8c-9b66-4fa3-bfb8-61e0461c24e3",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 7806,
+                                        "name": "Black Eyed Peas",
+                                        "type": "MAIN",
+                                        "picture": "1b99c28b-9e06-4b6c-8074-9418764427ce",
+                                        "handle": null,
+                                        "userId": 190625195,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Colombian telenovela actor-turned-singer/composer Carlos Vives revitalized two of his native land’s traditional musical genres—cumbia and vallenato—for a public yearning to reconnect with its roots. “La Gota Fria,” one of his most popular hits, features traditional vallenato instruments caja, guacharaca and the accordion as well as the rondin, native to the Incas. Vives isn’t only a purveyor of great music but a proponent of culture. (Photo: Sony/Press)"
+                            },
+                            {
+                                "uuid": "91429daf-174a-41cf-ab8a-1bc76fe82f2e",
+                                "title": "Pepe Aguilar Esenciales",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/91429daf-174a-41cf-ab8a-1bc76fe82f2e",
+                                "image": "1c7c4fd4-cd01-42fa-939c-37c42bd64fcb",
+                                "squareImage": "898ad391-6465-40b0-aafc-e9effe8402fb",
+                                "duration": 11151,
+                                "numberOfTracks": 47,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2022-02-11T19:47:44.583Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 3506026,
+                                        "name": "Pepe Aguilar",
+                                        "type": "MAIN",
+                                        "picture": "9e1c3a14-dabc-4935-aea2-5b996c50ee91",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3506026,
+                                        "name": "Pepe Aguilar",
+                                        "type": "MAIN",
+                                        "picture": "9e1c3a14-dabc-4935-aea2-5b996c50ee91",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3506026,
+                                        "name": "Pepe Aguilar",
+                                        "type": "MAIN",
+                                        "picture": "9e1c3a14-dabc-4935-aea2-5b996c50ee91",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3506026,
+                                        "name": "Pepe Aguilar",
+                                        "type": "MAIN",
+                                        "picture": "9e1c3a14-dabc-4935-aea2-5b996c50ee91",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Carrying on the great legacy of the Aguilar family in Regional Mexican with pride (and awards), Pepe has created romantic ballads for the ages. (Photo: ONERpm/Press)"
+                            },
+                            {
+                                "uuid": "4ab5f047-9116-4bc5-8d63-2eaecb0c6c2a",
+                                "title": "Paul Anka Essentials",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/4ab5f047-9116-4bc5-8d63-2eaecb0c6c2a",
+                                "image": "6162b0a3-61c4-4278-9101-f500d2e96879",
+                                "squareImage": "3e5f199a-7b23-4d35-9fa4-0e75b5093b47",
+                                "duration": 6923,
+                                "numberOfTracks": 34,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2021-07-31T04:00:13.89Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 3469,
+                                        "name": "Paul Anka",
+                                        "type": "MAIN",
+                                        "picture": "f614450e-627b-44d9-8345-a88b79494cbb",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3469,
+                                        "name": "Paul Anka",
+                                        "type": "MAIN",
+                                        "picture": "f614450e-627b-44d9-8345-a88b79494cbb",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3469,
+                                        "name": "Paul Anka",
+                                        "type": "MAIN",
+                                        "picture": "f614450e-627b-44d9-8345-a88b79494cbb",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 3469,
+                                        "name": "Paul Anka",
+                                        "type": "MAIN",
+                                        "picture": "f614450e-627b-44d9-8345-a88b79494cbb",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Legendary singer-songwriter and honorary Rat Pack affiliate Paul Anka has penned and performed hits from \"Put Your Head on My Shoulder\" to Frank Sinatra's \"My Way\". Known globally as an original teen heartthrob, these are Paul's Essentials! \n\n(Photo: Green Hill Productions, press)"
+                            },
+                            {
+                                "uuid": "26591fd0-cc2b-47ff-b4ec-30d2c98c127e",
+                                "title": "Beyoncé Essentials",
+                                "type": "EDITORIAL",
+                                "url": "https://tidal.com/browse/playlist/26591fd0-cc2b-47ff-b4ec-30d2c98c127e",
+                                "image": "e4d490a8-ea1e-4f4b-9df6-c979e38b9c09",
+                                "squareImage": "77040b77-27ca-4540-aa33-f86662f594b5",
+                                "duration": 14914,
+                                "numberOfTracks": 60,
+                                "numberOfVideos": 0,
+                                "lastItemAddedAt": "2024-07-23T16:08:44.174Z",
+                                "promotedArtists": [
+                                    {
+                                        "id": 1566,
+                                        "name": "Beyoncé",
+                                        "type": "MAIN",
+                                        "picture": "0073e74d-ccf0-41d6-855d-374fdf71e5ed",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    },
+                                    {
+                                        "id": 33236,
+                                        "name": "Miley Cyrus",
+                                        "type": "MAIN",
+                                        "picture": "969ba1b7-f5d9-4e1c-b9a1-728b21007eb0",
+                                        "handle": null,
+                                        "userId": null,
+                                        "contributionLinkUrl": null
+                                    }
+                                ],
+                                "creators": [],
+                                "description": "Since her 2003 debut ‘Dangerously In Love,’ Beyoncé's catalog has been filled with nothing but hits. Get in formation with Queen Bey's highlight reel. (Photo: Columbia)"
+                            }
+                        ]
+                    },
+                    "supportsPaging": false,
+                    "layout": null,
+                    "quickPlay": false,
+                    "playlistStyle": null,
+                    "preTitle": null
+                }
+            ]
+        }
+    ]
+}

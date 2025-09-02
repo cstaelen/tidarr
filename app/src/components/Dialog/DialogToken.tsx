@@ -32,7 +32,7 @@ export const DialogToken = () => {
     if (output?.includes("Authenticated!") || output?.includes("closing")) {
       sseController?.abort();
       setOutput("Authenticated !");
-      actions.checkAPI();
+      window.location.reload();
     }
   }, [actions, output, sseController, tokenMissing]);
 

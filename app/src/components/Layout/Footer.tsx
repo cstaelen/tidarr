@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { GitHub } from "@mui/icons-material";
 import { Button, Link, useTheme } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
+import { customColors } from "src/utils/theme";
 
 export const Footer = () => {
   const { isUpdateAvailable, actions, config } = useConfigProvider();
@@ -23,7 +24,7 @@ export const Footer = () => {
       {isUpdateAvailable && (
         <Button
           size="small"
-          sx={{ color: theme.palette.alert }}
+          sx={{ color: customColors.alert }}
           onClick={() => actions.toggleModal(true)}
           color="warning"
         >

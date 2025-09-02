@@ -1,9 +1,9 @@
 import { ArtTrack, ViewModule } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
-import { useSearchProvider } from "src/provider/SearchProvider";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 
 export default function DisplayButton() {
-  const { actions, display } = useSearchProvider();
+  const { actions, display } = useConfigProvider();
 
   return (
     <Tooltip title="Display mode">

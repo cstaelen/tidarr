@@ -60,7 +60,7 @@ export const ProcessingList = () => {
     if (hasError) {
       actions.checkAPI();
     }
-  }, [hasError]);
+  }, [actions, hasError]);
 
   if (!processingList || processingList?.length === 0) return null;
 
@@ -77,9 +77,7 @@ export const ProcessingList = () => {
       open={open}
     >
       <Backdrop onClick={handleClose} open={open} />
-
-      <TableContainer
-        component={Paper}
+      <Box
         sx={{
           width: {
             xs: "90vw",
@@ -87,11 +85,12 @@ export const ProcessingList = () => {
           },
           opacity: open ? 1 : 0,
           position: "absolute",
+          overflow: "auto",
           right: 0,
           visibility: open ? "visible" : "hidden",
         }}
       >
-        <Box sx={{ width: "700px" }}>
+        <TableContainer component={Paper} sx={{ minWidth: "700px" }}>
           <Table size="small" aria-label="Processing table">
             <TableHead>
               <TableRow>
@@ -101,6 +100,7 @@ export const ProcessingList = () => {
                 <TableCell>Title</TableCell>
                 <TableCell>Artist</TableCell>
                 <TableCell>Type</TableCell>
+                <TableCell>Quality</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -109,8 +109,8 @@ export const ProcessingList = () => {
               ))}
             </TableBody>
           </Table>
-        </Box>
-      </TableContainer>
+        </TableContainer>
+      </Box>
     </SpeedDial>
   );
 };

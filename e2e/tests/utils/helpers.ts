@@ -1,5 +1,7 @@
 import { expect, Page } from "@playwright/test";
 
+import { mockTidalQueries } from "./mock";
+
 export async function waitForLoader(page: Page) {
   const loader = await page.getByTestId("loader")?.isVisible();
   if (loader) {
@@ -14,7 +16,11 @@ export async function waitForImgLoaded(page: Page) {
   });
 }
 
-export async function testProcessingList(page: Page, shouldContains: string[]) {
+export async function testProcessingList(
+  page: Page,
+  shouldContains: string[],
+  quality?: string,
+) {
   await expect(page.locator("button.MuiFab-circular")).toBeVisible();
   await page.locator("button.MuiFab-circular").click();
 
@@ -24,21 +30,25 @@ export async function testProcessingList(page: Page, shouldContains: string[]) {
     );
   });
 
+  if (quality) {
+    await expect(page.getByLabel("Processing table")).toContainText(quality);
+  }
+
   await expect(page.locator(".MuiDialog-container button")).not.toBeVisible();
 
-  await page
-    .getByLabel("Processing table")
-    .locator("div")
-    .getByRole("button")
-    .first()
-    .click();
+  await page.getByTestId("btn-console").click();
 
   await expect(
     page.getByRole("heading", { name: "Console output" }),
   ).toBeVisible();
 
   await expect(page.getByText("=== Tiddl ===")).toBeVisible();
+
+  if (quality) {
+    await expect(page.getByText(`-q ${quality}`)).toBeVisible();
+  }
   await page.getByRole("button", { name: "Close" }).click();
+  await emptyProcessingList(page);
 }
 
 export async function emptyProcessingList(page: Page) {
@@ -55,4 +65,9 @@ export async function emptyProcessingList(page: Page) {
 
   await firstButton?.click();
   await expect(page.locator("button.MuiFab-circular")).not.toBeVisible();
+}
+
+export async function goToHome(page: Page) {
+  await mockTidalQueries(page);
+  await page.goto("/");
 }

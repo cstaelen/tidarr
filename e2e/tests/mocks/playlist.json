@@ -1,0 +1,51 @@
+{
+    "uuid": "0b5df380-47d3-48fe-ae66-8f0dba90b1ee",
+    "title": "Grown Country",
+    "numberOfTracks": 50,
+    "numberOfVideos": 0,
+    "creator": {
+        "id": 0
+    },
+    "description": "Trusted voices of country & folk and new a generation keeping the traditional spirit alive. (Cover: Waylon Jennings / Photo: Thirty Tigers, press)\n\n\n\n",
+    "duration": 11489,
+    "lastUpdated": "2025-08-22T08:51:30.955+0000",
+    "created": "2019-01-29T18:27:11.300+0000",
+    "type": "EDITORIAL",
+    "publicPlaylist": true,
+    "url": "http://www.tidal.com/playlist/0b5df380-47d3-48fe-ae66-8f0dba90b1ee",
+    "image": "25469ae8-cc1a-4676-93ad-7fda2646b551",
+    "popularity": 0,
+    "squareImage": "303e3e6c-b4c8-4980-9a8d-d22206615516",
+    "customImageUrl": null,
+    "promotedArtists": [
+        {
+            "id": 644,
+            "name": "Asleep At The Wheel",
+            "handle": null,
+            "type": "MAIN",
+            "picture": null
+        },
+        {
+            "id": 2835,
+            "name": "Waylon Jennings",
+            "handle": null,
+            "type": "MAIN",
+            "picture": null
+        },
+        {
+            "id": 5649493,
+            "name": "Jeremy Pinnell",
+            "handle": null,
+            "type": "MAIN",
+            "picture": null
+        },
+        {
+            "id": 14803,
+            "name": "John Prine",
+            "handle": null,
+            "type": "MAIN",
+            "picture": null
+        }
+    ],
+    "lastItemAddedAt": "2025-08-22T08:51:21.095+0000"
+}

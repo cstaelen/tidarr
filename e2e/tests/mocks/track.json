@@ -1,0 +1,64 @@
+{
+    "id": 77610761,
+    "title": "Lithium",
+    "duration": 257,
+    "replayGain": -10.79,
+    "peak": 0.989595,
+    "allowStreaming": true,
+    "streamReady": true,
+    "payToStream": false,
+    "adSupportedStreamReady": true,
+    "djReady": true,
+    "stemReady": false,
+    "streamStartDate": "2013-10-15T00:00:00.000+0000",
+    "premiumStreamingOnly": false,
+    "trackNumber": 5,
+    "volumeNumber": 1,
+    "version": null,
+    "popularity": 82,
+    "copyright": "℗ 1991 UMG Recordings, Inc.",
+    "bpm": 123,
+    "url": "http://www.tidal.com/track/77610761",
+    "isrc": "USGF19942505",
+    "editable": false,
+    "explicit": false,
+    "audioQuality": "LOSSLESS",
+    "audioModes": [
+        "STEREO"
+    ],
+    "mediaMetadata": {
+        "tags": [
+            "LOSSLESS",
+            "HIRES_LOSSLESS"
+        ]
+    },
+    "upload": false,
+    "accessType": "PUBLIC",
+    "spotlighted": false,
+    "artist": {
+        "id": 19368,
+        "name": "Nirvana",
+        "handle": null,
+        "type": "MAIN",
+        "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+    },
+    "artists": [
+        {
+            "id": 19368,
+            "name": "Nirvana",
+            "handle": null,
+            "type": "MAIN",
+            "picture": "354251d0-d434-411a-a889-06cf7daeffef"
+        }
+    ],
+    "album": {
+        "id": 77610756,
+        "title": "Nevermind",
+        "cover": "4e4aec29-deff-466e-9ea1-c47916d5960b",
+        "vibrantColor": "#56afc9",
+        "videoCover": "e942db03-2afc-45f5-be49-dfe017b57a1a"
+    },
+    "mixes": {
+        "TRACK_MIX": "001d2e9d0e008944b361447484f9e5"
+    }
+}

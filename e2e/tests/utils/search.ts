@@ -1,16 +1,17 @@
 import { expect, Page } from "@playwright/test";
 
-import { waitForImgLoaded, waitForLoader } from "./helpers";
-import { mockConfigAPI, mockRelease } from "./mock";
+import { goToHome, waitForImgLoaded, waitForLoader } from "./helpers";
+import { mockConfigAPI, mockRelease, mockTidalQueries } from "./mock";
 
 export async function runSearch(keyword: string, page: Page) {
   await mockConfigAPI(page);
   await mockRelease(page);
+  await mockTidalQueries(page);
 
-  await page.goto("/");
+  await goToHome(page);
   await page.evaluate("localStorage.clear()");
 
-  await expect(page.getByRole("heading")).toContainText("Tidarr");
+  await expect(page.getByTestId("logo")).toBeInViewport();
   await expect(
     page.getByLabel(
       "Tidal search (keywords, artist URL, album URL, playlist URL)",

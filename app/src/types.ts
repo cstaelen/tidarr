@@ -17,6 +17,7 @@ export type TrackType = {
   id: string;
   url: string;
   allowStreaming: boolean;
+  explicit: boolean;
 };
 
 export type TrackAlbumType = {
@@ -37,6 +38,7 @@ export type ArtistType = {
   picture: string;
   url: string;
   popularity: number;
+  mixes?: { ARTIST_MIX: string } & { [key: string]: string }[];
 };
 
 // ALBUM
@@ -58,6 +60,7 @@ export type AlbumType = {
   id: string;
   popularity: number;
   url: string;
+  explicit: boolean;
 };
 
 // VIDEO
@@ -167,9 +170,9 @@ export type TidalModuleResponseType<T> = {
 };
 
 export type TidalModuleListType<T> = {
-  type?: string;
+  type?: ModuleTypeKeys;
   title: string;
-  album: AlbumType;
+  album?: AlbumType;
   pagedList: TidalPagedListType<T>;
   mix?: MixType;
   artist?: ArtistType;
@@ -185,6 +188,28 @@ export type TidalPagedListType<T> = {
   offset?: number;
   dataApiPath?: string;
 };
+
+export type ModuleItemLevelType<T> = {
+  item: T;
+  playlist: T;
+};
+
+export type ModuleTypeKeys =
+  | "ALBUM_LIST"
+  | "ALBUM_HEADER"
+  | "ALBUM_ITEMS"
+  | "VIDEO_LIST"
+  | "TRACK_LIST"
+  | "PLAYLIST_LIST"
+  | "MIXED_TYPES_LIST"
+  | "MIX_LIST"
+  | "EDITORIAL"
+  | "ARTIST_HEADER"
+  | "ARTIST_LIST"
+  | "USER_ALBUM_LIST"
+  | "USER_ARTIST_LIST"
+  | "USER_PLAYLIST_LIST"
+  | "USER_TRACK_LIST";
 
 // CONFIG
 
@@ -258,11 +283,14 @@ export type LogType = {
 
 // PROCESSING LIST
 
+export type QualityType = "low" | "normal" | "high" | "master";
+
 export type ProcessingItemType = {
   id: string;
   artist: string;
   title: string;
-  type: "artist" | "album" | "track" | "playlist" | "video";
+  quality: QualityType;
+  type: "artist" | "album" | "track" | "playlist" | "video" | "mix";
   status: "queue" | "finished" | "beet" | "processing" | "error";
   url: string;
   loading: boolean;

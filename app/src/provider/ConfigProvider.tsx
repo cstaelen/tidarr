@@ -1,28 +1,37 @@
-import React, { ReactNode, useContext, useState } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
 
 import {
   ConfigParametersType,
   ConfigTiddleType,
   ConfigType,
+  QualityType,
   ReleaseGithubType,
 } from "../types";
 
 import { useApiFetcher } from "./ApiFetcherProvider";
 
+type DisplayType = "small" | "large";
+
 type ConfigContextType = {
   isUpdateAvailable: boolean;
   releaseData: undefined | ReleaseGithubType;
   tokenMissing: boolean;
+  quality: QualityType;
+  display: DisplayType;
   config: undefined | ConfigParametersType;
   tiddlConfig: undefined | ConfigTiddleType;
   isConfigModalOpen: boolean;
-  reactAppEnvVars: ConfigParametersType;
   actions: {
     toggleModal: (isOpen: boolean) => void;
     checkAPI: () => void;
     checkForUpdates: () => void;
+    setQuality: (quality: QualityType) => void;
+    setDisplay: (mode: DisplayType) => void;
   };
 };
+
+export const LOCALSTORAGE_QUALITY_DOWNLOAD = "tidarr-quality-download";
+export const LOCALSTORAGE_DISPLAY_MODE = "tidarr-display-mode";
 
 const ConfigContext = React.createContext<ConfigContextType>(
   {} as ConfigContextType,
@@ -36,17 +45,19 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [config, setConfig] = useState<ConfigParametersType>();
   const [tiddlConfig, setTiddlConfig] = useState<ConfigTiddleType>();
 
+  const [quality, setQuality] = useState<QualityType>(
+    (localStorage.getItem(LOCALSTORAGE_QUALITY_DOWNLOAD) as QualityType) ||
+      tiddlConfig?.download?.quality ||
+      "high",
+  );
+
+  const [display, setDisplay] = useState<DisplayType>(
+    (localStorage.getItem(LOCALSTORAGE_DISPLAY_MODE) as DisplayType) || "small",
+  );
+
   const {
     actions: { check },
   } = useApiFetcher();
-
-  const reactAppEnvVars = {
-    REACT_APP_TIDAL_SEARCH_TOKEN:
-      window._env_.REACT_APP_TIDAL_SEARCH_TOKEN || "",
-    REACT_APP_TIDARR_SEARCH_URL: window._env_.REACT_APP_TIDARR_SEARCH_URL || "",
-    REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER:
-      window._env_.REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER || "",
-  };
 
   // Open/close config modal
   const toggleModal = (isOpen: boolean) => {
@@ -61,7 +72,6 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     }
     const output = await check();
     const data = output as ConfigType;
-    console.log(data);
     setTokenMissing(data?.noToken);
     setConfig(data?.parameters);
     setTiddlConfig(data?.tiddl_config);
@@ -98,18 +108,29 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  useEffect(() => {
+    localStorage.setItem(LOCALSTORAGE_DISPLAY_MODE, display);
+  }, [display]);
+
+  useEffect(() => {
+    localStorage.setItem(LOCALSTORAGE_QUALITY_DOWNLOAD, quality);
+  }, [quality, tiddlConfig]);
+
   const value = {
     isUpdateAvailable,
     releaseData,
     tokenMissing,
     config,
-    reactAppEnvVars,
+    quality,
+    display,
     isConfigModalOpen,
     tiddlConfig,
     actions: {
       toggleModal,
       checkAPI,
       checkForUpdates,
+      setQuality,
+      setDisplay,
     },
   };
 

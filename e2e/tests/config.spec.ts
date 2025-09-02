@@ -1,7 +1,7 @@
 import test, { expect } from "@playwright/test";
 import dotenv from "dotenv";
 
-import { emptyProcessingList } from "./utils/helpers";
+import { emptyProcessingList, goToHome } from "./utils/helpers";
 import { mockConfigAPI, mockRelease } from "./utils/mock";
 
 dotenv.config({ path: "../.env", override: false });
@@ -25,20 +25,20 @@ test("Tidarr config : Should display token modal if no tidal token exists", asyn
     await route.fulfill({ json });
   });
 
-  await page.goto("/");
+  await goToHome(page);
 
   await expect(
     page.getByRole("heading", { name: "Tidal token not found !" }),
   ).toBeVisible();
+
   await expect(
     page.getByRole("link", { name: "https://link.tidal.com/" }),
   ).toBeVisible();
 });
 
 test("Tidarr config : Should see app version", async ({ page }) => {
-  mockConfigAPI(page);
-
-  await page.goto("/");
+  await mockConfigAPI(page);
+  await goToHome(page);
   await emptyProcessingList(page);
 
   await expect(page.getByText(`v${CURRENT_VERSION}`)).toBeVisible();
@@ -47,15 +47,15 @@ test("Tidarr config : Should see app version", async ({ page }) => {
 
   // Tab updates
   await expect(
-    page.getByText(`Current version: ${CURRENT_VERSION}`),
+    page.getByText(`Current version: Tidarr ${CURRENT_VERSION}`),
   ).toBeVisible();
 });
 
 test("Tidarr config : Should see configuration dialog", async ({ page }) => {
-  mockConfigAPI(page);
-  mockRelease(page);
+  await mockConfigAPI(page);
+  await mockRelease(page);
 
-  await page.goto("/");
+  await goToHome(page);
   await emptyProcessingList(page);
 
   await page.getByRole("button", { name: "Settings" }).click();
@@ -67,35 +67,53 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
   await expect(page.getByText("Tidarr is up to date.")).toBeVisible();
 
   // Tab API
-  await expect(page.getByRole("tab", { name: "API" })).toBeVisible();
-  await page.getByRole("tab", { name: "API" }).click();
   await expect(
-    page
-      .locator("#alert-dialog-description div")
-      .filter({ hasText: "Environment" }),
-  ).toHaveScreenshot();
+    page.getByRole("tab", { name: "Environment vars" }),
+  ).toBeVisible();
+  await page.getByRole("tab", { name: "Environment vars" }).click();
 
-  // Tab APP
-  await expect(page.getByRole("tab", { name: "Application" })).toBeVisible();
-  await page.getByRole("tab", { name: "Application" }).click();
-  await expect(
-    page
-      .locator("#alert-dialog-description div")
-      .filter({ hasText: "Environment" }),
-    "test",
-  ).toHaveScreenshot();
+  const dataAPIRows = [
+    ["ENABLE_BEETS", "true"],
+    ["ENABLE_PLEX_UPDATE", "true"],
+    ["PLEX_URL", "http://plex.url"],
+    ["PLEX_LIBRARY", "3"],
+    ["PLEX_TOKEN", "abc-plex-token-xyz"],
+    ["PLEX_PATH", "/fodler/to/plex/music"],
+    ["ENABLE_GOTIFY", "true"],
+    ["GOTIFY_URL", "http://gotify.url"],
+    ["GOTIFY_TOKEN", "abc-gotify-token-xyz"],
+    ["TIDARR_VERSION", "0.0.0-testing"],
+    ["PUID", ""],
+    ["PGID", ""],
+    ["ENABLE_APPRISE_API", ""],
+    ["APPRISE_API_ENDPOINT", ""],
+    ["APPRISE_API_TAG", ""],
+  ];
+  const tableAPIRows = await page
+    .locator("#alert-dialog-description div")
+    .filter({ hasText: "Environment" })
+    .locator("table tbody tr")
+    .all();
+
+  expect(tableAPIRows.length).toEqual(dataAPIRows?.length);
+  tableAPIRows.forEach((row, index) => {
+    expect(row.locator("td").first()).toContainText(dataAPIRows[index][0]);
+    expect(row.locator("td").last()).toContainText(dataAPIRows[index][1]);
+  });
 
   // Tab Tidal token
   await expect(page.getByRole("tab", { name: "Tidal token" })).toBeVisible();
   await page.getByRole("tab", { name: "Tidal token" }).click();
-  await expect(page.locator("#alert-dialog-description")).toHaveScreenshot();
+  await expect(
+    page.getByRole("button", { name: "Revoke Tidal token" }),
+  ).toBeInViewport();
 });
 
 test("Tidarr config : Should see update button", async ({ page }) => {
-  mockConfigAPI(page);
-  mockRelease(page, "9.9.9");
+  await mockConfigAPI(page);
+  await mockRelease(page, "9.9.9");
 
-  await page.goto("/");
+  await goToHome(page);
   await emptyProcessingList(page);
 
   await expect(page.getByText("Update available")).toBeVisible();

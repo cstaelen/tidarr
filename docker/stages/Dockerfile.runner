@@ -1,5 +1,5 @@
 WORKDIR /home/app/standalone
-ENV SHELL bash
+ENV SHELL=bash
 
 COPY --from=app_builder /home/app/build/api/dist /home/app/standalone/api/dist
 COPY --from=app_builder /home/app/build/api/scripts /home/app/build/api/scripts

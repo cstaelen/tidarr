@@ -7,7 +7,14 @@ import { plexUpdate } from "../services/plex";
 import { tidalDL } from "../services/tiddl";
 import { ProcessingItemType } from "../types";
 
+import { get_tiddl_config } from "./get_tiddl_config";
 import { cleanFolder, logs, moveAndClean } from "./jobs";
+import {
+  addTracksToPlaylist,
+  createNewPlaylist,
+  deletePlaylist,
+  getTracksByMixId,
+} from "./tidal";
 
 export function sendSSEUpdate(req: Request, res: Response) {
   res.write(
@@ -37,10 +44,10 @@ export const ProcessingStack = (expressApp: Express) => {
 
   async function removeItem(id: number) {
     const item = getItem(id);
-    await item?.process?.kill("SIGSTOP");
-    await item?.process?.kill("SIGTERM");
-    await item?.process?.kill("SIGKILL");
-    await item?.process?.stdin?.end();
+    item?.process?.kill("SIGSTOP");
+    item?.process?.kill("SIGTERM");
+    item?.process?.kill("SIGKILL");
+    item?.process?.stdin?.end();
 
     const foundIndex = data.findIndex(
       (listItem: ProcessingItemType) => listItem?.id === item?.id,
@@ -85,9 +92,35 @@ export const ProcessingStack = (expressApp: Express) => {
     }
   }
 
-  function processItem(item: ProcessingItemType) {
+  async function processItem(item: ProcessingItemType) {
     item["status"] = "processing";
-    expressApp.settings.processingList.actions.updateItem(item);
+
+    if (item.type === "mix" && !process.env.IS_DOCKER) {
+      const config = await get_tiddl_config();
+
+      item["output"] = logs(item, `Mix: get track from mix id`);
+      expressApp.settings.processingList.actions.updateItem(item);
+      const tracks = await getTracksByMixId(item.id, config);
+
+      item["output"] = logs(item, `Mix: create new playlist`);
+      expressApp.settings.processingList.actions.updateItem(item);
+      const playlistId = await createNewPlaylist(item.title, config);
+
+      item["output"] = logs(item, `Mix: add track ids to new playlist`);
+      expressApp.settings.processingList.actions.updateItem(item);
+      await addTracksToPlaylist(playlistId, tracks, config);
+
+      item["url"] = `playlist/${playlistId}`;
+
+      item["output"] = logs(item, `Mix: download playlist`);
+      expressApp.settings.processingList.actions.updateItem(item);
+
+      tidalDL(item.id, expressApp, () => {
+        item["output"] = logs(item, `Mix: delete playlist`);
+        deletePlaylist(playlistId, config);
+      });
+      return;
+    }
 
     tidalDL(item.id, expressApp);
   }

@@ -1,0 +1,679 @@
+{
+    "limit": 18,
+    "offset": 0,
+    "totalNumberOfItems": 62,
+    "items": [
+        {
+            "created": "2023-04-24T14:44:22.124+0000",
+            "item": {
+                "id": 10002842,
+                "name": "Acizm",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/10002842",
+                "picture": null,
+                "selectedAlbumCoverFallback": "731da033-7302-4949-ac79-f61566f7bfa4",
+                "popularity": 12,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 11,
+                        "category": "Performer"
+                    },
+                    {
+                        "categoryId": 3,
+                        "category": "Engineer"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    },
+                    {
+                        "categoryId": 10,
+                        "category": "Production team"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-25T09:36:24.542+0000",
+            "item": {
+                "id": 9101,
+                "name": "Air",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/9101",
+                "picture": "70cce1e4-817f-438a-9884-bf56d3904f82",
+                "selectedAlbumCoverFallback": null,
+                "popularity": 77,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    },
+                    {
+                        "categoryId": 11,
+                        "category": "Performer"
+                    },
+                    {
+                        "categoryId": 10,
+                        "category": "Production team"
+                    },
+                    {
+                        "categoryId": 1,
+                        "category": "Producer"
+                    },
+                    {
+                        "categoryId": 3,
+                        "category": "Engineer"
+                    },
+                    {
+                        "categoryId": 99,
+                        "category": "Misc"
+                    }
+                ],
+                "mixes": {
+                    "ARTIST_MIX": "0008c54adbd0af5d6d9a2789dfd683"
+                },
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:22.124+0000",
+            "item": {
+                "id": 7545612,
+                "name": "Alexi Musnitsky",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/7545612",
+                "picture": null,
+                "selectedAlbumCoverFallback": "e6487c7a-e3be-41d7-9867-eb05964890bd",
+                "popularity": 19,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:22.039+0000",
+            "item": {
+                "id": 16838570,
+                "name": "Anomymaslo JR",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/16838570",
+                "picture": null,
+                "selectedAlbumCoverFallback": "8ced801f-5b2f-47a9-aad1-dd2f9b310e24",
+                "popularity": 0,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-25T09:36:24.542+0000",
+            "item": {
+                "id": 17364,
+                "name": "Arcade Fire",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/17364",
+                "picture": "299ae24d-61a7-4fcc-8366-af5342664ec3",
+                "selectedAlbumCoverFallback": null,
+                "popularity": 81,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    },
+                    {
+                        "categoryId": 1,
+                        "category": "Producer"
+                    },
+                    {
+                        "categoryId": 3,
+                        "category": "Engineer"
+                    },
+                    {
+                        "categoryId": 10,
+                        "category": "Production team"
+                    },
+                    {
+                        "categoryId": 99,
+                        "category": "Misc"
+                    }
+                ],
+                "mixes": {
+                    "ARTIST_MIX": "000b0dccfcc4d7a2f1c2b7b1d23a09"
+                },
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-25T09:36:24.542+0000",
+            "item": {
+                "id": 80,
+                "name": "Bob Dylan",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/80",
+                "picture": "df701644-8cb3-42ae-9d2e-f852e9396838",
+                "selectedAlbumCoverFallback": null,
+                "popularity": 85,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    },
+                    {
+                        "categoryId": 11,
+                        "category": "Performer"
+                    },
+                    {
+                        "categoryId": 1,
+                        "category": "Producer"
+                    },
+                    {
+                        "categoryId": 10,
+                        "category": "Production team"
+                    },
+                    {
+                        "categoryId": 3,
+                        "category": "Engineer"
+                    },
+                    {
+                        "categoryId": 99,
+                        "category": "Misc"
+                    }
+                ],
+                "mixes": {
+                    "ARTIST_MIX": "0000b55691958befa0be2cd45f4adf"
+                },
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-25T09:36:24.542+0000",
+            "item": {
+                "id": 3582272,
+                "name": "Bombay Bicycle Club",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/3582272",
+                "picture": "64584d80-1a93-4fed-8882-27f9105d3590",
+                "selectedAlbumCoverFallback": null,
+                "popularity": 59,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 10,
+                        "category": "Production team"
+                    },
+                    {
+                        "categoryId": 1,
+                        "category": "Producer"
+                    },
+                    {
+                        "categoryId": 3,
+                        "category": "Engineer"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    },
+                    {
+                        "categoryId": 11,
+                        "category": "Performer"
+                    },
+                    {
+                        "categoryId": 99,
+                        "category": "Misc"
+                    }
+                ],
+                "mixes": {
+                    "ARTIST_MIX": "000e5a9aa2d5c6db182c4fea350c62"
+                },
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:22.213+0000",
+            "item": {
+                "id": 6846289,
+                "name": "Bror Gunnar Jansson",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/6846289",
+                "picture": null,
+                "selectedAlbumCoverFallback": "542f6f6d-a192-4d58-a1e1-1974ceccd6c7",
+                "popularity": 37,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 11,
+                        "category": "Performer"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    },
+                    {
+                        "categoryId": 1,
+                        "category": "Producer"
+                    }
+                ],
+                "mixes": {
+                    "ARTIST_MIX": "00045c64b34f7ad4d3fa0c98ff7523"
+                },
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:22.306+0000",
+            "item": {
+                "id": 8674480,
+                "name": "Carsky",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/8674480",
+                "picture": null,
+                "selectedAlbumCoverFallback": "e8e7ea9f-5461-4dfd-88cb-3f7608d2c506",
+                "popularity": 6,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-25T09:36:24.542+0000",
+            "item": {
+                "id": 872,
+                "name": "Charlie Parker",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/872",
+                "picture": "65e052ec-61e5-4ff2-98a2-43d9ead58b15",
+                "selectedAlbumCoverFallback": null,
+                "popularity": 63,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    },
+                    {
+                        "categoryId": 11,
+                        "category": "Performer"
+                    },
+                    {
+                        "categoryId": 1,
+                        "category": "Producer"
+                    },
+                    {
+                        "categoryId": 10,
+                        "category": "Production team"
+                    },
+                    {
+                        "categoryId": 99,
+                        "category": "Misc"
+                    }
+                ],
+                "mixes": {
+                    "ARTIST_MIX": "0000ea7289917d43c4e376a5e06cd0"
+                },
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:22.213+0000",
+            "item": {
+                "id": 7735872,
+                "name": "Chukkie Tykunez",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/7735872",
+                "picture": null,
+                "selectedAlbumCoverFallback": "d40e6e33-4e4d-4e7d-b448-a176f06cea9d",
+                "popularity": 0,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 3,
+                        "category": "Engineer"
+                    },
+                    {
+                        "categoryId": 1,
+                        "category": "Producer"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:22.039+0000",
+            "item": {
+                "id": 10068774,
+                "name": "Co-Dix",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/10068774",
+                "picture": null,
+                "selectedAlbumCoverFallback": "f097725e-b1df-46ce-a1d5-e3757e3438da",
+                "popularity": 0,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:22.124+0000",
+            "item": {
+                "id": 4369118,
+                "name": "Cristina Botnari",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/4369118",
+                "picture": "936187f6-bfb3-404b-95a2-5528dae1454b",
+                "selectedAlbumCoverFallback": null,
+                "popularity": 16,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 1,
+                        "category": "Producer"
+                    },
+                    {
+                        "categoryId": 11,
+                        "category": "Performer"
+                    },
+                    {
+                        "categoryId": 3,
+                        "category": "Engineer"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    },
+                    {
+                        "categoryId": 10,
+                        "category": "Production team"
+                    },
+                    {
+                        "categoryId": 99,
+                        "category": "Misc"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:22.213+0000",
+            "item": {
+                "id": 17191189,
+                "name": "D-Mad Devil",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/17191189",
+                "picture": null,
+                "selectedAlbumCoverFallback": "6a963a39-f0fb-4b3a-b89f-50183eeaff19",
+                "popularity": 23,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:22.039+0000",
+            "item": {
+                "id": 10352939,
+                "name": "Dr Ally K",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/10352939",
+                "picture": null,
+                "selectedAlbumCoverFallback": "7b0688af-5dbd-499a-91f6-8018297499a7",
+                "popularity": 0,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:22.124+0000",
+            "item": {
+                "id": 10329455,
+                "name": "Dre Leroy",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/10329455",
+                "picture": null,
+                "selectedAlbumCoverFallback": "5b3f8b9d-588d-4443-98b8-2ad78077d9d5",
+                "popularity": 5,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-24T14:44:22.213+0000",
+            "item": {
+                "id": 10000992,
+                "name": "Drummxnd",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/10000992",
+                "picture": null,
+                "selectedAlbumCoverFallback": "05ad2c29-8ab4-462f-85c6-05687ae0a241",
+                "popularity": 16,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    }
+                ],
+                "mixes": {},
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        },
+        {
+            "created": "2023-04-25T09:36:24.542+0000",
+            "item": {
+                "id": 1156,
+                "name": "Duke Ellington",
+                "artistTypes": [
+                    "ARTIST",
+                    "CONTRIBUTOR"
+                ],
+                "url": "http://www.tidal.com/artist/1156",
+                "picture": "d4c9f37e-341c-48bd-9a26-4aecf8671d01",
+                "selectedAlbumCoverFallback": null,
+                "popularity": 71,
+                "artistRoles": [
+                    {
+                        "categoryId": -1,
+                        "category": "Artist"
+                    },
+                    {
+                        "categoryId": 2,
+                        "category": "Songwriter"
+                    },
+                    {
+                        "categoryId": 11,
+                        "category": "Performer"
+                    },
+                    {
+                        "categoryId": 10,
+                        "category": "Production team"
+                    },
+                    {
+                        "categoryId": 1,
+                        "category": "Producer"
+                    },
+                    {
+                        "categoryId": 3,
+                        "category": "Engineer"
+                    },
+                    {
+                        "categoryId": 99,
+                        "category": "Misc"
+                    }
+                ],
+                "mixes": {
+                    "ARTIST_MIX": "000d4c71f383ca7e66f54d19b16193"
+                },
+                "handle": null,
+                "userId": null,
+                "spotlighted": false
+            }
+        }
+    ]
+}

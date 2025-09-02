@@ -4,7 +4,7 @@ import { Box, Button, Chip, Stack, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useSearchProvider } from "src/provider/SearchProvider";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 import { PlaylistType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
@@ -12,7 +12,7 @@ import { DownloadButton } from "../Buttons/DownloadButton";
 import ImageLazy from "./common/ImageLazy";
 
 export default function Playlist({ playlist }: { playlist: PlaylistType }) {
-  const { display } = useSearchProvider();
+  const { display } = useConfigProvider();
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -38,7 +38,13 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
               textDecoration: "none",
             }}
           >
-            <Typography component="span" style={{ lineHeight: 1 }}>
+            <Typography
+              component="span"
+              sx={{
+                lineHeight: 1,
+                ":hover": { textDecoration: "underline" },
+              }}
+            >
               <strong>{playlist.title}</strong>
             </Typography>
           </Link>

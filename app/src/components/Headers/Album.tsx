@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Avatar, Button, Chip, Stack, useTheme } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import { customColors } from "src/utils/theme";
 
 import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
@@ -31,34 +32,30 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
             label={album.audioQuality.toLowerCase()}
             size="small"
             style={{
-              margin: "0.3rem 0.2rem",
               color:
                 album?.audioQuality?.toLowerCase() === "lossless"
                   ? theme.palette.common.white
                   : theme.palette.common.black,
               backgroundColor:
                 album?.audioQuality?.toLowerCase() === "lossless"
-                  ? theme.customColors.gold
+                  ? customColors.gold
                   : theme.palette.primary.main,
             }}
           />
-          <Chip
-            label={`${album.numberOfTracks} tracks`}
-            size="small"
-            style={{ margin: "0.3rem 0.2rem" }}
-          />
+          <Chip label={`${album.numberOfTracks} tracks`} size="small" />
           <Chip
             label={`${Math.round(album.duration / 60)} min`}
             size="small"
-            style={{ margin: "0.3rem 0.2rem" }}
             variant="outlined"
           />
           <Chip
             label={`${new Date(album.releaseDate).getFullYear()}`}
             size="small"
             variant="outlined"
-            style={{ margin: "0.3rem 0.2rem" }}
           />
+          {album.explicit && (
+            <Chip label="Explicit" size="small" variant="outlined" />
+          )}
           <DownloadButton
             item={album}
             id={album.id}

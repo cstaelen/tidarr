@@ -9,7 +9,8 @@
         "quality": "high",
         "path": "/home/app/standalone/download/incomplete",
         "threads": 4,
-        "singles_filter": "none"
+        "singles_filter": "none",
+        "download_video": true
     },
     "cover": {
         "save": true,

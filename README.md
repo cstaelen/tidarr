@@ -18,15 +18,14 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - [Getting Started](#getting-started)
 - [Tidal authentication](#tidal-authentication)
 - [Options](#options)
-  - [Tidal search options](#tidal-search-optional)
-  - [Download options](#download-settings-optional)
-  - [PUID/PGID](#puid-pgid-optional)
-  - [Password protection](#password-protection-optional)
+  - [Download options](#download-settings)
+  - [PUID/PGID](#puid-pgid)
+  - [Password protection](#password-protection)
 - [Services](#services):
-  - [Beets](#beets-optional)
-  - [Plex/Plexamp](#plex-update-optional)
-  - [Gotify](#gotify-optional)
-  - [Apprise Api](#apprise-api-optional)
+  - [Beets](#beets)
+  - [Plex/Plexamp](#plex-update)
+  - [Gotify](#gotify)
+  - [Apprise Api](#apprise-api)
 - [User requests](#user-requests)
 - [Donate](#donate)
 - [Develop](#develop)
@@ -38,22 +37,36 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - **Do not forget to support your local artists (merch, live, ...)** 🙏❤️
 
 ## Features
+
+### Main
+- Downloadable media : tracks, albums, playlists, mixes, music videos
+- Max quality : FLAC, **24 bit 192.0 kHz** (if available)
+- Tidal trends content
+- User playlists, mixes, favorites 
 - Search by keywords
 - Search by url : artist url, album url, playlist url, track url, mix url
-- Downloadable media : tracks, albums, playlists, music videos
-- Max quality : FLAC, **24 bit 192.0 kHz** (if available)
-- Admin password
-- Server side download list processing
-- UI build with **ReactJS** + **ExpressJS** API
-- Self-hostable with **Docker** using a Linuxserver.io base image (uncompressed size: ~ 190 Mo)
-- Download **Tidal** content with [Tiddl (2.4.0)](https://github.com/oskvr37/tiddl/tree/v2.4.0)
 - Download covers
-- Tag import using **Beets.io** (python)
-- Push notifications using **Gotify** and **Apprise API**
-- **Plex** library update
+- Admin password
 
-### Companion
+### Service integration
+
+- **[Beets.io](https://beets.readthedocs.io/en/stable/)** - Tag releases 
+- **[Gotify](https://gotify.net/)** - Push notifications 
+- **[Apprise API](https://github.com/caronc/apprise-api)** - Push notifications
+- **[Plex](https://www.plex.tv/)** - Library update
+
+### Companion app
+
 - Song recognition : [Shazarr project](https://github.com/cstaelen/shazarr) (Android) 
+
+### Technicals
+
+- Server-side download list processing
+- UI built with **ReactJS** + **ExpressJS** API
+- Self-hostable with **Docker** using a Linuxserver.io base image (uncompressed size: ~190 MB)
+- Download Tidal content with [Tiddl (2.5.1)](https://github.com/oskvr37/tiddl/tree/v2.5.1)
+
+
 
 ## Getting Started
 
@@ -111,19 +124,7 @@ docker exec tidarr cp -rf /root/tiddl.json /home/app/standalone/shared/tiddl.jso
 ```
 ## Options
 
-### Tidal search (optional)
-
-```yaml
- environment:
-  - ...
-  - REACT_APP_TIDAL_SEARCH_TOKEN=<search_token> #optional
-  - REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER=<"lossless" | "high" | "all"> #optional
-```
-
-How to get search token :
-- https://github.com/lucaslg26/TidalAPI/issues/23
-
-### Download settings (optional)
+### Download settings
 
 -> You can set download options in `/your/docker/path/to/tidarr/config/tiddl.json`.
 
@@ -138,14 +139,16 @@ See default :
         "playlist": "{playlist}/{playlist_number:02d}. {artist} - {title}"
     },
     "download": {
-      // Default high (16bit 44.1khz), max available: master (24bit 192khz max)
+        // Default high (16bit 44.1khz), max available: master (24bit 192khz max)
         // https://github.com/oskvr37/tiddl?tab=readme-ov-file#download-quality
         "quality": "high",
         // Should not be changed (otherwise downloads will fail) /!\
         "path": "/home/app/standalone/download/incomplete",
         "threads": 4,
         // Include or not singles while downloading "all releases"
-        "singles_filter": "none" // "none", "only", "include"
+        "singles_filter": "none", // "none", "only", "include"
+        // Allow video download
+        "download_video": true
     },
     "cover": {
         "save": false,
@@ -166,7 +169,7 @@ See default :
 
 For template format update, please see [Tiddl formatting documentation](https://github.com/oskvr37/tiddl/wiki/Template-formatting)
 
-### PUID PGID (optional)
+### PUID PGID
 
 ```yaml
 environment:
@@ -175,7 +178,7 @@ environment:
   - PGID=123
 ```
 
-### Password protection (optional)
+### Password protection
 
 If not set, no password is required to access the app.
 
@@ -187,7 +190,7 @@ If not set, no password is required to access the app.
 
 ## Services
 
-### Beets (optional)
+### Beets
 
 Add to your *docker-compose* file in `environment:` section :
 
@@ -199,7 +202,7 @@ environment:
 
 Beets options in `</mounted/config/folder/>beets-config.yml`:
 
-### Plex update (optional)
+### Plex update
 
 Add to your *docker-compose* file in `environment:` section :
 
@@ -220,7 +223,7 @@ environment:
 
 Doc : https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
 
-### Gotify (optional)
+### Gotify
 
 Add to your *docker-compose* file in `environment:` section :
 
@@ -232,7 +235,7 @@ environment:
   - GOTIFY_TOKEN=<gotify_app_token>
 ```
 
-### Apprise API (optional)
+### Apprise API
 
 Add to your *docker-compose* file in `environment:` section :
 
@@ -284,5 +287,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 - https://github.com/oskvr37/tiddl
 - https://github.com/yaronzz/Tidal-Media-Downloader
-- https://github.com/lucaslg26/TidalAPI
+- https://github.com/hmelder/TIDAL/wiki/search
 - https://github.com/RandomNinjaAtk/arr-scripts (Lidarr extended scripts)

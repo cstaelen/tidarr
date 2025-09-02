@@ -1,4 +1,6 @@
-import { Alert, AlertTitle, Link } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { MusicNote } from "@mui/icons-material";
+import { Alert, AlertTitle, Button, Link } from "@mui/material";
 import { ArtistType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
@@ -6,6 +8,8 @@ import { DownloadButton } from "../Buttons/DownloadButton";
 import PageHeader from "./Header";
 
 export default function ArtistHeader({ artist }: { artist: ArtistType }) {
+  const navigate = useNavigate();
+
   return (
     <>
       <PageHeader
@@ -16,12 +20,27 @@ export default function ArtistHeader({ artist }: { artist: ArtistType }) {
           "/",
         )}/750x750.jpg`}
         afterTitle={
-          <DownloadButton
-            item={artist}
-            id={artist.id}
-            type="artist"
-            label="Get all releases"
-          />
+          <>
+            <DownloadButton
+              item={artist}
+              id={artist.id}
+              type="artist"
+              label="Get all releases"
+            />
+            {artist?.mixes?.ARTIST_MIX && (
+              <>
+                &nbsp;
+                <Button
+                  variant="outlined"
+                  size="small"
+                  endIcon={<MusicNote />}
+                  onClick={() => navigate(`/mix/${artist?.mixes?.ARTIST_MIX}`)}
+                >
+                  See artist mix
+                </Button>
+              </>
+            )}
+          </>
         }
         subtitle="Artist(s)"
       />

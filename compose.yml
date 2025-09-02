@@ -29,6 +29,11 @@ services:
       - ENABLE_GOTIFY=
       - GOTIFY_URL=
       - GOTIFY_TOKEN=
+      - REACT_APP_TIDARR_DEFAULT_QUALITY_FILTER=
+      - ADMIN_PASSWORD
+      - ENABLE_APPRISE_API=
+      - APPRISE_API_ENDPOINT=
+      - APPRISE_API_TAG=
       
   testing:
     build: 
@@ -42,8 +47,6 @@ services:
       - 7357:8484
       - 9323:9323
     environment:
-      - REACT_APP_TIDAL_SEARCH_TOKEN=CzET4vdadNUFQ5JU
-      - REACT_APP_TIDARR_SEARCH_URL=http://www.tidal.com/album/
       - ENABLE_BEETS=true
       - ENABLE_PLEX_UPDATE=true
       - PLEX_URL=http://plex.url

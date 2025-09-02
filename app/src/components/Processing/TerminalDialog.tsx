@@ -18,7 +18,10 @@ export const TerminalDialog = ({ item }: { item: ProcessingItemType }) => {
 
   return (
     <div>
-      <TerminalButton onClick={() => setOpenOutput(true)}>
+      <TerminalButton
+        onClick={() => setOpenOutput(true)}
+        data-testid="btn-console"
+      >
         <TerminalIcon />
       </TerminalButton>
       <Dialog

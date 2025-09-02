@@ -59,7 +59,7 @@ export default function PageHeader({
   return (
     <>
       {isMobile ? (
-        <Box sx={{ mb: 1 }}>
+        <Box sx={{ mb: 1, mt: 4 }}>
           <Typography
             textTransform="uppercase"
             fontSize={14}

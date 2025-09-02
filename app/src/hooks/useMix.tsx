@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useFetchTidal } from "src/utils/useFetchTidal";
+import { useFetchTidal } from "src/hooks/useFetchTidal";
 
 import { MixType, TidalModuleResponseType, TrackType } from "../types";
 
@@ -27,13 +27,14 @@ export const useMix = (): ArtistContextType => {
     setLoading(true);
 
     const data_mix = await fetchTidal<TidalModuleResponseType<TrackType>>(
-      `/pages/mix?mixId=${id}`,
+      `/v1/pages/mix?mixId=${id}`,
     );
 
     setLoading(false);
 
     const mix = data_mix?.rows[0].modules[0].mix;
     const items = data_mix?.rows[1].modules[0].pagedList.items;
+    const total = data_mix?.rows[1].modules[0].pagedList.totalNumberOfItems;
 
     if (!mix || !items) return;
 
@@ -43,7 +44,7 @@ export const useMix = (): ArtistContextType => {
         url: `https://tidal.com/mix/${data_mix?.rows[0].modules[0].mix?.id}`,
       },
       items: items,
-      totalNumberOfItems: 1,
+      totalNumberOfItems: total || 0,
     });
   }
 

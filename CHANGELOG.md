@@ -3,6 +3,28 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.3.0
+### 🚀 Added
+* [Front] Add home page Tidal trends
+* [Front] Add "My Favorites" page
+* [Front] Add "My Playlists" page
+* [Front] Add "My Mixes" page
+* [Front] Add additional content to "Artist" page
+* [Front] Add Artist mix button to "Artist" page
+* [Front] Add "Explicit" tag on tracks and albums
+* [Front] Quality button now define the download format/quality
+* [Front/API] Mixes are now downloadable as playlist
+* [API] Add `"download_video": true` Tiddl parameter in `tiddl.json`
+* [Front] Add changelog in settings dialog
+### 🖍 Changed
+* [Front] Refacto tidal content fetching
+* [Front] Use API Tidal using Tiddl credentials
+* [API] Update `tiddl` from `2.4.0` to version `2.5.1`
+* [API] Update `cp` command for download content by removing `-p` parameter
+* [Chore] Update dependencies
+### 🐛 Fixed
+* [Front] Download button states strange behavior
+
 ## 📦 0.2.1
 ### 🖍 Changed
 * [API] Country code is taken from `tiddl_config` instead of environment variable (you can remove it in your docker compose file).

@@ -10,8 +10,9 @@ import {
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useSearchProvider } from "src/provider/SearchProvider";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 import { TrackType } from "src/types";
+import { customColors } from "src/utils/theme";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
 
@@ -35,20 +36,25 @@ function StackChips({ track }: { track: TrackType }) {
   const theme = useTheme();
 
   return (
-    <Box display="inline-block">
+    <Box
+      display="flex"
+      flexWrap="wrap"
+      gap={0.5}
+      alignItems="flex-start"
+      my={1}
+    >
       <Chip
         label={track.audioQuality.toLowerCase()}
         color="primary"
         size="small"
         sx={{
-          margin: "0.2rem",
           color:
             track?.audioQuality?.toLowerCase() === "lossless"
               ? theme.palette.common.white
               : theme.palette.common.black,
           backgroundColor:
             track?.audioQuality?.toLowerCase() === "lossless"
-              ? theme.customColors.gold
+              ? customColors.gold
               : theme.palette.primary.main,
         }}
       />
@@ -57,6 +63,9 @@ function StackChips({ track }: { track: TrackType }) {
         color="success"
         size="small"
       />
+      {track?.explicit && (
+        <Chip label="Explicit" variant="outlined" size="small" />
+      )}
     </Box>
   );
 }
@@ -169,14 +178,14 @@ function TrackCard({ track }: { track: TrackType }) {
         direction="row"
         flexWrap="wrap"
         spacing={1}
-        alignItems="center"
+        alignItems="flex-start"
         style={{
-          minHeight: "60px",
+          minHeight: "72px",
           backgroundColor: "rgba(255, 255, 255, 0.04)",
         }}
       >
-        <CoverLink track={track} height={60} width={60} />
-        <div style={{ lineHeight: 1.4, flex: "1 1 0" }}>
+        <CoverLink track={track} height={72} width={72} />
+        <div style={{ lineHeight: 1.4, flex: "1 1 0", padding: "5px 0" }}>
           <TitleLink track={track} />
           {` `}
           <Typography
@@ -202,7 +211,7 @@ function TrackCard({ track }: { track: TrackType }) {
           }}
         >
           <CardContent sx={{ p: "0.5rem !important", m: 0 }}>
-            <Stack direction="row">
+            <Stack direction="row" gap={1}>
               <Box
                 flex="1 1 0"
                 lineHeight={1.2}
@@ -239,7 +248,7 @@ function TrackInline({ track }: { track: TrackType }) {
           alignItems: "center",
           width: "100%",
           display: "grid",
-          gridTemplateColumns: "5rem 1.5fr 1fr 1.5fr 2fr auto",
+          gridTemplateColumns: "4.5rem 1.5fr 1fr 1.5fr 2fr auto",
         }}
       >
         <div>
@@ -274,7 +283,7 @@ function TrackInline({ track }: { track: TrackType }) {
 }
 
 export default function Track({ track }: { track: TrackType }) {
-  const { display } = useSearchProvider();
+  const { display } = useConfigProvider();
   const theme = useTheme();
   const isLarge = useMediaQuery(theme.breakpoints.up("md"));
 

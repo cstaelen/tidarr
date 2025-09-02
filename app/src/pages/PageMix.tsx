@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Container } from "@mui/material";
-import NoResult from "src/components/Results/NoResults";
+import Module from "src/components/TidalModule/Module";
+import NoResult from "src/components/TidalModule/NoResults";
 import { useMix } from "src/hooks/useMix";
 import { useSearchProvider } from "src/provider/SearchProvider";
 
 import Mix from "../components/Headers/Mix";
-import TypeResults from "../components/Results/TypeResults";
-import { AlbumsLoader } from "../components/Skeletons/AlbumsLoader";
 
 export default function PageMix() {
   const { mix, actions } = useMix();
@@ -26,15 +25,11 @@ export default function PageMix() {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 3 }}>
-      {mix?.items && mix?.items?.length > 0 ? (
-        <Box>
-          {mix?.info && <Mix mix={mix?.info} />}
-          <TypeResults type="tracks" data={mix.items} />
-        </Box>
-      ) : loading ? (
-        <AlbumsLoader />
-      ) : null}
+    <Container maxWidth="lg">
+      <Box>
+        {mix?.info && <Mix mix={mix?.info} total={mix?.totalNumberOfItems} />}
+        <Module type="TRACK_LIST" data={mix?.items} loading={loading} />
+      </Box>
     </Container>
   );
 }

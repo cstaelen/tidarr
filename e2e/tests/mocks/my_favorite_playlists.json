@@ -1,0 +1,32 @@
+{
+    "limit": 18,
+    "offset": 0,
+    "totalNumberOfItems": 1,
+    "items": [
+        {
+            "created": "2024-04-12T19:04:08.830+0000",
+            "item": {
+                "uuid": "879df311-3520-4020-ab0c-3edf25a48d76",
+                "title": "test clem à supprimer",
+                "numberOfTracks": 1,
+                "numberOfVideos": 0,
+                "creator": {
+                    "id": 192283714
+                },
+                "description": "",
+                "duration": 304,
+                "lastUpdated": "2025-08-21T22:39:43.762+0000",
+                "created": "2024-04-12T19:04:07.169+0000",
+                "type": "USER",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/879df311-3520-4020-ab0c-3edf25a48d76",
+                "image": "fbd7e78e-6b33-4ea3-9fa9-e37e13df07f4",
+                "popularity": 0,
+                "squareImage": "b23f012d-89e4-4144-aec5-fd23b798c4d1",
+                "customImageUrl": null,
+                "promotedArtists": [],
+                "lastItemAddedAt": "2024-04-12T19:04:07.495+0000"
+            }
+        }
+    ]
+}

@@ -17,11 +17,12 @@ ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-RUN python3 -m pip install "tiddl==2.4.0" requests ffmpeg-python mutagen
+RUN python3 -m pip install "tiddl==2.5.1" requests ffmpeg-python mutagen
 INCLUDE docker/stages/Dockerfile.runner
 
 RUN mkdir -p /home/app/standalone/download/incomplete/
 
+ENV IS_DOCKER=true
 ENV VERSION="0.0.0-testing"
 
 ENTRYPOINT ["sh", "/home/app/standalone/docker/run-prod.sh"]

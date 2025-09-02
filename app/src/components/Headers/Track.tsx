@@ -8,6 +8,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { TrackType } from "src/types";
+import { customColors } from "src/utils/theme";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
 
@@ -72,14 +73,13 @@ export default function TrackHeader({ track }: { track: TrackType }) {
               color="primary"
               size="small"
               sx={{
-                margin: "0.2rem",
                 color:
                   track?.audioQuality?.toLowerCase() === "lossless"
                     ? theme.palette.common.white
                     : theme.palette.common.black,
                 backgroundColor:
                   track?.audioQuality?.toLowerCase() === "lossless"
-                    ? theme.customColors.gold
+                    ? customColors.gold
                     : theme.palette.primary.main,
               }}
             />
@@ -88,6 +88,9 @@ export default function TrackHeader({ track }: { track: TrackType }) {
               color="success"
               size="small"
             />
+            {track.explicit && (
+              <Chip label="Explicit" size="small" variant="outlined" />
+            )}
           </Stack>
           <Stack
             direction="row"

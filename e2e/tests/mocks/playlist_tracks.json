@@ -1,0 +1,1377 @@
+{
+    "limit": 18,
+    "offset": 0,
+    "totalNumberOfItems": 50,
+    "items": [
+        {
+            "item": {
+                "id": 454876575,
+                "title": "Long Tall Texan (feat. Lyle Lovett)",
+                "duration": 255,
+                "replayGain": -8.86,
+                "peak": 0.911965,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-08-22T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 3,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 14,
+                "copyright": "(P) 2025 Bismeaux Records",
+                "bpm": null,
+                "description": null,
+                "url": "http://www.tidal.com/track/454876575",
+                "isrc": "US39H2500030",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 644,
+                    "name": "Asleep At The Wheel",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "55966ca7-449b-4ba3-82e3-2ea4a4d33341"
+                },
+                "artists": [
+                    {
+                        "id": 644,
+                        "name": "Asleep At The Wheel",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "55966ca7-449b-4ba3-82e3-2ea4a4d33341"
+                    },
+                    {
+                        "id": 3867,
+                        "name": "Lyle Lovett",
+                        "handle": null,
+                        "type": "FEATURED",
+                        "picture": "1cff04ec-bda6-44f1-80c4-1d5bc87aa374"
+                    }
+                ],
+                "album": {
+                    "id": 454876572,
+                    "title": "Riding High In Texas",
+                    "cover": "eb827136-930e-45bb-b1da-483416c94275",
+                    "vibrantColor": null,
+                    "videoCover": null,
+                    "releaseDate": "2025-08-22"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001b2a097664ab34a88471037a416a"
+                },
+                "dateAdded": "2025-08-22T08:51:21.095+0000",
+                "index": 24,
+                "itemUuid": "118a11d3-3352-4548-bda6-39d1f73dfb69"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 446620284,
+                "title": "The Cowboy (Small Texas Town)",
+                "duration": 140,
+                "replayGain": -9.05,
+                "peak": 0.977237,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-08-15T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 47,
+                "copyright": "(P) 2025 Son of Jessi marketed and distributed by Thirty Tigers",
+                "bpm": 172,
+                "description": null,
+                "url": "http://www.tidal.com/track/446620284",
+                "isrc": "QM7282560263",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 2835,
+                    "name": "Waylon Jennings",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "4918000d-1aef-4e08-9114-4034ada20300"
+                },
+                "artists": [
+                    {
+                        "id": 2835,
+                        "name": "Waylon Jennings",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "4918000d-1aef-4e08-9114-4034ada20300"
+                    }
+                ],
+                "album": {
+                    "id": 446620283,
+                    "title": "The Cowboy (Small Texas Town)",
+                    "cover": "f285e675-5dbb-4bf4-a15b-7967e52fc044",
+                    "vibrantColor": "#d9c188",
+                    "videoCover": null,
+                    "releaseDate": "2025-08-15"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001b2315b8c1261512ed0746642b37"
+                },
+                "dateAdded": "2025-08-15T08:53:30.276+0000",
+                "index": 48,
+                "itemUuid": "ae9b39b8-2e81-40c7-a6a8-f91b61aa43f1"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 445489471,
+                "title": "Standing Still",
+                "duration": 205,
+                "replayGain": -7.35,
+                "peak": 0.988553,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-08-21T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 7,
+                "copyright": "2025 SofaBurn Records",
+                "bpm": 109,
+                "description": null,
+                "url": "http://www.tidal.com/track/445489471",
+                "isrc": "QMZTB1600439",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 5649493,
+                    "name": "Jeremy Pinnell",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "6a53ed9e-3e6b-4af5-9fa9-741371fda6dc"
+                },
+                "artists": [
+                    {
+                        "id": 5649493,
+                        "name": "Jeremy Pinnell",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "6a53ed9e-3e6b-4af5-9fa9-741371fda6dc"
+                    }
+                ],
+                "album": {
+                    "id": 445489468,
+                    "title": "Standing Still",
+                    "cover": "8116d7a1-88ac-41a9-b8e1-a277d37d6881",
+                    "vibrantColor": null,
+                    "videoCover": null,
+                    "releaseDate": "2025-08-21"
+                },
+                "mixes": null,
+                "dateAdded": "2025-08-21T13:01:05.874+0000",
+                "index": 60,
+                "itemUuid": "d402d694-b32e-437c-86b5-8cbcdf499757"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 441506877,
+                "title": "Ain't Hurtin Nobody",
+                "duration": 332,
+                "replayGain": -5.97,
+                "peak": 0.965973,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-08-15T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": "Alternate Version",
+                "popularity": 41,
+                "copyright": "2025 Oh Boy Records",
+                "bpm": 95,
+                "description": null,
+                "url": "http://www.tidal.com/track/441506877",
+                "isrc": "USA2A2501315",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 14803,
+                    "name": "John Prine",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "ff87215d-c861-4cf5-84ea-9f25f478838e"
+                },
+                "artists": [
+                    {
+                        "id": 14803,
+                        "name": "John Prine",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "ff87215d-c861-4cf5-84ea-9f25f478838e"
+                    }
+                ],
+                "album": {
+                    "id": 441506876,
+                    "title": "Ain't Hurtin Nobody (Alternate Version)",
+                    "cover": "e6b61432-eda0-4918-9dea-09ae9b1ef945",
+                    "vibrantColor": "#79b2d8",
+                    "videoCover": null,
+                    "releaseDate": "2025-08-15"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001727e31e0e8e10660fde01b1014f"
+                },
+                "dateAdded": "2025-08-15T09:26:42.161+0000",
+                "index": 72,
+                "itemUuid": "064d6532-a6e2-4326-8ebf-37584a99d21b"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 451669996,
+                "title": "Fresh Hot Biscuits",
+                "duration": 174,
+                "replayGain": -7.78,
+                "peak": 0.921951,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-08-07T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 3,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 37,
+                "copyright": "2025 New West Records, LLC",
+                "bpm": null,
+                "description": null,
+                "url": "http://www.tidal.com/track/451669996",
+                "isrc": "US27Q2561403",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 3873508,
+                    "name": "Joshua Hedley",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "47182bc8-7883-4ab3-940e-fb75fb0331f4"
+                },
+                "artists": [
+                    {
+                        "id": 3873508,
+                        "name": "Joshua Hedley",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "47182bc8-7883-4ab3-940e-fb75fb0331f4"
+                    }
+                ],
+                "album": {
+                    "id": 451669992,
+                    "title": "All Hat",
+                    "cover": "1d7cf917-27cb-4987-90f1-03d379486318",
+                    "vibrantColor": null,
+                    "videoCover": null,
+                    "releaseDate": "2025-10-24"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001365f4c7be9022fc6f07af3aadca"
+                },
+                "dateAdded": "2025-08-08T08:24:45.587+0000",
+                "index": 97,
+                "itemUuid": "afc2b862-e104-4d6c-a4b1-305e7332c54c"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 448733148,
+                "title": "Them Old Love Songs (feat. Savannah Conley)",
+                "duration": 221,
+                "replayGain": -8.93,
+                "peak": 0.986633,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-08-08T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 29,
+                "copyright": "℗ 2025 Good Company Entertainment",
+                "bpm": null,
+                "description": null,
+                "url": "http://www.tidal.com/track/448733148",
+                "isrc": "QZEQU2501443",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 3529869,
+                    "name": "Jake Owen",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "bcc962cd-8666-49fe-ad80-3b0ec0ece9ed"
+                },
+                "artists": [
+                    {
+                        "id": 3529869,
+                        "name": "Jake Owen",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "bcc962cd-8666-49fe-ad80-3b0ec0ece9ed"
+                    }
+                ],
+                "album": {
+                    "id": 448733147,
+                    "title": "Them Old Love Songs",
+                    "cover": "ae67c553-7c82-42f7-9a3b-dc59392f8f4d",
+                    "vibrantColor": "#e8d3ad",
+                    "videoCover": null,
+                    "releaseDate": "2025-08-08"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001a179d6ec62606100bf7468299cf"
+                },
+                "dateAdded": "2025-08-08T09:05:26.692+0000",
+                "index": 146,
+                "itemUuid": "d458d1f0-ca14-4120-af2c-ffbf7656cae7"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 443834655,
+                "title": "Broken Promises",
+                "duration": 148,
+                "replayGain": -7.75,
+                "peak": 0.981354,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-08-14T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 16,
+                "copyright": "(P) 2025 RodeoCorp, Ltd.",
+                "bpm": 91,
+                "description": null,
+                "url": "http://www.tidal.com/track/443834655",
+                "isrc": "QMBZ92578474",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 3981658,
+                    "name": "Brent Amaker and the Rodeo",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "4b11c2b8-dcd2-42ba-95ef-034e98fbc558"
+                },
+                "artists": [
+                    {
+                        "id": 3981658,
+                        "name": "Brent Amaker and the Rodeo",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "4b11c2b8-dcd2-42ba-95ef-034e98fbc558"
+                    }
+                ],
+                "album": {
+                    "id": 443834654,
+                    "title": "Broken Promises",
+                    "cover": "7aab3b92-8639-4b79-8788-501cd0e36568",
+                    "vibrantColor": null,
+                    "videoCover": null,
+                    "releaseDate": "2025-08-14"
+                },
+                "mixes": {
+                    "TRACK_MIX": "00182f54bfa16b2999f14b3985c538"
+                },
+                "dateAdded": "2025-08-16T08:47:14.138+0000",
+                "index": 170,
+                "itemUuid": "57db4722-1a3c-4d15-99b0-59b1896e0585"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 450167743,
+                "title": "King Rodeo",
+                "duration": 246,
+                "replayGain": -9.81,
+                "peak": 0.984501,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-08-01T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": "Live from the Inaugural Music City Rodeo",
+                "popularity": 28,
+                "copyright": "℗ 2025 McGraw Music, LLC under exclusive license to Big Machine Label Group, LLC",
+                "bpm": 139,
+                "description": null,
+                "url": "http://www.tidal.com/track/450167743",
+                "isrc": "QZRD92507679",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 3590327,
+                    "name": "Tim McGraw",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "c8e41406-e7f8-4d43-8143-c128b96e6a8d"
+                },
+                "artists": [
+                    {
+                        "id": 3590327,
+                        "name": "Tim McGraw",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "c8e41406-e7f8-4d43-8143-c128b96e6a8d"
+                    }
+                ],
+                "album": {
+                    "id": 450167742,
+                    "title": "King Rodeo (Live from the Inaugural Music City Rodeo)",
+                    "cover": "8d55dd2d-4b32-44b7-a329-bad14a4dbba0",
+                    "vibrantColor": null,
+                    "videoCover": null,
+                    "releaseDate": "2025-08-01"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001bcb3f8fcd7747c3abf4e64e655f"
+                },
+                "dateAdded": "2025-08-01T11:47:26.419+0000",
+                "index": 195,
+                "itemUuid": "28251b8a-8202-4862-9330-1d74fcf6bd7e"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 444082723,
+                "title": "The Hills Of Carter County",
+                "duration": 301,
+                "replayGain": -6.82,
+                "peak": 1.0,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-07-30T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 18,
+                "copyright": "2025 Pinecastle Records",
+                "bpm": 154,
+                "description": null,
+                "url": "http://www.tidal.com/track/444082723",
+                "isrc": "USWHN2502703",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 54673198,
+                    "name": "Southern Legacy",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": null
+                },
+                "artists": [
+                    {
+                        "id": 54673198,
+                        "name": "Southern Legacy",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    }
+                ],
+                "album": {
+                    "id": 444082722,
+                    "title": "The Hills Of Carter County",
+                    "cover": "38cbe55d-d4f0-4f05-a73b-a3f446d36b4a",
+                    "vibrantColor": "#FFFFFF",
+                    "videoCover": null,
+                    "releaseDate": "2025-07-30"
+                },
+                "mixes": null,
+                "dateAdded": "2025-07-30T22:28:45.979+0000",
+                "index": 390,
+                "itemUuid": "af79eb1d-0a10-4a21-b759-5dabb9df8d6e"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 432744470,
+                "title": "The Record Plays On",
+                "duration": 208,
+                "replayGain": -10.02,
+                "peak": 0.989751,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-07-18T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 7,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 32,
+                "copyright": "© 2025 Gwendolyn Records, LLC",
+                "bpm": null,
+                "description": null,
+                "url": "http://www.tidal.com/track/432744470",
+                "isrc": "QZ5EY2510007",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 27404,
+                    "name": "Trisha Yearwood",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "1c8d81e2-80e4-422e-a336-ed152705d35f"
+                },
+                "artists": [
+                    {
+                        "id": 27404,
+                        "name": "Trisha Yearwood",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "1c8d81e2-80e4-422e-a336-ed152705d35f"
+                    },
+                    {
+                        "id": 6133602,
+                        "name": "Charles Kelley",
+                        "handle": null,
+                        "type": "FEATURED",
+                        "picture": "4b567621-675f-43a7-ad57-120bfd0bd7af"
+                    }
+                ],
+                "album": {
+                    "id": 432744463,
+                    "title": "The Mirror",
+                    "cover": "8d300c1c-cd52-4b16-bfd2-fa2559b4bd04",
+                    "vibrantColor": "#a9cbe0",
+                    "videoCover": null,
+                    "releaseDate": "2025-07-18"
+                },
+                "mixes": {
+                    "TRACK_MIX": "00181dbeace235d7ceb64b23df9afe"
+                },
+                "dateAdded": "2025-07-18T06:54:00.511+0000",
+                "index": 781,
+                "itemUuid": "417ca7cf-83d4-4f7a-8118-535c87d4876a"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 446663985,
+                "title": "Bad Girls",
+                "duration": 222,
+                "replayGain": -8.73,
+                "peak": 0.891335,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-07-18T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 37,
+                "copyright": "2025 Howe Sound, LLC",
+                "bpm": 125,
+                "description": null,
+                "url": "http://www.tidal.com/track/446663985",
+                "isrc": "USLD91779585",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 3871,
+                    "name": "Steve Earle",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "d92a70b0-0fa1-4bcc-94b9-a4504a110d90"
+                },
+                "artists": [
+                    {
+                        "id": 3871,
+                        "name": "Steve Earle",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "d92a70b0-0fa1-4bcc-94b9-a4504a110d90"
+                    }
+                ],
+                "album": {
+                    "id": 446663977,
+                    "title": "Bad Girls",
+                    "cover": "bf9f6cac-08b0-406c-a168-d55f270503c0",
+                    "vibrantColor": "#f7b382",
+                    "videoCover": null,
+                    "releaseDate": "2025-07-18"
+                },
+                "mixes": {
+                    "TRACK_MIX": "00151e81f81e1a0aa247cf18dc9e5d"
+                },
+                "dateAdded": "2025-07-18T08:35:28.369+0000",
+                "index": 976,
+                "itemUuid": "bacea614-1abc-4311-8d0a-cf07cbf54a70"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 447369142,
+                "title": "The New Normal",
+                "duration": 213,
+                "replayGain": -10.7,
+                "peak": 0.998693,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-07-18T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 50,
+                "copyright": "℗ 2025 Old Green Barn Productions, LLC under exclusive license to Big Machine Label Group, LLC",
+                "bpm": 120,
+                "description": null,
+                "url": "http://www.tidal.com/track/447369142",
+                "isrc": "QZRD92507516",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 9529,
+                    "name": "Sheryl Crow",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "3d6596e8-baf6-4692-983f-ea97e4d5df0f"
+                },
+                "artists": [
+                    {
+                        "id": 9529,
+                        "name": "Sheryl Crow",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "3d6596e8-baf6-4692-983f-ea97e4d5df0f"
+                    }
+                ],
+                "album": {
+                    "id": 447369140,
+                    "title": "The New Normal",
+                    "cover": "d584cd49-c28d-4e71-9519-78dc191d34b8",
+                    "vibrantColor": "#FFFFFF",
+                    "videoCover": null,
+                    "releaseDate": "2025-07-18"
+                },
+                "mixes": {
+                    "TRACK_MIX": "00193339e590d1eb859c7e74ba1635"
+                },
+                "dateAdded": "2025-07-18T07:31:49.806+0000",
+                "index": 1171,
+                "itemUuid": "e43bf2fb-7a39-4fa8-a146-a06105ec2092"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 430498809,
+                "title": "Death of the Party",
+                "duration": 228,
+                "replayGain": -5.89,
+                "peak": 0.92968,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-07-15T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 7,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 36,
+                "copyright": "2025 Saddle Creek",
+                "bpm": null,
+                "description": null,
+                "url": "http://www.tidal.com/track/430498809",
+                "isrc": "US2U62539607",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 37304042,
+                    "name": "Dean Johnson",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "b51bf10c-5047-40a6-9dcb-5bef09b68574"
+                },
+                "artists": [
+                    {
+                        "id": 37304042,
+                        "name": "Dean Johnson",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "b51bf10c-5047-40a6-9dcb-5bef09b68574"
+                    }
+                ],
+                "album": {
+                    "id": 430498802,
+                    "title": "I Hope We Can Still Be Friends",
+                    "cover": "4f13113e-dab1-4ad9-8743-15722b8472d5",
+                    "vibrantColor": "#e3838c",
+                    "videoCover": null,
+                    "releaseDate": "2025-08-22"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001e79fba00bb04b9749a0e30f3961"
+                },
+                "dateAdded": "2025-07-18T11:03:02.092+0000",
+                "index": 1366,
+                "itemUuid": "cea9faf7-d004-4394-9b4b-f32fbed1b6eb"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 440086312,
+                "title": "Cumberland Banks",
+                "duration": 236,
+                "replayGain": -7.3,
+                "peak": 1.0,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-07-02T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 26,
+                "copyright": "© 2025 Nicki Bluhm",
+                "bpm": 178,
+                "description": null,
+                "url": "http://www.tidal.com/track/440086312",
+                "isrc": "USA2P2526788",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 3900695,
+                    "name": "Nicki Bluhm",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "d69f281c-73cc-4803-bef9-4992f777b557"
+                },
+                "artists": [
+                    {
+                        "id": 3900695,
+                        "name": "Nicki Bluhm",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "d69f281c-73cc-4803-bef9-4992f777b557"
+                    }
+                ],
+                "album": {
+                    "id": 440086311,
+                    "title": "Cumberland Banks",
+                    "cover": "bd903223-81df-410c-a640-938280892b42",
+                    "vibrantColor": null,
+                    "videoCover": null,
+                    "releaseDate": "2025-07-02"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001ec7473d510365f4a9efcb56a83d"
+                },
+                "dateAdded": "2025-07-03T11:49:16.732+0000",
+                "index": 3125,
+                "itemUuid": "9e6e40b1-f08e-4453-91ec-ad0e80f4cd5f"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 424015736,
+                "title": "Neon Cowgirl",
+                "duration": 205,
+                "replayGain": -8.15,
+                "peak": 0.915694,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-07-08T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 3,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 40,
+                "copyright": "2025 Outside Music",
+                "bpm": null,
+                "description": null,
+                "url": "http://www.tidal.com/track/424015736",
+                "isrc": "NZRI12500250",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 4598497,
+                    "name": "Tami Neilson",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "23fbd91e-cff1-4cce-b813-c3fd7cf9d292"
+                },
+                "artists": [
+                    {
+                        "id": 4598497,
+                        "name": "Tami Neilson",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "23fbd91e-cff1-4cce-b813-c3fd7cf9d292"
+                    },
+                    {
+                        "id": 3626671,
+                        "name": "Neil Finn",
+                        "handle": null,
+                        "type": "FEATURED",
+                        "picture": "5abf72f9-9228-4f7a-8300-5f5841e8e8fc"
+                    }
+                ],
+                "album": {
+                    "id": 424015733,
+                    "title": "Neon Cowgirl",
+                    "cover": "98d7051e-48fd-404a-9bc7-6ff6fb027fde",
+                    "vibrantColor": "#ba6687",
+                    "videoCover": null,
+                    "releaseDate": "2025-07-11"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001deba61d5b1939791c339e687e39"
+                },
+                "dateAdded": "2025-07-09T22:01:05.305+0000",
+                "index": 3515,
+                "itemUuid": "f9b21433-18a0-4326-a943-eba6c9d3aa1b"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 443223981,
+                "title": "Said No Country Boy Ever",
+                "duration": 209,
+                "replayGain": -8.73,
+                "peak": 0.988583,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-07-03T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 28,
+                "copyright": "Curb Records, Inc.",
+                "bpm": 123,
+                "description": null,
+                "url": "http://www.tidal.com/track/443223981",
+                "isrc": "USCRB2500298",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "DOLBY_ATMOS",
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS",
+                        "DOLBY_ATMOS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 4108008,
+                    "name": "Lee Brice",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "b1afc561-3722-4417-b115-2786c0e928c2"
+                },
+                "artists": [
+                    {
+                        "id": 4108008,
+                        "name": "Lee Brice",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "b1afc561-3722-4417-b115-2786c0e928c2"
+                    },
+                    {
+                        "id": 3214,
+                        "name": "Jamey Johnson",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "45baa530-32eb-4cdc-912b-661179b3083c"
+                    },
+                    {
+                        "id": 3665195,
+                        "name": "Jerrod Niemann",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "b7ef41cb-a715-46ee-95ee-d91e7dd20cc0"
+                    },
+                    {
+                        "id": 3696829,
+                        "name": "Randy Houser",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "3fd953d4-d05c-41b9-900d-d8c032dbb5a3"
+                    },
+                    {
+                        "id": 14218549,
+                        "name": "Rob Hatch",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    },
+                    {
+                        "id": 6125911,
+                        "name": "Dallas Davidson",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    },
+                    {
+                        "id": 62423724,
+                        "name": "The Traler Park",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": null
+                    }
+                ],
+                "album": {
+                    "id": 443223976,
+                    "title": "Said No Country Boy Ever",
+                    "cover": "c74a2c39-5bf2-4a61-afba-0a5a51591d19",
+                    "vibrantColor": null,
+                    "videoCover": null,
+                    "releaseDate": "2025-07-03"
+                },
+                "mixes": {
+                    "TRACK_MIX": "0015a5c1cd24af98c2e4ed6761be52"
+                },
+                "dateAdded": "2025-07-04T07:31:13.302+0000",
+                "index": 3906,
+                "itemUuid": "20497337-f0a1-497d-a7cc-169e2e7add71"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 426095835,
+                "title": "Beyond Belief",
+                "duration": 197,
+                "replayGain": -7.52,
+                "peak": 0.890361,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-07-04T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 8,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 23,
+                "copyright": "Big Potato",
+                "bpm": null,
+                "description": null,
+                "url": "http://www.tidal.com/track/426095835",
+                "isrc": "GBRSX2500263",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 4356538,
+                    "name": "Tucker Zimmerman",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "27f0fc76-e152-4593-8456-b2c3169893ce"
+                },
+                "artists": [
+                    {
+                        "id": 4356538,
+                        "name": "Tucker Zimmerman",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "27f0fc76-e152-4593-8456-b2c3169893ce"
+                    }
+                ],
+                "album": {
+                    "id": 426095827,
+                    "title": "Music By River Words By Ear",
+                    "cover": "404e39d6-50e6-4605-b7ea-10a8e7e46c48",
+                    "vibrantColor": "#e0cc8f",
+                    "videoCover": null,
+                    "releaseDate": "2025-07-04"
+                },
+                "mixes": {
+                    "TRACK_MIX": "001c0a756ff3bad500ede5182d360a"
+                },
+                "dateAdded": "2025-07-04T06:44:52.576+0000",
+                "index": 4687,
+                "itemUuid": "cea4b412-8c6c-454a-aedb-c4725a1d847b"
+            },
+            "type": "track",
+            "cut": null
+        },
+        {
+            "item": {
+                "id": 434023915,
+                "title": "Born in a Cage",
+                "duration": 268,
+                "replayGain": -5.82,
+                "peak": 0.988553,
+                "allowStreaming": true,
+                "streamReady": true,
+                "payToStream": false,
+                "adSupportedStreamReady": true,
+                "djReady": true,
+                "stemReady": false,
+                "streamStartDate": "2025-06-25T00:00:00.000+0000",
+                "premiumStreamingOnly": false,
+                "trackNumber": 1,
+                "volumeNumber": 1,
+                "version": null,
+                "popularity": 36,
+                "copyright": "(P) 2025 PGM marketed and distributed by Thirty Tigers",
+                "bpm": 118,
+                "description": null,
+                "url": "http://www.tidal.com/track/434023915",
+                "isrc": "QM6MZ2545450",
+                "editable": false,
+                "explicit": false,
+                "audioQuality": "LOSSLESS",
+                "audioModes": [
+                    "STEREO"
+                ],
+                "mediaMetadata": {
+                    "tags": [
+                        "LOSSLESS",
+                        "HIRES_LOSSLESS"
+                    ]
+                },
+                "upload": false,
+                "accessType": "PUBLIC",
+                "spotlighted": false,
+                "artist": {
+                    "id": 3609044,
+                    "name": "Patty Griffin",
+                    "handle": null,
+                    "type": "MAIN",
+                    "picture": "ac1c7339-cd82-4a04-bab8-41fd89fb7220"
+                },
+                "artists": [
+                    {
+                        "id": 3609044,
+                        "name": "Patty Griffin",
+                        "handle": null,
+                        "type": "MAIN",
+                        "picture": "ac1c7339-cd82-4a04-bab8-41fd89fb7220"
+                    }
+                ],
+                "album": {
+                    "id": 434023914,
+                    "title": "Born in a Cage",
+                    "cover": "72c103ad-5467-453b-b070-b25e88d51454",
+                    "vibrantColor": null,
+                    "videoCover": null,
+                    "releaseDate": "2025-06-25"
+                },
+                "mixes": {
+                    "TRACK_MIX": "00145dbe7db3fe1d0dedb1b098dc87"
+                },
+                "dateAdded": "2025-06-26T08:08:40.887+0000",
+                "index": 6250,
+                "itemUuid": "98bd8c83-da23-4697-a3ad-8de5bfa71e2d"
+            },
+            "type": "track",
+            "cut": null
+        }
+    ]
+}

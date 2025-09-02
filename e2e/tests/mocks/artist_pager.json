@@ -1,0 +1,443 @@
+{
+    "limit": 15,
+    "offset": 15,
+    "totalNumberOfItems": 29,
+    "items": [
+        {
+            "id": 4127774,
+            "name": "Richard Hell",
+            "picture": "4848602c-470f-49c4-a5eb-726b27235801",
+            "selectedAlbumCoverFallback": null,
+            "artistTypes": null,
+            "artistRoles": [
+                {
+                    "category": "Artist",
+                    "categoryId": -1
+                },
+                {
+                    "category": "Songwriter",
+                    "categoryId": 2
+                },
+                {
+                    "category": "Performer",
+                    "categoryId": 11
+                },
+                {
+                    "category": "Producer",
+                    "categoryId": 1
+                },
+                {
+                    "category": "Production team",
+                    "categoryId": 10
+                }
+            ],
+            "mixes": {
+                "ARTIST_MIX": "00046fec25f2942b4042ad7e42ad35"
+            }
+        },
+        {
+            "id": 4175396,
+            "name": "Hüsker Dü",
+            "picture": "05f47f45-67cc-4e51-b60d-474c752d03a6",
+            "selectedAlbumCoverFallback": null,
+            "artistTypes": null,
+            "artistRoles": [
+                {
+                    "category": "Artist",
+                    "categoryId": -1
+                },
+                {
+                    "category": "Performer",
+                    "categoryId": 11
+                },
+                {
+                    "category": "Songwriter",
+                    "categoryId": 2
+                },
+                {
+                    "category": "Producer",
+                    "categoryId": 1
+                }
+            ],
+            "mixes": {
+                "ARTIST_MIX": "00038b2168eea0592944ffd3341e57"
+            }
+        },
+        {
+            "id": 4206587,
+            "name": "Wipers",
+            "picture": "e7603fa0-041b-40ad-9456-840946b969e2",
+            "selectedAlbumCoverFallback": null,
+            "artistTypes": null,
+            "artistRoles": [
+                {
+                    "category": "Artist",
+                    "categoryId": -1
+                },
+                {
+                    "category": "Songwriter",
+                    "categoryId": 2
+                },
+                {
+                    "category": "Performer",
+                    "categoryId": 11
+                },
+                {
+                    "category": "Producer",
+                    "categoryId": 1
+                }
+            ],
+            "mixes": {
+                "ARTIST_MIX": "0005a3bbd0c67d5b67b087a8618627"
+            }
+        },
+        {
+            "id": 4208149,
+            "name": "Beat Happening",
+            "picture": "4cef2d29-427f-454b-8edf-b2961791e603",
+            "selectedAlbumCoverFallback": null,
+            "artistTypes": null,
+            "artistRoles": [
+                {
+                    "category": "Artist",
+                    "categoryId": -1
+                },
+                {
+                    "category": "Songwriter",
+                    "categoryId": 2
+                },
+                {
+                    "category": "Engineer",
+                    "categoryId": 3
+                },
+                {
+                    "category": "Producer",
+                    "categoryId": 1
+                }
+            ],
+            "mixes": {
+                "ARTIST_MIX": "0004042c02e4ca55cf88ed7db3f5eb"
+            }
+        },
+        {
+            "id": 4280089,
+            "name": "Dead Moon",
+            "picture": "96a141c8-5f15-4b10-af2d-e4b8917f519b",
+            "selectedAlbumCoverFallback": null,
+            "artistTypes": null,
+            "artistRoles": [
+                {
+                    "category": "Artist",
+                    "categoryId": -1
+                },
+                {
+                    "category": "Songwriter",
+                    "categoryId": 2
+                },
+                {
+                    "category": "Producer",
+                    "categoryId": 1
+                }
+            ],
+            "mixes": {
+                "ARTIST_MIX": "0000e7f16a071325619ec687aa3640"
+            }
+        },
+        {
+            "id": 4768,
+            "name": "David Bowie",
+            "picture": "eb9b4956-8298-4586-8b5f-5b41c85d8e7d",
+            "selectedAlbumCoverFallback": null,
+            "artistTypes": null,
+            "artistRoles": [
+                {
+                    "category": "Artist",
+                    "categoryId": -1
+                },
+                {
+                    "category": "Songwriter",
+                    "categoryId": 2
+                },
+                {
+                    "category": "Performer",
+                    "categoryId": 11
+                },
+                {
+                    "category": "Producer",
+                    "categoryId": 1
+                },
+                {
+                    "category": "Production team",
+                    "categoryId": 10
+                },
+                {
+                    "category": "Engineer",
+                    "categoryId": 3
+                },
+                {
+                    "category": "Misc",
+                    "categoryId": 99
+                }
+            ],
+            "mixes": {
+                "ARTIST_MIX": "00063e3c98fcb6e1d834abe1816b21"
+            }
+        },
+        {
+            "id": 520,
+            "name": "Cheap Trick",
+            "picture": "e02b94e1-446d-4b20-8bf4-d28e72b6b909",
+            "selectedAlbumCoverFallback": null,
+            "artistTypes": null,
+            "artistRoles": [
+                {
+                    "category": "Artist",
+                    "categoryId": -1
+                },
+                {
+                    "category": "Producer",
+                    "categoryId": 1
+                },
+                {
+                    "category": "Songwriter",
+                    "categoryId": 2
+                },
+                {
+                    "category": "Performer",
+                    "categoryId": 11
+                },
+                {
+                    "category": "Production team",
+                    "categoryId": 10
+                },
+                {
+                    "category": "Engineer",
+                    "categoryId": 3
+                }
+            ],
+            "mixes": {
+                "ARTIST_MIX": "00022ef557e0e9b553a1c959599cd5"
+            }
+        },
+        {
+            "id": 64523,
+            "name": "Gang Of Four",
+            "picture": "fdc1c81b-bb6e-4b59-be3d-1d0b3b87d576",
+            "selectedAlbumCoverFallback": null,
+            "artistTypes": null,
+            "artistRoles": [
+                {
+                    "category": "Artist",
+                    "categoryId": -1
+                },
+                {
+                    "category": "Producer",
+                    "categoryId": 1
+                },
+                {
+                    "category": "Songwriter",
+                    "categoryId": 2
+                },
+                {
+                    "category": "Performer",
+                    "categoryId": 11
+                }
+            ],
+            "mixes": {
+                "ARTIST_MIX": "000b922af63279bb6ea24065a3bcc0"
+            }
+        },
+        {
+            "id": 67522,
+            "name": "Led Zeppelin",
+            "picture": "6d20dd65-6a17-4f24-ae21-d0d97348c760",
+            "selectedAlbumCoverFallback": null,
+            "artistTypes": null,
+            "artistRoles": [
+                {
+                    "category": "Artist",
+                    "categoryId": -1
+                },
+                {
+                    "category": "Songwriter",
+                    "categoryId": 2
+                },
+                {
+                    "category": "Performer",
+                    "categoryId": 11
+                },
+                {
+                    "category": "Producer",
+                    "categoryId": 1
+                },
+                {
+                    "category": "Misc",
+                    "categoryId": 99
+                }
+            ],
+            "mixes": {
+                "ARTIST_MIX": "0000ac9a7b06bc1f7e739d134eaf8b"
+            }
+        },
+        {
+            "id": 795,
+            "name": "William S. Burroughs",
+            "picture": "1071e0e0-1f24-4857-a393-cb42b66a703b",
+            "selectedAlbumCoverFallback": null,
+            "artistTypes": null,
+            "artistRoles": [
+                {
+                    "category": "Artist",
+                    "categoryId": -1
+                },
+                {
+                    "category": "Songwriter",
+                    "categoryId": 2
+                },
+                {
+                    "category": "Performer",
+                    "categoryId": 11
+                }
+            ],
+            "mixes": {
+                "ARTIST_MIX": "000d4073375afe4dc246c9d0ac731b"
+            }
+        },
+        {
+            "id": 86,
+            "name": "Black Sabbath",
+            "picture": "6a2874d8-f693-4e0a-a4c8-682c990b5e13",
+            "selectedAlbumCoverFallback": null,
+            "artistTypes": null,
+            "artistRoles": [
+                {
+                    "category": "Artist",
+                    "categoryId": -1
+                },
+                {
+                    "category": "Songwriter",
+                    "categoryId": 2
+                },
+                {
+                    "category": "Producer",
+                    "categoryId": 1
+                },
+                {
+                    "category": "Production team",
+                    "categoryId": 10
+                }
+            ],
+            "mixes": {
+                "ARTIST_MIX": "000d84d67ec1e125f59b91b056b51f"
+            }
+        },
+        {
+            "id": 9219,
+            "name": "Sex Pistols",
+            "picture": "3cbfef31-7f28-42a5-8f8f-b822d6b77ad6",
+            "selectedAlbumCoverFallback": null,
+            "artistTypes": null,
+            "artistRoles": [
+                {
+                    "category": "Artist",
+                    "categoryId": -1
+                },
+                {
+                    "category": "Songwriter",
+                    "categoryId": 2
+                },
+                {
+                    "category": "Performer",
+                    "categoryId": 11
+                },
+                {
+                    "category": "Producer",
+                    "categoryId": 1
+                },
+                {
+                    "category": "Misc",
+                    "categoryId": 99
+                }
+            ],
+            "mixes": {
+                "ARTIST_MIX": "000356c9c4fc80612d557ef7fa254f"
+            }
+        },
+        {
+            "id": 9366,
+            "name": "R.E.M.",
+            "picture": "598806d2-8866-410e-b7e6-0d724a9d84b0",
+            "selectedAlbumCoverFallback": null,
+            "artistTypes": null,
+            "artistRoles": [
+                {
+                    "category": "Artist",
+                    "categoryId": -1
+                },
+                {
+                    "category": "Producer",
+                    "categoryId": 1
+                },
+                {
+                    "category": "Production team",
+                    "categoryId": 10
+                },
+                {
+                    "category": "Songwriter",
+                    "categoryId": 2
+                },
+                {
+                    "category": "Performer",
+                    "categoryId": 11
+                },
+                {
+                    "category": "Engineer",
+                    "categoryId": 3
+                },
+                {
+                    "category": "Misc",
+                    "categoryId": 99
+                }
+            ],
+            "mixes": {
+                "ARTIST_MIX": "0002c8203283d8c63ed89ba41c585a"
+            }
+        },
+        {
+            "id": 950,
+            "name": "Aerosmith",
+            "picture": "76baebbc-63cb-4f74-be62-298db903ed0e",
+            "selectedAlbumCoverFallback": null,
+            "artistTypes": null,
+            "artistRoles": [
+                {
+                    "category": "Artist",
+                    "categoryId": -1
+                },
+                {
+                    "category": "Songwriter",
+                    "categoryId": 2
+                },
+                {
+                    "category": "Producer",
+                    "categoryId": 1
+                },
+                {
+                    "category": "Production team",
+                    "categoryId": 10
+                },
+                {
+                    "category": "Performer",
+                    "categoryId": 11
+                },
+                {
+                    "category": "Misc",
+                    "categoryId": 99
+                }
+            ],
+            "mixes": {
+                "ARTIST_MIX": "000d4bd2406b118cdc1ebce4ebfb9c"
+            }
+        }
+    ]
+}

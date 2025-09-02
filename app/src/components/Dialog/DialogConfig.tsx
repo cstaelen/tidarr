@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "@emotion/styled";
 import { InfoRounded, KeyOff, Warning } from "@mui/icons-material";
 import {
   Alert,
@@ -14,6 +15,7 @@ import {
   TableRow,
   Tabs,
 } from "@mui/material";
+import Markdown from "markdown-to-jsx";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
@@ -57,7 +59,6 @@ export const DialogConfig = () => {
   const {
     tokenMissing,
     config,
-    reactAppEnvVars,
     isUpdateAvailable,
     releaseData,
     isConfigModalOpen,
@@ -80,7 +81,7 @@ export const DialogConfig = () => {
     <DialogHandler
       open={isConfigModalOpen}
       onClose={() => actions.toggleModal(false)}
-      title={"Settings"}
+      title={"Tidarr settings"}
       icon={<InfoRounded color="primary" />}
     >
       <Tabs
@@ -91,14 +92,13 @@ export const DialogConfig = () => {
         aria-label="scrollable auto tabs example"
       >
         <Tab label="Updates" />
-        <Tab label="API" />
-        <Tab label="Application" />
+        <Tab label="Environment vars" />
         <Tab label="Tidal Token" />
       </Tabs>
 
       {currentTab === 0 && (
         <>
-          <p>Current version: {config?.TIDARR_VERSION}</p>
+          <p>Current version: Tidarr {config?.TIDARR_VERSION}</p>
           {isUpdateAvailable ? (
             <>
               <Paper sx={{ p: 2 }}>
@@ -118,6 +118,26 @@ export const DialogConfig = () => {
               </strong>
             </Paper>
           )}
+          {releaseData?.body && (
+            <>
+              <p>Changelog</p>
+              <Paper
+                sx={{
+                  maxWidth: "500px",
+                  maxHeight: "300px",
+                  fontSize: "12px",
+                  overflow: "auto",
+                  px: 2,
+                }}
+              >
+                <code>
+                  <MarkdownStyled options={{ wrapper: "article" }}>
+                    {releaseData?.body}
+                  </MarkdownStyled>
+                </code>
+              </Paper>
+            </>
+          )}
         </>
       )}
       {currentTab === 1 && (
@@ -130,15 +150,6 @@ export const DialogConfig = () => {
         </>
       )}
       {currentTab === 2 && (
-        <>
-          {reactAppEnvVars ? (
-            <TableParameters rows={Object.entries(reactAppEnvVars)} />
-          ) : (
-            "Not found."
-          )}
-        </>
-      )}
-      {currentTab === 3 && (
         <Box display="flex" justifyContent="center" my={4}>
           {!tokenMissing ? (
             <Button
@@ -167,3 +178,13 @@ export const DialogConfig = () => {
     </DialogHandler>
   );
 };
+
+const MarkdownStyled = styled(Markdown)`
+  a {
+    color: rgb(144, 202, 249);
+  }
+
+  ul {
+    padding-left: 1rem;
+  }
+`;
