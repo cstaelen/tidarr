@@ -4,7 +4,7 @@ import { Box, Button } from "@mui/material";
 import { useSearchProvider } from "src/provider/SearchProvider";
 import { ModuleTypeKeys } from "src/types";
 
-import { AlbumsLoader } from "../Skeletons/AlbumsLoader";
+import ModuleLoader from "../Skeletons/ModuleLoader";
 import Module from "../TidalModule/Module";
 import NoResult from "../TidalModule/NoResults";
 import { ModuleTitle } from "../TidalModule/Title";
@@ -74,7 +74,7 @@ export default function TopResults(
     },
   ];
 
-  if (loading) return <AlbumsLoader />;
+  if (loading) return <ModuleLoader />;
 
   if (
     !loading &&

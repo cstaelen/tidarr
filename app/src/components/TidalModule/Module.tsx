@@ -22,7 +22,7 @@ import NoResult from "../TidalModule/NoResults";
 
 interface ModuleContentProps {
   type?: ModuleTypeKeys;
-  loading: boolean;
+  loading?: boolean;
   data:
     | (AlbumType | TrackType | PlaylistType | ArtistType | VideoType)[]
     | undefined;
