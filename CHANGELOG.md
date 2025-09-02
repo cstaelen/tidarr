@@ -3,6 +3,13 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.3.1
+### 🖍 Changed
+* [API] Use tiddl `-V` parameters for video DL
+* [Front] Hide video lists if tiddl `download_video` parameter is false.
+### 🐛 Fixed
+* [Front] Fix skeleton loaders
+
 ## 📦 0.3.0
 ### 🚀 Added
 * [Front] Add home page Tidal trends

@@ -21,6 +21,10 @@ export function tidalDL(id: number, app: Express, onFinish?: () => void) {
     args.push(item.quality);
   }
 
+  if (item.type === "video") {
+    args.push("-V");
+  }
+
   item["output"] = logs(item, `Executing: ${binary} ${args.join(" ")}`);
   const child = spawn(binary, args);
 

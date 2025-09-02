@@ -9,9 +9,6 @@ COPY --from=app_builder /home/app/build/app/dist /home/app/standalone/app/build
 COPY --from=app_builder /home/app/build/settings /home/app/standalone/settings
 COPY --from=app_builder /home/app/build/.env /home/app/standalone/.env
 COPY --from=app_builder /home/app/build/docker/run-prod.sh /home/app/standalone/docker/run-prod.sh
-COPY --from=app_builder /home/app/build/docker/env.sh /home/app/standalone/docker/env.sh
-
-RUN chmod +x /home/app/standalone/docker/env.sh
 
 RUN npm install -g yarn
 COPY api/package.json .

@@ -170,6 +170,7 @@ export async function mockConfigAPI(page: Page) {
         },
         download: {
           quality: "high",
+          download_video: true,
         },
       },
     };

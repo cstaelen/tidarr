@@ -33,7 +33,7 @@ export const Footer = () => {
       )}
       &nbsp;
       <Link
-        href={`https://github.com/${window._env_.REACT_APP_TIDARR_REPO_URL}`}
+        href={`https://github.com/${import.meta.env?.VITE_TIDARR_REPO_URL}`}
         target="_blank"
         sx={{
           verticalAlign: "middle",

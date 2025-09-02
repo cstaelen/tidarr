@@ -75,7 +75,7 @@ export default function PagedModule({
   return (
     <Box sx={{ mb: 4 }}>
       <ModuleTitle title={title} total={totalItems} />
-      <Module type={type} data={paginatedData} loading={pagedModuleLoading} />
+      <Module type={type} data={paginatedData} />
       <PagerButton
         page={page}
         setPage={paginate}

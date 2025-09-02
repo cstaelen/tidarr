@@ -235,6 +235,7 @@ export type ConfigTiddleType = {
     threads: number;
     singles_filter: string;
     embed_lyrics: boolean;
+    download_video: boolean;
   };
   cover: {
     save: boolean;

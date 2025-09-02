@@ -15,7 +15,7 @@ import {
 } from "../types";
 
 type ApiFetcherContextType = {
-  apiUrl: string;
+  apiUrl: string | undefined;
   error: {
     apiError: Response | undefined;
     setApiError: (res: Response | undefined) => void;
@@ -47,7 +47,7 @@ const ApiFetcherContext = React.createContext<ApiFetcherContextType>(
 export function APIFetcherProvider({ children }: { children: ReactNode }) {
   const apiUrl =
     import.meta.env.MODE === "development"
-      ? "http://localhost:8484/api"
+      ? import.meta.env.VITE_TIDARR_API_URL
       : "/api";
   const [apiError, setApiError] = useState<Response>();
 
