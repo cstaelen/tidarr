@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Container } from "@mui/material";
 import AlbumHeader from "src/components/Headers/Album";
+import ModuleLoader from "src/components/Skeletons/ModuleLoader";
 import Module from "src/components/TidalModule/Module";
 import ModuleNavigation from "src/components/TidalModule/Navigation";
 import { ModulePager } from "src/components/TidalModule/Pagination";
@@ -51,7 +52,6 @@ export default function Home() {
                   <Module
                     type={row.modules[0].type}
                     data={row.modules[0]?.pagedList?.items}
-                    loading={loading}
                   />
                   <ModulePager
                     data={row.modules[0]}
@@ -61,6 +61,7 @@ export default function Home() {
               )}
             </Box>
           ))}
+        {loading && <ModuleLoader />}
       </Container>
     </Box>
   );

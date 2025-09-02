@@ -13,6 +13,7 @@ import {
 
 import PagerButton from "../../components/Buttons/PagerButton";
 import Module from "../../components/TidalModule/Module";
+import ModuleLoader from "../Skeletons/ModuleLoader";
 
 import { ModuleTitle } from "./Title";
 
@@ -68,6 +69,8 @@ export default function PagedModule({
   }, [fetchInit, paginatedData]);
 
   if (isNaN(nbPages) || !url) return null;
+
+  if (pagedModuleLoading) return <ModuleLoader />;
 
   return (
     <Box sx={{ mb: 4 }}>
