@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Container, Portal, Tab, Tabs, useTheme } from "@mui/material";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 import { a11yProps } from "src/utils/helpers";
 
 import TopResults from "../components/Search/TopResults";
@@ -35,6 +36,7 @@ export default function Search() {
     keywords,
     searchResults: { albums, artists, tracks, playlists, videos },
   } = useSearchProvider();
+  const { tiddlConfig } = useConfigProvider();
 
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -91,10 +93,12 @@ export default function Search() {
                 label={`Playlists (${playlists?.totalNumberOfItems || 0})`}
                 {...a11yProps(4)}
               />
-              <Tab
-                label={`Videos (${videos?.totalNumberOfItems || 0})`}
-                {...a11yProps(5)}
-              />
+              {tiddlConfig?.download.download_video && (
+                <Tab
+                  label={`Videos (${videos?.totalNumberOfItems || 0})`}
+                  {...a11yProps(5)}
+                />
+              )}
             </Tabs>
           </Container>
         </Portal>
@@ -121,9 +125,11 @@ export default function Search() {
               data={playlists}
             />
           </TabPanel>
-          <TabPanel value={value} index={5} dir={theme.direction}>
-            <TypeResults title="Videos" type="VIDEO_LIST" data={videos} />
-          </TabPanel>
+          {tiddlConfig?.download.download_video && (
+            <TabPanel value={value} index={5} dir={theme.direction}>
+              <TypeResults title="Videos" type="VIDEO_LIST" data={videos} />
+            </TabPanel>
+          )}
         </Container>
       )}
     </Box>

@@ -1,8 +1,16 @@
 import React from "react";
 import { ArrowRightAlt } from "@mui/icons-material";
 import { Box, Button } from "@mui/material";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useSearchProvider } from "src/provider/SearchProvider";
-import { ModuleTypeKeys } from "src/types";
+import {
+  AlbumType,
+  ArtistType,
+  ModuleTypeKeys,
+  PlaylistType,
+  TrackType,
+  VideoType,
+} from "src/types";
 
 import ModuleLoader from "../Skeletons/ModuleLoader";
 import Module from "../TidalModule/Module";
@@ -16,6 +24,19 @@ type TidalContentType =
   | "playlists"
   | "videos";
 
+type ModuleOptionsType = {
+  type: string;
+  label: string;
+  items:
+    | AlbumType[]
+    | ArtistType[]
+    | TrackType[]
+    | PlaylistType[]
+    | VideoType[];
+  total: number;
+  limit: number;
+  tab: number;
+};
 interface TabContentProps {
   children?: React.ReactNode;
   setTabIndex?: (index: number) => void;
@@ -31,7 +52,9 @@ export default function TopResults(
     searchResults: { albums, artists, tracks, playlists, videos },
   } = useSearchProvider();
 
-  const data = [
+  const { tiddlConfig } = useConfigProvider();
+
+  const data: ModuleOptionsType[] = [
     {
       type: "ARTIST_LIST",
       label: "Artists",
@@ -64,15 +87,18 @@ export default function TopResults(
       limit: 6,
       tab: 4,
     },
-    {
+  ];
+
+  if (tiddlConfig?.download.download_video) {
+    data.push({
       type: "VIDEO_LIST",
       label: "Videos",
       items: videos?.items || [],
       total: videos?.totalNumberOfItems,
       limit: 6,
       tab: 5,
-    },
-  ];
+    });
+  }
 
   if (loading) return <ModuleLoader />;
 

@@ -8,9 +8,11 @@ import ModuleNavigation from "src/components/TidalModule/Navigation";
 import { ModulePager } from "src/components/TidalModule/Pagination";
 import { ModuleTitle } from "src/components/TidalModule/Title";
 import { useModules } from "src/hooks/useModules";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 
 export default function Home() {
   const { id } = useParams();
+  const { tiddlConfig } = useConfigProvider();
 
   const {
     data,
@@ -28,7 +30,12 @@ export default function Home() {
     "ARTICLE_LIST",
     "ARTIST_HEADER",
     "SOCIAL",
+    "VIDEO_LIST",
   ];
+
+  if (!tiddlConfig?.download.download_video) {
+    ModuleFilters.push("VIDEO_LIST");
+  }
 
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
