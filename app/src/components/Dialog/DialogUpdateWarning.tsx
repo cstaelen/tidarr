@@ -1,26 +1,28 @@
 import { useState } from "react";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import WarningIcon from "@mui/icons-material/Warning";
-import { Button, Link } from "@mui/material";
+import { Box, Button, Link } from "@mui/material";
 import { LOCALSTORAGE_UPDATE_WARNING } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 import { DialogHandler } from ".";
 
+const VERSION_CONCERNED = "0.3.1";
+
 export const DialogUpdateWarning = () => {
   const { config } = useConfigProvider();
   const [show, setShow] = useState(
-    localStorage.getItem(LOCALSTORAGE_UPDATE_WARNING) !== "1",
+    localStorage.getItem(LOCALSTORAGE_UPDATE_WARNING) !== VERSION_CONCERNED,
   );
 
   function persistClose() {
     setShow(false);
-    // Local storage
-    localStorage.setItem(LOCALSTORAGE_UPDATE_WARNING, "1");
+    localStorage.setItem(LOCALSTORAGE_UPDATE_WARNING, VERSION_CONCERNED);
   }
 
   return (
     <DialogHandler
-      open={show && !!config?.TIDARR_VERSION?.includes("0.3.1")}
+      open={show && !!config?.TIDARR_VERSION?.includes(VERSION_CONCERNED)}
       onClose={() => setShow(false)}
       title={"Folder configuration has changed !"}
       icon={<WarningIcon color="error" />}
@@ -43,14 +45,22 @@ export const DialogUpdateWarning = () => {
         </strong>{" "}
         file.
       </p>
-      <p>
+      <Box gap={2} display="flex">
         <Link
           href="https://github.com/cstaelen/tidarr?tab=readme-ov-file#getting-started"
           target="_blank"
         >
-          Read more on Github
+          Read more on Github{` `}
+          <OpenInNewIcon sx={{ fontSize: 15, verticalAlign: "middle" }} />
         </Link>
-      </p>
+        <Link
+          href="https://github.com/oskvr37/tiddl/wiki/Template-formatting"
+          target="_blank"
+        >
+          Template formatting (tiddl){` `}
+          <OpenInNewIcon sx={{ fontSize: 15, verticalAlign: "middle" }} />
+        </Link>
+      </Box>
     </DialogHandler>
   );
 };

@@ -14,7 +14,9 @@ Tidarr notable changes.
 * [Front] Add tiddl config in config dialog
 ### 🐛 Fixed
 * [Front] Fix skeleton loaders
-* [API] If PUID and PGID are set, `cp` use `-rfp` args
+* [API] If PUID and PGID are set, `cp` uses `-rfp` args
+### 🧹 Renovate
+* [Chore] Move python deps to `requirements.txt` file
 
 ## 📦 0.3.0
 ### 🚀 Added
