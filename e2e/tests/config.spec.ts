@@ -91,7 +91,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
   ];
   const tableAPIRows = await page
     .locator("#alert-dialog-description div")
-    .filter({ hasText: "Environment" })
+    .filter({ hasText: "Variable" })
     .locator("table tbody tr")
     .all();
 
@@ -107,6 +107,14 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
   await expect(
     page.getByRole("button", { name: "Revoke Tidal token" }),
   ).toBeInViewport();
+
+  const tableTiddlRows = await page
+    .locator("#alert-dialog-description div")
+    .filter({ hasText: "Variable" })
+    .locator("table tbody tr")
+    .all();
+
+  expect(tableTiddlRows.length).toEqual(13);
 });
 
 test("Tidarr config : Should see update button", async ({ page }) => {

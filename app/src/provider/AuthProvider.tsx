@@ -7,12 +7,13 @@ import React, {
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTE_LOGIN } from "src/components/Security/PrivateRoute";
+import {
+  LOCALSTORAGE_REDIRECT_URL,
+  LOCALSTORAGE_TOKEN_KEY,
+} from "src/contants";
 import { ApiReturnType, AuthType, CheckAuthType } from "src/types";
 
 import { useApiFetcher } from "./ApiFetcherProvider";
-
-export const LOCALSTORAGE_TOKEN_KEY = "tidarr-token";
-export const LOCALSTORAGE_REDIRECT_URL = "tidarr-redirect";
 
 type AuthContextType = {
   isAuthActive: boolean | undefined;

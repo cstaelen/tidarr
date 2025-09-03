@@ -4,7 +4,7 @@ import {
   EventSourcePlus,
   SseMessage,
 } from "event-source-plus";
-import { LOCALSTORAGE_TOKEN_KEY } from "src/provider/AuthProvider";
+import { LOCALSTORAGE_TOKEN_KEY } from "src/contants";
 
 import {
   AuthType,

@@ -10,10 +10,7 @@ services:
       - 3000:3000
     volumes:
       - ./docker/mnt/config:/home/app/standalone/shared
-      - ./docker/mnt/download/albums:/home/app/standalone/download/albums
-      - ./docker/mnt/download/tracks:/home/app/standalone/download/tracks
-      - ./docker/mnt/download/playlists:/home/app/standalone/download/playlists
-      - ./docker/mnt/download/videos:/home/app/standalone/download/videos
+      - ./docker/mnt/library:/home/app/standalone/library
       - .:/home/app/build # only used in dev environment
     restart: 'unless-stopped'
     environment:

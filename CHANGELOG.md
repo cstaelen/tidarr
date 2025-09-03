@@ -5,10 +5,18 @@ Tidarr notable changes.
 
 ## 📦 0.3.1
 ### 🖍 Changed
+* [Docker] ⚠️ **Now there is only one docker volume to mount for the music library destination**
+* [API] ⚠️ **Folder management and format is now handle in `tiddl.json` file.**
 * [API] Use tiddl `-V` parameters for video DL
 * [Front] Hide/Show video lists if tiddl `download_video` parameter is false/true.
+### 🚀 Added
+* [Front] Add an update warning modal
+* [Front] Add tiddl config in config dialog
 ### 🐛 Fixed
 * [Front] Fix skeleton loaders
+* [API] If PUID and PGID are set, `cp` uses `-rfp` args
+### 🧹 Renovate
+* [Chore] Move python deps to `requirements.txt` file
 
 ## 📦 0.3.0
 ### 🚀 Added

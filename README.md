@@ -18,7 +18,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - [Getting Started](#getting-started)
 - [Tidal authentication](#tidal-authentication)
 - [Options](#options)
-  - [Download options](#download-settings)
+  - [Download settings](#download-settings)
   - [PUID/PGID](#puid-pgid)
   - [Password protection](#password-protection)
 - [Services](#services):
@@ -81,10 +81,7 @@ services:
             - 8484:8484
         volumes:
             - /any/folder/to/tidarr/config:/home/app/standalone/shared
-            - /any/folder/to/download/albums:/home/app/standalone/download/albums
-            - /any/folder/to/download/tracks:/home/app/standalone/download/tracks
-            - /any/folder/to/download/playlists:/home/app/standalone/download/playlists
-            - /any/folder/to/download/videos:/home/app/standalone/download/videos
+            - /any/folder/to/library:/home/app/standalone/library
         restart: 'unless-stopped'
 ```
 
@@ -96,10 +93,7 @@ docker run  \
 		--name tidarr \
 		-p 8484:8484 \
 		-v /any/folder/to/tidarr/config/:/home/app/standalone/shared \
-		-v /any/folder/to/download/albums:/home/app/standalone/download/albums \
-		-v /any/folder/to/download/tracks:/home/app/standalone/download/tracks \
-		-v /any/folder/to/download/playlists:/home/app/standalone/download/playlists \
-		-v /any/folder/to/download/videos:/home/app/standalone/download/videos \
+		-v /any/folder/to/library:/home/app/standalone/library \
     cstaelen/tidarr:latest
 ```
 
@@ -128,26 +122,30 @@ docker exec tidarr cp -rf /root/tiddl.json /home/app/standalone/shared/tiddl.jso
 
 -> You can set download options in `/your/docker/path/to/tidarr/config/tiddl.json`.
 
+/!\ Be ware to set the right folder templates
+
 See default :
 
 ```json
 {
+    // More tiddldetails : https://github.com/oskvr37/wiki/Template-formatting
     "template": {
-        "track": "{artist} - {title}",
-        "video": "{artist} - {title}",
         "album": "{album_artist}/{album}/{number:02d}. {title}",
-        "playlist": "{playlist}/{playlist_number:02d}. {artist} - {title}"
+        "track": "{artist}/_tracks/{artist} - {title}",
+        "video": "_videos/{artist}/{artist} - {title}",
+        "playlist": "_playlists/{playlist}/{playlist_number:02d}. {artist} - {title}"
     },
     "download": {
         // Default high (16bit 44.1khz), max available: master (24bit 192khz max)
         // https://github.com/oskvr37/tiddl?tab=readme-ov-file#download-quality
         "quality": "high",
-        // Should not be changed (otherwise downloads will fail) /!\
+         // Should not be changed (otherwise downloads will fail) /!\
         "path": "/home/app/standalone/download/incomplete",
         "threads": 4,
+        "embed_lyrics": false,
         // Include or not singles while downloading "all releases"
         "singles_filter": "none", // "none", "only", "include"
-        // Allow video download
+        // Show video content
         "download_video": true
     },
     "cover": {
