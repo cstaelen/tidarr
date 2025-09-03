@@ -128,6 +128,7 @@ See default :
 
 ```json
 {
+    // More tiddldetails : https://github.com/oskvr37/wiki/Template-formatting
     "template": {
         "album": "{album_artist}/{album}/{number:02d}. {title}",
         "track": "{artist}/_tracks/{artist} - {title}",

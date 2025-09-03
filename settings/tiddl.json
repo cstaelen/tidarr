@@ -2,7 +2,7 @@
     "template": {
         "track": "tracks/{artist}/{artist} - {title}",
         "video": "videos/{artist}/{artist} - {title}",
-        "album": "albums/{album_artist}/{album}/{number:02d}. {title}",
+        "album": "albums/{album_artist}/{year} - {album}/{number:02d}. {title}",
         "playlist": "playlists/{playlist}/{playlist_number:02d}. {artist} - {title}"
     },
     "download": {

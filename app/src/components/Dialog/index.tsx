@@ -17,6 +17,7 @@ export const DialogHandler = ({
   open,
   icon,
   maxWidth = "xl",
+  buttons,
   onClose,
 }: {
   children: ReactNode;
@@ -24,6 +25,7 @@ export const DialogHandler = ({
   icon: ReactNode;
   open: boolean;
   maxWidth?: Breakpoint;
+  buttons?: ReactNode;
   onClose?: () => void;
 }) => {
   const handleClose = () => {
@@ -51,7 +53,10 @@ export const DialogHandler = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Close</Button>
+        <Button variant="outlined" onClick={handleClose}>
+          Close
+        </Button>
+        {buttons}
       </DialogActions>
     </Dialog>
   );
