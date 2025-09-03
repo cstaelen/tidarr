@@ -1,4 +1,8 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
+import {
+  LOCALSTORAGE_DISPLAY_MODE,
+  LOCALSTORAGE_QUALITY_DOWNLOAD,
+} from "src/contants";
 
 import {
   ConfigParametersType,
@@ -29,9 +33,6 @@ type ConfigContextType = {
     setDisplay: (mode: DisplayType) => void;
   };
 };
-
-export const LOCALSTORAGE_QUALITY_DOWNLOAD = "tidarr-quality-download";
-export const LOCALSTORAGE_DISPLAY_MODE = "tidarr-display-mode";
 
 const ConfigContext = React.createContext<ConfigContextType>(
   {} as ConfigContextType,

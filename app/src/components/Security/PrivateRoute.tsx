@@ -1,10 +1,10 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-
 import {
   LOCALSTORAGE_REDIRECT_URL,
   LOCALSTORAGE_TOKEN_KEY,
-  useAuth,
-} from "../../provider/AuthProvider";
+} from "src/contants";
+
+import { useAuth } from "../../provider/AuthProvider";
 
 import { Loader } from "./Loader";
 
