@@ -14,6 +14,7 @@ Tidarr notable changes.
 * [Front] Add tiddl config in config dialog
 ### 🐛 Fixed
 * [Front] Fix skeleton loaders
+* [API] If PUID and PGID are set, `cp` use `-rfp` args
 
 ## 📦 0.3.0
 ### 🚀 Added

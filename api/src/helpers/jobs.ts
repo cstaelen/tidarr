@@ -35,10 +35,16 @@ export async function moveAndClean(
 
   try {
     item["output"] = logs(item, `=== Move processed items ===`);
-    const output_move = execSync(
-      `cp -rf ${ROOT_PATH}/download/incomplete/* ${ROOT_PATH}/library >/dev/null`,
-      { encoding: "utf-8" },
-    );
+
+    let args = "-rf";
+
+    if (process.env.PUID && process.env.PGID) {
+      args = "-rfp";
+    }
+
+    const cmd = `cp ${args} ${ROOT_PATH}/download/incomplete/* ${ROOT_PATH}/library >/dev/null`;
+    item["output"] = logs(item, cmd);
+    const output_move = execSync(cmd, { encoding: "utf-8" });
     item["output"] = logs(
       item,
       `- Move complete ${item.type}\r\n${output_move}`,
