@@ -24,7 +24,7 @@ import { DialogHandler } from ".";
 const TableParameters = ({
   rows,
 }: {
-  rows: [string, string | undefined][];
+  rows: [string, string | number | boolean | undefined][];
 }) => {
   return (
     <TableContainer component={Paper}>
@@ -32,7 +32,7 @@ const TableParameters = ({
         <TableHead>
           <TableRow>
             <TableCell>
-              <strong>Environment vars</strong>
+              <strong>Variable</strong>
             </TableCell>
             <TableCell>
               <strong>Value</strong>
@@ -46,7 +46,7 @@ const TableParameters = ({
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell>{row?.[0]}</TableCell>
-              <TableCell>{row?.[1]}</TableCell>
+              <TableCell>{row?.[1]?.toString()}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -61,6 +61,7 @@ export const DialogConfig = () => {
     config,
     isUpdateAvailable,
     releaseData,
+    tiddlConfig,
     isConfigModalOpen,
     actions,
   } = useConfigProvider();
@@ -150,30 +151,52 @@ export const DialogConfig = () => {
         </>
       )}
       {currentTab === 2 && (
-        <Box display="flex" justifyContent="center" my={4}>
-          {!tokenMissing ? (
-            <Button
-              variant="contained"
-              color="warning"
-              startIcon={<KeyOff />}
-              onClick={async () => {
-                actions.toggleModal(false);
-                await delete_token();
-                checkAPI();
-              }}
-            >
-              Revoke Tidal token
-            </Button>
-          ) : (
-            <Alert
-              color="warning"
-              icon={<Warning sx={{ fontSize: 20 }} />}
-              variant="outlined"
-            >
-              No Tidal token found !
-            </Alert>
-          )}
-        </Box>
+        <>
+          <Box display="flex" justifyContent="center" my={4}>
+            {!tokenMissing ? (
+              <Button
+                variant="contained"
+                color="warning"
+                startIcon={<KeyOff />}
+                onClick={async () => {
+                  actions.toggleModal(false);
+                  await delete_token();
+                  checkAPI();
+                }}
+              >
+                Revoke Tidal token
+              </Button>
+            ) : (
+              <Alert
+                color="warning"
+                icon={<Warning sx={{ fontSize: 20 }} />}
+                variant="outlined"
+              >
+                No Tidal token found !
+              </Alert>
+            )}
+          </Box>
+          <Box>
+            <h3>Tiddl template options</h3>
+            {tiddlConfig?.template ? (
+              <TableParameters rows={Object.entries(tiddlConfig.template)} />
+            ) : (
+              "Not found."
+            )}
+            <h3>Tiddl download options</h3>
+            {tiddlConfig?.download ? (
+              <TableParameters rows={Object.entries(tiddlConfig.download)} />
+            ) : (
+              "Not found."
+            )}
+            <h3>Tiddl cover options</h3>
+            {tiddlConfig?.cover ? (
+              <TableParameters rows={Object.entries(tiddlConfig.cover)} />
+            ) : (
+              "Not found."
+            )}
+          </Box>
+        </>
       )}
     </DialogHandler>
   );

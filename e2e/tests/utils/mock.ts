@@ -170,7 +170,23 @@ export async function mockConfigAPI(page: Page) {
         },
         download: {
           quality: "high",
+          path: "/home/app/standalone/download/incomplete",
+          threads: 4,
+          singles_filter: "none",
+          embed_lyrics: false,
           download_video: true,
+        },
+        cover: {
+          save: true,
+          size: 1280,
+          filename: "cover.jpg",
+        },
+        template: {
+          track: "tracks/{artist}/{artist} - {title}",
+          video: "videos/{artist}/{artist} - {title}",
+          album: "albums/{album_artist}/{year} - {album}/{number:02d}. {title}",
+          playlist:
+            "playlists/{playlist}/{playlist_number:02d}. {artist} - {title}",
         },
       },
     };

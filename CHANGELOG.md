@@ -11,6 +11,7 @@ Tidarr notable changes.
 * [Front] Hide/Show video lists if tiddl `download_video` parameter is false/true.
 ### 🚀 Added
 * [Front] Add an update warning modal
+* [Front] Add tiddl config in config dialog
 ### 🐛 Fixed
 * [Front] Fix skeleton loaders
 

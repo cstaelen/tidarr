@@ -10,6 +10,7 @@
         "path": "/home/app/standalone/download/incomplete",
         "threads": 4,
         "singles_filter": "none",
+        "embed_lyrics": false,
         "download_video": true
     },
     "cover": {
