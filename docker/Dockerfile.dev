@@ -1,26 +1,20 @@
+# syntax = devthefuture/dockerfile-x
+
 FROM ghcr.io/linuxserver/baseimage-alpine:3.21
 WORKDIR /home/app/build
 
 ENV SHELL=bash
 ARG NODE_ENV
 ENV NODE_ENV="${NODE_ENV}"
-ENV PYTHONUNBUFFERED=1
 ENV ENVIRONMENT="development"
 
 ENV VERSION="0.0.0-dev"
 
 RUN apk update && apk upgrade
-RUN apk add npm nodejs py-pip ffmpeg beets
+RUN apk add npm nodejs py-pip
 
-RUN mkdir -p $HOME/.venvs
-RUN python3 -m venv $HOME/.venvs
-RUN source $HOME/.venvs/bin/activate
-ENV PATH="$HOME/.venvs/bin:$PATH"
+INCLUDE docker/stages/Dockerfile.python
 
-RUN python -m pip install "tiddl==2.5.1" requests ffmpeg-python mutagen
-
-RUN mkdir -p /home/app/standalone/shared/beets
-RUN touch /home/app/standalone/shared/beets/beets-library.blb
 RUN mkdir -p /home/app/standalone/download/incomplete/
 RUN npm install -g yarn tsx
 

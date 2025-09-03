@@ -1,0 +1,5 @@
+requests
+ffmpeg-python 
+mutagen
+
+tiddl == 2.5.1
