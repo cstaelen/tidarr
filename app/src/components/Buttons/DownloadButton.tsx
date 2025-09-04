@@ -61,6 +61,7 @@ export const DownloadButton = ({
   return (
     <Button
       variant="outlined"
+      data-testid="btn-dl"
       endIcon={
         status === "queue" ? (
           <AccessTimeIcon />
