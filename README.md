@@ -11,7 +11,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 ![Docker image size](https://img.shields.io/docker/image-size/cstaelen/tidarr?style=for-the-badge)
 <a href="https://www.buymeacoffee.com/clst" target="_blank" title="Buy Me A Coffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 28px !important;width: 110px !important;" ></a>
 
-<img src="https://github.com/cstaelen/tidarr/blob/main/.github/screenshot.png?raw=true" />
+<img src="https://github.com/cstaelen/tidarr/blob/main/.github/tidarr-demo.gif?raw=true" />
 
 ## Table of Contents
 - [Features](#features)
@@ -128,7 +128,7 @@ See default :
 
 ```json
 {
-    // More tiddldetails : https://github.com/oskvr37/wiki/Template-formatting
+    // More tiddl details : https://github.com/oskvr37/tiddl/wiki/Template-formatting
     "template": {
         "album": "{album_artist}/{album}/{number:02d}. {title}",
         "track": "{artist}/_tracks/{artist} - {title}",
