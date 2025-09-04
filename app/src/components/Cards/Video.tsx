@@ -56,7 +56,10 @@ export default function VideoCard({ video }: { video: VideoType }) {
               target="_blank"
               underline="none"
             >
-              <Typography component="span" style={{ lineHeight: 1 }}>
+              <Typography
+                component="span"
+                style={{ lineHeight: 1, fontSize: "0.875rem" }}
+              >
                 <strong>{video.title}</strong>
               </Typography>
               <OpenInNewIcon
@@ -140,26 +143,28 @@ export default function VideoCard({ video }: { video: VideoType }) {
               <Stack
                 direction="row"
                 flexWrap="wrap"
-                spacing={12}
+                gap={2}
                 alignItems="center"
                 padding={0.5}
               >
-                <Box sx={{ flex: "auto" }}>
+                <Box flex="1 1 0">
                   <Chip
                     label={`${Math.round(video.duration / 60)} min.`}
                     color="success"
                     size="small"
                   />
                 </Box>
-                <DownloadButton
-                  item={{
-                    ...video,
-                    url: `video/${video.id}`,
-                  }}
-                  id={video.id}
-                  type="video"
-                  label="Get video"
-                />
+                <Box>
+                  <DownloadButton
+                    item={{
+                      ...video,
+                      url: `video/${video.id}`,
+                    }}
+                    id={video.id}
+                    type="video"
+                    label="Get video"
+                  />
+                </Box>
               </Stack>
             </CardContent>
           </Box>

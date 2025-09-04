@@ -12,7 +12,6 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { TrackType } from "src/types";
-import { customColors } from "src/utils/theme";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
 
@@ -33,8 +32,6 @@ function StackDownloadButtons({ track }: { track: TrackType }) {
 }
 
 function StackChips({ track }: { track: TrackType }) {
-  const theme = useTheme();
-
   return (
     <Box
       display="flex"
@@ -43,21 +40,6 @@ function StackChips({ track }: { track: TrackType }) {
       alignItems="flex-start"
       my={1}
     >
-      <Chip
-        label={track.audioQuality.toLowerCase()}
-        color="primary"
-        size="small"
-        sx={{
-          color:
-            track?.audioQuality?.toLowerCase() === "lossless"
-              ? theme.palette.common.white
-              : theme.palette.common.black,
-          backgroundColor:
-            track?.audioQuality?.toLowerCase() === "lossless"
-              ? customColors.gold
-              : theme.palette.primary.main,
-        }}
-      />
       <Chip
         label={`${Math.round(track.duration / 60)} min.`}
         color="success"
@@ -145,7 +127,10 @@ function TitleLink({ track }: { track: TrackType }) {
         textDecoration: "none",
       }}
     >
-      <Typography component="span" style={{ lineHeight: 1 }}>
+      <Typography
+        component="span"
+        style={{ lineHeight: 1, fontSize: "0.875rem" }}
+      >
         <strong>{track.title}</strong>
       </Typography>
     </Link>

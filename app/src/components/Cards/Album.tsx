@@ -4,7 +4,6 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useConfigProvider } from "src/provider/ConfigProvider";
-import { customColors } from "src/utils/theme";
 
 import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
@@ -39,7 +38,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
             )}/750x750.jpg`}
           />
         </Link>
-        <div style={{ lineHeight: 1.4, flex: "1 1 0" }}>
+        <div style={{ lineHeight: 1, flex: "1 1 0" }}>
           <Link
             to={`/album/${album.id}`}
             style={{
@@ -50,7 +49,11 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
           >
             <Typography
               component="span"
-              sx={{ lineHeight: 1, ":hover": { textDecoration: "underline" } }}
+              sx={{
+                lineHeight: 1,
+                fontSize: "0.875rem",
+                ":hover": { textDecoration: "underline" },
+              }}
             >
               <strong>{album.title}</strong>
             </Typography>
@@ -60,7 +63,10 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
             variant="subtitle2"
             color="text.secondary"
             component="span"
-            style={{ lineHeight: 1 }}
+            style={{
+              fontSize: "0.875rem",
+              lineHeight: 1,
+            }}
           >
             {` `}by{` `}
             <Button
@@ -97,28 +103,22 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
             position: "relative",
           }}
         >
-          <CardContent sx={{ flex: "0 0 auto", padding: "0.5rem !important" }}>
+          <CardContent
+            sx={{
+              flex: "0 0 auto",
+              padding: "0.5rem !important",
+              display: "flex",
+              flexDirection: "column",
+              height: "100%",
+            }}
+          >
             <Stack
               direction="row"
               flexWrap="wrap"
               spacing={1}
               style={{ marginBottom: "0.5rem" }}
+              flex="1 1 0"
             >
-              <Chip
-                label={album.audioQuality?.toLowerCase()}
-                size="small"
-                style={{
-                  margin: "0.2rem",
-                  color:
-                    album?.audioQuality?.toLowerCase() === "lossless"
-                      ? theme.palette.common.white
-                      : theme.palette.common.black,
-                  backgroundColor:
-                    album?.audioQuality?.toLowerCase() === "lossless"
-                      ? customColors.gold
-                      : theme.palette.primary.main,
-                }}
-              />
               <Chip
                 label={`${album.numberOfTracks} tracks`}
                 size="small"
@@ -145,12 +145,14 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
                 />
               )}
             </Stack>
-            <DownloadButton
-              item={album}
-              id={album.id}
-              type="album"
-              label="Get album"
-            />
+            <Box>
+              <DownloadButton
+                item={album}
+                id={album.id}
+                type="album"
+                label="Get album"
+              />
+            </Box>
           </CardContent>
         </Box>
       </Stack>
