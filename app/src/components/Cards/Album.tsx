@@ -8,6 +8,7 @@ import { useConfigProvider } from "src/provider/ConfigProvider";
 import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
 
+import { ChipQuality } from "./common/ChipQuality";
 import ImageLazy from "./common/ImageLazy";
 
 export default function AlbumCard({ album }: { album: AlbumType }) {
@@ -28,7 +29,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
           backgroundColor: "rgba(255, 255, 255, 0.04)",
         }}
       >
-        <Link to={`/album/${album.id}`}>
+        <Link to={`/album/${album.id}`} style={{ textDecoration: "none" }}>
           <Avatar
             alt={album.artists?.[0]?.name}
             sx={{ width: 42, height: 42 }}
@@ -115,34 +116,24 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
             <Stack
               direction="row"
               flexWrap="wrap"
-              spacing={1}
+              gap={0.5}
               style={{ marginBottom: "0.5rem" }}
               flex="1 1 0"
             >
-              <Chip
-                label={`${album.numberOfTracks} tracks`}
-                size="small"
-                style={{ margin: "0.2rem" }}
-              />
+              <ChipQuality quality={album?.audioQuality?.toLowerCase()} />
+              <Chip label={`${album.numberOfTracks} tracks`} size="small" />
               <Chip
                 label={`${Math.round(album.duration / 60)} min`}
                 size="small"
-                style={{ margin: "0.2rem" }}
                 variant="outlined"
               />
               <Chip
                 label={`${new Date(album.releaseDate).getFullYear()}`}
                 size="small"
                 variant="outlined"
-                style={{ margin: "0.2rem" }}
               />
               {album.explicit && (
-                <Chip
-                  label="Explicit"
-                  size="small"
-                  variant="outlined"
-                  style={{ margin: "0.2rem" }}
-                />
+                <Chip label="Explicit" size="small" variant="outlined" />
               )}
             </Stack>
             <Box>

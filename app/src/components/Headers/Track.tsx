@@ -3,6 +3,7 @@ import { Avatar, Button, Chip, Stack, Typography } from "@mui/material";
 import { TrackType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
+import { ChipQuality } from "../Cards/common/ChipQuality";
 
 import PageHeader from "./Header";
 
@@ -57,8 +58,9 @@ export default function TrackHeader({ track }: { track: TrackType }) {
             alignItems="center"
             flexWrap="wrap"
             mb={2}
-            spacing={1}
+            gap={0.5}
           >
+            <ChipQuality quality={track.audioQuality.toLowerCase()} />
             <Chip
               label={`${Math.round(track.duration / 60)} min.`}
               color="success"

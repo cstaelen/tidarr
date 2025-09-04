@@ -15,6 +15,7 @@ import { TrackType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
 
+import { ChipQuality } from "./common/ChipQuality";
 import ImageLazy from "./common/ImageLazy";
 
 function StackDownloadButtons({ track }: { track: TrackType }) {
@@ -40,6 +41,7 @@ function StackChips({ track }: { track: TrackType }) {
       alignItems="flex-start"
       my={1}
     >
+      <ChipQuality quality={track?.audioQuality?.toLowerCase()} />
       <Chip
         label={`${Math.round(track.duration / 60)} min.`}
         color="success"

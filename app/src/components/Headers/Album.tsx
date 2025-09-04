@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 
 import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
+import { ChipQuality } from "../Cards/common/ChipQuality";
 
 import PageHeader from "./Header";
 
@@ -23,9 +24,10 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
           direction="row"
           flexWrap="wrap"
           alignItems="center"
-          spacing={1}
+          gap={0.5}
           style={{ marginBottom: "0.5rem" }}
         >
+          <ChipQuality quality={album.audioQuality.toLowerCase()} />
           <Chip label={`${album.numberOfTracks} tracks`} size="small" />
           <Chip
             label={`${Math.round(album.duration / 60)} min`}
