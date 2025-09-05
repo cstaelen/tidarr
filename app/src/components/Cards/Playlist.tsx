@@ -42,6 +42,7 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
               component="span"
               sx={{
                 lineHeight: 1,
+                fontSize: "0.875rem",
                 ":hover": { textDecoration: "underline" },
               }}
             >
@@ -71,13 +72,19 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
           }}
         >
           <CardContent
-            sx={{ flex: "0 0 auto", padding: "0.5rem 1rem !important" }}
+            sx={{
+              flex: "0 0 auto",
+              padding: "0.5rem 1rem !important",
+              flexDirection: "column",
+              height: "100%",
+              display: "flex",
+            }}
           >
             <Stack
               direction="row"
               flexWrap="wrap"
               spacing={1}
-              style={{ marginBottom: "1rem", minHeight: "3rem" }}
+              style={{ marginBottom: "1rem", flex: "1 1 0" }}
             >
               <Chip
                 label={`${Math.round(playlist.duration / 60)} min.`}
@@ -86,7 +93,7 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
               />
               <Chip label={`${playlist.numberOfTracks} tracks`} size="small" />
             </Stack>
-            <Stack direction="row" flexWrap="wrap" spacing={1}>
+            <Stack direction="row" flexWrap="wrap" gap={1}>
               <Button
                 onClick={() => navigate(`/playlist/${playlist.uuid}`)}
                 size="small"

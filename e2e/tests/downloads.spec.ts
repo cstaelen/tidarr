@@ -32,9 +32,8 @@ test("Tidarr download : Should be able to download album", async ({ page }) => {
 
   await expect(page.getByRole("main")).toContainText("Nevermind");
   await page
-    .locator(
-      "div:nth-child(2) > .MuiPaper-root > div:nth-child(2) > .MuiBox-root > .MuiCardContent-root > .MuiButtonBase-root",
-    )
+    .locator("div:nth-child(2) > .MuiPaper-root > div:nth-child(2)")
+    .getByTestId("btn-dl")
     .click();
 
   await testProcessingList(page, ["Nirvana", "In Utero", "album"], "high");
@@ -45,7 +44,7 @@ test("Tidarr download : Should be able to download track", async ({ page }) => {
   await page.getByRole("tab", { name: "Tracks" }).first().click();
 
   await expect(page.getByRole("main")).toContainText(
-    "Smells Like Teen Spiritlossless5 min.NirvanaAlbum : NevermindAlbumTrack",
+    "Smells Like Teen Spirit5 min.NirvanaAlbum : NevermindAlbumTrack",
   );
 
   // Test other quality
@@ -74,7 +73,7 @@ test("Tidarr download : Should be able to download track album", async ({
     "MTV Unplugged In New York",
   );
 
-  await page.getByRole("button", { name: "Album", exact: true }).nth(4).click();
+  await page.getByTestId("btn-dl").nth(8).click();
 
   await testProcessingList(
     page,
@@ -93,7 +92,7 @@ test("Tidarr download : Should be able to download playlist", async ({
 
   await expect(page.getByRole("main")).toContainText("Grown Country");
 
-  await page.getByRole("button", { name: "Get playlist" }).click();
+  await page.getByTestId("btn-dl").nth(0).click();
 
   await testProcessingList(page, ["playlist", "Grown Country"], "high");
 });

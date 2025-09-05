@@ -52,7 +52,7 @@ export default function TopResults(
     searchResults: { albums, artists, tracks, playlists, videos },
   } = useSearchProvider();
 
-  const { tiddlConfig } = useConfigProvider();
+  const { tiddlConfig, display } = useConfigProvider();
 
   const data: ModuleOptionsType[] = [
     {
@@ -60,7 +60,7 @@ export default function TopResults(
       label: "Artists",
       items: artists?.items,
       total: artists?.totalNumberOfItems,
-      limit: 3,
+      limit: display === "small" ? 3 : 4,
       tab: 2,
     },
     {

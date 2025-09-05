@@ -1,15 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import { Avatar, Button, Chip, Stack, useTheme } from "@mui/material";
+import { Avatar, Button, Chip, Stack } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import { customColors } from "src/utils/theme";
 
 import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
+import { ChipQuality } from "../Cards/common/ChipQuality";
 
 import PageHeader from "./Header";
 
 export default function AlbumHeader({ album }: { album: AlbumType }) {
-  const theme = useTheme();
   const navigate = useNavigate();
 
   return (
@@ -25,23 +24,10 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
           direction="row"
           flexWrap="wrap"
           alignItems="center"
-          spacing={1}
+          gap={0.5}
           style={{ marginBottom: "0.5rem" }}
         >
-          <Chip
-            label={album.audioQuality.toLowerCase()}
-            size="small"
-            style={{
-              color:
-                album?.audioQuality?.toLowerCase() === "lossless"
-                  ? theme.palette.common.white
-                  : theme.palette.common.black,
-              backgroundColor:
-                album?.audioQuality?.toLowerCase() === "lossless"
-                  ? customColors.gold
-                  : theme.palette.primary.main,
-            }}
-          />
+          <ChipQuality quality={album.audioQuality.toLowerCase()} />
           <Chip label={`${album.numberOfTracks} tracks`} size="small" />
           <Chip
             label={`${Math.round(album.duration / 60)} min`}

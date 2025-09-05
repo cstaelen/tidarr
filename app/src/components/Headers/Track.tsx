@@ -1,21 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import {
-  Avatar,
-  Button,
-  Chip,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Avatar, Button, Chip, Stack, Typography } from "@mui/material";
 import { TrackType } from "src/types";
-import { customColors } from "src/utils/theme";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
+import { ChipQuality } from "../Cards/common/ChipQuality";
 
 import PageHeader from "./Header";
 
 export default function TrackHeader({ track }: { track: TrackType }) {
-  const theme = useTheme();
   const navigate = useNavigate();
 
   return (
@@ -66,23 +58,9 @@ export default function TrackHeader({ track }: { track: TrackType }) {
             alignItems="center"
             flexWrap="wrap"
             mb={2}
-            spacing={1}
+            gap={0.5}
           >
-            <Chip
-              label={track.audioQuality.toLowerCase()}
-              color="primary"
-              size="small"
-              sx={{
-                color:
-                  track?.audioQuality?.toLowerCase() === "lossless"
-                    ? theme.palette.common.white
-                    : theme.palette.common.black,
-                backgroundColor:
-                  track?.audioQuality?.toLowerCase() === "lossless"
-                    ? customColors.gold
-                    : theme.palette.primary.main,
-              }}
-            />
+            <ChipQuality quality={track.audioQuality.toLowerCase()} />
             <Chip
               label={`${Math.round(track.duration / 60)} min.`}
               color="success"
