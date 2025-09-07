@@ -68,7 +68,7 @@ export default function TopResults(
       label: "Albums",
       items: albums?.items,
       total: albums?.totalNumberOfItems,
-      limit: 9,
+      limit: display === "small" ? 9 : 12,
       tab: 1,
     },
     {
@@ -84,7 +84,7 @@ export default function TopResults(
       label: "Playlists",
       items: playlists?.items || [],
       total: playlists?.totalNumberOfItems,
-      limit: 6,
+      limit: display === "small" ? 6 : 8,
       tab: 4,
     },
   ];
