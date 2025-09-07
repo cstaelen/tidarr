@@ -140,8 +140,10 @@ See default :
         // Default high (16bit 44.1khz), max available: master (24bit 192khz max)
         // https://github.com/oskvr37/tiddl?tab=readme-ov-file#download-quality
         "quality": "high",
-         // Should not be changed (otherwise downloads will fail) /!\
+        // Should not be changed (otherwise downloads will fail) /!\
         "path": "/home/app/standalone/download/incomplete",
+        // `scan_path` is used to skip existing files. Set it to null if you want to override. 
+        "scan_path": "/home/app/standalone/library",
         "threads": 4,
         "embed_lyrics": false,
         // Include or not singles while downloading "all releases"

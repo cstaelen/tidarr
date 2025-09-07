@@ -21,6 +21,7 @@ app.use(cors());
 
 const processingList = ProcessingStack(app);
 app.set("processingList", processingList);
+
 app.set("activeListConnections", []);
 
 app.all("/{*any}", function (req, res, next) {
@@ -118,6 +119,9 @@ app.get(
   ensureAccessIsGranted,
   async (req: Request, res: Response) => {
     const response = await configureServer();
+
+    app.set("tiddlConfig", response?.tiddl_config);
+
     res.send(response);
   },
 );

@@ -2,6 +2,7 @@ import { execSync } from "child_process";
 
 import { BUILD_PATH } from "../../constants";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
+import { TiddlConfig } from "../types";
 
 export async function configureServer() {
   console.log(`=== Set config files ===`);
@@ -18,10 +19,7 @@ export async function configureServer() {
 
     const hasTiddlConfig = !output_config?.includes("[Tiddl] Init config OK");
 
-    let tiddl_config = null;
-    if (hasTiddlConfig) {
-      tiddl_config = await get_tiddl_config();
-    }
+    const tiddl_config = get_tiddl_config() as TiddlConfig;
 
     return {
       noToken: !hasTiddlConfig || tiddl_config?.auth?.token.length === 0,
