@@ -63,9 +63,12 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       | VideoType,
     type: "album" | "track" | "artist" | "playlist" | "video" | "mix",
   ) => {
+    if (!quality) return;
+
     const id =
       (item as AlbumType | TrackType | ArtistType).id ||
       (item as PlaylistType).uuid;
+
     if (
       processingList &&
       processingList?.filter((row) => row.id === id && row.status !== "error")

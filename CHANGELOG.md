@@ -3,6 +3,15 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.3.2
+### 🚀 Added
+* [Docker] New env var "LOCK_QUALITY" to force only `tiddl.json` quality
+### 🖍 Changed
+* [Front] Show quality badge on result items only if not equal to "losless"
+* [Front] Update some part of result item UI
+### 🐛 Fixed
+* [Front] Quality selector struggle on "high" on load
+
 ## 📦 0.3.1
 ### 🖍 Changed
 * [Docker] ⚠️ **Now there is only one docker volume to mount for the music library destination**

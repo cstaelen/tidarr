@@ -10,12 +10,37 @@ import {
 } from "@mui/material";
 import { useAuth } from "src/provider/AuthProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
+import { QualityType } from "src/types";
 
 import DisplayButton from "../Buttons/displayButton";
 import LogoutButton from "../Buttons/LogoutButton";
 import SettingsButton from "../Buttons/SettingsButton";
 
 import { SearchForm } from "./SearchForm";
+
+const QualityToggleButton = ({
+  tooltip,
+  label,
+  value,
+}: {
+  tooltip: string;
+  label: string;
+  value: QualityType;
+}) => {
+  const { config, quality } = useConfigProvider();
+  const isQualityLocked = config?.LOCK_QUALITY === "true";
+
+  return (
+    <Tooltip title={tooltip}>
+      <ToggleButton
+        value={value}
+        disabled={isQualityLocked && quality !== value}
+      >
+        {label}
+      </ToggleButton>
+    </Tooltip>
+  );
+};
 
 export const HeaderSearch = () => {
   const { quality, actions } = useConfigProvider();
@@ -72,20 +97,28 @@ export const HeaderSearch = () => {
                 size={window.innerWidth > 1024 ? "large" : "small"}
                 exclusive
                 onChange={(_e, value) => actions.setQuality(value)}
-                aria-label="Platform"
+                aria-label="Quality"
               >
-                <Tooltip title="Download format: '.m4a' files, 96 kbps">
-                  <ToggleButton value="low">Low</ToggleButton>
-                </Tooltip>
-                <Tooltip title="Download format: '.m4a' files, 320 kbps">
-                  <ToggleButton value="normal">Normal</ToggleButton>
-                </Tooltip>
-                <Tooltip title="Download format: '.flac' files, 16-bit, 44.1 kHz">
-                  <ToggleButton value="high">High</ToggleButton>
-                </Tooltip>
-                <Tooltip title="Download format: '.flac' files, Up to 24-bit, 192 kHz">
-                  <ToggleButton value="master">Master</ToggleButton>
-                </Tooltip>
+                <QualityToggleButton
+                  label="Low"
+                  value="low"
+                  tooltip="Download format: '.m4a' files, 96 kbps"
+                />
+                <QualityToggleButton
+                  label="Normal"
+                  value="normal"
+                  tooltip="Download format: '.m4a' files, 320 kbps"
+                />
+                <QualityToggleButton
+                  label="High"
+                  value="high"
+                  tooltip="Download format: '.flac' files, 16-bit, 44.1 kHz"
+                />
+                <QualityToggleButton
+                  label="Master"
+                  value="master"
+                  tooltip="Download format: '.flac' files, Up to 24-bit, 192 kHz"
+                />
               </ToggleButtonGroup>
             </Box>
             &nbsp;

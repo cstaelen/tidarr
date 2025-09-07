@@ -43,6 +43,7 @@ export async function configureServer() {
         ENABLE_APPRISE_API: process.env.ENABLE_APPRISE_API || "",
         APPRISE_API_ENDPOINT: process.env.APPRISE_API_ENDPOINT || "",
         APPRISE_API_TAG: process.env.APPRISE_API_TAG || "",
+        LOCK_QUALITY: process.env.LOCK_QUALITY || "",
       },
     };
   } catch (error: unknown) {

@@ -21,6 +21,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Download settings](#download-settings)
   - [PUID/PGID](#puid-pgid)
   - [Password protection](#password-protection)
+  - [Lock quality selector](#lock-quality-selector)
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-update)
@@ -184,6 +185,16 @@ If not set, no password is required to access the app.
  environment:
   - ...
   - ADMIN_PASSWORD=<string> # if not set, no password are required to access
+```
+
+### Lock quality selector
+
+Force use of `tiddl.json` quality value and disable quality selector in app
+
+```yaml
+ environment:
+  - ...
+  - LOCK_QUALITY=true
 ```
 
 ## Services
