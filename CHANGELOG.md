@@ -9,6 +9,7 @@ Tidarr notable changes.
 ### 🖍 Changed
 * [Front] Show quality badge on result items only if not equal to "losless"
 * [Front] Update some part of result item UI
+* [Front] Set image attribute `referer-policy="no-referer"` 
 ### 🐛 Fixed
 * [Front] Quality selector struggle on "high" on load
 

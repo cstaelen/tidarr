@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Avatar, Box, Button, Chip, Stack, useTheme } from "@mui/material";
+import { Box, Button, Chip, Stack, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -8,6 +8,7 @@ import { useConfigProvider } from "src/provider/ConfigProvider";
 import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
 
+import { ArtistAvatar } from "./common/ArtistAvatar";
 import { ChipQuality } from "./common/ChipQuality";
 import ImageLazy from "./common/ImageLazy";
 
@@ -30,9 +31,8 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
         }}
       >
         <Link to={`/album/${album.id}`} style={{ textDecoration: "none" }}>
-          <Avatar
+          <ArtistAvatar
             alt={album.artists?.[0]?.name}
-            sx={{ width: 42, height: 42 }}
             src={`https://resources.tidal.com/images/${album.artists?.[0]?.picture?.replace(
               /-/g,
               "/",

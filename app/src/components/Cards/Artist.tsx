@@ -1,10 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import AlbumIcon from "@mui/icons-material/Album";
-import { Avatar, Box, Button, Chip, useTheme } from "@mui/material";
+import { Box, Button, Chip, useTheme } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { ArtistType } from "src/types";
+
+import { ArtistAvatar } from "./common/ArtistAvatar";
 
 export default function Artist({ artist }: { artist: ArtistType }) {
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ export default function Artist({ artist }: { artist: ArtistType }) {
           to={`/artist/${artist.id}`}
           style={{ lineHeight: 0, textDecoration: "none" }}
         >
-          <Avatar
+          <ArtistAvatar
             alt={artist.name}
             sx={{ width: 100, height: 100 }}
             src={`https://resources.tidal.com/images/${artist?.picture?.replace(

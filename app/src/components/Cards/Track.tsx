@@ -1,12 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  Avatar,
-  Box,
-  Chip,
-  Stack,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Box, Chip, Stack, useMediaQuery, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -15,6 +8,7 @@ import { TrackType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
 
+import { ArtistAvatar } from "./common/ArtistAvatar";
 import { ChipQuality } from "./common/ChipQuality";
 import ImageLazy from "./common/ImageLazy";
 
@@ -72,11 +66,10 @@ function AlbumLink({ track }: { track: TrackType }) {
   );
 }
 
-function ArtistAvatar({ track }: { track: TrackType }) {
+function ArtistPic({ track }: { track: TrackType }) {
   return (
-    <Avatar
-      alt={track.artists?.[0]?.name}
-      sx={{ width: 42, height: 42 }}
+    <ArtistAvatar
+      alt={track.artists?.[0]?.name || ""}
       src={`https://resources.tidal.com/images/${track.artists?.[0]?.picture?.replace(
         /-/g,
         "/",
@@ -254,7 +247,7 @@ function TrackInline({ track }: { track: TrackType }) {
             spacing={1}
             alignItems="center"
           >
-            <ArtistAvatar track={track} />
+            <ArtistPic track={track} />
             <ArtistLink track={track} />
           </Stack>
         </div>

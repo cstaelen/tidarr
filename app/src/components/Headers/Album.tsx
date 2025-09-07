@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { Avatar, Button, Chip, Stack } from "@mui/material";
+import { Button, Chip, Stack } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
 import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
+import { ArtistAvatar } from "../Cards/common/ArtistAvatar";
 import { ChipQuality } from "../Cards/common/ChipQuality";
 
 import PageHeader from "./Header";
@@ -52,9 +53,8 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
       }
       beforeTitle={
         <Stack direction="row" flexWrap="wrap" spacing={1} alignItems="center">
-          <Avatar
+          <ArtistAvatar
             alt={album.artists?.[0]?.name}
-            sx={{ width: 42, height: 42 }}
             src={`https://resources.tidal.com/images/${album.artists?.[0]?.picture?.replace(
               /-/g,
               "/",
