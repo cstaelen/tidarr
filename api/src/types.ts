@@ -18,13 +18,6 @@ export type ProcessingItemType = {
 };
 
 export type TiddlConfig = {
-  auth: {
-    token: string;
-    refresh_token: string;
-    token_expires_at: number;
-    user_id: string;
-    country_code: string;
-  };
   template: {
     track: string;
     video: string;
@@ -32,10 +25,27 @@ export type TiddlConfig = {
     playlist: string;
   };
   download: {
-    quality: "master" | "high" | "normal" | "low";
+    quality: QualityType;
     path: string;
     threads: number;
+    singles_filter: string;
+    embed_lyrics: boolean;
+    download_video: boolean;
+    scan_path: string;
   };
+  cover: {
+    save: boolean;
+    size: number;
+    filename: string;
+  };
+  auth: {
+    token: string;
+    refresh_token: string;
+    expires: number;
+    user_id: string;
+    country_code: string;
+  };
+  omit_cache: boolean;
 };
 
 export type LogType = {

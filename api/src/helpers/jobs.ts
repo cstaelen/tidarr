@@ -31,8 +31,6 @@ export async function moveAndClean(
 
   if (!item) return { save: false };
 
-  setPermissions();
-
   try {
     item["output"] = logs(item, `=== Move processed items ===`);
 
@@ -84,7 +82,17 @@ export async function cleanFolder(): Promise<"finished" | "error"> {
   }
 }
 
-async function setPermissions() {
+export function hasFileToMove(): boolean {
+  const sourceDir = `${ROOT_PATH}/download/incomplete/`;
+  const filesToCopy = execSync(`ls ${sourceDir}`, { encoding: "utf-8" })
+    .trim()
+    .split("\n")
+    .filter((file) => file);
+
+  return filesToCopy.length > 0;
+}
+
+export async function setPermissions() {
   if (process.env.PUID && process.env.PGID) {
     const output_chmod = execSync(
       `chmod -R 755 ${ROOT_PATH}/download/incomplete/*`,

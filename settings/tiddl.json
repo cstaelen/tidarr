@@ -8,6 +8,7 @@
     "download": {
         "quality": "high",
         "path": "/home/app/standalone/download/incomplete",
+        "scan_path": "/home/app/standalone/library",
         "threads": 4,
         "singles_filter": "none",
         "embed_lyrics": false,

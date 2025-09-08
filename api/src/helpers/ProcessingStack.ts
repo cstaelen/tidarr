@@ -5,10 +5,15 @@ import { beets } from "../services/beets";
 import { gotifyPush } from "../services/gotify";
 import { plexUpdate } from "../services/plex";
 import { tidalDL } from "../services/tiddl";
-import { ProcessingItemType } from "../types";
+import { ProcessingItemType, TiddlConfig } from "../types";
 
-import { get_tiddl_config } from "./get_tiddl_config";
-import { cleanFolder, logs, moveAndClean } from "./jobs";
+import {
+  cleanFolder,
+  hasFileToMove,
+  logs,
+  moveAndClean,
+  setPermissions,
+} from "./jobs";
 import {
   addTracksToPlaylist,
   createNewPlaylist,
@@ -96,8 +101,7 @@ export const ProcessingStack = (expressApp: Express) => {
     item["status"] = "processing";
 
     if (item.type === "mix" && !process.env.IS_DOCKER) {
-      const config = await get_tiddl_config();
-
+      const config = expressApp.settings.tiddlConfig as TiddlConfig;
       item["output"] = logs(item, `Mix: get track from mix id`);
       expressApp.settings.processingList.actions.updateItem(item);
       const tracks = await getTracksByMixId(item.id, config);
@@ -128,8 +132,19 @@ export const ProcessingStack = (expressApp: Express) => {
   async function postProcessing(item: ProcessingItemType) {
     const stdout = [];
 
+    const shouldPostProcess = hasFileToMove();
+
+    if (!shouldPostProcess) {
+      item["status"] = "finished";
+      expressApp.settings.processingList.actions.updateItem(item);
+      return;
+    }
+
     // Beets process
     await beets(item.id, expressApp);
+
+    // Set permissions
+    setPermissions();
 
     // Move to output folder
     await moveAndClean(item.id, expressApp);
