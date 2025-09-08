@@ -27,15 +27,12 @@ const QualityToggleButton = ({
   label: string;
   value: QualityType;
 }) => {
-  const { config, quality } = useConfigProvider();
+  const { config } = useConfigProvider();
   const isQualityLocked = config?.LOCK_QUALITY === "true";
 
   return (
     <Tooltip title={tooltip}>
-      <ToggleButton
-        value={value}
-        disabled={isQualityLocked && quality !== value}
-      >
+      <ToggleButton value={value} disabled={isQualityLocked}>
         {label}
       </ToggleButton>
     </Tooltip>

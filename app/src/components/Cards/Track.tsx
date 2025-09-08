@@ -3,7 +3,6 @@ import { Box, Chip, Stack, useMediaQuery, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useConfigProvider } from "src/provider/ConfigProvider";
 import { TrackType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
@@ -263,11 +262,10 @@ function TrackInline({ track }: { track: TrackType }) {
 }
 
 export default function Track({ track }: { track: TrackType }) {
-  const { display } = useConfigProvider();
   const theme = useTheme();
   const isLarge = useMediaQuery(theme.breakpoints.up("md"));
 
-  if (display === "small" && isLarge) {
+  if (isLarge) {
     return <TrackInline track={track} />;
   } else {
     return <TrackCard track={track} />;

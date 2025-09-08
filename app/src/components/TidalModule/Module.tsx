@@ -40,7 +40,7 @@ export default function Module(props: ModuleContentProps) {
       case "xs":
         return 12;
       case "md":
-        return isDisplaySmall && isTrack ? 12 : 6;
+        return isTrack ? 12 : 6;
       case "lg":
         switch (true) {
           case isDisplaySmall && isTrack:
@@ -49,8 +49,6 @@ export default function Module(props: ModuleContentProps) {
             return 4;
           case !isDisplaySmall && !isTrack && !isVideo:
             return 3;
-          case !isDisplaySmall && isTrack:
-            return 6;
           case !isDisplaySmall && isVideo:
             return 4;
         }
