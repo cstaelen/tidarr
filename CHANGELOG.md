@@ -4,14 +4,14 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 0.3.2
-### 🚀 Added
-* [Docker] New env var "LOCK_QUALITY" to force only `tiddl.json` quality (#322)
 ### 🖍 Changed
+* [API] Update `tiddl` from `2.5.1` to version `2.5.2`
+* [API] Download process now skips existing files by setting `scan_path` param in `tiddl.json` (#313)
+* [Front] Set image attribute `referer-policy="no-referer"` (#321)
 * [Front] Show quality badge on result items only if not equal to "lossless"
 * [Front] Update some part of result item UI
-* [Front] Set image attribute `referer-policy="no-referer"` (#321)
-* [API] Update `tiddl` from `2.5.1` to version `2.5.2`
-* [API] Download process now skips existing files (#313)
+### 🚀 Added
+* [Docker] New env var "LOCK_QUALITY" to force only `tiddl.json` quality (#322)
 ### 🐛 Fixed
 * [Front] Quality selector struggle on "high" on load (#322)
 

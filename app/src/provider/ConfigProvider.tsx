@@ -1,8 +1,5 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
-import {
-  LOCALSTORAGE_DISPLAY_MODE,
-  LOCALSTORAGE_QUALITY_DOWNLOAD,
-} from "src/contants";
+import { LOCALSTORAGE_DISPLAY_MODE } from "src/contants";
 
 import {
   ConfigParametersType,
@@ -73,15 +70,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     setTokenMissing(data?.noToken);
     setConfig(data?.parameters);
     setTiddlConfig(data?.tiddl_config);
-
-    if (data?.parameters?.LOCK_QUALITY !== "true") {
-      setQuality(
-        (localStorage.getItem(LOCALSTORAGE_QUALITY_DOWNLOAD) as QualityType) ||
-          data?.tiddl_config?.download?.quality,
-      );
-    } else {
-      setQuality(data?.tiddl_config?.download?.quality);
-    }
+    setQuality(data?.tiddl_config?.download?.quality);
   };
 
   // Check Updates
@@ -118,11 +107,6 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     localStorage.setItem(LOCALSTORAGE_DISPLAY_MODE, display);
   }, [display]);
-
-  useEffect(() => {
-    if (!quality) return;
-    localStorage.setItem(LOCALSTORAGE_QUALITY_DOWNLOAD, quality);
-  }, [quality, tiddlConfig]);
 
   const value = {
     isUpdateAvailable,
