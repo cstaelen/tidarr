@@ -1,14 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Avatar, Box, Button, Chip, Stack, useTheme } from "@mui/material";
+import { Box, Button, Chip, Stack, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useConfigProvider } from "src/provider/ConfigProvider";
-import { customColors } from "src/utils/theme";
 
 import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
 
+import { ArtistAvatar } from "./common/ArtistAvatar";
+import { ChipQuality } from "./common/ChipQuality";
 import ImageLazy from "./common/ImageLazy";
 
 export default function AlbumCard({ album }: { album: AlbumType }) {
@@ -29,17 +30,16 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
           backgroundColor: "rgba(255, 255, 255, 0.04)",
         }}
       >
-        <Link to={`/album/${album.id}`}>
-          <Avatar
+        <Link to={`/album/${album.id}`} style={{ textDecoration: "none" }}>
+          <ArtistAvatar
             alt={album.artists?.[0]?.name}
-            sx={{ width: 42, height: 42 }}
             src={`https://resources.tidal.com/images/${album.artists?.[0]?.picture?.replace(
               /-/g,
               "/",
             )}/750x750.jpg`}
           />
         </Link>
-        <div style={{ lineHeight: 1.4, flex: "1 1 0" }}>
+        <div style={{ lineHeight: 1, flex: "1 1 0" }}>
           <Link
             to={`/album/${album.id}`}
             style={{
@@ -50,7 +50,11 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
           >
             <Typography
               component="span"
-              sx={{ lineHeight: 1, ":hover": { textDecoration: "underline" } }}
+              sx={{
+                lineHeight: 1,
+                fontSize: "0.875rem",
+                ":hover": { textDecoration: "underline" },
+              }}
             >
               <strong>{album.title}</strong>
             </Typography>
@@ -60,7 +64,10 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
             variant="subtitle2"
             color="text.secondary"
             component="span"
-            style={{ lineHeight: 1 }}
+            style={{
+              fontSize: "0.875rem",
+              lineHeight: 1,
+            }}
           >
             {` `}by{` `}
             <Button
@@ -97,60 +104,46 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
             position: "relative",
           }}
         >
-          <CardContent sx={{ flex: "0 0 auto", padding: "0.5rem !important" }}>
+          <CardContent
+            sx={{
+              flex: "0 0 auto",
+              padding: "0.5rem !important",
+              display: "flex",
+              flexDirection: "column",
+              height: "100%",
+            }}
+          >
             <Stack
               direction="row"
               flexWrap="wrap"
-              spacing={1}
+              gap={0.5}
               style={{ marginBottom: "0.5rem" }}
+              flex="1 1 0"
             >
-              <Chip
-                label={album.audioQuality?.toLowerCase()}
-                size="small"
-                style={{
-                  margin: "0.2rem",
-                  color:
-                    album?.audioQuality?.toLowerCase() === "lossless"
-                      ? theme.palette.common.white
-                      : theme.palette.common.black,
-                  backgroundColor:
-                    album?.audioQuality?.toLowerCase() === "lossless"
-                      ? customColors.gold
-                      : theme.palette.primary.main,
-                }}
-              />
-              <Chip
-                label={`${album.numberOfTracks} tracks`}
-                size="small"
-                style={{ margin: "0.2rem" }}
-              />
+              <ChipQuality quality={album?.audioQuality?.toLowerCase()} />
+              <Chip label={`${album.numberOfTracks} tracks`} size="small" />
               <Chip
                 label={`${Math.round(album.duration / 60)} min`}
                 size="small"
-                style={{ margin: "0.2rem" }}
                 variant="outlined"
               />
               <Chip
                 label={`${new Date(album.releaseDate).getFullYear()}`}
                 size="small"
                 variant="outlined"
-                style={{ margin: "0.2rem" }}
               />
               {album.explicit && (
-                <Chip
-                  label="Explicit"
-                  size="small"
-                  variant="outlined"
-                  style={{ margin: "0.2rem" }}
-                />
+                <Chip label="Explicit" size="small" variant="outlined" />
               )}
             </Stack>
-            <DownloadButton
-              item={album}
-              id={album.id}
-              type="album"
-              label="Get album"
-            />
+            <Box>
+              <DownloadButton
+                item={album}
+                id={album.id}
+                type="album"
+                label="Get album"
+              />
+            </Box>
           </CardContent>
         </Box>
       </Stack>

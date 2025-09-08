@@ -53,7 +53,7 @@ export default function ImageLazy(
       style={{ width: props.width, height: props.height, position: "relative" }}
     >
       {!loaded && <Placeholder />}
-      <img {...imgProps} />
+      <img referrerPolicy="no-referrer" alt="" {...imgProps} />
     </div>
   );
 }

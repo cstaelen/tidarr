@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 import { PlayArrow, VideoFile } from "@mui/icons-material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import {
-  Avatar,
   Box,
   Button,
   Chip,
@@ -21,6 +20,9 @@ import { VideoType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
 import { DialogHandler } from "../Dialog";
+
+import { ArtistAvatar } from "./common/ArtistAvatar";
+import ImageLazy from "./common/ImageLazy";
 
 export default function VideoCard({ video }: { video: VideoType }) {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -41,9 +43,8 @@ export default function VideoCard({ video }: { video: VideoType }) {
             backgroundColor: "rgba(255, 255, 255, 0.04)",
           }}
         >
-          <Avatar
+          <ArtistAvatar
             alt={video.artists?.[0]?.name}
-            sx={{ width: 42, height: 42 }}
             src={`https://resources.tidal.com/images/${video.artists?.[0]?.picture?.replace(
               /-/g,
               "/",
@@ -56,7 +57,10 @@ export default function VideoCard({ video }: { video: VideoType }) {
               target="_blank"
               underline="none"
             >
-              <Typography component="span" style={{ lineHeight: 1 }}>
+              <Typography
+                component="span"
+                style={{ lineHeight: 1, fontSize: "0.875rem" }}
+              >
                 <strong>{video.title}</strong>
               </Typography>
               <OpenInNewIcon
@@ -91,15 +95,8 @@ export default function VideoCard({ video }: { video: VideoType }) {
         </Stack>
         <Stack direction="column">
           <PlayButton onClick={() => setShowModal(true)}>
-            <Box
-              style={{
-                height: 0,
-                paddingBottom: "56%",
-                width: "100%",
-                position: "relative",
-              }}
-            >
-              <img
+            <Box style={{}}>
+              <ImageLazy
                 height="100%"
                 width="100%"
                 src={`https://resources.tidal.com/images/${video.imageId?.replace(
@@ -108,9 +105,9 @@ export default function VideoCard({ video }: { video: VideoType }) {
                 )}/750x750.jpg`}
                 alt="Live from space album cover"
                 style={{
-                  position: "absolute",
                   objectFit: "cover",
-                  left: 0,
+                  width: "100%",
+                  height: "220px",
                 }}
               />
               <PlayArrow
@@ -140,26 +137,28 @@ export default function VideoCard({ video }: { video: VideoType }) {
               <Stack
                 direction="row"
                 flexWrap="wrap"
-                spacing={12}
+                gap={2}
                 alignItems="center"
                 padding={0.5}
               >
-                <Box sx={{ flex: "auto" }}>
+                <Box flex="1 1 0">
                   <Chip
                     label={`${Math.round(video.duration / 60)} min.`}
                     color="success"
                     size="small"
                   />
                 </Box>
-                <DownloadButton
-                  item={{
-                    ...video,
-                    url: `video/${video.id}`,
-                  }}
-                  id={video.id}
-                  type="video"
-                  label="Get video"
-                />
+                <Box>
+                  <DownloadButton
+                    item={{
+                      ...video,
+                      url: `video/${video.id}`,
+                    }}
+                    id={video.id}
+                    type="video"
+                    label="Get video"
+                  />
+                </Box>
               </Stack>
             </CardContent>
           </Box>

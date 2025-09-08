@@ -230,7 +230,7 @@ export type ConfigTiddleType = {
     playlist: string;
   };
   download: {
-    quality: string;
+    quality: QualityType;
     path: string;
     threads: number;
     singles_filter: string;

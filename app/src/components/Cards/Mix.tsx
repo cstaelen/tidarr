@@ -42,6 +42,7 @@ export default function Mix({ mix }: { mix: MixType }) {
               component="span"
               sx={{
                 lineHeight: 1,
+                fontSize: "0.875rem",
                 ":hover": { textDecoration: "underline" },
               }}
             >
@@ -68,9 +69,18 @@ export default function Mix({ mix }: { mix: MixType }) {
           }}
         >
           <CardContent
-            sx={{ flex: "0 0 auto", padding: "0.5rem 1rem !important" }}
+            sx={{
+              flex: "0 0 auto",
+              padding: "0.5rem 1rem !important",
+              flexDirection: "column",
+              height: "100%",
+              display: "flex",
+            }}
           >
-            <Typography variant="subtitle2" sx={{ lineHeight: 1.4, mb: 1 }}>
+            <Typography
+              variant="subtitle2"
+              sx={{ lineHeight: 1.4, mb: 1, flex: "1 1 0" }}
+            >
               {mix.subTitle}
             </Typography>
             <Stack direction="row" flexWrap="wrap" spacing={1}>

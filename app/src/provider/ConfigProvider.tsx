@@ -20,7 +20,7 @@ type ConfigContextType = {
   isUpdateAvailable: boolean;
   releaseData: undefined | ReleaseGithubType;
   tokenMissing: boolean;
-  quality: QualityType;
+  quality: undefined | QualityType;
   display: DisplayType;
   config: undefined | ConfigParametersType;
   tiddlConfig: undefined | ConfigTiddleType;
@@ -46,11 +46,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [config, setConfig] = useState<ConfigParametersType>();
   const [tiddlConfig, setTiddlConfig] = useState<ConfigTiddleType>();
 
-  const [quality, setQuality] = useState<QualityType>(
-    (localStorage.getItem(LOCALSTORAGE_QUALITY_DOWNLOAD) as QualityType) ||
-      tiddlConfig?.download?.quality ||
-      "high",
-  );
+  const [quality, setQuality] = useState<QualityType>();
 
   const [display, setDisplay] = useState<DisplayType>(
     (localStorage.getItem(LOCALSTORAGE_DISPLAY_MODE) as DisplayType) || "small",
@@ -73,9 +69,19 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     }
     const output = await check();
     const data = output as ConfigType;
+
     setTokenMissing(data?.noToken);
     setConfig(data?.parameters);
     setTiddlConfig(data?.tiddl_config);
+
+    if (data?.parameters?.LOCK_QUALITY !== "true") {
+      setQuality(
+        (localStorage.getItem(LOCALSTORAGE_QUALITY_DOWNLOAD) as QualityType) ||
+          data?.tiddl_config?.download?.quality,
+      );
+    } else {
+      setQuality(data?.tiddl_config?.download?.quality);
+    }
   };
 
   // Check Updates
@@ -114,6 +120,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   }, [display]);
 
   useEffect(() => {
+    if (!quality) return;
     localStorage.setItem(LOCALSTORAGE_QUALITY_DOWNLOAD, quality);
   }, [quality, tiddlConfig]);
 

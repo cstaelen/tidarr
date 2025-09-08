@@ -31,6 +31,30 @@ interface ModuleContentProps {
 export default function Module(props: ModuleContentProps) {
   const { display } = useConfigProvider();
 
+  function getCols(breakpoint: string) {
+    if (!props.type) return;
+    const isTrack = ["TRACK_LIST", "ALBUM_ITEMS"].includes(props.type);
+    const isDisplaySmall = display === "small";
+    const isVideo = ["VIDEO_LIST"].includes(props.type);
+    switch (breakpoint) {
+      case "xs":
+        return 12;
+      case "md":
+        return isTrack ? 12 : 6;
+      case "lg":
+        switch (true) {
+          case isDisplaySmall && isTrack:
+            return 12;
+          case isDisplaySmall && !isTrack:
+            return 4;
+          case !isDisplaySmall && !isTrack && !isVideo:
+            return 3;
+          case !isDisplaySmall && isVideo:
+            return 4;
+        }
+    }
+  }
+
   return (
     <Grid container spacing={2} className="module">
       {props.data && props.data?.length > 0 ? (
@@ -53,18 +77,8 @@ export default function Module(props: ModuleContentProps) {
               data-testid="item"
               size={{
                 xs: 12,
-                md:
-                  display === "small" &&
-                  props.type &&
-                  ["TRACK_LIST", "ALBUM_ITEMS"].includes(props.type)
-                    ? 12
-                    : 6,
-                lg:
-                  display === "small" &&
-                  props.type &&
-                  ["TRACK_LIST", "ALBUM_ITEMS"].includes(props.type)
-                    ? 12
-                    : 4,
+                md: getCols("md"),
+                lg: getCols("lg"),
               }}
               key={`album-${index}`}
             >
