@@ -5,7 +5,7 @@ Tidarr notable changes.
 
 ## 📦 0.3.3
 ### 🚀 Added
-* [API] Use proxy to query Tidal API
+* [API] Use proxy to query Tidal API for more privacy
 
 ## 📦 0.3.2
 ### 🖍 Changed
