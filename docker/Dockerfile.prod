@@ -14,8 +14,6 @@ RUN apk add npm nodejs py3-pip
 INCLUDE docker/stages/Dockerfile.python
 INCLUDE docker/stages/Dockerfile.runner
 
-RUN mkdir -p /home/app/standalone/download/incomplete/
-
 ARG VERSION
 ENV VERSION=$VERSION
 

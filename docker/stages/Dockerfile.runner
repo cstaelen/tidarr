@@ -10,6 +10,8 @@ COPY --from=app_builder /home/app/build/settings /home/app/standalone/settings
 COPY --from=app_builder /home/app/build/.env /home/app/standalone/.env
 COPY --from=app_builder /home/app/build/docker/run-prod.sh /home/app/standalone/docker/run-prod.sh
 
+RUN mkdir -p /home/app/standalone/download/incomplete/
+
 RUN npm install -g yarn
 COPY api/package.json .
 COPY api/yarn.lock .

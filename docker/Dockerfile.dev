@@ -7,7 +7,6 @@ ENV SHELL=bash
 ARG NODE_ENV
 ENV NODE_ENV="${NODE_ENV}"
 ENV ENVIRONMENT="development"
-
 ENV VERSION="0.0.0-dev"
 
 RUN apk update && apk upgrade

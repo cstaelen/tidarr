@@ -22,8 +22,6 @@ RUN python -m pip install -r docker/requirements.txt
 
 INCLUDE docker/stages/Dockerfile.runner
 
-RUN mkdir -p /home/app/standalone/download/incomplete/
-
 ENV IS_DOCKER=true
 ENV VERSION="0.0.0-testing"
 
