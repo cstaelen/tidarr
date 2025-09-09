@@ -10,7 +10,7 @@ export default function ModuleLoader() {
         width={460}
         height={40}
         animation="wave"
-        sx={{ my: 5 }}
+        sx={{ my: 5, maxWidth: "100%" }}
       />
       <AlbumsLoader />
     </Box>
