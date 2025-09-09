@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { ConfigTiddleType } from "src/types";
 
-import { TIDAL_API_URL } from "../contants";
-
 const jsonMimeType = "application/json";
 
 async function fetchTidal<T>(
@@ -29,9 +27,12 @@ async function fetchTidal<T>(
     options.headers.set("Content-Type", jsonMimeType);
   }
 
-  const response = await fetch(`${TIDAL_API_URL}${url}${url_suffix}`, {
-    ...options,
-  });
+  const response = await fetch(
+    `${import.meta.env.VITE_TIDARR_PROXY_URL}${url}${url_suffix}`,
+    {
+      ...options,
+    },
+  );
 
   // success
 

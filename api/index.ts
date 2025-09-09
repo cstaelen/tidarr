@@ -1,6 +1,7 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
+import proxy from "express-http-proxy";
 import fs from "fs";
 
 import { ensureAccessIsGranted } from "./src/helpers/auth";
@@ -8,6 +9,7 @@ import { ProcessingStack, sendSSEUpdate } from "./src/helpers/ProcessingStack";
 import { is_auth_active, proceed_auth } from "./src/services/auth";
 import { configureServer } from "./src/services/config";
 import { deleteTiddlConfig, tidalToken } from "./src/services/tiddl";
+import { TIDAL_API_URL } from "./constants";
 
 dotenv.config({ path: "../.env", override: false });
 
@@ -18,6 +20,16 @@ const app: Express = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(
+  "/proxy",
+  proxy(TIDAL_API_URL, {
+    proxyReqOptDecorator: function (proxyReqOpts) {
+      delete proxyReqOpts.headers["referer"];
+      delete proxyReqOpts.headers["origin"];
+      return proxyReqOpts;
+    },
+  }),
+);
 
 const processingList = ProcessingStack(app);
 app.set("processingList", processingList);
