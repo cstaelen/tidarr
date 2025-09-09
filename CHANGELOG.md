@@ -6,6 +6,7 @@ Tidarr notable changes.
 ## 📦 0.3.3
 ### 🚀 Added
 * [API] Use proxy to query Tidal API for more privacy
+* [CI] Yarn audit
 
 ## 📦 0.3.2
 ### 🖍 Changed
