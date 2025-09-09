@@ -11,6 +11,10 @@ async function fetchTidal<T>(
 ): Promise<T | undefined> {
   const countryCode = tiddlConfig?.auth.country_code || "EN";
   const TOKEN = tiddlConfig?.auth.token;
+  const apiUrl =
+    import.meta.env.MODE === "development"
+      ? import.meta.env.VITE_TIDARR_PROXY_URL
+      : "/proxy";
 
   options.headers = new Headers({
     ...options?.headers,
@@ -27,12 +31,9 @@ async function fetchTidal<T>(
     options.headers.set("Content-Type", jsonMimeType);
   }
 
-  const response = await fetch(
-    `${import.meta.env.VITE_TIDARR_PROXY_URL}${url}${url_suffix}`,
-    {
-      ...options,
-    },
-  );
+  const response = await fetch(`${apiUrl}${url}${url_suffix}`, {
+    ...options,
+  });
 
   // success
 

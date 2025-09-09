@@ -11,7 +11,7 @@ import { configureServer } from "./src/services/config";
 import { deleteTiddlConfig, tidalToken } from "./src/services/tiddl";
 import { TIDAL_API_URL } from "./constants";
 
-dotenv.config({ path: "../.env", override: false });
+dotenv.config({ path: "../.env", override: false, quiet: true });
 
 const port = 8484;
 const hostname = "0.0.0.0";

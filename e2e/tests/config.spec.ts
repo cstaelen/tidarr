@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import { emptyProcessingList, goToHome } from "./utils/helpers";
 import { mockConfigAPI, mockRelease } from "./utils/mock";
 
-dotenv.config({ path: "../.env", override: false });
+dotenv.config({ path: "../.env", override: false, quiet: true });
 
 const CURRENT_VERSION = "0.0.0-testing";
 
