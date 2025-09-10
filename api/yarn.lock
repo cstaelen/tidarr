@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@types/apicache@^1.6.7":
+  version "1.6.7"
+  resolved "https://registry.yarnpkg.com/@types/apicache/-/apicache-1.6.7.tgz#c5b27420ed279b58c53b0b15fd2ddeefe55ba844"
+  integrity sha512-V2RIIUE0ETIQoMh79hE30+PVL+M5ulvYTZowbLz0h1nDHPucpIcYfMnmfbA24QshkFYCWlaI+7aCa7NwauZsvQ==
+  dependencies:
+    "@types/express" "*"
+    "@types/redis" "^2.8.0"
+
 "@types/body-parser@*":
   version "1.19.5"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.19.5.tgz#04ce9a3b677dc8bd681a17da1ab9835dc9d3ede4"
@@ -90,6 +98,13 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.7.tgz#50ae4353eaaddc04044279812f52c8c65857dbcb"
   integrity sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==
 
+"@types/redis@^2.8.0":
+  version "2.8.32"
+  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.32.tgz#1d3430219afbee10f8cfa389dad2571a05ecfb11"
+  integrity sha512-7jkMKxcGq9p242exlbsVzuJb57KqHRhNl4dHoQu2Y5v9bCAbtIXXH0R3HleSQW4CTOqpHIYUW3t6tpUj4BVQ+w==
+  dependencies:
+    "@types/node" "*"
+
 "@types/send@*":
   version "0.17.4"
   resolved "https://registry.yarnpkg.com/@types/send/-/send-0.17.4.tgz#6619cd24e7270793702e4e6a4b958a9010cfc57a"
@@ -114,6 +129,11 @@ accepts@^2.0.0:
   dependencies:
     mime-types "^3.0.0"
     negotiator "^1.0.0"
+
+apicache@^1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/apicache/-/apicache-1.6.3.tgz#4441aa40f2a48c9dd6f11c73be937d563405355b"
+  integrity sha512-jS3VfUFpQ9BesFQZcdd1vVYg3ZsO2kGPmTJHqycIYPAQs54r74CRiyj8DuzJpwzLwIfCBYzh4dy9Jt8xYbo27w==
 
 body-parser@^2.2.0:
   version "2.2.0"
