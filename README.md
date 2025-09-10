@@ -202,7 +202,7 @@ Force use of `tiddl.json` quality value and disable quality selector in app
 
 ### Proxy
 
-If your instance is exposed, you may want to use proxy for tidal server queries :
+You may want to use proxy for tidal server queries to enhance privacy.
 
 ```yaml
  environment:

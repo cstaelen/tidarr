@@ -5,6 +5,7 @@ import {
   Alert,
   Box,
   Button,
+  Link,
   Paper,
   Tab,
   Table,
@@ -16,6 +17,7 @@ import {
   Tabs,
 } from "@mui/material";
 import Markdown from "markdown-to-jsx";
+import { TIDARR_REPO_URL } from "src/contants";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
@@ -137,6 +139,13 @@ export const DialogConfig = () => {
                   </MarkdownStyled>
                 </code>
               </Paper>
+              <br />
+              <Link
+                target="_BLANK"
+                href={`https://github.com/${TIDARR_REPO_URL}/releases`}
+              >
+                See older releases
+              </Link>
             </>
           )}
         </>

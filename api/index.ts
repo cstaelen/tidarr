@@ -6,9 +6,10 @@ import proxy from "express-http-proxy";
 import fs from "fs";
 
 import { ensureAccessIsGranted } from "./src/helpers/auth";
+import { get_tiddl_config } from "./src/helpers/get_tiddl_config";
 import { ProcessingStack, sendSSEUpdate } from "./src/helpers/ProcessingStack";
 import { is_auth_active, proceed_auth } from "./src/services/auth";
-import { configureServer } from "./src/services/config";
+import { configureServer, refreshTidalToken } from "./src/services/config";
 import { deleteTiddlConfig, tidalToken } from "./src/services/tiddl";
 import { TIDAL_API_URL } from "./constants";
 
@@ -129,20 +130,19 @@ app.get(
 
 // api check config
 
-app.get(
-  "/api/check",
-  ensureAccessIsGranted,
-  async (req: Request, res: Response) => {
-    const response = await configureServer();
+app.get("/api/check", ensureAccessIsGranted, (_req: Request, res: Response) => {
+  refreshTidalToken();
+  const tiddl_config = get_tiddl_config();
+  res.status(200).json({
+    ...app.settings.config,
+    noToken: tiddl_config?.auth?.token.length === 0,
+    tiddl_config: tiddl_config,
+  });
+});
 
-    app.set("tiddlConfig", response?.tiddl_config);
-
-    res.send(response);
-  },
-);
-
-app.listen(port, () => {
-  configureServer();
+app.listen(port, async () => {
+  const config = await configureServer();
+  app.set("config", config);
   console.log(`⚡️[server]: Server is running at http://${hostname}:${port}`);
 });
 

@@ -45,8 +45,13 @@ const ApiFetcherContext = React.createContext<ApiFetcherContextType>(
 );
 
 export function APIFetcherProvider({ children }: { children: ReactNode }) {
-  const apiUrl = TIDARR_API_URL;
   const [apiError, setApiError] = useState<Response>();
+
+  let apiUrl = TIDARR_API_URL;
+
+  if (import.meta.env.MODE !== "development") {
+    apiUrl = apiUrl.replace("http://localhost:8484", "");
+  }
 
   async function queryExpressJS<T>(
     url: string,

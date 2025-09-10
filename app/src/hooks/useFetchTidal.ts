@@ -14,7 +14,11 @@ async function fetchTidal<T>(
   const countryCode = tiddlConfig?.auth.country_code || "EN";
   const TOKEN = tiddlConfig?.auth.token;
 
-  const apiUrl = useProxy ? TIDARR_PROXY_URL : TIDAL_API_URL;
+  let apiUrl = useProxy ? TIDARR_PROXY_URL : TIDAL_API_URL;
+
+  if (import.meta.env.MODE !== "development") {
+    apiUrl = apiUrl.replace("http://localhost:8484", "");
+  }
 
   options.headers = new Headers({
     ...options?.headers,

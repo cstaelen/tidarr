@@ -4,7 +4,6 @@
 
 # production
 /dist
-/public/env-config.js
 
 # misc
 .DS_Store
