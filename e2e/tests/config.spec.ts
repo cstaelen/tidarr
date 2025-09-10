@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import { emptyProcessingList, goToHome } from "./utils/helpers";
 import { mockConfigAPI, mockRelease } from "./utils/mock";
 
-dotenv.config({ path: "../.env", override: false });
+dotenv.config({ path: "../.env", override: false, quiet: true });
 
 const CURRENT_VERSION = "0.0.0-testing";
 
@@ -88,6 +88,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     ["ENABLE_APPRISE_API", ""],
     ["APPRISE_API_ENDPOINT", ""],
     ["APPRISE_API_TAG", ""],
+    ["ENABLE_TIDAL_PROXY", ""],
   ];
   const tableAPIRows = await page
     .locator("#alert-dialog-description div")

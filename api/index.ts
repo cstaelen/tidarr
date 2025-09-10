@@ -1,23 +1,39 @@
+import apicache from "apicache";
 import cors from "cors";
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
+import proxy from "express-http-proxy";
 import fs from "fs";
 
 import { ensureAccessIsGranted } from "./src/helpers/auth";
+import { get_tiddl_config } from "./src/helpers/get_tiddl_config";
 import { ProcessingStack, sendSSEUpdate } from "./src/helpers/ProcessingStack";
 import { is_auth_active, proceed_auth } from "./src/services/auth";
-import { configureServer } from "./src/services/config";
+import { configureServer, refreshTidalToken } from "./src/services/config";
 import { deleteTiddlConfig, tidalToken } from "./src/services/tiddl";
+import { TIDAL_API_URL } from "./constants";
 
-dotenv.config({ path: "../.env", override: false });
+dotenv.config({ path: "../.env", override: false, quiet: true });
 
 const port = 8484;
 const hostname = "0.0.0.0";
 
 const app: Express = express();
+const cache = apicache.middleware;
 
 app.use(express.json());
 app.use(cors());
+app.use(
+  "/proxy",
+  cache("1 minute"),
+  proxy(TIDAL_API_URL, {
+    proxyReqOptDecorator: function (proxyReqOpts) {
+      delete proxyReqOpts.headers["referer"];
+      delete proxyReqOpts.headers["origin"];
+      return proxyReqOpts;
+    },
+  }),
+);
 
 const processingList = ProcessingStack(app);
 app.set("processingList", processingList);
@@ -114,20 +130,19 @@ app.get(
 
 // api check config
 
-app.get(
-  "/api/check",
-  ensureAccessIsGranted,
-  async (req: Request, res: Response) => {
-    const response = await configureServer();
+app.get("/api/check", ensureAccessIsGranted, (_req: Request, res: Response) => {
+  refreshTidalToken();
+  const tiddl_config = get_tiddl_config();
+  res.status(200).json({
+    ...app.settings.config,
+    noToken: tiddl_config?.auth?.token.length === 0,
+    tiddl_config: tiddl_config,
+  });
+});
 
-    app.set("tiddlConfig", response?.tiddl_config);
-
-    res.send(response);
-  },
-);
-
-app.listen(port, () => {
-  configureServer();
+app.listen(port, async () => {
+  const config = await configureServer();
+  app.set("config", config);
   console.log(`⚡️[server]: Server is running at http://${hostname}:${port}`);
 });
 

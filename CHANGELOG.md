@@ -3,6 +3,11 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.3.3
+### 🚀 Added
+* [API] Use `ENABLE_TIDAL_PROXY` var to proxy tidal API queries for more privacy
+* [CI] Yarn audit
+
 ## 📦 0.3.2
 ### 🖍 Changed
 * [API] Update `tiddl` from `2.5.1` to version `2.5.2`

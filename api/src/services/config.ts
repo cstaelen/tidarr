@@ -1,8 +1,6 @@
-import { execSync } from "child_process";
+import { execSync, spawnSync } from "child_process";
 
 import { BUILD_PATH } from "../../constants";
-import { get_tiddl_config } from "../helpers/get_tiddl_config";
-import { TiddlConfig } from "../types";
 
 export async function configureServer() {
   console.log(`=== Set config files ===`);
@@ -17,13 +15,7 @@ export async function configureServer() {
     );
     console.log("Tidarr configuration :", output_config);
 
-    const hasTiddlConfig = !output_config?.includes("[Tiddl] Init config OK");
-
-    const tiddl_config = get_tiddl_config() as TiddlConfig;
-
     return {
-      noToken: !hasTiddlConfig || tiddl_config?.auth?.token.length === 0,
-      tiddl_config: tiddl_config,
       output: output_config,
       parameters: {
         ENABLE_BEETS: process.env.ENABLE_BEETS || "",
@@ -42,9 +34,15 @@ export async function configureServer() {
         APPRISE_API_ENDPOINT: process.env.APPRISE_API_ENDPOINT || "",
         APPRISE_API_TAG: process.env.APPRISE_API_TAG || "",
         LOCK_QUALITY: process.env.LOCK_QUALITY || "",
+        ENABLE_TIDAL_PROXY: process.env.ENABLE_TIDAL_PROXY || "",
       },
     };
   } catch (error: unknown) {
     console.log("Error config", error);
   }
+}
+
+export function refreshTidalToken() {
+  spawnSync("tiddl", ["auth", "refresh"]);
+  console.log("Refreshing Tidal token...");
 }
