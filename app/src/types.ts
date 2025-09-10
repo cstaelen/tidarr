@@ -293,7 +293,7 @@ export type ProcessingItemType = {
   title: string;
   quality: QualityType;
   type: "artist" | "album" | "track" | "playlist" | "video" | "mix";
-  status: "queue" | "finished" | "beet" | "processing" | "error";
+  status: "queue" | "finished" | "processing" | "error";
   url: string;
   loading: boolean;
   error: boolean;

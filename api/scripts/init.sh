@@ -20,19 +20,3 @@ else
     tiddl auth refresh
     echo "[Tiddl] Init config OK"
 fi
-
-if [ ! -f "$SHARED_URL/beets-config.yml" ]; then    
-    cp $SETTINGS_URL/beets-config.yml $SHARED_URL/beets-config.yml
-    echo "[Beets] Config OK"
-fi
-
-if [ ! -f "$SHARED_URL/beets/beets-library.blb" ]; then    
-    mkdir -p $SHARED_URL/beets
-    touch $SHARED_URL/beets/beets-library.blb
-    echo "[Beets] DB OK"
-fi
-
-if [ ! -f "$SHARED_URL/beets/beet.log" ]; then    
-    touch $SHARED_URL/beets/beet.log
-    echo "[Beets] Log OK"
-fi

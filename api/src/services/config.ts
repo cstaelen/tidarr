@@ -26,7 +26,6 @@ export async function configureServer() {
       tiddl_config: tiddl_config,
       output: output_config,
       parameters: {
-        ENABLE_BEETS: process.env.ENABLE_BEETS || "",
         ENABLE_PLEX_UPDATE: process.env.ENABLE_PLEX_UPDATE || "",
         PLEX_URL: process.env.PLEX_URL || "",
         PLEX_LIBRARY: process.env.PLEX_LIBRARY || "",

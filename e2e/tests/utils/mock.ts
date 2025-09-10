@@ -147,7 +147,6 @@ export async function mockConfigAPI(page: Page) {
       noToken: false,
       output: "",
       parameters: {
-        ENABLE_BEETS: "true",
         ENABLE_PLEX_UPDATE: "true",
         PLEX_URL: "http://plex.url",
         PLEX_LIBRARY: "3",

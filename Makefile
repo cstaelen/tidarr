@@ -74,7 +74,6 @@ docker-run: ## Run tidarr docker image
 		-p 8484:8484 \
 		-v ${PWD}/docker/mnt/config/:/home/app/standalone/shared \
 		-v ${PWD}/docker/mnt/library:/home/app/standalone/library/ \
-		-e ENABLE_BEETS=true \
 		-e PUID=501 \
 		-e PGID=501 \
 		-e ADMIN_PASSWORD=tidarr \

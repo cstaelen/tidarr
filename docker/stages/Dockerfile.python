@@ -8,10 +8,7 @@ RUN python3 -m venv $HOME/.venvs
 RUN source $HOME/.venvs/bin/activate
 ENV PATH="$HOME/.venvs/bin:$PATH"
 
-RUN apk add ffmpeg beets
+RUN apk add ffmpeg
 
 COPY docker/requirements.txt docker/requirements.txt
 RUN python -m pip install -r docker/requirements.txt
-
-RUN mkdir -p /home/app/standalone/shared/beets
-RUN touch /home/app/standalone/shared/beets/beets-library.blb

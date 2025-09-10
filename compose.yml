@@ -17,7 +17,6 @@ services:
       - PUID=
       - PGID=
       - TZ=Etc/UTC
-      - ENABLE_BEETS=
       - ENABLE_PLEX_UPDATE=
       - PLEX_URL=
       - PLEX_LIBRARY=
@@ -43,7 +42,6 @@ services:
       - 7357:8484
       - 9323:9323
     environment:
-      - ENABLE_BEETS=true
       - ENABLE_PLEX_UPDATE=true
       - PLEX_URL=http://plex.url
       - PLEX_LIBRARY=3

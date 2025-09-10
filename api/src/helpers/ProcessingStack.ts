@@ -1,7 +1,6 @@
 import { Express, Request, Response } from "express";
 
 import { appriseApiPush } from "../services/apprise-api";
-import { beets } from "../services/beets";
 import { gotifyPush } from "../services/gotify";
 import { plexUpdate } from "../services/plex";
 import { tidalDL } from "../services/tiddl";
@@ -139,9 +138,6 @@ export const ProcessingStack = (expressApp: Express) => {
       expressApp.settings.processingList.actions.updateItem(item);
       return;
     }
-
-    // Beets process
-    await beets(item.id, expressApp);
 
     // Set permissions
     setPermissions();
