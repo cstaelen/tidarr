@@ -73,7 +73,6 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
   await page.getByRole("tab", { name: "Environment vars" }).click();
 
   const dataAPIRows = [
-    ["ENABLE_BEETS", "true"],
     ["ENABLE_PLEX_UPDATE", "true"],
     ["PLEX_URL", "http://plex.url"],
     ["PLEX_LIBRARY", "3"],

@@ -1,5 +1,5 @@
 # Self-hosted Tidal Media Downloader Docker Image
-Tidarr is a Docker image that provides a web interface to download up to **24-bit 192.0 kHz** media from Tidal (tracks, albums, playlists, music videos). Format on the fly with Beets, automatically update your Plex library, and push notifications with Gotify.
+Tidarr is a Docker image that provides a web interface to download up to **24-bit 192.0 kHz** media from Tidal (tracks, albums, playlists, music videos). Automatically update your Plex library, and push notifications with Gotify.
 
 [![GitHub Stars](https://img.shields.io/github/stars/cstaelen/tidarr.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr)
 [![GitHub Release](https://img.shields.io/github/release-date/cstaelen/tidarr?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr/releases)
@@ -23,7 +23,6 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Password protection](#password-protection)
   - [Lock quality selector](#lock-quality-selector)
 - [Services](#services):
-  - [Beets](#beets)
   - [Plex/Plexamp](#plex-update)
   - [Gotify](#gotify)
   - [Apprise Api](#apprise-api)
@@ -51,7 +50,6 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 
 ### Service integration
 
-- **[Beets.io](https://beets.readthedocs.io/en/stable/)** - Tag releases 
 - **[Gotify](https://gotify.net/)** - Push notifications 
 - **[Apprise API](https://github.com/caronc/apprise-api)** - Push notifications
 - **[Plex](https://www.plex.tv/)** - Library update
@@ -200,18 +198,6 @@ Force use of `tiddl.json` quality value and disable quality selector in app
 ```
 
 ## Services
-
-### Beets
-
-Add to your *docker-compose* file in `environment:` section :
-
-```yaml
-environment:
-  - ...
-  - ENABLE_BEETS=true
-```   
-
-Beets options in `</mounted/config/folder/>beets-config.yml`:
 
 ### Plex update
 

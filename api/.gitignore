@@ -2,7 +2,6 @@
 
 # project
 /download
-/settings/beets/*
 /shared
 /docker/mnt
 .tiddl_config.json
