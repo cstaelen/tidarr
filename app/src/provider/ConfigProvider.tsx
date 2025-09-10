@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
-import { LOCALSTORAGE_DISPLAY_MODE } from "src/contants";
+import { LOCALSTORAGE_DISPLAY_MODE, TIDARR_REPO_URL } from "src/contants";
 
 import {
   ConfigParametersType,
@@ -78,7 +78,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     if (config?.TIDARR_VERSION) {
       try {
         const response = await fetch(
-          `https://api.github.com/repos/${import.meta.env?.VITE_TIDARR_REPO_URL}/releases`,
+          `https://api.github.com/repos/${TIDARR_REPO_URL}/releases`,
         );
 
         const data = (await response?.json()) as ReleaseGithubType[];

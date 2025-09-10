@@ -42,6 +42,7 @@ export async function configureServer() {
         APPRISE_API_ENDPOINT: process.env.APPRISE_API_ENDPOINT || "",
         APPRISE_API_TAG: process.env.APPRISE_API_TAG || "",
         LOCK_QUALITY: process.env.LOCK_QUALITY || "",
+        ENABLE_TIDAL_PROXY: process.env.ENABLE_TIDAL_PROXY || "",
       },
     };
   } catch (error: unknown) {

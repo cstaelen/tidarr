@@ -35,7 +35,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8484",
   "dependencies": {
     "markdown-to-jsx": "^7.7.13"
   }

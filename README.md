@@ -22,6 +22,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [PUID/PGID](#puid-pgid)
   - [Password protection](#password-protection)
   - [Lock quality selector](#lock-quality-selector)
+  - [Proxy](#proxy)
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-update)
@@ -197,6 +198,16 @@ Force use of `tiddl.json` quality value and disable quality selector in app
  environment:
   - ...
   - LOCK_QUALITY=true
+```
+
+### Proxy
+
+If your instance is exposed, you may want to use proxy for tidal server queries :
+
+```yaml
+ environment:
+  - ...
+  - ENABLE_TIDAL_PROXY=true
 ```
 
 ## Services

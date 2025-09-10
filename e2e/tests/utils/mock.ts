@@ -162,6 +162,7 @@ export async function mockConfigAPI(page: Page) {
         ENABLE_APPRISE_API: "",
         APPRISE_API_ENDPOINT: "",
         APPRISE_API_TAG: "",
+        ENABLE_TIDAL_PROXY: "true",
       },
       tiddl_config: {
         auth: {

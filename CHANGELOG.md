@@ -5,7 +5,7 @@ Tidarr notable changes.
 
 ## 📦 0.3.3
 ### 🚀 Added
-* [API] Use proxy to query Tidal API for more privacy
+* [API] Use `ENABLE_TIDAL_PROXY` var to proxy tidal API queries for more privacy
 * [CI] Yarn audit
 
 ## 📦 0.3.2

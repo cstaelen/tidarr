@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { GitHub } from "@mui/icons-material";
 import { Button, Link, useTheme } from "@mui/material";
+import { TIDARR_REPO_URL } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { customColors } from "src/utils/theme";
 
@@ -33,7 +34,7 @@ export const Footer = () => {
       )}
       &nbsp;
       <Link
-        href={`https://github.com/${import.meta.env?.VITE_TIDARR_REPO_URL}`}
+        href={`https://github.com/${TIDARR_REPO_URL}`}
         target="_blank"
         sx={{
           verticalAlign: "middle",
