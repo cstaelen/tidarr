@@ -88,6 +88,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     ["ENABLE_APPRISE_API", ""],
     ["APPRISE_API_ENDPOINT", ""],
     ["APPRISE_API_TAG", ""],
+    ["ENABLE_TIDAL_PROXY", ""],
   ];
   const tableAPIRows = await page
     .locator("#alert-dialog-description div")
