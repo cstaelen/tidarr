@@ -35,9 +35,12 @@ export const usePlaylist = (id: string | undefined): PlaylistContextType => {
     const data_tracks = await fetchTidal<
       TidalPagedListType<{ item: TrackType }>
     >(
-      `/v1/playlists/${id}/items?limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
-        (page - 1) * TIDAL_ITEMS_PER_PAGE
-      }`,
+      "/v1/playlists/${id}/items",
+      {},
+      {
+        limit: TIDAL_ITEMS_PER_PAGE,
+        offset: (page - 1) * TIDAL_ITEMS_PER_PAGE,
+      },
     );
 
     if (data_tracks) {

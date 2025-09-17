@@ -45,9 +45,13 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
   async function queryTidal(query: string) {
     const results = await fetchTidal<TidalResponseType>(
-      `/v1/search?query=${query}&type=lossless&limit=${TIDAL_ITEMS_PER_PAGE}&offset=${
-        (page - 1) * TIDAL_ITEMS_PER_PAGE
-      }`,
+      "/v1/search",
+      {},
+      {
+        query: query,
+        offset: (page - 1) * TIDAL_ITEMS_PER_PAGE,
+        limit: TIDAL_ITEMS_PER_PAGE,
+      },
     );
 
     const clone = { ...searchResults };

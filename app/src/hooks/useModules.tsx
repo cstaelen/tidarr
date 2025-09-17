@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useFetchTidal } from "src/hooks/useFetchTidal";
+import { FetchTidalSearchProps, useFetchTidal } from "src/hooks/useFetchTidal";
 
 import {
   AlbumType,
@@ -34,6 +34,7 @@ type ModuleContextType = {
       url: string,
       page: number,
       limit: number,
+      search?: FetchTidalSearchProps,
     ) => Promise<PagedModuleResponseType | undefined>;
   };
 };
@@ -54,10 +55,21 @@ export const useModules = (): ModuleContextType => {
     setLoading(false);
   }
 
-  async function queryModulePage(url: string, page: number, limit: number) {
+  async function queryModulePage(
+    url: string,
+    page: number,
+    limit: number,
+    search?: FetchTidalSearchProps,
+  ) {
     setPagedModuleLoading(true);
     const modulePageData = await fetchTidal<PagedModuleResponseType>(
-      `${url}${url.includes("?") ? "&" : "?"}limit=${limit}&offset=${page * limit}`,
+      url,
+      {},
+      {
+        limit: limit,
+        offset: page * limit,
+        ...search,
+      },
     );
     setPagedModuleLoading(false);
 

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { TIDAL_ITEMS_PER_PAGE } from "src/contants";
+import { FetchTidalSearchProps } from "src/hooks/useFetchTidal";
 import { useModules } from "src/hooks/useModules";
 import {
   AlbumType,
@@ -13,21 +14,26 @@ import {
 
 import PagerButton from "../../components/Buttons/PagerButton";
 import Module from "../../components/TidalModule/Module";
-import ModuleLoader from "../Skeletons/ModuleLoader";
 
+import { SelectEventType, SortSelector } from "./SortSelector";
 import { ModuleTitle } from "./Title";
 
 export default function PagedModule({
   type,
   url,
   title,
+  orderParams,
 }: {
   type: ModuleTypeKeys;
   url: string;
   title: string;
+  orderParams: { [key: string]: Partial<FetchTidalSearchProps> };
 }) {
   const [page, setPage] = useState(0);
   const [nbPages, setNbPages] = useState(0);
+  const [sort, setSort] = useState<Partial<FetchTidalSearchProps>>(
+    Object.entries(orderParams)[0][1],
+  );
   const [totalItems, setTotalItems] = useState(0);
   const [paginatedData, setPaginatedData] =
     useState<
@@ -51,7 +57,7 @@ export default function PagedModule({
 
   const fetchInit = useCallback(async () => {
     if (pagedModuleLoading || paginatedData) return;
-    const response = await queryModulePage(url, 0, limit);
+    const response = await queryModulePage(url, 0, limit, { ...sort });
     if (response) {
       setPaginatedData(response?.items);
       setPage(1);
@@ -60,7 +66,19 @@ export default function PagedModule({
     } else {
       setPaginatedData([]);
     }
-  }, [limit, pagedModuleLoading, paginatedData, queryModulePage, url]);
+  }, [limit, pagedModuleLoading, paginatedData, queryModulePage, sort, url]);
+
+  const sortUpdate = (e: SelectEventType) => {
+    const params = orderParams[e.target.value as string];
+    setSort(params);
+  };
+
+  useEffect(() => {
+    setPaginatedData(undefined);
+    if (sort) {
+      fetchInit();
+    }
+  }, [sort]);
 
   useEffect(() => {
     if (!paginatedData) {
@@ -70,12 +88,16 @@ export default function PagedModule({
 
   if (isNaN(nbPages) || !url) return null;
 
-  if (pagedModuleLoading) return <ModuleLoader />;
-
   return (
     <Box sx={{ mb: 4 }}>
-      <ModuleTitle title={title} total={totalItems} />
-      <Module type={type} data={paginatedData} />
+      <ModuleTitle
+        title={title}
+        total={totalItems}
+        rightBlock={
+          <SortSelector data={orderParams} handleChange={sortUpdate} />
+        }
+      />
+      <Module type={type} data={paginatedData} loading={pagedModuleLoading} />
       <PagerButton
         page={page}
         setPage={paginate}

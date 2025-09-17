@@ -23,6 +23,16 @@ const darkTheme = createTheme({
   palette: {
     mode: "dark",
   },
+  typography: {
+    h1: {
+      fontSize: 32,
+      fontWeight: "bold",
+    },
+    h2: {
+      fontSize: 24,
+      fontWeight: "bold",
+    },
+  },
 });
 
 function DefaultLayout() {
