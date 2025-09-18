@@ -14,6 +14,9 @@ export function formatDate(dateString: string): string {
     day: "numeric",
   };
 
-  const formatter = new Intl.DateTimeFormat("en-US", options);
+  const formatter = new Intl.DateTimeFormat(
+    navigator.language || "en-US",
+    options,
+  );
   return formatter.format(date);
 }

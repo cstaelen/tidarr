@@ -7,6 +7,7 @@ export default function MyFavorites() {
 
   const orderParams: { [key: string]: Partial<FetchTidalSearchProps> } = {
     "Most recent": { orderDirection: "DESC", order: "DATE" },
+    "Recently updated": { orderDirection: "DESC", order: "DATE_UPDATED" },
     Alphabetical: { orderDirection: "ASC", order: "NAME" },
   };
 

@@ -11,6 +11,7 @@ export default function MyPlaylist() {
       title="My Playlists"
       orderParams={{
         "Most recent": { orderDirection: "DESC", order: "DATE" },
+        "Recently updated": { orderDirection: "DESC", order: "DATE_UPDATED" },
         Alphabetical: { orderDirection: "ASC", order: "NAME" },
       }}
     />

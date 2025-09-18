@@ -66,10 +66,21 @@ async function fetchTidal<T>({
   const urlWithParams = `${apiUrl}${urlObj.pathname}${urlObj.search}`;
 
   const response = await fetch(urlWithParams, options);
+  const data = await response.json();
+
+  // 401
+  if (response.status === 401 && data.subStatus === 11003) {
+    window.location.reload();
+    return;
+  }
+
+  // Error
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
 
   // success
-
-  return await response.json();
+  return data;
 }
 
 export function useFetchTidal() {
