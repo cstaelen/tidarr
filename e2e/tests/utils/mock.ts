@@ -26,7 +26,7 @@ export async function mockTidalQueries(page: Page) {
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/pages/album?albumId=77610756&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/v1/pages/album?countryCode=FR&deviceType=BROWSER&locale=en_US&albumId=77610756",
     async (route) => {
       await route.fulfill({ json: mockAlbum });
     },
@@ -38,7 +38,7 @@ export async function mockTidalQueries(page: Page) {
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/playlists/0b5df380-47d3-48fe-ae66-8f0dba90b1ee/items?limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/v1/playlists/0b5df380-47d3-48fe-ae66-8f0dba90b1ee/items?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
     async (route) => {
       await route.fulfill({ json: mockPlaylistTracks });
     },
@@ -50,7 +50,7 @@ export async function mockTidalQueries(page: Page) {
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/pages/mix?mixId=00166fec481604e645532e233b958b&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/v1/pages/mix?countryCode=FR&deviceType=BROWSER&locale=en_US&mixId=00166fec481604e645532e233b958b",
     async (route) => {
       await route.fulfill({ json: mockMix });
     },
@@ -62,7 +62,7 @@ export async function mockTidalQueries(page: Page) {
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/pages/data/feddf2f1-0ea1-4663-8804-beaf21ace6a2?artistId=19368&limit=15&offset=15&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/v1/pages/data/feddf2f1-0ea1-4663-8804-beaf21ace6a2?artistId=19368&countryCode=FR&deviceType=BROWSER&locale=en_US&limit=15&offset=15",
     async (route) => {
       await route.fulfill({ json: mockArtistPager });
     },
@@ -74,54 +74,54 @@ export async function mockTidalQueries(page: Page) {
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/users/192283714/playlistsAndFavoritePlaylists?limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
       await route.fulfill({ json: mockMyPlaylists });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/users/192283714/favorites/albums?limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/v1/users/192283714/favorites/albums?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteAlbums });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/users/192283714/favorites/artists?limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/v1/users/192283714/favorites/artists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteArtists });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/users/192283714/favorites/tracks?limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/v1/users/192283714/favorites/tracks?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteTracks });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v2/favorites/mixes?limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/v2/favorites/mixes?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteMixes });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/users/192283714/favorites/playlists?limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/v1/users/192283714/favorites/playlists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
       await route.fulfill({ json: mockMyFavoritePlaylists });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/search?query=Nirvana&type=lossless&limit=18&offset=0&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&limit=18",
     async (route) => {
       await route.fulfill({ json: mockSearch });
     },
   );
 
   [
-    "http://localhost:8484/proxy/v1/search?query=Nirvana&type=lossless&limit=18&offset=18&countryCode=FR&deviceType=BROWSER&locale=en_US",
-    "http://localhost:8484/proxy/v1/search?query=Nirvana&type=lossless&limit=18&offset=36&countryCode=FR&deviceType=BROWSER&locale=en_US",
-    "http://localhost:8484/proxy/v1/search?query=Nirvana&type=lossless&limit=18&offset=54&countryCode=FR&deviceType=BROWSER&locale=en_US",
-    "http://localhost:8484/proxy/v1/search?query=Nirvana&type=lossless&limit=18&offset=72&countryCode=FR&deviceType=BROWSER&locale=en_US",
-    "http://localhost:8484/proxy/v1/search?query=Nirvana&type=lossless&limit=18&offset=90&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=18&limit=18",
+    "http://localhost:8484/proxy/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=36&limit=18",
+    "http://localhost:8484/proxy/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=54&limit=18",
+    "http://localhost:8484/proxy/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=72&limit=18",
+    "http://localhost:8484/proxy/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=90&limit=18",
   ].forEach(async (url) => {
     await page.route(url, async (route) => {
       await route.fulfill({ json: mockSearchPager });

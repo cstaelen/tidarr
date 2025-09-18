@@ -3,6 +3,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.3.4
+### 🚀 Added
+* [Front] Add select dropdown to sort playlists and favorites
+### 🖍 Changed
+* [Chore] Renovate some dependencies
+
 ## 📦 0.3.3
 ### 🚀 Added
 * [API] Use `ENABLE_TIDAL_PROXY` var to proxy tidal API queries for more privacy

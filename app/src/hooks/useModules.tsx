@@ -29,7 +29,7 @@ type ModuleContextType = {
   pagedModuleLoading: boolean;
   data: ModuleListResponseType | undefined;
   actions: {
-    queryModules: (endpoint: string) => void;
+    queryModules: (endpoint: string, search?: FetchTidalSearchProps) => void;
     queryModulePage: (
       url: string,
       page: number,
@@ -46,10 +46,17 @@ export const useModules = (): ModuleContextType => {
 
   const { fetchTidal } = useFetchTidal();
 
-  async function queryModules(endpoint: string) {
+  async function queryModules(
+    endpoint: string,
+    search?: FetchTidalSearchProps,
+  ) {
     setLoading(true);
 
-    const response = await fetchTidal<ModuleListResponseType>(endpoint);
+    const response = await fetchTidal<ModuleListResponseType>(
+      endpoint,
+      {},
+      search,
+    );
 
     setData(response);
     setLoading(false);

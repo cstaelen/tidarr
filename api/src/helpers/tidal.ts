@@ -1,6 +1,8 @@
 import { TiddlConfig } from "../types";
 
 export async function getTracksByMixId(mixId: number, config: TiddlConfig) {
+  if (!config) return;
+
   const url = `https://api.tidal.com/v1/mixes/${mixId}/items?countryCode=${config.auth.country_code}`;
   const options: RequestInit = {};
   options.headers = new Headers({
@@ -24,6 +26,8 @@ export async function getTracksByMixId(mixId: number, config: TiddlConfig) {
 }
 
 export async function createNewPlaylist(title: string, config: TiddlConfig) {
+  if (!config) return;
+
   const url = `https://openapi.tidal.com/v2/playlists?countryCode=${config.auth.country_code}`;
   const options: RequestInit = {};
   options.method = "POST";
@@ -54,6 +58,8 @@ export async function createNewPlaylist(title: string, config: TiddlConfig) {
 }
 
 export async function deletePlaylist(playlistId: number, config: TiddlConfig) {
+  if (!config) return;
+
   const url = `https://api.tidal.com/v1/playlists/${playlistId}?countryCode=${config.auth.country_code}`;
   const options: RequestInit = {};
   options.method = "DELETE";
@@ -72,6 +78,8 @@ export async function deletePlaylist(playlistId: number, config: TiddlConfig) {
 }
 
 export async function getPlaylistEtag(playlistId: number, config: TiddlConfig) {
+  if (!config) return;
+
   const playlistRes = await fetch(
     `https://tidal.com/v1/playlists/${playlistId}?countryCode=${config.auth.country_code}`,
     {
@@ -96,6 +104,8 @@ export async function addTracksToPlaylist(
   trackIds: number[],
   config: TiddlConfig,
 ) {
+  if (!config) return;
+
   const etag = await getPlaylistEtag(playlistId, config);
   const url = `https://tidal.com/v1/playlists/${playlistId}/items?countryCode=FR&locale=fr_FR&deviceType=BROWSER`;
 
@@ -105,7 +115,7 @@ export async function addTracksToPlaylist(
       Authorization: `Bearer ${config.auth.token}`,
       "Content-Type": "application/x-www-form-urlencoded",
       "If-None-Match": etag,
-    }),
+    } as HeadersInit),
     body: new URLSearchParams({
       trackIds: trackIds.join(","),
       onArtifactNotFound: "FAIL",

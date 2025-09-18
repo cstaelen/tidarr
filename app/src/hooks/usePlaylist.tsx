@@ -35,7 +35,7 @@ export const usePlaylist = (id: string | undefined): PlaylistContextType => {
     const data_tracks = await fetchTidal<
       TidalPagedListType<{ item: TrackType }>
     >(
-      "/v1/playlists/${id}/items",
+      `/v1/playlists/${id}/items`,
       {},
       {
         limit: TIDAL_ITEMS_PER_PAGE,

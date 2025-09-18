@@ -20,7 +20,7 @@ export default function Home() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    queryModules(`/v1/pages/album?albumId=${id}`);
+    queryModules("/v1/pages/album", { albumId: id });
   }, [id]);
 
   const ModuleFilters = ["ALBUM_HEADER"];

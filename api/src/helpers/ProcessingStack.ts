@@ -110,19 +110,22 @@ export const ProcessingStack = (expressApp: Express) => {
       expressApp.settings.processingList.actions.updateItem(item);
       const playlistId = await createNewPlaylist(item.title, config);
 
-      item["output"] = logs(item, `Mix: add track ids to new playlist`);
-      expressApp.settings.processingList.actions.updateItem(item);
-      await addTracksToPlaylist(playlistId, tracks, config);
+      if (tracks) {
+        item["output"] = logs(item, `Mix: add track ids to new playlist`);
+        expressApp.settings.processingList.actions.updateItem(item);
+        await addTracksToPlaylist(playlistId, tracks, config);
 
-      item["url"] = `playlist/${playlistId}`;
+        item["url"] = `playlist/${playlistId}`;
 
-      item["output"] = logs(item, `Mix: download playlist`);
-      expressApp.settings.processingList.actions.updateItem(item);
+        item["output"] = logs(item, `Mix: download playlist`);
+        expressApp.settings.processingList.actions.updateItem(item);
+      }
 
       tidalDL(item.id, expressApp, () => {
         item["output"] = logs(item, `Mix: delete playlist`);
         deletePlaylist(playlistId, config);
       });
+
       return;
     }
 
