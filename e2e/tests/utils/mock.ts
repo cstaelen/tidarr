@@ -11,7 +11,9 @@ import mockMyFavoriteMixes from "../mocks/my_favorite_mixes.json";
 import mockMyFavoritePlaylists from "../mocks/my_favorite_playlists.json";
 import mockMyFavoriteTracks from "../mocks/my_favorite_tracks.json";
 import mockMyMixes from "../mocks/my_mixes.json";
-import mockMyPlaylists from "../mocks/my_playlists.json";
+import mockMyPlaylistsSortAlphabetical from "../mocks/my_playlists_alphabetical.json";
+import mockMyPlaylistsLastCreated from "../mocks/my_playlists_last_created.json";
+import mockMyPlaylistsSortUpdate from "../mocks/my_playlists_last_updated.json";
 import mockPlaylist from "../mocks/playlist.json";
 import mockPlaylistTracks from "../mocks/playlist_tracks.json";
 import mockSearch from "../mocks/search.json";
@@ -76,7 +78,19 @@ export async function mockTidalQueries(page: Page) {
   await page.route(
     "http://localhost:8484/proxy/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
-      await route.fulfill({ json: mockMyPlaylists });
+      await route.fulfill({ json: mockMyPlaylistsLastCreated });
+    },
+  );
+  await page.route(
+    "http://localhost:8484/proxy/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE_UPDATED",
+    async (route) => {
+      await route.fulfill({ json: mockMyPlaylistsSortUpdate });
+    },
+  );
+  await page.route(
+    "http://localhost:8484/proxy/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=ASC&order=NAME",
+    async (route) => {
+      await route.fulfill({ json: mockMyPlaylistsSortAlphabetical });
     },
   );
   await page.route(

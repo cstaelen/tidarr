@@ -1,0 +1,85 @@
+{
+    "limit": 18,
+    "offset": 0,
+    "totalNumberOfItems": 3,
+    "items": [
+        {
+            "type": "USER_CREATED",
+            "created": "2022-04-24T14:44:54.681+0000",
+            "playlist": {
+                "uuid": "bf824476-f389-4655-bbaf-a1adc76ad4f6",
+                "title": "Discover Weekly",
+                "numberOfTracks": 30,
+                "numberOfVideos": 0,
+                "creator": {
+                    "id": 192283714
+                },
+                "description": "Your weekly mixtape of fresh music. Enjoy new music and deep cuts picked for you. Updates every Monday.",
+                "duration": 8969,
+                "lastUpdated": "2022-04-24T14:44:54.839+0000",
+                "created": "2022-04-24T14:44:54.681+0000",
+                "type": "USER",
+                "publicPlaylist": false,
+                "url": "http://www.tidal.com/playlist/bf824476-f389-4655-bbaf-a1adc76ad4f6",
+                "image": "b34027da-0a7c-4b1e-a572-cd11000460b8",
+                "popularity": 0,
+                "squareImage": "6794efe1-0218-41f9-8c5f-419434232aa0",
+                "customImageUrl": null,
+                "promotedArtists": [],
+                "lastItemAddedAt": "2023-04-24T14:44:54.839+0000"
+            }
+        },
+        {
+            "type": "USER_CREATED",
+            "created": "2024-04-24T14:44:59.987+0000",
+            "playlist": {
+                "uuid": "fa944de4-7160-44e2-b95a-2cd71c6f324e",
+                "title": "Mes titres Shazam",
+                "numberOfTracks": 44,
+                "numberOfVideos": 0,
+                "creator": {
+                    "id": 192283714
+                },
+                "description": "",
+                "duration": 9351,
+                "lastUpdated": "2025-04-24T14:45:00.137+0000",
+                "created": "2024-04-24T14:44:59.987+0000",
+                "type": "USER",
+                "publicPlaylist": false,
+                "url": "http://www.tidal.com/playlist/fa944de4-7160-44e2-b95a-2cd71c6f324e",
+                "image": "a6591990-fd64-433b-8a96-e54889bd4c37",
+                "popularity": 0,
+                "squareImage": "bee33fb1-2817-4c12-b4e2-3437c89e7dbd",
+                "customImageUrl": null,
+                "promotedArtists": [],
+                "lastItemAddedAt": "2023-04-24T14:45:00.137+0000"
+            }
+        },
+        {
+            "type": "USER_CREATED",
+            "created": "2024-04-12T19:04:07.169+0000",
+            "playlist": {
+                "uuid": "879df311-3520-4020-ab0c-3edf25a48d76",
+                "title": "test clem à supprimer",
+                "numberOfTracks": 1,
+                "numberOfVideos": 0,
+                "creator": {
+                    "id": 192283714
+                },
+                "description": "",
+                "duration": 304,
+                "lastUpdated": "2025-08-21T22:39:43.762+0000",
+                "created": "2024-04-12T19:04:07.169+0000",
+                "type": "USER",
+                "publicPlaylist": true,
+                "url": "http://www.tidal.com/playlist/879df311-3520-4020-ab0c-3edf25a48d76",
+                "image": "fbd7e78e-6b33-4ea3-9fa9-e37e13df07f4",
+                "popularity": 0,
+                "squareImage": "b23f012d-89e4-4144-aec5-fd23b798c4d1",
+                "customImageUrl": null,
+                "promotedArtists": [],
+                "lastItemAddedAt": "2024-04-12T19:04:07.495+0000"
+            }
+        }
+    ]
+}

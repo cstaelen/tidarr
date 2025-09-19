@@ -33,3 +33,43 @@ test("Tidarr Home : Should see the homepage and tabs", async ({ page }) => {
   await page.getByText("My Favorites").click();
   await countItems(".MuiContainer-root", 55, page);
 });
+
+test("Tidarr Home : Should be able to sort playlists and favorites", async ({
+  page,
+}) => {
+  await mockConfigAPI(page);
+  await mockRelease(page);
+
+  await goToHome(page);
+  await page.evaluate("localStorage.clear()");
+
+  await expect(page.getByTestId("logo")).toBeInViewport();
+
+  // My playlists
+  await page.getByText("My Playlists").click();
+  await countItems(".MuiContainer-root", 3, page);
+
+  await expect(page.getByTestId("item").first()).toContainText(
+    "Mes titres Shazam",
+  );
+
+  await page.getByRole("combobox", { name: "Sort Most recent" }).click();
+  await page.getByRole("option", { name: "Recently updated" }).click();
+
+  await expect(page.getByTestId("item").first()).toContainText(
+    "test clem à supprimer",
+  );
+
+  await page.getByRole("combobox", { name: "Sort Recently updated" }).click();
+  await page.getByRole("option", { name: "Alphabetical" }).click();
+
+  await expect(page.getByTestId("item").first()).toContainText(
+    "Discover Weekly",
+  );
+
+  // My favorites
+  await page.getByText("My Favorites").click();
+  await expect(
+    page.getByRole("combobox", { name: "Sort Most recent" }),
+  ).toHaveCount(5);
+});
