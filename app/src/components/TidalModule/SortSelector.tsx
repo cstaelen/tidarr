@@ -32,7 +32,11 @@ export type SortSelectorProps = {
 
 export function SortSelector({ data, handleChange }: SortSelectorProps) {
   return (
-    <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+    <FormControl
+      variant="standard"
+      sx={{ m: 1, minWidth: 120 }}
+      data-testid="sort-selector"
+    >
       <InputLabel id="demo-simple-select-standard-label">Sort</InputLabel>
       <Select
         labelId="demo-simple-select-standard-label"

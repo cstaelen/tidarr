@@ -27,12 +27,12 @@ export default function PagedModule({
   type: ModuleTypeKeys;
   url: string;
   title: string;
-  orderParams: { [key: string]: Partial<FetchTidalSearchProps> };
+  orderParams?: { [key: string]: Partial<FetchTidalSearchProps> };
 }) {
   const [page, setPage] = useState(0);
   const [nbPages, setNbPages] = useState(0);
-  const [sort, setSort] = useState<Partial<FetchTidalSearchProps>>(
-    Object.entries(orderParams)[0][1],
+  const [sort, setSort] = useState<Partial<FetchTidalSearchProps> | undefined>(
+    orderParams ? Object.entries(orderParams)[0][1] : undefined,
   );
   const [totalItems, setTotalItems] = useState(0);
   const [paginatedData, setPaginatedData] =
@@ -69,7 +69,7 @@ export default function PagedModule({
   }, [limit, pagedModuleLoading, paginatedData, queryModulePage, sort, url]);
 
   const sortUpdate = (e: SelectEventType) => {
-    const params = orderParams[e.target.value as string];
+    const params = orderParams?.[e.target.value as string];
     setSort(params);
   };
 
@@ -94,7 +94,9 @@ export default function PagedModule({
         title={title}
         total={totalItems}
         rightBlock={
-          <SortSelector data={orderParams} handleChange={sortUpdate} />
+          orderParams && (
+            <SortSelector data={orderParams} handleChange={sortUpdate} />
+          )
         }
       />
       <Module type={type} data={paginatedData} loading={pagedModuleLoading} />
