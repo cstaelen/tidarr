@@ -106,13 +106,13 @@ export async function mockTidalQueries(page: Page) {
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/users/192283714/favorites/tracks?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
+    "http://localhost:8484/proxy/v1/users/192283714/favorites/tracks?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteTracks });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v2/favorites/mixes?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
+    "http://localhost:8484/proxy/v2/favorites/mixes?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteMixes });
     },
