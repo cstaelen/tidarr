@@ -82,9 +82,8 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
         );
 
         const data = (await response?.json()) as ReleaseGithubType[];
-        const filteredData = data.filter(
-          (release) => (release.prerelease = true),
-        );
+        const filteredData = data.filter((release) => !release.prerelease);
+
         if (!filteredData?.[0]) return;
         const latestVersion = filteredData[0].tag_name.substring(
           1,

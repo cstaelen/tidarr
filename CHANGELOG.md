@@ -8,6 +8,7 @@ Tidarr notable changes.
 * [Front] Add select dropdown to sort playlists and favorites (#342)
 ### 🐛 Fixed
 * [API] Fix mixes download issue (#344)
+* [CI] Fix pre-release deployement
 ### 🖍 Changed
 * [Chore] Renovate some dependencies
 
