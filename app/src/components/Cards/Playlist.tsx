@@ -6,6 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { PlaylistType } from "src/types";
+import { formatDate } from "src/utils/helpers";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
 
@@ -49,6 +50,17 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
               <strong>{playlist.title}</strong>
             </Typography>
           </Link>
+          {playlist.created && (
+            <Typography
+              sx={{
+                lineHeight: 1,
+                fontSize: "0.875rem",
+              }}
+              color="textDisabled"
+            >
+              {formatDate(playlist.created)}
+            </Typography>
+          )}
         </div>
       </Stack>
       <Stack direction={display === "large" ? "column" : "row"}>
@@ -81,19 +93,34 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
             }}
           >
             <Stack
-              direction="row"
-              flexWrap="wrap"
-              spacing={1}
+              direction="column"
               style={{ marginBottom: "1rem", flex: "1 1 0" }}
             >
-              <Chip
-                label={`${Math.round(playlist.duration / 60)} min.`}
-                color="success"
-                size="small"
-              />
-              <Chip label={`${playlist.numberOfTracks} tracks`} size="small" />
+              <Stack direction="row" flexWrap="wrap" spacing={1}>
+                <Chip
+                  label={`${Math.round(playlist.duration / 60)} min.`}
+                  color="success"
+                  size="small"
+                />
+                <Chip
+                  label={`${playlist.numberOfTracks} tracks`}
+                  size="small"
+                />
+              </Stack>
+              {playlist.created && (
+                <Typography
+                  sx={{
+                    lineHeight: 1,
+                    fontSize: "0.875rem",
+                    mt: 2,
+                  }}
+                  color="textDisabled"
+                >
+                  Last update: {formatDate(playlist.lastUpdated)}
+                </Typography>
+              )}
             </Stack>
-            <Stack direction="row" flexWrap="wrap" gap={1}>
+            <Stack direction="row" gap={1}>
               <Button
                 onClick={() => navigate(`/playlist/${playlist.uuid}`)}
                 size="small"

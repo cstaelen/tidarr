@@ -5,12 +5,31 @@ import { ConfigTiddleType } from "src/types";
 
 const jsonMimeType = "application/json";
 
-async function fetchTidal<T>(
-  url: string,
-  options: RequestInit = {},
-  tiddlConfig?: ConfigTiddleType,
-  useProxy?: boolean,
-): Promise<T | undefined> {
+type FetchTidalProps = {
+  url: string;
+  options?: RequestInit;
+  tiddlConfig?: ConfigTiddleType;
+  useProxy?: boolean;
+  search?: FetchTidalSearchProps;
+};
+
+export type FetchTidalSearchProps = {
+  order?: string;
+  orderDirection?: "ASC" | "DESC";
+  limit?: number;
+  offset?: number;
+  albumId?: string;
+  mixId?: string;
+  query?: string;
+};
+
+async function fetchTidal<T>({
+  url,
+  options = {},
+  tiddlConfig,
+  useProxy,
+  search,
+}: FetchTidalProps): Promise<T | undefined> {
   const countryCode = tiddlConfig?.auth.country_code || "EN";
   const TOKEN = tiddlConfig?.auth.token;
 
@@ -25,7 +44,6 @@ async function fetchTidal<T>(
     Authorization: `Bearer ${TOKEN}`,
   });
 
-  const url_suffix = `${url.includes("?") ? "&" : "?"}countryCode=${countryCode}&deviceType=BROWSER&locale=en_US`;
   // POST, PUT payload encoding
   if (
     "undefined" !== options.body &&
@@ -35,27 +53,53 @@ async function fetchTidal<T>(
     options.headers.set("Content-Type", jsonMimeType);
   }
 
-  const response = await fetch(`${apiUrl}${url}${url_suffix}`, {
-    ...options,
+  const urlObj = new URL(url, TIDARR_PROXY_URL);
+  urlObj.searchParams.append("countryCode", countryCode);
+  urlObj.searchParams.append("deviceType", "BROWSER");
+  urlObj.searchParams.append("locale", "en_US");
+
+  Object.entries(search || {})?.map(([key, value]) => {
+    if (!value) return;
+    urlObj.searchParams.append(key, value?.toString());
   });
 
-  // success
+  const urlWithParams = `${apiUrl}${urlObj.pathname}${urlObj.search}`;
 
-  return await response.json();
+  const response = await fetch(urlWithParams, options);
+  const data = await response.json();
+
+  // 401
+  if (response.status === 401 && data.subStatus === 11003) {
+    window.location.reload();
+    return;
+  }
+
+  // Error
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+
+  // success
+  return data;
 }
 
 export function useFetchTidal() {
   const { tiddlConfig, config } = useConfigProvider();
   const [loading, setLoading] = useState<boolean>(false);
 
-  async function fetcher<T>(url: string, options?: RequestInit) {
+  async function fetcher<T>(
+    url: string,
+    options?: RequestInit,
+    search?: FetchTidalSearchProps,
+  ) {
     setLoading(true);
-    const data = await fetchTidal<T>(
-      url,
-      options,
-      tiddlConfig,
-      config?.ENABLE_TIDAL_PROXY === "true",
-    );
+    const data = await fetchTidal<T>({
+      url: url,
+      options: options || {},
+      tiddlConfig: tiddlConfig,
+      useProxy: config?.ENABLE_TIDAL_PROXY === "true",
+      search: search,
+    });
     setLoading(false);
     return data;
   }

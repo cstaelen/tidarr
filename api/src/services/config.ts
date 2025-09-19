@@ -43,6 +43,7 @@ export async function configureServer() {
 }
 
 export function refreshTidalToken() {
-  spawnSync("tiddl", ["auth", "refresh"]);
   console.log("Refreshing Tidal token...");
+  spawnSync("tiddl", ["auth", "refresh"]);
+  console.log("Tidal token refreshed.");
 }

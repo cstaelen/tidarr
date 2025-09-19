@@ -133,6 +133,8 @@ app.get(
 app.get("/api/check", ensureAccessIsGranted, (_req: Request, res: Response) => {
   refreshTidalToken();
   const tiddl_config = get_tiddl_config();
+  app.set("tiddlConfig", tiddl_config);
+
   res.status(200).json({
     ...app.settings.config,
     noToken: tiddl_config?.auth?.token.length === 0,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useFetchTidal } from "src/hooks/useFetchTidal";
+import { FetchTidalSearchProps, useFetchTidal } from "src/hooks/useFetchTidal";
 
 import {
   AlbumType,
@@ -29,11 +29,12 @@ type ModuleContextType = {
   pagedModuleLoading: boolean;
   data: ModuleListResponseType | undefined;
   actions: {
-    queryModules: (endpoint: string) => void;
+    queryModules: (endpoint: string, search?: FetchTidalSearchProps) => void;
     queryModulePage: (
       url: string,
       page: number,
       limit: number,
+      search?: FetchTidalSearchProps,
     ) => Promise<PagedModuleResponseType | undefined>;
   };
 };
@@ -45,19 +46,37 @@ export const useModules = (): ModuleContextType => {
 
   const { fetchTidal } = useFetchTidal();
 
-  async function queryModules(endpoint: string) {
+  async function queryModules(
+    endpoint: string,
+    search?: FetchTidalSearchProps,
+  ) {
     setLoading(true);
 
-    const response = await fetchTidal<ModuleListResponseType>(endpoint);
+    const response = await fetchTidal<ModuleListResponseType>(
+      endpoint,
+      {},
+      search,
+    );
 
     setData(response);
     setLoading(false);
   }
 
-  async function queryModulePage(url: string, page: number, limit: number) {
+  async function queryModulePage(
+    url: string,
+    page: number,
+    limit: number,
+    search?: FetchTidalSearchProps,
+  ) {
     setPagedModuleLoading(true);
     const modulePageData = await fetchTidal<PagedModuleResponseType>(
-      `${url}${url.includes("?") ? "&" : "?"}limit=${limit}&offset=${page * limit}`,
+      url,
+      {},
+      {
+        limit: limit,
+        offset: page * limit,
+        ...search,
+      },
     );
     setPagedModuleLoading(false);
 

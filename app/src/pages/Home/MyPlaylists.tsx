@@ -9,6 +9,11 @@ export default function MyPlaylist() {
       url={`/v1/users/${tiddlConfig?.auth.user_id}/playlistsAndFavoritePlaylists`}
       type="USER_PLAYLIST_LIST"
       title="My Playlists"
+      orderParams={{
+        "Most recent": { orderDirection: "DESC", order: "DATE" },
+        "Recently updated": { orderDirection: "DESC", order: "DATE_UPDATED" },
+        Alphabetical: { orderDirection: "ASC", order: "NAME" },
+      }}
     />
   );
 }
