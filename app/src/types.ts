@@ -237,6 +237,7 @@ export type ConfigTiddleType = {
     embed_lyrics: boolean;
     download_video: boolean;
     scan_path: string;
+    save_playlist_m3u: boolean;
   };
   cover: {
     save: boolean;

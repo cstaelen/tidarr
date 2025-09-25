@@ -66,7 +66,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Server-side download list processing
 - UI built with **ReactJS** + **ExpressJS** API
 - Self-hostable with **Docker** using a Linuxserver.io base image (uncompressed size: ~190 MB)
-- Download Tidal content with [Tiddl (2.5.2)](https://github.com/oskvr37/tiddl/tree/v2.5.2)
+- Download Tidal content with [Tiddl (2.6.2)](https://github.com/oskvr37/tiddl/tree/v2.6.2)
 
 
 
@@ -150,7 +150,9 @@ See default :
         // Include or not singles while downloading "all releases"
         "singles_filter": "none", // "none", "only", "include"
         // Show video content
-        "download_video": true
+        "download_video": true,
+        // Add playlist file
+        "save_playlist_m3u": true
     },
     "cover": {
         "save": false,
