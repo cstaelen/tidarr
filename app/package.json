@@ -7,15 +7,15 @@
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
     "@types/node": "^24.5.2",
-    "@types/react": "^19.1.13",
+    "@types/react": "^19.1.15",
     "@types/react-dom": "^19.1.9",
-    "@vitejs/plugin-react": "^5.0.3",
+    "@vitejs/plugin-react": "^5.0.4",
     "event-source-plus": "0.1.12",
     "globals": "^16.4.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-router-dom": "^7.9.1",
-    "vite": "^7.1.6"
+    "react-router-dom": "^7.9.3",
+    "vite": "^7.1.7"
   },
   "scripts": {
     "start": "vite dev",
