@@ -27,6 +27,19 @@ export const removeItemFromSyncList = (id: number) => {
   fs.writeFileSync(filePath, JSON.stringify(syncList, null, 2));
 };
 
+export const updateSyncItem = (id: string, update: Partial<SyncItemType>) => {
+  const filePath = path.join(`${ROOT_PATH}/shared`, "sync_list.json");
+  const syncList: SyncItemType[] = JSON.parse(
+    fs.readFileSync(filePath, "utf8"),
+  );
+
+  const itemIndex = syncList.findIndex((item) => item.id === id.toString());
+  if (itemIndex !== -1) {
+    syncList[itemIndex] = { ...syncList[itemIndex], ...update };
+    fs.writeFileSync(filePath, JSON.stringify(syncList, null, 2));
+  }
+};
+
 export const createCronJob = async (app: Express) => {
   const filePath = path.join(`${ROOT_PATH}/shared`, "sync_list.json");
 
@@ -55,6 +68,9 @@ export const createCronJob = async (app: Express) => {
       };
       app.settings.processingList.actions.removeItem(itemToQueue);
       app.settings.processingList.actions.addItem(itemToQueue);
+      updateSyncItem(element.id, {
+        lastUpdate: new Date().toISOString(),
+      });
     });
   });
 };

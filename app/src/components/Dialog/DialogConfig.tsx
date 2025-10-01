@@ -1,6 +1,15 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { Clear, InfoRounded, KeyOff, Warning } from "@mui/icons-material";
+import {
+  Clear,
+  InfoRounded,
+  Key,
+  KeyOff,
+  List,
+  Sync,
+  Update,
+  Warning,
+} from "@mui/icons-material";
 import {
   Alert,
   Box,
@@ -101,10 +110,14 @@ export const DialogConfig = () => {
         scrollButtons="auto"
         aria-label="scrollable auto tabs example"
       >
-        <Tab label="Updates" />
-        <Tab label="Environment vars" />
-        <Tab label="Tidal Token" />
-        <Tab label="Synced playlists" />
+        <Tab label="Updates" icon={<Update />} iconPosition="start" />
+        <Tab label="Environment vars" icon={<List />} iconPosition="start" />
+        <Tab label="Tidal Token" icon={<Key />} iconPosition="start" />
+        <Tab
+          label={`Synced playlists (${syncList?.length || 0})`}
+          icon={<Sync />}
+          iconPosition="start"
+        />
       </Tabs>
 
       {currentTab === 0 && (
@@ -235,7 +248,7 @@ export const DialogConfig = () => {
                     <TableCell>
                       <strong>Last run</strong>
                     </TableCell>
-                    <TableCell>&nbsp;</TableCell>
+                    <TableCell>Remove</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -252,7 +265,23 @@ export const DialogConfig = () => {
                         </Link>
                       </TableCell>
                       <TableCell>{row.type}</TableCell>
-                      <TableCell>{row.lastUpdate}</TableCell>
+                      <TableCell>
+                        {row.lastUpdate && (
+                          <>
+                            {new Date(row.lastUpdate).toDateString()}
+                            {` - `}
+                            {new Date(row.lastUpdate)
+                              .getHours()
+                              .toString()
+                              .padStart(2, "0")}
+                            :
+                            {new Date(row.lastUpdate)
+                              .getMinutes()
+                              .toString()
+                              .padStart(2, "0")}
+                          </>
+                        )}
+                      </TableCell>
                       <TableCell>
                         <Tooltip title="Remove from sync list">
                           <Button
