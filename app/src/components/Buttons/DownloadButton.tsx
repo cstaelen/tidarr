@@ -37,7 +37,7 @@ export const DownloadButton = ({
     }
 
     const index = processingList.findIndex(
-      (x) => x.id.toString() === id.toString(),
+      (x) => x.id?.toString() === id?.toString(),
     );
 
     setStatus(index > -1 ? processingList?.[index]?.status : undefined);
