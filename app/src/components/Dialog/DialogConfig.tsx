@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import {
   Clear,
@@ -89,12 +89,18 @@ export const DialogConfig = () => {
   } = useApiFetcher();
   const {
     syncList,
-    actions: { removeSyncItem },
+    actions: { removeSyncItem, getSyncList },
   } = useSync();
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
   };
+
+  useEffect(() => {
+    if (isConfigModalOpen) {
+      getSyncList();
+    }
+  }, [getSyncList, isConfigModalOpen]);
 
   return (
     <DialogHandler
@@ -248,7 +254,7 @@ export const DialogConfig = () => {
                     <TableCell>
                       <strong>Last run</strong>
                     </TableCell>
-                    <TableCell>Remove</TableCell>
+                    <TableCell align="center">Remove</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -282,7 +288,7 @@ export const DialogConfig = () => {
                           </>
                         )}
                       </TableCell>
-                      <TableCell>
+                      <TableCell align="center">
                         <Tooltip title="Remove from sync list">
                           <Button
                             onClick={() => removeSyncItem(row.id)}

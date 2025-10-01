@@ -14,6 +14,7 @@ interface SyncContextType {
   actions: {
     removeSyncItem: (id: string) => void;
     addSyncItem: (item: SyncItemType) => void;
+    getSyncList: () => void;
   };
 }
 
@@ -67,6 +68,7 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
     actions: {
       removeSyncItem,
       addSyncItem,
+      getSyncList,
     },
   };
 

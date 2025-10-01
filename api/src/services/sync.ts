@@ -3,7 +3,7 @@ import fs from "fs";
 import cron from "node-cron";
 import path from "path";
 
-import { ROOT_PATH } from "../../constants";
+import { ROOT_PATH, SYNC_DEFAULT_CRON } from "../../constants";
 import { ProcessingItemType, SyncItemType } from "../types";
 
 export const addItemToSyncList = (item: SyncItemType) => {
@@ -52,7 +52,7 @@ export const createCronJob = async (app: Express) => {
 
   cron.getTasks().forEach((task) => task.stop());
   syncList.forEach((element) => {
-    cron.schedule("* * * * *", () => {
+    cron.schedule(process.env.SYNC_CRON_EXPRESSION || SYNC_DEFAULT_CRON, () => {
       const itemToQueue: ProcessingItemType = {
         id: element.id,
         artist: "",
