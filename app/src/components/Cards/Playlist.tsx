@@ -10,6 +10,7 @@ import { formatDate } from "src/utils/helpers";
 import { DownloadButton } from "../Buttons/DownloadButton";
 import SyncButton from "../Buttons/SyncButton";
 
+import CoverLink from "./common/CoverLink";
 import ImageLazy from "./common/ImageLazy";
 
 export default function Playlist({ playlist }: { playlist: PlaylistType }) {
@@ -63,7 +64,7 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
         </div>
       </Stack>
       <Stack direction={display === "large" ? "column" : "row"}>
-        <Link to={`/playlist/${playlist.uuid}`} style={{ lineHeight: 0 }}>
+        <CoverLink url={`/playlist/${playlist.uuid}`}>
           <ImageLazy
             height={display === "small" ? 120 : "100%"}
             width={display === "small" ? 120 : "100%"}
@@ -73,7 +74,7 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
             )}/750x750.jpg`}
             alt="Live from space album cover"
           />
-        </Link>
+        </CoverLink>
         <Box
           sx={{
             display: "flex",

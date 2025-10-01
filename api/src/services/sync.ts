@@ -37,7 +37,6 @@ export const createCronJob = async (app: Express) => {
     fs.readFileSync(filePath, "utf8"),
   );
 
-  console.log(`Create cron jobs (${syncList?.length || 0}) ...`);
   cron.getTasks().forEach((task) => task.stop());
   syncList.forEach((element) => {
     cron.schedule("* * * * *", () => {

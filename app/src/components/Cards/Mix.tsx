@@ -9,6 +9,7 @@ import { MixType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
 
+import CoverLink from "./common/CoverLink";
 import ImageLazy from "./common/ImageLazy";
 
 export default function Mix({ mix }: { mix: MixType }) {
@@ -52,14 +53,14 @@ export default function Mix({ mix }: { mix: MixType }) {
         </div>
       </Stack>
       <Stack direction={display === "large" ? "column" : "row"}>
-        <Link to={`/mix/${mix.id}`} style={{ lineHeight: 0 }}>
+        <CoverLink url={`/mix/${mix.id}`}>
           <ImageLazy
             height={display === "small" ? 120 : "100%"}
             width={display === "small" ? 120 : "100%"}
             src={mix.images.SMALL.url}
             alt="Live from space album cover"
           />
-        </Link>
+        </CoverLink>
         <Box
           sx={{
             display: "flex",

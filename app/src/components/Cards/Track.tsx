@@ -9,6 +9,7 @@ import { DownloadButton } from "../Buttons/DownloadButton";
 
 import { ArtistAvatar } from "./common/ArtistAvatar";
 import { ChipQuality } from "./common/ChipQuality";
+import CoverLink from "./common/CoverLink";
 import ImageLazy from "./common/ImageLazy";
 
 function StackDownloadButtons({ track }: { track: TrackType }) {
@@ -77,7 +78,7 @@ function ArtistPic({ track }: { track: TrackType }) {
   );
 }
 
-function CoverLink({
+function TrackCoverLink({
   track,
   width,
   height,
@@ -87,10 +88,9 @@ function CoverLink({
   height: string | number;
 }) {
   return (
-    <Link
-      to={`/track/${track.id}`}
+    <CoverLink
+      url={`/track/${track.id}`}
       style={{
-        lineHeight: 0,
         display: "block",
         pointerEvents: track?.allowStreaming ? "inherit" : "none",
         opacity: track?.allowStreaming ? 1 : 0.2,
@@ -105,7 +105,7 @@ function CoverLink({
         )}/750x750.jpg`}
         alt="Live from space album cover"
       />
-    </Link>
+    </CoverLink>
   );
 }
 
@@ -163,7 +163,7 @@ function TrackCard({ track }: { track: TrackType }) {
           backgroundColor: "rgba(255, 255, 255, 0.04)",
         }}
       >
-        <CoverLink track={track} height={72} width={72} />
+        <TrackCoverLink track={track} height={72} width={72} />
         <div style={{ lineHeight: 1.4, flex: "1 1 0", padding: "5px 0" }}>
           <TitleLink track={track} />
           {` `}
@@ -231,7 +231,7 @@ function TrackInline({ track }: { track: TrackType }) {
         }}
       >
         <div>
-          <CoverLink track={track} height={64} width={64} />
+          <TrackCoverLink track={track} height={64} width={64} />
         </div>
         <div style={cellStyle}>
           <TitleLink track={track} />

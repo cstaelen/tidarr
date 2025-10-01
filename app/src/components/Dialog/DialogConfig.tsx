@@ -233,7 +233,7 @@ export const DialogConfig = () => {
                       <strong>Type</strong>
                     </TableCell>
                     <TableCell>
-                      <strong>Last download</strong>
+                      <strong>Last run</strong>
                     </TableCell>
                     <TableCell>&nbsp;</TableCell>
                   </TableRow>
@@ -252,6 +252,7 @@ export const DialogConfig = () => {
                         </Link>
                       </TableCell>
                       <TableCell>{row.type}</TableCell>
+                      <TableCell>{row.lastUpdate}</TableCell>
                       <TableCell>
                         <Tooltip title="Remove from sync list">
                           <Button
