@@ -22,7 +22,7 @@ export function logs(
 }
 
 export async function moveAndClean(
-  id: number,
+  id: string,
   app: Express,
 ): Promise<{ save: boolean }> {
   const item: ProcessingItemType =

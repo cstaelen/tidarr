@@ -1,6 +1,6 @@
 import { TiddlConfig } from "../types";
 
-export async function getTracksByMixId(mixId: number, config: TiddlConfig) {
+export async function getTracksByMixId(mixId: string, config: TiddlConfig) {
   if (!config) return;
 
   const url = `https://api.tidal.com/v1/mixes/${mixId}/items?countryCode=${config.auth.country_code}`;

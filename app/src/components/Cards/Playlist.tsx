@@ -1,6 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
-import { List, MusicNote } from "@mui/icons-material";
-import { Box, Button, Chip, Stack, useTheme } from "@mui/material";
+import { Link } from "react-router-dom";
+import { Box, Chip, Stack, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -9,13 +8,13 @@ import { PlaylistType } from "src/types";
 import { formatDate } from "src/utils/helpers";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
+import SyncButton from "../Buttons/SyncButton";
 
 import ImageLazy from "./common/ImageLazy";
 
 export default function Playlist({ playlist }: { playlist: PlaylistType }) {
   const { display } = useConfigProvider();
   const theme = useTheme();
-  const navigate = useNavigate();
 
   return (
     <Card sx={{ position: "relative" }}>
@@ -121,15 +120,7 @@ export default function Playlist({ playlist }: { playlist: PlaylistType }) {
               )}
             </Stack>
             <Stack direction="row" gap={1}>
-              <Button
-                onClick={() => navigate(`/playlist/${playlist.uuid}`)}
-                size="small"
-                variant="outlined"
-                sx={{ minWidth: 0, pl: 0 }}
-              >
-                <MusicNote />
-                <List />
-              </Button>
+              <SyncButton item={playlist} type="playlist" />
               <DownloadButton
                 item={playlist}
                 id={playlist.uuid}

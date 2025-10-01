@@ -287,13 +287,20 @@ export type LogType = {
 // PROCESSING LIST
 
 export type QualityType = "low" | "normal" | "high" | "master";
+export type ContentType =
+  | "artist"
+  | "album"
+  | "track"
+  | "playlist"
+  | "video"
+  | "mix";
 
 export type ProcessingItemType = {
   id: string;
   artist: string;
   title: string;
   quality: QualityType;
-  type: "artist" | "album" | "track" | "playlist" | "video" | "mix";
+  type: ContentType;
   status: "queue" | "finished" | "beet" | "processing" | "error";
   url: string;
   loading: boolean;
@@ -305,4 +312,15 @@ export type ApiReturnType = {
   error: boolean;
   message: string;
   status?: number;
+};
+
+// SYNC LIST
+
+export type SyncItemType = {
+  id: string;
+  title: string;
+  url: string;
+  quality: QualityType;
+  lastUpdate?: string;
+  type: ContentType;
 };

@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import AlbumIcon from "@mui/icons-material/Album";
 import { AppBar, CircularProgress } from "@mui/material";
 import { SearchProvider } from "src/provider/SearchProvider";
+import { SyncProvider } from "src/provider/SyncProvider";
 
 import { useConfigProvider } from "../provider/ConfigProvider";
 import { ProcessingProvider } from "../provider/ProcessingProvider";
@@ -39,27 +40,29 @@ function MainLayout({ children }: { children: ReactNode }) {
       >
         <SearchProvider>
           <ProcessingProvider>
-            <Content>
-              <AppBar id="app-bar" position="sticky">
-                <HeaderSearch />
-              </AppBar>
-              {!appLoaded || !config ? (
-                <Loader>
-                  <Title>
-                    <AlbumIcon />
-                    Tidarr
-                  </Title>
-                  <CircularProgress />
-                </Loader>
-              ) : (
-                children
-              )}
-            </Content>
-            <ProcessingList />
-            <DialogToken />
-            <DialogNoAPI />
-            <DialogConfig />
-            <DialogUpdateWarning />
+            <SyncProvider>
+              <Content>
+                <AppBar id="app-bar" position="sticky">
+                  <HeaderSearch />
+                </AppBar>
+                {!appLoaded || !config ? (
+                  <Loader>
+                    <Title>
+                      <AlbumIcon />
+                      Tidarr
+                    </Title>
+                    <CircularProgress />
+                  </Loader>
+                ) : (
+                  children
+                )}
+              </Content>
+              <ProcessingList />
+              <DialogToken />
+              <DialogNoAPI />
+              <DialogConfig />
+              <DialogUpdateWarning />
+            </SyncProvider>
           </ProcessingProvider>
         </SearchProvider>
       </main>
