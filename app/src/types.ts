@@ -146,7 +146,6 @@ export type PlaylistType = {
     type: string;
     picture: string;
   }[];
-
   lastItemAddedAt: string;
 };
 

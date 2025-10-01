@@ -1,6 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
-import { List, MusicNote } from "@mui/icons-material";
-import { Box, Button, Stack, useTheme } from "@mui/material";
+import { Link } from "react-router-dom";
+import { Box, Stack, useTheme } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -8,6 +7,7 @@ import { useConfigProvider } from "src/provider/ConfigProvider";
 import { MixType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
+import SyncButton from "../Buttons/SyncButton";
 
 import CoverLink from "./common/CoverLink";
 import ImageLazy from "./common/ImageLazy";
@@ -15,7 +15,6 @@ import ImageLazy from "./common/ImageLazy";
 export default function Mix({ mix }: { mix: MixType }) {
   const { display } = useConfigProvider();
   const theme = useTheme();
-  const navigate = useNavigate();
 
   return (
     <Card sx={{ position: "relative" }}>
@@ -85,15 +84,7 @@ export default function Mix({ mix }: { mix: MixType }) {
               {mix.subTitle}
             </Typography>
             <Stack direction="row" flexWrap="wrap" spacing={1}>
-              <Button
-                onClick={() => navigate(`/mix/${mix.id}`)}
-                size="small"
-                variant="outlined"
-                sx={{ minWidth: 0, pl: 0 }}
-              >
-                <MusicNote />
-                <List />
-              </Button>
+              <SyncButton item={mix} type="mix" />
               <DownloadButton
                 item={mix}
                 id={mix.id}
