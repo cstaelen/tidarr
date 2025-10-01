@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { TIDAL_API_URL, TIDARR_PROXY_URL } from "src/contants";
+import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { ConfigTiddleType } from "src/types";
 
@@ -11,6 +12,7 @@ type FetchTidalProps = {
   tiddlConfig?: ConfigTiddleType;
   useProxy?: boolean;
   search?: FetchTidalSearchProps;
+  logout: () => void;
 };
 
 export type FetchTidalSearchProps = {
@@ -29,6 +31,7 @@ async function fetchTidal<T>({
   tiddlConfig,
   useProxy,
   search,
+  logout,
 }: FetchTidalProps): Promise<T | undefined> {
   const countryCode = tiddlConfig?.auth.country_code || "EN";
   const TOKEN = tiddlConfig?.auth.token;
@@ -69,8 +72,20 @@ async function fetchTidal<T>({
   const data = await response.json();
 
   // 401
-  if (response.status === 401 && data.subStatus === 11003) {
-    window.location.reload();
+  if (response.status === 401) {
+    switch (data.subStatus) {
+      // Token need refresh
+      case 11003:
+        window.location.reload();
+        break;
+
+      // Token expired
+      // Session not valid
+      case 6001:
+      case 11002:
+        logout();
+        throw new Error(response.statusText);
+    }
     return;
   }
 
@@ -86,6 +101,9 @@ async function fetchTidal<T>({
 export function useFetchTidal() {
   const { tiddlConfig, config } = useConfigProvider();
   const [loading, setLoading] = useState<boolean>(false);
+  const {
+    actions: { delete_token },
+  } = useApiFetcher();
 
   async function fetcher<T>(
     url: string,
@@ -99,6 +117,10 @@ export function useFetchTidal() {
       tiddlConfig: tiddlConfig,
       useProxy: config?.ENABLE_TIDAL_PROXY === "true",
       search: search,
+      logout: async () => {
+        await delete_token();
+        window.location.reload();
+      },
     });
     setLoading(false);
     return data;
