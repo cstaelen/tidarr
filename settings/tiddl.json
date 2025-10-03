@@ -12,7 +12,8 @@
         "threads": 4,
         "singles_filter": "none",
         "embed_lyrics": false,
-        "download_video": true
+        "download_video": true,
+        "save_playlist_m3u": true
     },
     "cover": {
         "save": true,

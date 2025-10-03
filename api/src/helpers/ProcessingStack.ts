@@ -12,6 +12,7 @@ import {
   hasFileToMove,
   logs,
   moveAndClean,
+  replacePathInM3U,
   setPermissions,
 } from "./jobs";
 import {
@@ -141,6 +142,8 @@ export const ProcessingStack = (expressApp: Express) => {
     const stdout = [];
 
     const shouldPostProcess = hasFileToMove();
+
+    replacePathInM3U();
 
     if (!shouldPostProcess) {
       item["status"] = "finished";
