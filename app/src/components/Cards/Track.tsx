@@ -94,6 +94,7 @@ function TrackCoverLink({
         display: "block",
         pointerEvents: track?.allowStreaming ? "inherit" : "none",
         opacity: track?.allowStreaming ? 1 : 0.2,
+        width: width,
       }}
     >
       <ImageLazy
