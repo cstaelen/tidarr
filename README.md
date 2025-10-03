@@ -23,6 +23,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Password protection](#password-protection)
   - [Lock quality selector](#lock-quality-selector)
   - [Proxy](#proxy)
+  - [M3U track base path](#m3u-track-base-path)
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-update)
@@ -49,6 +50,8 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Search by url : artist url, album url, playlist url, track url, mix url
 - Download covers
 - Admin password
+- M3U file for playlist with customizable path
+- Skip download if track exists
 
 ### Service integration
 
@@ -210,6 +213,17 @@ You may want to use proxy for tidal server queries to enhance privacy.
  environment:
   - ...
   - ENABLE_TIDAL_PROXY=true
+```
+
+### M3U track base path 
+
+Default base path used in `.m3u` : `./`
+You can custom base path used by track path in `.m3u` file :  
+
+```yaml
+ environment:
+  - ...
+  - M3U_BASEPATH_FILE="../../"
 ```
 
 ## Services

@@ -5,7 +5,8 @@ Tidarr notable changes.
 
 ## 📦 0.3.5
 ### 🚀 Added
-* [Docker] Update tiddl: add playlist `.m3u` file by setting `save_playlist_m3u` to `true` in `tiddl.json`
+* [API] Update tiddl: add playlist `.m3u` file by setting `save_playlist_m3u` to `true` in `tiddl.json`
+* [Docker] Custom `.m3u` file track path with `M3U_BASEPATH_FILE=` in docker env.
 ### 🖍 Changed
 * [API] Update tiddl from `2.5.2` to `2.6.2`
 * [Chore] Renovate some dependencies
