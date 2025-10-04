@@ -49,6 +49,7 @@ const SyncButton: React.FC<{
         variant="outlined"
         color={!isSynced ? "primary" : "error"}
         sx={{ minWidth: 0 }}
+        data-testid={!isSynced ? "btn-sync" : "btn-disable-sync"}
       >
         {!isSynced ? <SyncIcon /> : <SyncDisabled />}
       </Button>
