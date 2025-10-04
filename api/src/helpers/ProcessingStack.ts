@@ -100,6 +100,7 @@ export const ProcessingStack = (expressApp: Express) => {
 
   async function processItem(item: ProcessingItemType) {
     item["status"] = "processing";
+    item["output_history"] = [];
 
     if (item.type === "mix" && !process.env.IS_DOCKER) {
       const config = expressApp.settings.tiddlConfig as TiddlConfig;
@@ -118,7 +119,6 @@ export const ProcessingStack = (expressApp: Express) => {
         await addTracksToPlaylist(playlistId, tracks, config);
 
         item["url"] = `playlist/${playlistId}`;
-
         item["output"] = logs(item, `Mix: download playlist`);
         expressApp.settings.processingList.actions.updateItem(item);
 
@@ -133,9 +133,9 @@ export const ProcessingStack = (expressApp: Express) => {
       deletePlaylist(playlistId, config);
 
       return;
+    } else {
+      tidalDL(item.id, expressApp);
     }
-
-    tidalDL(item.id, expressApp);
   }
 
   async function postProcessing(item: ProcessingItemType) {

@@ -11,7 +11,7 @@ export function logs(
   console.log(message);
   if (!message) return item["output"];
 
-  if (!item?.["output_history"]) {
+  if (item && !item?.["output_history"]) {
     item["output_history"] = [];
   }
 
