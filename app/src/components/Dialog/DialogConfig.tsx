@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import { InfoRounded, KeyOff, Warning } from "@mui/icons-material";
+import {
+  Clear,
+  InfoRounded,
+  Key,
+  KeyOff,
+  List,
+  Sync,
+  Update,
+  Warning,
+} from "@mui/icons-material";
 import {
   Alert,
   Box,
@@ -15,11 +24,14 @@ import {
   TableHead,
   TableRow,
   Tabs,
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import Markdown from "markdown-to-jsx";
 import { TIDARR_REPO_URL } from "src/contants";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
+import { useSync } from "src/provider/SyncProvider";
 
 import { DialogHandler } from ".";
 
@@ -75,10 +87,20 @@ export const DialogConfig = () => {
   const {
     actions: { delete_token },
   } = useApiFetcher();
+  const {
+    syncList,
+    actions: { removeSyncItem, getSyncList },
+  } = useSync();
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
   };
+
+  useEffect(() => {
+    if (isConfigModalOpen) {
+      getSyncList();
+    }
+  }, [getSyncList, isConfigModalOpen]);
 
   return (
     <DialogHandler
@@ -94,9 +116,14 @@ export const DialogConfig = () => {
         scrollButtons="auto"
         aria-label="scrollable auto tabs example"
       >
-        <Tab label="Updates" />
-        <Tab label="Environment vars" />
-        <Tab label="Tidal Token" />
+        <Tab label="Updates" icon={<Update />} iconPosition="start" />
+        <Tab label="Environment vars" icon={<List />} iconPosition="start" />
+        <Tab label="Tidal Token" icon={<Key />} iconPosition="start" />
+        <Tab
+          label={`Synced playlists (${syncList?.length || 0})`}
+          icon={<Sync />}
+          iconPosition="start"
+        />
       </Tabs>
 
       {currentTab === 0 && (
@@ -126,7 +153,7 @@ export const DialogConfig = () => {
               <p>Changelog</p>
               <Paper
                 sx={{
-                  maxWidth: "500px",
+                  maxWidth: "100%",
                   maxHeight: "300px",
                   fontSize: "12px",
                   overflow: "auto",
@@ -205,6 +232,84 @@ export const DialogConfig = () => {
               "Not found."
             )}
           </Box>
+        </>
+      )}
+      {currentTab === 3 && (
+        <>
+          {syncList?.length > 0 ? (
+            <TableContainer component={Paper}>
+              <Table
+                sx={{ minWidth: 650 }}
+                aria-label="synced playlist table"
+                size="small"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <strong>Title</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Type</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Last run</strong>
+                    </TableCell>
+                    <TableCell align="center">Remove</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {syncList.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell>
+                        <Link href={`/${row.type}/${row.id}`}>
+                          {row?.title}
+                        </Link>
+                      </TableCell>
+                      <TableCell>{row.type}</TableCell>
+                      <TableCell>
+                        {row.lastUpdate && (
+                          <>
+                            {new Date(row.lastUpdate).toDateString()}
+                            {` - `}
+                            {new Date(row.lastUpdate)
+                              .getHours()
+                              .toString()
+                              .padStart(2, "0")}
+                            :
+                            {new Date(row.lastUpdate)
+                              .getMinutes()
+                              .toString()
+                              .padStart(2, "0")}
+                          </>
+                        )}
+                      </TableCell>
+                      <TableCell align="center">
+                        <Tooltip title="Remove from sync list">
+                          <Button
+                            onClick={() => removeSyncItem(row.id)}
+                            size="small"
+                            variant="text"
+                            sx={{ minWidth: 0 }}
+                          >
+                            <Clear />
+                          </Button>
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : (
+            <Typography sx={{ textAlign: "center", py: 4 }}>
+              No synced playlist
+            </Typography>
+          )}
         </>
       )}
     </DialogHandler>

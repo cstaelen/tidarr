@@ -5,7 +5,7 @@ import { ROOT_PATH } from "../../constants";
 import { logs } from "../helpers/jobs";
 import { ProcessingItemType } from "../types";
 
-export async function beets(id: number, app: Express) {
+export async function beets(id: string, app: Express) {
   const item: ProcessingItemType =
     app.settings.processingList.actions.getItem(id);
 

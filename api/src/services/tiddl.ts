@@ -4,7 +4,7 @@ import { Express, Request, Response } from "express";
 import { logs } from "../helpers/jobs";
 import { ProcessingItemType } from "../types";
 
-export function tidalDL(id: number, app: Express, onFinish?: () => void) {
+export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   const item: ProcessingItemType =
     app.settings.processingList.actions.getItem(id);
 

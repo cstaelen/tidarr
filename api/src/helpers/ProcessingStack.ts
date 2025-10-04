@@ -48,7 +48,7 @@ export const ProcessingStack = (expressApp: Express) => {
     notifySSEConnections(expressApp.request);
   }
 
-  async function removeItem(id: number) {
+  async function removeItem(id: string) {
     const item = getItem(id);
     item?.process?.kill("SIGSTOP");
     item?.process?.kill("SIGTERM");
@@ -77,7 +77,7 @@ export const ProcessingStack = (expressApp: Express) => {
     notifySSEConnections(expressApp.request);
   }
 
-  function getItem(id: number): ProcessingItemType {
+  function getItem(id: string): ProcessingItemType {
     const foundIndex = data.findIndex(
       (listItem: ProcessingItemType) => listItem?.id === id,
     );
@@ -143,13 +143,13 @@ export const ProcessingStack = (expressApp: Express) => {
 
     const shouldPostProcess = hasFileToMove();
 
-    replacePathInM3U();
-
     if (!shouldPostProcess) {
       item["status"] = "finished";
       expressApp.settings.processingList.actions.updateItem(item);
       return;
     }
+
+    replacePathInM3U();
 
     // Beets process
     await beets(item.id, expressApp);

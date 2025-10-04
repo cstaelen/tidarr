@@ -2,6 +2,7 @@ import { Chip, Stack } from "@mui/material";
 import { PlaylistType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
+import SyncButton from "../Buttons/SyncButton";
 
 import PageHeader from "./Header";
 
@@ -27,6 +28,7 @@ export default function PlaylistHeader({
             size="small"
           />
           <Chip label={`${playlist.numberOfTracks} tracks`} size="small" />
+          <SyncButton item={playlist} type="playlist" />
           <DownloadButton
             item={playlist}
             id={playlist.uuid}

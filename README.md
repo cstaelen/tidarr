@@ -24,6 +24,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Lock quality selector](#lock-quality-selector)
   - [Proxy](#proxy)
   - [M3U track base path](#m3u-track-base-path)
+  - [Sync playlists and mixes](#sync-playlists-and-mixes)
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-update)
@@ -51,6 +52,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Download covers
 - Admin password
 - M3U file for playlist with customizable path
+- Sync playlists with cron
 - Skip download if track exists
 
 ### Service integration
@@ -226,6 +228,28 @@ You can custom base path used by track path in `.m3u` file :
   - M3U_BASEPATH_FILE="../../"
 ```
 
+### Sync playlists and mixes
+
+Default value is daily sync at **3 am** (`0 3 * * *`).
+You can set a custom cron expression using `SYNC_CRON_EXPRESSION` env var.
+
+To run task at midnight (00:00) every Monday :
+
+```yaml
+environment:
+  - ...
+  - SYNC_CRON_EXPRESSION="0 0 * * 1"
+```
+
+**\* Syntaxe :**
+- Minute (0 - 59)
+- Hour (0 - 23)
+- Day of the month (1 - 31)
+- Month (1 - 12)
+- Day of the week (0 - 7) (Sunday is both 0 and 7)
+
+
+
 ## Services
 
 ### Beets
@@ -285,6 +309,7 @@ environment:
   - APPRISE_API_TAG=tidarr # optional
 ```
 If no tag is defined, default tag value will be "all".
+
 
 ## User requests
 As I'am the only maintainer for now, user requested features can takes time.

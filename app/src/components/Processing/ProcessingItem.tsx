@@ -56,7 +56,7 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
         </Box>
       </TableCell>
       <TableCell scope="row">
-        <Link to={item.url} target="_blank" style={{ color: "white" }}>
+        <Link to={`${item.type}/${item.id}`} style={{ color: "white" }}>
           {item.title}
         </Link>
       </TableCell>
