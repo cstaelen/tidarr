@@ -12,7 +12,8 @@ export async function getTracksByMixId(mixId: string, config: TiddlConfig) {
   const response = await fetch(url, options);
 
   if (!response.ok) {
-    throw new Error(`Failed to add track to playlist: ${response.status}`);
+    console.error(`Failed to add track to playlist: ${response.status}`);
+    return;
   }
 
   const json = await response.json();
@@ -50,7 +51,8 @@ export async function createNewPlaylist(title: string, config: TiddlConfig) {
   const response = await fetch(url, options);
 
   if (!response.ok) {
-    throw new Error(`Failed to add track to playlist: ${response.status}`);
+    console.error(`Failed to add track to playlist: ${response.status}`);
+    return;
   }
 
   const json = await response.json();
@@ -71,7 +73,8 @@ export async function deletePlaylist(playlistId: number, config: TiddlConfig) {
   const response = await fetch(url, options);
 
   if (!response.ok) {
-    throw new Error(`Failed to delete playlist: ${response.status}`);
+    console.error(`Failed to delete playlist: ${response.status}`);
+    return;
   }
 
   return response;
