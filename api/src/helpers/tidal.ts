@@ -91,12 +91,14 @@ export async function getPlaylistEtag(playlistId: number, config: TiddlConfig) {
   );
 
   if (!playlistRes.ok) {
-    throw new Error(`Failed to fetch playlist ETag: ${playlistRes.status}`);
+    console.error(`Failed to fetch playlist ETag: ${playlistRes.status}`);
+    return;
   }
 
   const etag = playlistRes.headers.get("etag");
   if (!etag) {
-    throw new Error("No ETag returned by Tidal API");
+    console.error("No ETag returned by Tidal API");
+    return;
   }
 
   return etag;

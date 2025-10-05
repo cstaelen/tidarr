@@ -9,9 +9,10 @@ export function logs(
   message: string,
 ): string {
   console.log(message);
+  if (!item) return message;
   if (!message) return item["output"];
 
-  if (item && !item?.["output_history"]) {
+  if (!item?.["output_history"]) {
     item["output_history"] = [];
   }
 
