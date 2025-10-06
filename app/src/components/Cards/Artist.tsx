@@ -7,6 +7,7 @@ import { useConfigProvider } from "src/provider/ConfigProvider";
 import { ArtistType } from "src/types";
 
 import { ArtistAvatar } from "./common/ArtistAvatar";
+import CoverLink from "./common/CoverLink";
 
 export default function Artist({ artist }: { artist: ArtistType }) {
   const navigate = useNavigate();
@@ -22,10 +23,7 @@ export default function Artist({ artist }: { artist: ArtistType }) {
       }}
     >
       <CardContent sx={{ flex: "0 0 auto" }}>
-        <Link
-          to={`/artist/${artist.id}`}
-          style={{ lineHeight: 0, textDecoration: "none" }}
-        >
+        <CoverLink url={`/artist/${artist.id}`}>
           <ArtistAvatar
             alt={artist.name}
             sx={{ width: 100, height: 100 }}
@@ -34,7 +32,7 @@ export default function Artist({ artist }: { artist: ArtistType }) {
               "/",
             )}/750x750.jpg`}
           />
-        </Link>
+        </CoverLink>
       </CardContent>
 
       <CardContent

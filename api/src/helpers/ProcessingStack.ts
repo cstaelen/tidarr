@@ -48,7 +48,7 @@ export const ProcessingStack = (expressApp: Express) => {
     notifySSEConnections(expressApp.request);
   }
 
-  async function removeItem(id: number) {
+  async function removeItem(id: string) {
     const item = getItem(id);
     item?.process?.kill("SIGSTOP");
     item?.process?.kill("SIGTERM");
@@ -77,7 +77,7 @@ export const ProcessingStack = (expressApp: Express) => {
     notifySSEConnections(expressApp.request);
   }
 
-  function getItem(id: number): ProcessingItemType {
+  function getItem(id: string): ProcessingItemType {
     const foundIndex = data.findIndex(
       (listItem: ProcessingItemType) => listItem?.id === id,
     );
@@ -100,42 +100,45 @@ export const ProcessingStack = (expressApp: Express) => {
 
   async function processItem(item: ProcessingItemType) {
     item["status"] = "processing";
+    item["output_history"] = [];
+    expressApp.settings.processingList.actions.updateItem(item);
 
-    if (item.type === "mix" && !process.env.IS_DOCKER) {
-      const config = expressApp.settings.tiddlConfig as TiddlConfig;
+    if (item.type === "mix") {
+      processingMix(item);
+    } else {
+      tidalDL(item.id, expressApp);
+    }
+  }
 
-      item["output"] = logs(item, `Mix: get track from mix id`);
+  async function processingMix(item: ProcessingItemType) {
+    const config = expressApp.settings.tiddlConfig as TiddlConfig;
+
+    item["output"] = logs(item, `Mix: get track from mix id`);
+    expressApp.settings.processingList.actions.updateItem(item);
+    const tracks = await getTracksByMixId(item.id, config);
+
+    item["output"] = logs(item, `Mix: create new playlist`);
+    expressApp.settings.processingList.actions.updateItem(item);
+    const playlistId = await createNewPlaylist(item.title, config);
+
+    if (tracks) {
+      item["output"] = logs(item, `Mix: add track ids to new playlist`);
       expressApp.settings.processingList.actions.updateItem(item);
-      const tracks = await getTracksByMixId(item.id, config);
+      await addTracksToPlaylist(playlistId, tracks, config);
 
-      item["output"] = logs(item, `Mix: create new playlist`);
+      item["url"] = `playlist/${playlistId}`;
+      item["output"] = logs(item, `Mix: download playlist`);
       expressApp.settings.processingList.actions.updateItem(item);
-      const playlistId = await createNewPlaylist(item.title, config);
 
-      if (tracks) {
-        item["output"] = logs(item, `Mix: add track ids to new playlist`);
-        expressApp.settings.processingList.actions.updateItem(item);
-        await addTracksToPlaylist(playlistId, tracks, config);
-
-        item["url"] = `playlist/${playlistId}`;
-
-        item["output"] = logs(item, `Mix: download playlist`);
-        expressApp.settings.processingList.actions.updateItem(item);
-
-        tidalDL(item.id, expressApp, () => {
-          item["output"] = logs(item, `Mix: delete playlist`);
-          deletePlaylist(playlistId, config);
-        });
-
-        return;
-      }
-
-      deletePlaylist(playlistId, config);
+      tidalDL(item.id, expressApp, () => {
+        item["output"] = logs(item, `Mix: delete playlist`);
+        deletePlaylist(playlistId, config);
+      });
 
       return;
     }
 
-    tidalDL(item.id, expressApp);
+    deletePlaylist(playlistId, config);
   }
 
   async function postProcessing(item: ProcessingItemType) {
@@ -143,13 +146,13 @@ export const ProcessingStack = (expressApp: Express) => {
 
     const shouldPostProcess = hasFileToMove();
 
-    replacePathInM3U();
-
     if (!shouldPostProcess) {
       item["status"] = "finished";
       expressApp.settings.processingList.actions.updateItem(item);
       return;
     }
+
+    replacePathInM3U();
 
     // Beets process
     await beets(item.id, expressApp);

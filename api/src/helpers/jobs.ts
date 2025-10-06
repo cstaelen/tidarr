@@ -9,6 +9,7 @@ export function logs(
   message: string,
 ): string {
   console.log(message);
+  if (!item) return message;
   if (!message) return item["output"];
 
   if (!item?.["output_history"]) {
@@ -22,7 +23,7 @@ export function logs(
 }
 
 export async function moveAndClean(
-  id: number,
+  id: string,
   app: Express,
 ): Promise<{ save: boolean }> {
   const item: ProcessingItemType =
