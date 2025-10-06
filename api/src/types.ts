@@ -1,12 +1,19 @@
 import { ChildProcess, ChildProcessWithoutNullStreams } from "child_process";
 
 export type QualityType = "low" | "normal" | "high" | "master";
+export type ContentType =
+  | "album"
+  | "track"
+  | "playlist"
+  | "artist"
+  | "video"
+  | "mix";
 
 export type ProcessingItemType = {
-  id: number;
+  id: string;
   artist: string;
   title: string;
-  type: "album" | "track" | "playlist" | "artist" | "video" | "mix";
+  type: ContentType;
   status: "queue" | "finished" | "downloaded" | "processing" | "error";
   quality: QualityType;
   url: string;
@@ -32,6 +39,7 @@ export type TiddlConfig = {
     embed_lyrics: boolean;
     download_video: boolean;
     scan_path: string;
+    save_playlist_m3u: boolean;
   };
   cover: {
     save: boolean;
@@ -56,4 +64,15 @@ export type LogType = {
   status?: "finished" | "error" | "auth" | undefined;
   loading?: boolean;
   error?: boolean;
+};
+
+// SYNC LIST
+
+export type SyncItemType = {
+  id: string;
+  title: string;
+  url: string;
+  lastUpdate?: string;
+  quality: QualityType;
+  type: ContentType;
 };

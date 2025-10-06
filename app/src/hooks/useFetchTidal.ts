@@ -12,7 +12,7 @@ type FetchTidalProps = {
   tiddlConfig?: ConfigTiddleType;
   useProxy?: boolean;
   search?: FetchTidalSearchProps;
-  logout: () => void;
+  resetTidalToken: () => void;
 };
 
 export type FetchTidalSearchProps = {
@@ -31,7 +31,7 @@ async function fetchTidal<T>({
   tiddlConfig,
   useProxy,
   search,
-  logout,
+  resetTidalToken,
 }: FetchTidalProps): Promise<T | undefined> {
   const countryCode = tiddlConfig?.auth.country_code || "EN";
   const TOKEN = tiddlConfig?.auth.token;
@@ -83,7 +83,7 @@ async function fetchTidal<T>({
       // Session not valid
       case 6001:
       case 11002:
-        logout();
+        resetTidalToken();
         throw new Error(response.statusText);
     }
     return;
@@ -99,7 +99,11 @@ async function fetchTidal<T>({
 }
 
 export function useFetchTidal() {
-  const { tiddlConfig, config } = useConfigProvider();
+  const {
+    tiddlConfig,
+    config,
+    actions: { checkAPI },
+  } = useConfigProvider();
   const [loading, setLoading] = useState<boolean>(false);
   const {
     actions: { delete_token },
@@ -117,9 +121,9 @@ export function useFetchTidal() {
       tiddlConfig: tiddlConfig,
       useProxy: config?.ENABLE_TIDAL_PROXY === "true",
       search: search,
-      logout: async () => {
+      resetTidalToken: async () => {
         await delete_token();
-        window.location.reload();
+        await checkAPI();
       },
     });
     setLoading(false);

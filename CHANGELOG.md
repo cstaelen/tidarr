@@ -4,6 +4,13 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 0.3.5
+### 🚀 Added
+* [API] Update tiddl: add playlist `.m3u` file by setting `save_playlist_m3u` to `true` in `tiddl.json`
+* [Docker] Custom `.m3u` file track path with `M3U_BASEPATH_FILE=` in docker env.
+* [API/Front] Sync playlists and mixes. Default interval is daily or use custom with `SYNC_CRON_EXPRESSION`
+### 🖍 Changed
+* [API] Update tiddl from `2.5.2` to `2.6.2`
+* [Chore] Renovate some dependencies
 ### 🐛 Fixed
 * [Front] Fix infinite refresh when token is expired
 

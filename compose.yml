@@ -30,6 +30,8 @@ services:
       - ENABLE_APPRISE_API=
       - APPRISE_API_ENDPOINT=
       - APPRISE_API_TAG=
+      - M3U_BASEPATH_FILE=
+      - SYNC_CRON_EXPRESSION=
       
   testing:
     build: 

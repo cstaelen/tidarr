@@ -9,6 +9,7 @@ export function logs(
   message: string,
 ): string {
   console.log(message);
+  if (!item) return message;
   if (!message) return item["output"];
 
   if (!item?.["output_history"]) {
@@ -22,7 +23,7 @@ export function logs(
 }
 
 export async function moveAndClean(
-  id: number,
+  id: string,
   app: Express,
 ): Promise<{ save: boolean }> {
   const item: ProcessingItemType =
@@ -90,6 +91,32 @@ export function hasFileToMove(): boolean {
     .filter((file) => file);
 
   return filesToCopy.length > 0;
+}
+
+export function replacePathInM3U(): void {
+  const basePath = process.env.M3U_BASEPATH_FILE || "./";
+  const incompleteDir = `${ROOT_PATH}/download/incomplete/`;
+
+  const m3uFilePath = execSync(`find "${incompleteDir}" -name "*.m3u"`, {
+    encoding: "utf-8",
+  }).trim();
+
+  if (!m3uFilePath) {
+    console.log(`No m3u file found:. ${incompleteDir}`);
+    return;
+  }
+
+  try {
+    let m3uContent = execSync(`cat "${m3uFilePath}"`, {
+      encoding: "utf-8",
+    });
+
+    m3uContent = m3uContent.replace(new RegExp(incompleteDir, "g"), basePath);
+    execSync(`echo "${m3uContent}" > "${m3uFilePath}"`);
+    console.log(`M3u file updated with custom url !`);
+  } catch (e) {
+    console.error(`Error replacing path in m3u file: ${(e as Error).message}`);
+  }
 }
 
 export async function setPermissions() {

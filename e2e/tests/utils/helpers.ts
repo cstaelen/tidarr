@@ -42,7 +42,11 @@ export async function testProcessingList(
     page.getByRole("heading", { name: "Console output" }),
   ).toBeVisible();
 
-  await expect(page.getByText("=== Tiddl ===")).toBeVisible();
+  if (shouldContains.includes("mix")) {
+    await expect(page.getByText("Mix: create new playlist")).toBeVisible();
+  } else {
+    await expect(page.getByText("=== Tiddl ===")).toBeVisible();
+  }
 
   if (quality) {
     await expect(page.getByText(`-q ${quality}`)).toBeVisible();
