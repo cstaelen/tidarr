@@ -23,6 +23,8 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Password protection](#password-protection)
   - [Lock quality selector](#lock-quality-selector)
   - [Proxy](#proxy)
+  - [M3U track base path](#m3u-track-base-path)
+  - [Sync playlists and mixes](#sync-playlists-and-mixes)
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-update)
@@ -49,6 +51,9 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Search by url : artist url, album url, playlist url, track url, mix url
 - Download covers
 - Admin password
+- M3U file for playlist with customizable path
+- Sync playlists with cron
+- Skip download if track exists
 
 ### Service integration
 
@@ -66,7 +71,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Server-side download list processing
 - UI built with **ReactJS** + **ExpressJS** API
 - Self-hostable with **Docker** using a Linuxserver.io base image (uncompressed size: ~190 MB)
-- Download Tidal content with [Tiddl (2.5.2)](https://github.com/oskvr37/tiddl/tree/v2.5.2)
+- Download Tidal content with [Tiddl (2.6.2)](https://github.com/oskvr37/tiddl/tree/v2.6.2)
 
 
 
@@ -150,7 +155,9 @@ See default :
         // Include or not singles while downloading "all releases"
         "singles_filter": "none", // "none", "only", "include"
         // Show video content
-        "download_video": true
+        "download_video": true,
+        // Add playlist file
+        "save_playlist_m3u": true
     },
     "cover": {
         "save": false,
@@ -209,6 +216,39 @@ You may want to use proxy for tidal server queries to enhance privacy.
   - ...
   - ENABLE_TIDAL_PROXY=true
 ```
+
+### M3U track base path 
+
+Default base path used in `.m3u` : `./`
+You can custom base path used by track path in `.m3u` file :  
+
+```yaml
+ environment:
+  - ...
+  - M3U_BASEPATH_FILE="../../"
+```
+
+### Sync playlists and mixes
+
+Default value is daily sync at **3 am** (`0 3 * * *`).
+You can set a custom cron expression using `SYNC_CRON_EXPRESSION` env var.
+
+To run task at midnight (00:00) every Monday :
+
+```yaml
+environment:
+  - ...
+  - SYNC_CRON_EXPRESSION="0 0 * * 1"
+```
+
+**\* Syntaxe :**
+- Minute (0 - 59)
+- Hour (0 - 23)
+- Day of the month (1 - 31)
+- Month (1 - 12)
+- Day of the week (0 - 7) (Sunday is both 0 and 7)
+
+
 
 ## Services
 
@@ -269,6 +309,7 @@ environment:
   - APPRISE_API_TAG=tidarr # optional
 ```
 If no tag is defined, default tag value will be "all".
+
 
 ## User requests
 As I'am the only maintainer for now, user requested features can takes time.

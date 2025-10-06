@@ -10,6 +10,7 @@ import { DownloadButton } from "../Buttons/DownloadButton";
 
 import { ArtistAvatar } from "./common/ArtistAvatar";
 import { ChipQuality } from "./common/ChipQuality";
+import CoverLink from "./common/CoverLink";
 import ImageLazy from "./common/ImageLazy";
 
 export default function AlbumCard({ album }: { album: AlbumType }) {
@@ -85,7 +86,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
         </div>
       </Stack>
       <Stack direction={display === "large" ? "column" : "row"}>
-        <Link to={`/album/${album.id}`} style={{ lineHeight: 0 }}>
+        <CoverLink url={`/album/${album.id}`}>
           <ImageLazy
             height={display === "small" ? 120 : "100%"}
             width={display === "small" ? 120 : "100%"}
@@ -95,7 +96,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
             )}/750x750.jpg`}
             alt="Live from space album cover"
           />
-        </Link>
+        </CoverLink>
         <Box
           sx={{
             display: "flex",

@@ -1,6 +1,6 @@
 import { execSync, spawnSync } from "child_process";
 
-import { BUILD_PATH } from "../../constants";
+import { BUILD_PATH, SYNC_DEFAULT_CRON } from "../../constants";
 
 export async function configureServer() {
   console.log(`=== Set config files ===`);
@@ -35,6 +35,8 @@ export async function configureServer() {
         APPRISE_API_TAG: process.env.APPRISE_API_TAG || "",
         LOCK_QUALITY: process.env.LOCK_QUALITY || "",
         ENABLE_TIDAL_PROXY: process.env.ENABLE_TIDAL_PROXY || "",
+        SYNC_CRON_EXPRESSION:
+          process.env.SYNC_CRON_EXPRESSION || SYNC_DEFAULT_CRON || "",
       },
     };
   } catch (error: unknown) {
@@ -43,6 +45,7 @@ export async function configureServer() {
 }
 
 export function refreshTidalToken() {
+  execSync("cp -rf /home/app/standalone/shared/tiddl.json /root/tiddl.json");
   console.log("Refreshing Tidal token...");
   spawnSync("tiddl", ["auth", "refresh"]);
   console.log("Tidal token refreshed.");
