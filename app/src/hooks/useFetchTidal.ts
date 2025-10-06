@@ -72,7 +72,6 @@ async function fetchTidal<T>({
   const data = await response.json();
 
   // 401
-  console.log(data.subStatus, response.status);
   if (response.status === 401) {
     switch (data.subStatus) {
       // Token need refresh

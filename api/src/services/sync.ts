@@ -50,9 +50,8 @@ export const createCronJob = async (app: Express) => {
     fs.readFileSync(filePath, "utf8"),
   );
 
-  if (!syncList || syncList?.length === 0) return;
-
   cron.getTasks().forEach((task) => task.stop());
+
   syncList.forEach((element) => {
     cron.schedule(process.env.SYNC_CRON_EXPRESSION || SYNC_DEFAULT_CRON, () => {
       const itemToQueue: ProcessingItemType = {

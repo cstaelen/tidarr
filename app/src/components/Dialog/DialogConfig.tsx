@@ -252,6 +252,9 @@ export const DialogConfig = () => {
                       <strong>Type</strong>
                     </TableCell>
                     <TableCell>
+                      <strong>Quality</strong>
+                    </TableCell>
+                    <TableCell>
                       <strong>Last run</strong>
                     </TableCell>
                     <TableCell align="center">Remove</TableCell>
@@ -271,6 +274,7 @@ export const DialogConfig = () => {
                         </Link>
                       </TableCell>
                       <TableCell>{row.type}</TableCell>
+                      <TableCell>{row.quality}</TableCell>
                       <TableCell>
                         {row.lastUpdate && (
                           <>
