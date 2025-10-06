@@ -10,6 +10,12 @@ import { get_tiddl_config } from "./src/helpers/get_tiddl_config";
 import { ProcessingStack, sendSSEUpdate } from "./src/helpers/ProcessingStack";
 import { is_auth_active, proceed_auth } from "./src/services/auth";
 import { configureServer, refreshTidalToken } from "./src/services/config";
+import {
+  addItemToSyncList,
+  createCronJob,
+  getSyncList,
+  removeItemFromSyncList,
+} from "./src/services/sync";
 import { deleteTiddlConfig, tidalToken } from "./src/services/tiddl";
 import { TIDAL_API_URL } from "./constants";
 
@@ -142,9 +148,47 @@ app.get("/api/check", ensureAccessIsGranted, (_req: Request, res: Response) => {
   });
 });
 
+// api sync playlist
+
+app.get(
+  "/api/sync/list",
+  ensureAccessIsGranted,
+  (_req: Request, res: Response) => {
+    const list = getSyncList();
+    res.status(200).json(list);
+  },
+);
+
+app.post(
+  "/api/sync/save",
+  ensureAccessIsGranted,
+  async (req: Request, res: Response) => {
+    addItemToSyncList(req.body.item);
+    createCronJob(app);
+
+    res.sendStatus(201);
+  },
+);
+
+app.post(
+  "/api/sync/remove",
+  ensureAccessIsGranted,
+  async (req: Request, res: Response) => {
+    removeItemFromSyncList(req.body.id);
+    createCronJob(app);
+
+    res.sendStatus(201);
+  },
+);
+
+// Run
+
 app.listen(port, async () => {
   const config = await configureServer();
   app.set("config", config);
+
+  createCronJob(app);
+
   console.log(`⚡️[server]: Server is running at http://${hostname}:${port}`);
 });
 

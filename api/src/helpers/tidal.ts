@@ -1,6 +1,6 @@
 import { TiddlConfig } from "../types";
 
-export async function getTracksByMixId(mixId: number, config: TiddlConfig) {
+export async function getTracksByMixId(mixId: string, config: TiddlConfig) {
   if (!config) return;
 
   const url = `https://api.tidal.com/v1/mixes/${mixId}/items?countryCode=${config.auth.country_code}`;
@@ -12,7 +12,8 @@ export async function getTracksByMixId(mixId: number, config: TiddlConfig) {
   const response = await fetch(url, options);
 
   if (!response.ok) {
-    throw new Error(`Failed to add track to playlist: ${response.status}`);
+    console.error(`Failed to add track to playlist: ${response.status}`);
+    return;
   }
 
   const json = await response.json();
@@ -50,7 +51,8 @@ export async function createNewPlaylist(title: string, config: TiddlConfig) {
   const response = await fetch(url, options);
 
   if (!response.ok) {
-    throw new Error(`Failed to add track to playlist: ${response.status}`);
+    console.error(`Failed to add track to playlist: ${response.status}`);
+    return;
   }
 
   const json = await response.json();
@@ -71,7 +73,8 @@ export async function deletePlaylist(playlistId: number, config: TiddlConfig) {
   const response = await fetch(url, options);
 
   if (!response.ok) {
-    throw new Error(`Failed to delete playlist: ${response.status}`);
+    console.error(`Failed to delete playlist: ${response.status}`);
+    return;
   }
 
   return response;
@@ -88,12 +91,14 @@ export async function getPlaylistEtag(playlistId: number, config: TiddlConfig) {
   );
 
   if (!playlistRes.ok) {
-    throw new Error(`Failed to fetch playlist ETag: ${playlistRes.status}`);
+    console.error(`Failed to fetch playlist ETag: ${playlistRes.status}`);
+    return;
   }
 
   const etag = playlistRes.headers.get("etag");
   if (!etag) {
-    throw new Error("No ETag returned by Tidal API");
+    console.error("No ETag returned by Tidal API");
+    return;
   }
 
   return etag;

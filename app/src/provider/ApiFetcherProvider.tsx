@@ -37,6 +37,9 @@ type ApiFetcherContextType = {
       controller: EventSourceController;
     };
     delete_token: () => void;
+    add_sync_item: (body: string) => void;
+    remove_sync_item: (body: string) => void;
+    get_sync_list: () => Promise<ProcessingItemType[] | undefined>;
   };
 };
 
@@ -218,6 +221,37 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     return await queryExpressJS<LogType>(`${apiUrl}/delete_token`);
   }
 
+  // Sync list
+
+  async function get_sync_list() {
+    return await queryExpressJS<ProcessingItemType[]>(`${apiUrl}/sync/list`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
+  async function add_sync_item(body: string) {
+    return await queryExpressJS(`${apiUrl}/sync/save`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: body,
+    });
+  }
+
+  async function remove_sync_item(body: string) {
+    return await queryExpressJS(`${apiUrl}/sync/remove`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: body,
+    });
+  }
+
   const value = {
     apiUrl,
     error: {
@@ -233,6 +267,9 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       is_auth_active,
       get_token_sse,
       delete_token,
+      get_sync_list,
+      add_sync_item,
+      remove_sync_item,
     },
   };
 
