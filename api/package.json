@@ -6,13 +6,13 @@
     "@types/express": "^5.0.3",
     "@types/express-http-proxy": "^1.6.7",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.5.2"
+    "@types/node": "^24.7.0"
   },
   "dependencies": {
     "@types/apicache": "^1.6.7",
     "apicache": "^1.6.3",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.2",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "express-http-proxy": "^2.1.2",
     "jsonwebtoken": "^9.0.2",
