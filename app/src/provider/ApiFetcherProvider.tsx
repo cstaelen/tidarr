@@ -102,7 +102,6 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       console.log((e as Error).message);
       setApiError({ statusText: (e as Error).message } as Response);
       return;
-      //throw new Error((e as Error).message);
     }
 
     return output;
