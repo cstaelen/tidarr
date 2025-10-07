@@ -56,8 +56,12 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       deleteTiddlConfig();
     }
 
+    const isDownloaded =
+      item["output"].toString().includes("can't save playlist m3u file") ||
+      code === 0;
+
     item["output"] = logs(item, `Tiddl process exited with code  ${code}`);
-    item["status"] = code === 0 ? "downloaded" : "error";
+    item["status"] = isDownloaded ? "downloaded" : "error";
     item["loading"] = false;
     app.settings.processingList.actions.updateItem(item);
     if (onFinish) onFinish();
