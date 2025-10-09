@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.3.6
+### 🚀 Added
+* [Front] Add track version to track title
+
 ## 📦 0.3.5
 ### 🚀 Added
 * [API] Update tiddl: add playlist `.m3u` file by setting `save_playlist_m3u` to `true` in `tiddl.json`
