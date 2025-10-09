@@ -15,6 +15,7 @@
 
 #ai
 .continue
+AGENT.md
 
 # docker
 compose.override.yml

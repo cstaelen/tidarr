@@ -127,6 +127,7 @@ function TitleLink({ track }: { track: TrackType }) {
         style={{ lineHeight: 1, fontSize: "0.875rem" }}
       >
         <strong>{track.title}</strong>
+        {track?.version && <span> ({track.version})</span>}
       </Typography>
     </Link>
   );
