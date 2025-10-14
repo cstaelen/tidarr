@@ -6,6 +6,8 @@ Tidarr notable changes.
 ## 📦 0.3.6
 ### 🚀 Added
 * [Front] Add track version to track title
+### 🐛 Fixed
+* [API] Fix sync list "output" issue 
 
 ## 📦 0.3.5
 ### 🚀 Added

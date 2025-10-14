@@ -67,7 +67,7 @@ export const createCronJob = async (app: Express) => {
         output: "",
         output_history: [],
       };
-      app.settings.processingList.actions.removeItem(itemToQueue);
+      app.settings.processingList.actions.removeItem(element.id);
       app.settings.processingList.actions.addItem(itemToQueue);
       updateSyncItem(element.id, {
         lastUpdate: new Date().toISOString(),
