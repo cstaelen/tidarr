@@ -8,6 +8,8 @@ Tidarr notable changes.
 * [Front] Add track version to track title
 ### 🐛 Fixed
 * [API] Fix sync list "output" issue 
+* [Front] Fix token missing dialog reload loop
+* [Tiddl] Update to `2.6.3` - Fix OAUTH issue (thx @oskvr37)
 
 ## 📦 0.3.5
 ### 🚀 Added

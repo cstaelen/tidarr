@@ -1,5 +1,6 @@
 import React, {
   ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -37,21 +38,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [],
   );
 
-  function redirectAfterLogin() {
+  const redirectAfterLogin = useCallback(() => {
     const redirect = localStorage.getItem(LOCALSTORAGE_REDIRECT_URL);
     if (redirect) {
       localStorage.removeItem(LOCALSTORAGE_REDIRECT_URL);
       return navigate(redirect);
     }
     return navigate("/");
-  }
+  }, [navigate]);
 
-  const check = async () => {
+  const checkIfAuthIsActive = useCallback(async () => {
+    if (isAuthActive !== undefined) return;
+
     const response = await is_auth_active();
 
     setIsAuthActive(response && (response as CheckAuthType).isAuthActive);
     if (pathname === ROUTE_LOGIN) redirectAfterLogin();
-  };
+  }, [isAuthActive, is_auth_active, pathname, redirectAfterLogin]);
 
   const login = async (password: string) => {
     const response = await auth(JSON.stringify({ password: password }));
@@ -77,11 +80,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    if (isAuthActive === undefined) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      check();
-    }
-  }, []);
+    const checkAuth = async () => {
+      await checkIfAuthIsActive();
+    };
+    checkAuth();
+  }, [checkIfAuthIsActive]);
 
   const value = {
     isAuthActive,
