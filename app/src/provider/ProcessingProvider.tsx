@@ -142,6 +142,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   // First load
   useEffect(() => {
     if (processingEventSource) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     openStreamProcessing();
 
     window.addEventListener("beforeunload", closeStreamProcessing);

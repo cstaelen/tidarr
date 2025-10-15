@@ -36,6 +36,7 @@ export const useAlbum = (id: string | undefined): AlbumContextType => {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (id) queryAlbum();
   }, [id]);
 

@@ -26,6 +26,7 @@ const SyncButton: React.FC<{
   );
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsSynced(
       syncList.find((item: SyncItemType) => item?.id === syncObj?.id) !==
         undefined,

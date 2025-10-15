@@ -98,17 +98,21 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
   // Fetch on page change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (keywords) runSearch(keywords);
   }, [page]);
 
   useEffect(() => {
     if (keywords) {
       // window.scrollTo(0, 0);
+
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSearchResults({} as TidalResponseType);
       if (page > 1) {
         setPage(1);
         return;
       }
+
       runSearch(keywords);
     }
   }, [keywords]);
@@ -116,9 +120,11 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   // If url query exists on load
   useEffect(() => {
     if (!params.keywords || !config) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setKeywords(undefined);
       return;
     }
+
     setKeywords(params.keywords);
   }, [params, config]);
 

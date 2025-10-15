@@ -32,6 +32,7 @@ export const DownloadButton = ({
 
   useEffect(() => {
     if (!processingList || processingList?.length === 0 || !id) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setStatus(undefined);
       return;
     }
