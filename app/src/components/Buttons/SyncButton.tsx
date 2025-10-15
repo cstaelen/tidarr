@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { SyncDisabled } from "@mui/icons-material";
 import SyncIcon from "@mui/icons-material/Sync";
 import { Button, Tooltip } from "@mui/material";
@@ -11,7 +11,7 @@ const SyncButton: React.FC<{
   type: ContentType;
 }> = ({ item, type }) => {
   const { syncList, actions } = useSync();
-  const [isSynced, setIsSynced] = useState(false);
+
   const { quality } = useConfigProvider();
 
   const syncObj = useMemo<SyncItemType>(
@@ -25,13 +25,12 @@ const SyncButton: React.FC<{
     [item, quality, type],
   );
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsSynced(
+  const isSynced = useMemo(() => {
+    return (
       syncList.find((item: SyncItemType) => item?.id === syncObj?.id) !==
-        undefined,
+      undefined
     );
-  }, [syncList, syncObj]);
+  }, [syncList, syncObj?.id]);
 
   const handleClick = (syncItem: SyncItemType) => {
     if (isSynced) {
@@ -39,7 +38,6 @@ const SyncButton: React.FC<{
     } else {
       actions.addSyncItem(syncItem);
     }
-    setIsSynced(!isSynced);
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useMemo } from "react";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckIcon from "@mui/icons-material/Check";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -27,21 +27,18 @@ export const DownloadButton = ({
   type: "album" | "artist" | "track" | "playlist" | "video" | "mix";
   label: string;
 }) => {
-  const [status, setStatus] = React.useState<string>();
   const { processingList, actions } = useProcessingProvider();
 
-  useEffect(() => {
+  const status = useMemo(() => {
     if (!processingList || processingList?.length === 0 || !id) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setStatus(undefined);
-      return;
+      return undefined;
     }
 
     const index = processingList.findIndex(
       (x) => x.id?.toString() === id?.toString(),
     );
 
-    setStatus(index > -1 ? processingList?.[index]?.status : undefined);
+    return index > -1 ? processingList?.[index]?.status : undefined;
   }, [processingList, id]);
 
   const downloadItem = async () => {

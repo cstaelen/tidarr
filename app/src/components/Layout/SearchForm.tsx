@@ -44,14 +44,16 @@ export const SearchForm = () => {
   }
 
   useEffect(() => {
-    if (pathname === "/") {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setInputValue("");
-      return;
+    function updateInputValue() {
+      if (pathname === "/") {
+        setInputValue("");
+        return;
+      }
+      if (params) {
+        setInputValue(params.keywords);
+      }
     }
-    if (params) {
-      setInputValue(params.keywords);
-    }
+    updateInputValue();
   }, [pathname, params]);
 
   return (
