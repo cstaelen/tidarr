@@ -1,49 +1,60 @@
 import { useEffect, useState } from "react";
 import WarningIcon from "@mui/icons-material/Warning";
 import { CircularProgress, Link, Paper, Typography } from "@mui/material";
+import { EventSourceController } from "event-source-plus";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 import { DialogHandler } from ".";
 
 export const DialogToken = () => {
-  const { tokenMissing, actions } = useConfigProvider();
+  const { tokenMissing } = useConfigProvider();
   const {
     actions: { get_token_sse },
   } = useApiFetcher();
   const [output, setOutput] = useState<string>();
+  const [error, setError] = useState<boolean>(false);
   const [forceClose, setForceClose] = useState<boolean>(false);
   const [sseController, setSseController] = useState<AbortController>();
 
   useEffect(() => {
-    if (!tokenMissing) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setOutput("");
+    function runTokenSSE(controller: EventSourceController) {
+      setOutput("");
+      setSseController(controller);
+    }
+
+    if (!tokenMissing || error) return;
 
     const { controller } = get_token_sse(setOutput);
-
-    setSseController(controller);
-
-    return () => {
-      controller?.abort();
-    };
-  }, [get_token_sse, tokenMissing]);
+    runTokenSSE(controller);
+  }, [error, get_token_sse, tokenMissing]);
 
   useEffect(() => {
+    function closeSSE(isError?: boolean, message?: string) {
+      if (message) setOutput(message);
+      if (isError) setError(true);
+      return;
+    }
+
     if (!tokenMissing) return;
-    if (output?.includes("Authenticated!") || output?.includes("closing")) {
-      sseController?.abort();
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setOutput("Authenticated !");
+
+    if (output?.includes("Authenticated!")) {
+      closeSSE(false, "Authenticated !");
       window.location.reload();
     }
-  }, [actions, output, sseController, tokenMissing]);
+    if (output?.includes("AuthError")) {
+      closeSSE(true);
+    }
+  }, [output, sseController, tokenMissing]);
 
   useEffect(() => {
-    if (!tokenMissing && sseController) {
-      sseController.abort();
-    }
-  }, [sseController, tokenMissing]);
+    if ((tokenMissing || !!sseController) && !error) return;
+    setTimeout(() => {
+      console.log("Closing token SSE.");
+      setSseController(undefined);
+      sseController?.abort();
+    });
+  }, [sseController, tokenMissing, error]);
 
   return (
     <DialogHandler
