@@ -20,19 +20,23 @@ function MainLayout({ children }: { children: ReactNode }) {
   const [appLoaded, setAppLoaded] = useState(false);
   const {
     config,
+    releaseData,
     actions: { checkAPI, checkForUpdates },
   } = useConfigProvider();
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setAppLoaded(true);
-
-    checkAPI();
-  }, []);
+    function init() {
+      if (!config) {
+        checkAPI();
+      }
+      setAppLoaded(true);
+    }
+    init();
+  }, [checkAPI, config]);
 
   useEffect(() => {
-    if (config) checkForUpdates();
-  }, [config]);
+    if (!releaseData) checkForUpdates();
+  }, [checkForUpdates, releaseData]);
 
   return (
     <>
