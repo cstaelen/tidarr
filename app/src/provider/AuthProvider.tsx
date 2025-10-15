@@ -78,6 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (isAuthActive === undefined) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       check();
     }
   }, []);

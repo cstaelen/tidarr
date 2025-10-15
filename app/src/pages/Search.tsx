@@ -47,6 +47,7 @@ export default function Search() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setValue(0);
   }, [params]);
 

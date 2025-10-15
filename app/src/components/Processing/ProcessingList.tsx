@@ -35,7 +35,7 @@ export const ProcessingList = () => {
 
   const buttonColor = hasError ? "error" : !isLoading ? "success" : "primary";
 
-  const ProcessingButton = () => (
+  const processingButton = (
     <>
       {isLoading && (
         <CircularProgress
@@ -68,7 +68,7 @@ export const ProcessingList = () => {
     <SpeedDial
       ariaLabel="Show processing list"
       sx={{ position: "fixed", bottom: 50, right: 16, zIndex: "2000" }}
-      icon={<ProcessingButton />}
+      icon={processingButton}
       FabProps={{
         color: buttonColor,
       }}

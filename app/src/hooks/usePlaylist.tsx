@@ -54,6 +54,7 @@ export const usePlaylist = (id: string | undefined): PlaylistContextType => {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (id) queryPlaylist();
   }, [id, page]);
 

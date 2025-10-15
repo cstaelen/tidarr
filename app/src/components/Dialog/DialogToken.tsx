@@ -17,9 +17,11 @@ export const DialogToken = () => {
 
   useEffect(() => {
     if (!tokenMissing) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOutput("");
 
     const { controller } = get_token_sse(setOutput);
+
     setSseController(controller);
 
     return () => {
@@ -31,6 +33,7 @@ export const DialogToken = () => {
     if (!tokenMissing) return;
     if (output?.includes("Authenticated!") || output?.includes("closing")) {
       sseController?.abort();
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setOutput("Authenticated !");
       window.location.reload();
     }

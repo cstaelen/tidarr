@@ -27,6 +27,7 @@ export const useTrack = (id?: string): ArtistContextType => {
 
   useEffect(() => {
     if (id) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       queryTrack();
     }
   }, [id]);

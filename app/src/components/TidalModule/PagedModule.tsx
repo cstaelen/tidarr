@@ -74,6 +74,7 @@ export default function PagedModule({
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPaginatedData(undefined);
     if (sort) {
       fetchInit();
@@ -82,6 +83,7 @@ export default function PagedModule({
 
   useEffect(() => {
     if (!paginatedData) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       fetchInit();
     }
   }, [fetchInit, paginatedData]);
