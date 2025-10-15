@@ -8,6 +8,12 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   const item: ProcessingItemType =
     app.settings.processingList.actions.getItem(id);
 
+  if (!item) {
+    console.error(`tidalDL: Item with id ${id} not found in processing list`);
+    if (onFinish) onFinish();
+    return;
+  }
+
   item["output"] = logs(item, `=== Tiddl ===`);
 
   const binary = "tiddl";
