@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.3.7
+### 🖍 Changed
+* [API] Update tiddl to `2.6.3`
+ 
 ## 📦 0.3.6
 ### 🚀 Added
 * [Front] Add track version to track title #368
