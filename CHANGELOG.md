@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.3.9
+### 🖍 Changed
+* [Front] Add custom CSS #383
+
 ## 📦 0.3.8
 ### 🖍 Changed
 * [API] Update tiddl to `2.6.4`

@@ -72,8 +72,8 @@ docker-run: ## Run tidarr docker image
 		--name tidarr \
 		--platform=linux/amd64 \
 		-p 8484:8484 \
-		-v ${PWD}/docker/mnt/config/:/home/app/standalone/shared \
-		-v ${PWD}/docker/mnt/library:/home/app/standalone/library/ \
+		-v ${PWD}/docker/mnt/config:/home/app/standalone/shared \
+		-v ${PWD}/docker/mnt/library:/home/app/standalone/library \
 		-e ENABLE_BEETS=true \
 		-e ENABLE_TIDAL_PROXY=true \
 		-e PUID=501 \

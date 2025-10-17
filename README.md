@@ -25,6 +25,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Proxy](#proxy)
   - [M3U track base path](#m3u-track-base-path)
   - [Sync playlists and mixes](#sync-playlists-and-mixes)
+  - [Custom CSS](#custom-css)
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-update)
@@ -74,7 +75,6 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Download Tidal content with [Tiddl (2.6.4)](https://github.com/oskvr37/tiddl/tree/v2.6.4)
 
 
-
 ## Getting Started
 
 Example docker-compose.yml :
@@ -99,7 +99,7 @@ docker run  \
 		--rm \
 		--name tidarr \
 		-p 8484:8484 \
-		-v /any/folder/to/tidarr/config/:/home/app/standalone/shared \
+		-v /any/folder/to/tidarr/config:/home/app/standalone/shared \
 		-v /any/folder/to/library:/home/app/standalone/library \
     cstaelen/tidarr:latest
 ```
@@ -135,15 +135,15 @@ See default :
 
 ```json
 {
-    // More tiddl details : https://github.com/oskvr37/tiddl/wiki/Template-formatting
+  // More tiddl details : https://github.com/oskvr37/tiddl/wiki/Template-formatting
     "template": {
-        "album": "{album_artist}/{album}/{number:02d}. {title}",
+      "album": "{album_artist}/{album}/{number:02d}. {title}",
         "track": "{artist}/_tracks/{artist} - {title}",
         "video": "_videos/{artist}/{artist} - {title}",
         "playlist": "_playlists/{playlist}/{playlist_number:02d}. {artist} - {title}"
     },
     "download": {
-        // Default high (16bit 44.1khz), max available: master (24bit 192khz max)
+      // Default high (16bit 44.1khz), max available: master (24bit 192khz max)
         // https://github.com/oskvr37/tiddl?tab=readme-ov-file#download-quality
         "quality": "high",
         // Should not be changed (otherwise downloads will fail) /!\
@@ -160,13 +160,13 @@ See default :
         "save_playlist_m3u": true
     },
     "cover": {
-        "save": false,
+      "save": false,
         "size": 1280,
         "filename": "cover.jpg"
     },
     // Will be automatically filled by in-app authentication
     "auth": {
-        "token": "",
+      "token": "",
         "refresh_token": "",
         "expires": 0,
         "user_id": "",
@@ -248,6 +248,17 @@ environment:
 - Month (1 - 12)
 - Day of the week (0 - 7) (Sunday is both 0 and 7)
 
+### Custom CSS
+
+You can customize Tidarr's appearance using the `custom.css` file. This file is automatically created in your config folder on first launch.
+
+**File location**: `/your/docker/path/to/tidarr/config/custom.css`
+
+To customize the UI:
+
+1. Edit the `custom.css` file in your config folder
+2. Add your custom CSS rules
+3. Restart the container to apply changes
 
 
 ## Services

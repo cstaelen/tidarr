@@ -3,8 +3,10 @@ echo "Check config running ... "
 
 if [ "$1" == "development" ]; then
     SETTINGS_URL="/home/app/build/settings"
+    PUBLIC_URL="/home/app/build/app/public"
 else
     SETTINGS_URL="/home/app/standalone/settings"
+    PUBLIC_URL="/home/app/standalone/app/build"
 fi
 SHARED_URL="/home/app/standalone/shared"
 
@@ -30,7 +32,14 @@ if [ ! -f "$SHARED_URL/beets/beets-library.blb" ]; then
     echo "[Beets] DB OK"
 fi
 
-if [ ! -f "$SHARED_URL/beets/beet.log" ]; then    
+if [ ! -f "$SHARED_URL/beets/beet.log" ]; then
     touch $SHARED_URL/beets/beet.log
     echo "[Beets] Log OK"
 fi
+
+if [ ! -f "$SHARED_URL/custom.css" ]; then
+    cp $PUBLIC_URL/custom.css $SHARED_URL/custom.css
+    echo "[CSS] Custom style file created"
+fi
+cp $SHARED_URL/custom.css $PUBLIC_URL/custom.css
+echo "[CSS] Load custom styles"
