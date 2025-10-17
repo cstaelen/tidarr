@@ -189,6 +189,8 @@ app.listen(port, async () => {
 
   createCronJob(app);
 
+  app.settings.processingList.actions.loadDataFromFile();
+
   console.log(`⚡️[server]: Server is running at http://${hostname}:${port}`);
 });
 

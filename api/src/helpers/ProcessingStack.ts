@@ -16,6 +16,11 @@ import {
   setPermissions,
 } from "./jobs";
 import {
+  addItemToFile,
+  loadQueueFromFile,
+  removeItemFromFile,
+} from "./queue_save_file";
+import {
   addTracksToPlaylist,
   createNewPlaylist,
   deletePlaylist,
@@ -37,12 +42,21 @@ export function notifySSEConnections(req: Request) {
 export const ProcessingStack = (expressApp: Express) => {
   const data: ProcessingItemType[] = [];
 
+  function loadDataFromFile() {
+    const records = loadQueueFromFile();
+    records.forEach((record) => data.push(record));
+    processQueue();
+  }
+
   function addItem(item: ProcessingItemType) {
     const foundIndex = data.findIndex(
       (listItem: ProcessingItemType) => listItem?.id === item?.id,
     );
     if (foundIndex !== -1) return;
+
     data.push(item);
+
+    addItemToFile(item);
     processQueue();
 
     notifySSEConnections(expressApp.request);
@@ -61,6 +75,8 @@ export const ProcessingStack = (expressApp: Express) => {
     delete data[foundIndex];
     data.splice(foundIndex, 1);
     await cleanFolder();
+
+    removeItemFromFile(id);
     processQueue();
 
     notifySSEConnections(expressApp.request);
@@ -188,6 +204,8 @@ export const ProcessingStack = (expressApp: Express) => {
 
       item["output"] = logs(item, stdout.join("\r\n"));
       expressApp.settings.processingList.actions.updateItem(item);
+
+      removeItemFromFile(item.id);
     }
   }
 
@@ -199,6 +217,7 @@ export const ProcessingStack = (expressApp: Express) => {
       updateItem,
       getItem,
       processQueue,
+      loadDataFromFile,
     },
   };
 };
