@@ -103,6 +103,8 @@ export const ProcessingStack = (expressApp: Express) => {
     item["output_history"] = [];
     expressApp.settings.processingList.actions.updateItem(item);
 
+    await cleanFolder();
+
     if (item.type === "mix") {
       processingMix(item);
     } else {
@@ -152,7 +154,9 @@ export const ProcessingStack = (expressApp: Express) => {
       return;
     }
 
-    replacePathInM3U();
+    if (item["type"] === "playlist" || item["type"] === "mix") {
+      replacePathInM3U();
+    }
 
     // Beets process
     await beets(item.id, expressApp);
