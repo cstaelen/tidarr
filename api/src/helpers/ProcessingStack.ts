@@ -152,7 +152,9 @@ export const ProcessingStack = (expressApp: Express) => {
       return;
     }
 
-    replacePathInM3U();
+    if (item["type"] === "playlist" || item["type"] === "mix") {
+      replacePathInM3U();
+    }
 
     // Beets process
     await beets(item.id, expressApp);
