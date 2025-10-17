@@ -4,7 +4,7 @@ import path from "path";
 import { ROOT_PATH } from "../../constants";
 import { ProcessingItemType } from "../types";
 
-const filePath = path.join(`${ROOT_PATH}/shared`, "processing_items.json");
+const filePath = path.join(`${ROOT_PATH}/shared`, "queue.json");
 
 export function loadQueueFromFile(): ProcessingItemType[] {
   if (!fs.existsSync(filePath)) {
