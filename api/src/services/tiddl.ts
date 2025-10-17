@@ -38,7 +38,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   child.stdout?.on("data", (data: string) => {
     item["output"] = logs(item, data.replace(/[\r\n]+/gm, ""));
     item["process"] = child;
-    if (data.includes("ERROR")) {
+    if (data.includes("ERROR") && !data.includes("Can not add metadata to")) {
       child.emit("error", new Error(data));
       child.kill(signal);
     }

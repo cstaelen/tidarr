@@ -6,7 +6,11 @@ Tidarr notable changes.
 ## 📦 0.3.7
 ### 🖍 Changed
 * [API] Update tiddl to `2.6.3`
- 
+* [API] Clean folder before processing
+### 🐛 Fixed
+* [API] Tolerate tiddl metadata error
+* [API] Process m3U only for mix and playlist
+
 ## 📦 0.3.6
 ### 🚀 Added
 * [Front] Add track version to track title #368
