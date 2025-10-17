@@ -103,6 +103,8 @@ export const ProcessingStack = (expressApp: Express) => {
     item["output_history"] = [];
     expressApp.settings.processingList.actions.updateItem(item);
 
+    await cleanFolder();
+
     if (item.type === "mix") {
       processingMix(item);
     } else {
