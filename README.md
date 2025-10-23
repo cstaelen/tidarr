@@ -55,6 +55,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - M3U file for playlist with customizable path
 - Sync playlists with cron
 - Skip download if track exists
+- Custom CSS
 
 ### Service integration
 
@@ -250,15 +251,10 @@ environment:
 
 ### Custom CSS
 
-You can customize Tidarr's appearance using the `custom.css` file. This file is automatically created in your config folder on first launch.
+You can customize Tidarr's appearance using the UI in settings dialog, or by editing the `custom.css` file. This file is automatically created in your config folder on first launch.
 
 **File location**: `/your/docker/path/to/tidarr/config/custom.css`
 
-To customize the UI:
-
-1. Edit the `custom.css` file in your config folder
-2. Add your custom CSS rules
-3. Restart the container to apply changes
 
 
 ## Services
