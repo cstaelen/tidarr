@@ -54,6 +54,10 @@ export const createCronJob = async (app: Express) => {
 
   syncList.forEach((element) => {
     cron.schedule(process.env.SYNC_CRON_EXPRESSION || SYNC_DEFAULT_CRON, () => {
+      const item: ProcessingItemType =
+        app.settings.processingList.actions.getItem(element.id);
+      if (item && ["processing", "queue"].includes(item?.status)) return;
+
       const itemToQueue: ProcessingItemType = {
         id: element.id,
         artist: "",
@@ -67,6 +71,7 @@ export const createCronJob = async (app: Express) => {
         output: "",
         output_history: [],
       };
+
       app.settings.processingList.actions.removeItem(element.id);
       app.settings.processingList.actions.addItem(itemToQueue);
       updateSyncItem(element.id, {

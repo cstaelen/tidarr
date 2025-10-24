@@ -4,6 +4,7 @@ import { Alert, AlertTitle, Button, Link } from "@mui/material";
 import { ArtistType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
+import SyncButton from "../Buttons/SyncButton";
 
 import PageHeader from "./Header";
 
@@ -21,6 +22,7 @@ export default function ArtistHeader({ artist }: { artist: ArtistType }) {
         )}/750x750.jpg`}
         afterTitle={
           <>
+            <SyncButton item={artist} type="artist" />
             <DownloadButton
               item={artist}
               id={artist.id}
