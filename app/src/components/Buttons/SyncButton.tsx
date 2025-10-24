@@ -47,7 +47,7 @@ const SyncButton: React.FC<{
   };
 
   return (
-    <Tooltip title={isSynced ? "Remove from sync list" : "Add to sync list"}>
+    <Tooltip title={isSynced ? "Remove from watch list" : "Add to watch list"}>
       <Button
         onClick={() => handleClick(syncObj)}
         size="small"

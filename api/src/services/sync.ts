@@ -13,6 +13,13 @@ export const addItemToSyncList = (item: SyncItemType) => {
     fs.readFileSync(filePath, "utf8"),
   );
 
+  // Check if item already exists in the sync list
+  const itemExists = syncList.some(
+    (existingItem) => existingItem.id === item.id,
+  );
+
+  if (itemExists) return;
+
   syncList.push(item);
   fs.writeFileSync(filePath, JSON.stringify(syncList, null, 2));
 };
