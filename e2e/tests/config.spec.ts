@@ -83,6 +83,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     ["TIDARR_VERSION", "0.0.0-testing"],
     ["PUID", ""],
     ["PGID", ""],
+    ["UMASK", ""],
     ["ENABLE_APPRISE_API", ""],
     ["APPRISE_API_ENDPOINT", ""],
     ["APPRISE_API_TAG", ""],

@@ -19,7 +19,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - [Tidal authentication](#tidal-authentication)
 - [Options](#options)
   - [Download settings](#download-settings)
-  - [PUID/PGID](#puid-pgid)
+  - [PUID/PGID/UMASK](#puid-pgid-umask)
   - [Password protection](#password-protection)
   - [Lock quality selector](#lock-quality-selector)
   - [Proxy](#proxy)
@@ -179,13 +179,14 @@ See default :
 
 For template format update, please see [Tiddl formatting documentation](https://github.com/oskvr37/tiddl/wiki/Template-formatting)
 
-### PUID PGID
+### PUID PGID UMASK
 
 ```yaml
 environment:
   - ...
   - PUID=1234
   - PGID=123
+  - UMASK=644
 ```
 
 ### Password protection
