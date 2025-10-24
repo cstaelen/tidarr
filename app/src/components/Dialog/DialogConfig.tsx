@@ -43,7 +43,7 @@ export const DialogConfig = () => {
       {currentTab === 0 && <UpdatePanel />}
       {currentTab === 1 && <VariablesPanel />}
       {currentTab === 2 && <TidalPanel />}
-      {currentTab === 4 && <CustomCSSPanel />}
+      {currentTab === 3 && <CustomCSSPanel />}
     </DialogHandler>
   );
 };
