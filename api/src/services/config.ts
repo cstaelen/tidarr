@@ -29,6 +29,7 @@ export async function configureServer() {
         GOTIFY_TOKEN: process.env.GOTIFY_TOKEN || "",
         PUID: process.env.PUID || "",
         PGID: process.env.PGID || "",
+        UMASK: process.env.UMASK || "",
         TIDARR_VERSION: process.env.VERSION || "",
         ENABLE_APPRISE_API: process.env.ENABLE_APPRISE_API || "",
         APPRISE_API_ENDPOINT: process.env.APPRISE_API_ENDPOINT || "",
