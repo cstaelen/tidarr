@@ -4,8 +4,9 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 0.3.9
-### 🖍 Changed
+### 🚀 Added
 * [Front] Add custom CSS #383
+* [API] Add umask env var for output file chmod #396
 
 ## 📦 0.3.8
 ### 🖍 Changed
