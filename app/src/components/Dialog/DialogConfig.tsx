@@ -35,6 +35,7 @@ export const DialogConfig = () => {
       onClose={() => actions.toggleModal(false)}
       title={"Tidarr settings"}
       icon={<InfoRounded color="primary" />}
+      maxWidth="md"
     >
       <Tabs
         value={currentTab}
@@ -44,10 +45,10 @@ export const DialogConfig = () => {
         aria-label="scrollable auto tabs example"
       >
         <Tab label="Updates" icon={<Update />} iconPosition="start" />
-        <Tab label="Environment vars" icon={<List />} iconPosition="start" />
+        <Tab label="Env vars" icon={<List />} iconPosition="start" />
         <Tab label="Tidal Token" icon={<Key />} iconPosition="start" />
         <Tab
-          label={`Synced playlists (${syncList?.length || 0})`}
+          label={`Watch (${syncList?.length || 0})`}
           icon={<Sync />}
           iconPosition="start"
         />

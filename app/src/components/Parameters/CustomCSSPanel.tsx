@@ -25,7 +25,6 @@ export default function CustomCSSPanel() {
 
   return (
     <Box>
-      <h3>Custom CSS</h3>
       {isLoading ? (
         <Box display="flex" justifyContent="center" p={2}>
           <CircularProgress />
@@ -42,6 +41,9 @@ export default function CustomCSSPanel() {
               setIsDirty(true);
             }}
             placeholder="/* Add your custom CSS here */"
+            style={{
+              background: "black",
+            }}
           />
           <Box mt={2}>
             <Button

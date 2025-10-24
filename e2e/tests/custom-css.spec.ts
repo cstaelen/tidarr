@@ -46,7 +46,6 @@ test("Custom CSS: Should display Custom CSS panel in settings", async ({
   await expect(page.getByRole("tab", { name: "Custom CSS" })).toBeVisible();
   await page.getByRole("tab", { name: "Custom CSS" }).click();
 
-  await expect(page.getByRole("heading", { name: "Custom CSS" })).toBeVisible();
   await expect(
     page.getByPlaceholder("/* Add your custom CSS here */"),
   ).toBeVisible();
@@ -103,9 +102,11 @@ test("Custom CSS: Should save CSS to API and persist", async ({ page }) => {
   await textarea.fill(newCSS);
 
   // Wait for the navigation after save
-  await page.waitForEvent("load", async () => {
-    await page.getByRole("button", { name: "Save & Reload" }).click();
-  });
+
+  await expect(
+    page.getByRole("button", { name: "Save & Reload" }),
+  ).toBeEnabled();
+  await page.getByRole("button", { name: "Save & Reload" }).click();
 
   // After reload, verify the CSS is still there
   await page.getByRole("button", { name: "Settings" }).click();

@@ -1,7 +1,9 @@
 import fs from "fs";
 import path from "path";
 
-const CUSTOM_CSS_PATH = path.join(__dirname, "../../../shared/custom.css");
+import { configureServer } from "./config";
+
+const CUSTOM_CSS_PATH = "/home/app/standalone/shared/custom.css";
 
 /**
  * Read the custom CSS file content
@@ -32,6 +34,7 @@ export function setCustomCSS(cssContent: string): void {
     }
 
     fs.writeFileSync(CUSTOM_CSS_PATH, cssContent, "utf-8");
+    configureServer();
   } catch (error) {
     console.error("Error writing custom.css:", error);
     throw error;

@@ -105,7 +105,7 @@ export default function SyncPanel() {
         </TableContainer>
       ) : (
         <Typography sx={{ textAlign: "center", py: 4 }}>
-          No synced playlist
+          No synced content
         </Typography>
       )}
     </>
