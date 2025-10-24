@@ -67,10 +67,8 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
   await expect(page.getByText("Tidarr is up to date.")).toBeVisible();
 
   // Tab API
-  await expect(
-    page.getByRole("tab", { name: "Environment vars" }),
-  ).toBeVisible();
-  await page.getByRole("tab", { name: "Environment vars" }).click();
+  await expect(page.getByRole("tab", { name: "Env vars" })).toBeVisible();
+  await page.getByRole("tab", { name: "Env vars" }).click();
 
   const dataAPIRows = [
     ["ENABLE_BEETS", "true"],

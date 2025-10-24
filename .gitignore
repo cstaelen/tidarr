@@ -17,6 +17,7 @@
 .continue
 AGENT.md
 .claude
+CLAUDE.md
 
 # docker
 compose.override.yml

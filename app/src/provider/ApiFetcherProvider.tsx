@@ -40,6 +40,10 @@ type ApiFetcherContextType = {
     add_sync_item: (body: string) => void;
     remove_sync_item: (body: string) => void;
     get_sync_list: () => Promise<ProcessingItemType[] | undefined>;
+    get_custom_css: () => Promise<{ css: string } | undefined>;
+    save_custom_css: (
+      css: string,
+    ) => Promise<{ success: boolean; message: string } | undefined>;
   };
 };
 
@@ -251,6 +255,30 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  // Custom CSS
+
+  async function get_custom_css() {
+    return await queryExpressJS<{ css: string }>(`${apiUrl}/custom-css`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
+  async function save_custom_css(css: string) {
+    return await queryExpressJS<{ success: boolean; message: string }>(
+      `${apiUrl}/custom-css`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ css }),
+      },
+    );
+  }
+
   const value = {
     apiUrl,
     error: {
@@ -269,6 +297,8 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       get_sync_list,
       add_sync_item,
       remove_sync_item,
+      get_custom_css,
+      save_custom_css,
     },
   };
 

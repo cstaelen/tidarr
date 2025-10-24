@@ -14,11 +14,11 @@ test("Tidarr sync : Should be able to sync a playlist", async ({ page }) => {
   await expect(page.getByTestId("btn-disable-sync")).toBeVisible();
 
   await page.getByRole("button", { name: "Tidarr settings" }).click();
-  await page.getByRole("tab", { name: "Synced playlists (1)" }).click();
+  await page.getByRole("tab", { name: "Watch (1)" }).click();
   await expect(page.getByRole("cell", { name: "Grown Country" })).toBeVisible();
   await expect(page.getByRole("cell", { name: "playlist" })).toBeVisible();
   await page.getByRole("cell", { name: "Remove from sync list" }).click();
-  await expect(page.getByText("No synced playlist")).toBeVisible();
+  await expect(page.getByText("No synced content")).toBeVisible();
   await page.getByRole("button", { name: "CLose" }).click();
 
   await expect(page.getByTestId("btn-disable-sync")).not.toBeVisible();

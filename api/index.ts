@@ -19,6 +19,8 @@ import {
 import { deleteTiddlConfig, tidalToken } from "./src/services/tiddl";
 import { TIDAL_API_URL } from "./constants";
 
+import { getCustomCSS, setCustomCSS } from "./src/services/custom-css";
+
 dotenv.config({ path: "../.env", override: false, quiet: true });
 
 const port = 8484;
@@ -147,6 +149,43 @@ app.get("/api/check", ensureAccessIsGranted, (_req: Request, res: Response) => {
     tiddl_config: tiddl_config,
   });
 });
+
+// Custom CSS endpoints
+
+app.get(
+  "/api/custom-css",
+  ensureAccessIsGranted,
+  (_req: Request, res: Response) => {
+    try {
+      const cssContent = getCustomCSS();
+      res.status(200).json({ css: cssContent });
+    } catch {
+      res.status(500).json({ error: "Failed to read custom CSS" });
+    }
+  },
+);
+
+app.post(
+  "/api/custom-css",
+  ensureAccessIsGranted,
+  (req: Request, res: Response) => {
+    try {
+      const { css } = req.body;
+
+      if (typeof css !== "string") {
+        res.status(400).json({ error: "CSS content must be a string" });
+        return;
+      }
+
+      setCustomCSS(css);
+      res
+        .status(200)
+        .json({ success: true, message: "Custom CSS saved successfully" });
+    } catch {
+      res.status(500).json({ error: "Failed to save custom CSS" });
+    }
+  },
+);
 
 // api sync playlist
 
