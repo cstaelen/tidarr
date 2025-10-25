@@ -1,6 +1,6 @@
 import { execSync, spawnSync } from "child_process";
 
-import { BUILD_PATH, SYNC_DEFAULT_CRON } from "../../constants";
+import { ROOT_PATH, SYNC_DEFAULT_CRON } from "../../constants";
 
 export async function configureServer() {
   console.log(`=== Set config files ===`);
@@ -8,7 +8,7 @@ export async function configureServer() {
 
   try {
     const output_config = execSync(
-      `bash ${BUILD_PATH}/api/scripts/init.sh ${process.env.ENVIRONMENT}`,
+      `bash ${ROOT_PATH}/api/scripts/init.sh ${process.env.ENVIRONMENT}`,
       {
         encoding: "utf-8",
       },

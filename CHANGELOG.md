@@ -3,13 +3,15 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
-## 📦 0.3.9
+## 📦 0.4.0
 ### 🚀 Added
 * [Front] Add custom CSS #383
 * [API] Add umask env var for output file chmod #396
+* [API/Front] Watch and sync artist content #400
 ### 🖍 Changed
 * [Front] Move sync list from settings dialog to home page tabs "Watch list"
 * [API] Refacto server sent events (performances should be significantly enhanced) 
+* [API] Handle tiddl config from shared folder (instead of /root) #382
 
 ## 📦 0.3.8
 ### 🖍 Changed

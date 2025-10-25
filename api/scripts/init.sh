@@ -1,14 +1,8 @@
 #!/bin/sh
 echo "Check config running ... "
 
-if [ "$1" == "development" ]; then
-    SETTINGS_URL="/home/app/build/settings"
-    PUBLIC_URL="/home/app/build/app/public"
-else
-    SETTINGS_URL="/home/app/standalone/settings"
-    PUBLIC_URL="/home/app/standalone/app/build"
-fi
-
+SETTINGS_URL="/home/app/standalone/settings"
+PUBLIC_URL="/home/app/standalone/app/build"
 SHARED_URL="/home/app/standalone/shared"
 
 if [ -f "$SHARED_URL/tiddl.json" ]; then

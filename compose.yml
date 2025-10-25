@@ -11,7 +11,7 @@ services:
     volumes:
       - ./docker/mnt/config:/home/app/standalone/shared
       - ./docker/mnt/library:/home/app/standalone/library
-      - .:/home/app/build # only used in dev environment
+      - .:/home/app/standalone # only used in dev environment
     restart: 'unless-stopped'
     environment:
       - PUID=
@@ -35,13 +35,15 @@ services:
       - SYNC_CRON_EXPRESSION=
       
   testing:
-    build: 
+    build:
       context: .
       dockerfile: './docker/Dockerfile.e2e'
     container_name: 'tidarr-testing'
     platform: linux/amd64
     volumes:
-      - .:/home/app/build
+      - ./e2e:/home/app/standalone/e2e
+      - ./docker/mnt/config:/home/app/standalone/shared
+      - ./docker/mnt/library:/home/app/standalone/library
     ports:
       - 7357:8484
       - 9323:9323
