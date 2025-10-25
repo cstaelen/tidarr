@@ -7,7 +7,7 @@ import {
   goToHome,
   testProcessingList,
 } from "./utils/helpers";
-import { mockConfigAPI } from "./utils/mock";
+import { mockConfigAPI, mockItemOutputSSE } from "./utils/mock";
 import { runSearch } from "./utils/search";
 
 test.describe.configure({ mode: "serial" });
@@ -27,6 +27,8 @@ test("Tidarr download : Should be able to download album", async ({ page }) => {
   await page.route("**/search", async (route) => {
     await route.fulfill({ json: mockSearch });
   });
+  await mockItemOutputSSE(page, "high");
+
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Albums" }).first().click();
 
@@ -40,6 +42,7 @@ test("Tidarr download : Should be able to download album", async ({ page }) => {
 });
 
 test("Tidarr download : Should be able to download track", async ({ page }) => {
+  await mockItemOutputSSE(page, "low");
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Tracks" }).first().click();
 
@@ -66,6 +69,7 @@ test("Tidarr download : Should be able to download track", async ({ page }) => {
 test("Tidarr download : Should be able to download track album", async ({
   page,
 }) => {
+  await mockItemOutputSSE(page, "high");
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Tracks" }).first().click();
 
@@ -85,6 +89,7 @@ test("Tidarr download : Should be able to download track album", async ({
 test("Tidarr download : Should be able to download playlist", async ({
   page,
 }) => {
+  await mockItemOutputSSE(page, "high");
   await runSearch(
     "https://tidal.com/browse/playlist/0b5df380-47d3-48fe-ae66-8f0dba90b1ee",
     page,
@@ -100,6 +105,7 @@ test("Tidarr download : Should be able to download playlist", async ({
 test("Tidarr download : Should be able to download discography", async ({
   page,
 }) => {
+  await mockItemOutputSSE(page, "high");
   await runSearch("https://listen.tidal.com/artist/19368", page);
 
   await page.getByRole("button", { name: "Get all releases" }).click();
@@ -108,6 +114,7 @@ test("Tidarr download : Should be able to download discography", async ({
 });
 
 test("Tidarr download : Should be able to download video", async ({ page }) => {
+  await mockItemOutputSSE(page);
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Videos" }).first().click();
 
@@ -122,6 +129,22 @@ test("Tidarr download : Should be able to download video", async ({ page }) => {
 });
 
 test("Tidarr download : Should be able to download mix", async ({ page }) => {
+  // Mock mix output with special message
+  await page.route("**/stream_item_output/*", async (route) => {
+    const itemId = route.request().url().split("/").pop();
+    const mockOutput = `Mix: get track from mix id\r\nMix: create new playlist\r\nMix: add track ids to new playlist\r\nMix: download playlist\r\n=== Tiddl ===\r\nExecuting: tiddl url download -q high`;
+
+    await route.fulfill({
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${JSON.stringify({ id: itemId, output: mockOutput })}\n\n`,
+    });
+  });
+
   await mockConfigAPI(page);
   await goToHome(page);
   await page.getByRole("tab", { name: "My Mixes" }).first().click();

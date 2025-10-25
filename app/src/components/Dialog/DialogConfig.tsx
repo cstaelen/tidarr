@@ -1,18 +1,9 @@
 import React from "react";
-import {
-  InfoRounded,
-  Key,
-  List,
-  Palette,
-  Sync,
-  Update,
-} from "@mui/icons-material";
+import { InfoRounded, Key, List, Palette, Update } from "@mui/icons-material";
 import { Tab, Tabs } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
-import { useSync } from "src/provider/SyncProvider";
 
 import CustomCSSPanel from "../Parameters/CustomCSSPanel";
-import SyncPanel from "../Parameters/SyncPanel";
 import TidalPanel from "../Parameters/TidalPanel";
 import UpdatePanel from "../Parameters/UpdatePanel";
 import VariablesPanel from "../Parameters/VariablesPanel";
@@ -23,7 +14,6 @@ export const DialogConfig = () => {
   const { isConfigModalOpen, actions } = useConfigProvider();
 
   const [currentTab, setCurrentTab] = React.useState(0);
-  const { syncList } = useSync();
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
@@ -47,19 +37,13 @@ export const DialogConfig = () => {
         <Tab label="Updates" icon={<Update />} iconPosition="start" />
         <Tab label="Env vars" icon={<List />} iconPosition="start" />
         <Tab label="Tidal Token" icon={<Key />} iconPosition="start" />
-        <Tab
-          label={`Watch (${syncList?.length || 0})`}
-          icon={<Sync />}
-          iconPosition="start"
-        />
         <Tab label="Custom CSS" icon={<Palette />} iconPosition="start" />
       </Tabs>
 
       {currentTab === 0 && <UpdatePanel />}
       {currentTab === 1 && <VariablesPanel />}
       {currentTab === 2 && <TidalPanel />}
-      {currentTab === 3 && <SyncPanel />}
-      {currentTab === 4 && <CustomCSSPanel />}
+      {currentTab === 3 && <CustomCSSPanel />}
     </DialogHandler>
   );
 };

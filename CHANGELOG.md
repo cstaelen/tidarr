@@ -7,6 +7,9 @@ Tidarr notable changes.
 ### 🚀 Added
 * [Front] Add custom CSS #383
 * [API] Add umask env var for output file chmod #396
+### 🖍 Changed
+* [Front] Move sync list from settings dialog to home page tabs "Watch list"
+* [API] Refacto server sent events (performances should be significantly enhanced) 
 
 ## 📦 0.3.8
 ### 🖍 Changed

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import { Clear } from "@mui/icons-material";
+import { SyncDisabled } from "@mui/icons-material";
 import {
+  Box,
   Button,
   Link,
   Paper,
@@ -13,15 +14,16 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { ModuleTitle } from "src/components/TidalModule/Title";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useSync } from "src/provider/SyncProvider";
 
-export default function SyncPanel() {
+export default function WatchList() {
   const { isConfigModalOpen } = useConfigProvider();
 
   const {
     syncList,
-    actions: { removeSyncItem, getSyncList },
+    actions: { getSyncList, removeSyncItem },
   } = useSync();
 
   useEffect(() => {
@@ -31,7 +33,9 @@ export default function SyncPanel() {
   }, [getSyncList, isConfigModalOpen]);
 
   return (
-    <>
+    <Box sx={{ bgcolor: "background.paper" }}>
+      <ModuleTitle title={`Watch list`} total={syncList?.length || 0} />
+
       {syncList?.length > 0 ? (
         <TableContainer component={Paper}>
           <Table
@@ -70,7 +74,7 @@ export default function SyncPanel() {
                   <TableCell>{row.type}</TableCell>
                   <TableCell>{row.quality}</TableCell>
                   <TableCell>
-                    {row.lastUpdate && (
+                    {row?.lastUpdate && (
                       <>
                         {new Date(row.lastUpdate).toDateString()}
                         {` - `}
@@ -87,14 +91,15 @@ export default function SyncPanel() {
                     )}
                   </TableCell>
                   <TableCell align="center">
-                    <Tooltip title="Remove from sync list">
+                    <Tooltip title="Remove from watch list">
                       <Button
                         onClick={() => removeSyncItem(row.id)}
                         size="small"
-                        variant="text"
+                        variant="outlined"
+                        color="error"
                         sx={{ minWidth: 0 }}
                       >
-                        <Clear />
+                        <SyncDisabled />
                       </Button>
                     </Tooltip>
                   </TableCell>
@@ -105,9 +110,9 @@ export default function SyncPanel() {
         </TableContainer>
       ) : (
         <Typography sx={{ textAlign: "center", py: 4 }}>
-          No synced content
+          No item in watch list.
         </Typography>
       )}
-    </>
+    </Box>
   );
 }

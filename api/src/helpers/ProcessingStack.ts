@@ -1,4 +1,4 @@
-import { Express, Request, Response } from "express";
+import { Express, Response } from "express";
 
 import { appriseApiPush } from "../services/apprise-api";
 import { beets } from "../services/beets";
@@ -27,25 +27,76 @@ import {
   getTracksByMixId,
 } from "./tidal";
 
-export function sendSSEUpdate(req: Request, res: Response) {
-  res.write(
-    `data: ${JSON.stringify(req.app.settings.processingList.data)}\n\n`,
-  );
+export function notifySSEConnections(expressApp: Express) {
+  const { processingList, activeListConnections } = expressApp.settings;
+
+  // Data no longer contains output/output_history, send directly
+  const data = JSON.stringify(processingList.data);
+
+  activeListConnections.forEach((conn: Response) => {
+    conn.write(`data: ${data}\n\n`);
+  });
 }
 
-export function notifySSEConnections(req: Request) {
-  req.app.settings.activeListConnections.forEach((conn: Response) => {
-    sendSSEUpdate(req, conn);
-  });
+export function notifyItemOutput(
+  expressApp: Express,
+  itemId: string,
+  output: string,
+) {
+  const connections: Map<string, Response[]> =
+    expressApp.settings.activeItemOutputConnections;
+  // Ensure itemId is a string for Map lookup
+  const itemIdString = String(itemId);
+  const itemConnections = connections.get(itemIdString);
+
+  if (itemConnections && itemConnections.length > 0) {
+    const data = JSON.stringify({ id: itemId, output });
+    itemConnections.forEach((conn: Response) => {
+      try {
+        conn.write(`data: ${data}\n\n`);
+      } catch (error) {
+        // Connection might be closed, will be cleaned up on 'close' event
+        console.error(
+          `Failed to send output to connection for item ${itemId}:`,
+          error,
+        );
+      }
+    });
+  }
 }
 
 export const ProcessingStack = (expressApp: Express) => {
   const data: ProcessingItemType[] = [];
+  const outputs: Map<string, string[]> = new Map(); // Store output history separately
 
   function loadDataFromFile() {
     const records = loadQueueFromFile();
-    records.forEach((record) => data.push(record));
+    records.forEach((record) => {
+      // Initialize empty output history for each loaded item (ensure string key)
+      outputs.set(String(record.id), []);
+      data.push(record);
+    });
     processQueue();
+  }
+
+  function getItemOutput(id: string): string {
+    // Ensure id is a string for Map lookup
+    const idString = String(id);
+    const history = outputs.get(idString) || [];
+    return history.slice(-500).join("\r\n");
+  }
+
+  function addOutputLog(id: string, message: string) {
+    // Ensure id is a string for Map storage
+    const idString = String(id);
+    if (!outputs.has(idString)) {
+      outputs.set(idString, []);
+    }
+    outputs.get(idString)?.push(message);
+
+    // Notify connected clients about the output update
+    const currentOutput = getItemOutput(idString);
+    notifyItemOutput(expressApp, idString, currentOutput);
   }
 
   function addItem(item: ProcessingItemType) {
@@ -59,7 +110,7 @@ export const ProcessingStack = (expressApp: Express) => {
     addItemToFile(item);
     processQueue();
 
-    notifySSEConnections(expressApp.request);
+    notifySSEConnections(expressApp);
   }
 
   async function removeItem(id: string) {
@@ -74,12 +125,16 @@ export const ProcessingStack = (expressApp: Express) => {
     );
     delete data[foundIndex];
     data.splice(foundIndex, 1);
+
+    // Clean up output history for this item (ensure string key)
+    outputs.delete(String(id));
+
     await cleanFolder();
 
     removeItemFromFile(id);
     processQueue();
 
-    notifySSEConnections(expressApp.request);
+    notifySSEConnections(expressApp);
   }
 
   function updateItem(item: ProcessingItemType) {
@@ -90,7 +145,14 @@ export const ProcessingStack = (expressApp: Express) => {
       processQueue();
     }
 
-    notifySSEConnections(expressApp.request);
+    // Notify list connections about status changes (without output data)
+    notifySSEConnections(expressApp);
+
+    // Notify item-specific output connections with the latest output
+    const currentOutput = getItemOutput(item.id);
+    if (currentOutput) {
+      notifyItemOutput(expressApp, item.id, currentOutput);
+    }
   }
 
   function getItem(id: string): ProcessingItemType {
@@ -116,7 +178,8 @@ export const ProcessingStack = (expressApp: Express) => {
 
   async function processItem(item: ProcessingItemType) {
     item["status"] = "processing";
-    item["output_history"] = [];
+    // Initialize empty output history in the Map (ensure string key)
+    outputs.set(String(item.id), []);
     expressApp.settings.processingList.actions.updateItem(item);
 
     await cleanFolder();
@@ -131,25 +194,25 @@ export const ProcessingStack = (expressApp: Express) => {
   async function processingMix(item: ProcessingItemType) {
     const config = expressApp.settings.tiddlConfig as TiddlConfig;
 
-    item["output"] = logs(item, `Mix: get track from mix id`);
+    logs(item, `Mix: get track from mix id`, expressApp);
     expressApp.settings.processingList.actions.updateItem(item);
     const tracks = await getTracksByMixId(item.id, config);
 
-    item["output"] = logs(item, `Mix: create new playlist`);
+    logs(item, `Mix: create new playlist`, expressApp);
     expressApp.settings.processingList.actions.updateItem(item);
     const playlistId = await createNewPlaylist(item.title, config);
 
     if (tracks) {
-      item["output"] = logs(item, `Mix: add track ids to new playlist`);
+      logs(item, `Mix: add track ids to new playlist`, expressApp);
       expressApp.settings.processingList.actions.updateItem(item);
       await addTracksToPlaylist(playlistId, tracks, config);
 
       item["url"] = `playlist/${playlistId}`;
-      item["output"] = logs(item, `Mix: download playlist`);
+      logs(item, `Mix: download playlist`, expressApp);
       expressApp.settings.processingList.actions.updateItem(item);
 
       tidalDL(item.id, expressApp, () => {
-        item["output"] = logs(item, `Mix: delete playlist`);
+        logs(item, `Mix: delete playlist`, expressApp);
         deletePlaylist(playlistId, config);
       });
 
@@ -202,7 +265,7 @@ export const ProcessingStack = (expressApp: Express) => {
       );
       stdout.push(responseAppriseApi?.output);
 
-      item["output"] = logs(item, stdout.join("\r\n"));
+      logs(item, stdout.join("\r\n"), expressApp);
       expressApp.settings.processingList.actions.updateItem(item);
 
       removeItemFromFile(item.id);
@@ -218,6 +281,8 @@ export const ProcessingStack = (expressApp: Express) => {
       getItem,
       processQueue,
       loadDataFromFile,
+      getItemOutput,
+      addOutputLog,
     },
   };
 };

@@ -92,7 +92,6 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       loading: true,
       error: false,
       url: (item as AlbumType)?.url || (item as VideoType)?.id.toString(),
-      output: "",
     };
 
     await save(JSON.stringify({ item: itemToQueue }));
@@ -113,7 +112,6 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       status: "queue",
       loading: true,
       error: false,
-      output: "",
     };
 
     await removeItem(item.id);

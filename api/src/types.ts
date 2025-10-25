@@ -19,8 +19,6 @@ export type ProcessingItemType = {
   url: string;
   loading: boolean;
   error: boolean;
-  output: string;
-  output_history: string[];
   process?: ChildProcess;
 };
 

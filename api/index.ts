@@ -7,7 +7,7 @@ import fs from "fs";
 
 import { ensureAccessIsGranted } from "./src/helpers/auth";
 import { get_tiddl_config } from "./src/helpers/get_tiddl_config";
-import { ProcessingStack, sendSSEUpdate } from "./src/helpers/ProcessingStack";
+import { ProcessingStack } from "./src/helpers/ProcessingStack";
 import { is_auth_active, proceed_auth } from "./src/services/auth";
 import { configureServer, refreshTidalToken } from "./src/services/config";
 import {
@@ -45,8 +45,10 @@ app.use(
 
 const processingList = ProcessingStack(app);
 app.set("processingList", processingList);
+app.set("addOutputLog", processingList.actions.addOutputLog);
 
 app.set("activeListConnections", []);
+app.set("activeItemOutputConnections", new Map());
 
 app.all("/{*any}", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -109,7 +111,48 @@ app.get(
         );
     });
 
-    sendSSEUpdate(req, res);
+    // Send initial state to the new client
+    const data = JSON.stringify(req.app.settings.processingList.data);
+    res.write(`data: ${data}\n\n`);
+  },
+);
+
+app.get(
+  "/api/stream_item_output/:id",
+  ensureAccessIsGranted,
+  (req: Request, res: Response) => {
+    const itemId = req.params.id;
+
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+    res.flushHeaders();
+
+    // Get or create the connections array for this item
+    const connections: Map<string, Response[]> =
+      req.app.settings.activeItemOutputConnections;
+    if (!connections.has(itemId)) {
+      connections.set(itemId, []);
+    }
+    connections.get(itemId)?.push(res);
+
+    // Remove the connection when it closes
+    req.on("close", () => {
+      const itemConnections = connections.get(itemId);
+      if (itemConnections) {
+        const filtered = itemConnections.filter((conn) => conn !== res);
+        if (filtered.length === 0) {
+          connections.delete(itemId);
+        } else {
+          connections.set(itemId, filtered);
+        }
+      }
+    });
+
+    // Send initial output for this item
+    const output =
+      req.app.settings.processingList.actions.getItemOutput(itemId) || "";
+    res.write(`data: ${JSON.stringify({ id: itemId, output })}\n\n`);
   },
 );
 

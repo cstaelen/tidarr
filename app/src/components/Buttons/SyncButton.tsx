@@ -4,10 +4,16 @@ import SyncIcon from "@mui/icons-material/Sync";
 import { Button, Tooltip } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useSync } from "src/provider/SyncProvider";
-import { ContentType, MixType, PlaylistType, SyncItemType } from "src/types";
+import {
+  ArtistType,
+  ContentType,
+  MixType,
+  PlaylistType,
+  SyncItemType,
+} from "src/types";
 
 const SyncButton: React.FC<{
-  item: PlaylistType | MixType;
+  item: PlaylistType | MixType | ArtistType;
   type: ContentType;
 }> = ({ item, type }) => {
   const { syncList, actions } = useSync();
@@ -18,7 +24,7 @@ const SyncButton: React.FC<{
     () => ({
       id: "uuid" in item ? item.uuid : item.id,
       url: item.url || "",
-      title: item.title,
+      title: (item as PlaylistType).title || (item as ArtistType).name,
       quality: quality || "high",
       type: type,
     }),
@@ -41,7 +47,7 @@ const SyncButton: React.FC<{
   };
 
   return (
-    <Tooltip title={isSynced ? "Remove from sync list" : "Add to sync list"}>
+    <Tooltip title={isSynced ? "Remove from watch list" : "Add to watch list"}>
       <Button
         onClick={() => handleClick(syncObj)}
         size="small"
