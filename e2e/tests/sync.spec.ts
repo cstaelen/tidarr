@@ -24,7 +24,7 @@ test("Tidarr sync : Should be able to sync a playlist", async ({ page }) => {
   await page.getByRole("tab", { name: "Watch list (1)" }).click();
   await expect(page.getByRole("cell", { name: "Grown Country" })).toBeVisible();
   await expect(page.getByRole("cell", { name: "playlist" })).toBeVisible();
-  await page.getByRole("cell", { name: "Remove from sync list" }).click();
+  await page.getByRole("cell", { name: "Remove from watch list" }).click();
   await expect(page.getByText("No item in watch list.")).toBeVisible();
 
   await runSearch(
@@ -47,7 +47,7 @@ test("Tidarr sync : Should be able to sync an artist", async ({ page }) => {
   await page.getByRole("tab", { name: "Watch list (1)" }).click();
   await expect(page.getByRole("cell", { name: "Nirvana" })).toBeVisible();
   await expect(page.getByRole("cell", { name: "artist" })).toBeVisible();
-  await page.getByRole("cell", { name: "Remove from sync list" }).click();
+  await page.getByRole("cell", { name: "Remove from watch list" }).click();
   await expect(page.getByText("No item in watch list.")).toBeVisible();
 
   await runSearch("https://tidal.com/browse/artist/19368", page);

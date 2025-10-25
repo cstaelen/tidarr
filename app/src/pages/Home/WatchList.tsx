@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Clear } from "@mui/icons-material";
+import { SyncDisabled } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -74,7 +74,7 @@ export default function WatchList() {
                   <TableCell>{row.type}</TableCell>
                   <TableCell>{row.quality}</TableCell>
                   <TableCell>
-                    {row.lastUpdate && (
+                    {row?.lastUpdate && (
                       <>
                         {new Date(row.lastUpdate).toDateString()}
                         {` - `}
@@ -91,14 +91,15 @@ export default function WatchList() {
                     )}
                   </TableCell>
                   <TableCell align="center">
-                    <Tooltip title="Remove from sync list">
+                    <Tooltip title="Remove from watch list">
                       <Button
                         onClick={() => removeSyncItem(row.id)}
                         size="small"
-                        variant="text"
+                        variant="outlined"
+                        color="error"
                         sx={{ minWidth: 0 }}
                       >
-                        <Clear />
+                        <SyncDisabled />
                       </Button>
                     </Tooltip>
                   </TableCell>

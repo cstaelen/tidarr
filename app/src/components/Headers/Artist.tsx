@@ -22,7 +22,7 @@ export default function ArtistHeader({ artist }: { artist: ArtistType }) {
           "/",
         )}/750x750.jpg`}
         afterTitle={
-          <Box display="flex" gap={1}>
+          <Box display="flex" gap={1} flexWrap="wrap">
             <SyncButton item={artist} type="artist" />
             <DownloadButton
               item={artist}
