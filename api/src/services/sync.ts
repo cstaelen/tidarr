@@ -53,17 +53,25 @@ export const createCronJob = async (app: Express) => {
   if (!fs.existsSync(filePath)) {
     fs.writeFileSync(filePath, JSON.stringify([], null, 2));
   }
-  const syncList: SyncItemType[] = JSON.parse(
-    fs.readFileSync(filePath, "utf8"),
-  );
 
+  // Stop all existing cron tasks
   cron.getTasks().forEach((task) => task.stop());
 
-  syncList.forEach((element) => {
-    cron.schedule(process.env.SYNC_CRON_EXPRESSION || SYNC_DEFAULT_CRON, () => {
+  // Create a single cron job that processes all items sequentially
+  cron.schedule(process.env.SYNC_CRON_EXPRESSION || SYNC_DEFAULT_CRON, () => {
+    // Read the sync list fresh each time the cron runs
+    const syncList: SyncItemType[] = JSON.parse(
+      fs.readFileSync(filePath, "utf8"),
+    );
+
+    // Process each item sequentially
+    syncList.forEach((element) => {
       const item: ProcessingItemType =
         app.settings.processingList.actions.getItem(element.id);
-      if (item && ["processing", "queue"].includes(item?.status)) return;
+      if (item && ["processing"].includes(item?.status)) return;
+      if (item && ["finished", "downloaded"].includes(item?.status)) {
+        app.settings.processingList.actions.removeItem(element.id);
+      }
 
       const itemToQueue: ProcessingItemType = {
         id: element.id,
@@ -75,11 +83,8 @@ export const createCronJob = async (app: Express) => {
         loading: true,
         error: false,
         url: element.url,
-        output: "",
-        output_history: [],
       };
 
-      app.settings.processingList.actions.removeItem(element.id);
       app.settings.processingList.actions.addItem(itemToQueue);
       updateSyncItem(element.id, {
         lastUpdate: new Date().toISOString(),
