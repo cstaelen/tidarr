@@ -8,17 +8,14 @@ else
     SETTINGS_URL="/home/app/standalone/settings"
     PUBLIC_URL="/home/app/standalone/app/build"
 fi
+
 SHARED_URL="/home/app/standalone/shared"
 
 if [ -f "$SHARED_URL/tiddl.json" ]; then
-    echo "[Tiddl] Load tiddl.json from shared volume"
-    cp $SHARED_URL/tiddl.json /root/tiddl.json
-    echo "[Tiddl] Load shared config OK "
+    echo "[Tiddl] Load tiddl config OK"
 else
-    echo "[Tiddl] Load tiddl.json default template"
     cp $SETTINGS_URL/tiddl.json $SHARED_URL/tiddl.json
-    cp $SETTINGS_URL/tiddl.json /root/tiddl.json
-    echo "[Tiddl] Init config OK"
+    echo "[Tiddl] Create tiddl config from template OK"
 fi
 
 if [ ! -f "$SHARED_URL/beets-config.yml" ]; then    

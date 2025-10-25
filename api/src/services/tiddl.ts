@@ -1,6 +1,7 @@
 import { spawn, spawnSync } from "child_process";
 import { Express, Request, Response } from "express";
 
+import { ROOT_PATH } from "../../constants";
 import { logs } from "../helpers/jobs";
 import { ProcessingItemType } from "../types";
 
@@ -31,8 +32,16 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     args.push("-V");
   }
 
-  logs(item, `Executing: ${binary} ${args.join(" ")}`, app);
-  const child = spawn(binary, args);
+  logs(
+    item,
+    `Executing: TIDDL_PATH=${ROOT_PATH}/shared ${binary} ${args.join(" ")}`,
+    app,
+  );
+
+  const child = spawn(binary, args, {
+    env: { ...process.env, TIDDL_PATH: `${ROOT_PATH}/shared` },
+  });
+
   const signal = child.signalCode || undefined;
   child.stdout?.setEncoding("utf8");
   child.stdout?.on("data", (data: string) => {
