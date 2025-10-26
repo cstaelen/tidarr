@@ -4,6 +4,7 @@ import { appriseApiPush } from "../services/apprise-api";
 import { beets } from "../services/beets";
 import { gotifyPush } from "../services/gotify";
 import { plexUpdate } from "../services/plex";
+import { hookPushOver } from "../services/pushover";
 import { tidalDL } from "../services/tiddl";
 import { ProcessingItemType, TiddlConfig } from "../types";
 
@@ -257,6 +258,13 @@ export const ProcessingStack = (expressApp: Express) => {
         item.type,
       );
       stdout.push(responseGotify?.output);
+
+      // Webhook push over notification
+      const responsePushOver = await hookPushOver(
+        `${item?.title} - ${item?.artist}`,
+        item.type,
+      );
+      stdout.push(responsePushOver?.output);
 
       // Apprise API notification
       const responseAppriseApi = await appriseApiPush(

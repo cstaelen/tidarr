@@ -177,6 +177,7 @@ export async function mockConfigAPI(page: Page) {
         ENABLE_APPRISE_API: "",
         APPRISE_API_ENDPOINT: "",
         APPRISE_API_TAG: "",
+        PUSH_OVER_URL: "",
         ENABLE_TIDAL_PROXY: "true",
       },
       tiddl_config: {

@@ -31,6 +31,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Plex/Plexamp](#plex-update)
   - [Gotify](#gotify)
   - [Apprise Api](#apprise-api)
+  - [Webhook push over](#webhook-push-over)
 - [User requests](#user-requests)
 - [Donate](#donate)
 - [Develop](#develop)
@@ -62,6 +63,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - **[Beets.io](https://beets.readthedocs.io/en/stable/)** - Tag releases 
 - **[Gotify](https://gotify.net/)** - Push notifications 
 - **[Apprise API](https://github.com/caronc/apprise-api)** - Push notifications
+- **Webhook push over** - Push notifications using webhook (MatterMost)
 - **[Plex](https://www.plex.tv/)** - Library update
 
 ### Companion app
@@ -316,6 +318,24 @@ environment:
   - APPRISE_API_TAG=tidarr # optional
 ```
 If no tag is defined, default tag value will be "all".
+
+### Webhook push over
+
+Many push over services can be used as an URL to curl with a payload.
+Exemple with MatterMost :
+
+```bash
+curl -i -X POST -H 'Content-Type: application/json' -d '{"text": "Hello, this is some text\nThis is more text. 🎉"}' https://your-mattermost-server.com/hooks/xxx-generatedkey-xxx
+```
+You can set URL in Tidarr env vars
+
+```yaml
+environment:
+  - ...
+  - PUSH_OVER_URL=https://your-mattermost-server.com/hooks/xxx-generatedkey-xxx
+```
+
+It should also works with other services using the same payload format `{"text": "..."}`.
 
 
 ## User requests
