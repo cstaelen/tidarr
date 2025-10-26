@@ -31,6 +31,7 @@ services:
       - ENABLE_APPRISE_API=
       - APPRISE_API_ENDPOINT=
       - APPRISE_API_TAG=
+      - PUSH_OVER_URL=
       - M3U_BASEPATH_FILE=
       - SYNC_CRON_EXPRESSION=
       

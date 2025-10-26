@@ -79,10 +79,12 @@ export const ProcessingList = () => {
       <Backdrop onClick={handleClose} open={open} />
       <Box
         sx={{
-          width: {
+          maxWidth: {
             xs: "90vw",
-            md: "700px",
+            md: "750px",
           },
+          maxHeight: "80vh",
+          padding: "20px",
           opacity: open ? 1 : 0,
           position: "absolute",
           overflow: "auto",

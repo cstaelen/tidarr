@@ -34,6 +34,7 @@ export async function configureServer() {
         ENABLE_APPRISE_API: process.env.ENABLE_APPRISE_API || "",
         APPRISE_API_ENDPOINT: process.env.APPRISE_API_ENDPOINT || "",
         APPRISE_API_TAG: process.env.APPRISE_API_TAG || "",
+        PUSH_OVER_URL: process.env.PUSH_OVER_URL || "",
         LOCK_QUALITY: process.env.LOCK_QUALITY || "",
         ENABLE_TIDAL_PROXY: process.env.ENABLE_TIDAL_PROXY || "",
         SYNC_CRON_EXPRESSION:
