@@ -1,6 +1,7 @@
 import { spawn, spawnSync } from "child_process";
 import { Express, Request, Response } from "express";
 
+import { ROOT_PATH } from "../../constants";
 import { logs } from "../helpers/jobs";
 import { ProcessingItemType } from "../types";
 
@@ -14,7 +15,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     return;
   }
 
-  item["output"] = logs(item, `=== Tiddl ===`);
+  logs(item, `=== Tiddl ===`, app);
 
   const binary = "tiddl";
   const args: string[] = ["url", item.url, "download"];
@@ -31,12 +32,20 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     args.push("-V");
   }
 
-  item["output"] = logs(item, `Executing: ${binary} ${args.join(" ")}`);
-  const child = spawn(binary, args);
+  logs(
+    item,
+    `Executing: TIDDL_PATH=${ROOT_PATH}/shared ${binary} ${args.join(" ")}`,
+    app,
+  );
+
+  const child = spawn(binary, args, {
+    env: { ...process.env, TIDDL_PATH: `${ROOT_PATH}/shared` },
+  });
+
   const signal = child.signalCode || undefined;
   child.stdout?.setEncoding("utf8");
   child.stdout?.on("data", (data: string) => {
-    item["output"] = logs(item, data.replace(/[\r\n]+/gm, ""));
+    logs(item, data.replace(/[\r\n]+/gm, ""), app);
     item["process"] = child;
     if (data.includes("ERROR") && !data.includes("Can not add metadata to")) {
       child.emit("error", new Error(data));
@@ -47,15 +56,19 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   child.stderr?.setEncoding("utf8");
   child.stderr?.on("data", (data) => {
-    item["output"] = logs(item, `Tiddl: ${data}`);
+    logs(item, `Tiddl: ${data}`, app);
     item["process"] = child;
     app.settings.processingList.actions.updateItem(item);
   });
 
   child.on("close", (code) => {
+    const currentOutput = app.settings.processingList.actions.getItemOutput(
+      item.id,
+    );
+
     if (
-      item["output"].includes(`User does not have a valid session`) ||
-      item["output"].includes(`"token": token["access_token"]`)
+      currentOutput.includes(`User does not have a valid session`) ||
+      currentOutput.includes(`"token": token["access_token"]`)
     ) {
       console.log("LOGOUT");
       code = 401;
@@ -63,10 +76,9 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     }
 
     const isDownloaded =
-      item["output"].toString().includes("can't save playlist m3u file") ||
-      code === 0;
+      currentOutput.includes("can't save playlist m3u file") || code === 0;
 
-    item["output"] = logs(item, `Tiddl process exited with code  ${code}`);
+    logs(item, `Tiddl process exited with code  ${code}`, app);
     item["status"] = isDownloaded ? "downloaded" : "error";
     item["loading"] = false;
     app.settings.processingList.actions.updateItem(item);
@@ -75,7 +87,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   child.on("error", (err) => {
     if (err) {
-      item["output"] = logs(item, `Tiddl Error: ${err}`);
+      logs(item, `Tiddl Error: ${err}`, app);
       item["status"] = "error";
       item["loading"] = false;
       app.settings.processingList.actions.updateItem(item);

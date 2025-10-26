@@ -6,6 +6,8 @@ import Typography from "@mui/material/Typography";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { ArtistType } from "src/types";
 
+import SyncButton from "../Buttons/SyncButton";
+
 import { ArtistAvatar } from "./common/ArtistAvatar";
 import CoverLink from "./common/CoverLink";
 
@@ -72,7 +74,8 @@ export default function Artist({ artist }: { artist: ArtistType }) {
           ) : null}
         </Box>
 
-        <Box sx={{ mt: 1 }}>
+        <Box gap={1} display="flex" sx={{ mt: 1 }}>
+          <SyncButton item={artist} type="artist" />
           <Button
             variant="outlined"
             endIcon={<AlbumIcon />}
@@ -81,7 +84,7 @@ export default function Artist({ artist }: { artist: ArtistType }) {
             }}
             size="small"
           >
-            Show discography
+            Discography
           </Button>
         </Box>
       </CardContent>

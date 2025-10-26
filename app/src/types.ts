@@ -305,7 +305,7 @@ export type ProcessingItemType = {
   url: string;
   loading: boolean;
   error: boolean;
-  output: string;
+  output?: string; // Optional: not sent via main SSE anymore
 };
 
 export type ApiReturnType = {

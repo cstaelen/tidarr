@@ -44,6 +44,13 @@ type ApiFetcherContextType = {
     save_custom_css: (
       css: string,
     ) => Promise<{ success: boolean; message: string } | undefined>;
+    stream_item_output: (
+      itemId: string,
+      onData: (data: { id: string; output: string }) => void,
+    ) => {
+      eventSource: EventSourcePlus;
+      controller: EventSourceController;
+    };
   };
 };
 
@@ -279,6 +286,29 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     );
   }
 
+  function stream_item_output(
+    itemId: string,
+    onData: (data: { id: string; output: string }) => void,
+  ): {
+    eventSource: EventSourcePlus;
+    controller: EventSourceController;
+  } {
+    return streamExpressJS(
+      `${apiUrl}/stream_item_output/${itemId}`,
+      (message) => {
+        try {
+          const data = JSON.parse(message.data) as {
+            id: string;
+            output: string;
+          };
+          onData(data);
+        } catch (error) {
+          console.error("Failed to parse item output SSE data:", error);
+        }
+      },
+    );
+  }
+
   const value = {
     apiUrl,
     error: {
@@ -299,6 +329,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       remove_sync_item,
       get_custom_css,
       save_custom_css,
+      stream_item_output,
     },
   };
 

@@ -1,7 +1,11 @@
-import { expect, test } from "@playwright/test";
+import { expect, Locator, test } from "@playwright/test";
 
 import { waitForImgLoaded, waitForLoader } from "./utils/helpers";
 import { countItems, runSearch } from "./utils/search";
+
+async function scrollTo(target: Locator) {
+  await target.evaluate((el) => el.scrollIntoView({ block: "center" }));
+}
 
 test("Tidarr search : Should see 'Top results' tab content", async ({
   page,
@@ -54,10 +58,13 @@ test("Tidarr search : Should see albums results", async ({ page }) => {
   ).toBeVisible();
 
   // Test album card snapshot
+  const itemLocator = page
+    .locator("#full-width-tabpanel-1")
+    .getByTestId("item")
+    .first();
 
-  await expect(
-    page.locator("#full-width-tabpanel-1").getByTestId("item").first(),
-  ).toHaveScreenshot();
+  await scrollTo(itemLocator);
+  await expect(itemLocator).toHaveScreenshot();
 
   // Test pager
 
@@ -84,9 +91,13 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
 
   // Test album card snapshot
 
-  await expect(
-    page.locator("#full-width-tabpanel-2").getByTestId("item").first(),
-  ).toHaveScreenshot();
+  const itemLocator = page
+    .locator("#full-width-tabpanel-2")
+    .getByTestId("item")
+    .first();
+
+  await scrollTo(itemLocator);
+  await expect(itemLocator).toHaveScreenshot();
 
   // Test pager
 
@@ -116,7 +127,7 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
     .locator("#full-width-tabpanel-2")
     .getByTestId("item")
     .first()
-    .getByRole("button", { name: "Show discography" })
+    .getByRole("button", { name: "Discography" })
     .click();
 
   await waitForLoader(page);
@@ -154,9 +165,13 @@ test("Tidarr search : Should see tracks results", async ({ page }) => {
 
   // Test album card snapshot
 
-  await expect(
-    page.locator("#full-width-tabpanel-3").getByTestId("item").first(),
-  ).toHaveScreenshot();
+  const itemLocator = page
+    .locator("#full-width-tabpanel-3")
+    .getByTestId("item")
+    .first();
+
+  await scrollTo(itemLocator);
+  await expect(itemLocator).toHaveScreenshot();
 
   // Test pager
 
@@ -183,9 +198,13 @@ test("Tidarr search : Should see playlists results", async ({ page }) => {
 
   await page.waitForTimeout(500);
 
-  await expect(
-    page.locator("#full-width-tabpanel-4").getByTestId("item").first(),
-  ).toHaveScreenshot();
+  const itemLocator = page
+    .locator("#full-width-tabpanel-4")
+    .getByTestId("item")
+    .first();
+
+  await scrollTo(itemLocator);
+  await expect(itemLocator).toHaveScreenshot();
 
   // Test pager
 
@@ -228,19 +247,21 @@ test("Tidarr search : Should have two display mode", async ({ page }) => {
 
   await page.waitForTimeout(500);
 
-  await expect(
-    page
-      .locator("#full-width-tabpanel-0 > div:nth-child(2)")
-      .getByTestId("item")
-      .first(),
-  ).toHaveScreenshot();
+  const itemLocator = page
+    .locator("#full-width-tabpanel-0 > div:nth-child(2)")
+    .getByTestId("item")
+    .first();
+
+  await scrollTo(itemLocator);
+  await expect(itemLocator).toHaveScreenshot();
 
   await page.getByLabel("Display mode").click();
 
-  await expect(
-    page
-      .locator("#full-width-tabpanel-0 > div:nth-child(2)")
-      .getByTestId("item")
-      .first(),
-  ).toHaveScreenshot();
+  const itemLocator2 = page
+    .locator("#full-width-tabpanel-0 > div:nth-child(2)")
+    .getByTestId("item")
+    .first();
+
+  await scrollTo(itemLocator2);
+  await expect(itemLocator2).toHaveScreenshot();
 });

@@ -1,20 +1,20 @@
 WORKDIR /home/app/standalone
 ENV SHELL=bash
 
-COPY --from=app_builder /home/app/build/api/dist /home/app/standalone/api/dist
-COPY --from=app_builder /home/app/build/api/scripts /home/app/build/api/scripts
+COPY --from=app_builder /home/app/standalone/api/dist /home/app/standalone/api/dist
+COPY --from=app_builder /home/app/standalone/api/scripts /home/app/standalone/api/scripts
 
-COPY --from=app_builder /home/app/build/app/dist /home/app/standalone/app/build
+COPY --from=app_builder /home/app/standalone/app/dist /home/app/standalone/app/build
 
-COPY --from=app_builder /home/app/build/settings /home/app/standalone/settings
-COPY --from=app_builder /home/app/build/.env /home/app/standalone/.env
-COPY --from=app_builder /home/app/build/docker/run-prod.sh /home/app/standalone/docker/run-prod.sh
+COPY --from=app_builder /home/app/standalone/settings /home/app/standalone/settings
+COPY --from=app_builder /home/app/standalone/.env /home/app/standalone/.env
+COPY --from=app_builder /home/app/standalone/docker/run-prod.sh /home/app/standalone/docker/run-prod.sh
 
 RUN mkdir -p /home/app/standalone/download/incomplete/
 
 RUN npm install -g yarn
-COPY api/package.json .
-COPY api/yarn.lock .
+COPY api/package.json ./api/package.json
+COPY api/yarn.lock ./api/yarn.lock
 
 RUN \
       --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \

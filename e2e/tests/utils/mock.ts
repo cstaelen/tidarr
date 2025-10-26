@@ -227,3 +227,20 @@ export async function mockAuthAPI(page: Page, token: string) {
     await route.fulfill({ json });
   });
 }
+
+export async function mockItemOutputSSE(page: Page, quality = "high") {
+  await page.route("**/stream_item_output/*", async (route) => {
+    const itemId = route.request().url().split("/").pop();
+    const mockOutput = `=== Tiddl ===\r\nExecuting: tiddl url download -q ${quality}\r\nDownload completed successfully`;
+
+    await route.fulfill({
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${JSON.stringify({ id: itemId, output: mockOutput })}\n\n`,
+    });
+  });
+}

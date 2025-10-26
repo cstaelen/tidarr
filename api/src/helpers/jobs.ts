@@ -7,19 +7,19 @@ import { LogType, ProcessingItemType } from "../types";
 export function logs(
   item: ProcessingItemType | LogType,
   message: string,
-): string {
+  expressApp?: Express,
+) {
   console.log(message);
   if (!item) return message;
-  if (!message) return item["output"];
+  if (!message) return "";
 
-  if (!item?.["output_history"]) {
-    item["output_history"] = [];
+  // Use the new output storage system if expressApp is provided
+  if (expressApp && "id" in item) {
+    const addOutputLog = expressApp.settings.addOutputLog;
+    if (addOutputLog) {
+      addOutputLog(item.id, message);
+    }
   }
-
-  item["output_history"].push(message);
-
-  item["output"] = item["output_history"].slice(-500).join("\r\n");
-  return item["output"];
 }
 
 export async function moveAndClean(
@@ -33,7 +33,7 @@ export async function moveAndClean(
   if (!item) return { save: false };
 
   try {
-    item["output"] = logs(item, `=== Move processed items ===`);
+    logs(item, `=== Move processed items ===`, app);
 
     let args = "-rf";
 
@@ -42,20 +42,14 @@ export async function moveAndClean(
     }
 
     const cmd = `cp ${args} ${ROOT_PATH}/download/incomplete/* ${ROOT_PATH}/library >/dev/null`;
-    item["output"] = logs(item, cmd);
+    logs(item, cmd, app);
     const output_move = execSync(cmd, { encoding: "utf-8" });
-    item["output"] = logs(
-      item,
-      `- Move complete ${item.type}\r\n${output_move}`,
-    );
+    logs(item, `- Move complete ${item.type}\r\n${output_move}`, app);
     item["status"] = "finished";
     save = true;
   } catch (e: unknown) {
     item["status"] = "error";
-    item["output"] = logs(
-      item,
-      `- Error moving files:\r\n${(e as Error).message}`,
-    );
+    logs(item, `- Error moving files:\r\n${(e as Error).message}`, app);
   } finally {
     const cleaningStatus = await cleanFolder();
     if (cleaningStatus === "error") {
@@ -119,20 +113,8 @@ export function replacePathInM3U(): void {
   }
 }
 
-function setUmask(umask: string) {
-  const output_chmod = execSync(
-    `chmod -R ${umask} ${ROOT_PATH}/download/incomplete/*`,
-    {
-      encoding: "utf-8",
-    },
-  );
-  console.log(`- Chmod: ${umask}`, output_chmod);
-}
-
 export async function setPermissions() {
   if (process.env.PUID && process.env.PGID) {
-    setUmask(process.env.UMASK || "755");
-
     const output_chown = execSync(
       `chown -R ${process.env.PUID}:${process.env.PGID} ${ROOT_PATH}/download/incomplete/*`,
       {
@@ -143,10 +125,5 @@ export async function setPermissions() {
       `- Chown: ${process.env.PUID}:${process.env.PGID}`,
       output_chown,
     );
-    return;
-  }
-
-  if (process.env.UMASK) {
-    setUmask(process.env.UMASK);
   }
 }

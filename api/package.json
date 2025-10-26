@@ -2,6 +2,7 @@
   "name": "tidarr-api",
   "private": true,
   "devDependencies": {
+    "@types/apicache": "^1.6.7",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/express-http-proxy": "^1.6.7",
@@ -9,7 +10,6 @@
     "@types/node": "^24.8.1"
   },
   "dependencies": {
-    "@types/apicache": "^1.6.7",
     "apicache": "^1.6.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
@@ -21,7 +21,7 @@
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",
     "start": "npx tsx --watch index.ts",
-    "prod": "node ./api/dist/index.js",
+    "prod": "node ./dist/index.js",
     "find-deadcode": "ts-prune | (! grep -v 'used in module')",
     "depcheck": "npx depcheck"
   }

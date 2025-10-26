@@ -11,27 +11,27 @@ dev: ## Boot dev environnement
 	$(DOCKER_COMPOSE) up tidarr --build --remove-orphans
 
 install: ## Install deps
-	$(DOCKER_COMPOSE) exec -w /home/app/build/api tidarr yarn install
-	$(DOCKER_COMPOSE) exec -w /home/app/build/app tidarr yarn install
-	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e tidarr yarn install
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/api tidarr yarn install
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/app tidarr yarn install
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e tidarr yarn install
 ##
 ## Playwright 🚨
 ##--------------
 
 testing-build: ## Build container with Playwright tests and production build image
 	$(DOCKER_COMPOSE) up -d testing --build --remove-orphans
-	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e testing yarn install
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e testing yarn install
 
 testing-run: ## Run Playwright tests with production build image (arg: f=filter)
 	$(DOCKER_COMPOSE) restart testing
-	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e testing npx playwright test $(f)
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e testing npx playwright test $(f)
 
 testing-update-snapshots: ## Update Playwright snapshots (arg: f=filter)
 	$(DOCKER_COMPOSE) restart testing
-	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e testing npx playwright test $(f) --reporter=list --update-snapshots
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e testing npx playwright test $(f) --reporter=list --update-snapshots
 
 testing-show-report: ## Show last playwright report
-	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e testing npx playwright show-report --host 0.0.0.0
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e testing npx playwright show-report --host 0.0.0.0
 
 testing-clean: ## Clean Playwright reports
 	rm -rf playwright-report e2e/playwright-report e2e/test-results
@@ -44,20 +44,20 @@ testing-ui: ## Run local Playwright UI
 ##----------------
 
 quality-deadcode: ## Fin deadcode with `ts-prune`
-	$(DOCKER_COMPOSE) exec -w /home/app/build/api tidarr yarn find-deadcode 
-	$(DOCKER_COMPOSE) exec -w /home/app/build/app tidarr yarn find-deadcode 
-	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e tidarr yarn find-deadcode 
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/api tidarr yarn find-deadcode
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/app tidarr yarn find-deadcode
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e tidarr yarn find-deadcode
 
 quality-depcheck: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /home/app/build/api tidarr yarn depcheck
-	$(DOCKER_COMPOSE) exec -w /home/app/build/app tidarr yarn depcheck
-	$(DOCKER_COMPOSE) exec -w /home/app/build/e2e tidarr yarn depcheck
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/api tidarr yarn depcheck
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/app tidarr yarn depcheck
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e tidarr yarn depcheck
 
 quality-lint: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /home/app/build tidarr yarn eslint
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone tidarr yarn eslint
 
 quality-lint-fix: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /home/app/build tidarr yarn eslint-fix
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone tidarr yarn eslint-fix
 
 ##
 ## Builder 🚀

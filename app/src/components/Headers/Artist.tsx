@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { MusicNote } from "@mui/icons-material";
-import { Alert, AlertTitle, Button, Link } from "@mui/material";
+import { Alert, AlertTitle, Box, Button, Link } from "@mui/material";
 import { ArtistType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
+import SyncButton from "../Buttons/SyncButton";
 
 import PageHeader from "./Header";
 
@@ -14,13 +15,15 @@ export default function ArtistHeader({ artist }: { artist: ArtistType }) {
     <>
       <PageHeader
         title={artist.name}
+        subtitle="Artist(s)"
         url={artist.url}
         image={`https://resources.tidal.com/images/${artist.picture?.replace(
           /-/g,
           "/",
         )}/750x750.jpg`}
         afterTitle={
-          <>
+          <Box display="flex" gap={1} flexWrap="wrap">
+            <SyncButton item={artist} type="artist" />
             <DownloadButton
               item={artist}
               id={artist.id}
@@ -28,21 +31,17 @@ export default function ArtistHeader({ artist }: { artist: ArtistType }) {
               label="Get all releases"
             />
             {artist?.mixes?.ARTIST_MIX && (
-              <>
-                &nbsp;
-                <Button
-                  variant="outlined"
-                  size="small"
-                  endIcon={<MusicNote />}
-                  onClick={() => navigate(`/mix/${artist?.mixes?.ARTIST_MIX}`)}
-                >
-                  See artist mix
-                </Button>
-              </>
+              <Button
+                variant="outlined"
+                size="small"
+                endIcon={<MusicNote />}
+                onClick={() => navigate(`/mix/${artist?.mixes?.ARTIST_MIX}`)}
+              >
+                See artist mix
+              </Button>
             )}
-          </>
+          </Box>
         }
-        subtitle="Artist(s)"
       />
       <Alert color="info" sx={{ my: 2 }}>
         <AlertTitle>"Get all releases" button.</AlertTitle>

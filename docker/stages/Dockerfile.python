@@ -1,4 +1,4 @@
-WORKDIR /home/app/build
+WORKDIR /home/app/standalone
 
 ENV SHELL=bash
 ENV PYTHONUNBUFFERED=1

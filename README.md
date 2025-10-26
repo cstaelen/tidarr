@@ -53,7 +53,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Download covers
 - Admin password
 - M3U file for playlist with customizable path
-- Sync playlists with cron
+- Watch and sync playlists, mixes and artists with cron
 - Skip download if track exists
 - Custom CSS
 
@@ -114,16 +114,15 @@ Authorize your device using the UI token dialog
 **or**
 
 ```bash 
-docker compose exec -it tidarr tiddl auth
-docker compose exec tidarr cp -rf /root/tiddl.json /home/app/standalone/shared/tiddl.json
+docker compose exec -it -e TIDDL_PATH=/home/app/standalone/shared tidarr tiddl auth login
 ```
 
 **or**
 
 ```bash 
-docker exec -it tidarr tiddl auth
-docker exec tidarr cp -rf /root/tiddl.json /home/app/standalone/shared/tiddl.json
+docker exec -it -e TIDDL_PATH=/home/app/standalone/shared tidarr tiddl auth
 ```
+
 ## Options
 
 ### Download settings
@@ -186,7 +185,7 @@ environment:
   - ...
   - PUID=1234
   - PGID=123
-  - UMASK=644
+  - UMASK=0022
 ```
 
 ### Password protection

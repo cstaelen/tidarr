@@ -85,10 +85,15 @@ export const DialogToken = () => {
       <Typography fontStyle="italic" fontSize={14} py={1}>
         This dialog will close after authentication.
       </Typography>
-      <p>... or run this to create Tidal token :</p>
-      <Paper elevation={0} sx={{ padding: "1rem" }}>
-        <code>$ docker exec -it tidarr tiddl auth login</code>
-      </Paper>
+      <p>
+        ... or create Tidal token using CLI :{" "}
+        <Link
+          href="https://github.com/cstaelen/tidarr?tab=readme-ov-file#tidal-authentication"
+          target="_blank"
+        >
+          Github
+        </Link>
+      </p>
     </DialogHandler>
   );
 };
