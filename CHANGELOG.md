@@ -3,6 +3,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.4.1
+### 🚀 Added
+* [API] Add push over webhook and `PUSH_OVER_URL` env var
+### 🖍 Changed
+* [API] Update tiddl to `2.6.5`
+
 ## 📦 0.4.0
 ### 🚀 Added
 * [Front] Add custom CSS #383
