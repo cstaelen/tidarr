@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { ReactElement, useCallback, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { TIDAL_ITEMS_PER_PAGE } from "src/contants";
 import { FetchTidalSearchProps } from "src/hooks/useFetchTidal";
@@ -22,11 +22,13 @@ export default function PagedModule({
   type,
   url,
   title,
+  titleSide,
   orderParams,
 }: {
   type: ModuleTypeKeys;
   url: string;
   title: string;
+  titleSide?: ReactElement;
   orderParams?: { [key: string]: Partial<FetchTidalSearchProps> };
 }) {
   const [page, setPage] = useState(0);
@@ -96,9 +98,12 @@ export default function PagedModule({
         title={title}
         total={totalItems}
         rightBlock={
-          orderParams && (
-            <SortSelector data={orderParams} handleChange={sortUpdate} />
-          )
+          <>
+            {orderParams && (
+              <SortSelector data={orderParams} handleChange={sortUpdate} />
+            )}
+            {titleSide}
+          </>
         }
       />
       <Module type={type} data={paginatedData} loading={pagedModuleLoading} />

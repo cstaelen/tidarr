@@ -7,13 +7,14 @@ import { useSync } from "src/provider/SyncProvider";
 import {
   ArtistType,
   ContentType,
+  FavoritesType,
   MixType,
   PlaylistType,
   SyncItemType,
 } from "src/types";
 
 const SyncButton: React.FC<{
-  item: PlaylistType | MixType | ArtistType;
+  item: PlaylistType | MixType | ArtistType | FavoritesType;
   type: ContentType;
 }> = ({ item, type }) => {
   const { syncList, actions } = useSync();

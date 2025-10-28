@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 
 export function ModuleTitle({
   title,
@@ -22,7 +22,9 @@ export function ModuleTitle({
           {title.toLowerCase() === "featured albums" ? "Albums" : title}{" "}
           {total ? `(${total})` : ""}
         </Typography>
-        {rightBlock}
+        <Box display="flex" alignItems="center" gap={2}>
+          {rightBlock}
+        </Box>
       </Stack>
       <br />
     </div>

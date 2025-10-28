@@ -10,6 +10,8 @@ import { EventSourceController } from "event-source-plus";
 import {
   AlbumType,
   ArtistType,
+  ContentType,
+  FavoritesType,
   MixType,
   PlaylistType,
   ProcessingItemType,
@@ -31,8 +33,9 @@ type ProcessingContextType = {
         | ArtistType
         | PlaylistType
         | MixType
-        | VideoType,
-      type: "album" | "track" | "artist" | "playlist" | "video" | "mix",
+        | VideoType
+        | FavoritesType,
+      type: ContentType,
     ) => void;
     removeItem: (id: string) => void;
     retryItem: (item: ProcessingItemType) => void;
@@ -60,8 +63,9 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       | ArtistType
       | PlaylistType
       | MixType
-      | VideoType,
-    type: "album" | "track" | "artist" | "playlist" | "video" | "mix",
+      | VideoType
+      | FavoritesType,
+    type: ContentType,
   ) => {
     if (!quality) return;
 

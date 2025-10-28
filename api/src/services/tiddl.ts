@@ -18,7 +18,28 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   logs(item, `=== Tiddl ===`, app);
 
   const binary = "tiddl";
-  const args: string[] = ["url", item.url, "download"];
+  const args: string[] = [];
+
+  if (item.type.includes("favorite_")) {
+    let resource: string = "";
+    switch (true) {
+      case item.type === "favorite_tracks":
+        resource = "track";
+        break;
+      case item.type === "favorite_albums":
+        resource = "album";
+        break;
+      case item.type === "favorite_playlists":
+        resource = "playlist";
+        break;
+    }
+    args.push("fav", "-r", resource);
+  } else {
+    args.push("url", item.url);
+  }
+
+  args.push("download");
+
   if (
     item.type !== "video" &&
     item.quality &&
@@ -42,15 +63,10 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     env: { ...process.env, TIDDL_PATH: `${ROOT_PATH}/shared` },
   });
 
-  const signal = child.signalCode || undefined;
   child.stdout?.setEncoding("utf8");
   child.stdout?.on("data", (data: string) => {
     logs(item, data.replace(/[\r\n]+/gm, ""), app);
     item["process"] = child;
-    if (data.includes("ERROR") && !data.includes("Can not add metadata to")) {
-      child.emit("error", new Error(data));
-      child.kill(signal);
-    }
     app.settings.processingList.actions.updateItem(item);
   });
 

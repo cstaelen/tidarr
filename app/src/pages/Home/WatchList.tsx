@@ -69,7 +69,11 @@ export default function WatchList() {
                   }}
                 >
                   <TableCell>
-                    <Link href={`/${row.type}/${row.id}`}>{row?.title}</Link>
+                    {row.id.includes("favorite_") ? (
+                      <>{row?.title}</>
+                    ) : (
+                      <Link href={`/${row.type}/${row.id}`}>{row?.title}</Link>
+                    )}
                   </TableCell>
                   <TableCell>{row.type}</TableCell>
                   <TableCell>{row.quality}</TableCell>

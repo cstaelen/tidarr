@@ -10,6 +10,8 @@ import { useProcessingProvider } from "../../provider/ProcessingProvider";
 import {
   AlbumType,
   ArtistType,
+  ContentType,
+  FavoritesType,
   MixType,
   PlaylistType,
   TrackType,
@@ -22,9 +24,16 @@ export const DownloadButton = ({
   type,
   label,
 }: {
-  item: TrackType | AlbumType | ArtistType | PlaylistType | MixType | VideoType;
+  item:
+    | TrackType
+    | AlbumType
+    | ArtistType
+    | PlaylistType
+    | MixType
+    | VideoType
+    | FavoritesType;
   id: string;
-  type: "album" | "artist" | "track" | "playlist" | "video" | "mix";
+  type: ContentType;
   label: string;
 }) => {
   const { processingList, actions } = useProcessingProvider();
