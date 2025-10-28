@@ -69,7 +69,7 @@ export default function WatchList() {
                   }}
                 >
                   <TableCell>
-                    {row.id.includes("favorite_") ? (
+                    {row.type.includes("favorite_") ? (
                       <>{row?.title}</>
                     ) : (
                       <Link href={`/${row.type}/${row.id}`}>{row?.title}</Link>

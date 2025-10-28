@@ -3,6 +3,7 @@ import { SyncDisabled } from "@mui/icons-material";
 import SyncIcon from "@mui/icons-material/Sync";
 import { Button, Tooltip } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
+import { useProcessingProvider } from "src/provider/ProcessingProvider";
 import { useSync } from "src/provider/SyncProvider";
 import {
   ArtistType,
@@ -18,7 +19,7 @@ const SyncButton: React.FC<{
   type: ContentType;
 }> = ({ item, type }) => {
   const { syncList, actions } = useSync();
-
+  const { actions: processingActions } = useProcessingProvider();
   const { quality } = useConfigProvider();
 
   const syncObj = useMemo<SyncItemType>(
@@ -44,6 +45,7 @@ const SyncButton: React.FC<{
       actions.removeSyncItem(syncObj.id);
     } else {
       actions.addSyncItem(syncItem);
+      processingActions.addItem(syncItem, type);
     }
   };
 

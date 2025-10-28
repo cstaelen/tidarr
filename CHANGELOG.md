@@ -3,6 +3,11 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.4.2
+### 🚀 Added
+* [API] Trigger sync button add to download queue #414
+* [API/Front] Download & sync favorite tracks/albums/playlists #412
+
 ## 📦 0.4.1
 ### 🚀 Added
 * [API] Add push over webhook and `PUSH_OVER_URL` env var
