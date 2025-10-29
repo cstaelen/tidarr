@@ -61,8 +61,9 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   useEffect(() => {
-    setTimeout(getSyncList);
-  }, [getSyncList]);
+    getSyncList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Load sync list once on mount only
 
   const value = {
     syncList,

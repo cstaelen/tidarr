@@ -85,11 +85,24 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     let output!: T;
 
     try {
-      // setApiError(undefined);
+      setApiError(undefined);
 
       await fetch(url, { ...options, cache: "no-cache" }).then(
         function (response) {
-          if (response.status === 200 || response.status === 401) {
+          if (response.status === 200) {
+            output = response.json().then<T>(function (data) {
+              return data;
+            }) as T;
+
+            return;
+          }
+
+          if (response.status === 401) {
+            // Unauthorized - redirect to login
+            if (localStorage.getItem(LOCALSTORAGE_TOKEN_KEY)) {
+              localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
+            }
+            // window.location.href = "/login";
             output = response.json().then<T>(function (data) {
               return data;
             }) as T;

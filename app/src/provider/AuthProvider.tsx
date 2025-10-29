@@ -29,6 +29,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthActive, setIsAuthActive] = useState<boolean>();
   const { pathname } = useLocation();
   const {
+    error,
     actions: { auth, is_auth_active },
   } = useApiFetcher();
   const navigate = useNavigate();
@@ -80,11 +81,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
+    console.log("error", error);
+    if (error.apiError) return;
+
     const checkAuth = async () => {
       await checkIfAuthIsActive();
     };
     checkAuth();
-  }, [checkIfAuthIsActive]);
+  }, [checkIfAuthIsActive, error]);
 
   const value = {
     isAuthActive,
