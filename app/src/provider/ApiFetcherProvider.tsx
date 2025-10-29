@@ -28,6 +28,8 @@ type ApiFetcherContextType = {
     };
     save: (body: string) => Promise<unknown>;
     remove: (body: string) => Promise<unknown>;
+    remove_all: () => Promise<unknown>;
+    remove_finished: () => Promise<unknown>;
     auth: (body: string) => Promise<AuthType | undefined>;
     is_auth_active: () => Promise<CheckAuthType | undefined>;
     get_token_sse: (
@@ -178,11 +180,28 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
 
   async function remove(body: string) {
     return await queryExpressJS(`${apiUrl}/remove`, {
-      method: "POST",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
       body: body,
+    });
+  }
+
+  async function remove_all() {
+    return await queryExpressJS(`${apiUrl}/remove_all`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+  async function remove_finished() {
+    return await queryExpressJS(`${apiUrl}/remove_finished`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
   }
 
@@ -320,6 +339,8 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       list_sse,
       save,
       remove,
+      remove_finished,
+      remove_all,
       auth,
       is_auth_active,
       get_token_sse,

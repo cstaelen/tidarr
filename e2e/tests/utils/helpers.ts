@@ -60,14 +60,15 @@ export async function emptyProcessingList(page: Page) {
 
   if (!isVisible || page.isClosed()) return null;
 
-  // await page.locator("button.MuiFab-circular").click();
-  const items = await page.locator("#Showprocessinglist-action-1 tbody tr");
+  await page.locator("button.MuiFab-circular").hover();
 
+  const items = await page.locator("#Showprocessinglist-action-1 tbody tr");
   const firstButton = await items.getByRole("button").first();
 
   if (!firstButton || !firstButton.isVisible()) return null;
 
   await firstButton?.click();
+
   await expect(page.locator("button.MuiFab-circular")).not.toBeVisible();
 }
 

@@ -5,6 +5,22 @@ import { ROOT_PATH } from "../../constants";
 import { logs } from "../helpers/jobs";
 import { ProcessingItemType } from "../types";
 
+// Constants
+const TIDDL_BINARY = "tiddl";
+
+// Error messages to detect authentication issues
+const AUTH_ERROR_MESSAGES = [
+  "User does not have a valid session",
+  '"token": token["access_token"]',
+];
+
+// Resource mapping for favorite types
+const FAVORITE_TYPE_TO_RESOURCE: Record<string, string> = {
+  favorite_tracks: "track",
+  favorite_albums: "album",
+  favorite_playlists: "playlist",
+};
+
 export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   const item: ProcessingItemType =
     app.settings.processingList.actions.getItem(id);
@@ -17,13 +33,20 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   logs(item, `=== Tiddl ===`, app);
 
-  const binary = "tiddl";
-  const args: string[] = ["url", item.url, "download"];
-  if (
-    item.type !== "video" &&
-    item.quality &&
-    item.quality.toString() !== "null"
-  ) {
+  const args: string[] = [];
+
+  if (item.type.includes("favorite_")) {
+    const resource = FAVORITE_TYPE_TO_RESOURCE[item.type];
+    if (resource) {
+      args.push("fav", "-r", resource);
+    }
+  } else {
+    args.push("url", item.url);
+  }
+
+  args.push("download");
+
+  if (item.type !== "video" && item.quality) {
     args.push("-q");
     args.push(item.quality);
   }
@@ -34,31 +57,22 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   logs(
     item,
-    `Executing: TIDDL_PATH=${ROOT_PATH}/shared ${binary} ${args.join(" ")}`,
+    `Executing: TIDDL_PATH=${ROOT_PATH}/shared ${TIDDL_BINARY} ${args.join(" ")}`,
     app,
   );
 
-  const child = spawn(binary, args, {
+  const child = spawn(TIDDL_BINARY, args, {
     env: { ...process.env, TIDDL_PATH: `${ROOT_PATH}/shared` },
   });
 
-  const signal = child.signalCode || undefined;
   child.stdout?.setEncoding("utf8");
   child.stdout?.on("data", (data: string) => {
     logs(item, data.replace(/[\r\n]+/gm, ""), app);
-    item["process"] = child;
-    if (data.includes("ERROR") && !data.includes("Can not add metadata to")) {
-      child.emit("error", new Error(data));
-      child.kill(signal);
-    }
-    app.settings.processingList.actions.updateItem(item);
   });
 
   child.stderr?.setEncoding("utf8");
   child.stderr?.on("data", (data) => {
     logs(item, `Tiddl: ${data}`, app);
-    item["process"] = child;
-    app.settings.processingList.actions.updateItem(item);
   });
 
   child.on("close", (code) => {
@@ -66,10 +80,11 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       item.id,
     );
 
-    if (
-      currentOutput.includes(`User does not have a valid session`) ||
-      currentOutput.includes(`"token": token["access_token"]`)
-    ) {
+    // Check for authentication errors
+    const hasAuthError = AUTH_ERROR_MESSAGES.some((msg) =>
+      currentOutput.includes(msg),
+    );
+    if (hasAuthError) {
       console.log("LOGOUT");
       code = 401;
       deleteTiddlConfig();
@@ -78,7 +93,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     const isDownloaded =
       currentOutput.includes("can't save playlist m3u file") || code === 0;
 
-    logs(item, `Tiddl process exited with code  ${code}`, app);
+    logs(item, `Tiddl process exited with code ${code}`, app);
     item["status"] = isDownloaded ? "downloaded" : "error";
     item["loading"] = false;
     app.settings.processingList.actions.updateItem(item);
@@ -99,45 +114,39 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 }
 
 export function tidalToken(req: Request, res: Response) {
-  const pythonProcess = spawn("tiddl", ["auth", "login"]);
+  const tiddlProcess = spawn(TIDDL_BINARY, ["auth", "login"], {
+    env: { ...process.env, TIDDL_PATH: `${ROOT_PATH}/shared` },
+  });
 
-  pythonProcess.stdout.on("data", (data) => {
+  tiddlProcess.stdout.on("data", (data) => {
     res.write(`data: ${data.toString()}\n\n`);
   });
 
-  pythonProcess.stderr.on("data", (data) => {
+  tiddlProcess.stderr.on("data", (data) => {
     res.write(`data: ${data.toString()}\n\n`);
   });
 
-  pythonProcess.on("close", (code) => {
+  tiddlProcess.on("close", (code) => {
     if (code === 0) {
-      spawn("cp", [
-        "-rf",
-        "/root/tiddl.json",
-        "/home/app/standalone/shared/tiddl.json",
-      ]);
       res.write(`data: Authenticated!\n\n`);
     } else {
       res.write(`data: closing ${code}\n\n`);
     }
-    console.log(`Python script exited with code ${code}`);
+    console.log(`Tiddl auth process exited with code ${code}`);
     res.end();
   });
 
   req.on("close", () => {
-    pythonProcess.kill();
+    tiddlProcess.kill();
   });
 }
 
 export function deleteTiddlConfig() {
   try {
-    spawnSync("tiddl", ["auth", "logout"]);
-    spawnSync("cp", [
-      "-rf",
-      "/root/tiddl.json",
-      "/home/app/standalone/shared/tiddl.json",
-    ]);
+    spawnSync(TIDDL_BINARY, ["auth", "logout"], {
+      env: { ...process.env, TIDDL_PATH: `${ROOT_PATH}/shared` },
+    });
   } catch (e) {
-    console.log("delete tiddl config error:", e);
+    console.error("Error deleting tiddl config:", e);
   }
 }

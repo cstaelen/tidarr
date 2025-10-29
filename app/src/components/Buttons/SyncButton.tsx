@@ -3,29 +3,32 @@ import { SyncDisabled } from "@mui/icons-material";
 import SyncIcon from "@mui/icons-material/Sync";
 import { Button, Tooltip } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
+import { useProcessingProvider } from "src/provider/ProcessingProvider";
 import { useSync } from "src/provider/SyncProvider";
 import {
   ArtistType,
   ContentType,
+  FavoritesType,
   MixType,
   PlaylistType,
   SyncItemType,
 } from "src/types";
 
 const SyncButton: React.FC<{
-  item: PlaylistType | MixType | ArtistType;
+  item: PlaylistType | MixType | ArtistType | FavoritesType;
   type: ContentType;
 }> = ({ item, type }) => {
   const { syncList, actions } = useSync();
-
+  const { actions: processingActions } = useProcessingProvider();
   const { quality } = useConfigProvider();
 
   const syncObj = useMemo<SyncItemType>(
     () => ({
       id: "uuid" in item ? item.uuid : item.id,
       url: item.url || "",
-      title: (item as PlaylistType).title || (item as ArtistType).name,
+      title: type === "artist" ? "All albums" : (item as PlaylistType).title,
       quality: quality || "high",
+      artist: type === "artist" ? (item as ArtistType)?.name : "",
       type: type,
     }),
     [item, quality, type],
@@ -38,18 +41,19 @@ const SyncButton: React.FC<{
     );
   }, [syncList, syncObj?.id]);
 
-  const handleClick = (syncItem: SyncItemType) => {
+  const handleClick = () => {
     if (isSynced) {
       actions.removeSyncItem(syncObj.id);
     } else {
-      actions.addSyncItem(syncItem);
+      actions.addSyncItem(syncObj);
+      processingActions.addItem(syncObj, type);
     }
   };
 
   return (
     <Tooltip title={isSynced ? "Remove from watch list" : "Add to watch list"}>
       <Button
-        onClick={() => handleClick(syncObj)}
+        onClick={() => handleClick()}
         size="small"
         variant="outlined"
         color={!isSynced ? "primary" : "error"}

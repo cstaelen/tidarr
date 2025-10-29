@@ -7,6 +7,9 @@ export type ContentType =
   | "playlist"
   | "artist"
   | "video"
+  | "favorite_albums"
+  | "favorite_tracks"
+  | "favorite_playlists"
   | "mix";
 
 export type ProcessingItemType = {
@@ -70,6 +73,7 @@ export type SyncItemType = {
   id: string;
   title: string;
   url: string;
+  artist?: string;
   lastUpdate?: string;
   quality: QualityType;
   type: ContentType;

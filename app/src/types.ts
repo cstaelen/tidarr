@@ -150,6 +150,15 @@ export type PlaylistType = {
   lastItemAddedAt: string;
 };
 
+export type FavoritesType = {
+  id: string;
+  title: string;
+  url: string;
+  quality: QualityType;
+  type: ContentType;
+  lastUpdate?: string;
+};
+
 // TIDAL FETCH
 
 export type TidalResponseType = {
@@ -293,6 +302,10 @@ export type ContentType =
   | "track"
   | "playlist"
   | "video"
+  | "favorite_albums"
+  | "favorite_tracks"
+  | "favorite_playlists"
+  | "video"
   | "mix";
 
 export type ProcessingItemType = {
@@ -305,7 +318,6 @@ export type ProcessingItemType = {
   url: string;
   loading: boolean;
   error: boolean;
-  output?: string; // Optional: not sent via main SSE anymore
 };
 
 export type ApiReturnType = {
@@ -321,6 +333,7 @@ export type SyncItemType = {
   title: string;
   url: string;
   quality: QualityType;
+  artist?: string;
   lastUpdate?: string;
   type: ContentType;
 };

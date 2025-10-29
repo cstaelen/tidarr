@@ -78,7 +78,7 @@ export const createCronJob = async (app: Express) => {
 
         const itemToQueue: ProcessingItemType = {
           id: element.id,
-          artist: "",
+          artist: element.artist || "",
           title: element.title,
           type: element.type,
           quality: element.quality,

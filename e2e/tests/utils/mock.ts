@@ -28,6 +28,12 @@ export async function mockTidalQueries(page: Page) {
     },
   );
   await page.route(
+    "http://localhost:8484/proxy/v1/pages/home?countryCode=EN&deviceType=BROWSER&locale=en_US",
+    async (route) => {
+      await route.fulfill({ json: mockHome });
+    },
+  );
+  await page.route(
     "http://localhost:8484/proxy/v1/pages/album?countryCode=FR&deviceType=BROWSER&locale=en_US&albumId=77610756",
     async (route) => {
       await route.fulfill({ json: mockAlbum });

@@ -154,3 +154,234 @@ test("Tidarr download : Should be able to download mix", async ({ page }) => {
 
   await testProcessingList(page, ["My Daily Discovery", "high", "mix"]);
 });
+
+test("Tidarr download : Should be able to download favorite albums", async ({
+  page,
+}) => {
+  // Mock favorite albums output
+  await page.route("**/stream_item_output/*", async (route) => {
+    const itemId = route.request().url().split("/").pop();
+    const mockOutput = `=== Tiddl ===\r\nExecuting: tiddl fav -r album download -q high`;
+
+    await route.fulfill({
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${JSON.stringify({ id: itemId, output: mockOutput })}\n\n`,
+    });
+  });
+
+  await mockConfigAPI(page);
+  await goToHome(page);
+  await page.getByRole("tab", { name: "My Favorites" }).first().click();
+
+  await expect(page.getByRole("main")).toContainText("My Favorite albums");
+  await page.getByRole("button", { name: "Favorite albums" }).first().click();
+
+  await testProcessingList(page, [
+    "Favorite albums",
+    "favorite_albums",
+    "high",
+  ]);
+});
+
+test("Tidarr download : Should be able to download favorite tracks", async ({
+  page,
+}) => {
+  // Mock favorite tracks output
+  await page.route("**/stream_item_output/*", async (route) => {
+    const itemId = route.request().url().split("/").pop();
+    const mockOutput = `=== Tiddl ===\r\nExecuting: tiddl fav -r track download -q high`;
+
+    await route.fulfill({
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${JSON.stringify({ id: itemId, output: mockOutput })}\n\n`,
+    });
+  });
+
+  await mockConfigAPI(page);
+  await goToHome(page);
+  await page.getByRole("tab", { name: "My Favorites" }).first().click();
+
+  await expect(page.getByRole("main")).toContainText("My Favorite tracks");
+  await page.getByRole("button", { name: "Favorite tracks" }).first().click();
+
+  await testProcessingList(page, [
+    "Favorite tracks",
+    "favorite_tracks",
+    "high",
+  ]);
+});
+
+test("Tidarr download : Should be able to download favorite playlists", async ({
+  page,
+}) => {
+  // Mock favorite playlists output
+  await page.route("**/stream_item_output/*", async (route) => {
+    const itemId = route.request().url().split("/").pop();
+    const mockOutput = `=== Tiddl ===\r\nExecuting: tiddl fav -r playlist download -q high`;
+
+    await route.fulfill({
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${JSON.stringify({ id: itemId, output: mockOutput })}\n\n`,
+    });
+  });
+
+  await mockConfigAPI(page);
+  await goToHome(page);
+  await page.getByRole("tab", { name: "My Favorites" }).first().click();
+
+  await expect(page.getByRole("main")).toContainText("My Favorite playlists");
+  await page
+    .getByRole("button", { name: "Favorite playlists" })
+    .first()
+    .click();
+
+  await testProcessingList(page, [
+    "Favorite playlists",
+    "favorite_playlists",
+    "high",
+  ]);
+});
+
+test("Tidarr download : Should be able to clear finished items", async ({
+  page,
+}) => {
+  // Mock API endpoints
+  await mockItemOutputSSE(page, "high");
+  let removeFinishedCalled = false;
+  await page.route("**/remove_finished", async (route) => {
+    removeFinishedCalled = true;
+    await route.fulfill({ status: 204 });
+  });
+
+  // Add multiple items to processing list
+  await runSearch("Nirvana", page);
+  await page.getByRole("tab", { name: "Albums" }).first().click();
+
+  // Download first album
+  await page
+    .locator("div:nth-child(2) > .MuiPaper-root > div:nth-child(2)")
+    .getByTestId("btn-dl")
+    .click();
+
+  // Open processing list
+  await expect(page.locator("button.MuiFab-circular")).toBeVisible();
+  await page.locator("button.MuiFab-circular").click();
+
+  // Verify item is in the list
+  await expect(page.getByLabel("Processing table")).toContainText("In Utero");
+
+  // Mock the item as finished by simulating the status
+  await page.route("**/stream_processing", async (route) => {
+    const mockData = [
+      {
+        id: "123",
+        title: "In Utero",
+        artist: "Nirvana",
+        type: "album",
+        quality: "high",
+        status: "finished",
+        loading: false,
+      },
+    ];
+    await route.fulfill({
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${JSON.stringify(mockData)}\n\n`,
+    });
+  });
+
+  // Wait a bit for the mock to take effect
+  await page.waitForTimeout(500);
+
+  // Click "Clear finished" button
+  await page.getByRole("button", { name: "Clear finished" }).click();
+
+  // Verify the API was called
+  await page.waitForTimeout(500);
+  expect(removeFinishedCalled).toBe(true);
+
+  // Clean up
+  await page.route("**/stream_processing", (route) => route.continue());
+  await emptyProcessingList(page);
+});
+
+test("Tidarr download : Should be able to clear all items with confirmation", async ({
+  page,
+}) => {
+  // Mock API endpoints
+  await mockItemOutputSSE(page, "high");
+  let removeAllCalled = false;
+  await page.route("**/remove_all", async (route) => {
+    removeAllCalled = true;
+    await route.fulfill({ status: 204 });
+  });
+
+  // Add items to processing list
+  await runSearch("Nirvana", page);
+  await page.getByRole("tab", { name: "Albums" }).first().click();
+
+  // Download an album
+  await page
+    .locator("div:nth-child(2) > .MuiPaper-root > div:nth-child(2)")
+    .getByTestId("btn-dl")
+    .click();
+
+  // Open processing list
+  await expect(page.locator("button.MuiFab-circular")).toBeVisible();
+  await page.locator("button.MuiFab-circular").click();
+
+  // Verify item is in the list
+  await expect(page.getByLabel("Processing table")).toContainText("In Utero");
+
+  // Setup confirmation dialog handler - dismiss first
+  page.once("dialog", (dialog) => {
+    expect(dialog.message()).toContain(
+      "Are you sure you want to clear all items from the queue?",
+    );
+    dialog.dismiss();
+  });
+
+  // Click "Clear all" button - should not remove because we dismissed
+  await page.getByRole("button", { name: "Clear all" }).click();
+
+  // Wait and verify API was NOT called
+  await page.waitForTimeout(500);
+  expect(removeAllCalled).toBe(false);
+
+  // Now accept the confirmation
+  page.once("dialog", (dialog) => {
+    expect(dialog.message()).toContain(
+      "Are you sure you want to clear all items from the queue?",
+    );
+    dialog.accept();
+  });
+
+  // Click "Clear all" again
+  await page.getByRole("button", { name: "Clear all" }).click();
+
+  // Verify the API was called this time
+  await page.waitForTimeout(500);
+  expect(removeAllCalled).toBe(true);
+
+  // Clean up
+  await emptyProcessingList(page);
+});

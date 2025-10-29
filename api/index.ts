@@ -82,12 +82,30 @@ app.post(
   },
 );
 
-app.post(
+app.delete(
   "/api/remove",
   ensureAccessIsGranted,
   async (req: Request, res: Response) => {
-    req.app.settings.processingList.actions.removeItem(req.body.id);
-    res.sendStatus(201);
+    await req.app.settings.processingList.actions.removeItem(req.body.id);
+    res.sendStatus(204);
+  },
+);
+
+app.delete(
+  "/api/remove_all",
+  ensureAccessIsGranted,
+  async (req: Request, res: Response) => {
+    await req.app.settings.processingList.actions.removeAllItems();
+    res.sendStatus(204);
+  },
+);
+
+app.delete(
+  "/api/remove_finished",
+  ensureAccessIsGranted,
+  async (req: Request, res: Response) => {
+    await req.app.settings.processingList.actions.removeFinishedItems();
+    res.sendStatus(204);
   },
 );
 
