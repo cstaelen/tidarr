@@ -1,12 +1,18 @@
 import { expect, test } from "@playwright/test";
 
-import { goToHome } from "./utils/helpers";
+import { emptyProcessingList, goToHome } from "./utils/helpers";
+import { mockConfigAPI, mockRelease } from "./utils/mock";
 import { runSearch } from "./utils/search";
 
 test.describe.configure({ mode: "serial" });
 
-test.beforeEach(async ({ browserName }) => {
+test.beforeEach(async ({ browserName, page }) => {
   test.skip(browserName.toLowerCase() !== "chromium", `Test only for chromium`);
+  await mockConfigAPI(page);
+  await mockRelease(page);
+});
+test.afterEach(async ({ page }) => {
+  await emptyProcessingList(page);
 });
 
 test("Tidarr sync : Should be able to sync a playlist", async ({ page }) => {
@@ -129,7 +135,7 @@ test("Tidarr sync : Should be able to sync favorite playlists", async ({
 
   // Click sync button for favorite playlists (third one on the page)
   await page.getByTestId("btn-sync").nth(2).click();
-  await expect(page.getByTestId("btn-disable-sync").nth(1)).toBeVisible();
+  await expect(page.getByTestId("btn-disable-sync")).toBeVisible();
 
   // Go to watch list and verify
   await page.getByRole("tab", { name: "Watch list (1)" }).click();
@@ -146,6 +152,6 @@ test("Tidarr sync : Should be able to sync favorite playlists", async ({
 
   // Verify sync button is back
   await page.getByRole("tab", { name: "My Favorites" }).first().click();
-  await expect(page.getByTestId("btn-disable-sync").nth(2)).not.toBeVisible();
+  await expect(page.getByTestId("btn-disable-sync")).not.toBeVisible();
   await expect(page.getByTestId("btn-sync").nth(2)).toBeVisible();
 });
