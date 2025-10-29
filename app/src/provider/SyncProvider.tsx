@@ -52,6 +52,7 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
       url: item.url,
       title: item.title,
       quality: item.quality,
+      artist: item.artist,
       type: item.type,
     };
 

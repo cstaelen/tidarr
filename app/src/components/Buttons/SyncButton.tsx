@@ -26,8 +26,9 @@ const SyncButton: React.FC<{
     () => ({
       id: "uuid" in item ? item.uuid : item.id,
       url: item.url || "",
-      title: (item as PlaylistType).title || (item as ArtistType).name,
+      title: type === "artist" ? "All albums" : (item as PlaylistType).title,
       quality: quality || "high",
+      artist: type === "artist" ? (item as ArtistType)?.name : "",
       type: type,
     }),
     [item, quality, type],
@@ -40,19 +41,19 @@ const SyncButton: React.FC<{
     );
   }, [syncList, syncObj?.id]);
 
-  const handleClick = (syncItem: SyncItemType) => {
+  const handleClick = () => {
     if (isSynced) {
       actions.removeSyncItem(syncObj.id);
     } else {
-      actions.addSyncItem(syncItem);
-      processingActions.addItem(syncItem, type);
+      actions.addSyncItem(syncObj);
+      processingActions.addItem(syncObj, type);
     }
   };
 
   return (
     <Tooltip title={isSynced ? "Remove from watch list" : "Add to watch list"}>
       <Button
-        onClick={() => handleClick(syncObj)}
+        onClick={() => handleClick()}
         size="small"
         variant="outlined"
         color={!isSynced ? "primary" : "error"}

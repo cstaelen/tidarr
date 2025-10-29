@@ -15,6 +15,7 @@ import {
   MixType,
   PlaylistType,
   ProcessingItemType,
+  SyncItemType,
   TrackType,
   VideoType,
 } from "../types";
@@ -84,7 +85,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       id: id,
       artist:
         type === "artist"
-          ? (item as ArtistType)?.name
+          ? (item as ArtistType)?.name || (item as SyncItemType)?.artist || ""
           : (item as TrackType | AlbumType).artists?.[0].name,
       title:
         type === "artist"

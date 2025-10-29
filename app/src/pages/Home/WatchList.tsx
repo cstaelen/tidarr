@@ -49,6 +49,9 @@ export default function WatchList() {
                   <strong>Title</strong>
                 </TableCell>
                 <TableCell>
+                  <strong>Artist</strong>
+                </TableCell>
+                <TableCell>
                   <strong>Type</strong>
                 </TableCell>
                 <TableCell>
@@ -75,6 +78,7 @@ export default function WatchList() {
                       <Link href={`/${row.type}/${row.id}`}>{row?.title}</Link>
                     )}
                   </TableCell>
+                  <TableCell>{row.artist}</TableCell>
                   <TableCell>{row.type}</TableCell>
                   <TableCell>{row.quality}</TableCell>
                   <TableCell>

@@ -333,6 +333,7 @@ export type SyncItemType = {
   title: string;
   url: string;
   quality: QualityType;
+  artist?: string;
   lastUpdate?: string;
   type: ContentType;
 };
