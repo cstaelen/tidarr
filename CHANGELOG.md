@@ -6,6 +6,7 @@ Tidarr notable changes.
 ## 📦 0.4.2
 ### 🚀 Added
 * [API] Trigger sync button add to download queue #414
+* [Front] Add buttons to clear queue list
 * [API/Front] Download & sync favorite tracks/albums/playlists #412
 ### 🖍 Changed
 * [API] Update tiddl to `2.7.0`

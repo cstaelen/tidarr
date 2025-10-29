@@ -116,14 +116,33 @@ export const ProcessingStack = (expressApp: Express) => {
 
   async function removeItem(id: string) {
     const item = getItem(id);
-    item?.process?.kill("SIGSTOP");
-    item?.process?.kill("SIGTERM");
-    item?.process?.kill("SIGKILL");
-    item?.process?.stdin?.end();
+
+    // Kill the process if it exists and is running
+    if (item?.process && !item.process.killed) {
+      try {
+        // Try graceful termination first
+        item.process.kill("SIGTERM");
+
+        // Wait a bit, then force kill if still running
+        setTimeout(() => {
+          if (item.process && !item.process.killed) {
+            item.process.kill("SIGKILL");
+          }
+        }, 1000);
+      } catch (error) {
+        console.error(`Failed to kill process for item ${id}:`, error);
+      }
+    }
 
     const foundIndex = data.findIndex(
       (listItem: ProcessingItemType) => listItem?.id === item?.id,
     );
+
+    if (foundIndex === -1) {
+      console.warn(`removeItem: Item ${id} not found in processing list`);
+      return;
+    }
+
     delete data[foundIndex];
     data.splice(foundIndex, 1);
 
@@ -136,6 +155,30 @@ export const ProcessingStack = (expressApp: Express) => {
     processQueue();
 
     notifySSEConnections(expressApp);
+  }
+
+  async function removeAllItems() {
+    const itemsToRemove = [...data]; // Copie immutable
+    for (const item of itemsToRemove) {
+      try {
+        await removeItem(item.id);
+      } catch (error) {
+        console.error(`Failed to remove item ${item.id}:`, error);
+      }
+    }
+  }
+
+  async function removeFinishedItems() {
+    const itemsToRemove = data.filter((item) =>
+      ["finished", "downloaded", "error"].includes(item.status),
+    );
+    for (const item of itemsToRemove) {
+      try {
+        await removeItem(item.id);
+      } catch (error) {
+        console.error(`Failed to remove item ${item.id}:`, error);
+      }
+    }
   }
 
   function updateItem(item: ProcessingItemType) {
@@ -188,7 +231,10 @@ export const ProcessingStack = (expressApp: Express) => {
     if (item.type === "mix") {
       processingMix(item);
     } else {
-      tidalDL(item.id, expressApp);
+      const child = tidalDL(item.id, expressApp);
+      if (child) {
+        item["process"] = child;
+      }
     }
   }
 
@@ -212,10 +258,13 @@ export const ProcessingStack = (expressApp: Express) => {
       logs(item, `Mix: download playlist`, expressApp);
       expressApp.settings.processingList.actions.updateItem(item);
 
-      tidalDL(item.id, expressApp, () => {
+      const child = tidalDL(item.id, expressApp, () => {
         logs(item, `Mix: delete playlist`, expressApp);
         deletePlaylist(playlistId, config);
       });
+      if (child) {
+        item["process"] = child;
+      }
 
       return;
     }
@@ -285,6 +334,8 @@ export const ProcessingStack = (expressApp: Express) => {
     actions: {
       addItem,
       removeItem,
+      removeAllItems,
+      removeFinishedItems,
       updateItem,
       getItem,
       processQueue,

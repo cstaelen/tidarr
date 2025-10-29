@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { ClearAll, DeleteSweep } from "@mui/icons-material";
 import {
   Backdrop,
   Box,
+  Button,
   CircularProgress,
   Paper,
   SpeedDial,
@@ -13,6 +15,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
+import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 
@@ -21,10 +24,42 @@ import { ProcessingItem } from "./ProcessingItem";
 export const ProcessingList = () => {
   const { processingList } = useProcessingProvider();
   const { actions } = useConfigProvider();
+  const { actions: apiActions } = useApiFetcher();
   const [open, setOpen] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleRemoveAll = async () => {
+    if (
+      !window.confirm(
+        "Are you sure you want to clear all items from the queue?",
+      )
+    ) {
+      return;
+    }
+
+    setIsRemoving(true);
+    try {
+      await apiActions.remove_all();
+    } catch (error) {
+      console.error("Failed to remove all items:", error);
+    } finally {
+      setIsRemoving(false);
+    }
+  };
+
+  const handleRemoveFinished = async () => {
+    setIsRemoving(true);
+    try {
+      await apiActions.remove_finished();
+    } catch (error) {
+      console.error("Failed to remove finished items:", error);
+    } finally {
+      setIsRemoving(false);
+    }
+  };
 
   const isLoading = processingList
     ? processingList?.filter((item) => item?.loading === true)?.length > 0
@@ -92,26 +127,63 @@ export const ProcessingList = () => {
           visibility: open ? "visible" : "hidden",
         }}
       >
-        <TableContainer component={Paper} sx={{ minWidth: "700px" }}>
-          <Table size="small" aria-label="Processing table">
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <strong>Processing list</strong>
-                </TableCell>
-                <TableCell>Title</TableCell>
-                <TableCell>Artist</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Quality</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {processingList?.map((item, index) => (
-                <ProcessingItem item={item} key={`processing-index-${index}`} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <Paper>
+          <TableContainer sx={{ minWidth: "700px" }}>
+            <Table size="small" aria-label="Processing table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <strong>Processing list</strong>
+                  </TableCell>
+                  <TableCell>Title</TableCell>
+                  <TableCell>Artist</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Quality</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {processingList?.map((item, index) => (
+                  <ProcessingItem
+                    item={item}
+                    key={`processing-index-${index}`}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Box
+            display="flex"
+            gap={2}
+            p={1}
+            bgcolor="background.default"
+            justifyContent="end"
+          >
+            <Button
+              size="small"
+              variant="outlined"
+              startIcon={<ClearAll />}
+              onClick={handleRemoveFinished}
+              disabled={
+                isRemoving ||
+                !processingList?.some((item) =>
+                  ["finished", "downloaded", "error"].includes(item.status),
+                )
+              }
+            >
+              Clear finished
+            </Button>
+            <Button
+              size="small"
+              variant="outlined"
+              color="error"
+              startIcon={<DeleteSweep />}
+              onClick={handleRemoveAll}
+              disabled={isRemoving || !processingList?.length}
+            >
+              {isRemoving ? "Clearing..." : "Clear all"}
+            </Button>
+          </Box>
+        </Paper>
       </Box>
     </SpeedDial>
   );
