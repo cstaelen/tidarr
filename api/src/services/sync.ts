@@ -71,6 +71,10 @@ export const createCronJob = async (app: Express) => {
 
   const finalExpression = isValid ? cronExpression : SYNC_DEFAULT_CRON;
 
+  // Determine timezone to use: env var TZ or system default
+  const timezone = process.env.TZ;
+  const cronOptions = timezone ? { timezone } : undefined;
+
   // Create a single cron job that processes all items sequentially
   try {
     cron.schedule(
@@ -114,17 +118,15 @@ export const createCronJob = async (app: Express) => {
           console.error("[SYNC] Error in cron callback:", callbackError);
         }
       },
-      {
-        timezone: "Etc/UTC",
-      },
+      cronOptions,
     );
     console.log(
-      `[SYNC] Cron job scheduled successfully with expression: "${finalExpression}" (timezone: Etc/UTC)`,
+      `[SYNC] Cron job scheduled successfully with expression: "${finalExpression}" (timezone: ${timezone || "system"})`,
     );
   } catch (error) {
     console.error("[SYNC] Failed to create cron job:", error);
     console.error(
-      `[SYNC] Expression used: "${finalExpression}", Timezone: Etc/UTC`,
+      `[SYNC] Expression used: "${finalExpression}", Timezone: ${timezone || "system"}`,
     );
     console.error(
       "[SYNC] This may be caused by a timezone configuration issue in your system.",

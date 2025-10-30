@@ -3,6 +3,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.4.3
+### 🖍 Changed
+* [API] Sync cron uses TZ env var if exists or fallback to system timezone 
+### 🐛 Fixed
+* [API] Fix SYNC_CRON_EXPRESSION issue #417
+
 ## 📦 0.4.2
 ### 🚀 Added
 * [API] Trigger sync button add to download queue #414
