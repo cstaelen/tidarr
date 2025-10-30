@@ -3,6 +3,7 @@ echo "Check config running ... "
 
 SETTINGS_URL="/home/app/standalone/settings"
 PUBLIC_URL="/home/app/standalone/app/build"
+DEV_PUBLIC_URL="/home/app/standalone/app/public"
 SHARED_URL="/home/app/standalone/shared"
 
 if [ -f "$SHARED_URL/tiddl.json" ]; then
@@ -32,5 +33,10 @@ if [ ! -f "$SHARED_URL/custom.css" ]; then
     cp $PUBLIC_URL/custom.css $SHARED_URL/custom.css
     echo "[CSS] Custom style file created"
 fi
-cp $SHARED_URL/custom.css $PUBLIC_URL/custom.css
+
+if [ "$1" == "development" ]; then
+    cp $SHARED_URL/custom.css $DEV_PUBLIC_URL/custom.css
+else
+    cp $SHARED_URL/custom.css $PUBLIC_URL/custom.css
+fi
 echo "[CSS] Load custom styles"
