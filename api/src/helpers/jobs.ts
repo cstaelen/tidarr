@@ -13,7 +13,6 @@ export function logs(
   if (!item) return message;
   if (!message) return "";
 
-  // Use the new output storage system if expressApp is provided
   if (expressApp && "id" in item) {
     const addOutputLog = expressApp.settings.addOutputLog;
     if (addOutputLog) {
@@ -33,7 +32,7 @@ export async function moveAndClean(
   if (!item) return { save: false };
 
   try {
-    logs(item, `=== Move processed items ===`, app);
+    logs(item, "🕖 [TIDARR] Move processed items ...", app);
 
     let args = "-rf";
 
@@ -44,12 +43,20 @@ export async function moveAndClean(
     const cmd = `cp ${args} ${ROOT_PATH}/download/incomplete/* ${ROOT_PATH}/library >/dev/null`;
     logs(item, cmd, app);
     const output_move = execSync(cmd, { encoding: "utf-8" });
-    logs(item, `- Move complete ${item.type}\r\n${output_move}`, app);
+    logs(
+      item,
+      `✅ [TIDARR] Move complete (${item.type})\r\n${output_move}`,
+      app,
+    );
     item["status"] = "finished";
     save = true;
   } catch (e: unknown) {
     item["status"] = "error";
-    logs(item, `- Error moving files:\r\n${(e as Error).message}`, app);
+    logs(
+      item,
+      `❌ [TIDARR] Error moving files:\r\n${(e as Error).message}`,
+      app,
+    );
   } finally {
     const cleaningStatus = await cleanFolder();
     if (cleaningStatus === "error") {
@@ -69,10 +76,10 @@ export async function cleanFolder(): Promise<"finished" | "error"> {
         encoding: "utf-8",
       },
     );
-    console.log("- Clean folder", output_clean);
+    console.log("🧹 [TIDARR] Clean folder", output_clean);
     return "finished";
   } catch (e) {
-    console.log("- Error Clean folder", e);
+    console.log("❌ [TIDARR] Error Clean folder", e);
     return "error";
   }
 }
@@ -87,16 +94,18 @@ export function hasFileToMove(): boolean {
   return filesToCopy.length > 0;
 }
 
-export function replacePathInM3U(): void {
+export function replacePathInM3U(item: ProcessingItemType, app: Express): void {
   const basePath = process.env.M3U_BASEPATH_FILE || "./";
   const incompleteDir = `${ROOT_PATH}/download/incomplete/`;
+
+  logs(item, `🕖 [TIDARR] Update track path in M3U file ...`, app);
 
   const m3uFilePath = execSync(`find "${incompleteDir}" -name "*.m3u"`, {
     encoding: "utf-8",
   }).trim();
 
   if (!m3uFilePath) {
-    console.log(`No m3u file found:. ${incompleteDir}`);
+    logs(item, `⚠️ [TIDARR] No M3U file found`, app);
     return;
   }
 
@@ -107,13 +116,21 @@ export function replacePathInM3U(): void {
 
     m3uContent = m3uContent.replace(new RegExp(incompleteDir, "g"), basePath);
     execSync(`echo "${m3uContent}" > "${m3uFilePath}"`);
-    console.log(`M3u file updated with custom url !`);
+    logs(
+      item,
+      `✅ [TIDARR] M3U file updated with base path : ${basePath} !`,
+      app,
+    );
   } catch (e) {
-    console.error(`Error replacing path in m3u file: ${(e as Error).message}`);
+    logs(
+      item,
+      `❌ [TIDARR] Error replacing path in m3u file: ${(e as Error).message}`,
+      app,
+    );
   }
 }
 
-export async function setPermissions() {
+export async function setPermissions(item: ProcessingItemType, app: Express) {
   if (process.env.PUID && process.env.PGID) {
     const output_chown = execSync(
       `chown -R ${process.env.PUID}:${process.env.PGID} ${ROOT_PATH}/download/incomplete/*`,
@@ -121,9 +138,10 @@ export async function setPermissions() {
         encoding: "utf-8",
       },
     );
-    console.log(
-      `- Chown: ${process.env.PUID}:${process.env.PGID}`,
-      output_chown,
+    logs(
+      item,
+      `🔑 [TIDARR] Chown PUID:PGID: ${process.env.PUID}:${process.env.PGID} - ${output_chown}`,
+      app,
     );
   }
 }

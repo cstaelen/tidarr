@@ -31,7 +31,9 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     return;
   }
 
-  logs(item, `=== Tiddl ===`, app);
+  logs(item, "---------------------", app);
+  logs(item, "🎵 TIDDL PROCESSING  ", app);
+  logs(item, "---------------------", app);
 
   const args: string[] = [];
 
@@ -57,22 +59,38 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   logs(
     item,
-    `Executing: TIDDL_PATH=${ROOT_PATH}/shared ${TIDDL_BINARY} ${args.join(" ")}`,
+    `🕖 [TIDDL] Executing: TIDDL_PATH=${ROOT_PATH}/shared ${TIDDL_BINARY} ${args.join(" ")}`,
     app,
   );
 
   const child = spawn(TIDDL_BINARY, args, {
-    env: { ...process.env, TIDDL_PATH: `${ROOT_PATH}/shared` },
+    env: {
+      ...process.env,
+      TIDDL_PATH: `${ROOT_PATH}/shared`,
+      FORCE_COLOR: "1",
+      TERM: "xterm-256color",
+    },
   });
 
   child.stdout?.setEncoding("utf8");
   child.stdout?.on("data", (data: string) => {
-    logs(item, data.replace(/[\r\n]+/gm, ""), app);
+    const lines = data.split(/\r?\n/);
+    const output = [];
+
+    for (const line of lines) {
+      const formatted = line.replaceAll(/[\r\n]+/gm, "").trim();
+
+      if (formatted.includes("Track ") || formatted.length <= 6) return;
+
+      output.push(formatted);
+
+      logs(item, `⬇️ [TIDDL] ${formatted}`, app);
+    }
   });
 
   child.stderr?.setEncoding("utf8");
   child.stderr?.on("data", (data) => {
-    logs(item, `Tiddl: ${data}`, app);
+    logs(item, `❌ [TIDDL]: ${data}`, app);
   });
 
   child.on("close", (code) => {
@@ -93,7 +111,11 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     const isDownloaded =
       currentOutput.includes("can't save playlist m3u file") || code === 0;
 
-    logs(item, `Tiddl process exited with code ${code}`, app);
+    logs(
+      item,
+      `${code === 0 ? "✅" : "❌"} [TIDDL] Tiddl process exited with code ${code}`,
+      app,
+    );
     item["status"] = isDownloaded ? "downloaded" : "error";
     item["loading"] = false;
     app.settings.processingList.actions.updateItem(item);
@@ -102,7 +124,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   child.on("error", (err) => {
     if (err) {
-      logs(item, `Tiddl Error: ${err}`, app);
+      logs(item, `❌ [TIDDL] Error: ${err}`, app);
       item["status"] = "error";
       item["loading"] = false;
       app.settings.processingList.actions.updateItem(item);
@@ -132,7 +154,9 @@ export function tidalToken(req: Request, res: Response) {
     } else {
       res.write(`data: closing ${code}\n\n`);
     }
-    console.log(`Tiddl auth process exited with code ${code}`);
+    console.log(
+      `${code === 0 ? "✅" : "❌"} [TIDDL]: Auth process exited with code ${code}`,
+    );
     res.end();
   });
 
@@ -147,6 +171,6 @@ export function deleteTiddlConfig() {
       env: { ...process.env, TIDDL_PATH: `${ROOT_PATH}/shared` },
     });
   } catch (e) {
-    console.error("Error deleting tiddl config:", e);
+    console.error("❌ [TIDDL] Error deleting tiddl config:", e);
   }
 }

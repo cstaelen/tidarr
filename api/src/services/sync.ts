@@ -65,7 +65,7 @@ export const createCronJob = async (app: Express) => {
 
   if (!isValid) {
     console.error(
-      `[SYNC] Invalid cron expression: "${cronExpression}". Using default: ${SYNC_DEFAULT_CRON}`,
+      `❌ [SYNC] Invalid cron expression: "${cronExpression}". Using default: ${SYNC_DEFAULT_CRON}`,
     );
   }
 
@@ -115,21 +115,21 @@ export const createCronJob = async (app: Express) => {
             });
           });
         } catch (callbackError) {
-          console.error("[SYNC] Error in cron callback:", callbackError);
+          console.error("❌ [SYNC] Error in cron callback:", callbackError);
         }
       },
       cronOptions,
     );
     console.log(
-      `[SYNC] Cron job scheduled successfully with expression: "${finalExpression}" (timezone: ${timezone || "system"})`,
+      `✅ [SYNC] Cron job scheduled successfully with expression: "${finalExpression}" (timezone: ${timezone || "system"})`,
     );
   } catch (error) {
-    console.error("[SYNC] Failed to create cron job:", error);
+    console.error("❌ [SYNC] Failed to create cron job:", error);
     console.error(
-      `[SYNC] Expression used: "${finalExpression}", Timezone: ${timezone || "system"}`,
+      `❌ [SYNC] Expression used: "${finalExpression}", Timezone: ${timezone || "system"}`,
     );
     console.error(
-      "[SYNC] This may be caused by a timezone configuration issue in your system.",
+      "❌ [SYNC] This may be caused by a timezone configuration issue in your system.",
     );
   }
 };

@@ -3,8 +3,10 @@ import { execSync, spawnSync } from "child_process";
 import { ROOT_PATH, SYNC_DEFAULT_CRON } from "../../constants";
 
 export async function configureServer() {
-  console.log(`=== Set config files ===`);
-  console.log(`Executing: init.sh`);
+  console.log(`---------------------`);
+  console.log(`⚙️ LOAD TIDARR CONFIG`);
+  console.log(`---------------------`);
+  console.log(`🕖 [TIDARR] Executing: init.sh`);
 
   try {
     const output_config = execSync(
@@ -13,7 +15,6 @@ export async function configureServer() {
         encoding: "utf-8",
       },
     );
-    console.log("Tidarr configuration :", output_config);
 
     return {
       output: output_config,
@@ -42,13 +43,13 @@ export async function configureServer() {
       },
     };
   } catch (error: unknown) {
-    console.log("Error config", error);
+    console.log("❌ [TIDARR] Error config", error);
   }
 }
 
 export function refreshTidalToken() {
   execSync("cp -rf /home/app/standalone/shared/tiddl.json /root/tiddl.json");
-  console.log("Refreshing Tidal token...");
+  console.log("🕖 [TIDDL] Refreshing Tidal token...");
   spawnSync("tiddl", ["auth", "refresh"]);
-  console.log("Tidal token refreshed.");
+  console.log("✅ [TIDDL] Tidal token refreshed.");
 }

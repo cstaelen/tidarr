@@ -291,7 +291,7 @@ app.listen(port, async () => {
 
   app.settings.processingList.actions.loadDataFromFile();
 
-  console.log(`⚡️[server]: Server is running at http://${hostname}:${port}`);
+  console.log(`⚡️ [SERVER]: Server is running at http://${hostname}:${port}`);
 });
 
 // fallback load app

@@ -283,15 +283,19 @@ export const ProcessingStack = (expressApp: Express) => {
       return;
     }
 
+    logs(item, "---------------------", expressApp);
+    logs(item, "⚙️ POST PROCESSING   ", expressApp);
+    logs(item, "---------------------", expressApp);
+
     if (item["type"] === "playlist" || item["type"] === "mix") {
-      replacePathInM3U();
+      replacePathInM3U(item, expressApp);
     }
 
     // Beets process
     await beets(item.id, expressApp);
 
     // Set permissions
-    setPermissions();
+    setPermissions(item, expressApp);
 
     // Move to output folder
     await moveAndClean(item.id, expressApp);

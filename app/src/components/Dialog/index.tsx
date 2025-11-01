@@ -8,7 +8,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Typography,
 } from "@mui/material";
 
 export const DialogHandler = ({
@@ -42,10 +41,18 @@ export const DialogHandler = ({
     >
       <DialogTitle
         id="alert-dialog-title"
-        style={{ display: "flex", alignItems: "center", borderColor: "white" }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          borderColor: "white",
+        }}
       >
-        {icon && <Box sx={{ mr: 1, lineHeight: 1 }}>{icon}</Box>}
-        <Typography>{title}</Typography>
+        {icon && (
+          <Box display="flex" mr={1}>
+            {icon}
+          </Box>
+        )}
+        {title}
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description" component="div">
