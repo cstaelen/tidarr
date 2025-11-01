@@ -1,5 +1,7 @@
 IMAGE=cstaelen/tidarr
-TAG=testing
+IMAGE_TAG?=testing
+BUILD_VERSION?=0.0.0-prod
+PLATFORMS?=linux/amd64,linux/arm64
 DOCKERFILE=./docker/Dockerfile.prod
 DOCKER_COMPOSE  = $(or docker compose, docker-compose)
 
@@ -63,8 +65,8 @@ quality-lint-fix: ## Check dependencies
 ## Builder 🚀
 ##-----------
 
-docker-build: ## Build Tidarr docker image
-	docker build --build-arg VERSION=0.0.0-prod -f ${DOCKERFILE} -t ${IMAGE}:${TAG} .
+docker-build:
+	docker buildx build --platform ${PLATFORMS} --build-arg VERSION=${BUILD_VERSION} -f ${DOCKERFILE} -t ${IMAGE}:${IMAGE_TAG} .
 
 docker-run: ## Run tidarr docker image
 	docker run \
@@ -78,7 +80,7 @@ docker-run: ## Run tidarr docker image
 		-e PUID=501 \
 		-e PGID=501 \
 		-e ADMIN_PASSWORD=tidarr \
-	${IMAGE}:${TAG}
+	${IMAGE}:${IMAGE_TAG}
 
 ##
 ## Help ℹ️

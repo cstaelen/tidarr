@@ -76,7 +76,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Server-side download list processing
 - UI built with **ReactJS** + **ExpressJS** API
 - Self-hostable with **Docker** using a Linuxserver.io base image (uncompressed size: ~190 MB)
-- Download Tidal content with [Tiddl (2.6.4)](https://github.com/oskvr37/tiddl/tree/v2.6.4)
+- Download Tidal content with [Tiddl (2.7.0)](https://github.com/oskvr37/tiddl/tree/v2.7.0)
 
 
 ## Getting Started
@@ -363,24 +363,16 @@ make dev
 
 The `docker-build` Makefile target now relies on [Docker Buildx](https://docs.docker.com/build/buildx/) so you can produce images for several architectures in one command.
 
-- Build a local image for your host (default `linux/amd64`):
+- Build a multi-platform image (default: `linux/amd64` and `linux/arm64`):
 
 ```bash
-make docker-build IMAGE_TAG=dev BUILD_VERSION=0.0.0-dev
+make docker-build IMAGE_TAG=latest BUILD_VERSION=1.2.3
 ```
 
-- Build and push a multi-platform image (examples: `linux/amd64` and `linux/arm64`):
+- Build a custom platform image or local image for your host (example `linux/arm64`):
 
 ```bash
-make docker-build PLATFORMS=linux/amd64,linux/arm64 IMAGE_TAG=latest BUILD_VERSION=1.2.3
-```
-
-When multiple platforms are requested the target automatically pushes the image, so ensure you are logged in to the registry that matches the `IMAGE` value.
-
-To run a specific platform locally, override `RUN_PLATFORM` when using `make docker-run`:
-
-```bash
-make docker-run RUN_PLATFORM=linux/arm64 IMAGE_TAG=latest
+make docker-build PLATFORMS=linux/arm64 IMAGE_TAG=dev BUILD_VERSION=0.0.0-dev
 ```
 
 Run tests :
