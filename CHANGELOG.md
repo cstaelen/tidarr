@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.4.4
+### 🖍 Changed
+* [Docker] use buildx from multi-platform image by @mortezaPRK #420
+
 ## 📦 0.4.3
 ### 🖍 Changed
 * [API] Sync cron uses TZ env var if exists or fallback to system timezone 

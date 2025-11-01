@@ -33,8 +33,8 @@ jobs:
           images: cstaelen/tidarr
 
       - name: Build and push pre-release docker image
-        if: "github.event.pre-release"
-        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        if: ${{ github.event.release.prerelease }}
+        uses: docker/build-push-action@v3
         with:
           context: .
           file: ./docker/Dockerfile.prod
@@ -45,8 +45,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build and push release docker image
-        if: "!github.event.pre-release"
-        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        if: ${{ !github.event.release.prerelease }}
+        uses: docker/build-push-action@v3
         with:
           context: .
           file: ./docker/Dockerfile.prod

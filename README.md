@@ -57,6 +57,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Watch and sync playlists, mixes, favorites and artists with cron
 - Skip download if track exists
 - Custom CSS
+- Docker platforms:`linux/amd64` and `linux/arm64`
 
 ### Service integration
 
