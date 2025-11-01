@@ -64,13 +64,12 @@ quality-lint-fix: ## Check dependencies
 ##-----------
 
 docker-build: ## Build Tidarr docker image
-	docker build --platform=linux/amd64 --build-arg VERSION=0.0.0-prod -f ${DOCKERFILE} -t ${IMAGE}:${VERSION} .
+	docker build --build-arg VERSION=0.0.0-prod -f ${DOCKERFILE} -t ${IMAGE}:${VERSION} .
 
 docker-run: ## Run tidarr docker image
 	docker run \
 		--rm \
 		--name tidarr \
-		--platform=linux/amd64 \
 		-p 8484:8484 \
 		-v ${PWD}/docker/mnt/config:/home/app/standalone/shared \
 		-v ${PWD}/docker/mnt/library:/home/app/standalone/library \

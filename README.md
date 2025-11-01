@@ -358,6 +358,30 @@ Check docker environment variables in `compose.yml` before running :
 make dev
 ```
 
+### Multi-platform Docker builds
+
+The `docker-build` Makefile target now relies on [Docker Buildx](https://docs.docker.com/build/buildx/) so you can produce images for several architectures in one command.
+
+- Build a local image for your host (default `linux/amd64`):
+
+```bash
+make docker-build IMAGE_TAG=dev BUILD_VERSION=0.0.0-dev
+```
+
+- Build and push a multi-platform image (examples: `linux/amd64` and `linux/arm64`):
+
+```bash
+make docker-build PLATFORMS=linux/amd64,linux/arm64 IMAGE_TAG=latest BUILD_VERSION=1.2.3
+```
+
+When multiple platforms are requested the target automatically pushes the image, so ensure you are logged in to the registry that matches the `IMAGE` value.
+
+To run a specific platform locally, override `RUN_PLATFORM` when using `make docker-run`:
+
+```bash
+make docker-run RUN_PLATFORM=linux/arm64 IMAGE_TAG=latest
+```
+
 Run tests :
 
 ```bash
