@@ -2,12 +2,15 @@
 
 ## BUILD APP
 
-FROM alpine:3.21 AS app_builder
+ARG BUILDPLATFORM
+ARG TARGETPLATFORM
+
+FROM --platform=$BUILDPLATFORM alpine:3.21 AS app_builder
 INCLUDE docker/stages/Dockerfile.builder
 
 ## BUILD STANDALONE APP
 
-FROM mcr.microsoft.com/playwright:v1.56.1-noble AS runner
+FROM --platform=$TARGETPLATFORM mcr.microsoft.com/playwright:v1.56.1-noble AS runner
 
 RUN apt-get upgrade && apt-get clean && apt-get update
 RUN apt-get install -y python3.12-venv python3-pip beets

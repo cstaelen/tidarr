@@ -2,13 +2,16 @@
 
 ## BUILD APP
 
-FROM ghcr.io/linuxserver/baseimage-alpine:3.21 AS app_builder
+ARG BUILDPLATFORM
+ARG TARGETPLATFORM
+
+FROM --platform=$BUILDPLATFORM ghcr.io/linuxserver/baseimage-alpine:3.21 AS app_builder
 
 INCLUDE docker/stages/Dockerfile.builder
 
 ## BUILD STANDALONE APP
 
-FROM ghcr.io/linuxserver/baseimage-alpine:3.21 AS runner
+FROM --platform=$TARGETPLATFORM ghcr.io/linuxserver/baseimage-alpine:3.21 AS runner
 RUN apk add npm nodejs py3-pip
 
 INCLUDE docker/stages/Dockerfile.python
