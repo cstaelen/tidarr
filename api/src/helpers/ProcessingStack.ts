@@ -273,8 +273,6 @@ export const ProcessingStack = (expressApp: Express) => {
   }
 
   async function postProcessing(item: ProcessingItemType) {
-    const stdout = [];
-
     const shouldPostProcess = hasFileToMove();
 
     if (!shouldPostProcess) {
@@ -302,31 +300,21 @@ export const ProcessingStack = (expressApp: Express) => {
 
     if (item["status"] === "finished") {
       // Plex library update
-      const responsePlex = await plexUpdate();
-      stdout.push(responsePlex?.output);
+      await plexUpdate(item, expressApp);
 
       // Gotify notification
-      const responseGotify = await gotifyPush(
-        `${item?.title} - ${item?.artist}`,
-        item.type,
-      );
-      stdout.push(responseGotify?.output);
+      await gotifyPush(item, expressApp);
 
       // Webhook push over notification
-      const responsePushOver = await hookPushOver(
-        `${item?.title} - ${item?.artist}`,
-        item.type,
-      );
-      stdout.push(responsePushOver?.output);
+      await hookPushOver(item, expressApp);
 
       // Apprise API notification
-      const responseAppriseApi = await appriseApiPush(
+      await appriseApiPush(
         `${item?.title} - ${item?.artist}`,
-        item.type,
+        item,
+        expressApp,
       );
-      stdout.push(responseAppriseApi?.output);
 
-      logs(item, stdout.join("\r\n"), expressApp);
       expressApp.settings.processingList.actions.updateItem(item);
 
       removeItemFromFile(item.id);

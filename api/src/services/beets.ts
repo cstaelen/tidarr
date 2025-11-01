@@ -16,7 +16,9 @@ export async function beets(id: string, app: Express) {
     if (process.env.ENABLE_BEETS === "true") {
       const binary = `beet`;
 
-      logs(item, `=== Beets ===`, app);
+      console.log("--------------------");
+      console.log("🎧 BEETS             ");
+      console.log("--------------------");
 
       const response = spawnSync(
         binary,
@@ -34,17 +36,18 @@ export async function beets(id: string, app: Express) {
         },
       );
       if (response.stdout) {
-        logs(item, `Beets output:\r\n${response.stdout}`, app);
+        console.log(response.stdout);
+        logs(item, `✅ [BEETS] Success`, app);
       } else if (response.stderr) {
         item["status"] = "error";
-        logs(item, `Beets output:\r\n${response.stderr}`, app);
+        logs(item, `❌ [BEETS] ${response.stderr}`, app);
       }
     }
   } catch (err: unknown) {
     item["status"] = "error";
     logs(
       item,
-      `Error during Beets processing :\r\n${(err as Error).message}`,
+      `❌ [BEETS] Error during Beets processing :\r\n${(err as Error).message}`,
       app,
     );
   }

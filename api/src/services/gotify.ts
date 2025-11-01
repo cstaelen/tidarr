@@ -1,37 +1,40 @@
 import { execSync } from "child_process";
+import { Express } from "express";
 
 import { curl_escape_double_quote } from "../helpers/curl_escape";
+import { logs } from "../helpers/jobs";
+import { ProcessingItemType } from "../types";
 
-export async function gotifyPush(title: string, type: string) {
+export async function gotifyPush(item: ProcessingItemType, app: Express) {
   if (
     process.env.ENABLE_GOTIFY === "true" &&
     process.env.GOTIFY_URL &&
     process.env.GOTIFY_TOKEN
   ) {
-    console.log(`=== Gotify push ===`);
+    console.log("--------------------");
+    console.log(`🔔 GOTIFY            `);
+    console.log("--------------------");
 
     try {
       const url = `${process.env.GOTIFY_URL}/message?token=${encodeURIComponent(process.env.GOTIFY_TOKEN)}`;
-      console.log("URL:", url);
 
-      const pushTitle = curl_escape_double_quote(`New ${type} added`);
+      const pushTitle = curl_escape_double_quote(`New ${item.type} added`);
       const message = curl_escape_double_quote(
-        `${title} added to music library`,
-      );
-      const response = await execSync(
-        `curl -s ${url} -F title="${pushTitle}" -F message="${message}" -F priority=5`,
-        { encoding: "utf-8" },
+        `${item?.title} - ${item?.artist} added to music library`,
       );
 
-      return {
-        error: false,
-        output: `=> Gotify success output:\r\n${response}`,
-      };
+      const command = `curl -s ${url} -F title="${pushTitle}" -F message="${message}" -F priority=5`;
+
+      console.log(`🕖 [GOTIFY] URL: ${command}`);
+
+      await execSync(command, { encoding: "utf-8" });
+      logs(item, `✅ [GOTIFY] Notification success`, app);
     } catch (e: unknown) {
-      return {
-        error: true,
-        output: `=> Gotify Error:\r\n${(e as Error).message}`,
-      };
+      logs(
+        item,
+        `❌ [GOTIFY] Notification error: ${(e as Error).message}`,
+        app,
+      );
     }
   }
 }

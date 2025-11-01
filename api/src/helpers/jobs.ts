@@ -41,13 +41,9 @@ export async function moveAndClean(
     }
 
     const cmd = `cp ${args} ${ROOT_PATH}/download/incomplete/* ${ROOT_PATH}/library >/dev/null`;
-    logs(item, cmd, app);
-    const output_move = execSync(cmd, { encoding: "utf-8" });
-    logs(
-      item,
-      `✅ [TIDARR] Move complete (${item.type})\r\n${output_move}`,
-      app,
-    );
+    console.log(`🕖 [TIDARR] Command: ${cmd}`);
+    execSync(cmd, { encoding: "utf-8" });
+    logs(item, `✅ [TIDARR] Move complete (${item.type})`, app);
     item["status"] = "finished";
     save = true;
   } catch (e: unknown) {

@@ -6,7 +6,6 @@ export async function configureServer() {
   console.log(`---------------------`);
   console.log(`⚙️ LOAD TIDARR CONFIG`);
   console.log(`---------------------`);
-  console.log(`🕖 [TIDARR] Executing: init.sh`);
 
   try {
     const output_config = execSync(
@@ -15,6 +14,8 @@ export async function configureServer() {
         encoding: "utf-8",
       },
     );
+
+    console.log(output_config);
 
     return {
       output: output_config,

@@ -10,7 +10,7 @@ cat << "EOF"
   |_| |___|____/_/   \_\_| \_\_| \_\
 EOF
 echo "----------------------------------------"
-echo "DEVELOPMENT MODE - VERSION: ${VERSION:-unknown}"
+echo " DEVELOPMENT MODE - VERSION: ${VERSION:-unknown}"
 echo "----------------------------------------"
 
 # Set custom umask (default: 0022 for 755 permissions)
