@@ -4,7 +4,6 @@ services:
       context: .
       dockerfile: './docker/Dockerfile.dev'
     container_name: 'tidarr'
-    platform: linux/amd64
     ports:
       - 8484:8484
       - 3000:3000
@@ -40,7 +39,6 @@ services:
       context: .
       dockerfile: './docker/Dockerfile.e2e'
     container_name: 'tidarr-testing'
-    platform: linux/amd64
     volumes:
       - ./e2e:/home/app/standalone/e2e
       - ./docker/mnt/config:/home/app/standalone/shared
