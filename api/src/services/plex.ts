@@ -1,7 +1,11 @@
 // PLEX API
 // https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
+import { Express } from "express";
 
-export async function plexUpdate() {
+import { logs } from "../helpers/jobs";
+import { ProcessingItemType } from "../types";
+
+export async function plexUpdate(item: ProcessingItemType, app: Express) {
   try {
     if (
       process.env.ENABLE_PLEX_UPDATE === "true" &&
@@ -9,24 +13,28 @@ export async function plexUpdate() {
       process.env.PLEX_TOKEN &&
       process.env.PLEX_LIBRARY
     ) {
-      console.log(`=== Plex update ===`);
+      console.log("--------------------");
+      console.log(`🔄 PLEX UPDATE     `);
+      console.log("--------------------");
 
       const url = `${process.env.PLEX_URL}/library/sections/${process.env.PLEX_LIBRARY}/refresh?${process.env.PLEX_PATH ? `path=${encodeURIComponent(process.env.PLEX_PATH)}&` : ""}X-Plex-Token=${process.env.PLEX_TOKEN}`;
+
       console.log("URL:", url);
 
       const response = await fetch(url);
 
-      let message = "=> Plex updated !";
+      let message = "✅ [PLEX] Library updated !";
       if (response.status !== 200) {
-        message = `=> Plex update Error code: ${response.status} using url: ${url}`;
+        message = `❌ [PLEX] Update Error code: ${response.status} using url: ${url}`;
       }
-      return { error: response.status !== 200, output: message };
+
+      logs(item, message, app);
     }
   } catch (err: unknown) {
-    console.log("Error during Plex update : ", (err as Error).message);
-    return {
-      error: true,
-      output: `Plex update error:\r\n${(err as Error).message}`,
-    };
+    logs(
+      item,
+      `❌ [PLEX] Error during Plex update: ${(err as Error).message}`,
+      app,
+    );
   }
 }

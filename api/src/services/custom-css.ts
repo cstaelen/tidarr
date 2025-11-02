@@ -16,7 +16,7 @@ export function getCustomCSS(): string {
     }
     return "";
   } catch (error) {
-    console.error("Error reading custom.css:", error);
+    console.error("❌ [CSS] Error reading custom.css:", error);
     return "";
   }
 }
@@ -36,7 +36,7 @@ export function setCustomCSS(cssContent: string): void {
     fs.writeFileSync(CUSTOM_CSS_PATH, cssContent, "utf-8");
     configureServer();
   } catch (error) {
-    console.error("Error writing custom.css:", error);
+    console.error("❌ [CSS] Error writing custom.css:", error);
     throw error;
   }
 }

@@ -1,10 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import styled from "@emotion/styled";
+import { Terminal } from "@mui/icons-material";
 import TerminalIcon from "@mui/icons-material/Terminal";
-import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
+import Ansi from "ansi-to-react";
 import { ProcessingItemType } from "src/types";
 
 import { useItemOutput } from "../../hooks/useItemOutput";
+
+// Strip OSC 8 hyperlink sequences while preserving ANSI colors
+function stripOSC8(text: string): string {
+  // Remove OSC 8 hyperlink sequences: ]8;id=...;...\...\]8;;
+  return text.replace(/\]8;[^\\]*\\[^\\]*\]8;;/g, "");
+}
 
 export const TerminalDialog = ({ item }: { item: ProcessingItemType }) => {
   const [openOutput, setOpenOutput] = useState(false);
@@ -12,6 +20,9 @@ export const TerminalDialog = ({ item }: { item: ProcessingItemType }) => {
   const { output, connect, disconnect } = useItemOutput(
     openOutput ? item.id.toString() : null,
   );
+
+  // Clean output by stripping OSC 8 hyperlink codes
+  const cleanOutput = useMemo(() => stripOSC8(output), [output]);
 
   // Connect to SSE when dialog opens, disconnect when closes
   useEffect(() => {
@@ -47,9 +58,16 @@ export const TerminalDialog = ({ item }: { item: ProcessingItemType }) => {
         style={{ zIndex: 9999 }}
         maxWidth="md"
       >
-        <DialogTitle id="alert-dialog-title">Console output</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          <Box gap={1} alignItems="center" display="flex">
+            <Terminal color="primary" />
+            Console output
+          </Box>
+        </DialogTitle>
         <Pre ref={refOutput} style={{ minWidth: "800px", minHeight: "200px" }}>
-          {output}
+          <Ansi linkify={false} useClasses={false}>
+            {cleanOutput}
+          </Ansi>
         </Pre>
         <DialogActions>
           <Button onClick={() => setOpenOutput(false)}>Close</Button>
@@ -60,11 +78,25 @@ export const TerminalDialog = ({ item }: { item: ProcessingItemType }) => {
 };
 
 const Pre = styled.pre`
-  background-color: #000;
+  background-color: #272822;
+  color: #f8f8f2;
   font-size: 0.68rem;
   margin: 0;
   padding: 0.5rem;
   overflow: auto;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+
+  span[style*="color: rgb(187, 0, 0)"] {
+    color: #f92672 !important;
+  }
+
+  span[style*="color: rgb(0, 187, 0)"] {
+    color: #a6e22e !important;
+  }
+
+  span[style*="color: rgb(0, 0, 187)"] {
+    color: #66d9ef !important;
+  }
 `;
 
 const TerminalButton = styled(Button)`

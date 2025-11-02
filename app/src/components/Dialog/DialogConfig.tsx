@@ -1,5 +1,5 @@
 import React from "react";
-import { InfoRounded, Key, List, Palette, Update } from "@mui/icons-material";
+import { Key, List, Palette, Settings, Update } from "@mui/icons-material";
 import { Tab, Tabs } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
@@ -24,7 +24,7 @@ export const DialogConfig = () => {
       open={isConfigModalOpen}
       onClose={() => actions.toggleModal(false)}
       title={"Tidarr settings"}
-      icon={<InfoRounded color="primary" />}
+      icon={<Settings color="primary" />}
       maxWidth="md"
     >
       <Tabs

@@ -1,37 +1,39 @@
 import { execSync } from "child_process";
+import { Express } from "express";
 
 import { curl_escape_double_quote } from "../helpers/curl_escape";
+import { logs } from "../helpers/jobs";
+import { ProcessingItemType } from "../types";
 
-export async function hookPushOver(title: string, type: string) {
+export async function hookPushOver(item: ProcessingItemType, app: Express) {
   if (process.env.PUSH_OVER_URL) {
-    console.log(`=== Pushover webhook ===`);
+    console.log("--------------------");
+    console.log(`🔔 PUSH OVER WEBHOOK`);
+    console.log("--------------------");
 
     try {
       const url = process.env.PUSH_OVER_URL;
-      console.log("URL:", url);
-
-      const pushTitle = curl_escape_double_quote(`New ${type} added`);
+      const pushTitle = curl_escape_double_quote(`New ${item.type} added`);
       const message = curl_escape_double_quote(
-        `${title} added to music library`,
+        `${item?.title} - ${item?.artist} added to music library`,
       );
       const body = JSON.stringify({
         text: [pushTitle, message].join("\r\n"),
       });
 
       const command = `curl  -i -X POST -H 'Content-Type: application/json' -d '${body}' ${url}`;
-      console.log(`Push over : ${command}`);
 
-      const response = await execSync(command, { encoding: "utf-8" });
+      console.log(`🕖 [PUSHOVER WEBHOOK] Command : ${command}`);
 
-      return {
-        error: false,
-        output: `=> Success output:\r\n${response}`,
-      };
+      execSync(command, { encoding: "utf-8" });
+
+      logs(item, `✅ [PUSHOVER WEBHOOK] Success output`, app);
     } catch (e: unknown) {
-      return {
-        error: true,
-        output: `=> Error:\r\n${(e as Error).message}`,
-      };
+      logs(
+        item,
+        `❌ [PUSHOVER WEBHOOK] Error:\r\n${(e as Error).message}`,
+        app,
+      );
     }
   }
 }

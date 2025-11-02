@@ -273,8 +273,6 @@ export const ProcessingStack = (expressApp: Express) => {
   }
 
   async function postProcessing(item: ProcessingItemType) {
-    const stdout = [];
-
     const shouldPostProcess = hasFileToMove();
 
     if (!shouldPostProcess) {
@@ -283,46 +281,40 @@ export const ProcessingStack = (expressApp: Express) => {
       return;
     }
 
+    logs(item, "---------------------", expressApp);
+    logs(item, "⚙️ POST PROCESSING   ", expressApp);
+    logs(item, "---------------------", expressApp);
+
     if (item["type"] === "playlist" || item["type"] === "mix") {
-      replacePathInM3U();
+      replacePathInM3U(item, expressApp);
     }
 
     // Beets process
     await beets(item.id, expressApp);
 
     // Set permissions
-    setPermissions();
+    setPermissions(item, expressApp);
 
     // Move to output folder
     await moveAndClean(item.id, expressApp);
 
     if (item["status"] === "finished") {
       // Plex library update
-      const responsePlex = await plexUpdate();
-      stdout.push(responsePlex?.output);
+      await plexUpdate(item, expressApp);
 
       // Gotify notification
-      const responseGotify = await gotifyPush(
-        `${item?.title} - ${item?.artist}`,
-        item.type,
-      );
-      stdout.push(responseGotify?.output);
+      await gotifyPush(item, expressApp);
 
       // Webhook push over notification
-      const responsePushOver = await hookPushOver(
-        `${item?.title} - ${item?.artist}`,
-        item.type,
-      );
-      stdout.push(responsePushOver?.output);
+      await hookPushOver(item, expressApp);
 
       // Apprise API notification
-      const responseAppriseApi = await appriseApiPush(
+      await appriseApiPush(
         `${item?.title} - ${item?.artist}`,
-        item.type,
+        item,
+        expressApp,
       );
-      stdout.push(responseAppriseApi?.output);
 
-      logs(item, stdout.join("\r\n"), expressApp);
       expressApp.settings.processingList.actions.updateItem(item);
 
       removeItemFromFile(item.id);
