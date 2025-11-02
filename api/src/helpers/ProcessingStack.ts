@@ -309,11 +309,7 @@ export const ProcessingStack = (expressApp: Express) => {
       await hookPushOver(item, expressApp);
 
       // Apprise API notification
-      await appriseApiPush(
-        `${item?.title} - ${item?.artist}`,
-        item,
-        expressApp,
-      );
+      await appriseApiPush(item, expressApp);
 
       expressApp.settings.processingList.actions.updateItem(item);
 
