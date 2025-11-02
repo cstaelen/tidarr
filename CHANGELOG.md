@@ -5,6 +5,7 @@ Tidarr notable changes.
 
 ## 📦 0.4.4
 ### 🖍 Changed
+* [Front] Update console UI
 * [Docker] use buildx from multi-platform image by @mortezaPRK #420
 
 ## 📦 0.4.3
