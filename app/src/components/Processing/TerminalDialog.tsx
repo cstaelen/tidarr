@@ -9,9 +9,18 @@ import { ProcessingItemType } from "src/types";
 import { useItemOutput } from "../../hooks/useItemOutput";
 
 // Strip OSC 8 hyperlink sequences while preserving ANSI colors
+/**
+ * Supprime uniquement les séquences OSC 8 et leurs résidus, en préservant les couleurs et styles ANSI.
+ * @param text Le texte brut contenant les séquences ANSI/OSC 8.
+ * @returns Le texte nettoyé, prêt pour <Ansi>, avec la coloration préservée.
+ */
 function stripOSC8(text: string): string {
-  // Remove OSC 8 hyperlink sequences: ]8;id=...;...\...\]8;;
-  return text.replace(/\]8;[^\\]*\\[^\\]*\]8;;/g, "");
+  // eslint-disable-next-line no-control-regex
+  let cleaned = text.replace(/\x1b\]8;[^\x07]*(\x07|\x1b\\8;;)/g, "");
+  // eslint-disable-next-line no-control-regex
+  cleaned = text.replace(/\u001b\]8;|ESC\]8;/g, "");
+  cleaned = cleaned.replace(/id=\d+;?|file:\/\/\/[^\s]+/g, "");
+  return cleaned.trim();
 }
 
 export const TerminalDialog = ({ item }: { item: ProcessingItemType }) => {

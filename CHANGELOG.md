@@ -3,6 +3,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.4.5
+### 🖍 Changed
+* [API] Run beets only for albums
+* [API] Fix undefined label in notification
+* [Front] Fix console ANSI chars encoding
+
 ## 📦 0.4.4
 ### 🖍 Changed
 * [Front] Update console UI

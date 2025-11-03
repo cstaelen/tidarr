@@ -75,14 +75,10 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   child.stdout?.setEncoding("utf8");
   child.stdout?.on("data", (data: string) => {
     const lines = data.split(/\r?\n/);
-    const output = [];
-
     for (const line of lines) {
       const formatted = line.replaceAll(/[\r\n]+/gm, "").trim();
 
       if (formatted.includes("Track ") || formatted.length <= 6) return;
-
-      output.push(formatted);
 
       logs(item, `⬇️ [TIDDL] ${formatted}`, app);
     }
@@ -111,11 +107,12 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     const isDownloaded =
       currentOutput.includes("can't save playlist m3u file") || code === 0;
 
-    logs(
-      item,
-      `${code === 0 ? "✅" : "❌"} [TIDDL] Tiddl process exited with code ${code}`,
-      app,
-    );
+    if (isDownloaded) {
+      logs(item, `✅ [TIDDL] Download succeed (code: ${code})`, app);
+    } else {
+      logs(item, `❌ [TIDDL] Tiddl process exited with code ${code}`, app);
+    }
+
     item["status"] = isDownloaded ? "downloaded" : "error";
     item["loading"] = false;
     app.settings.processingList.actions.updateItem(item);
