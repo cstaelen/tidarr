@@ -275,15 +275,16 @@ export const ProcessingStack = (expressApp: Express) => {
   async function postProcessing(item: ProcessingItemType) {
     const shouldPostProcess = hasFileToMove();
 
-    if (!shouldPostProcess) {
-      item["status"] = "finished";
-      expressApp.settings.processingList.actions.updateItem(item);
-      return;
-    }
-
     logs(item, "---------------------", expressApp);
     logs(item, "⚙️ POST PROCESSING   ", expressApp);
     logs(item, "---------------------", expressApp);
+
+    if (!shouldPostProcess) {
+      item["status"] = "finished";
+      expressApp.settings.processingList.actions.updateItem(item);
+      logs(item, "✅ [TIDARR] No file to process.", expressApp);
+      return;
+    }
 
     if (item["type"] === "playlist" || item["type"] === "mix") {
       replacePathInM3U(item, expressApp);
@@ -309,15 +310,13 @@ export const ProcessingStack = (expressApp: Express) => {
       await hookPushOver(item, expressApp);
 
       // Apprise API notification
-      await appriseApiPush(
-        `${item?.title} - ${item?.artist}`,
-        item,
-        expressApp,
-      );
+      await appriseApiPush(item, expressApp);
 
-      expressApp.settings.processingList.actions.updateItem(item);
-
+      // Remove item from persistant queue file
       removeItemFromFile(item.id);
+
+      logs(item, "---------------------", expressApp);
+      logs(item, "✅ [TIDARR] Post processing complete.", expressApp);
     }
   }
 

@@ -9,7 +9,8 @@ export async function beets(id: string, app: Express) {
   const item: ProcessingItemType =
     app.settings.processingList.actions.getItem(id);
 
-  if (!item) return;
+  if (!item || !["album", "artist", "favorite_albums"].includes(item.type))
+    return;
 
   try {
     // BEETS

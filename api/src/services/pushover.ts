@@ -15,7 +15,7 @@ export async function hookPushOver(item: ProcessingItemType, app: Express) {
       const url = process.env.PUSH_OVER_URL;
       const pushTitle = curl_escape_double_quote(`New ${item.type} added`);
       const message = curl_escape_double_quote(
-        `${item?.title} - ${item?.artist} added to music library`,
+        `${item?.title} ${item?.artist ? "-" : ""} ${item?.artist || ""} added to music library`,
       );
       const body = JSON.stringify({
         text: [pushTitle, message].join("\r\n"),

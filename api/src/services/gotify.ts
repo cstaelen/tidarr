@@ -20,7 +20,7 @@ export async function gotifyPush(item: ProcessingItemType, app: Express) {
 
       const pushTitle = curl_escape_double_quote(`New ${item.type} added`);
       const message = curl_escape_double_quote(
-        `${item?.title} - ${item?.artist} added to music library`,
+        `${item?.title}${item?.artist ? " - " : ""}${item?.artist || ""} added to music library`,
       );
 
       const command = `curl -s ${url} -F title="${pushTitle}" -F message="${message}" -F priority=5`;

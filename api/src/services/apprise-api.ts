@@ -5,11 +5,7 @@ import { curl_escape_all } from "../helpers/curl_escape";
 import { logs } from "../helpers/jobs";
 import { ProcessingItemType } from "../types";
 
-export async function appriseApiPush(
-  title: string,
-  item: ProcessingItemType,
-  app: Express,
-) {
+export async function appriseApiPush(item: ProcessingItemType, app: Express) {
   if (
     process.env.ENABLE_APPRISE_API !== "true" ||
     !process.env.APPRISE_API_ENDPOINT
@@ -24,7 +20,9 @@ export async function appriseApiPush(
   try {
     const url = process.env.APPRISE_API_ENDPOINT;
     const pushTitle = curl_escape_all(`New ${item.type} added`);
-    const message = curl_escape_all(`${title} added to music library`);
+    const message = curl_escape_all(
+      `${item?.title}${item?.artist ? " - " : ""}${item?.artist || ""} added to music library`,
+    );
     const command = `curl -d '{"body":"${message}", "title":"${pushTitle}","tag":"${process.env.APPRISE_API_TAG || "all"}"}' -H "Content-Type: application/json" ${url}`;
 
     console.log(`🕖 [APPRISE] Command: ${command}`);
