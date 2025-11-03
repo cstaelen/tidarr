@@ -30,6 +30,12 @@ export default function ArtistHeader({ artist }: { artist: ArtistType }) {
               type="artist"
               label="Get all releases"
             />
+            <DownloadButton
+              item={artist}
+              id={artist.id}
+              type="artist_videos"
+              label="Get all videos"
+            />
             {artist?.mixes?.ARTIST_MIX && (
               <Button
                 variant="outlined"
