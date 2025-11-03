@@ -113,6 +113,21 @@ test("Tidarr download : Should be able to download discography", async ({
   await testProcessingList(page, ["All albums", "Nirvana", "artist"], "high");
 });
 
+test("Tidarr download : Should be able to download all artist videos", async ({
+  page,
+}) => {
+  await mockItemOutputSSE(page, "high");
+  await runSearch("https://listen.tidal.com/artist/19368", page);
+
+  await page.getByRole("button", { name: "Get all videos" }).click();
+
+  await testProcessingList(
+    page,
+    ["All artist videos", "Nirvana", "artist_videos"],
+    "high",
+  );
+});
+
 test("Tidarr download : Should be able to download video", async ({ page }) => {
   await mockItemOutputSSE(page);
   await runSearch("Nirvana", page);
