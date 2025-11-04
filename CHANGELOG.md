@@ -12,6 +12,7 @@ Tidarr notable changes.
 * [Front] Fix console ANSI chars encoding
 * [Front] Update display mode UI
 * [Docker] Remove useless env vars : `ENABLE_PLEX_UPDATE`, `ENABLE_GOTIFY`, `ENABLE_APPRISE_API`
+* [API] Update tiddl to 2.8.0
 
 ## 📦 0.4.4
 ### 🖍 Changed

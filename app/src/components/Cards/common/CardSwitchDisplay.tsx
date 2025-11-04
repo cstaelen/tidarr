@@ -226,7 +226,7 @@ export default function CardSwitchDisplay({
           display === "large"
             ? {
                 background:
-                  "linear-gradient(180deg,rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 100%)",
+                  "linear-gradient(180deg,rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 1) 95%)",
                 content: '""',
                 height: "100%",
                 width: "100%",
