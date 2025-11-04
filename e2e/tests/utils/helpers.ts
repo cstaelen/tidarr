@@ -66,8 +66,13 @@ export async function emptyProcessingList(page: Page) {
     .locator("#Showprocessinglist-action-1 tbody tr")
     .all();
   for (const item of items) {
+    if (page.isClosed()) break;
+
     const firstButton = item.getByRole("button").first();
-    await firstButton?.click();
+    if (!page.isClosed()) {
+      await firstButton?.click();
+    }
+    return;
   }
 
   await expect(page.locator("button.MuiFab-circular")).not.toBeVisible();

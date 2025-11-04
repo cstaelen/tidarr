@@ -8,7 +8,13 @@ import SyncButton from "../Buttons/SyncButton";
 
 import PageHeader from "./Header";
 
-export default function ArtistHeader({ artist }: { artist: ArtistType }) {
+export default function ArtistHeader({
+  artist,
+  showVideos,
+}: {
+  artist: ArtistType;
+  showVideos?: boolean;
+}) {
   const navigate = useNavigate();
 
   return (
@@ -30,12 +36,14 @@ export default function ArtistHeader({ artist }: { artist: ArtistType }) {
               type="artist"
               label="Get all releases"
             />
-            <DownloadButton
-              item={artist}
-              id={artist.id}
-              type="artist_videos"
-              label="Get all videos"
-            />
+            {showVideos && (
+              <DownloadButton
+                item={artist}
+                id={artist.id}
+                type="artist_videos"
+                label="Get all videos"
+              />
+            )}
             {artist?.mixes?.ARTIST_MIX && (
               <Button
                 variant="outlined"
