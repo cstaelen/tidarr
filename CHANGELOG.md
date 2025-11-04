@@ -10,6 +10,7 @@ Tidarr notable changes.
 * [API] Run beets only for albums
 * [API] Fix undefined label in notification
 * [Front] Fix console ANSI chars encoding
+* [Front] Update display mode UI
 * [Docker] Remove useless env vars : `ENABLE_PLEX_UPDATE`, `ENABLE_GOTIFY`, `ENABLE_APPRISE_API`
 
 ## 📦 0.4.4
