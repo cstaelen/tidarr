@@ -161,7 +161,7 @@ export async function mockRelease(page: Page, version = "0.0.0-testing") {
   });
 }
 
-export async function mockConfigAPI(page: Page) {
+export async function mockConfigAPI(page: Page, disableVideos?: boolean) {
   await page.route("**/check", async (route) => {
     const json = {
       noToken: false,
@@ -194,7 +194,7 @@ export async function mockConfigAPI(page: Page) {
           threads: 4,
           singles_filter: "none",
           embed_lyrics: false,
-          download_video: true,
+          download_video: disableVideos ? false : true,
         },
         cover: {
           save: true,
