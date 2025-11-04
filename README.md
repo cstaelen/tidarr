@@ -281,7 +281,6 @@ Add to your *docker-compose* file in `environment:` section :
 ```yaml
 environment:
   - ...
-  - ENABLE_PLEX_UPDATE=true
   - PLEX_URL=<url|ip:port>
   - PLEX_LIBRARY=<music_library_id>
   - PLEX_TOKEN=<x-plex-token>
@@ -302,7 +301,6 @@ Add to your *docker-compose* file in `environment:` section :
 ```yaml
 environment:
   - ...
-  - ENABLE_GOTIFY=true
   - GOTIFY_URL=<url|ip:port>
   - GOTIFY_TOKEN=<gotify_app_token>
 ```
@@ -314,7 +312,6 @@ Add to your *docker-compose* file in `environment:` section :
 ```yaml
 environment:
   - ...
-  - ENABLE_APPRISE_API=true
   - APPRISE_API_ENDPOINT=http://{apprise_api_url}:{port}/notify/{config_id}
   - APPRISE_API_TAG=tidarr # optional
 ```

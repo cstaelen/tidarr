@@ -18,16 +18,13 @@ services:
       - UMASK=
       - TZ=Etc/UTC
       - ENABLE_BEETS=
-      - ENABLE_PLEX_UPDATE=
       - PLEX_URL=
       - PLEX_LIBRARY=
       - PLEX_TOKEN=
       - PLEX_PATH=
-      - ENABLE_GOTIFY=
       - GOTIFY_URL=
       - GOTIFY_TOKEN=
       - ADMIN_PASSWORD
-      - ENABLE_APPRISE_API=
       - APPRISE_API_ENDPOINT=
       - APPRISE_API_TAG=
       - PUSH_OVER_URL=
@@ -48,11 +45,9 @@ services:
       - 9323:9323
     environment:
       - ENABLE_BEETS=true
-      - ENABLE_PLEX_UPDATE=true
       - PLEX_URL=http://plex.url
       - PLEX_LIBRARY=3
       - PLEX_TOKEN=abc-plex-token-xyz
       - PLEX_PATH=/fodler/to/plex/music
-      - ENABLE_GOTIFY=true
       - GOTIFY_URL=http://gotify.url
       - GOTIFY_TOKEN=abc-gotify-token-xyz

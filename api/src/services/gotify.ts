@@ -6,11 +6,7 @@ import { logs } from "../helpers/jobs";
 import { ProcessingItemType } from "../types";
 
 export async function gotifyPush(item: ProcessingItemType, app: Express) {
-  if (
-    process.env.ENABLE_GOTIFY === "true" &&
-    process.env.GOTIFY_URL &&
-    process.env.GOTIFY_TOKEN
-  ) {
+  if (process.env.GOTIFY_URL && process.env.GOTIFY_TOKEN) {
     console.log("--------------------");
     console.log(`🔔 GOTIFY            `);
     console.log("--------------------");

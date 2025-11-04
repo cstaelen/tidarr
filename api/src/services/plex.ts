@@ -8,7 +8,6 @@ import { ProcessingItemType } from "../types";
 export async function plexUpdate(item: ProcessingItemType, app: Express) {
   try {
     if (
-      process.env.ENABLE_PLEX_UPDATE === "true" &&
       process.env.PLEX_URL &&
       process.env.PLEX_TOKEN &&
       process.env.PLEX_LIBRARY
