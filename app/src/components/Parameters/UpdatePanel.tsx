@@ -4,7 +4,8 @@ import { TIDARR_REPO_URL } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 export default function UpdatePanel() {
-  const { config, isUpdateAvailable, releaseData } = useConfigProvider();
+  const { config, isUpdateAvailable, releaseData, changeLogData } =
+    useConfigProvider();
   return (
     <>
       <p>Current version: Tidarr {config?.TIDARR_VERSION}</p>
@@ -39,11 +40,13 @@ export default function UpdatePanel() {
               px: 2,
             }}
           >
-            <code>
-              <MarkdownStyled options={{ wrapper: "article" }}>
-                {releaseData?.body}
-              </MarkdownStyled>
-            </code>
+            {changeLogData?.map((item, index) => (
+              <code key={index}>
+                <MarkdownStyled options={{ wrapper: "article" }}>
+                  {item}
+                </MarkdownStyled>
+              </code>
+            ))}
           </Paper>
           <br />
           <Link
