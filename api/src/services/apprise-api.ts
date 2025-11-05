@@ -6,10 +6,7 @@ import { logs } from "../helpers/jobs";
 import { ProcessingItemType } from "../types";
 
 export async function appriseApiPush(item: ProcessingItemType, app: Express) {
-  if (
-    process.env.ENABLE_APPRISE_API !== "true" ||
-    !process.env.APPRISE_API_ENDPOINT
-  ) {
+  if (!process.env.APPRISE_API_ENDPOINT) {
     return;
   }
 

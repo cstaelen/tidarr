@@ -10,6 +10,7 @@ export type ContentType =
   | "favorite_albums"
   | "favorite_tracks"
   | "favorite_playlists"
+  | "artist_videos"
   | "mix";
 
 export type ProcessingItemType = {

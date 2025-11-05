@@ -161,26 +161,23 @@ export async function mockRelease(page: Page, version = "0.0.0-testing") {
   });
 }
 
-export async function mockConfigAPI(page: Page) {
+export async function mockConfigAPI(page: Page, disableVideos?: boolean) {
   await page.route("**/check", async (route) => {
     const json = {
       noToken: false,
       output: "",
       parameters: {
         ENABLE_BEETS: "true",
-        ENABLE_PLEX_UPDATE: "true",
         PLEX_URL: "http://plex.url",
         PLEX_LIBRARY: "3",
         PLEX_TOKEN: "abc-plex-token-xyz",
         PLEX_PATH: "/fodler/to/plex/music",
-        ENABLE_GOTIFY: "true",
         GOTIFY_URL: "http://gotify.url",
         GOTIFY_TOKEN: "abc-gotify-token-xyz",
         TIDARR_VERSION: "0.0.0-testing",
         PUID: "",
         PGID: "",
         UMASK: "",
-        ENABLE_APPRISE_API: "",
         APPRISE_API_ENDPOINT: "",
         APPRISE_API_TAG: "",
         PUSH_OVER_URL: "",
@@ -197,7 +194,7 @@ export async function mockConfigAPI(page: Page) {
           threads: 4,
           singles_filter: "none",
           embed_lyrics: false,
-          download_video: true,
+          download_video: disableVideos ? false : true,
         },
         cover: {
           save: true,

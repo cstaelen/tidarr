@@ -14,7 +14,7 @@ import {
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 import { ProcessingItemType } from "src/types";
 
-import { TerminalDialog } from "./TerminalDialog";
+import { DialogTerminal } from "../Dialog/DialogTerminal";
 
 export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
   const step = item?.status;
@@ -53,7 +53,7 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
           &nbsp;&nbsp;
           {(item.status === "processing" ||
             item.status === "finished" ||
-            item.status === "error") && <TerminalDialog item={item} />}
+            item.status === "error") && <DialogTerminal item={item} />}
           {step}
         </Box>
       </TableCell>

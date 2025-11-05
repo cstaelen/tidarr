@@ -44,11 +44,11 @@ export const DownloadButton = ({
     }
 
     const index = processingList.findIndex(
-      (x) => x.id?.toString() === id?.toString(),
+      (x) => x.id?.toString() === id?.toString() && x.type === type,
     );
 
     return index > -1 ? processingList?.[index]?.status : undefined;
-  }, [processingList, id]);
+  }, [processingList, id, type]);
 
   const downloadItem = async () => {
     if (type === "album" && (item as TrackType)?.album?.id) {

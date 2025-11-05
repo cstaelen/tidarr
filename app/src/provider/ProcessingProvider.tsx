@@ -81,16 +81,33 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     )
       return null;
 
+    let title = "";
+    switch (type) {
+      case "artist":
+        title = "All albums";
+        break;
+      case "artist_videos":
+        title = "All artist videos";
+        break;
+      default:
+        title = (item as TrackType | AlbumType)?.title;
+    }
+
+    let artist = "";
+    switch (type) {
+      case "artist":
+      case "artist_videos":
+        artist =
+          (item as ArtistType)?.name || (item as SyncItemType)?.artist || "";
+        break;
+      default:
+        artist = (item as TrackType | AlbumType).artists?.[0].name;
+    }
+
     const itemToQueue: ProcessingItemType = {
       id: id,
-      artist:
-        type === "artist"
-          ? (item as ArtistType)?.name || (item as SyncItemType)?.artist || ""
-          : (item as TrackType | AlbumType).artists?.[0].name,
-      title:
-        type === "artist"
-          ? "All albums"
-          : (item as TrackType | AlbumType)?.title,
+      artist: artist,
+      title: title,
       type: type,
       quality: quality,
       status: "queue",

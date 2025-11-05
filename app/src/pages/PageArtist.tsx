@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Container } from "@mui/material";
 import ArtistHeader from "src/components/Headers/Artist";
@@ -37,6 +37,16 @@ export default function Home() {
     ModuleFilters.push("VIDEO_LIST");
   }
 
+  const hasVideos: boolean | undefined = useMemo(() => {
+    const videoModules = data?.rows?.filter(
+      (item) => item.modules[0].type === "VIDEO_LIST",
+    );
+
+    const items = videoModules?.[0].modules?.[0].pagedList;
+
+    return items && items?.totalNumberOfItems > 0;
+  }, [data?.rows]);
+
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
       <Container maxWidth="lg">
@@ -45,7 +55,10 @@ export default function Home() {
         )}
         {data?.rows?.[0]?.modules[0]?.type === "ARTIST_HEADER" &&
           data?.rows?.[0]?.modules[0]?.artist && (
-            <ArtistHeader artist={data.rows[0].modules[0].artist} />
+            <ArtistHeader
+              artist={data.rows[0].modules[0].artist}
+              showVideos={hasVideos && tiddlConfig?.download.download_video}
+            />
           )}
         <div className="list-modules">
           {data?.rows

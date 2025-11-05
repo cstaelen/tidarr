@@ -23,7 +23,7 @@ function stripOSC8(text: string): string {
   return cleaned.trim();
 }
 
-export const TerminalDialog = ({ item }: { item: ProcessingItemType }) => {
+export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
   const [openOutput, setOpenOutput] = useState(false);
   const refOutput = useRef<null | HTMLPreElement>(null);
   const { output, connect, disconnect } = useItemOutput(

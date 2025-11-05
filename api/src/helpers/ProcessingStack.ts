@@ -283,6 +283,10 @@ export const ProcessingStack = (expressApp: Express) => {
       item["status"] = "finished";
       expressApp.settings.processingList.actions.updateItem(item);
       logs(item, "✅ [TIDARR] No file to process.", expressApp);
+
+      // Remove item from persistant queue file
+      removeItemFromFile(item.id);
+
       return;
     }
 
@@ -312,12 +316,12 @@ export const ProcessingStack = (expressApp: Express) => {
       // Apprise API notification
       await appriseApiPush(item, expressApp);
 
-      // Remove item from persistant queue file
-      removeItemFromFile(item.id);
-
       logs(item, "---------------------", expressApp);
       logs(item, "✅ [TIDARR] Post processing complete.", expressApp);
     }
+
+    // Remove item from persistant queue file
+    removeItemFromFile(item.id);
   }
 
   return {

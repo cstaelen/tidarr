@@ -16,6 +16,7 @@ type DisplayType = "small" | "large";
 type ConfigContextType = {
   isUpdateAvailable: boolean;
   releaseData: undefined | ReleaseGithubType;
+  changeLogData: string[];
   tokenMissing: boolean;
   quality: undefined | QualityType;
   display: DisplayType;
@@ -40,6 +41,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [isConfigModalOpen, setIsConfigModalOpen] = useState<boolean>(false);
   const [tokenMissing, setTokenMissing] = useState(false);
   const [releaseData, setReleaseData] = useState<ReleaseGithubType>();
+  const [changeLogData, setChangeLogData] = useState<string[]>([]);
   const [config, setConfig] = useState<ConfigParametersType>();
   const [tiddlConfig, setTiddlConfig] = useState<ConfigTiddleType>();
 
@@ -97,6 +99,12 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
           latestVersion !== currentVersion && latestVersion > currentVersion,
         );
         setReleaseData(filteredData[0]);
+
+        // Extract only the descriptions (body) from all releases
+        const descriptions = filteredData
+          .map((release) => release.body)
+          .slice(0, 8);
+        setChangeLogData(descriptions);
       } catch (e) {
         console.log("fetch github issue", e);
       }
@@ -110,6 +118,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const value = {
     isUpdateAvailable,
     releaseData,
+    changeLogData,
     tokenMissing,
     config,
     quality,

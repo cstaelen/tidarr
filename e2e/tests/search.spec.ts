@@ -1,6 +1,7 @@
 import { expect, Locator, test } from "@playwright/test";
 
 import { waitForImgLoaded, waitForLoader } from "./utils/helpers";
+import { mockConfigAPI, mockTidalQueries } from "./utils/mock";
 import { countItems, runSearch } from "./utils/search";
 
 async function scrollTo(target: Locator) {
@@ -148,6 +149,59 @@ test("Tidarr search : Should see artists results", async ({ page }) => {
   ).toBeVisible();
 
   await expect(page.url()).toContain("/artist/19368");
+});
+
+test("Tidarr Search : Should display artist header with all action buttons", async ({
+  page,
+}) => {
+  await runSearch("https://listen.tidal.com/artist/19368", page);
+
+  // Verify artist header is visible
+  await expect(page.getByRole("heading", { name: "Nirvana" })).toBeVisible();
+  await expect(page.getByText("Artist(s)")).toBeVisible();
+
+  // Verify all action buttons are present
+  await expect(
+    page.getByRole("button", { name: "Get all releases" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Get all videos" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "See artist mix" }),
+  ).toBeVisible();
+
+  // Verify info alert about "Get all releases" button
+  await expect(page.getByText('"Get all releases" button.')).toBeVisible();
+  await expect(
+    page.getByText(
+      'By default, Singles and EP\'s are not concerned by the "Get all releases" button.',
+    ),
+  ).toBeVisible();
+});
+
+test("Tidarr Search : Should hide 'Get all videos' button when download_video is disabled", async ({
+  page,
+}) => {
+  // Mock config API to disable video downloads
+
+  await mockConfigAPI(page, true);
+  await mockTidalQueries(page);
+
+  await page.goto("/artist/19368");
+
+  // Verify artist header is visible
+  await expect(page.getByRole("heading", { name: "Nirvana" })).toBeVisible();
+
+  // Verify "Get all releases" button is still present
+  await expect(
+    page.getByRole("button", { name: "Get all releases" }),
+  ).toBeVisible();
+
+  // Verify "Get all videos" button is NOT visible when download_video is disabled
+  await expect(
+    page.getByRole("button", { name: "Get all videos" }),
+  ).not.toBeVisible();
 });
 
 test("Tidarr search : Should see tracks results", async ({ page }) => {

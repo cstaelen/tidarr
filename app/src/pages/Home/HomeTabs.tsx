@@ -1,4 +1,5 @@
 import React from "react";
+import { Sync } from "@mui/icons-material";
 import { Box, Container, Portal, Tab, Tabs, useTheme } from "@mui/material";
 import { useSync } from "src/provider/SyncProvider";
 
@@ -57,7 +58,14 @@ export default function HomeTabs() {
             <Tab label="My Mixes" />
             <Tab label="My Playlists" />
             <Tab label="My Favorites" />
-            <Tab label={`Watch list (${syncList?.length || 0})`} />
+            <Tab
+              label={
+                <Box display="flex" alignItems="center" gap={1}>
+                  <Sync />
+                  {`Watch list (${syncList?.length || 0})`}
+                </Box>
+              }
+            />
           </Tabs>
         </Container>
       </Portal>

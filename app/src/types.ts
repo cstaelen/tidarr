@@ -44,13 +44,15 @@ export type ArtistType = {
 
 // ALBUM
 
+export type AlbumArtistType = {
+  id: string;
+  name: string;
+  picture: string;
+  type: string;
+};
+
 export type AlbumType = {
-  artists: {
-    id: string;
-    name: string;
-    picture: string;
-    type: string;
-  }[];
+  artists: AlbumArtistType[];
   cover: string;
   duration: number;
   audioQuality: string;
@@ -305,6 +307,7 @@ export type ContentType =
   | "favorite_albums"
   | "favorite_tracks"
   | "favorite_playlists"
+  | "artist_videos"
   | "video"
   | "mix";
 

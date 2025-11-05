@@ -57,6 +57,10 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     args.push("-V");
   }
 
+  if (item.type === "artist_videos") {
+    args.push("--only-video");
+  }
+
   logs(
     item,
     `🕖 [TIDDL] Executing: TIDDL_PATH=${ROOT_PATH}/shared ${TIDDL_BINARY} ${args.join(" ")}`,
@@ -78,7 +82,13 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     for (const line of lines) {
       const formatted = line.replaceAll(/[\r\n]+/gm, "").trim();
 
-      if (formatted.includes("Track ") || formatted.length <= 6) return;
+      if (
+        !formatted.includes("INFO") &&
+        (formatted.includes("Track ") ||
+          formatted.includes("Video") ||
+          formatted.length <= 6)
+      )
+        return;
 
       logs(item, `⬇️ [TIDDL] ${formatted}`, app);
     }
