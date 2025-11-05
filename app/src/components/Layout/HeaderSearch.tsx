@@ -93,7 +93,9 @@ export const HeaderSearch = () => {
                 fullWidth
                 size={window.innerWidth > 1024 ? "large" : "small"}
                 exclusive
-                onChange={(_e, value) => actions.setQuality(value)}
+                onChange={(_e, value) =>
+                  value?.length && actions.setQuality(value)
+                }
                 aria-label="Quality"
               >
                 <QualityToggleButton
