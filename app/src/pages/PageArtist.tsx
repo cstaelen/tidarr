@@ -42,7 +42,7 @@ export default function Home() {
       (item) => item.modules[0].type === "VIDEO_LIST",
     );
 
-    const items = videoModules?.[0].modules?.[0].pagedList;
+    const items = videoModules?.[0]?.modules?.[0]?.pagedList;
 
     return items && items?.totalNumberOfItems > 0;
   }, [data?.rows]);
