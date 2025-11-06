@@ -15,6 +15,7 @@ import ImageLazy from "./ImageLazy";
 
 const CardArtistButton = ({ url, name }: { url: string; name?: string }) => {
   const navigate = useNavigate();
+  const { display } = useConfigProvider();
 
   if (!url || !name) return;
 
@@ -28,7 +29,14 @@ const CardArtistButton = ({ url, name }: { url: string; name?: string }) => {
         navigate(url);
       }}
     >
-      <strong>{name}</strong>
+      <Box
+        sx={{
+          fontWeight: "bold",
+          textShadow: display === "large" ? "0 0 2px #000" : "none",
+        }}
+      >
+        {name}
+      </Box>
     </Button>
   );
 };
@@ -152,7 +160,7 @@ const CardHeader = ({
   // Mode large
 
   return (
-    <Box m={1}>
+    <Box m={1} sx={{ textShadow: "0 0 2px #000" }}>
       <CardTitle title={title} url={url} />
       {artist && (
         <Box display="flex" gap={1} alignItems="center" mt={1}>
@@ -161,12 +169,12 @@ const CardHeader = ({
             url={url}
             name={artist?.name}
           />
-          <div>
+          <Box>
             <CardArtistButton
               name={artist?.name}
               url={`/artist/${artist?.id}`}
             />
-          </div>
+          </Box>
         </Box>
       )}
     </Box>
@@ -226,7 +234,7 @@ export default function CardSwitchDisplay({
           display === "large"
             ? {
                 background:
-                  "linear-gradient(180deg,rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 1) 95%)",
+                  "linear-gradient(180deg,rgba(0, 0, 0, .95) 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0) 95%)",
                 content: '""',
                 height: "100%",
                 width: "100%",
@@ -234,8 +242,23 @@ export default function CardSwitchDisplay({
                 top: 0,
                 left: 0,
                 zIndex: 5,
+                transition: "all 250ms ease",
+                pointerEvents: "none",
               }
             : null,
+        ...(display === "large" && {
+          "&:hover:after": {
+            background:
+              "linear-gradient(180deg,rgba(0, 0, 0, .95) 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 1) 95%)",
+          },
+          "& .card-content-hover": {
+            opacity: 0,
+            transition: "opacity 0.3s ease-in-out",
+          },
+          "&:hover .card-content-hover": {
+            opacity: 1,
+          },
+        }),
       }}
     >
       <Stack
@@ -263,7 +286,7 @@ export default function CardSwitchDisplay({
         </div>
       </Stack>
       <Stack direction={display === "large" ? "column" : "row"}>
-        <CoverLink url={linkUrl}>
+        <CoverLink url={linkUrl} disableOverlay={display === "large"}>
           <ImageLazy
             height={display === "small" ? 120 : "100%"}
             width={display === "small" ? 120 : "100%"}
@@ -280,6 +303,7 @@ export default function CardSwitchDisplay({
           }}
         >
           <CardContent
+            className={display === "large" ? "card-content-hover" : ""}
             sx={{
               flex: "0 0 auto",
               padding: "0.5rem 1rem !important",

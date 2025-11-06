@@ -6,10 +6,12 @@ import { styled } from "@mui/material";
 export default function CoverLink({
   url,
   style,
+  disableOverlay,
   children,
 }: {
   url: string;
   style?: CSSProperties;
+  disableOverlay?: boolean;
   children: ReactNode;
 }) {
   return (
@@ -23,12 +25,14 @@ export default function CoverLink({
       }}
     >
       {children}
-      <Overlay>
-        <div>
-          <MusicNote />
-          <List />
-        </div>
-      </Overlay>
+      {!disableOverlay && (
+        <Overlay>
+          <div>
+            <MusicNote />
+            <List />
+          </div>
+        </Overlay>
+      )}
     </Link>
   );
 }

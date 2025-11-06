@@ -3,6 +3,13 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 0.4.6
+### 🐛 Fixed
+* Fix artist page crashes #434
+### 🖍 Changed
+* Update large display UI mode
+* Quality button are not unselectable anymore
+
 ## 📦 0.4.5
 ### 🚀 Added
 * [Front] A button to download all videos of an artist was added on artist page

@@ -12,7 +12,6 @@ const Placeholder = () => {
         height: 0,
         justifyContent: "center",
         paddingBottom: "100%",
-        width: "100%",
       }}
     >
       <Image
