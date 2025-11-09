@@ -3,6 +3,43 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## [1.0.0]
+
+### ⚠️ BREAKING CHANGES
+
+#### Tiddl 3.0 Migration
+- **Re-authentication required**: All users must re-authenticate with Tidal after upgrading
+- **Quality naming change**: "master" quality renamed to "max" (24-bit 192kHz)
+- **Configuration format**: Migrated from JSON to TOML format
+  - Old: `config/tiddl.json`
+  - New: `config/.tiddl/config.toml` + `config/.tiddl/auth.json`
+- **Path templates changed**: Review and adjust your previous settings (quality, paths, templates)
+- **Favorites download disabled**: Download/sync all favorite albums/tracks/playlists is disabled and will reimplemented in time by tiddl team.
+
+### 🎉 Features
+
+- **Tiddl 3**: Major update of Tiddl to version 3
+- **Watchlist**: Add new "Sync now" buttons in watchlist #447
+- **Watchlist**: Add "Remove all" in watchlist 
+- **Live console output**: Real-time terminal output streaming with Server-Sent Events (SSE)
+- **Processing terminal**: Add button to cancel/remove in modal
+- **Docs**: Add new "Docs" tab in config dialog
+
+### 🔧 Technical Changes
+- **Mix download improvements**: Remove mix-to-playlist conversion flow
+- **PUID/PGID support**: Simplified permissions management using `su-exec` for node.
+- **Python requirement**: Now requires Python 3.13 (was 3.x)
+- **Docker base image**: Changed from LinuxServer.io Alpine to official Python 3.13 Alpine
+- **Download folder moved** Reorganized download directory structure. Moved incomplete to `.processing` mounted folder to avoid #436.
+
+### 🔄 Migration Notes
+
+Users upgrading from v0.4.x will need to:
+1. **Re-authenticate with Tidal** (old tokens incompatible)
+2. **Reconfigure tiddl settings** - Old `tiddl.json` is not automatically migrated
+   - Default configuration will be created at `config/.tiddl/config.toml`
+   - ⚠️ Review and adjust your previous settings (quality, paths, templates)
+
 ## 📦 0.4.6
 ### 🐛 Fixed
 * Fix artist page crashes #434

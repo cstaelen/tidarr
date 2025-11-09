@@ -16,6 +16,7 @@ import {
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import { TIDAL_VIDEO_URL } from "src/contants";
 import { VideoType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
@@ -152,7 +153,7 @@ export default function VideoCard({ video }: { video: VideoType }) {
                   <DownloadButton
                     item={{
                       ...video,
-                      url: `video/${video.id}`,
+                      url: `${TIDAL_VIDEO_URL}/${video.id}`,
                     }}
                     id={video.id}
                     type="video"

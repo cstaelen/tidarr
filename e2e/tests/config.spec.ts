@@ -106,13 +106,12 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     page.getByRole("button", { name: "Revoke Tidal token" }),
   ).toBeInViewport();
 
-  const tableTiddlRows = await page
+  const tiddlTables = await page
     .locator("#alert-dialog-description div")
-    .filter({ hasText: "Variable" })
-    .locator("table tbody tr")
+    .locator("table")
     .all();
 
-  expect(tableTiddlRows.length).toEqual(13);
+  expect(tiddlTables.length).toEqual(5);
 });
 
 test("Tidarr config : Should see update button", async ({ page }) => {
@@ -128,4 +127,45 @@ test("Tidarr config : Should see update button", async ({ page }) => {
   await expect(page.getByRole("tab", { name: "Updates" })).toBeVisible();
   await expect(page.getByText("Update available: 9.9.9")).toBeVisible();
   await expect(page.getByText("docker compose pull tidarr")).toBeVisible();
+});
+
+test("Tidarr config : Should display Docs tab with documentation links", async ({
+  page,
+}) => {
+  await mockConfigAPI(page);
+  await goToHome(page);
+  await emptyProcessingList(page);
+
+  await page.getByRole("button", { name: "Settings" }).click();
+  await expect(page.getByRole("heading", { name: "Settings" })).toBeVisible();
+
+  // Click on Docs tab
+  await expect(page.getByRole("tab", { name: "Docs" })).toBeVisible();
+  await page.getByRole("tab", { name: "Docs" }).click();
+
+  // Check description
+  await expect(
+    page.getByText("Quick access to documentation resources"),
+  ).toBeVisible();
+
+  // Check all documentation links
+  const expectedDocs = [
+    "Tidarr Documentation",
+    "Tiddl Configuration",
+    "Path Templating",
+    "Tidarr API",
+  ];
+
+  for (const docTitle of expectedDocs) {
+    await expect(page.getByText(docTitle)).toBeVisible();
+  }
+
+  // Check that Open buttons are visible
+  const openButtons = await page.getByRole("button", { name: "Open" }).all();
+  expect(openButtons.length).toEqual(4);
+
+  // Verify each button is visible
+  for (const button of openButtons) {
+    await expect(button).toBeVisible();
+  }
 });

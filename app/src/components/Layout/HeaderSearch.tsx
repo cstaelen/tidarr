@@ -114,8 +114,8 @@ export const HeaderSearch = () => {
                   tooltip="Download format: '.flac' files, 16-bit, 44.1 kHz"
                 />
                 <QualityToggleButton
-                  label="Master"
-                  value="master"
+                  label="Max"
+                  value="max"
                   tooltip="Download format: '.flac' files, Up to 24-bit, 192 kHz"
                 />
               </ToggleButtonGroup>

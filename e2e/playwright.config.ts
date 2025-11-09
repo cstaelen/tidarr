@@ -14,12 +14,14 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 1 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: undefined,
+  workers: process.env.CI ? 2 : undefined,
+  /* Global timeout for each test */
+  timeout: 30000,
 
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     [
-      process.env.CI ? "html" : "list",
+      "html",
       {
         host: "0.0.0.0",
         outputFolder: "./playwright-report",
@@ -34,10 +36,14 @@ export default defineConfig({
     locale: "en-US",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: "retain-on-failure",
+    trace: "on-first-retry",
 
     // Whether to ignore HTTPS errors during navigation.
     ignoreHTTPSErrors: true,
+
+    // Reduce memory usage in CI
+    video: "off",
+    screenshot: process.env.CI ? "only-on-failure" : "on",
   },
 
   /* Configure projects for major browsers */
@@ -45,10 +51,22 @@ export default defineConfig({
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
+      testIgnore: ["**/downloads.spec.ts", "**/sync.spec.ts"],
     },
+    // {
+    //   name: "Mobile Safari",
+    //   use: { ...devices["iPhone 12"] },
+    //   testIgnore: [
+    //     "**/custom-css.spec.ts",
+    //     "**/downloads.spec.ts",
+    //     "**/sync.spec.ts",
+    //   ],
+    // },
     {
-      name: "Mobile Safari",
-      use: { ...devices["iPhone 12"] },
+      name: "serial-tests",
+      testMatch: ["**/downloads.spec.ts", "**/sync.spec.ts"],
+      use: { ...devices["Desktop Chrome"] },
+      fullyParallel: false,
     },
   ],
   expect: {

@@ -15,6 +15,8 @@ interface SyncContextType {
     removeSyncItem: (id: string) => void;
     addSyncItem: (item: SyncItemType) => void;
     getSyncList: () => void;
+    syncAllNow: () => Promise<void>;
+    removeAllSyncItem: () => Promise<void>;
   };
 }
 
@@ -25,7 +27,13 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [syncList, setSyncList] = useState<SyncItemType[]>([]);
   const {
-    actions: { add_sync_item, remove_sync_item, get_sync_list },
+    actions: {
+      add_sync_item,
+      remove_sync_item,
+      get_sync_list,
+      sync_now,
+      remove_sync_all_items,
+    },
   } = useApiFetcher();
 
   const getSyncList = useCallback(async () => {
@@ -35,9 +43,25 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [get_sync_list, setSyncList]);
 
-  const removeSyncItem = (id: string) => {
+  const syncAllNow = async () => {
+    await sync_now();
+  };
+
+  const removeSyncItem = async (id: string) => {
     setSyncList(syncList.filter((item: SyncItemType) => item.id !== id));
-    remove_sync_item(JSON.stringify({ id: id }));
+    await remove_sync_item(JSON.stringify({ id: id }));
+  };
+
+  const removeAllSyncItem = async () => {
+    if (
+      !window.confirm(
+        "Are you sure you want to clear all items from the watch list ?",
+      )
+    ) {
+      return;
+    }
+    await remove_sync_all_items();
+    getSyncList();
   };
 
   const addSyncItem = (item: SyncItemType) => {
@@ -71,6 +95,8 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
       removeSyncItem,
       addSyncItem,
       getSyncList,
+      syncAllNow,
+      removeAllSyncItem,
     },
   };
 

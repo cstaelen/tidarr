@@ -291,7 +291,7 @@ curl http://localhost:8484/api/delete_token \
   -H "Authorization: Bearer $TIDARR_TOKEN"
 ```
 
-**Response:** Status `201 Created`
+**Response:** Status `204 No Content`
 
 ---
 
@@ -346,6 +346,19 @@ curl -X POST http://localhost:8484/api/sync/remove \
 ```
 
 **Response:** Status `201 Created`
+
+### Sync all items now
+
+Manually trigger synchronization of all items in the watch list (instead of waiting for the cron schedule):
+
+```bash
+curl http://localhost:8484/api/sync/now \
+  -H "Authorization: Bearer $TIDARR_TOKEN"
+```
+
+**Response:** Status `200 OK`
+
+This endpoint will immediately queue all items from the watch list for download. Items already in the queue with status "processing" will be skipped. Items with status "finished" or "downloaded" will be removed from the queue and re-added.
 
 **Note:** The synchronization cron is configured via the `SYNC_CRON_EXPRESSION` environment variable (default: `0 3 * * *` = every day at 3 AM).
 

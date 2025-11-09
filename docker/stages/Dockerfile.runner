@@ -1,5 +1,6 @@
 WORKDIR /home/app/standalone
 ENV SHELL=bash
+ENV HOME=/home/app/standalone/shared
 
 COPY --from=app_builder /home/app/standalone/api/dist /home/app/standalone/api/dist
 COPY --from=app_builder /home/app/standalone/api/scripts /home/app/standalone/api/scripts
@@ -10,11 +11,11 @@ COPY --from=app_builder /home/app/standalone/settings /home/app/standalone/setti
 COPY --from=app_builder /home/app/standalone/.env /home/app/standalone/.env
 COPY --from=app_builder /home/app/standalone/docker/run-prod.sh /home/app/standalone/docker/run-prod.sh
 
-RUN mkdir -p /home/app/standalone/download/incomplete/
-
 RUN npm install -g yarn
 COPY api/package.json ./api/package.json
 COPY api/yarn.lock ./api/yarn.lock
+
+RUN mkdir -p /home/app/standalone/shared/.processing
 
 RUN \
       --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \

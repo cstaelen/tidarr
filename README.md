@@ -1,5 +1,5 @@
 # Self-hosted Tidal Media Downloader Docker Image
-Tidarr is a Docker image that provides a web interface to download up to **24-bit 192.0 kHz** media from Tidal (tracks, albums, playlists, music videos). Format on the fly with Beets, automatically update your Plex library, and push notifications with Gotify.
+Tidarr is a Docker image that provides a web interface to download up to **24-bit 192.0 kHz** media (tracks, albums, playlists, music videos) from Tidal using Tiddl python binary. Format on the fly with Beets, automatically update your Plex library, and push notifications.
 
 [![GitHub Stars](https://img.shields.io/github/stars/cstaelen/tidarr.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr)
 [![GitHub Release](https://img.shields.io/github/release-date/cstaelen/tidarr?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr/releases)
@@ -36,7 +36,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - [Donate](#donate)
 - [Develop](#develop)
 
-## Disclaimer
+## ⚠️ Disclaimer
 
 - Need an official (shared ?) Tidal account
 - For educational purposes and personal use only
@@ -76,7 +76,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Server-side download list processing
 - UI built with **ReactJS** + **ExpressJS** API
 - Self-hostable with **Docker** using a Linuxserver.io base image (uncompressed size: ~190 MB)
-- Download Tidal content with [Tiddl (2.7.0)](https://github.com/oskvr37/tiddl/tree/v2.7.0)
+- Download Tidal content with [Tiddl (3.0.1)](https://github.com/oskvr37/tiddl/tree/v3.0.1)
 
 
 ## Getting Started
@@ -117,69 +117,27 @@ Authorize your device using the UI token dialog
 **or**
 
 ```bash 
-docker compose exec -it -e TIDDL_PATH=/home/app/standalone/shared tidarr tiddl auth login
+docker compose exec -it -e tidarr tiddl auth login
 ```
 
 **or**
 
 ```bash 
-docker exec -it -e TIDDL_PATH=/home/app/standalone/shared tidarr tiddl auth
+docker exec -it -e tidarr tiddl auth
 ```
 
 ## Options
 
 ### Download settings
 
--> You can set download options in `/your/docker/path/to/tidarr/config/tiddl.json`.
+⚠️ Be ware to set the right template path
 
-/!\ Be ware to set the right folder templates
+You can set download options in `/your/docker/path/to/tidarr/config/.tiddl/config.toml`.
 
-See default :
+→ [**Tiddl config options**](https://github.com/oskvr37/tiddl/blob/main/docs/config.example.toml)
 
-```json
-{
-  // More tiddl details : https://github.com/oskvr37/tiddl/wiki/Template-formatting
-    "template": {
-      "album": "{album_artist}/{album}/{number:02d}. {title}",
-        "track": "{artist}/_tracks/{artist} - {title}",
-        "video": "_videos/{artist}/{artist} - {title}",
-        "playlist": "_playlists/{playlist}/{playlist_number:02d}. {artist} - {title}"
-    },
-    "download": {
-      // Default high (16bit 44.1khz), max available: master (24bit 192khz max)
-        // https://github.com/oskvr37/tiddl?tab=readme-ov-file#download-quality
-        "quality": "high",
-        // Should not be changed (otherwise downloads will fail) /!\
-        "path": "/home/app/standalone/download/incomplete",
-        // `scan_path` is used to skip existing files. Set it to null if you want to override. 
-        "scan_path": "/home/app/standalone/library",
-        "threads": 4,
-        "embed_lyrics": false,
-        // Include or not singles while downloading "all releases"
-        "singles_filter": "none", // "none", "only", "include"
-        // Show video content
-        "download_video": true,
-        // Add playlist file
-        "save_playlist_m3u": true
-    },
-    "cover": {
-      "save": false,
-        "size": 1280,
-        "filename": "cover.jpg"
-    },
-    // Will be automatically filled by in-app authentication
-    "auth": {
-      "token": "",
-        "refresh_token": "",
-        "expires": 0,
-        "user_id": "",
-        "country_code": ""
-    },
-    "omit_cache": false
-}
-```
+→ [**Tiddl path templating**](https://github.com/oskvr37/tiddl/blob/main/docs/templating.md)
 
-For template format update, please see [Tiddl formatting documentation](https://github.com/oskvr37/tiddl/wiki/Template-formatting)
 
 ### PUID PGID UMASK
 

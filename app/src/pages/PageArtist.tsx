@@ -24,6 +24,7 @@ export default function Home() {
     window.scrollTo(0, 0);
 
     queryModules(`/v1/pages/artist?artistId=${id}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const ModuleFilters = [
@@ -33,7 +34,7 @@ export default function Home() {
     "SOCIAL",
   ];
 
-  if (!tiddlConfig?.download.download_video) {
+  if (!tiddlConfig?.download.video_quality) {
     ModuleFilters.push("VIDEO_LIST");
   }
 
@@ -57,7 +58,7 @@ export default function Home() {
           data?.rows?.[0]?.modules[0]?.artist && (
             <ArtistHeader
               artist={data.rows[0].modules[0].artist}
-              showVideos={hasVideos && tiddlConfig?.download.download_video}
+              showVideos={hasVideos && !!tiddlConfig?.download.video_quality}
             />
           )}
         <div className="list-modules">

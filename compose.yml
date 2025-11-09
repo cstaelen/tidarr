@@ -41,7 +41,7 @@ services:
       - ./docker/mnt/config:/home/app/standalone/shared
       - ./docker/mnt/library:/home/app/standalone/library
     ports:
-      - 7357:8484
+      - 7373:8484
       - 9323:9323
     environment:
       - ENABLE_BEETS=true

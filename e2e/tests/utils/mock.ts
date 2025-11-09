@@ -161,7 +161,7 @@ export async function mockRelease(page: Page, version = "0.0.0-testing") {
   });
 }
 
-export async function mockConfigAPI(page: Page, disableVideos?: boolean) {
+export async function mockConfigAPI(page: Page) {
   await page.route("**/check", async (route) => {
     const json = {
       noToken: false,
@@ -185,28 +185,37 @@ export async function mockConfigAPI(page: Page, disableVideos?: boolean) {
       },
       tiddl_config: {
         auth: {
-          user_id: 192283714,
+          token: "mock-token",
+          refresh_token: "mock-refresh-token",
+          expires: 1234567890,
+          user_id: "192283714",
           country_code: "FR",
         },
-        download: {
-          quality: "high",
-          path: "/home/app/standalone/download/incomplete",
-          threads: 4,
-          singles_filter: "none",
-          embed_lyrics: false,
-          download_video: disableVideos ? false : true,
-        },
-        cover: {
-          save: true,
-          size: 1280,
-          filename: "cover.jpg",
-        },
-        template: {
+        templates: {
           track: "tracks/{artist}/{artist} - {title}",
           video: "videos/{artist}/{artist} - {title}",
           album: "albums/{album_artist}/{year} - {album}/{number:02d}. {title}",
           playlist:
             "playlists/{playlist}/{playlist_number:02d}. {artist} - {title}",
+        },
+        download: {
+          track_quality: "high",
+          video_quality: "hd",
+          download_path: "/home/app/standalone/download/incomplete",
+          threads_count: 4,
+          singles_filter: "none",
+          videos_filter: "none",
+        },
+        metadata: {
+          embed_lyrics: false,
+          cover: true,
+        },
+        cover: {
+          save: true,
+          size: 1280,
+        },
+        m3u: {
+          save: true,
         },
       },
     };

@@ -1,12 +1,53 @@
 import { DownloadButton } from "src/components/Buttons/DownloadButton";
 import SyncButton from "src/components/Buttons/SyncButton";
 import PagedModule from "src/components/TidalModule/PagedModule";
+import { FAV_QUEUE_ENABLED } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
-import { FavoritesType } from "src/types";
+import { ContentType, FavoritesType } from "src/types";
+
+function FavoritesActions({
+  type,
+  label,
+}: {
+  type: ContentType;
+  label: string;
+}) {
+  const { quality } = useConfigProvider();
+  if (!FAV_QUEUE_ENABLED || !quality) return;
+  return (
+    <>
+      <DownloadButton
+        id={type}
+        type={type}
+        label="Favorite albums"
+        item={
+          {
+            id: type,
+            title: label,
+            type: type,
+            quality: quality,
+            url: "#",
+          } as FavoritesType
+        }
+      />
+      <SyncButton
+        type={type}
+        item={
+          {
+            id: type,
+            type: type,
+            title: label,
+            quality: quality,
+            url: "#",
+          } as FavoritesType
+        }
+      />
+    </>
+  );
+}
 
 export default function MyFavorites() {
   const { tiddlConfig } = useConfigProvider();
-  const { quality } = useConfigProvider();
 
   return (
     <>
@@ -15,36 +56,7 @@ export default function MyFavorites() {
         type="USER_ALBUM_LIST"
         title="My Favorite albums"
         titleSide={
-          quality && (
-            <>
-              <DownloadButton
-                id="favorite_albums"
-                type="favorite_albums"
-                label="Favorite albums"
-                item={
-                  {
-                    id: "favorite_albums",
-                    title: "Favorite albums",
-                    type: "favorite_albums",
-                    quality: quality,
-                    url: "#",
-                  } as FavoritesType
-                }
-              />
-              <SyncButton
-                type="favorite_albums"
-                item={
-                  {
-                    id: "favorite_albums",
-                    type: "favorite_albums",
-                    title: "Favorite albums",
-                    quality: quality,
-                    url: "#",
-                  } as FavoritesType
-                }
-              />
-            </>
-          )
+          <FavoritesActions label="Favorite albums" type="favorite_albums" />
         }
         orderParams={{
           "Recently added": { orderDirection: "DESC", order: "DATE" },
@@ -61,36 +73,7 @@ export default function MyFavorites() {
         type="ALBUM_ITEMS"
         title="My Favorite tracks"
         titleSide={
-          quality && (
-            <>
-              <DownloadButton
-                label="Favorite tracks"
-                id="favorite_tracks"
-                type="favorite_tracks"
-                item={
-                  {
-                    id: "favorite_tracks",
-                    type: "favorite_tracks",
-                    title: "Favorite tracks",
-                    quality: quality,
-                    url: "#",
-                  } as FavoritesType
-                }
-              />
-              <SyncButton
-                type="favorite_tracks"
-                item={
-                  {
-                    id: "favorite_tracks",
-                    title: "Favorite tracks",
-                    type: "favorite_tracks",
-                    quality: quality,
-                    url: "#",
-                  } as FavoritesType
-                }
-              />
-            </>
-          )
+          <FavoritesActions label="Favorite tracks" type="favorite_tracks" />
         }
       />
       <PagedModule
@@ -102,36 +85,10 @@ export default function MyFavorites() {
           Alphabetical: { orderDirection: "ASC", order: "NAME" },
         }}
         titleSide={
-          quality && (
-            <>
-              <DownloadButton
-                id="favorite_playlists"
-                type="favorite_playlists"
-                label="Favorite playlists"
-                item={
-                  {
-                    id: "favorite_playlists",
-                    title: "Favorite playlists",
-                    type: "favorite_playlists",
-                    quality: quality,
-                    url: "#",
-                  } as FavoritesType
-                }
-              />
-              <SyncButton
-                type="favorite_playlists"
-                item={
-                  {
-                    id: "favorite_playlists",
-                    title: "Favorite playlists",
-                    type: "favorite_playlists",
-                    quality: quality,
-                    url: "#",
-                  } as FavoritesType
-                }
-              />
-            </>
-          )
+          <FavoritesActions
+            label="Favorite playlists"
+            type="favorite_playlists"
+          />
         }
       />
       <PagedModule

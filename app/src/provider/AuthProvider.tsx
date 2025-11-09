@@ -81,8 +81,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    console.log("error", error);
-    if (error.apiError) return;
+    if (error.apiError) {
+      console.log("error", error);
+      return;
+    }
 
     const checkAuth = async () => {
       await checkIfAuthIsActive();

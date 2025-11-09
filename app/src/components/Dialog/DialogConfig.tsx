@@ -1,9 +1,17 @@
 import React from "react";
-import { Key, List, Palette, Settings, Update } from "@mui/icons-material";
+import {
+  Description,
+  Key,
+  List,
+  Palette,
+  Settings,
+  Update,
+} from "@mui/icons-material";
 import { Tab, Tabs } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 import CustomCSSPanel from "../Parameters/CustomCSSPanel";
+import DocsPanel from "../Parameters/DocsPanel";
 import TidalPanel from "../Parameters/TidalPanel";
 import UpdatePanel from "../Parameters/UpdatePanel";
 import VariablesPanel from "../Parameters/VariablesPanel";
@@ -38,12 +46,14 @@ export const DialogConfig = () => {
         <Tab label="Env vars" icon={<List />} iconPosition="start" />
         <Tab label="Tidal Token" icon={<Key />} iconPosition="start" />
         <Tab label="Custom CSS" icon={<Palette />} iconPosition="start" />
+        <Tab label="Docs" icon={<Description />} iconPosition="start" />
       </Tabs>
 
       {currentTab === 0 && <UpdatePanel />}
       {currentTab === 1 && <VariablesPanel />}
       {currentTab === 2 && <TidalPanel />}
       {currentTab === 3 && <CustomCSSPanel />}
+      {currentTab === 4 && <DocsPanel />}
     </DialogHandler>
   );
 };

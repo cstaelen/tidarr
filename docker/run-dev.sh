@@ -23,9 +23,19 @@ else
   umask 0022
 fi
 
-sleep 2
-yarn install
-yarn --cwd ./app install
-yarn --cwd ./api install
-yarn --cwd ./e2e install
-yarn dev
+# Set ownership of shared directories if PUID/PGID are set
+if [ -n "$PUID" ] && [ -n "$PGID" ]; then
+  echo "🔑 [TIDARR] Setting ownership to PUID=$PUID PGID=$PGID"
+  chown -R $PUID:$PGID /home/app/standalone/shared 2>/dev/null || true
+
+  # Run yarn as specified UID/GID using su-exec
+  # Set HOME to /home/app/standalone/shared for tiddl config access
+  exec su-exec $PUID:$PGID env HOME=/home/app/standalone/shared sh -c "yarn install && yarn --cwd ./app install && yarn --cwd ./api install && yarn --cwd ./e2e install && yarn dev"
+else
+  # Run as root (default)
+  yarn install
+  yarn --cwd ./app install
+  yarn --cwd ./api install
+  yarn --cwd ./e2e install
+  yarn dev
+fi

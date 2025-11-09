@@ -6,19 +6,9 @@ import React, {
   useState,
 } from "react";
 import { EventSourceController } from "event-source-plus";
+import { useProcessingFormat } from "src/hooks/useProcessingFormat";
 
-import {
-  AlbumType,
-  ArtistType,
-  ContentType,
-  FavoritesType,
-  MixType,
-  PlaylistType,
-  ProcessingItemType,
-  SyncItemType,
-  TrackType,
-  VideoType,
-} from "../types";
+import { ContentType, ProcessingItemType, TidalItemType } from "../types";
 
 import { useApiFetcher } from "./ApiFetcherProvider";
 import { useConfigProvider } from "./ConfigProvider";
@@ -28,18 +18,11 @@ type ProcessingContextType = {
   actions: {
     setProcessingList: (list: ProcessingItemType[]) => void;
     addItem: (
-      item:
-        | AlbumType
-        | TrackType
-        | ArtistType
-        | PlaylistType
-        | MixType
-        | VideoType
-        | FavoritesType,
+      item: TidalItemType,
       type: ContentType,
-    ) => void;
-    removeItem: (id: string) => void;
-    retryItem: (item: ProcessingItemType) => void;
+    ) => Promise<void | undefined>;
+    removeItem: (id: string) => Promise<void>;
+    retryItem: (item: ProcessingItemType) => Promise<void | null>;
   };
 };
 
@@ -55,72 +38,21 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     actions: { list_sse, remove, save },
   } = useApiFetcher();
   const { quality } = useConfigProvider();
+  const { formatItem } = useProcessingFormat();
 
   // Add item to processing list
   const addItem = async (
-    item:
-      | AlbumType
-      | TrackType
-      | ArtistType
-      | PlaylistType
-      | MixType
-      | VideoType
-      | FavoritesType,
+    item: TidalItemType,
     type: ContentType,
-  ) => {
+  ): Promise<void> => {
     if (!quality) return;
-
-    const id =
-      (item as AlbumType | TrackType | ArtistType).id ||
-      (item as PlaylistType).uuid;
-
-    if (
-      processingList &&
-      processingList?.filter((row) => row.id === id && row.status !== "error")
-        ?.length > 0
-    )
-      return null;
-
-    let title = "";
-    switch (type) {
-      case "artist":
-        title = "All albums";
-        break;
-      case "artist_videos":
-        title = "All artist videos";
-        break;
-      default:
-        title = (item as TrackType | AlbumType)?.title;
-    }
-
-    let artist = "";
-    switch (type) {
-      case "artist":
-      case "artist_videos":
-        artist =
-          (item as ArtistType)?.name || (item as SyncItemType)?.artist || "";
-        break;
-      default:
-        artist = (item as TrackType | AlbumType).artists?.[0].name;
-    }
-
-    const itemToQueue: ProcessingItemType = {
-      id: id,
-      artist: artist,
-      title: title,
-      type: type,
-      quality: quality,
-      status: "queue",
-      loading: true,
-      error: false,
-      url: (item as AlbumType)?.url || (item as VideoType)?.id.toString(),
-    };
+    const itemToQueue = formatItem(item, type, quality);
 
     await save(JSON.stringify({ item: itemToQueue }));
   };
 
   // Retry failed processing item
-  const retryItem = async (item: ProcessingItemType) => {
+  const retryItem = async (item: ProcessingItemType): Promise<void | null> => {
     if (
       processingList &&
       processingList?.filter(
@@ -141,7 +73,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   };
 
   // Remove item to processing list
-  const removeItem = async (id: string) => {
+  const removeItem = async (id: string): Promise<void> => {
     await remove(JSON.stringify({ id: id }));
   };
 

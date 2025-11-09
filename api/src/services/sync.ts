@@ -34,6 +34,11 @@ export const removeItemFromSyncList = (id: number) => {
   fs.writeFileSync(filePath, JSON.stringify(syncList, null, 2));
 };
 
+export const removeAllFromSyncList = () => {
+  const filePath = path.join(`${ROOT_PATH}/shared`, "sync_list.json");
+  fs.writeFileSync(filePath, JSON.stringify([], null, 2));
+};
+
 export const updateSyncItem = (id: string, update: Partial<SyncItemType>) => {
   const filePath = path.join(`${ROOT_PATH}/shared`, "sync_list.json");
   const syncList: SyncItemType[] = JSON.parse(
@@ -45,6 +50,47 @@ export const updateSyncItem = (id: string, update: Partial<SyncItemType>) => {
     syncList[itemIndex] = { ...syncList[itemIndex], ...update };
     fs.writeFileSync(filePath, JSON.stringify(syncList, null, 2));
   }
+};
+
+export const getSyncList = () => {
+  const filePath = path.join(`${ROOT_PATH}/shared`, "sync_list.json");
+  const syncList: SyncItemType[] = JSON.parse(
+    fs.readFileSync(filePath, "utf8"),
+  );
+  return syncList;
+};
+
+export const process_sync_list = async (app: Express) => {
+  const syncList: SyncItemType[] = getSyncList();
+
+  if (!syncList || syncList?.length === 0) return;
+
+  // Process each item sequentially
+  syncList.forEach((element) => {
+    const item: ProcessingItemType =
+      app.settings.processingList.actions.getItem(element.id);
+    if (item && ["processing"].includes(item?.status)) return;
+    if (item && ["finished", "downloaded"].includes(item?.status)) {
+      app.settings.processingList.actions.removeItem(element.id);
+    }
+
+    const itemToQueue: ProcessingItemType = {
+      id: element.id,
+      artist: element.artist || "",
+      title: element.title,
+      type: element.type,
+      quality: element.quality,
+      status: "queue",
+      loading: true,
+      error: false,
+      url: element.url,
+    };
+
+    app.settings.processingList.actions.addItem(itemToQueue);
+    updateSyncItem(element.id, {
+      lastUpdate: new Date().toISOString(),
+    });
+  });
 };
 
 export const createCronJob = async (app: Express) => {
@@ -82,38 +128,7 @@ export const createCronJob = async (app: Express) => {
       () => {
         try {
           // Read the sync list fresh each time the cron runs
-          const syncList: SyncItemType[] = JSON.parse(
-            fs.readFileSync(filePath, "utf8"),
-          );
-
-          if (!syncList || syncList?.length === 0) return;
-
-          // Process each item sequentially
-          syncList.forEach((element) => {
-            const item: ProcessingItemType =
-              app.settings.processingList.actions.getItem(element.id);
-            if (item && ["processing"].includes(item?.status)) return;
-            if (item && ["finished", "downloaded"].includes(item?.status)) {
-              app.settings.processingList.actions.removeItem(element.id);
-            }
-
-            const itemToQueue: ProcessingItemType = {
-              id: element.id,
-              artist: element.artist || "",
-              title: element.title,
-              type: element.type,
-              quality: element.quality,
-              status: "queue",
-              loading: true,
-              error: false,
-              url: element.url,
-            };
-
-            app.settings.processingList.actions.addItem(itemToQueue);
-            updateSyncItem(element.id, {
-              lastUpdate: new Date().toISOString(),
-            });
-          });
+          process_sync_list(app);
         } catch (callbackError) {
           console.error("❌ [SYNC] Error in cron callback:", callbackError);
         }
@@ -132,11 +147,4 @@ export const createCronJob = async (app: Express) => {
       "❌ [SYNC] This may be caused by a timezone configuration issue in your system.",
     );
   }
-};
-
-export const getSyncList = () => {
-  const filePath = path.join(`${ROOT_PATH}/shared`, "sync_list.json");
-  const syncList: { id: number; url: string; contentType: string }[] =
-    JSON.parse(fs.readFileSync(filePath, "utf8"));
-  return syncList;
 };

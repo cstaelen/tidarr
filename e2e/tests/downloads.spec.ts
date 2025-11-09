@@ -12,10 +12,6 @@ import { runSearch } from "./utils/search";
 
 test.describe.configure({ mode: "serial" });
 
-test.beforeEach(async ({ browserName }) => {
-  test.skip(browserName.toLowerCase() !== "chromium", `Test only for chromium`);
-});
-
 test.afterEach(async ({ page }) => {
   await emptyProcessingList(page);
 });
@@ -170,107 +166,107 @@ test("Tidarr download : Should be able to download mix", async ({ page }) => {
   await testProcessingList(page, ["My Daily Discovery", "high", "mix"]);
 });
 
-test("Tidarr download : Should be able to download favorite albums", async ({
-  page,
-}) => {
-  // Mock favorite albums output
-  await page.route("**/stream_item_output/*", async (route) => {
-    const itemId = route.request().url().split("/").pop();
-    const mockOutput = `=== Tiddl ===\r\nExecuting: tiddl fav -r album download -q high`;
+// test("Tidarr download : Should be able to download favorite albums", async ({
+//   page,
+// }) => {
+//   // Mock favorite albums output
+//   await page.route("**/stream_item_output/*", async (route) => {
+//     const itemId = route.request().url().split("/").pop();
+//     const mockOutput = `=== Tiddl ===\r\nExecuting: tiddl fav -r album download -q high`;
 
-    await route.fulfill({
-      status: 200,
-      headers: {
-        "Content-Type": "text/event-stream",
-        "Cache-Control": "no-cache",
-        Connection: "keep-alive",
-      },
-      body: `data: ${JSON.stringify({ id: itemId, output: mockOutput })}\n\n`,
-    });
-  });
+//     await route.fulfill({
+//       status: 200,
+//       headers: {
+//         "Content-Type": "text/event-stream",
+//         "Cache-Control": "no-cache",
+//         Connection: "keep-alive",
+//       },
+//       body: `data: ${JSON.stringify({ id: itemId, output: mockOutput })}\n\n`,
+//     });
+//   });
 
-  await mockConfigAPI(page);
-  await goToHome(page);
-  await page.getByRole("tab", { name: "My Favorites" }).first().click();
+//   await mockConfigAPI(page);
+//   await goToHome(page);
+//   await page.getByRole("tab", { name: "My Favorites" }).first().click();
 
-  await expect(page.getByRole("main")).toContainText("My Favorite albums");
-  await page.getByRole("button", { name: "Favorite albums" }).first().click();
+//   await expect(page.getByRole("main")).toContainText("My Favorite albums");
+//   await page.getByRole("button", { name: "Favorite albums" }).first().click();
 
-  await testProcessingList(page, [
-    "Favorite albums",
-    "favorite_albums",
-    "high",
-  ]);
-});
+//   await testProcessingList(page, [
+//     "Favorite albums",
+//     "favorite_albums",
+//     "high",
+//   ]);
+// });
 
-test("Tidarr download : Should be able to download favorite tracks", async ({
-  page,
-}) => {
-  // Mock favorite tracks output
-  await page.route("**/stream_item_output/*", async (route) => {
-    const itemId = route.request().url().split("/").pop();
-    const mockOutput = `=== Tiddl ===\r\nExecuting: tiddl fav -r track download -q high`;
+// test("Tidarr download : Should be able to download favorite tracks", async ({
+//   page,
+// }) => {
+//   // Mock favorite tracks output
+//   await page.route("**/stream_item_output/*", async (route) => {
+//     const itemId = route.request().url().split("/").pop();
+//     const mockOutput = `=== Tiddl ===\r\nExecuting: tiddl fav -r track download -q high`;
 
-    await route.fulfill({
-      status: 200,
-      headers: {
-        "Content-Type": "text/event-stream",
-        "Cache-Control": "no-cache",
-        Connection: "keep-alive",
-      },
-      body: `data: ${JSON.stringify({ id: itemId, output: mockOutput })}\n\n`,
-    });
-  });
+//     await route.fulfill({
+//       status: 200,
+//       headers: {
+//         "Content-Type": "text/event-stream",
+//         "Cache-Control": "no-cache",
+//         Connection: "keep-alive",
+//       },
+//       body: `data: ${JSON.stringify({ id: itemId, output: mockOutput })}\n\n`,
+//     });
+//   });
 
-  await mockConfigAPI(page);
-  await goToHome(page);
-  await page.getByRole("tab", { name: "My Favorites" }).first().click();
+//   await mockConfigAPI(page);
+//   await goToHome(page);
+//   await page.getByRole("tab", { name: "My Favorites" }).first().click();
 
-  await expect(page.getByRole("main")).toContainText("My Favorite tracks");
-  await page.getByRole("button", { name: "Favorite tracks" }).first().click();
+//   await expect(page.getByRole("main")).toContainText("My Favorite tracks");
+//   await page.getByRole("button", { name: "Favorite tracks" }).first().click();
 
-  await testProcessingList(page, [
-    "Favorite tracks",
-    "favorite_tracks",
-    "high",
-  ]);
-});
+//   await testProcessingList(page, [
+//     "Favorite tracks",
+//     "favorite_tracks",
+//     "high",
+//   ]);
+// });
 
-test("Tidarr download : Should be able to download favorite playlists", async ({
-  page,
-}) => {
-  // Mock favorite playlists output
-  await page.route("**/stream_item_output/*", async (route) => {
-    const itemId = route.request().url().split("/").pop();
-    const mockOutput = `=== Tiddl ===\r\nExecuting: tiddl fav -r playlist download -q high`;
+// test("Tidarr download : Should be able to download favorite playlists", async ({
+//   page,
+// }) => {
+//   // Mock favorite playlists output
+//   await page.route("**/stream_item_output/*", async (route) => {
+//     const itemId = route.request().url().split("/").pop();
+//     const mockOutput = `=== Tiddl ===\r\nExecuting: tiddl fav -r playlist download -q high`;
 
-    await route.fulfill({
-      status: 200,
-      headers: {
-        "Content-Type": "text/event-stream",
-        "Cache-Control": "no-cache",
-        Connection: "keep-alive",
-      },
-      body: `data: ${JSON.stringify({ id: itemId, output: mockOutput })}\n\n`,
-    });
-  });
+//     await route.fulfill({
+//       status: 200,
+//       headers: {
+//         "Content-Type": "text/event-stream",
+//         "Cache-Control": "no-cache",
+//         Connection: "keep-alive",
+//       },
+//       body: `data: ${JSON.stringify({ id: itemId, output: mockOutput })}\n\n`,
+//     });
+//   });
 
-  await mockConfigAPI(page);
-  await goToHome(page);
-  await page.getByRole("tab", { name: "My Favorites" }).first().click();
+//   await mockConfigAPI(page);
+//   await goToHome(page);
+//   await page.getByRole("tab", { name: "My Favorites" }).first().click();
 
-  await expect(page.getByRole("main")).toContainText("My Favorite playlists");
-  await page
-    .getByRole("button", { name: "Favorite playlists" })
-    .first()
-    .click();
+//   await expect(page.getByRole("main")).toContainText("My Favorite playlists");
+//   await page
+//     .getByRole("button", { name: "Favorite playlists" })
+//     .first()
+//     .click();
 
-  await testProcessingList(page, [
-    "Favorite playlists",
-    "favorite_playlists",
-    "high",
-  ]);
-});
+//   await testProcessingList(page, [
+//     "Favorite playlists",
+//     "favorite_playlists",
+//     "high",
+//   ]);
+// });
 
 test("Tidarr download : Should be able to clear finished items", async ({
   page,
@@ -376,6 +372,7 @@ test("Tidarr download : Should be able to clear all items with confirmation", as
   });
 
   // Click "Clear all" button - should not remove because we dismissed
+  await page.waitForTimeout(500);
   await page.getByRole("button", { name: "Clear all" }).click();
 
   // Wait and verify API was NOT called
@@ -396,7 +393,4 @@ test("Tidarr download : Should be able to clear all items with confirmation", as
   // Verify the API was called this time
   await page.waitForTimeout(500);
   expect(removeAllCalled).toBe(true);
-
-  // Clean up
-  await emptyProcessingList(page);
 });

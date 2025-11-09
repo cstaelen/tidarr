@@ -1,6 +1,6 @@
 import { ChildProcess, ChildProcessWithoutNullStreams } from "child_process";
 
-export type QualityType = "low" | "normal" | "high" | "master";
+export type QualityType = "low" | "normal" | "high" | "max";
 export type ContentType =
   | "album"
   | "track"
@@ -27,26 +27,51 @@ export type ProcessingItemType = {
 };
 
 export type TiddlConfig = {
-  template: {
-    track: string;
-    video: string;
-    album: string;
-    playlist: string;
+  enable_cache?: boolean;
+  debug?: boolean;
+  templates: {
+    default?: string;
+    track?: string;
+    video?: string;
+    album?: string;
+    playlist?: string;
+    mix?: string;
   };
   download: {
-    quality: QualityType;
-    path: string;
-    threads: number;
-    singles_filter: string;
-    embed_lyrics: boolean;
-    download_video: boolean;
-    scan_path: string;
-    save_playlist_m3u: boolean;
+    track_quality?: QualityType;
+    video_quality?: string; // "sd" | "hd" | "fhd"
+    skip_existing?: boolean;
+    download_path?: string;
+    scan_path?: string;
+    threads_count?: number;
+    singles_filter?: string; // "none" | "only" | "include"
+    videos_filter?: string; // "none" | "only" | "allow"
+    update_mtime?: boolean;
+    rewrite_metadata?: boolean;
   };
-  cover: {
-    save: boolean;
-    size: number;
-    filename: string;
+  metadata?: {
+    enable?: boolean;
+    embed_lyrics?: boolean;
+    cover?: boolean;
+  };
+  cover?: {
+    save?: boolean;
+    size?: number;
+    allowed?: string[];
+    templates?: {
+      track?: string;
+      album?: string;
+      playlist?: string;
+    };
+  };
+  m3u?: {
+    save?: boolean;
+    allowed?: string[];
+    templates?: {
+      album?: string;
+      playlist?: string;
+      mix?: string;
+    };
   };
   auth: {
     token: string;
@@ -55,7 +80,6 @@ export type TiddlConfig = {
     user_id: string;
     country_code: string;
   };
-  omit_cache: boolean;
 };
 
 export type LogType = {

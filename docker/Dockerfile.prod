@@ -11,8 +11,10 @@ INCLUDE docker/stages/Dockerfile.builder
 
 ## BUILD STANDALONE APP
 
-FROM --platform=$TARGETPLATFORM ghcr.io/linuxserver/baseimage-alpine:3.21 AS runner
-RUN apk add npm nodejs py3-pip
+FROM --platform=$TARGETPLATFORM python:3.13-alpine3.21 AS runner
+
+# Install base packages
+RUN apk add --no-cache npm nodejs ffmpeg beets bash su-exec curl
 
 INCLUDE docker/stages/Dockerfile.python
 INCLUDE docker/stages/Dockerfile.runner

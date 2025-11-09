@@ -1,37 +1,30 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { Terminal } from "@mui/icons-material";
+import { Cancel, Terminal } from "@mui/icons-material";
 import TerminalIcon from "@mui/icons-material/Terminal";
 import { Box, Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
 import Ansi from "ansi-to-react";
+import { useProcessingProvider } from "src/provider/ProcessingProvider";
 import { ProcessingItemType } from "src/types";
 
 import { useItemOutput } from "../../hooks/useItemOutput";
 
-// Strip OSC 8 hyperlink sequences while preserving ANSI colors
-/**
- * Supprime uniquement les séquences OSC 8 et leurs résidus, en préservant les couleurs et styles ANSI.
- * @param text Le texte brut contenant les séquences ANSI/OSC 8.
- * @returns Le texte nettoyé, prêt pour <Ansi>, avec la coloration préservée.
- */
-function stripOSC8(text: string): string {
-  // eslint-disable-next-line no-control-regex
-  let cleaned = text.replace(/\x1b\]8;[^\x07]*(\x07|\x1b\\8;;)/g, "");
-  // eslint-disable-next-line no-control-regex
-  cleaned = text.replace(/\u001b\]8;|ESC\]8;/g, "");
-  cleaned = cleaned.replace(/id=\d+;?|file:\/\/\/[^\s]+/g, "");
-  return cleaned.trim();
-}
-
 export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
   const [openOutput, setOpenOutput] = useState(false);
-  const refOutput = useRef<null | HTMLPreElement>(null);
+  const [debouncedOutput, setDebouncedOutput] = useState("");
   const { output, connect, disconnect } = useItemOutput(
     openOutput ? item.id.toString() : null,
   );
+  const { actions } = useProcessingProvider();
 
-  // Clean output by stripping OSC 8 hyperlink codes
-  const cleanOutput = useMemo(() => stripOSC8(output), [output]);
+  // Debounce output updates
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedOutput(output);
+    }, 80);
+
+    return () => clearTimeout(timer);
+  }, [output]);
 
   // Connect to SSE when dialog opens, disconnect when closes
   useEffect(() => {
@@ -41,15 +34,6 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
       disconnect();
     }
   }, [openOutput, connect, disconnect]);
-
-  // Auto-scroll to bottom when output changes
-  useEffect(() => {
-    setTimeout(() => {
-      if (refOutput.current) {
-        refOutput.current.scrollTop = refOutput.current?.scrollHeight;
-      }
-    }, 100);
-  }, [output, openOutput]);
 
   return (
     <div>
@@ -73,13 +57,25 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
             Console output
           </Box>
         </DialogTitle>
-        <Pre ref={refOutput} style={{ minWidth: "800px", minHeight: "200px" }}>
+        <Pre style={{ maxWidth: "800px", width: "800px", height: "420px" }}>
           <Ansi linkify={false} useClasses={false}>
-            {cleanOutput}
+            {debouncedOutput}
           </Ansi>
         </Pre>
         <DialogActions>
-          <Button onClick={() => setOpenOutput(false)}>Close</Button>
+          <Box flex="1 1 0">
+            <Button
+              variant="outlined"
+              color={item.status === "processing" ? "error" : "primary"}
+              startIcon={<Cancel />}
+              onClick={() => actions.removeItem(item.id)}
+            >
+              {item.status === "processing" ? "Cancel" : "Remove"}
+            </Button>
+          </Box>
+          <Button variant="outlined" onClick={() => setOpenOutput(false)}>
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
@@ -87,6 +83,8 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
 };
 
 const Pre = styled.pre`
+  display: flex;
+  flex-direction: column-reverse;
   background-color: #272822;
   color: #f8f8f2;
   font-size: 0.68rem;

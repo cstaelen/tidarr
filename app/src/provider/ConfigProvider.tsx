@@ -72,7 +72,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     setTokenMissing(data?.noToken);
     setConfig(data?.parameters);
     setTiddlConfig(data?.tiddl_config);
-    setQuality(data?.tiddl_config?.download?.quality);
+    setQuality(data?.tiddl_config?.download?.track_quality);
   };
 
   // Check Updates

@@ -16,7 +16,8 @@
     "express": "^5.1.0",
     "express-http-proxy": "^2.1.2",
     "jsonwebtoken": "^9.0.2",
-    "node-cron": "^4.2.1"
+    "node-cron": "^4.2.1",
+    "toml": "^3.0.0"
   },
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",

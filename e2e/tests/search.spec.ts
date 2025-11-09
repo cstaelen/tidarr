@@ -1,7 +1,6 @@
 import { expect, Locator, test } from "@playwright/test";
 
 import { waitForImgLoaded, waitForLoader } from "./utils/helpers";
-import { mockConfigAPI, mockTidalQueries } from "./utils/mock";
 import { countItems, runSearch } from "./utils/search";
 
 async function scrollTo(target: Locator) {
@@ -180,30 +179,6 @@ test("Tidarr Search : Should display artist header with all action buttons", asy
   ).toBeVisible();
 });
 
-test("Tidarr Search : Should hide 'Get all videos' button when download_video is disabled", async ({
-  page,
-}) => {
-  // Mock config API to disable video downloads
-
-  await mockConfigAPI(page, true);
-  await mockTidalQueries(page);
-
-  await page.goto("/artist/19368");
-
-  // Verify artist header is visible
-  await expect(page.getByRole("heading", { name: "Nirvana" })).toBeVisible();
-
-  // Verify "Get all releases" button is still present
-  await expect(
-    page.getByRole("button", { name: "Get all releases" }),
-  ).toBeVisible();
-
-  // Verify "Get all videos" button is NOT visible when download_video is disabled
-  await expect(
-    page.getByRole("button", { name: "Get all videos" }),
-  ).not.toBeVisible();
-});
-
 test("Tidarr search : Should see tracks results", async ({ page }) => {
   await runSearch("Nirvana", page);
   await expect(page.locator("#full-width-tab-3")).toContainText("Tracks (300)");
@@ -298,8 +273,7 @@ test("Tidarr search : Should see videos results", async ({ page }) => {
 test("Tidarr search : Should have two display mode", async ({ page }) => {
   await runSearch("Nirvana", page);
   await expect(page.locator("#full-width-tab-3")).toContainText("Tracks (300)");
-
-  await page.waitForTimeout(500);
+  await waitForImgLoaded(page);
 
   const itemLocator = page
     .locator("#full-width-tabpanel-0 > div:nth-child(2)")

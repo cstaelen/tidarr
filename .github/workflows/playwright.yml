@@ -14,14 +14,70 @@ jobs:
     name: "Playwright Tests"
     steps:
       - uses: actions/checkout@v4
-      - name: Create prod build
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build production Docker image
         run: |
-          make testing-build
-          sleep 10
-      - name: Run test suite
+          docker build -f docker/Dockerfile.prod -t tidarr:test --build-arg VERSION=test .
+
+      - name: Start Tidarr container
         run: |
-          docker compose logs testing
-          docker compose exec -e CI=true -w /home/app/standalone/e2e testing npx playwright test
+          docker run -d \
+            --name tidarr-server \
+            -p 8484:8484 \
+            -e ENABLE_BEETS=true \
+            -e PLEX_URL=http://plex.url \
+            -e PLEX_LIBRARY=3 \
+            -e PLEX_TOKEN=abc-plex-token-xyz \
+            -e PLEX_PATH=/folder/to/plex/music \
+            -e GOTIFY_URL=http://gotify.url \
+            -e GOTIFY_TOKEN=abc-gotify-token-xyz \
+            tidarr:test
+
+          # Wait for server to be ready
+          timeout 60 bash -c 'until curl -f http://localhost:8484/api/check 2>/dev/null; do sleep 2; done' || (docker logs tidarr-server && exit 1)
+          echo "✅ Tidarr server is ready"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+          cache-dependency-path: e2e/yarn.lock
+
+      - name: Install dependencies
+        working-directory: ./e2e
+        run: yarn install --frozen-lockfile
+
+      - name: Get installed Playwright version
+        id: playwright-version
+        working-directory: ./e2e
+        run: echo "version=$(node -e "console.log(require('./package.json').devDependencies['@playwright/test'])")" >> $GITHUB_OUTPUT
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ steps.playwright-version.outputs.version }}-${{ runner.os }}
+
+      - name: Install Playwright Browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        working-directory: ./e2e
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright tests
+        working-directory: ./e2e
+        env:
+          CI: true
+          IS_DOCKER: true
+        run: npx playwright test
+
+      - name: Show server logs on failure
+        if: failure()
+        run: docker logs tidarr-server
 
       - uses: actions/upload-artifact@v4
         if: failure()

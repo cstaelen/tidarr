@@ -24,11 +24,18 @@ export async function testProcessingList(
   await expect(page.locator("button.MuiFab-circular")).toBeVisible();
   await page.locator("button.MuiFab-circular").click();
 
-  shouldContains.map(async (searchString: string) => {
+  // Wait for the table to be visible
+  await page.waitForSelector('[aria-label="Processing table"]', {
+    state: "visible",
+    timeout: 5000,
+  });
+
+  // Fix: Use for...of instead of .map() to properly await async operations
+  for (const searchString of shouldContains) {
     await expect(page.getByLabel("Processing table")).toContainText(
       searchString,
     );
-  });
+  }
 
   if (quality) {
     await expect(page.getByLabel("Processing table")).toContainText(quality);
@@ -36,7 +43,7 @@ export async function testProcessingList(
 
   await expect(page.locator(".MuiDialog-container button")).not.toBeVisible();
 
-  await page.getByTestId("btn-console").click();
+  await page.getByTestId("btn-console").first().click();
 
   await expect(
     page.getByRole("heading", { name: "Console output" }),
@@ -51,31 +58,43 @@ export async function testProcessingList(
   if (quality) {
     await expect(page.getByText(`-q ${quality}`)).toBeVisible();
   }
-  await page.getByRole("button", { name: "Close" }).click();
-  await emptyProcessingList(page);
+
+  // await page.getByRole("button", { name: "close" }).first().click();
+  await page.locator(".MuiDialog-container button").first().click();
 }
 
 export async function emptyProcessingList(page: Page) {
   const isVisible = await page.locator("button.MuiFab-circular").isVisible();
 
-  if (!isVisible || page.isClosed()) return null;
+  if (!isVisible) return null;
 
-  await page.locator("button.MuiFab-circular").hover();
-
-  const items = await page
-    .locator("#Showprocessinglist-action-1 tbody tr")
-    .all();
-  for (const item of items) {
-    if (page.isClosed()) break;
-
-    const firstButton = item.getByRole("button").first();
-    if (!page.isClosed()) {
-      await firstButton?.click();
-    }
-    return;
+  // Open the processing list if not already open
+  const isExpanded = await page
+    .locator("button.MuiFab-circular")
+    .getAttribute("aria-expanded");
+  if (isExpanded !== "true") {
+    await page.locator("button.MuiFab-circular").click();
+    // Wait for the table to be visible
+    await page.waitForSelector('[aria-label="Processing table"]', {
+      state: "visible",
+      timeout: 5000,
+    });
   }
 
-  await expect(page.locator("button.MuiFab-circular")).not.toBeVisible();
+  await page.waitForTimeout(250);
+  const clearButton = await page.getByRole("button", {
+    name: "Clear finished",
+  });
+  const isClearButtonVisible = await clearButton.isVisible();
+  const isPageClosed = page.isClosed();
+  if (!isPageClosed && isClearButtonVisible) await clearButton.click();
+  await page.waitForTimeout(250);
+}
+
+export async function emptySyncList(page: Page) {
+  // Call the API to clear all sync items
+  await page.request.post("http://localhost:8484/api/sync/remove-all");
+  await page.waitForTimeout(250);
 }
 
 export async function goToHome(page: Page) {
