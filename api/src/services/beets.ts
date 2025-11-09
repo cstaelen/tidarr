@@ -41,7 +41,7 @@ export async function beets(id: string, app: Express) {
         logs(item, `✅ [BEETS] Success`, app);
       } else if (response.stderr) {
         item["status"] = "error";
-        logs(item, `❌ [BEETS] ${response.stderr}`, app);
+        logs(item, `⚠️ [BEETS] ${response.stderr}`, app);
       }
     }
   } catch (err: unknown) {

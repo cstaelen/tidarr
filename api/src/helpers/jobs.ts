@@ -128,16 +128,21 @@ export function replacePathInM3U(item: ProcessingItemType, app: Express): void {
 
 export async function setPermissions(item: ProcessingItemType, app: Express) {
   if (process.env.PUID && process.env.PGID) {
-    const output_chown = execSync(
-      `chown -R ${process.env.PUID}:${process.env.PGID} ${ROOT_PATH}/download/incomplete/*`,
-      {
-        encoding: "utf-8",
-      },
-    );
-    logs(
-      item,
-      `🔑 [TIDARR] Chown PUID:PGID: ${process.env.PUID}:${process.env.PGID} - ${output_chown}`,
-      app,
-    );
+    try {
+      const output_chown = execSync(
+        `chown -R ${process.env.PUID}:${process.env.PGID} ${ROOT_PATH}/download/incomplete/*`,
+        {
+          encoding: "utf-8",
+        },
+      );
+      logs(
+        item,
+        `🔑 [TIDARR] Chown PUID:PGID: ${process.env.PUID}:${process.env.PGID} - ${output_chown}`,
+        app,
+      );
+    } catch {
+      // Ignore error if directory is empty
+      logs(item, `⚠️ [TIDARR] Chown skipped (no files in incomplete)`, app);
+    }
   }
 }
