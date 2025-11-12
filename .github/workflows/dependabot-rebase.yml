@@ -1,0 +1,41 @@
+name: Dependabot auto-rebase
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  rebase-dependabot-prs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rebase all open Dependabot PRs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get all open PRs created by Dependabot
+          prs=$(gh pr list --author "dependabot[bot]" --state open --json number,title --jq '.[] | .number')
+
+          if [ -z "$prs" ]; then
+            echo "No open Dependabot PRs found"
+            exit 0
+          fi
+
+          echo "Found Dependabot PRs: $prs"
+
+          # Rebase each PR
+          for pr in $prs; do
+            echo "Rebasing PR #$pr"
+            # Use the @dependabot rebase command
+            gh pr comment $pr --body "@dependabot rebase"
+            sleep 2
+          done
