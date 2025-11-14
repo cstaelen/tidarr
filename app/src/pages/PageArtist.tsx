@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { Box, Container } from "@mui/material";
 import ArtistHeader from "src/components/Headers/Artist";
 import ModuleLoader from "src/components/Skeletons/ModuleLoader";
-import Module from "src/components/TidalModule/Module";
 import ModuleNavigation from "src/components/TidalModule/Navigation";
 import { ModulePager } from "src/components/TidalModule/Pagination";
 import { ModuleTitle } from "src/components/TidalModule/Title";
@@ -68,23 +67,17 @@ export default function Home() {
             )
             .map((row, index1) => (
               <Box marginBottom={5} key={`block-${index1}`}>
-                <ModuleTitle
-                  title={row.modules[0]?.title}
-                  total={row.modules[0]?.pagedList?.totalNumberOfItems}
-                />
-
-                {row.modules[0]?.type && row.modules[0]?.pagedList?.items && (
-                  <>
-                    <Module
-                      type={row.modules[0].type}
-                      data={row.modules[0]?.pagedList?.items}
-                    />
-                    <ModulePager
-                      data={row.modules[0]}
-                      type={row.modules[0].type}
-                    />
-                  </>
-                )}
+                  <ModuleTitle
+                      title={row.modules[0]?.title}
+                      total={row.modules[0]?.pagedList?.totalNumberOfItems}
+                  />
+              
+                  {row.modules[0]?.type && row.modules[0]?.pagedList?.items && (
+                      <ModulePager
+                          data={row.modules[0]}
+                          type={row.modules[0].type}
+                      />
+                  )}
               </Box>
             ))}
           {loading && <ModuleLoader />}
