@@ -44,19 +44,21 @@ export const usePlaylist = (id: string | undefined): PlaylistContextType => {
     );
 
     if (data_tracks) {
-      setTracks([
-        ...(tracks || ([] as TrackType[])),
-        ...data_tracks.items.map((playlist) => playlist.item),
-      ]);
-      setTotal(data_tracks.totalNumberOfItems);
-    }
+    // Replace the current page of tracks instead of appending
+    setTracks(data_tracks.items.map((playlist) => playlist.item));
+    setTotal(data_tracks.totalNumberOfItems);
+	}
     setLoading(false);
   }
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (id) queryPlaylist();
-  }, [id, page]);
+	useEffect(() => {
+		if (!id) return;
+	
+		// Clear current tracks before fetching the new page
+		setTracks(undefined);
+		queryPlaylist();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [id, page]);
 
   return {
     playlist,
