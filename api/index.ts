@@ -53,7 +53,7 @@ app.set("addOutputLog", processingList.actions.addOutputLog);
 app.set("activeListConnections", []);
 app.set("activeItemOutputConnections", new Map<string, Response[]>());
 
-app.all("/{*any}", function (req, res, next) {
+app.all("/{*any}", function (_req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",

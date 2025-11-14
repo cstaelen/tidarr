@@ -54,7 +54,7 @@ export default defineConfig({
       testIgnore: ["**/downloads.spec.ts", "**/sync.spec.ts"],
     },
     // {
-    //   name: "Mobile Safari",
+    //   name: "mobile_safari",
     //   use: { ...devices["iPhone 12"] },
     //   testIgnore: [
     //     "**/custom-css.spec.ts",
@@ -63,10 +63,18 @@ export default defineConfig({
     //   ],
     // },
     {
-      name: "serial-tests",
-      testMatch: ["**/downloads.spec.ts", "**/sync.spec.ts"],
+      name: "chromium_downloads",
+      testMatch: ["**/downloads.spec.ts"],
       use: { ...devices["Desktop Chrome"] },
       fullyParallel: false,
+      dependencies: ["chromium"],
+    },
+    {
+      name: "chromium_sync",
+      testMatch: ["**/sync.spec.ts"],
+      use: { ...devices["Desktop Chrome"] },
+      fullyParallel: false,
+      dependencies: ["chromium_downloads"],
     },
   ],
   expect: {

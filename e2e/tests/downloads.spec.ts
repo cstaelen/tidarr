@@ -351,10 +351,7 @@ test("Tidarr download : Should be able to clear all items with confirmation", as
   await page.getByRole("tab", { name: "Albums" }).first().click();
 
   // Download an album
-  await page
-    .locator("div:nth-child(2) > .MuiPaper-root > div:nth-child(2)")
-    .getByTestId("btn-dl")
-    .click();
+  await page.getByRole("button", { name: "Get album" }).nth(2).click();
 
   // Open processing list
   await expect(page.locator("button.MuiFab-circular")).toBeVisible();

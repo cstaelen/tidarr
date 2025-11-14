@@ -2,12 +2,25 @@ import { useState } from "react";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Box, Button, Link } from "@mui/material";
+import Markdown from "markdown-to-jsx";
 import { LOCALSTORAGE_UPDATE_WARNING } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 import { DialogHandler } from ".";
 
-const VERSION_CONCERNED = "0.3.1";
+const VERSION_CONCERNED = "1.0.0";
+
+const MESSAGE = `
+#### Tiddl 3.0 Migration
+
+- **Re-authentication required**: All users must re-authenticate with Tidal after upgrading
+- **Quality naming change**: "master" quality renamed to "max" (24-bit 192kHz)
+- **Configuration format**: Migrated from JSON to TOML format
+  - Old: **\`config/tiddl.json\`**
+  - New: **\`config/.tiddl/config.toml\`** + **\`config/.tiddl/auth.json\`**
+- **Path templates changed**: Review and adjust your previous settings (quality, paths, templates)
+- **Favorites download disabled**: Download/sync all favorite albums/tracks/playlists is disabled and will reimplemented in time by Tiddl team.
+`;
 
 export const DialogUpdateWarning = () => {
   const { config } = useConfigProvider();
@@ -24,40 +37,29 @@ export const DialogUpdateWarning = () => {
     <DialogHandler
       open={show && !!config?.TIDARR_VERSION?.includes(VERSION_CONCERNED)}
       onClose={() => setShow(false)}
-      title={"Folder configuration has changed !"}
-      icon={<WarningIcon color="error" />}
-      maxWidth="sm"
+      title={"Breaking changes !"}
+      icon={<WarningIcon color="warning" />}
+      maxWidth="md"
       buttons={
         <Button onClick={persistClose} variant="outlined">
           Don't show again
         </Button>
       }
     >
-      <p>
-        Since the latest update, the folder configuration has changed. There is
-        now only a single Docker volume for the music library (destination).
-      </p>
-      <p>
-        To define the subfolders and the destination format for tracks, albums,
-        playlists, etc., you will need to edit the "template" section of the{" "}
-        <strong>
-          <i>tiddl.json</i>
-        </strong>{" "}
-        file.
-      </p>
+      <Markdown>{MESSAGE}</Markdown>
       <Box gap={2} display="flex">
         <Link
           href="https://github.com/cstaelen/tidarr?tab=readme-ov-file#getting-started"
           target="_blank"
         >
-          Read more on Github{` `}
+          Config file sample{` `}
           <OpenInNewIcon sx={{ fontSize: 15, verticalAlign: "middle" }} />
         </Link>
         <Link
-          href="https://github.com/oskvr37/tiddl/wiki/Template-formatting"
+          href="https://github.com/oskvr37/tiddl/blob/main/docs/templating.md"
           target="_blank"
         >
-          Template formatting (tiddl){` `}
+          File path templating (tiddl){` `}
           <OpenInNewIcon sx={{ fontSize: 15, verticalAlign: "middle" }} />
         </Link>
       </Box>

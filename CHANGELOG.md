@@ -14,7 +14,7 @@ Tidarr notable changes.
   - Old: `config/tiddl.json`
   - New: `config/.tiddl/config.toml` + `config/.tiddl/auth.json`
 - **Path templates changed**: Review and adjust your previous settings (quality, paths, templates)
-- **Favorites download disabled**: Download/sync all favorite albums/tracks/playlists is disabled and will reimplemented in time by tiddl team.
+- **Favorites download disabled**: Download/sync all favorite albums/tracks/playlists is disabled and will reimplemented in time by Tiddl team.
 
 ### 🎉 Features
 
