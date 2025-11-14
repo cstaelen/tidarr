@@ -60,7 +60,7 @@ curl -X POST http://localhost:8484/api/auth \
 ```bash
 export TIDARR_TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 
-curl http://localhost:8484/api/check \
+curl http://localhost:8484/api/settings \
   -H "Authorization: Bearer $TIDARR_TOKEN"
 ```
 
@@ -254,7 +254,7 @@ curl -X DELETE http://localhost:8484/api/remove_finished \
 ### Get Tidarr configuration
 
 ```bash
-curl http://localhost:8484/api/check \
+curl http://localhost:8484/api/settings \
   -H "Authorization: Bearer $TIDARR_TOKEN"
 ```
 

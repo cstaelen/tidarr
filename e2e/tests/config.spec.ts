@@ -11,7 +11,7 @@ const CURRENT_VERSION = "0.0.0-testing";
 test("Tidarr config : Should display token modal if no tidal token exists", async ({
   page,
 }) => {
-  await page.route("*/**/check", async (route) => {
+  await page.route("*/**/settings", async (route) => {
     const json = {
       noToken: true,
       output: "",

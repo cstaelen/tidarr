@@ -52,7 +52,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   );
 
   const {
-    actions: { check },
+    actions: { get_settings },
   } = useApiFetcher();
 
   // Open/close config modal
@@ -66,7 +66,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
       setTokenMissing(false);
       return;
     }
-    const output = await check();
+    const output = await get_settings();
     const data = output as ConfigType;
 
     setTokenMissing(data?.noToken);

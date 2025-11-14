@@ -162,7 +162,7 @@ export async function mockRelease(page: Page, version = "0.0.0-testing") {
 }
 
 export async function mockConfigAPI(page: Page) {
-  await page.route("**/check", async (route) => {
+  await page.route("**/settings", async (route) => {
     const json = {
       noToken: false,
       output: "",
@@ -235,7 +235,7 @@ export async function mockAuthAPI(page: Page, token: string) {
     await route.fulfill({ json });
   });
 
-  await page.route("*/**/check", async (route) => {
+  await page.route("*/**/settings", async (route) => {
     const json = { noToken: false };
     await route.fulfill({ json });
   });

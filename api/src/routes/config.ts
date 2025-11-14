@@ -8,21 +8,25 @@ import { deleteTiddlConfig, tidalToken } from "../services/tiddl";
 const router = Router();
 
 /**
- * GET /api/check
+ * GET /api/settings
  * Get Tidarr configuration and Tidal token status
  */
-router.get("/check", ensureAccessIsGranted, (_req: Request, res: Response) => {
-  refreshTidalToken();
-  const tiddl_config = get_tiddl_config();
-  res.app.set("tiddlConfig", tiddl_config);
+router.get(
+  "/settings",
+  ensureAccessIsGranted,
+  (_req: Request, res: Response) => {
+    refreshTidalToken();
+    const tiddl_config = get_tiddl_config();
+    res.app.set("tiddlConfig", tiddl_config);
 
-  res.status(200).json({
-    ...res.app.settings.config,
-    noToken:
-      !tiddl_config?.auth?.token || tiddl_config?.auth?.token?.length === 0,
-    tiddl_config: tiddl_config,
-  });
-});
+    res.status(200).json({
+      ...res.app.settings.config,
+      noToken:
+        !tiddl_config?.auth?.token || tiddl_config?.auth?.token?.length === 0,
+      tiddl_config: tiddl_config,
+    });
+  },
+);
 
 /**
  * GET /api/run_token

@@ -31,6 +31,7 @@ Tidarr notable changes.
 - **Python requirement**: Now requires Python 3.13 (was 3.x)
 - **Docker base image**: Changed from LinuxServer.io Alpine to official Python 3.13 Alpine
 - **Download folder moved** Reorganized download directory structure. Moved incomplete to `.processing` mounted folder to avoid #436.
+- **Check API endpoint**: move /check endpoint to settings
 
 ### 🔄 Migration Notes
 

@@ -168,8 +168,8 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
 
   // Config
 
-  async function check() {
-    return await queryExpressJS<ConfigType>(`${apiUrl}/check`);
+  async function get_settings() {
+    return await queryExpressJS<ConfigType>(`${apiUrl}/settings`);
   }
 
   // List processing
@@ -367,7 +367,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       setApiError,
     },
     actions: {
-      check,
+      get_settings,
       list_sse,
       save,
       remove,
