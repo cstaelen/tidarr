@@ -73,7 +73,12 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   child.stdout?.setEncoding("utf8");
   child.stdout?.on("data", (data: string) => {
-    if (data.includes("Exists") || data.includes("Downloaded")) {
+    if (
+      data.includes("Error:") ||
+      data.includes("Exists") ||
+      data.includes("Total downloads") ||
+      data.includes("Downloaded")
+    ) {
       // Extract first line and clean it (remove ANSI hyperlinks and extra lines)
       const cleanedLine = extractFirstLineClean(data);
       if (cleanedLine) {
@@ -83,12 +88,16 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       }
       return;
     }
-    logs(item, data, app, !data.includes("Total downloads"));
+
+    if (data.includes("Total Progress")) {
+      logs(item, data, app, true);
+    }
   });
 
   child.stderr?.setEncoding("utf8");
   child.stderr?.on("data", (data) => {
     logs(item, `❌ [TIDDL]: ${data}`, app);
+    if (onFinish) onFinish();
   });
 
   child.on("close", (code) => {

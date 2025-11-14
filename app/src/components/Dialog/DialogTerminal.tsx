@@ -21,7 +21,7 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedOutput(output);
-    }, 80);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [output]);
