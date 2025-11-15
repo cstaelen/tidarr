@@ -17,7 +17,7 @@ router.get(
   (_req: Request, res: Response) => {
     try {
       const cssContent = getCustomCSS();
-      res.status(200).json({ css: cssContent });
+      res.status(200).json(cssContent);
     } catch (error) {
       console.error("[ERROR] Failed to read custom CSS:", error);
       res.status(500).json({ error: "Failed to read custom CSS" });

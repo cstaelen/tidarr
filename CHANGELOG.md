@@ -3,6 +3,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 1.0.2
+### 🚀 Added
+- [Front] Add Tiddl TOML config live editor
+### 🖍 Changed
+- [Front] Update some config dialog UI
+
 ## 1.0.1
 ### 🐛 Fixed
 - Fix ignoring custom toml config file #452

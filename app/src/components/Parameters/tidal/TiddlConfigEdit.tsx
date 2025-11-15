@@ -4,9 +4,9 @@ import { Box, Button, CircularProgress, Portal } from "@mui/material";
 import { useFileEdit } from "src/hooks/useFileEdit";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 
-export default function CustomCSSPanel() {
+export default function TiddlConfigEdit() {
   const {
-    actions: { get_custom_css, set_custom_css },
+    actions: { get_tiddl_toml, set_tiddl_toml },
   } = useApiFetcher();
 
   const {
@@ -18,7 +18,7 @@ export default function CustomCSSPanel() {
     isLoading,
     loadFileContent,
     saveFileContent,
-  } = useFileEdit(get_custom_css, set_custom_css);
+  } = useFileEdit(get_tiddl_toml, set_tiddl_toml);
 
   useEffect(() => {
     loadFileContent();
@@ -26,7 +26,7 @@ export default function CustomCSSPanel() {
 
   const handleSave = async () => {
     await saveFileContent();
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (
@@ -46,7 +46,7 @@ export default function CustomCSSPanel() {
           >
             <Editor
               height="500px"
-              defaultLanguage="css"
+              defaultLanguage="ini"
               theme="vs-dark"
               value={content}
               onChange={(value) => {

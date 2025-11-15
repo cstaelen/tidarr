@@ -36,7 +36,9 @@
     ]
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
     "ansi-to-react": "^6.1.6",
-    "markdown-to-jsx": "^8.0.0"
+    "markdown-to-jsx": "^8.0.0",
+    "monaco-editor": "^0.54.0"
   }
 }

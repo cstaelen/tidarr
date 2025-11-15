@@ -54,16 +54,18 @@ export const DialogHandler = ({
         )}
         {title}
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ pb: 0 }}>
         <DialogContentText id="alert-dialog-description" component="div">
           {children}
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <Button variant="outlined" onClick={handleClose}>
-          Close
-        </Button>
-        {buttons}
+      <DialogActions sx={{ display: "flex", px: 3, py: 2 }}>
+        <Box flex="1 1 0">{buttons}</Box>
+        <Box flex="0 0 auto">
+          <Button variant="outlined" onClick={handleClose}>
+            Close
+          </Button>
+        </Box>
       </DialogActions>
     </Dialog>
   );

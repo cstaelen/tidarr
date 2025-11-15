@@ -14,6 +14,7 @@ import configRouter from "./src/routes/config";
 import processingRouter from "./src/routes/processing";
 import sseRouter from "./src/routes/sse";
 import syncRouter from "./src/routes/sync";
+import tiddlTomlRouter from "./src/routes/tiddl-toml";
 import { configureServer } from "./src/services/config";
 import { createCronJob } from "./src/services/sync";
 import { TIDAL_API_URL } from "./constants";
@@ -70,6 +71,7 @@ app.use("/api", sseRouter);
 app.use("/api", configRouter);
 app.use("/api", syncRouter);
 app.use("/api", customCssRouter);
+app.use("/api", tiddlTomlRouter);
 
 // Run
 

@@ -1,7 +1,7 @@
 import React from "react";
 import {
   Description,
-  Key,
+  Headphones,
   List,
   Palette,
   Settings,
@@ -34,17 +34,23 @@ export const DialogConfig = () => {
       title={"Tidarr settings"}
       icon={<Settings color="primary" />}
       maxWidth="md"
+      buttons={<div id="portal-config-actions" />}
     >
       <Tabs
         value={currentTab}
         onChange={handleTabChange}
         variant="scrollable"
+        sx={{ borderBottom: 1, borderColor: "divider", mb: 2 }}
         scrollButtons="auto"
         aria-label="scrollable auto tabs example"
       >
         <Tab label="Updates" icon={<Update />} iconPosition="start" />
         <Tab label="Env vars" icon={<List />} iconPosition="start" />
-        <Tab label="Tidal Token" icon={<Key />} iconPosition="start" />
+        <Tab
+          label="Tidal configuration"
+          icon={<Headphones />}
+          iconPosition="start"
+        />
         <Tab label="Custom CSS" icon={<Palette />} iconPosition="start" />
         <Tab label="Docs" icon={<Description />} iconPosition="start" />
       </Tabs>

@@ -1,4 +1,4 @@
-import { Link, Paper, styled } from "@mui/material";
+import { Divider, Link, Paper, styled } from "@mui/material";
 import Markdown from "markdown-to-jsx";
 import { TIDARR_REPO_URL } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
@@ -45,6 +45,7 @@ export default function UpdatePanel() {
                 <MarkdownStyled options={{ wrapper: "article" }}>
                   {item}
                 </MarkdownStyled>
+                <Divider variant="fullWidth" sx={{ my: 4 }} />
               </code>
             ))}
           </Paper>
