@@ -11,14 +11,14 @@ import {
 export default function TableParameters({
   rows,
 }: {
-  rows: [string, string | number | boolean | undefined][];
+  rows: [string, string | number | boolean | undefined | object][];
 }) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
         <TableHead>
           <TableRow>
-            <TableCell>
+            <TableCell width="30%">
               <strong>Variable</strong>
             </TableCell>
             <TableCell>
@@ -33,7 +33,11 @@ export default function TableParameters({
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell>{row?.[0]}</TableCell>
-              <TableCell>{row?.[1]?.toString()}</TableCell>
+              <TableCell>
+                {typeof row?.[1] === "object"
+                  ? JSON.stringify(row[1])
+                  : row?.[1]?.toString()}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

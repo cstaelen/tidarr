@@ -10,10 +10,10 @@ INCLUDE docker/stages/Dockerfile.builder
 
 ## BUILD STANDALONE APP
 
-FROM --platform=$TARGETPLATFORM mcr.microsoft.com/playwright:v1.56.1-noble AS runner
+FROM --platform=$TARGETPLATFORM python:3.13-bookworm AS runner
 
 RUN apt-get upgrade && apt-get clean && apt-get update
-RUN apt-get install -y python3.12-venv python3-pip beets
+RUN apt-get install -y npm python3-venv python3-pip beets curl
 
 #SHELL ["/bin/bash", "-c"] 
 ENV VIRTUAL_ENV=/opt/venv
@@ -28,5 +28,12 @@ INCLUDE docker/stages/Dockerfile.runner
 ENV IS_DOCKER=true
 ENV VERSION="0.0.0-testing"
 
-ENTRYPOINT ["sh", "/home/app/standalone/docker/run-prod.sh"]
+COPY e2e e2e
+RUN yarn --cwd ./e2e install
+
+# Install Playwright browsers in a fixed location
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+RUN npx -y playwright@1.56.1 install --with-deps
+
+ENTRYPOINT ["yarn","--cwd", "./api", "prod"]
 

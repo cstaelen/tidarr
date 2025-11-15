@@ -1,6 +1,6 @@
 # syntax = devthefuture/dockerfile-x
 
-FROM ghcr.io/linuxserver/baseimage-alpine:3.21
+FROM python:3.13-alpine3.21
 WORKDIR /home/app/standalone
 
 ENV SHELL=bash
@@ -8,13 +8,13 @@ ARG NODE_ENV
 ENV NODE_ENV="${NODE_ENV}"
 ENV ENVIRONMENT="development"
 ENV VERSION="0.0.0-dev"
+ENV HOME=/home/app/standalone/shared
 
 RUN apk update && apk upgrade
-RUN apk add npm nodejs py-pip
+RUN apk add --no-cache npm nodejs ffmpeg beets bash su-exec curl
 
 INCLUDE docker/stages/Dockerfile.python
 
-RUN mkdir -p /home/app/standalone/download/incomplete/
 RUN npm install -g yarn tsx
 
 COPY . .

@@ -1,22 +1,31 @@
 import { execSync } from "child_process";
 import { Express } from "express";
 
-import { ROOT_PATH } from "../../constants";
+import { PROCESSING_PATH, ROOT_PATH } from "../../constants";
 import { LogType, ProcessingItemType } from "../types";
+
+import { stripAnsiCodes } from "./ansi_parse";
 
 export function logs(
   item: ProcessingItemType | LogType,
   message: string,
   expressApp?: Express,
+  replaceLast?: boolean,
+  noConsoleLog?: boolean,
 ) {
-  console.log(message);
   if (!item) return message;
   if (!message) return "";
+
+  // Strip ANSI codes before sending to output
+  const cleanMessage = stripAnsiCodes(message);
+
+  // Only console.log non-replaceLast messages (and cleaned)
+  if (!noConsoleLog) console.log(cleanMessage);
 
   if (expressApp && "id" in item) {
     const addOutputLog = expressApp.settings.addOutputLog;
     if (addOutputLog) {
-      addOutputLog(item.id, message);
+      addOutputLog(item.id, cleanMessage, replaceLast);
     }
   }
 }
@@ -34,13 +43,21 @@ export async function moveAndClean(
   try {
     logs(item, "🕖 [TIDARR] Move processed items ...", app);
 
+    // Check if there are files to move
+    if (!hasFileToMove()) {
+      logs(item, "⚠️ [TIDARR] No files to move (empty download folder)", app);
+      item["status"] = "finished";
+      save = true;
+      return { save };
+    }
+
     let args = "-rf";
 
     if (process.env.PUID && process.env.PGID) {
       args = "-rfp";
     }
 
-    const cmd = `cp ${args} ${ROOT_PATH}/download/incomplete/* ${ROOT_PATH}/library >/dev/null`;
+    const cmd = `cp ${args} ${PROCESSING_PATH}/* ${ROOT_PATH}/library >/dev/null`;
     console.log(`🕖 [TIDARR] Command: ${cmd}`);
     execSync(cmd, { encoding: "utf-8" });
     logs(item, `✅ [TIDARR] Move complete (${item.type})`, app);
@@ -66,12 +83,9 @@ export async function moveAndClean(
 
 export async function cleanFolder(): Promise<"finished" | "error"> {
   try {
-    const output_clean = execSync(
-      `rm -rf ${ROOT_PATH}/download/incomplete/* >/dev/null`,
-      {
-        encoding: "utf-8",
-      },
-    );
+    const output_clean = execSync(`rm -rf ${PROCESSING_PATH}/* >/dev/null`, {
+      encoding: "utf-8",
+    });
     console.log("🧹 [TIDARR] Clean folder", output_clean);
     return "finished";
   } catch (e) {
@@ -81,8 +95,7 @@ export async function cleanFolder(): Promise<"finished" | "error"> {
 }
 
 export function hasFileToMove(): boolean {
-  const sourceDir = `${ROOT_PATH}/download/incomplete/`;
-  const filesToCopy = execSync(`ls ${sourceDir}`, { encoding: "utf-8" })
+  const filesToCopy = execSync(`ls ${PROCESSING_PATH}`, { encoding: "utf-8" })
     .trim()
     .split("\n")
     .filter((file) => file);
@@ -92,11 +105,11 @@ export function hasFileToMove(): boolean {
 
 export function replacePathInM3U(item: ProcessingItemType, app: Express): void {
   const basePath = process.env.M3U_BASEPATH_FILE || "./";
-  const incompleteDir = `${ROOT_PATH}/download/incomplete/`;
+  const downloadDir = PROCESSING_PATH;
 
   logs(item, `🕖 [TIDARR] Update track path in M3U file ...`, app);
 
-  const m3uFilePath = execSync(`find "${incompleteDir}" -name "*.m3u"`, {
+  const m3uFilePath = execSync(`find "${downloadDir}" -name "*.m3u"`, {
     encoding: "utf-8",
   }).trim();
 
@@ -110,7 +123,7 @@ export function replacePathInM3U(item: ProcessingItemType, app: Express): void {
       encoding: "utf-8",
     });
 
-    m3uContent = m3uContent.replace(new RegExp(incompleteDir, "g"), basePath);
+    m3uContent = m3uContent.replace(new RegExp(downloadDir, "g"), basePath);
     execSync(`echo "${m3uContent}" > "${m3uFilePath}"`);
     logs(
       item,
@@ -130,7 +143,7 @@ export async function setPermissions(item: ProcessingItemType, app: Express) {
   if (process.env.PUID && process.env.PGID) {
     try {
       const output_chown = execSync(
-        `chown -R ${process.env.PUID}:${process.env.PGID} ${ROOT_PATH}/download/incomplete/*`,
+        `chown -R ${process.env.PUID}:${process.env.PGID} ${PROCESSING_PATH}/*`,
         {
           encoding: "utf-8",
         },
@@ -142,7 +155,11 @@ export async function setPermissions(item: ProcessingItemType, app: Express) {
       );
     } catch {
       // Ignore error if directory is empty
-      logs(item, `⚠️ [TIDARR] Chown skipped (no files in incomplete)`, app);
+      logs(
+        item,
+        `⚠️ [TIDARR] Chown skipped (no files in download folder)`,
+        app,
+      );
     }
   }
 }

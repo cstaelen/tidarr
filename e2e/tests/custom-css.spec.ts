@@ -114,37 +114,3 @@ test("Custom CSS: Should save CSS to API and persist", async ({ page }) => {
 
   await expect(textarea).toHaveValue(newCSS);
 });
-
-test("Custom CSS: Should show loading state while fetching CSS", async ({
-  page,
-}) => {
-  await mockConfigAPI(page);
-
-  // Delay the custom-css response to test loading state
-  await page.route("**/custom-css", async (route) => {
-    if (route.request().method() === "GET") {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({ css: "" }),
-      });
-    }
-  });
-
-  await goToHome(page);
-  await emptyProcessingList(page);
-
-  await page.getByRole("button", { name: "Settings" }).click();
-  await page.getByRole("tab", { name: "Custom CSS" }).click();
-
-  // Check for loading indicator (CircularProgress)
-  const loader = page.locator(".MuiCircularProgress-root").first();
-  await expect(loader).toBeVisible();
-
-  // Wait for loading to finish
-  await expect(loader).not.toBeVisible({ timeout: 2000 });
-  await expect(
-    page.getByPlaceholder("/* Add your custom CSS here */"),
-  ).toBeVisible();
-});

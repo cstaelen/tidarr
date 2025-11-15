@@ -3,15 +3,8 @@ WORKDIR /home/app/standalone
 ENV SHELL=bash
 ENV PYTHONUNBUFFERED=1
 
-RUN mkdir -p $HOME/.venvs
-RUN python3 -m venv $HOME/.venvs
-RUN source $HOME/.venvs/bin/activate
-ENV PATH="$HOME/.venvs/bin:$PATH"
-
-RUN apk add ffmpeg beets
-
 COPY docker/requirements.txt docker/requirements.txt
-RUN python -m pip install -r docker/requirements.txt
+RUN python -m pip install --no-cache-dir -r docker/requirements.txt
 
 RUN mkdir -p /home/app/standalone/shared/beets
 RUN touch /home/app/standalone/shared/beets/beets-library.blb

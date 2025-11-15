@@ -1,5 +1,5 @@
 import { KeyOff, Warning } from "@mui/icons-material";
-import { Alert, Box, Button } from "@mui/material";
+import { Alert, Box, Button, Paper } from "@mui/material";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
@@ -14,6 +14,8 @@ export default function TidalPanel() {
   const {
     actions: { delete_token },
   } = useApiFetcher();
+
+  console.log(tiddlConfig);
 
   return (
     <>
@@ -42,21 +44,40 @@ export default function TidalPanel() {
         )}
       </Box>
       <Box>
-        <h3>Tiddl template options</h3>
-        {tiddlConfig?.template ? (
-          <TableParameters rows={Object.entries(tiddlConfig.template)} />
+        <h2>Tiddl configuration</h2>
+        All parameters are defined with explanations in:
+        <Paper sx={{ display: "inline-block", mx: 1, px: 1 }}>
+          <pre style={{ margin: 0 }}>
+            /path/to/tidarr/volume/config/.tiddl/config.toml
+          </pre>
+        </Paper>
+        <h3>Template options</h3>
+        {tiddlConfig?.templates ? (
+          <TableParameters rows={Object.entries(tiddlConfig.templates)} />
         ) : (
           "Not found."
         )}
-        <h3>Tiddl download options</h3>
+        <h3>Download options</h3>
         {tiddlConfig?.download ? (
           <TableParameters rows={Object.entries(tiddlConfig.download)} />
         ) : (
           "Not found."
         )}
-        <h3>Tiddl cover options</h3>
+        <h3>Cover options</h3>
         {tiddlConfig?.cover ? (
           <TableParameters rows={Object.entries(tiddlConfig.cover)} />
+        ) : (
+          "Not found."
+        )}
+        <h3>Metadata options</h3>
+        {tiddlConfig?.metadata ? (
+          <TableParameters rows={Object.entries(tiddlConfig.metadata)} />
+        ) : (
+          "Not found."
+        )}
+        <h3>M3U options</h3>
+        {tiddlConfig?.m3u ? (
+          <TableParameters rows={Object.entries(tiddlConfig.m3u)} />
         ) : (
           "Not found."
         )}

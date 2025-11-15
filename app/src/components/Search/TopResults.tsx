@@ -89,7 +89,7 @@ export default function TopResults(
     },
   ];
 
-  if (tiddlConfig?.download.download_video) {
+  if (tiddlConfig?.download.video_quality) {
     data.push({
       type: "VIDEO_LIST",
       label: "Videos",

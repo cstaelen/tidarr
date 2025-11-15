@@ -22,17 +22,21 @@ const SyncButton: React.FC<{
   const { actions: processingActions } = useProcessingProvider();
   const { quality } = useConfigProvider();
 
-  const syncObj = useMemo<SyncItemType>(
-    () => ({
-      id: "uuid" in item ? item.uuid : item.id,
-      url: item.url || "",
+  const syncObj = useMemo<SyncItemType>(() => {
+    const itemId = "uuid" in item ? item.uuid : item.id;
+    const itemUrl = ["mix", "playlist"].includes(type)
+      ? `/${type}/${itemId}`
+      : item.url || "";
+
+    return {
+      id: itemId,
+      url: itemUrl,
       title: type === "artist" ? "All albums" : (item as PlaylistType).title,
       quality: quality || "high",
       artist: type === "artist" ? (item as ArtistType)?.name : "",
       type: type,
-    }),
-    [item, quality, type],
-  );
+    };
+  }, [item, quality, type]);
 
   const isSynced = useMemo(() => {
     return (

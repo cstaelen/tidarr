@@ -1,7 +1,8 @@
 import { spawn, spawnSync } from "child_process";
 import { Express, Request, Response } from "express";
 
-import { ROOT_PATH } from "../../constants";
+import { CONFIG_PATH } from "../../constants";
+import { extractFirstLineClean } from "../helpers/ansi_parse";
 import { logs } from "../helpers/jobs";
 import { ProcessingItemType } from "../types";
 
@@ -37,6 +38,19 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   const args: string[] = [];
 
+  args.push("download");
+  args.push("--path", "/home/app/standalone/shared/.processing");
+  args.push("--scan-path", "/home/app/standalone/library");
+
+  if (item.type !== "video" && item.quality) {
+    args.push("-q");
+    args.push(item.quality);
+  }
+
+  if (["artist_videos", "video"].includes(item.type)) {
+    args.push("--videos", "only");
+  }
+
   if (item.type.includes("favorite_")) {
     const resource = FAVORITE_TYPE_TO_RESOURCE[item.type];
     if (resource) {
@@ -46,57 +60,52 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     args.push("url", item.url);
   }
 
-  args.push("download");
-
-  if (item.type !== "video" && item.quality) {
-    args.push("-q");
-    args.push(item.quality);
-  }
-
-  if (item.type === "video") {
-    args.push("-V");
-  }
-
-  if (item.type === "artist_videos") {
-    args.push("--only-video");
-  }
-
-  logs(
-    item,
-    `🕖 [TIDDL] Executing: TIDDL_PATH=${ROOT_PATH}/shared ${TIDDL_BINARY} ${args.join(" ")}`,
-    app,
-  );
+  logs(item, `🕖 [TIDDL] Executing: ${TIDDL_BINARY} ${args.join(" ")}`, app);
+  logs(item, "\r\n", app);
 
   const child = spawn(TIDDL_BINARY, args, {
     env: {
       ...process.env,
-      TIDDL_PATH: `${ROOT_PATH}/shared`,
       FORCE_COLOR: "1",
       TERM: "xterm-256color",
     },
   });
 
   child.stdout?.setEncoding("utf8");
+  let lastTotalProgress = "";
+
   child.stdout?.on("data", (data: string) => {
-    const lines = data.split(/\r?\n/);
-    for (const line of lines) {
-      const formatted = line.replaceAll(/[\r\n]+/gm, "").trim();
+    if (
+      data.includes("Error:") ||
+      data.includes("Exists") ||
+      data.includes("Total downloads") ||
+      data.includes("Downloaded")
+    ) {
+      // Extract first line and clean it (remove ANSI hyperlinks and extra lines)
+      const cleanedLine = extractFirstLineClean(data);
+      if (cleanedLine) {
+        // Console log important lines only (for Docker logs)
+        console.log(cleanedLine);
+        // Replace last Total Progress with important line
+        logs(item, cleanedLine, app, true, true);
+        // Re-display Total Progress below (will continue updating)
+        if (lastTotalProgress) {
+          logs(item, lastTotalProgress, app, false, true);
+        }
+      }
+      return;
+    }
 
-      if (
-        !formatted.includes("INFO") &&
-        (formatted.includes("Track ") ||
-          formatted.includes("Video") ||
-          formatted.length <= 6)
-      )
-        return;
-
-      logs(item, `⬇️ [TIDDL] ${formatted}`, app);
+    if (data.includes("Total Progress")) {
+      lastTotalProgress = data;
+      logs(item, data, app, true, true);
     }
   });
 
   child.stderr?.setEncoding("utf8");
   child.stderr?.on("data", (data) => {
     logs(item, `❌ [TIDDL]: ${data}`, app);
+    if (onFinish) onFinish();
   });
 
   child.on("close", (code) => {
@@ -144,20 +153,24 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
 export function tidalToken(req: Request, res: Response) {
   const tiddlProcess = spawn(TIDDL_BINARY, ["auth", "login"], {
-    env: { ...process.env, TIDDL_PATH: `${ROOT_PATH}/shared` },
+    env: { ...process.env },
   });
 
   tiddlProcess.stdout.on("data", (data) => {
+    console.log(data.toString());
     res.write(`data: ${data.toString()}\n\n`);
   });
 
   tiddlProcess.stderr.on("data", (data) => {
+    console.log(data.toString());
     res.write(`data: ${data.toString()}\n\n`);
   });
 
   tiddlProcess.on("close", (code) => {
     if (code === 0) {
-      res.write(`data: Authenticated!\n\n`);
+      res.write(
+        `data: Authenticated! Token saved to ${CONFIG_PATH}/.tiddl/auth.json\n\n`,
+      );
     } else {
       res.write(`data: closing ${code}\n\n`);
     }
@@ -175,8 +188,11 @@ export function tidalToken(req: Request, res: Response) {
 export function deleteTiddlConfig() {
   try {
     spawnSync(TIDDL_BINARY, ["auth", "logout"], {
-      env: { ...process.env, TIDDL_PATH: `${ROOT_PATH}/shared` },
+      env: { ...process.env },
     });
+    console.log(
+      `✅ [TIDDL] Auth tokens deleted from ${CONFIG_PATH}/.tiddl/auth.json`,
+    );
   } catch (e) {
     console.error("❌ [TIDDL] Error deleting tiddl config:", e);
   }

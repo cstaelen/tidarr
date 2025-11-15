@@ -93,7 +93,7 @@ export default function Search() {
                 label={`Playlists (${playlists?.totalNumberOfItems || 0})`}
                 {...a11yProps(4)}
               />
-              {tiddlConfig?.download.download_video && (
+              {tiddlConfig?.download.video_quality && (
                 <Tab
                   label={`Videos (${videos?.totalNumberOfItems || 0})`}
                   {...a11yProps(5)}
@@ -125,7 +125,7 @@ export default function Search() {
               data={playlists}
             />
           </TabPanel>
-          {tiddlConfig?.download.download_video && (
+          {tiddlConfig?.download.video_quality && (
             <TabPanel value={value} index={5} dir={theme.direction}>
               <TypeResults title="Videos" type="VIDEO_LIST" data={videos} />
             </TabPanel>

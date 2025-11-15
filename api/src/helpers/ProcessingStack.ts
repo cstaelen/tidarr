@@ -6,7 +6,7 @@ import { gotifyPush } from "../services/gotify";
 import { plexUpdate } from "../services/plex";
 import { hookPushOver } from "../services/pushover";
 import { tidalDL } from "../services/tiddl";
-import { ProcessingItemType, TiddlConfig } from "../types";
+import { ProcessingItemType } from "../types";
 
 import {
   cleanFolder,
@@ -21,12 +21,6 @@ import {
   loadQueueFromFile,
   removeItemFromFile,
 } from "./queue_save_file";
-import {
-  addTracksToPlaylist,
-  createNewPlaylist,
-  deletePlaylist,
-  getTracksByMixId,
-} from "./tidal";
 
 export function notifySSEConnections(expressApp: Express) {
   const { processingList, activeListConnections } = expressApp.settings;
@@ -51,7 +45,7 @@ export function notifyItemOutput(
   const itemConnections = connections.get(itemIdString);
 
   if (itemConnections && itemConnections.length > 0) {
-    const data = JSON.stringify({ id: itemId, output });
+    const data = JSON.stringify({ id: itemIdString, output });
     itemConnections.forEach((conn: Response) => {
       try {
         conn.write(`data: ${data}\n\n`);
@@ -68,7 +62,7 @@ export function notifyItemOutput(
 
 export const ProcessingStack = (expressApp: Express) => {
   const data: ProcessingItemType[] = [];
-  const outputs: Map<string, string[]> = new Map(); // Store output history separately
+  const outputs: Map<string, string[]> = new Map(); // Store terminal output as array of lines
 
   function loadDataFromFile() {
     const records = loadQueueFromFile();
@@ -84,20 +78,30 @@ export const ProcessingStack = (expressApp: Express) => {
     // Ensure id is a string for Map lookup
     const idString = String(id);
     const history = outputs.get(idString) || [];
-    return history.slice(-500).join("\r\n");
+    return history.slice(-500).join("\n");
   }
 
-  function addOutputLog(id: string, message: string) {
+  function addOutputLog(id: string, message: string, replaceLast?: boolean) {
     // Ensure id is a string for Map storage
     const idString = String(id);
     if (!outputs.has(idString)) {
       outputs.set(idString, []);
     }
-    outputs.get(idString)?.push(message);
+
+    const outputArray = outputs.get(idString);
+    if (outputArray) {
+      if (replaceLast && outputArray.length > 0) {
+        // Replace the last output instead of pushing
+        outputArray[outputArray.length - 1] = message;
+      } else {
+        // Push new message
+        outputArray.push(message);
+      }
+    }
 
     // Notify connected clients about the output update
     const currentOutput = getItemOutput(idString);
-    notifyItemOutput(expressApp, idString, currentOutput);
+    notifyItemOutput(expressApp, id, currentOutput);
   }
 
   function addItem(item: ProcessingItemType) {
@@ -228,48 +232,10 @@ export const ProcessingStack = (expressApp: Express) => {
 
     await cleanFolder();
 
-    if (item.type === "mix") {
-      processingMix(item);
-    } else {
-      const child = tidalDL(item.id, expressApp);
-      if (child) {
-        item["process"] = child;
-      }
+    const child = tidalDL(item.id, expressApp);
+    if (child) {
+      item["process"] = child;
     }
-  }
-
-  async function processingMix(item: ProcessingItemType) {
-    const config = expressApp.settings.tiddlConfig as TiddlConfig;
-
-    logs(item, `Mix: get track from mix id`, expressApp);
-    expressApp.settings.processingList.actions.updateItem(item);
-    const tracks = await getTracksByMixId(item.id, config);
-
-    logs(item, `Mix: create new playlist`, expressApp);
-    expressApp.settings.processingList.actions.updateItem(item);
-    const playlistId = await createNewPlaylist(item.title, config);
-
-    if (tracks) {
-      logs(item, `Mix: add track ids to new playlist`, expressApp);
-      expressApp.settings.processingList.actions.updateItem(item);
-      await addTracksToPlaylist(playlistId, tracks, config);
-
-      item["url"] = `playlist/${playlistId}`;
-      logs(item, `Mix: download playlist`, expressApp);
-      expressApp.settings.processingList.actions.updateItem(item);
-
-      const child = tidalDL(item.id, expressApp, () => {
-        logs(item, `Mix: delete playlist`, expressApp);
-        deletePlaylist(playlistId, config);
-      });
-      if (child) {
-        item["process"] = child;
-      }
-
-      return;
-    }
-
-    deletePlaylist(playlistId, config);
   }
 
   async function postProcessing(item: ProcessingItemType) {

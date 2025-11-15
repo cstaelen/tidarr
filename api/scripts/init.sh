@@ -7,11 +7,13 @@ PUBLIC_URL="/home/app/standalone/app/build"
 DEV_PUBLIC_URL="/home/app/standalone/app/public"
 SHARED_URL="/home/app/standalone/shared"
 
-if [ -f "$SHARED_URL/tiddl.json" ]; then
-    echo "✅ [TIDDL] Load tiddl config"
+mkdir -p $SHARED_URL/.tiddl/
+
+if [ ! -f "$TIDDL_DIR/config.toml" ]; then
+    cp $SETTINGS_URL/config.toml $SHARED_URL/.tiddl/config.toml
+    echo "✅ [TIDDL] Created config.toml from template"
 else
-    cp $SETTINGS_URL/tiddl.json $SHARED_URL/tiddl.json
-    echo "✅ [TIDDL] Create tiddl config from template"
+    echo "✅ [TIDDL] config.toml already exists"
 fi
 
 if [ ! -f "$SHARED_URL/beets-config.yml" ]; then    

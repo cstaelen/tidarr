@@ -41,7 +41,9 @@ type ApiFetcherContextType = {
     delete_token: () => void;
     add_sync_item: (body: string) => void;
     remove_sync_item: (body: string) => void;
+    remove_sync_all_items: () => Promise<unknown>;
     get_sync_list: () => Promise<ProcessingItemType[] | undefined>;
+    sync_now: () => Promise<void>;
     get_custom_css: () => Promise<{ css: string } | undefined>;
     save_custom_css: (
       css: string,
@@ -166,8 +168,8 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
 
   // Config
 
-  async function check() {
-    return await queryExpressJS<ConfigType>(`${apiUrl}/check`);
+  async function get_settings() {
+    return await queryExpressJS<ConfigType>(`${apiUrl}/settings`);
   }
 
   // List processing
@@ -247,7 +249,9 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       (message) => {
         if (message.data?.length === 0) return;
 
-        const url = message.data.match(/https?:\/\/[^\s]+/)?.[0];
+        const url = message.data
+          .match(/https?:\/\/[^\s]+/)?.[0]
+          .replace("'", "");
         if (url) {
           setOutput(url);
         } else {
@@ -291,6 +295,21 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
         "Content-Type": "application/json",
       },
       body: body,
+    });
+  }
+
+  async function remove_sync_all_items() {
+    return await queryExpressJS(`${apiUrl}/sync/remove-all`, {
+      method: "POST",
+    });
+  }
+
+  async function sync_now(): Promise<void> {
+    await queryExpressJS<ProcessingItemType[]>(`${apiUrl}/sync/now`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
   }
 
@@ -348,7 +367,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       setApiError,
     },
     actions: {
-      check,
+      get_settings,
       list_sse,
       save,
       remove,
@@ -361,6 +380,8 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       get_sync_list,
       add_sync_item,
       remove_sync_item,
+      remove_sync_all_items,
+      sync_now,
       get_custom_css,
       save_custom_css,
       stream_item_output,

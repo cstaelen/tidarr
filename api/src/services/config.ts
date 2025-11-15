@@ -1,6 +1,6 @@
 import { execSync, spawnSync } from "child_process";
 
-import { ROOT_PATH, SYNC_DEFAULT_CRON } from "../../constants";
+import { CONFIG_PATH, ROOT_PATH, SYNC_DEFAULT_CRON } from "../../constants";
 
 export async function configureServer() {
   console.log(`---------------------`);
@@ -46,8 +46,12 @@ export async function configureServer() {
 }
 
 export function refreshTidalToken() {
-  execSync("cp -rf /home/app/standalone/shared/tiddl.json /root/tiddl.json");
+  // Tiddl 3.0: Refresh token using fixed path to avoid HOME variable issues
   console.log("🕖 [TIDDL] Refreshing Tidal token...");
-  spawnSync("tiddl", ["auth", "refresh"]);
-  console.log("✅ [TIDDL] Tidal token refreshed.");
+  spawnSync("tiddl", ["auth", "refresh"], {
+    env: { ...process.env },
+  });
+  console.log(
+    `✅ [TIDDL] Tidal token refreshed and saved to ${CONFIG_PATH}/.tiddl/auth.json`,
+  );
 }

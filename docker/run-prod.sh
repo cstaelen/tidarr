@@ -23,5 +23,15 @@ else
   umask 0022
 fi
 
-sleep 2
-yarn --cwd ./api prod
+# Set ownership of shared directories if PUID/PGID are set
+if [ -n "$PUID" ] && [ -n "$PGID" ]; then
+  echo "🔑 [TIDARR] Setting ownership to PUID=$PUID PGID=$PGID"
+  chown -R $PUID:$PGID /home/app/standalone/shared 2>/dev/null || true
+
+  # Run Node.js as specified UID/GID using su-exec
+  # Set HOME to /home/app/standalone/shared for tiddl config access
+  exec su-exec $PUID:$PGID env HOME=/home/app/standalone/shared yarn --cwd ./api prod
+else
+  # Run as root (default)
+  yarn --cwd ./api prod
+fi

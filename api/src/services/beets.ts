@@ -1,7 +1,7 @@
 import { spawnSync } from "child_process";
 import { Express } from "express";
 
-import { ROOT_PATH } from "../../constants";
+import { CONFIG_PATH, PROCESSING_PATH } from "../../constants";
 import { logs } from "../helpers/jobs";
 import { ProcessingItemType } from "../types";
 
@@ -25,12 +25,12 @@ export async function beets(id: string, app: Express) {
         binary,
         [
           "-c",
-          `${ROOT_PATH}/shared/beets-config.yml`,
+          `${CONFIG_PATH}/beets-config.yml`,
           "-l",
-          `${ROOT_PATH}/shared/beets/beets-library.blb`,
+          `${CONFIG_PATH}/beets/beets-library.blb`,
           "import",
           "-qC",
-          `${ROOT_PATH}/download/incomplete`,
+          PROCESSING_PATH,
         ],
         {
           encoding: "utf8",

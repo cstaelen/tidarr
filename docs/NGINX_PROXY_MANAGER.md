@@ -181,7 +181,7 @@ Look for any errors related to your proxy host configuration.
 Test that Tidarr works when accessed directly:
 
 ```bash
-curl http://tidarr:8484/api/check
+curl http://tidarr:8484/api/settings
 ```
 
 **3. Test SSE Endpoint Directly**
