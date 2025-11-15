@@ -11,13 +11,16 @@ export function logs(
   message: string,
   expressApp?: Express,
   replaceLast?: boolean,
+  noConsoleLog?: boolean,
 ) {
-  if (!replaceLast) console.log(message);
   if (!item) return message;
   if (!message) return "";
 
   // Strip ANSI codes before sending to output
   const cleanMessage = stripAnsiCodes(message);
+
+  // Only console.log non-replaceLast messages (and cleaned)
+  if (!noConsoleLog) console.log(cleanMessage);
 
   if (expressApp && "id" in item) {
     const addOutputLog = expressApp.settings.addOutputLog;

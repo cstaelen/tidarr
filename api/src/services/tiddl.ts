@@ -72,6 +72,8 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   });
 
   child.stdout?.setEncoding("utf8");
+  let lastTotalProgress = "";
+
   child.stdout?.on("data", (data: string) => {
     if (
       data.includes("Error:") ||
@@ -82,15 +84,21 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       // Extract first line and clean it (remove ANSI hyperlinks and extra lines)
       const cleanedLine = extractFirstLineClean(data);
       if (cleanedLine) {
+        // Console log important lines only (for Docker logs)
         console.log(cleanedLine);
-        logs(item, cleanedLine, app, true);
-        logs(item, "\r", app);
+        // Replace last Total Progress with important line
+        logs(item, cleanedLine, app, true, true);
+        // Re-display Total Progress below (will continue updating)
+        if (lastTotalProgress) {
+          logs(item, lastTotalProgress, app, false, true);
+        }
       }
       return;
     }
 
     if (data.includes("Total Progress")) {
-      logs(item, data, app, true);
+      lastTotalProgress = data;
+      logs(item, data, app, true, true);
     }
   });
 

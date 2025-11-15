@@ -11,20 +11,10 @@ import { useItemOutput } from "../../hooks/useItemOutput";
 
 export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
   const [openOutput, setOpenOutput] = useState(false);
-  const [debouncedOutput, setDebouncedOutput] = useState("");
   const { output, connect, disconnect } = useItemOutput(
     openOutput ? item.id.toString() : null,
   );
   const { actions } = useProcessingProvider();
-
-  // Debounce output updates
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedOutput(output);
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, [output]);
 
   // Connect to SSE when dialog opens, disconnect when closes
   useEffect(() => {
@@ -59,7 +49,7 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
         </DialogTitle>
         <Pre style={{ maxWidth: "800px", width: "800px", height: "420px" }}>
           <Ansi linkify={false} useClasses={false}>
-            {debouncedOutput}
+            {output}
           </Ansi>
         </Pre>
         <DialogActions>
