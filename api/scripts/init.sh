@@ -9,11 +9,11 @@ SHARED_URL="/home/app/standalone/shared"
 
 mkdir -p $SHARED_URL/.tiddl/
 
-if [ ! -f "$TIDDL_DIR/config.toml" ]; then
+if [ ! -f "$SHARED_URL/.tiddl/config.toml" ]; then
     cp $SETTINGS_URL/config.toml $SHARED_URL/.tiddl/config.toml
     echo "✅ [TIDDL] Created config.toml from template"
 else
-    echo "✅ [TIDDL] config.toml already exists"
+    echo "✅ [TIDDL] Config.toml already exists"
 fi
 
 if [ ! -f "$SHARED_URL/beets-config.yml" ]; then    
