@@ -49,7 +49,7 @@ export const DialogUpdateWarning = () => {
       <Markdown>{MESSAGE}</Markdown>
       <Box gap={2} display="flex">
         <Link
-          href="https://github.com/cstaelen/tidarr?tab=readme-ov-file#getting-started"
+          href="https://github.com/cstaelen/tidarr/blob/main/settings/config.toml"
           target="_blank"
         >
           Config file sample{` `}

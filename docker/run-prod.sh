@@ -28,6 +28,9 @@ if [ -n "$PUID" ] && [ -n "$PGID" ]; then
   echo "🔑 [TIDARR] Setting ownership to PUID=$PUID PGID=$PGID"
   chown -R $PUID:$PGID /home/app/standalone/shared 2>/dev/null || true
 
+  # Allow the user to write custom.css in the app/build directory
+  chown -R $PUID:$PGID /home/app/standalone/app/build 2>/dev/null || true
+
   # Run Node.js as specified UID/GID using su-exec
   # Set HOME to /home/app/standalone/shared for tiddl config access
   exec su-exec $PUID:$PGID env HOME=/home/app/standalone/shared yarn --cwd ./api prod
