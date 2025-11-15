@@ -3,10 +3,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
-## [1.0.0]
+## 1.0.1
+### 🐛 Fixed
+- Fix ignoring custom toml config file #452
 
+## 1.0.0
 ### ⚠️ BREAKING CHANGES
-
 #### Tiddl 3.0 Migration
 - **Re-authentication required**: All users must re-authenticate with Tidal after upgrading
 - **Quality naming change**: "master" quality renamed to "max" (24-bit 192kHz)

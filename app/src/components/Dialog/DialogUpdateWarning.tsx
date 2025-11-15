@@ -8,7 +8,7 @@ import { useConfigProvider } from "src/provider/ConfigProvider";
 
 import { DialogHandler } from ".";
 
-const VERSION_CONCERNED = "1.0.0";
+const VERSION_CONCERNED = "1.0.1";
 
 const MESSAGE = `
 #### Tiddl 3.0 Migration
