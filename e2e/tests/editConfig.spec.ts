@@ -6,6 +6,8 @@ import { mockConfigAPI } from "./utils/mock";
 
 dotenv.config({ path: "../.env", override: false, quiet: true });
 
+test.describe.configure({ mode: "serial" });
+
 async function mockTiddlTomlAPI(page: Page, initialToml = "") {
   let storedToml = initialToml;
 
@@ -129,8 +131,6 @@ track_quality = "low"`;
     page.getByRole("button", { name: "Save & Reload" }),
   ).toBeEnabled();
   await page.getByRole("button", { name: "Save & Reload" }).click();
-
-  await page.reload();
 
   await page.getByRole("button", { name: "Settings" }).click();
   await page.getByRole("tab", { name: "Tidal" }).click();

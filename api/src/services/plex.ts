@@ -2,7 +2,7 @@
 // https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
 import { Express } from "express";
 
-import { logs } from "../helpers/jobs";
+import { logs } from "../helpers/logs";
 import { ProcessingItemType } from "../types";
 
 export async function plexUpdate(item: ProcessingItemType, app: Express) {

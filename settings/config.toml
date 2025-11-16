@@ -30,7 +30,9 @@ track = "tracks/{album.artist}/{album.artist} - {item.title_version}"
 video = "videos/{item.artist}/{item.artist} - {item.title}"
 album = "albums/{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
 playlist = "playlists/{playlist.title}/{playlist.index:02d}. {item.artist} - {item.title_version}"
-mix = "mixes/{mix_id}/{item.number:02d}. {item.artist} - {item.title_version}"
+
+# Mixes are processed as playlist to get more metadatas
+mix = "mixes/{playlist.title}/{playlist.index:02d}. {item.artist} - {item.title_version}"
 
 [download]
 # low - 96 kbps, m4a

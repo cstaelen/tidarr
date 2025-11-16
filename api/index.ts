@@ -7,7 +7,7 @@ import fs from "fs";
 import path from "path";
 
 import { gracefulShutdown } from "./src/helpers/gracefull_shutdown";
-import { ProcessingStack } from "./src/helpers/ProcessingStack";
+import { ProcessingStack } from "./src/processing/ProcessingStack";
 // Import routers
 import authRouter from "./src/routes/auth";
 import configRouter from "./src/routes/config";

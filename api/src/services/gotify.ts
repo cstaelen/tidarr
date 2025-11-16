@@ -2,7 +2,7 @@ import { execSync } from "child_process";
 import { Express } from "express";
 
 import { curl_escape_double_quote } from "../helpers/curl_escape";
-import { logs } from "../helpers/jobs";
+import { logs } from "../helpers/logs";
 import { ProcessingItemType } from "../types";
 
 export async function gotifyPush(item: ProcessingItemType, app: Express) {

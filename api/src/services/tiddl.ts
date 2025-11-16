@@ -3,8 +3,8 @@ import { Express, Request, Response } from "express";
 
 import { CONFIG_PATH } from "../../constants";
 import { extractFirstLineClean } from "../helpers/ansi_parse";
-import { logs } from "../helpers/jobs";
-import { ProcessingItemType } from "../types";
+import { logs } from "../helpers/logs";
+import { ProcessingItemType, TiddlConfig } from "../types";
 
 // Constants
 const TIDDL_BINARY = "tiddl";
@@ -26,6 +26,8 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   const item: ProcessingItemType =
     app.settings.processingList.actions.getItem(id);
 
+  const config: TiddlConfig = app.settings.tiddlConfig;
+
   if (!item) {
     console.error(`tidalDL: Item with id ${id} not found in processing list`);
     if (onFinish) onFinish();
@@ -41,6 +43,10 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   args.push("download");
   args.push("--path", "/home/app/standalone/shared/.processing");
   args.push("--scan-path", "/home/app/standalone/library");
+
+  if (item.type === "mix" && config?.templates?.mix) {
+    args.push("-o", config.templates.mix);
+  }
 
   if (item.type !== "video" && item.quality) {
     args.push("-q");
