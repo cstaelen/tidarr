@@ -16,6 +16,7 @@ import { ProcessingItemType, TiddlConfig } from "../types";
 
 import {
   cleanFolder,
+  getFolderToScan,
   hasFileToMove,
   moveAndClean,
   replacePathInM3U,
@@ -292,7 +293,7 @@ export const ProcessingStack = (expressApp: Express) => {
 
     if (!shouldPostProcess) {
       item["status"] = "finished";
-      expressApp.settings.processingList.actions.updateItem(item);
+      updateItem(item);
       logs(item, "✅ [TIDARR] No file to process.", expressApp);
 
       // Remove item from persistant queue file
@@ -311,12 +312,15 @@ export const ProcessingStack = (expressApp: Express) => {
     // Set permissions
     setPermissions(item, expressApp);
 
+    // Keep trace of folders processed
+    const foldersToScan = getFolderToScan();
+
     // Move to output folder
     await moveAndClean(item.id, expressApp);
 
     if (item["status"] !== "error") {
       // Plex library update with specific paths
-      await plexUpdate(item, expressApp);
+      await plexUpdate(item, foldersToScan, expressApp);
 
       // Gotify notification
       await gotifyPush(item, expressApp);

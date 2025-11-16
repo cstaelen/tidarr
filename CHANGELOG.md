@@ -8,7 +8,8 @@ Tidarr notable changes.
 - [Front] Add Tiddl TOML config live editor
 ### 🖍 Changed
 - [Front] Update some config dialog UI
-- [API] Restore mix-to-playlist processing to get more metadatas
+- [API] Restore mix-to-playlist processing to get more metadatas #459
+- [Plex] Make Plex scan requests more intelligent by scanning new folders only #456
 ### 🐛 Fixed
 - [Front] Fix `video_quality` front error
 
