@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 
 import { validateRequestBody } from "../helpers/validation";
 import { is_auth_active, proceed_auth } from "../services/auth";
+import { AuthResponse, IsAuthActiveResponse } from "../types";
 
 const router = Router();
 
@@ -12,18 +13,21 @@ const router = Router();
 router.post(
   "/auth",
   validateRequestBody(["password"]),
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response<AuthResponse>) => {
     await proceed_auth(req.body.password, res);
   },
 );
 
 /**
- * GET /api/is_auth_active
+ * GET /api/is-auth-active
  * Check if authentication is enabled
  */
-router.get("/is_auth_active", (_req: Request, res: Response) => {
-  const response = is_auth_active();
-  res.status(200).json({ isAuthActive: response });
-});
+router.get(
+  "/is-auth-active",
+  (_req: Request, res: Response<IsAuthActiveResponse>) => {
+    const response = is_auth_active();
+    res.status(200).json({ isAuthActive: response });
+  },
+);
 
 export default router;

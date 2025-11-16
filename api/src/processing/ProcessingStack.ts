@@ -30,10 +30,10 @@ import {
 } from "./mix-to-playlist";
 
 export function notifySSEConnections(expressApp: Express) {
-  const { processingList, activeListConnections } = expressApp.settings;
+  const { processingStack, activeListConnections } = expressApp.locals;
 
   // Data no longer contains output/output_history, send directly
-  const data = JSON.stringify(processingList.data);
+  const data = JSON.stringify(processingStack.data);
 
   activeListConnections.forEach((conn: Response) => {
     conn.write(`data: ${data}\n\n`);
@@ -46,7 +46,7 @@ export function notifyItemOutput(
   output: string,
 ) {
   const connections: Map<string, Response[]> =
-    expressApp.settings.activeItemOutputConnections;
+    expressApp.locals.activeItemOutputConnections;
   // Ensure itemId is a string for Map lookup
   const itemIdString = String(itemId);
   const itemConnections = connections.get(itemIdString);
@@ -232,7 +232,7 @@ export const ProcessingStack = (expressApp: Express) => {
   }
 
   async function processingMix(item: ProcessingItemType) {
-    const config = expressApp.settings.tiddlConfig as TiddlConfig;
+    const config = expressApp.locals.tiddlConfig as TiddlConfig;
 
     logs(item, `🕖 [MIX]: Get track from mix id`, expressApp);
     const tracks = await getTracksByMixId(item.id, config);
@@ -269,7 +269,7 @@ export const ProcessingStack = (expressApp: Express) => {
     item["status"] = "processing";
     // Initialize empty output history in the Map (ensure string key)
     outputs.set(String(item.id), []);
-    expressApp.settings.processingList.actions.updateItem(item);
+    expressApp.locals.processingStack.actions.updateItem(item);
 
     await cleanFolder();
 

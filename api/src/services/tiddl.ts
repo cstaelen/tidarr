@@ -24,9 +24,9 @@ const FAVORITE_TYPE_TO_RESOURCE: Record<string, string> = {
 
 export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   const item: ProcessingItemType =
-    app.settings.processingList.actions.getItem(id);
+    app.locals.processingStack.actions.getItem(id);
 
-  const config: TiddlConfig = app.settings.tiddlConfig;
+  const config: TiddlConfig = app.locals.tiddlConfig;
 
   if (!item) {
     console.error(`tidalDL: Item with id ${id} not found in processing list`);
@@ -115,7 +115,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   });
 
   child.on("close", (code) => {
-    const currentOutput = app.settings.processingList.actions.getItemOutput(
+    const currentOutput = app.locals.processingStack.actions.getItemOutput(
       item.id,
     );
 
@@ -140,7 +140,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
     item["status"] = isDownloaded ? "downloaded" : "error";
     item["loading"] = false;
-    app.settings.processingList.actions.updateItem(item);
+    app.locals.processingStack.actions.updateItem(item);
     if (onFinish) onFinish();
   });
 
@@ -149,7 +149,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       logs(item, `❌ [TIDDL] Error: ${err}`, app);
       item["status"] = "error";
       item["loading"] = false;
-      app.settings.processingList.actions.updateItem(item);
+      app.locals.processingStack.actions.updateItem(item);
       if (onFinish) onFinish();
     }
   });

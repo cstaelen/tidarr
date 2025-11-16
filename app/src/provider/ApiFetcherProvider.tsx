@@ -182,7 +182,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     eventSource: EventSourcePlus;
     controller: EventSourceController;
   } {
-    return streamExpressJS(`${apiUrl}/stream_processing`, (message) => {
+    return streamExpressJS(`${apiUrl}/stream-processing`, (message) => {
       setData(JSON.parse(message.data) as ProcessingItemType[]);
     });
   }
@@ -208,7 +208,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
   }
 
   async function remove_all() {
-    return await queryExpressJS(`${apiUrl}/remove_all`, {
+    return await queryExpressJS(`${apiUrl}/remove-all`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -216,7 +216,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     });
   }
   async function remove_finished() {
-    return await queryExpressJS(`${apiUrl}/remove_finished`, {
+    return await queryExpressJS(`${apiUrl}/remove-finished`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -237,7 +237,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
   }
 
   async function is_auth_active(): Promise<CheckAuthType | undefined> {
-    return await queryExpressJS<CheckAuthType>(`${apiUrl}/is_auth_active`);
+    return await queryExpressJS<CheckAuthType>(`${apiUrl}/is-auth-active`);
   }
 
   // Tidal token
@@ -249,7 +249,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     controller: EventSourceController;
   } {
     const { eventSource, controller } = streamExpressJS(
-      `${apiUrl}/run_token`,
+      `${apiUrl}/run-token`,
       (message) => {
         if (message.data?.length === 0) return;
 
@@ -268,7 +268,9 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
   }
 
   async function delete_token() {
-    return await queryExpressJS<LogType>(`${apiUrl}/delete_token`);
+    return await queryExpressJS<LogType>(`${apiUrl}/token`, {
+      method: "DELETE",
+    });
   }
 
   // Sync list
@@ -294,7 +296,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
 
   async function remove_sync_item(body: string) {
     return await queryExpressJS(`${apiUrl}/sync/remove`, {
-      method: "POST",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
@@ -304,13 +306,13 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
 
   async function remove_sync_all_items() {
     return await queryExpressJS(`${apiUrl}/sync/remove-all`, {
-      method: "POST",
+      method: "DELETE",
     });
   }
 
   async function sync_now(): Promise<void> {
-    await queryExpressJS<ProcessingItemType[]>(`${apiUrl}/sync/now`, {
-      method: "GET",
+    await queryExpressJS<ProcessingItemType[]>(`${apiUrl}/sync/trigger`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -320,12 +322,16 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
   // Custom CSS
 
   async function get_custom_css() {
-    return await queryExpressJS<string>(`${apiUrl}/custom-css`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await queryExpressJS<{ css: string }>(
+      `${apiUrl}/custom-css`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
+    return response?.css;
   }
 
   async function set_custom_css(css: string) {
@@ -344,12 +350,16 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
   // Tiddl TOML config
 
   async function get_tiddl_toml() {
-    return await queryExpressJS<string>(`${apiUrl}/tiddl/config`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await queryExpressJS<{ toml: string }>(
+      `${apiUrl}/tiddl/config`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
+    return response?.toml;
   }
 
   async function set_tiddl_toml(toml: string) {
@@ -375,7 +385,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     controller: EventSourceController;
   } {
     return streamExpressJS(
-      `${apiUrl}/stream_item_output/${itemId}`,
+      `${apiUrl}/stream-item-output/${itemId}`,
       (message) => {
         try {
           const data = JSON.parse(message.data) as {

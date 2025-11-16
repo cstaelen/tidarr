@@ -141,7 +141,7 @@ test("Tidarr download : Should be able to download video", async ({ page }) => {
 
 test("Tidarr download : Should be able to download mix", async ({ page }) => {
   // Mock mix output with special message
-  await page.route("**/stream_item_output/*", async (route) => {
+  await page.route("**/stream-item-output/*", async (route) => {
     const itemId = route.request().url().split("/").pop();
     const mockOutput = `Mix: get track from mix id\r\nMix: create new playlist\r\nMix: add track ids to new playlist\r\nMix: download playlist\r\n=== Tiddl ===\r\nExecuting: tiddl url download -q high`;
 
@@ -170,7 +170,7 @@ test("Tidarr download : Should be able to download mix", async ({ page }) => {
 //   page,
 // }) => {
 //   // Mock favorite albums output
-//   await page.route("**/stream_item_output/*", async (route) => {
+//   await page.route("**/stream-item-output/*", async (route) => {
 //     const itemId = route.request().url().split("/").pop();
 //     const mockOutput = `=== Tiddl ===\r\nExecuting: tiddl fav -r album download -q high`;
 
@@ -203,7 +203,7 @@ test("Tidarr download : Should be able to download mix", async ({ page }) => {
 //   page,
 // }) => {
 //   // Mock favorite tracks output
-//   await page.route("**/stream_item_output/*", async (route) => {
+//   await page.route("**/stream-item-output/*", async (route) => {
 //     const itemId = route.request().url().split("/").pop();
 //     const mockOutput = `=== Tiddl ===\r\nExecuting: tiddl fav -r track download -q high`;
 
@@ -236,7 +236,7 @@ test("Tidarr download : Should be able to download mix", async ({ page }) => {
 //   page,
 // }) => {
 //   // Mock favorite playlists output
-//   await page.route("**/stream_item_output/*", async (route) => {
+//   await page.route("**/stream-item-output/*", async (route) => {
 //     const itemId = route.request().url().split("/").pop();
 //     const mockOutput = `=== Tiddl ===\r\nExecuting: tiddl fav -r playlist download -q high`;
 
@@ -274,7 +274,7 @@ test("Tidarr download : Should be able to clear finished items", async ({
   // Mock API endpoints
   await mockItemOutputSSE(page, "high");
   let removeFinishedCalled = false;
-  await page.route("**/remove_finished", async (route) => {
+  await page.route("**/remove-finished", async (route) => {
     removeFinishedCalled = true;
     await route.fulfill({ status: 204 });
   });
@@ -297,7 +297,7 @@ test("Tidarr download : Should be able to clear finished items", async ({
   await expect(page.getByLabel("Processing table")).toContainText("In Utero");
 
   // Mock the item as finished by simulating the status
-  await page.route("**/stream_processing", async (route) => {
+  await page.route("**/stream-processing", async (route) => {
     const mockData = [
       {
         id: "123",
@@ -331,7 +331,7 @@ test("Tidarr download : Should be able to clear finished items", async ({
   expect(removeFinishedCalled).toBe(true);
 
   // Clean up
-  await page.route("**/stream_processing", (route) => route.continue());
+  await page.route("**/stream-processing", (route) => route.continue());
   await emptyProcessingList(page);
 });
 
@@ -341,7 +341,7 @@ test("Tidarr download : Should be able to clear all items with confirmation", as
   // Mock API endpoints
   await mockItemOutputSSE(page, "high");
   let removeAllCalled = false;
-  await page.route("**/remove_all", async (route) => {
+  await page.route("**/remove-all", async (route) => {
     removeAllCalled = true;
     await route.fulfill({ status: 204 });
   });

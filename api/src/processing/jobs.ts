@@ -13,7 +13,7 @@ export async function moveAndClean(
   status: "finished" | "error" | undefined;
 }> {
   const item: ProcessingItemType =
-    app.settings.processingList.actions.getItem(id);
+    app.locals.processingStack.actions.getItem(id);
 
   let status: "finished" | "error" | undefined;
 

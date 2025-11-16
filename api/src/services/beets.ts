@@ -7,7 +7,7 @@ import { ProcessingItemType } from "../types";
 
 export async function beets(id: string, app: Express) {
   const item: ProcessingItemType =
-    app.settings.processingList.actions.getItem(id);
+    app.locals.processingStack.actions.getItem(id);
 
   if (!item || !["album", "artist", "favorite_albums"].includes(item.type))
     return;

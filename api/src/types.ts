@@ -103,3 +103,93 @@ export type SyncItemType = {
   quality: QualityType;
   type: ContentType;
 };
+
+// API RESPONSES
+
+/**
+ * Generic API response wrapper
+ */
+export interface ApiResponse<T = unknown> {
+  success: boolean;
+  data?: T;
+  error?: string;
+  message?: string;
+}
+
+/**
+ * Authentication responses
+ */
+export interface AuthResponse {
+  status: "ok" | "error";
+  token?: string;
+  error?: string;
+}
+
+export interface IsAuthActiveResponse {
+  isAuthActive: boolean;
+}
+
+/**
+ * Configuration responses
+ */
+export interface SettingsResponse {
+  output: string;
+  parameters: {
+    ENABLE_BEETS?: string;
+    PLEX_URL?: string;
+    PLEX_LIBRARY?: string;
+    PLEX_TOKEN?: string;
+    PLEX_PATH?: string;
+    GOTIFY_URL?: string;
+    GOTIFY_TOKEN?: string;
+    PUID?: string;
+    PGID?: string;
+    UMASK?: string;
+    TIDARR_VERSION?: string;
+    APPRISE_API_ENDPOINT?: string;
+    APPRISE_API_TAG?: string;
+    PUSH_OVER_URL?: string;
+    LOCK_QUALITY?: string;
+    ENABLE_TIDAL_PROXY?: string;
+    SYNC_CRON_EXPRESSION?: string;
+  };
+  noToken: boolean;
+  tiddl_config?: TiddlConfig;
+}
+
+/**
+ * Custom CSS responses
+ */
+export interface CustomCSSResponse {
+  css: string;
+}
+
+export interface CustomCSSSaveResponse {
+  success: boolean;
+  message: string;
+}
+
+/**
+ * Tiddl TOML responses
+ */
+export interface TiddlTomlResponse {
+  toml: string;
+}
+
+export interface TiddlTomlSaveResponse {
+  success: boolean;
+  message: string;
+}
+
+/**
+ * Sync list responses
+ */
+export type SyncListResponse = SyncItemType[];
+
+/**
+ * Error response
+ */
+export interface ErrorResponse {
+  error: string;
+  details?: unknown;
+}

@@ -5,7 +5,7 @@ export function gracefulShutdown(signal: string, app: Express, server: Server) {
   console.log(`\n[INFO] ${signal} received. Starting graceful shutdown...`);
 
   // Close all active SSE connections
-  const listConnections = app.settings.activeListConnections || [];
+  const listConnections = app.locals.activeListConnections || [];
   console.log(
     `[INFO] Closing ${listConnections.length} processing list SSE connections...`,
   );
@@ -19,7 +19,7 @@ export function gracefulShutdown(signal: string, app: Express, server: Server) {
 
   // Close all active item output SSE connections
   const itemOutputConnections: Map<string, Response[]> =
-    app.settings.activeItemOutputConnections || new Map();
+    app.locals.activeItemOutputConnections || new Map();
   let totalItemConnections = 0;
   itemOutputConnections.forEach((connections) => {
     totalItemConnections += connections.length;

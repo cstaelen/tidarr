@@ -1,8 +1,13 @@
 import { Request, Response, Router } from "express";
 
 import { ensureAccessIsGranted } from "../helpers/auth";
+import {
+  handleRouteError,
+  handleValidationError,
+} from "../helpers/error-handler";
 import { validateRequestBody } from "../helpers/validation";
 import { getTomlConfig, setTomlConfig } from "../services/tiddl-toml";
+import { TiddlTomlResponse, TiddlTomlSaveResponse } from "../types";
 
 const router = Router();
 
@@ -13,13 +18,12 @@ const router = Router();
 router.get(
   "/tiddl/config",
   ensureAccessIsGranted,
-  (_req: Request, res: Response) => {
+  (_req: Request, res: Response<TiddlTomlResponse>) => {
     try {
       const content = getTomlConfig();
       res.status(200).json(content);
     } catch (error) {
-      console.error("❌ [TOML] Failed to read Tiddl config:", error);
-      res.status(500).json({ error: "Failed to read Tiddl config" });
+      handleRouteError(error, res, "read Tiddl config");
     }
   },
 );
@@ -32,12 +36,12 @@ router.post(
   "/tiddl/config",
   ensureAccessIsGranted,
   validateRequestBody(["toml"]),
-  (req: Request, res: Response) => {
+  (req: Request, res: Response<TiddlTomlSaveResponse>) => {
     try {
       const { toml } = req.body;
 
       if (typeof toml !== "string") {
-        res.status(400).json({ error: "Content must be a string" });
+        handleValidationError(res, "TOML content must be a string");
         return;
       }
 
@@ -46,8 +50,7 @@ router.post(
         .status(200)
         .json({ success: true, message: "Tiddl config saved successfully" });
     } catch (error) {
-      console.error("❌ [TOML] Failed to save Tiddl config:", error);
-      res.status(500).json({ error: "Failed to save Tiddl config" });
+      handleRouteError(error, res, "save Tiddl config");
     }
   },
 );

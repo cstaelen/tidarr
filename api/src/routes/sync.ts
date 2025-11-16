@@ -1,6 +1,7 @@
 import { Express, Request, Response, Router } from "express";
 
 import { ensureAccessIsGranted } from "../helpers/auth";
+import { handleRouteError } from "../helpers/error-handler";
 import {
   validateIdMiddleware,
   validateRequestBody,
@@ -13,6 +14,7 @@ import {
   removeAllFromSyncList,
   removeItemFromSyncList,
 } from "../services/sync";
+import { SyncListResponse } from "../types";
 
 const router = Router();
 
@@ -23,9 +25,13 @@ const router = Router();
 router.get(
   "/sync/list",
   ensureAccessIsGranted,
-  (_req: Request, res: Response) => {
-    const list = getSyncList();
-    res.status(200).json(list);
+  (_req: Request, res: Response<SyncListResponse>) => {
+    try {
+      const list = getSyncList();
+      res.status(200).json(list);
+    } catch (error) {
+      handleRouteError(error, res, "get sync list");
+    }
   },
 );
 
@@ -38,56 +44,72 @@ router.post(
   ensureAccessIsGranted,
   validateRequestBody(["item"]),
   async (req: Request, res: Response) => {
-    addItemToSyncList(req.body.item);
-    createCronJob(req.app as Express);
+    try {
+      addItemToSyncList(req.body.item);
+      createCronJob(req.app as Express);
 
-    res.sendStatus(201);
+      res.sendStatus(201);
+    } catch (error) {
+      handleRouteError(error, res, "add item to sync list");
+    }
   },
 );
 
 /**
- * POST /api/sync/remove
+ * DELETE /api/sync/remove
  * Remove a playlist from synchronization list
  */
-router.post(
+router.delete(
   "/sync/remove",
   ensureAccessIsGranted,
   validateRequestBody(["id"]),
   validateIdMiddleware,
   async (req: Request, res: Response) => {
-    removeItemFromSyncList(req.body.id);
-    createCronJob(req.app as Express);
+    try {
+      removeItemFromSyncList(req.body.id);
+      createCronJob(req.app as Express);
 
-    res.sendStatus(201);
+      res.sendStatus(204);
+    } catch (error) {
+      handleRouteError(error, res, "remove item from sync list");
+    }
   },
 );
 
 /**
- * POST /api/sync/remove-all
+ * DELETE /api/sync/remove-all
  * Remove all playlists from synchronization list
  */
-router.post(
+router.delete(
   "/sync/remove-all",
   ensureAccessIsGranted,
   async (req: Request, res: Response) => {
-    removeAllFromSyncList();
-    createCronJob(req.app as Express);
+    try {
+      removeAllFromSyncList();
+      createCronJob(req.app as Express);
 
-    res.sendStatus(204);
+      res.sendStatus(204);
+    } catch (error) {
+      handleRouteError(error, res, "remove all items from sync list");
+    }
   },
 );
 
 /**
- * GET /api/sync/now
+ * POST /api/sync/trigger
  * Manually trigger synchronization of all items
  */
-router.get(
-  "/sync/now",
+router.post(
+  "/sync/trigger",
   ensureAccessIsGranted,
   (_req: Request, res: Response) => {
-    process_sync_list(res.app as Express);
+    try {
+      process_sync_list(res.app as Express);
 
-    res.sendStatus(200);
+      res.sendStatus(202);
+    } catch (error) {
+      handleRouteError(error, res, "trigger sync");
+    }
   },
 );
 

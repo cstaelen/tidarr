@@ -18,7 +18,7 @@ This documentation describes how to use the Tidarr REST API with curl to automat
 
 API base URL: `http://your-host:8484`
 
-All API endpoints (except `/api/is_auth_active`) require authentication if `ADMIN_PASSWORD` is set in your Docker configuration.
+All API endpoints (except `/api/is-auth-active`) require authentication if `ADMIN_PASSWORD` is set in your Docker configuration.
 
 ---
 
@@ -27,7 +27,7 @@ All API endpoints (except `/api/is_auth_active`) require authentication if `ADMI
 ### Check if authentication is active
 
 ```bash
-curl http://localhost:8484/api/is_auth_active
+curl http://localhost:8484/api/is-auth-active
 ```
 
 **Response:**
@@ -232,7 +232,7 @@ curl -X DELETE http://localhost:8484/api/remove \
 ### Clear the entire download queue
 
 ```bash
-curl -X DELETE http://localhost:8484/api/remove_all \
+curl -X DELETE http://localhost:8484/api/remove-all \
   -H "Authorization: Bearer $TIDARR_TOKEN"
 ```
 
@@ -241,7 +241,7 @@ curl -X DELETE http://localhost:8484/api/remove_all \
 ### Remove finished items
 
 ```bash
-curl -X DELETE http://localhost:8484/api/remove_finished \
+curl -X DELETE http://localhost:8484/api/remove-finished \
   -H "Authorization: Bearer $TIDARR_TOKEN"
 ```
 
@@ -287,7 +287,7 @@ curl http://localhost:8484/api/settings \
 ### Delete Tidal token
 
 ```bash
-curl http://localhost:8484/api/delete_token \
+curl -X DELETE http://localhost:8484/api/token \
   -H "Authorization: Bearer $TIDARR_TOKEN"
 ```
 
@@ -339,24 +339,24 @@ curl -X POST http://localhost:8484/api/sync/save \
 ### Remove a playlist from synchronization
 
 ```bash
-curl -X POST http://localhost:8484/api/sync/remove \
+curl -X DELETE http://localhost:8484/api/sync/remove \
   -H "Authorization: Bearer $TIDARR_TOKEN" \
   -H 'Content-Type: application/json' \
   -d '{"id": "abc123-def456"}'
 ```
 
-**Response:** Status `201 Created`
+**Response:** Status `204 No Content`
 
 ### Sync all items now
 
 Manually trigger synchronization of all items in the watch list (instead of waiting for the cron schedule):
 
 ```bash
-curl http://localhost:8484/api/sync/now \
+curl -X POST http://localhost:8484/api/sync/trigger \
   -H "Authorization: Bearer $TIDARR_TOKEN"
 ```
 
-**Response:** Status `200 OK`
+**Response:** Status `202 Accepted`
 
 This endpoint will immediately queue all items from the watch list for download. Items already in the queue with status "processing" will be skipped. Items with status "finished" or "downloaded" will be removed from the queue and re-added.
 
@@ -396,6 +396,47 @@ curl -X POST http://localhost:8484/api/custom-css \
 {
   "success": true,
   "message": "Custom CSS saved successfully"
+}
+```
+
+---
+
+## Tiddl Configuration Endpoints
+
+### Get Tiddl TOML configuration
+
+Retrieve the current Tiddl configuration file (config.toml):
+
+```bash
+curl http://localhost:8484/api/tiddl/config \
+  -H "Authorization: Bearer $TIDARR_TOKEN"
+```
+
+**Response:**
+```json
+{
+  "toml": "[download]\nquality = \"high\"\nthreads = 6\n..."
+}
+```
+
+### Save Tiddl TOML configuration
+
+Update the Tiddl configuration file:
+
+```bash
+curl -X POST http://localhost:8484/api/tiddl/config \
+  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "toml": "[download]\nquality = \"max\"\nthreads = 8\n..."
+  }'
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Tiddl config saved successfully"
 }
 ```
 
@@ -499,7 +540,7 @@ docker compose exec tidarr tiddl url https://listen.tidal.com/album/251082404 do
 
 4. **Status**: When adding an item, always use `"status": "queue"`.
 
-5. **SSE Endpoints**: The `/api/stream_processing` and `/api/stream_item_output/:id` endpoints use Server-Sent Events (SSE) for real-time updates. They are not intended to be used with curl, but rather with EventSource JavaScript clients or SSE libraries.
+5. **SSE Endpoints**: The `/api/stream-processing` and `/api/stream-item-output/:id` endpoints use Server-Sent Events (SSE) for real-time updates. They are not intended to be used with curl, but rather with EventSource JavaScript clients or SSE libraries.
 
 ---
 

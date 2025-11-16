@@ -5,11 +5,11 @@ import { ensureAccessIsGranted } from "../helpers/auth";
 const router = Router();
 
 /**
- * GET /api/stream_processing
+ * GET /api/stream-processing
  * Server-Sent Events endpoint for processing queue updates
  */
 router.get(
-  "/stream_processing",
+  "/stream-processing",
   ensureAccessIsGranted,
   (req: Request, res: Response) => {
     res.setHeader("Content-Type", "text/event-stream");
@@ -18,28 +18,28 @@ router.get(
     res.flushHeaders();
 
     // Add the new connection to the list
-    req.app.settings.activeListConnections.push(res);
+    req.app.locals.activeListConnections.push(res);
 
     // Remove the connection from the list when it closes
     req.on("close", () => {
-      req.app.settings.activeListConnections =
-        req.app.settings.activeListConnections.filter(
+      req.app.locals.activeListConnections =
+        req.app.locals.activeListConnections.filter(
           (conn: Response) => conn !== res,
         );
     });
 
     // Send initial state to the new client
-    const data = JSON.stringify(req.app.settings.processingList.data);
+    const data = JSON.stringify(req.app.locals.processingStack.data);
     res.write(`data: ${data}\n\n`);
   },
 );
 
 /**
- * GET /api/stream_item_output/:id
+ * GET /api/stream-item-output/:id
  * Server-Sent Events endpoint for individual item output logs
  */
 router.get(
-  "/stream_item_output/:id",
+  "/stream-item-output/:id",
   ensureAccessIsGranted,
   (req: Request, res: Response) => {
     const itemId = req.params.id;
@@ -51,7 +51,7 @@ router.get(
 
     // Get or create the connections array for this item
     const connections: Map<string, Response[]> =
-      req.app.settings.activeItemOutputConnections;
+      req.app.locals.activeItemOutputConnections;
     if (!connections.has(itemId)) {
       connections.set(itemId, []);
     }
@@ -72,7 +72,7 @@ router.get(
 
     // Send initial output for this item
     const output =
-      req.app.settings.processingList.actions.getItemOutput(itemId) || "";
+      req.app.locals.processingStack.actions.getItemOutput(itemId) || "";
     res.write(`data: ${JSON.stringify({ id: itemId, output })}\n\n`);
   },
 );

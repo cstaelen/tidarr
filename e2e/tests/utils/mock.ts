@@ -225,7 +225,7 @@ export async function mockConfigAPI(page: Page) {
 }
 
 export async function mockAuthAPI(page: Page, token: string) {
-  await page.route("*/**/is_auth_active", async (route) => {
+  await page.route("*/**/is-auth-active", async (route) => {
     const json = { isAuthActive: true };
     await route.fulfill({ json });
   });
@@ -242,7 +242,7 @@ export async function mockAuthAPI(page: Page, token: string) {
 }
 
 export async function mockItemOutputSSE(page: Page, quality = "high") {
-  await page.route("**/stream_item_output/*", async (route) => {
+  await page.route("**/stream-item-output/*", async (route) => {
     const itemId = route.request().url().split("/").pop();
     const mockOutput = `=== Tiddl ===\r\nExecuting: tiddl url download -q ${quality}\r\nDownload completed successfully`;
 

@@ -48,11 +48,10 @@ app.use(
 );
 
 const processingList = ProcessingStack(app);
-app.set("processingList", processingList);
-app.set("addOutputLog", processingList.actions.addOutputLog);
-
-app.set("activeListConnections", []);
-app.set("activeItemOutputConnections", new Map<string, Response[]>());
+app.locals.processingStack = processingList;
+app.locals.addOutputLog = processingList.actions.addOutputLog;
+app.locals.activeListConnections = [];
+app.locals.activeItemOutputConnections = new Map<string, Response[]>();
 
 app.all("/{*any}", function (_req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -77,11 +76,11 @@ app.use("/api", tiddlTomlRouter);
 
 const server = app.listen(port, async () => {
   const config = await configureServer();
-  app.set("config", config);
+  app.locals.config = config;
 
   createCronJob(app);
 
-  app.settings.processingList.actions.loadDataFromFile();
+  app.locals.processingStack.actions.loadDataFromFile();
 
   console.log(`⚡️ [SERVER]: Server is running at http://${hostname}:${port}`);
 });

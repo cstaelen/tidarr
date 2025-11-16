@@ -67,11 +67,12 @@ export const process_sync_list = async (app: Express) => {
 
   // Process each item sequentially
   syncList.forEach((element) => {
-    const item: ProcessingItemType =
-      app.settings.processingList.actions.getItem(element.id);
+    const item: ProcessingItemType = app.locals.processingStack.actions.getItem(
+      element.id,
+    );
     if (item && ["processing"].includes(item?.status)) return;
     if (item && ["finished", "downloaded"].includes(item?.status)) {
-      app.settings.processingList.actions.removeItem(element.id);
+      app.locals.processingStack.actions.removeItem(element.id);
     }
 
     const itemToQueue: ProcessingItemType = {
@@ -86,7 +87,7 @@ export const process_sync_list = async (app: Express) => {
       url: element.url,
     };
 
-    app.settings.processingList.actions.addItem(itemToQueue);
+    app.locals.processingStack.actions.addItem(itemToQueue);
     updateSyncItem(element.id, {
       lastUpdate: new Date().toISOString(),
     });
