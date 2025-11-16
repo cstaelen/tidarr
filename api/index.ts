@@ -6,6 +6,7 @@ import proxy from "express-http-proxy";
 import fs from "fs";
 import path from "path";
 
+import { setAppInstance } from "./src/app-instance";
 import { gracefulShutdown } from "./src/helpers/gracefull_shutdown";
 import { ProcessingStack } from "./src/processing/ProcessingStack";
 // Import routers
@@ -32,6 +33,9 @@ const hostname = "0.0.0.0";
 
 const app: Express = express();
 const cache = apicache.middleware;
+
+// Make app instance available globally
+setAppInstance(app);
 
 app.use(express.json());
 app.use(cors());

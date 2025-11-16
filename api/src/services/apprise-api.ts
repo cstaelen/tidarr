@@ -1,11 +1,10 @@
 import { execSync } from "child_process";
-import { Express } from "express";
 
 import { curl_escape_all } from "../helpers/curl_escape";
 import { logs } from "../helpers/logs";
 import { ProcessingItemType } from "../types";
 
-export async function appriseApiPush(item: ProcessingItemType, app: Express) {
+export async function appriseApiPush(item: ProcessingItemType) {
   if (!process.env.APPRISE_API_ENDPOINT) {
     return;
   }
@@ -25,12 +24,8 @@ export async function appriseApiPush(item: ProcessingItemType, app: Express) {
     console.log(`🕖 [APPRISE] Command: ${command}`);
     const response = await execSync(command, { encoding: "utf-8" });
 
-    logs(item, `✅ [APPRISE] API request success:\r\n${response}`, app);
+    logs(item.id, `✅ [APPRISE] API request success:\r\n${response}`);
   } catch (e: unknown) {
-    logs(
-      item,
-      `❌ [APPRISE] API request error:\r\n${(e as Error).message}`,
-      app,
-    );
+    logs(item.id, `❌ [APPRISE] API request error:\r\n${(e as Error).message}`);
   }
 }

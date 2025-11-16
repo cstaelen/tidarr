@@ -1,6 +1,5 @@
 // PLEX API
 // https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
-import { Express } from "express";
 
 import { logs } from "../helpers/logs";
 import { ProcessingItemType } from "../types";
@@ -8,7 +7,6 @@ import { ProcessingItemType } from "../types";
 export async function plexUpdate(
   item: ProcessingItemType,
   foldersToScan: string[],
-  app: Express,
 ) {
   try {
     if (
@@ -44,19 +42,17 @@ export async function plexUpdate(
       if (scannedFolders.length > 0) {
         const folderList = scannedFolders.map((f) => `  - ${f}`).join("\r\n");
         logs(
-          item,
+          item.id,
           `✅ [PLEX] Scan requests sent. ${scannedFolders.length} Folder(s):\r\n${folderList}`,
-          app,
         );
       } else {
-        logs(item, `⚠️ [PLEX] No folders were successfully scanned`, app);
+        logs(item.id, `⚠️ [PLEX] No folders were successfully scanned`);
       }
     }
   } catch (err: unknown) {
     logs(
-      item,
+      item.id,
       `❌ [PLEX] Error during Plex update: ${(err as Error).message}`,
-      app,
     );
   }
 }

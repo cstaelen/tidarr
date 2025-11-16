@@ -34,9 +34,9 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     return;
   }
 
-  logs(item, "---------------------", app);
-  logs(item, "🎵 TIDDL PROCESSING  ", app);
-  logs(item, "---------------------", app);
+  logs(item.id, "---------------------");
+  logs(item.id, "🎵 TIDDL PROCESSING  ");
+  logs(item.id, "---------------------");
 
   const args: string[] = [];
 
@@ -66,8 +66,8 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     args.push("url", item.url);
   }
 
-  logs(item, `🕖 [TIDDL] Executing: ${TIDDL_BINARY} ${args.join(" ")}`, app);
-  logs(item, "\r\n", app);
+  logs(item.id, `🕖 [TIDDL] Executing: ${TIDDL_BINARY} ${args.join(" ")}`);
+  logs(item.id, "\r\n");
 
   const child = spawn(TIDDL_BINARY, args, {
     env: {
@@ -93,10 +93,10 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
         // Console log important lines only (for Docker logs)
         console.log(cleanedLine);
         // Replace last Total Progress with important line
-        logs(item, cleanedLine, app, true, true);
+        logs(item.id, cleanedLine, { replaceLast: true, skipConsole: true });
         // Re-display Total Progress below (will continue updating)
         if (lastTotalProgress) {
-          logs(item, lastTotalProgress, app, false, true);
+          logs(item.id, lastTotalProgress, { skipConsole: true });
         }
       }
       return;
@@ -104,13 +104,13 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
     if (data.includes("Total Progress")) {
       lastTotalProgress = data;
-      logs(item, data, app, true, true);
+      logs(item.id, data, { replaceLast: true, skipConsole: true });
     }
   });
 
   child.stderr?.setEncoding("utf8");
   child.stderr?.on("data", (data) => {
-    logs(item, `❌ [TIDDL]: ${data}`, app);
+    logs(item.id, `❌ [TIDDL]: ${data}`);
     if (onFinish) onFinish();
   });
 
@@ -133,9 +133,9 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       currentOutput.includes("can't save playlist m3u file") || code === 0;
 
     if (isDownloaded) {
-      logs(item, `✅ [TIDDL] Download succeed (code: ${code})`, app);
+      logs(item.id, `✅ [TIDDL] Download succeed (code: ${code})`);
     } else {
-      logs(item, `❌ [TIDDL] Tiddl process exited with code ${code}`, app);
+      logs(item.id, `❌ [TIDDL] Tiddl process exited with code ${code})`);
     }
 
     item["status"] = isDownloaded ? "downloaded" : "error";
@@ -146,7 +146,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   child.on("error", (err) => {
     if (err) {
-      logs(item, `❌ [TIDDL] Error: ${err}`, app);
+      logs(item.id, `❌ [TIDDL] Error: ${err}`);
       item["status"] = "error";
       item["loading"] = false;
       app.locals.processingStack.actions.updateItem(item);
