@@ -100,8 +100,10 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
   });
 
   // Tab Tidal token
-  await expect(page.getByRole("tab", { name: "Tidal token" })).toBeVisible();
-  await page.getByRole("tab", { name: "Tidal token" }).click();
+  await expect(
+    page.getByRole("tab", { name: "Tidal configuration" }),
+  ).toBeVisible();
+  await page.getByRole("tab", { name: "Tidal configuration" }).click();
   await expect(
     page.getByRole("button", { name: "Revoke Tidal token" }),
   ).toBeInViewport();

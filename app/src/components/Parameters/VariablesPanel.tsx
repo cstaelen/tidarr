@@ -1,6 +1,6 @@
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
-import TableParameters from "./TableParameters";
+import TableParameters from "./common/TableParameters";
 
 export default function VariablesPanel() {
   const { config } = useConfigProvider();

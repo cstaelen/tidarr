@@ -21,7 +21,7 @@ type ApiFetcherContextType = {
     setApiError: (res: Response | undefined) => void;
   };
   actions: {
-    check: () => Promise<ConfigType | undefined>;
+    get_settings: () => Promise<ConfigType | undefined>;
     list_sse: (setData: (data: ProcessingItemType[]) => void) => {
       eventSource: EventSourcePlus;
       controller: EventSourceController;
@@ -44,9 +44,13 @@ type ApiFetcherContextType = {
     remove_sync_all_items: () => Promise<unknown>;
     get_sync_list: () => Promise<ProcessingItemType[] | undefined>;
     sync_now: () => Promise<void>;
-    get_custom_css: () => Promise<{ css: string } | undefined>;
-    save_custom_css: (
+    get_custom_css: () => Promise<string | undefined>;
+    set_custom_css: (
       css: string,
+    ) => Promise<{ success: boolean; message: string } | undefined>;
+    get_tiddl_toml: () => Promise<string | undefined>;
+    set_tiddl_toml: (
+      toml: string,
     ) => Promise<{ success: boolean; message: string } | undefined>;
     stream_item_output: (
       itemId: string,
@@ -316,7 +320,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
   // Custom CSS
 
   async function get_custom_css() {
-    return await queryExpressJS<{ css: string }>(`${apiUrl}/custom-css`, {
+    return await queryExpressJS<string>(`${apiUrl}/custom-css`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -324,7 +328,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     });
   }
 
-  async function save_custom_css(css: string) {
+  async function set_custom_css(css: string) {
     return await queryExpressJS<{ success: boolean; message: string }>(
       `${apiUrl}/custom-css`,
       {
@@ -336,6 +340,32 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       },
     );
   }
+
+  // Tiddl TOML config
+
+  async function get_tiddl_toml() {
+    return await queryExpressJS<string>(`${apiUrl}/tiddl/config`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
+  async function set_tiddl_toml(toml: string) {
+    return await queryExpressJS<{ success: boolean; message: string }>(
+      `${apiUrl}/tiddl/config`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ toml }),
+      },
+    );
+  }
+
+  // SSE Terminal output
 
   function stream_item_output(
     itemId: string,
@@ -383,8 +413,10 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       remove_sync_all_items,
       sync_now,
       get_custom_css,
-      save_custom_css,
+      set_custom_css,
       stream_item_output,
+      get_tiddl_toml,
+      set_tiddl_toml,
     },
   };
 

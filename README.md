@@ -132,7 +132,9 @@ docker exec -it -e tidarr tiddl auth
 
 ⚠️ Be ware to set the right template path
 
-You can set download options in `/your/docker/path/to/tidarr/config/.tiddl/config.toml`.
+To set your download options you can :
+- use the UI configuration editor in settings dialog
+- edit toml file `/your/docker/path/to/tidarr/config/.tiddl/config.toml`.
 
 → [**Tiddl config options**](https://github.com/oskvr37/tiddl/blob/main/docs/config.example.toml)
 
