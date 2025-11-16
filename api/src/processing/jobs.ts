@@ -1,5 +1,6 @@
 import { execSync } from "child_process";
 import { Express } from "express";
+import path from "path";
 
 import { PROCESSING_PATH, ROOT_PATH } from "../../constants";
 import { logs } from "../helpers/logs";
@@ -10,14 +11,11 @@ export async function moveAndClean(
   app: Express,
 ): Promise<{
   status: "finished" | "error" | undefined;
-  copiedPaths?: string[];
 }> {
   const item: ProcessingItemType =
     app.settings.processingList.actions.getItem(id);
 
   let status: "finished" | "error" | undefined;
-
-  const copiedPaths: string[] = [];
 
   if (!item) return { status: "finished" };
 
@@ -57,7 +55,6 @@ export async function moveAndClean(
 
   return {
     status: status,
-    copiedPaths: copiedPaths.length > 0 ? copiedPaths : undefined,
   };
 }
 
@@ -142,4 +139,63 @@ export async function setPermissions(item: ProcessingItemType, app: Express) {
       );
     }
   }
+}
+
+/**
+ * Scans the .processing folder to find all folders containing files and returns their parent paths.
+ * This function analyzes the structure based on tiddl templates:
+ * - albums: albums/{album_artist}/{year} - {album}/
+ * - tracks: tracks/{artist}/
+ * - videos: videos/{artist}/
+ * - playlists: playlists/{playlist}/
+ * - mix: playlists/{playlist}/ (or custom template)
+ *
+ * @returns Array of parent folder paths relative to PROCESSING_PATH that contain files to scan
+ */
+export function getFolderToScan(): string[] {
+  const foldersToScan: string[] = [];
+
+  try {
+    // Find all files (not directories) in the processing directory
+    const allFiles = execSync(
+      `find "${PROCESSING_PATH}" -type f 2>/dev/null || true`,
+      { encoding: "utf-8" },
+    )
+      .trim()
+      .split("\n")
+      .filter((file) => file);
+
+    if (allFiles.length === 0) {
+      console.log("📁 [TIDARR] No files found in processing folder");
+      return foldersToScan;
+    }
+
+    console.log(
+      `📁 [TIDARR] Found ${allFiles.length} file(s) in processing folder`,
+    );
+
+    // Extract unique parent directories that contain files
+    const uniqueFolders = new Set<string>();
+
+    for (const file of allFiles) {
+      // Get the directory containing the file
+      const fileDir = path.dirname(file);
+
+      // Get relative path from PROCESSING_PATH
+      const relativePath = path.relative(PROCESSING_PATH, fileDir);
+
+      if (relativePath && relativePath !== ".") {
+        uniqueFolders.add(relativePath);
+      }
+    }
+
+    // Convert Set to Array
+    foldersToScan.push(...Array.from(uniqueFolders));
+  } catch (e) {
+    console.error(
+      `❌ [TIDARR] Error scanning processing folder: ${(e as Error).message}`,
+    );
+  }
+
+  return foldersToScan;
 }

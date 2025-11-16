@@ -5,7 +5,11 @@ import { Express } from "express";
 import { logs } from "../helpers/logs";
 import { ProcessingItemType } from "../types";
 
-export async function plexUpdate(item: ProcessingItemType, app: Express) {
+export async function plexUpdate(
+  item: ProcessingItemType,
+  foldersToScan: string[],
+  app: Express,
+) {
   try {
     if (
       process.env.PLEX_URL &&
@@ -16,18 +20,37 @@ export async function plexUpdate(item: ProcessingItemType, app: Express) {
       console.log(`🔄 PLEX UPDATE     `);
       console.log("--------------------");
 
-      const url = `${process.env.PLEX_URL}/library/sections/${process.env.PLEX_LIBRARY}/refresh?${process.env.PLEX_PATH ? `path=${encodeURIComponent(process.env.PLEX_PATH)}&` : ""}X-Plex-Token=${process.env.PLEX_TOKEN}`;
+      console.log(`🔍 [PLEX] Send scan request ...`);
 
-      console.log("URL:", url);
+      const scannedFolders: string[] = [];
+      const basePath = process.env.PLEX_PATH || "";
 
-      const response = await fetch(url);
+      // Scan each folder individually
+      for (const folder of foldersToScan) {
+        const folderPath = basePath ? `${basePath}/${folder}` : folder;
+        const url = `${process.env.PLEX_URL}/library/sections/${process.env.PLEX_LIBRARY}/refresh?path=${encodeURIComponent(folderPath)}&X-Plex-Token=${process.env.PLEX_TOKEN}`;
+        const response = await fetch(url);
 
-      let message = "✅ [PLEX] Library updated !";
-      if (response.status !== 200) {
-        message = `❌ [PLEX] Update Error code: ${response.status} using url: ${url}`;
+        if (response.status === 200) {
+          scannedFolders.push(folder);
+        } else {
+          console.error(
+            `❌ [PLEX] Scan request failed for ${folder} - Status: ${response.status}`,
+          );
+        }
       }
 
-      logs(item, message, app);
+      // Log summary at the end
+      if (scannedFolders.length > 0) {
+        const folderList = scannedFolders.map((f) => `  - ${f}`).join("\r\n");
+        logs(
+          item,
+          `✅ [PLEX] Scan requests sent. ${scannedFolders.length} Folder(s):\r\n${folderList}`,
+          app,
+        );
+      } else {
+        logs(item, `⚠️ [PLEX] No folders were successfully scanned`, app);
+      }
     }
   } catch (err: unknown) {
     logs(
