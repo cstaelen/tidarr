@@ -6,6 +6,8 @@ import { mockConfigAPI } from "./utils/mock";
 
 dotenv.config({ path: "../.env", override: false, quiet: true });
 
+test.describe.configure({ mode: "serial" });
+
 test("Custom CSS: Should display Custom CSS panel in settings", async ({
   page,
 }) => {

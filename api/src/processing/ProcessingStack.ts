@@ -1,26 +1,32 @@
 import { Express, Response } from "express";
 
+import { logs } from "../helpers/logs";
+import {
+  addItemToFile,
+  loadQueueFromFile,
+  removeItemFromFile,
+} from "../helpers/queue_save_file";
 import { appriseApiPush } from "../services/apprise-api";
 import { beets } from "../services/beets";
 import { gotifyPush } from "../services/gotify";
 import { plexUpdate } from "../services/plex";
 import { hookPushOver } from "../services/pushover";
 import { tidalDL } from "../services/tiddl";
-import { ProcessingItemType } from "../types";
+import { ProcessingItemType, TiddlConfig } from "../types";
 
 import {
   cleanFolder,
   hasFileToMove,
-  logs,
   moveAndClean,
   replacePathInM3U,
   setPermissions,
 } from "./jobs";
 import {
-  addItemToFile,
-  loadQueueFromFile,
-  removeItemFromFile,
-} from "./queue_save_file";
+  addTracksToPlaylist,
+  createNewPlaylist,
+  deletePlaylist,
+  getTracksByMixId,
+} from "./mix-to-playlist";
 
 export function notifySSEConnections(expressApp: Express) {
   const { processingList, activeListConnections } = expressApp.settings;
@@ -224,6 +230,40 @@ export const ProcessingStack = (expressApp: Express) => {
     }
   }
 
+  async function processingMix(item: ProcessingItemType) {
+    const config = expressApp.settings.tiddlConfig as TiddlConfig;
+
+    logs(item, `🕖 [MIX]: Get track from mix id`, expressApp);
+    const tracks = await getTracksByMixId(item.id, config);
+    logs(item, `✅ [MIX]: Done.`, expressApp);
+
+    logs(item, `🕖 [MIX]: Create new playlist`, expressApp);
+    const playlistId = await createNewPlaylist(item.title, config);
+    logs(item, `✅ [MIX]: Done.`, expressApp);
+
+    if (tracks) {
+      logs(item, `🕖 [MIX]: Add track ids to new playlist`, expressApp);
+      await addTracksToPlaylist(playlistId, tracks, config);
+      logs(item, `✅ [MIX]: Done.`, expressApp);
+
+      item["url"] = `playlist/${playlistId}`;
+      logs(item, `🕖 [MIX]: Download temporary playlist`, expressApp);
+
+      const child = tidalDL(item.id, expressApp, () => {
+        logs(item, `🕖 [MIX]: Delete temporary playlist`, expressApp);
+        deletePlaylist(playlistId, config);
+        logs(item, `✅ [MIX]: Done.`, expressApp);
+      });
+      if (child) {
+        item["process"] = child;
+      }
+
+      return;
+    }
+
+    deletePlaylist(playlistId, config);
+  }
+
   async function processItem(item: ProcessingItemType) {
     item["status"] = "processing";
     // Initialize empty output history in the Map (ensure string key)
@@ -232,9 +272,13 @@ export const ProcessingStack = (expressApp: Express) => {
 
     await cleanFolder();
 
-    const child = tidalDL(item.id, expressApp);
-    if (child) {
-      item["process"] = child;
+    if (item.type === "mix") {
+      processingMix(item);
+    } else {
+      const child = tidalDL(item.id, expressApp);
+      if (child) {
+        item["process"] = child;
+      }
     }
   }
 
@@ -244,6 +288,7 @@ export const ProcessingStack = (expressApp: Express) => {
     logs(item, "---------------------", expressApp);
     logs(item, "⚙️ POST PROCESSING   ", expressApp);
     logs(item, "---------------------", expressApp);
+    logs(item, "Running...", expressApp);
 
     if (!shouldPostProcess) {
       item["status"] = "finished";
@@ -269,8 +314,8 @@ export const ProcessingStack = (expressApp: Express) => {
     // Move to output folder
     await moveAndClean(item.id, expressApp);
 
-    if (item["status"] === "finished") {
-      // Plex library update
+    if (item["status"] !== "error") {
+      // Plex library update with specific paths
       await plexUpdate(item, expressApp);
 
       // Gotify notification
@@ -284,10 +329,14 @@ export const ProcessingStack = (expressApp: Express) => {
 
       logs(item, "---------------------", expressApp);
       logs(item, "✅ [TIDARR] Post processing complete.", expressApp);
+      item["status"] = "finished";
     }
 
     // Remove item from persistant queue file
     removeItemFromFile(item.id);
+
+    // Update item status
+    updateItem(item);
   }
 
   return {

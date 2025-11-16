@@ -2,43 +2,24 @@ import { execSync } from "child_process";
 import { Express } from "express";
 
 import { PROCESSING_PATH, ROOT_PATH } from "../../constants";
-import { LogType, ProcessingItemType } from "../types";
-
-import { stripAnsiCodes } from "./ansi_parse";
-
-export function logs(
-  item: ProcessingItemType | LogType,
-  message: string,
-  expressApp?: Express,
-  replaceLast?: boolean,
-  noConsoleLog?: boolean,
-) {
-  if (!item) return message;
-  if (!message) return "";
-
-  // Strip ANSI codes before sending to output
-  const cleanMessage = stripAnsiCodes(message);
-
-  // Only console.log non-replaceLast messages (and cleaned)
-  if (!noConsoleLog) console.log(cleanMessage);
-
-  if (expressApp && "id" in item) {
-    const addOutputLog = expressApp.settings.addOutputLog;
-    if (addOutputLog) {
-      addOutputLog(item.id, cleanMessage, replaceLast);
-    }
-  }
-}
+import { logs } from "../helpers/logs";
+import { ProcessingItemType } from "../types";
 
 export async function moveAndClean(
   id: string,
   app: Express,
-): Promise<{ save: boolean }> {
+): Promise<{
+  status: "finished" | "error" | undefined;
+  copiedPaths?: string[];
+}> {
   const item: ProcessingItemType =
     app.settings.processingList.actions.getItem(id);
-  let save = false;
 
-  if (!item) return { save: false };
+  let status: "finished" | "error" | undefined;
+
+  const copiedPaths: string[] = [];
+
+  if (!item) return { status: "finished" };
 
   try {
     logs(item, "🕖 [TIDARR] Move processed items ...", app);
@@ -46,9 +27,7 @@ export async function moveAndClean(
     // Check if there are files to move
     if (!hasFileToMove()) {
       logs(item, "⚠️ [TIDARR] No files to move (empty download folder)", app);
-      item["status"] = "finished";
-      save = true;
-      return { save };
+      return { status: "finished" };
     }
 
     let args = "-rf";
@@ -61,10 +40,9 @@ export async function moveAndClean(
     console.log(`🕖 [TIDARR] Command: ${cmd}`);
     execSync(cmd, { encoding: "utf-8" });
     logs(item, `✅ [TIDARR] Move complete (${item.type})`, app);
-    item["status"] = "finished";
-    save = true;
+    status = "finished";
   } catch (e: unknown) {
-    item["status"] = "error";
+    status = "error";
     logs(
       item,
       `❌ [TIDARR] Error moving files:\r\n${(e as Error).message}`,
@@ -73,12 +51,14 @@ export async function moveAndClean(
   } finally {
     const cleaningStatus = await cleanFolder();
     if (cleaningStatus === "error") {
-      item["status"] = "error";
+      status = "error";
     }
-    app.settings.processingList.actions.updateItem(item);
   }
 
-  return { save: save };
+  return {
+    status: status,
+    copiedPaths: copiedPaths.length > 0 ? copiedPaths : undefined,
+  };
 }
 
 export async function cleanFolder(): Promise<"finished" | "error"> {

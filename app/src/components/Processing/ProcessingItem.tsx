@@ -51,9 +51,7 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
             </>
           ) : null}
           &nbsp;&nbsp;
-          {(item.status === "processing" ||
-            item.status === "finished" ||
-            item.status === "error") && <DialogTerminal item={item} />}
+          {item.status !== "queue" && <DialogTerminal item={item} />}
           {step}
         </Box>
       </TableCell>

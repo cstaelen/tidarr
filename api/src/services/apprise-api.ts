@@ -2,7 +2,7 @@ import { execSync } from "child_process";
 import { Express } from "express";
 
 import { curl_escape_all } from "../helpers/curl_escape";
-import { logs } from "../helpers/jobs";
+import { logs } from "../helpers/logs";
 import { ProcessingItemType } from "../types";
 
 export async function appriseApiPush(item: ProcessingItemType, app: Express) {

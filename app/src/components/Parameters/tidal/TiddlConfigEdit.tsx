@@ -26,7 +26,7 @@ export default function TiddlConfigEdit() {
 
   const handleSave = async () => {
     await saveFileContent();
-    // window.location.reload();
+    window.location.reload();
   };
 
   return (
