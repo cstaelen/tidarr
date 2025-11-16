@@ -8,6 +8,8 @@ Tidarr notable changes.
 - [Front] Add Tiddl TOML config live editor
 ### 🖍 Changed
 - [Front] Update some config dialog UI
+### 🐛 Fixed
+- [Front] Fix `video_quality` front error
 
 ## 1.0.1
 ### 🐛 Fixed

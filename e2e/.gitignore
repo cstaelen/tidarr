@@ -4,3 +4,4 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /snapshots/*/*-darwin.png
+custom.css
