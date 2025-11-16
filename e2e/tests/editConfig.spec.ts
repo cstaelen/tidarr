@@ -113,7 +113,7 @@ test("Edit Config: Should save TOML config to API and persist", async ({
   await page.getByRole("button", { name: "Toggle editor" }).click();
 
   const newToml = `[download]
-quality = "high"`;
+track_quality = "low"`;
 
   // Wait for Monaco editor to load
   await page.locator(".monaco-editor").waitFor();
@@ -141,6 +141,6 @@ quality = "high"`;
   const editorText = await page
     .locator(".monaco-editor .view-lines")
     .innerText();
-  expect(editorText).toContain("quality");
-  expect(editorText).toContain("high");
+  expect(editorText).toContain("track_quality");
+  expect(editorText).toContain("low");
 });
