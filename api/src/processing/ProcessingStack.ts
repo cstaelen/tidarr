@@ -305,6 +305,11 @@ export const ProcessingStack = (expressApp: Express) => {
       return;
     }
 
+    if (item["status"] === "error") {
+      logs(item.id, "⚠️ [TIDDL] An error occured while downloading.");
+      return;
+    }
+
     if (item["type"] === "playlist" || item["type"] === "mix") {
       replacePathInM3U(item);
     }
@@ -321,23 +326,21 @@ export const ProcessingStack = (expressApp: Express) => {
     // Move to output folder
     await moveAndClean(item.id);
 
-    if (item["status"] !== "error") {
-      // Plex library update with specific paths
-      await plexUpdate(item, foldersToScan);
+    // Plex library update with specific paths
+    await plexUpdate(item, foldersToScan);
 
-      // Gotify notification
-      await gotifyPush(item);
+    // Gotify notification
+    await gotifyPush(item);
 
-      // Webhook push over notification
-      await hookPushOver(item);
+    // Webhook push over notification
+    await hookPushOver(item);
 
-      // Apprise API notification
-      await appriseApiPush(item);
+    // Apprise API notification
+    await appriseApiPush(item);
 
-      logs(item.id, "---------------------");
-      logs(item.id, "✅ [TIDARR] Post processing complete.");
-      item["status"] = "finished";
-    }
+    logs(item.id, "---------------------");
+    logs(item.id, "✅ [TIDARR] Post processing complete.");
+    item["status"] = "finished";
 
     // Remove item from persistant queue file
     removeItemFromFile(item.id);

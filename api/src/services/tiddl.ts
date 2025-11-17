@@ -79,10 +79,11 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   child.stdout?.setEncoding("utf8");
   let lastTotalProgress = "";
+  let hasProcessingError = false;
 
   child.stdout?.on("data", (data: string) => {
     if (
-      data.includes("Error:") ||
+      data.includes("Error") ||
       data.includes("Exists") ||
       data.includes("Total downloads") ||
       data.includes("Downloaded")
@@ -99,6 +100,9 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
           logs(item.id, lastTotalProgress, { skipConsole: true });
         }
       }
+
+      if (data.includes("Error")) hasProcessingError = true;
+
       return;
     }
 
@@ -138,7 +142,8 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       logs(item.id, `❌ [TIDDL] Tiddl process exited with code ${code})`);
     }
 
-    item["status"] = isDownloaded ? "downloaded" : "error";
+    item["status"] =
+      isDownloaded && !hasProcessingError ? "downloaded" : "error";
     item["loading"] = false;
     app.locals.processingStack.actions.updateItem(item);
     if (onFinish) onFinish();
