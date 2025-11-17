@@ -260,6 +260,10 @@ export const ProcessingStack = (expressApp: Express) => {
       }
 
       return;
+    } else {
+      logs(item.id, `⚠️ [MIX]: No track found.`);
+      item["status"] = "error";
+      updateItem(item);
     }
 
     deletePlaylist(playlistId, config);

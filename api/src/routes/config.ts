@@ -20,7 +20,8 @@ router.get(
     try {
       refreshTidalToken();
       const tiddl_config = get_tiddl_config();
-      res.app.set("tiddlConfig", tiddl_config);
+      // Store in app.locals so it's accessible throughout the app
+      res.app.locals.tiddlConfig = tiddl_config;
 
       res.status(200).json({
         ...res.app.locals.config,
