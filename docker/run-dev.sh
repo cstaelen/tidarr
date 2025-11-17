@@ -30,7 +30,19 @@ umask $EFFECTIVE_UMASK
 if [ -n "$PUID" ] && [ -n "$PGID" ]; then
   echo "🔑 [TIDARR] Setting ownership to PUID=$PUID PGID=$PGID"
   echo "🔑 [TIDARR] Using UMASK=$EFFECTIVE_UMASK"
-  chown -R $PUID:$PGID /home/app/standalone/shared 2>/dev/null || true
+  
+  # Create required directories if they don't exist
+  mkdir -p /home/app/standalone/shared/.tiddl 2>/dev/null || true
+  mkdir -p /home/app/standalone/shared/beets 2>/dev/null || true
+  
+  # Change ownership only of specific Tidarr-related files/directories
+  # Avoid traversing cache directories (.cache, .yarn, .pki, node_modules)
+  chown $PUID:$PGID /home/app/standalone/shared 2>/dev/null || true
+  chown -R $PUID:$PGID /home/app/standalone/shared/.tiddl 2>/dev/null || true
+  chown -R $PUID:$PGID /home/app/standalone/shared/beets 2>/dev/null || true
+  chown $PUID:$PGID /home/app/standalone/shared/*.json 2>/dev/null || true
+  chown $PUID:$PGID /home/app/standalone/shared/*.css 2>/dev/null || true
+  chown $PUID:$PGID /home/app/standalone/shared/*.yml 2>/dev/null || true
 
   # Run yarn as specified UID/GID using su-exec
   # Set HOME to /home/app/standalone/shared for tiddl config access
