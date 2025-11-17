@@ -289,7 +289,6 @@ export const ProcessingStack = (expressApp: Express) => {
     logs(item.id, "---------------------");
     logs(item.id, "⚙️ POST PROCESSING   ");
     logs(item.id, "---------------------");
-    logs(item.id, "Running...");
 
     if (!shouldPostProcess) {
       item["status"] = "finished";
