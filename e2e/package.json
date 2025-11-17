@@ -1,5 +1,7 @@
 {
   "name": "tidarr-testing",
+  "version": "0.0.0-dev",
+  "private": true,
   "description": "",
   "main": "index.js",
   "keywords": [],

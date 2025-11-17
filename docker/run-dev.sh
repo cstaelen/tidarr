@@ -47,12 +47,9 @@ if [ -n "$PUID" ] && [ -n "$PGID" ]; then
   # Run yarn as specified UID/GID using su-exec
   # Set HOME to /home/app/standalone/shared for tiddl config access
   # IMPORTANT: Set umask AFTER su-exec switch to ensure it's inherited by the user process
-  exec su-exec $PUID:$PGID sh -c "umask $EFFECTIVE_UMASK && exec env HOME=/home/app/standalone/shared sh -c 'yarn install && yarn --cwd ./app install && yarn --cwd ./api install && yarn --cwd ./e2e install && yarn dev'"
+  exec su-exec $PUID:$PGID sh -c "umask $EFFECTIVE_UMASK && exec env HOME=/home/app/standalone/shared sh -c 'yarn install && yarn dev'"
 else
   # Run as root (default)
   yarn install
-  yarn --cwd ./app install
-  yarn --cwd ./api install
-  yarn --cwd ./e2e install
   yarn dev
 fi

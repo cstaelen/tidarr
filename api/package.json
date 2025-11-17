@@ -1,5 +1,6 @@
 {
   "name": "tidarr-api",
+  "version": "0.0.0-dev",
   "private": true,
   "devDependencies": {
     "@types/apicache": "^1.6.8",
