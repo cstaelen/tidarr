@@ -1,4 +1,4 @@
-import { execSync } from "child_process";
+import { ChildProcess, execSync } from "child_process";
 import path from "path";
 
 import { PROCESSING_PATH, ROOT_PATH } from "../../constants";
@@ -185,4 +185,45 @@ export function getFolderToScan(): string[] {
   }
 
   return foldersToScan;
+}
+
+/**
+ * Kills a child process gracefully with SIGTERM, then force kills with SIGKILL if still running after 1 second.
+ * Removes all event listeners before killing to prevent race conditions with event handlers.
+ * @param process - The child process to kill
+ * @param itemId - Optional item ID for error logging context
+ * @returns Promise that resolves when the process is killed
+ */
+export async function killProcess(
+  process: ChildProcess | undefined,
+  itemId?: string,
+): Promise<void> {
+  if (!process || process.killed) {
+    return;
+  }
+
+  try {
+    // Remove all event listeners to prevent them from firing during kill
+    process.removeAllListeners("close");
+    process.removeAllListeners("exit");
+    process.removeAllListeners("error");
+    process.stdout?.removeAllListeners();
+    process.stderr?.removeAllListeners();
+
+    // Try graceful termination first
+    process.kill("SIGTERM");
+
+    // Wait 1 second, then force kill if still running
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        if (process && !process.killed) {
+          process.kill("SIGKILL");
+        }
+        resolve();
+      }, 1000);
+    });
+  } catch (error) {
+    const context = itemId ? ` for item ${itemId}` : "";
+    console.error(`Failed to kill process${context}:`, error);
+  }
 }

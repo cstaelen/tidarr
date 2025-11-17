@@ -82,4 +82,55 @@ router.delete(
   },
 );
 
+/**
+ * POST /api/queue/pause
+ * Pause the download queue (cancels current item and sets it back to queue)
+ */
+router.post(
+  "/queue/pause",
+  ensureAccessIsGranted,
+  async (req: Request, res: Response) => {
+    try {
+      await req.app.locals.processingStack.actions.pauseQueue();
+      res.sendStatus(204);
+    } catch (error) {
+      handleRouteError(error, res, "pause queue");
+    }
+  },
+);
+
+/**
+ * POST /api/queue/resume
+ * Resume the download queue
+ */
+router.post(
+  "/queue/resume",
+  ensureAccessIsGranted,
+  (req: Request, res: Response) => {
+    try {
+      req.app.locals.processingStack.actions.resumeQueue();
+      res.sendStatus(204);
+    } catch (error) {
+      handleRouteError(error, res, "resume queue");
+    }
+  },
+);
+
+/**
+ * GET /api/queue/status
+ * Get the current queue status (paused or not)
+ */
+router.get(
+  "/queue/status",
+  ensureAccessIsGranted,
+  (req: Request, res: Response) => {
+    try {
+      const status = req.app.locals.processingStack.actions.getQueueStatus();
+      res.json(status);
+    } catch (error) {
+      handleRouteError(error, res, "get queue status");
+    }
+  },
+);
+
 export default router;

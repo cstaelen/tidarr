@@ -15,8 +15,10 @@ import { useConfigProvider } from "./ConfigProvider";
 
 type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
+  isPaused: boolean | undefined;
   actions: {
     setProcessingList: (list: ProcessingItemType[]) => void;
+    setIsPaused: (isPaused: boolean) => void;
     addItem: (
       item: TidalItemType,
       type: ContentType,
@@ -32,6 +34,7 @@ const ProcessingContext = React.createContext<ProcessingContextType>(
 
 export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
+  const [isPaused, setIsPaused] = useState<boolean>();
   const [processingEventSource, setProcessingEventSource] =
     useState<EventSourceController>();
   const {
@@ -110,8 +113,10 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
   const value = {
     processingList,
+    isPaused,
     actions: {
       setProcessingList,
+      setIsPaused,
       addItem,
       removeItem,
       retryItem,

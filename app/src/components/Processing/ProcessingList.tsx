@@ -20,9 +20,10 @@ import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 
 import { ProcessingItem } from "./ProcessingItem";
+import { ProcessingPauseButton } from "./ProcessingPauseButton";
 
 export const ProcessingList = () => {
-  const { processingList } = useProcessingProvider();
+  const { processingList, isPaused } = useProcessingProvider();
   const { actions } = useConfigProvider();
   const { actions: apiActions } = useApiFetcher();
   const [open, setOpen] = useState(false);
@@ -68,11 +69,24 @@ export const ProcessingList = () => {
     ? processingList?.filter((item) => item?.status === "error")?.length > 0
     : false;
 
-  const buttonColor = hasError ? "error" : !isLoading ? "success" : "primary";
+  let buttonColor: "primary" | "error" | "warning" | "success" = "primary";
+  switch (true) {
+    case isPaused:
+      buttonColor = "warning";
+      break;
+    case isLoading:
+      buttonColor = "primary";
+      break;
+    case hasError:
+      buttonColor = "error";
+      break;
+    default:
+      buttonColor = "success";
+  }
 
   const processingButton = (
     <>
-      {isLoading && (
+      {isLoading && !isPaused && (
         <CircularProgress
           size={68}
           sx={{
@@ -156,32 +170,36 @@ export const ProcessingList = () => {
             gap={2}
             p={1}
             bgcolor="background.default"
-            justifyContent="end"
+            justifyContent="space-between"
+            alignItems="center"
           >
-            <Button
-              size="small"
-              variant="outlined"
-              startIcon={<ClearAll />}
-              onClick={handleRemoveFinished}
-              disabled={
-                isRemoving ||
-                !processingList?.some((item) =>
-                  ["finished", "downloaded", "error"].includes(item.status),
-                )
-              }
-            >
-              Clear finished
-            </Button>
-            <Button
-              size="small"
-              variant="outlined"
-              color="error"
-              startIcon={<DeleteSweep />}
-              onClick={handleRemoveAll}
-              disabled={isRemoving || !processingList?.length}
-            >
-              {isRemoving ? "Clearing..." : "Clear all"}
-            </Button>
+            <ProcessingPauseButton />
+            <Box display="flex" gap={2}>
+              <Button
+                size="small"
+                variant="outlined"
+                startIcon={<ClearAll />}
+                onClick={handleRemoveFinished}
+                disabled={
+                  isRemoving ||
+                  !processingList?.some((item) =>
+                    ["finished", "downloaded", "error"].includes(item.status),
+                  )
+                }
+              >
+                Clear finished
+              </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                color="error"
+                startIcon={<DeleteSweep />}
+                onClick={handleRemoveAll}
+                disabled={isRemoving || !processingList?.length}
+              >
+                {isRemoving ? "Clearing..." : "Clear all"}
+              </Button>
+            </Box>
           </Box>
         </Paper>
       </Box>

@@ -59,6 +59,9 @@ type ApiFetcherContextType = {
       eventSource: EventSourcePlus;
       controller: EventSourceController;
     };
+    pause_queue: () => Promise<void>;
+    resume_queue: () => Promise<void>;
+    get_queue_status: () => Promise<{ isPaused: boolean } | undefined>;
   };
 };
 
@@ -400,6 +403,38 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     );
   }
 
+  // Queue control
+
+  async function pause_queue(): Promise<void> {
+    await queryExpressJS(`${apiUrl}/queue/pause`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
+  async function resume_queue(): Promise<void> {
+    await queryExpressJS(`${apiUrl}/queue/resume`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
+  async function get_queue_status() {
+    return await queryExpressJS<{ isPaused: boolean }>(
+      `${apiUrl}/queue/status`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+  }
+
   const value = {
     apiUrl,
     error: {
@@ -427,6 +462,9 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       stream_item_output,
       get_tiddl_toml,
       set_tiddl_toml,
+      pause_queue,
+      resume_queue,
+      get_queue_status,
     },
   };
 
