@@ -1,6 +1,11 @@
 {
   "name": "tidarr-main",
   "private": true,
+  "workspaces": [
+    "api",
+    "app",
+    "e2e"
+  ],
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@typescript-eslint/parser": "^8.46.3",

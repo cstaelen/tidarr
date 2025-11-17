@@ -11,6 +11,7 @@ Tidarr notable changes.
 - [API] Restore mix-to-playlist processing to get more metadatas #459
 - [Plex] Make Plex scan requests more intelligent by scanning new folders only #456
 - [API] Refacto api (update endpoints to standard syntax + method)
+- [Docker] Optimize image building and size
 ### 🐛 Fixed
 - [Front] Fix `video_quality` front error
 - [API] Fix ignored umask #463

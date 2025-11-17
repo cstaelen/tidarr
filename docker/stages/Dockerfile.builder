@@ -4,29 +4,20 @@ ENV SHELL=bash
 ARG NODE_ENV
 ENV NODE_ENV="${NODE_ENV}"
 
-RUN apk add git npm nodejs
-RUN npm install -g yarn
+# Install build dependencies
+RUN apk add --no-cache git npm nodejs && \
+    npm install -g yarn && \
+    rm -rf /var/cache/apk/*
 
 COPY . .
 
-# Common app
-
+# Install all workspace dependencies at once
 RUN \
       --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \
-      yarn --prefer-offline --frozen-lockfile
+      yarn install --prefer-offline --frozen-lockfile
 
 # Build app
-
-RUN \
-      --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \
-      yarn --cwd ./app --prefer-offline --frozen-lockfile
-
-RUN yarn --cwd ./app build 
+RUN yarn workspace tidarr-react run build
 
 # Build api
-
-RUN \
-      --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \
-      yarn --cwd ./api --prefer-offline --frozen-lockfile
-
-RUN yarn --cwd ./api build 
+RUN yarn workspace tidarr-api run build 
