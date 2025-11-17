@@ -4,8 +4,10 @@ ENV SHELL=bash
 ARG NODE_ENV
 ENV NODE_ENV="${NODE_ENV}"
 
-RUN apk add git npm nodejs
-RUN npm install -g yarn
+# Install build dependencies
+RUN apk add --no-cache git npm nodejs && \
+    npm install -g yarn && \
+    rm -rf /var/cache/apk/*
 
 COPY . .
 

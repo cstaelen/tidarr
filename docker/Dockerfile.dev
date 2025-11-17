@@ -10,16 +10,29 @@ ENV ENVIRONMENT="development"
 ENV VERSION="0.0.0-dev"
 ENV HOME=/home/app/standalone/shared
 
-RUN apk update && apk upgrade
-RUN apk add --no-cache npm nodejs ffmpeg beets bash su-exec curl
+# Install system dependencies and upgrade packages
+RUN apk update && apk upgrade && \
+    apk add --no-cache npm nodejs ffmpeg beets bash su-exec curl git && \
+    rm -rf /var/cache/apk/*
+
+# Install global npm packages
+RUN npm install -g yarn tsx
 
 INCLUDE docker/stages/Dockerfile.python
 
-RUN npm install -g yarn tsx
+# Copy package files first for better caching
+COPY package.json yarn.lock* ./
+COPY api/package.json api/yarn.lock* ./api/
+COPY app/package.json app/yarn.lock* ./app/
+COPY e2e/package.json e2e/yarn.lock* ./e2e/
 
+# Copy the rest of the application
 COPY . .
 
 EXPOSE 8484
 EXPOSE 3000
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+  CMD curl -f http://localhost:8484/api/settings || exit 1
 
 ENTRYPOINT ["sh", "/home/app/standalone/docker/run-dev.sh"]

@@ -13,13 +13,18 @@ INCLUDE docker/stages/Dockerfile.builder
 
 FROM --platform=$TARGETPLATFORM python:3.13-alpine3.21 AS runner
 
-# Install base packages
-RUN apk add --no-cache npm nodejs ffmpeg beets bash su-exec curl
+# Install base packages and clean up cache
+RUN apk update && apk upgrade && \
+    apk add --no-cache npm nodejs ffmpeg beets bash su-exec wget && \
+    rm -rf /var/cache/apk/*
 
 INCLUDE docker/stages/Dockerfile.python
 INCLUDE docker/stages/Dockerfile.runner
 
 ARG VERSION
 ENV VERSION=$VERSION
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8484/api/settings || exit 1
 
 ENTRYPOINT ["sh", "/home/app/standalone/docker/run-prod.sh"]

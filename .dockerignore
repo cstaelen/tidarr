@@ -1,14 +1,41 @@
+# Dependencies
 node_modules
+.pnpm-store
+.yarn
+.npm
+
+# Git
+.git
 .gitignore
+
+# Build outputs
+dist
+.cache
+download
+
+# Docker
 Dockerfile.*
 .dockerignore
-Makefile
-*.log*
-.cache
-dist
-download
 compose.override.yml
 docker/mnt
+
+# Development
+Makefile
+*.log*
+.env.local
+.vscode
+.idea
+
+# Documentation
 CHANGELOG.md
 README.md
-.git
+*.md
+
+# Testing
+e2e/test-results
+e2e/playwright-report
+playwright-report
+coverage
+
+# Shared runtime data (mounted volume)
+shared
