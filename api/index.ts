@@ -6,6 +6,7 @@ import proxy from "express-http-proxy";
 import fs from "fs";
 import path from "path";
 
+import { setAppInstance } from "./src/app-instance";
 import { gracefulShutdown } from "./src/helpers/gracefull_shutdown";
 import { ProcessingStack } from "./src/processing/ProcessingStack";
 // Import routers
@@ -33,6 +34,9 @@ const hostname = "0.0.0.0";
 const app: Express = express();
 const cache = apicache.middleware;
 
+// Make app instance available globally
+setAppInstance(app);
+
 app.use(express.json());
 app.use(cors());
 app.use(
@@ -48,11 +52,10 @@ app.use(
 );
 
 const processingList = ProcessingStack(app);
-app.set("processingList", processingList);
-app.set("addOutputLog", processingList.actions.addOutputLog);
-
-app.set("activeListConnections", []);
-app.set("activeItemOutputConnections", new Map<string, Response[]>());
+app.locals.processingStack = processingList;
+app.locals.addOutputLog = processingList.actions.addOutputLog;
+app.locals.activeListConnections = [];
+app.locals.activeItemOutputConnections = new Map<string, Response[]>();
 
 app.all("/{*any}", function (_req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -77,11 +80,11 @@ app.use("/api", tiddlTomlRouter);
 
 const server = app.listen(port, async () => {
   const config = await configureServer();
-  app.set("config", config);
+  app.locals.config = config;
 
   createCronJob(app);
 
-  app.settings.processingList.actions.loadDataFromFile();
+  app.locals.processingStack.actions.loadDataFromFile();
 
   console.log(`⚡️ [SERVER]: Server is running at http://${hostname}:${port}`);
 });

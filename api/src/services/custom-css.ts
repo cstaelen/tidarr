@@ -7,17 +7,17 @@ const CUSTOM_CSS_PATH = "/home/app/standalone/shared/custom.css";
 
 /**
  * Read the custom CSS file content
- * @returns The CSS content as a string, or empty string if file doesn't exist
+ * @returns An object containing the CSS content
  */
-export function getCustomCSS(): string {
+export function getCustomCSS(): { css: string } {
   try {
     if (fs.existsSync(CUSTOM_CSS_PATH)) {
-      return fs.readFileSync(CUSTOM_CSS_PATH, "utf-8");
+      return { css: fs.readFileSync(CUSTOM_CSS_PATH, "utf-8") };
     }
-    return "";
+    return { css: "" };
   } catch (error) {
     console.error("❌ [CSS] Error reading custom.css:", error);
-    return "";
+    return { css: "" };
   }
 }
 

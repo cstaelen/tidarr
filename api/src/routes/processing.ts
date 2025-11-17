@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 
 import { ensureAccessIsGranted } from "../helpers/auth";
+import { handleRouteError } from "../helpers/error-handler";
 import {
   validateIdMiddleware,
   validateItemMiddleware,
@@ -19,8 +20,12 @@ router.post(
   validateRequestBody(["item"]),
   validateItemMiddleware,
   async (req: Request, res: Response) => {
-    req.app.settings.processingList.actions.addItem(req.body.item);
-    res.sendStatus(201);
+    try {
+      req.app.locals.processingStack.actions.addItem(req.body.item);
+      res.sendStatus(201);
+    } catch (error) {
+      handleRouteError(error, res, "add item to queue");
+    }
   },
 );
 
@@ -34,34 +39,46 @@ router.delete(
   validateRequestBody(["id"]),
   validateIdMiddleware,
   (req: Request, res: Response) => {
-    req.app.settings.processingList.actions.removeItem(req.body.id);
-    res.sendStatus(204);
+    try {
+      req.app.locals.processingStack.actions.removeItem(req.body.id);
+      res.sendStatus(204);
+    } catch (error) {
+      handleRouteError(error, res, "remove item from queue");
+    }
   },
 );
 
 /**
- * DELETE /api/remove_all
+ * DELETE /api/remove-all
  * Clear the entire download queue
  */
 router.delete(
-  "/remove_all",
+  "/remove-all",
   ensureAccessIsGranted,
   (req: Request, res: Response) => {
-    req.app.settings.processingList.actions.removeAllItems();
-    res.sendStatus(204);
+    try {
+      req.app.locals.processingStack.actions.removeAllItems();
+      res.sendStatus(204);
+    } catch (error) {
+      handleRouteError(error, res, "remove all items from queue");
+    }
   },
 );
 
 /**
- * DELETE /api/remove_finished
+ * DELETE /api/remove-finished
  * Remove all finished items from the queue
  */
 router.delete(
-  "/remove_finished",
+  "/remove-finished",
   ensureAccessIsGranted,
   (req: Request, res: Response) => {
-    req.app.settings.processingList.actions.removeFinishedItems();
-    res.sendStatus(204);
+    try {
+      req.app.locals.processingStack.actions.removeFinishedItems();
+      res.sendStatus(204);
+    } catch (error) {
+      handleRouteError(error, res, "remove finished items from queue");
+    }
   },
 );
 

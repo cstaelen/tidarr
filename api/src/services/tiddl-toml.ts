@@ -5,17 +5,17 @@ const TOML_CONFIG_PATH = "/home/app/standalone/shared/.tiddl/config.toml";
 
 /**
  * Read the config TOML file content
- * @returns The TOML content as a string, or empty string if file doesn't exist
+ * @returns An object containing the TOML content
  */
-export function getTomlConfig(): string {
+export function getTomlConfig(): { toml: string } {
   try {
     if (fs.existsSync(TOML_CONFIG_PATH)) {
-      return fs.readFileSync(TOML_CONFIG_PATH, "utf-8");
+      return { toml: fs.readFileSync(TOML_CONFIG_PATH, "utf-8") };
     }
-    return "";
+    return { toml: "" };
   } catch (error) {
     console.error("❌ [TOML] Error reading .tiddl/config.toml:", error);
-    return "";
+    return { toml: "" };
   }
 }
 

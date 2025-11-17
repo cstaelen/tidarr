@@ -30,10 +30,10 @@ import {
 } from "./mix-to-playlist";
 
 export function notifySSEConnections(expressApp: Express) {
-  const { processingList, activeListConnections } = expressApp.settings;
+  const { processingStack, activeListConnections } = expressApp.locals;
 
   // Data no longer contains output/output_history, send directly
-  const data = JSON.stringify(processingList.data);
+  const data = JSON.stringify(processingStack.data);
 
   activeListConnections.forEach((conn: Response) => {
     conn.write(`data: ${data}\n\n`);
@@ -46,7 +46,7 @@ export function notifyItemOutput(
   output: string,
 ) {
   const connections: Map<string, Response[]> =
-    expressApp.settings.activeItemOutputConnections;
+    expressApp.locals.activeItemOutputConnections;
   // Ensure itemId is a string for Map lookup
   const itemIdString = String(itemId);
   const itemConnections = connections.get(itemIdString);
@@ -232,34 +232,38 @@ export const ProcessingStack = (expressApp: Express) => {
   }
 
   async function processingMix(item: ProcessingItemType) {
-    const config = expressApp.settings.tiddlConfig as TiddlConfig;
+    const config = expressApp.locals.tiddlConfig as TiddlConfig;
 
-    logs(item, `🕖 [MIX]: Get track from mix id`, expressApp);
+    logs(item.id, `🕖 [MIX]: Get track from mix id`);
     const tracks = await getTracksByMixId(item.id, config);
-    logs(item, `✅ [MIX]: Done.`, expressApp);
+    logs(item.id, `✅ [MIX]: Done.`);
 
-    logs(item, `🕖 [MIX]: Create new playlist`, expressApp);
+    logs(item.id, `🕖 [MIX]: Create new playlist`);
     const playlistId = await createNewPlaylist(item.title, config);
-    logs(item, `✅ [MIX]: Done.`, expressApp);
+    logs(item.id, `✅ [MIX]: Done.`);
 
     if (tracks) {
-      logs(item, `🕖 [MIX]: Add track ids to new playlist`, expressApp);
+      logs(item.id, `🕖 [MIX]: Add track ids to new playlist`);
       await addTracksToPlaylist(playlistId, tracks, config);
-      logs(item, `✅ [MIX]: Done.`, expressApp);
+      logs(item.id, `✅ [MIX]: Done.`);
 
       item["url"] = `playlist/${playlistId}`;
-      logs(item, `🕖 [MIX]: Download temporary playlist`, expressApp);
+      logs(item.id, `🕖 [MIX]: Download temporary playlist`);
 
       const child = tidalDL(item.id, expressApp, () => {
-        logs(item, `🕖 [MIX]: Delete temporary playlist`, expressApp);
+        logs(item.id, `🕖 [MIX]: Delete temporary playlist`);
         deletePlaylist(playlistId, config);
-        logs(item, `✅ [MIX]: Done.`, expressApp);
+        logs(item.id, `✅ [MIX]: Done.`);
       });
       if (child) {
         item["process"] = child;
       }
 
       return;
+    } else {
+      logs(item.id, `⚠️ [MIX]: No track found.`);
+      item["status"] = "error";
+      updateItem(item);
     }
 
     deletePlaylist(playlistId, config);
@@ -269,7 +273,7 @@ export const ProcessingStack = (expressApp: Express) => {
     item["status"] = "processing";
     // Initialize empty output history in the Map (ensure string key)
     outputs.set(String(item.id), []);
-    expressApp.settings.processingList.actions.updateItem(item);
+    updateItem(item);
 
     await cleanFolder();
 
@@ -286,15 +290,14 @@ export const ProcessingStack = (expressApp: Express) => {
   async function postProcessing(item: ProcessingItemType) {
     const shouldPostProcess = hasFileToMove();
 
-    logs(item, "---------------------", expressApp);
-    logs(item, "⚙️ POST PROCESSING   ", expressApp);
-    logs(item, "---------------------", expressApp);
-    logs(item, "Running...", expressApp);
+    logs(item.id, "---------------------");
+    logs(item.id, "⚙️ POST PROCESSING   ");
+    logs(item.id, "---------------------");
 
     if (!shouldPostProcess) {
       item["status"] = "finished";
       updateItem(item);
-      logs(item, "✅ [TIDARR] No file to process.", expressApp);
+      logs(item.id, "✅ [TIDARR] No file to process.");
 
       // Remove item from persistant queue file
       removeItemFromFile(item.id);
@@ -303,36 +306,36 @@ export const ProcessingStack = (expressApp: Express) => {
     }
 
     if (item["type"] === "playlist" || item["type"] === "mix") {
-      replacePathInM3U(item, expressApp);
+      replacePathInM3U(item);
     }
 
     // Beets process
-    await beets(item.id, expressApp);
+    await beets(item.id);
 
     // Set permissions
-    setPermissions(item, expressApp);
+    setPermissions(item);
 
     // Keep trace of folders processed
     const foldersToScan = getFolderToScan();
 
     // Move to output folder
-    await moveAndClean(item.id, expressApp);
+    await moveAndClean(item.id);
 
     if (item["status"] !== "error") {
       // Plex library update with specific paths
-      await plexUpdate(item, foldersToScan, expressApp);
+      await plexUpdate(item, foldersToScan);
 
       // Gotify notification
-      await gotifyPush(item, expressApp);
+      await gotifyPush(item);
 
       // Webhook push over notification
-      await hookPushOver(item, expressApp);
+      await hookPushOver(item);
 
       // Apprise API notification
-      await appriseApiPush(item, expressApp);
+      await appriseApiPush(item);
 
-      logs(item, "---------------------", expressApp);
-      logs(item, "✅ [TIDARR] Post processing complete.", expressApp);
+      logs(item.id, "---------------------");
+      logs(item.id, "✅ [TIDARR] Post processing complete.");
       item["status"] = "finished";
     }
 

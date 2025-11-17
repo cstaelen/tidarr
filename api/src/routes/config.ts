@@ -1,9 +1,11 @@
 import { Request, Response, Router } from "express";
 
 import { ensureAccessIsGranted } from "../helpers/auth";
+import { handleRouteError } from "../helpers/error-handler";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
 import { refreshTidalToken } from "../services/config";
 import { deleteTiddlConfig, tidalToken } from "../services/tiddl";
+import { SettingsResponse } from "../types";
 
 const router = Router();
 
@@ -14,46 +16,59 @@ const router = Router();
 router.get(
   "/settings",
   ensureAccessIsGranted,
-  (_req: Request, res: Response) => {
-    refreshTidalToken();
-    const tiddl_config = get_tiddl_config();
-    res.app.set("tiddlConfig", tiddl_config);
+  (_req: Request, res: Response<SettingsResponse>) => {
+    try {
+      refreshTidalToken();
+      const tiddl_config = get_tiddl_config();
+      // Store in app.locals so it's accessible throughout the app
+      res.app.locals.tiddlConfig = tiddl_config;
 
-    res.status(200).json({
-      ...res.app.settings.config,
-      noToken:
-        !tiddl_config?.auth?.token || tiddl_config?.auth?.token?.length === 0,
-      tiddl_config: tiddl_config,
-    });
+      res.status(200).json({
+        ...res.app.locals.config,
+        noToken:
+          !tiddl_config?.auth?.token || tiddl_config?.auth?.token?.length === 0,
+        tiddl_config: tiddl_config,
+      });
+    } catch (error) {
+      handleRouteError(error, res, "get settings");
+    }
   },
 );
 
 /**
- * GET /api/run_token
+ * GET /api/run-token
  * Run Tidal authentication flow (SSE endpoint)
  */
 router.get(
-  "/run_token",
+  "/run-token",
   ensureAccessIsGranted,
   async (req: Request, res: Response) => {
-    res.setHeader("Content-Type", "text/event-stream");
-    res.setHeader("Cache-Control", "no-cache");
-    res.setHeader("Connection", "keep-alive");
-    res.flushHeaders();
-    await tidalToken(req, res);
+    try {
+      res.setHeader("Content-Type", "text/event-stream");
+      res.setHeader("Cache-Control", "no-cache");
+      res.setHeader("Connection", "keep-alive");
+      res.flushHeaders();
+      await tidalToken(req, res);
+    } catch (error) {
+      handleRouteError(error, res, "run token authentication");
+    }
   },
 );
 
 /**
- * GET /api/delete_token
+ * DELETE /api/token
  * Delete Tidal authentication token
  */
-router.get(
-  "/delete_token",
+router.delete(
+  "/token",
   ensureAccessIsGranted,
   (_req: Request, res: Response) => {
-    deleteTiddlConfig();
-    res.sendStatus(204);
+    try {
+      deleteTiddlConfig();
+      res.sendStatus(204);
+    } catch (error) {
+      handleRouteError(error, res, "delete token");
+    }
   },
 );
 

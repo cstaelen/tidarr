@@ -1,7 +1,12 @@
 import { Request, Response, Router } from "express";
 
 import { ensureAccessIsGranted } from "../helpers/auth";
+import {
+  handleRouteError,
+  handleValidationError,
+} from "../helpers/error-handler";
 import { validateRequestBody } from "../helpers/validation";
+import { CustomCSSResponse, CustomCSSSaveResponse } from "../types";
 
 import { getCustomCSS, setCustomCSS } from "../services/custom-css";
 
@@ -14,13 +19,12 @@ const router = Router();
 router.get(
   "/custom-css",
   ensureAccessIsGranted,
-  (_req: Request, res: Response) => {
+  (_req: Request, res: Response<CustomCSSResponse>) => {
     try {
       const cssContent = getCustomCSS();
       res.status(200).json(cssContent);
     } catch (error) {
-      console.error("[ERROR] Failed to read custom CSS:", error);
-      res.status(500).json({ error: "Failed to read custom CSS" });
+      handleRouteError(error, res, "read custom CSS");
     }
   },
 );
@@ -33,12 +37,12 @@ router.post(
   "/custom-css",
   ensureAccessIsGranted,
   validateRequestBody(["css"]),
-  (req: Request, res: Response) => {
+  (req: Request, res: Response<CustomCSSSaveResponse>) => {
     try {
       const { css } = req.body;
 
       if (typeof css !== "string") {
-        res.status(400).json({ error: "CSS content must be a string" });
+        handleValidationError(res, "CSS content must be a string");
         return;
       }
 
@@ -47,8 +51,7 @@ router.post(
         .status(200)
         .json({ success: true, message: "Custom CSS saved successfully" });
     } catch (error) {
-      console.error("[ERROR] Failed to save custom CSS:", error);
-      res.status(500).json({ error: "Failed to save custom CSS" });
+      handleRouteError(error, res, "save custom CSS");
     }
   },
 );

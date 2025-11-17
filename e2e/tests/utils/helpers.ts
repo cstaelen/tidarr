@@ -93,7 +93,7 @@ export async function emptyProcessingList(page: Page) {
 
 export async function emptySyncList(page: Page) {
   // Call the API to clear all sync items
-  await page.request.post("http://localhost:8484/api/sync/remove-all");
+  await page.request.delete("http://localhost:8484/api/sync/remove-all");
   await page.waitForTimeout(250);
 }
 

@@ -1,11 +1,10 @@
 import { execSync } from "child_process";
-import { Express } from "express";
 
 import { curl_escape_double_quote } from "../helpers/curl_escape";
 import { logs } from "../helpers/logs";
 import { ProcessingItemType } from "../types";
 
-export async function gotifyPush(item: ProcessingItemType, app: Express) {
+export async function gotifyPush(item: ProcessingItemType) {
   if (process.env.GOTIFY_URL && process.env.GOTIFY_TOKEN) {
     console.log("--------------------");
     console.log(`🔔 GOTIFY            `);
@@ -24,13 +23,9 @@ export async function gotifyPush(item: ProcessingItemType, app: Express) {
       console.log(`🕖 [GOTIFY] URL: ${command}`);
 
       await execSync(command, { encoding: "utf-8" });
-      logs(item, `✅ [GOTIFY] Notification success`, app);
+      logs(item.id, `✅ [GOTIFY] Notification success`);
     } catch (e: unknown) {
-      logs(
-        item,
-        `❌ [GOTIFY] Notification error: ${(e as Error).message}`,
-        app,
-      );
+      logs(item.id, `❌ [GOTIFY] Notification error: ${(e as Error).message}`);
     }
   }
 }

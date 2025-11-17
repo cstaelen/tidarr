@@ -1,11 +1,10 @@
 import { execSync } from "child_process";
-import { Express } from "express";
 
 import { curl_escape_double_quote } from "../helpers/curl_escape";
 import { logs } from "../helpers/logs";
 import { ProcessingItemType } from "../types";
 
-export async function hookPushOver(item: ProcessingItemType, app: Express) {
+export async function hookPushOver(item: ProcessingItemType) {
   if (process.env.PUSH_OVER_URL) {
     console.log("--------------------");
     console.log(`🔔 PUSH OVER WEBHOOK`);
@@ -27,13 +26,9 @@ export async function hookPushOver(item: ProcessingItemType, app: Express) {
 
       execSync(command, { encoding: "utf-8" });
 
-      logs(item, `✅ [PUSHOVER WEBHOOK] Success output`, app);
+      logs(item.id, `✅ [PUSHOVER WEBHOOK] Success output`);
     } catch (e: unknown) {
-      logs(
-        item,
-        `❌ [PUSHOVER WEBHOOK] Error:\r\n${(e as Error).message}`,
-        app,
-      );
+      logs(item.id, `❌ [PUSHOVER WEBHOOK] Error:\r\n${(e as Error).message}`);
     }
   }
 }

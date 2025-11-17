@@ -161,8 +161,8 @@ test("Tidarr sync : Should be able to sync an artist", async ({ page }) => {
 test("Tidarr sync : Should be able to sync now an individual item", async ({
   page,
 }) => {
-  // Mock the /api/sync/now endpoint
-  await page.route("**/api/sync/now", async (route) => {
+  // Mock the /api/sync/trigger endpoint
+  await page.route("**/api/sync/trigger", async (route) => {
     await route.fulfill({
       status: 201,
       contentType: "application/json",
@@ -206,9 +206,9 @@ test("Tidarr sync : Should be able to sync now an individual item", async ({
 test("Tidarr sync : Should be able to sync all items at once", async ({
   page,
 }) => {
-  // Mock the /api/sync/now endpoint
+  // Mock the /api/sync/trigger endpoint
   let syncNowCalled = false;
-  await page.route("**/api/sync/now", async (route) => {
+  await page.route("**/api/sync/trigger", async (route) => {
     syncNowCalled = true;
     await route.fulfill({
       status: 201,

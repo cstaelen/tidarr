@@ -1,29 +1,46 @@
-import { Express } from "express";
-
-import { LogType, ProcessingItemType } from "../types";
+import { getAppInstance } from "../app-instance";
 
 import { stripAnsiCodes } from "./ansi_parse";
 
+/**
+ * Logs a message for a processing item.
+ * - Strips ANSI codes from the message
+ * - Logs to console (unless skipConsole is true)
+ * - Sends to SSE output connections via app.locals.addOutputLog
+ *
+ * @param itemId - The processing item ID
+ * @param message - The message to log
+ * @param options - Optional configuration
+ * @param options.replaceLast - Replace the last log entry instead of appending
+ * @param options.skipConsole - Skip console.log output
+ */
 export function logs(
-  item: ProcessingItemType | LogType,
+  itemId: string,
   message: string,
-  expressApp?: Express,
-  replaceLast?: boolean,
-  noConsoleLog?: boolean,
+  options?: {
+    replaceLast?: boolean;
+    skipConsole?: boolean;
+  },
 ) {
-  if (!item) return message;
-  if (!message) return "";
+  if (!itemId || !message) return;
 
   // Strip ANSI codes before sending to output
   const cleanMessage = stripAnsiCodes(message);
 
-  // Only console.log non-replaceLast messages (and cleaned)
-  if (!noConsoleLog) console.log(cleanMessage);
+  // Log to console unless explicitly skipped
+  if (!options?.skipConsole) {
+    console.log(cleanMessage);
+  }
 
-  if (expressApp && "id" in item) {
-    const addOutputLog = expressApp.settings.addOutputLog;
+  // Send to SSE output connections
+  try {
+    const app = getAppInstance();
+    const addOutputLog = app.locals.addOutputLog;
     if (addOutputLog) {
-      addOutputLog(item.id, cleanMessage, replaceLast);
+      addOutputLog(itemId, cleanMessage, options?.replaceLast);
     }
+  } catch {
+    // App instance not yet initialized (can happen during startup)
+    // Just skip SSE output in this case
   }
 }
