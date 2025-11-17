@@ -5,6 +5,7 @@ import {
   addItemToFile,
   loadQueueFromFile,
   removeItemFromFile,
+  updateItemInQueueFile,
 } from "../helpers/queue_save_file";
 import { appriseApiPush } from "../services/apprise-api";
 import { beets } from "../services/beets";
@@ -300,7 +301,7 @@ export const ProcessingStack = (expressApp: Express) => {
       logs(item.id, "✅ [TIDARR] No file to process.");
 
       // Remove item from persistant queue file
-      removeItemFromFile(item.id);
+      updateItemInQueueFile(item);
 
       return;
     }
@@ -343,7 +344,7 @@ export const ProcessingStack = (expressApp: Express) => {
     item["status"] = "finished";
 
     // Remove item from persistant queue file
-    removeItemFromFile(item.id);
+    updateItemInQueueFile(item);
 
     // Update item status
     updateItem(item);

@@ -32,3 +32,17 @@ export const removeItemFromFile = (id: string) => {
   saveList = saveList.filter((item) => item.id !== id);
   fs.writeFileSync(filePath, JSON.stringify(saveList, null, 2));
 };
+
+export const updateItemInQueueFile = (item: ProcessingItemType) => {
+  const saveList: ProcessingItemType[] = JSON.parse(
+    fs.readFileSync(filePath, "utf8"),
+  );
+
+  const itemIndex = saveList.findIndex((current) => current.id === item.id);
+  if (itemIndex === -1) {
+    throw new Error(`Item with id ${item.id} not found in queue`);
+  }
+  delete item.process;
+  saveList[itemIndex] = { ...item };
+  fs.writeFileSync(filePath, JSON.stringify(saveList, null, 2));
+};

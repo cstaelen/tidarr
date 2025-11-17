@@ -2,4 +2,4 @@ requests
 ffmpeg-python 
 mutagen
 
-tiddl == 3.0.1
+tiddl == 3.1.0
