@@ -1,9 +1,15 @@
-import { TiddlConfig } from "../types";
+import { logs } from "../helpers/logs";
+import { ProcessingItemType, TiddlConfig } from "../types";
 
-export async function getTracksByMixId(mixId: string, config: TiddlConfig) {
+export async function getTracksByMixId(
+  item: ProcessingItemType,
+  config: TiddlConfig,
+) {
   if (!config) return;
 
-  const url = `https://api.tidal.com/v1/mixes/${mixId}/items?countryCode=${config.auth.country_code}`;
+  logs(item.id, `🕖 [MIX]: Get track from mix id`);
+
+  const url = `https://api.tidal.com/v1/mixes/${item.id}/items?countryCode=${config.auth.country_code}`;
   const options: RequestInit = {};
   options.headers = new Headers({
     Authorization: `Bearer ${config.auth.token}`,
@@ -28,11 +34,17 @@ export async function getTracksByMixId(mixId: string, config: TiddlConfig) {
   if (ids?.length === 0)
     console.error(`❌ [MIX]: Failed to get track ids from mix.`);
 
+  logs(item.id, `✅ [MIX]: Done.`);
   return ids;
 }
 
-export async function createNewPlaylist(title: string, config: TiddlConfig) {
+export async function createNewPlaylist(
+  item: ProcessingItemType,
+  config: TiddlConfig,
+) {
   if (!config) return;
+
+  logs(item.id, `🕖 [MIX]: Create new playlist`);
 
   const url = `https://openapi.tidal.com/v2/playlists?countryCode=${config.auth.country_code}`;
   const options: RequestInit = {};
@@ -47,7 +59,7 @@ export async function createNewPlaylist(title: string, config: TiddlConfig) {
       attributes: {
         accessType: "PUBLIC",
         description: "descriptions",
-        name: title,
+        name: item.title,
       },
       type: "playlists",
     },
@@ -63,11 +75,19 @@ export async function createNewPlaylist(title: string, config: TiddlConfig) {
   }
 
   const json = await response.json();
+
+  logs(item.id, `✅ [MIX]: Done.`);
   return json.data.id;
 }
 
-export async function deletePlaylist(playlistId: number, config: TiddlConfig) {
+export async function deletePlaylist(
+  playlistId: number,
+  config: TiddlConfig,
+  itemId: string,
+) {
   if (!config) return;
+
+  logs(itemId, `🕖 [MIX]: Delete temporary playlist`);
 
   const url = `https://api.tidal.com/v1/playlists/${playlistId}?countryCode=${config.auth.country_code}`;
   const options: RequestInit = {};
@@ -84,6 +104,7 @@ export async function deletePlaylist(playlistId: number, config: TiddlConfig) {
     return;
   }
 
+  logs(itemId, `✅ [MIX]: Done.`);
   return response;
 }
 
@@ -117,8 +138,11 @@ export async function addTracksToPlaylist(
   playlistId: number,
   trackIds: number[],
   config: TiddlConfig,
+  itemId: string,
 ) {
   if (!config) return;
+
+  logs(itemId, `🕖 [MIX]: Add track ids to new playlist`);
 
   const etag = await getPlaylistEtag(playlistId, config);
   const url = `https://tidal.com/v1/playlists/${playlistId}/items?countryCode=FR&locale=fr_FR&deviceType=BROWSER`;
@@ -145,5 +169,7 @@ export async function addTracksToPlaylist(
     );
   }
   const json = await response.json();
+
+  logs(itemId, `✅ [MIX]: Done.`);
   return json;
 }
