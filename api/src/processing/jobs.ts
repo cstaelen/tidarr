@@ -126,6 +126,37 @@ export async function setPermissions(item: ProcessingItemType) {
       logs(item.id, `⚠️ [TIDARR] Chown skipped (no files in download folder)`);
     }
   }
+
+  // Apply chmod based on UMASK to fix file permissions
+  // UMASK defines which permissions to REMOVE, so we need to invert it
+  if (process.env.UMASK) {
+    try {
+      const umaskValue = parseInt(process.env.UMASK, 8);
+      // Default file permissions are 666 (rw-rw-rw-), directory permissions are 777 (rwxrwxrwx)
+      const fileMode = (0o666 & ~umaskValue).toString(8);
+      const dirMode = (0o777 & ~umaskValue).toString(8);
+
+      // Apply file permissions to regular files
+      execSync(`find ${PROCESSING_PATH} -type f -exec chmod ${fileMode} {} +`, {
+        encoding: "utf-8",
+      });
+
+      // Apply directory permissions to directories
+      execSync(`find ${PROCESSING_PATH} -type d -exec chmod ${dirMode} {} +`, {
+        encoding: "utf-8",
+      });
+
+      logs(
+        item.id,
+        `🔑 [TIDARR] Chmod applied - Files: ${fileMode}, Directories: ${dirMode} (UMASK: ${process.env.UMASK})`,
+      );
+    } catch (error) {
+      logs(
+        item.id,
+        `⚠️ [TIDARR] Chmod failed: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  }
 }
 
 /**
