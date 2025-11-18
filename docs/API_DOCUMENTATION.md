@@ -247,6 +247,50 @@ curl -X DELETE http://localhost:8484/api/remove-finished \
 
 **Response:** Status `204 No Content`
 
+### Pause the download queue
+
+Pauses the download queue. If an item is currently being processed, it will be cancelled and returned to the queue with status "queue". Queued items will not start processing until the queue is resumed.
+
+```bash
+curl -X POST http://localhost:8484/api/queue/pause \
+  -H "Authorization: Bearer $TIDARR_TOKEN"
+```
+
+**Response:** Status `204 No Content`
+
+**Behavior:**
+- Stops processing of new items from the queue
+- Cancels the currently processing item (if any) and resets it to "queue" status
+- Cleans up incomplete downloads
+- Items can be added to the queue while paused, but won't process until resumed
+
+### Resume the download queue
+
+Resumes the download queue after it has been paused.
+
+```bash
+curl -X POST http://localhost:8484/api/queue/resume \
+  -H "Authorization: Bearer $TIDARR_TOKEN"
+```
+
+**Response:** Status `204 No Content`
+
+### Get queue status
+
+Returns the current status of the download queue (paused or active).
+
+```bash
+curl http://localhost:8484/api/queue/status \
+  -H "Authorization: Bearer $TIDARR_TOKEN"
+```
+
+**Response:**
+```json
+{
+  "isPaused": false
+}
+```
+
 ---
 
 ## Configuration Endpoints

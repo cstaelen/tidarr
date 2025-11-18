@@ -19,6 +19,7 @@ import {
   cleanFolder,
   getFolderToScan,
   hasFileToMove,
+  killProcess,
   moveAndClean,
   replacePathInM3U,
   setPermissions,
@@ -71,6 +72,7 @@ export function notifyItemOutput(
 export const ProcessingStack = (expressApp: Express) => {
   const data: ProcessingItemType[] = [];
   const outputs: Map<string, string[]> = new Map(); // Store terminal output as array of lines
+  let isPaused = false;
 
   function loadDataFromFile() {
     const records = loadQueueFromFile();
@@ -130,21 +132,7 @@ export const ProcessingStack = (expressApp: Express) => {
     const item = getItem(id);
 
     // Kill the process if it exists and is running
-    if (item?.process && !item.process.killed) {
-      try {
-        // Try graceful termination first
-        item.process.kill("SIGTERM");
-
-        // Wait a bit, then force kill if still running
-        setTimeout(() => {
-          if (item.process && !item.process.killed) {
-            item.process.kill("SIGKILL");
-          }
-        }, 1000);
-      } catch (error) {
-        console.error(`Failed to kill process for item ${id}:`, error);
-      }
-    }
+    killProcess(item?.process, id);
 
     const foundIndex = data.findIndex(
       (listItem: ProcessingItemType) => listItem?.id === item?.id,
@@ -219,6 +207,8 @@ export const ProcessingStack = (expressApp: Express) => {
   }
 
   function processQueue(): void {
+    if (isPaused) return;
+
     const indexCurrent = data.findIndex(
       (item: ProcessingItemType) => item.status === "processing",
     );
@@ -230,6 +220,46 @@ export const ProcessingStack = (expressApp: Express) => {
     if (indexNext !== -1) {
       processItem(data[indexNext]);
     }
+  }
+
+  async function pauseQueue() {
+    isPaused = true;
+
+    // Find the item currently being processed
+    const currentItem = data.find((item) => item.status === "processing");
+
+    if (currentItem) {
+      // Kill the process if it exists and is running
+      await killProcess(currentItem.process, currentItem.id);
+
+      // Reset the item to queue status
+      currentItem.status = "queue";
+      delete currentItem.process;
+
+      updateItem(currentItem);
+
+      // Clean up outputs
+      outputs.delete(String(currentItem.id));
+      outputs.set(String(currentItem.id), []);
+
+      // Persist the change to the queue file
+      updateItemInQueueFile(currentItem);
+
+      // Clean the incomplete folder
+      await cleanFolder();
+    }
+
+    notifySSEConnections(expressApp);
+  }
+
+  function resumeQueue() {
+    isPaused = false;
+    processQueue(); // Restart the queue
+    notifySSEConnections(expressApp);
+  }
+
+  function getQueueStatus() {
+    return { isPaused };
   }
 
   async function processingMix(item: ProcessingItemType) {
@@ -363,6 +393,9 @@ export const ProcessingStack = (expressApp: Express) => {
       loadDataFromFile,
       getItemOutput,
       addOutputLog,
+      pauseQueue,
+      resumeQueue,
+      getQueueStatus,
     },
   };
 };

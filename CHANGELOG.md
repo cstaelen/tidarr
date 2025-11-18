@@ -6,6 +6,9 @@ Tidarr notable changes.
 ## 1.0.2
 ### 🚀 Added
 - [Front] Add Tiddl TOML config live editor
+- [Front] Add colors in CSS editor
+- [Front/API] Add a queue play/pause button.
+
 ### 🖍 Changed
 - [API] Update some config dialog UI
 - [API] Restore mix-to-playlist processing to get more metadatas #459
