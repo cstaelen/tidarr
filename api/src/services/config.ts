@@ -25,6 +25,7 @@ export async function configureServer() {
         PLEX_LIBRARY: process.env.PLEX_LIBRARY || "",
         PLEX_TOKEN: process.env.PLEX_TOKEN || "",
         PLEX_PATH: process.env.PLEX_PATH || "",
+        PLEX_SEARCH_LINK: process.env.PLEX_SEARCH_LINK || "",
         GOTIFY_URL: process.env.GOTIFY_URL || "",
         GOTIFY_TOKEN: process.env.GOTIFY_TOKEN || "",
         PUID: process.env.PUID || "",

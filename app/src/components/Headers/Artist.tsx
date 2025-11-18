@@ -4,6 +4,7 @@ import { Alert, AlertTitle, Box, Button, Link } from "@mui/material";
 import { ArtistType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
+import { PlexSearchButton } from "../Buttons/PlexSearchButton";
 import SyncButton from "../Buttons/SyncButton";
 
 import PageHeader from "./Header";
@@ -28,7 +29,7 @@ export default function ArtistHeader({
           "/",
         )}/750x750.jpg`}
         afterTitle={
-          <Box display="flex" gap={1} flexWrap="wrap">
+          <Box display="flex" gap={1} flexWrap="wrap" alignItems="center">
             <SyncButton item={artist} type="artist" />
             <DownloadButton
               item={artist}
@@ -54,6 +55,7 @@ export default function ArtistHeader({
                 See artist mix
               </Button>
             )}
+            <PlexSearchButton query={artist.name} pivot="artists" />
           </Box>
         }
       />

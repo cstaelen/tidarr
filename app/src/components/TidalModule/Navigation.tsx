@@ -12,7 +12,7 @@ export default function ModuleNavigation({
 }) {
   const [currentTab, setCurrentTab] = useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
     document.querySelectorAll(".module-title h2")?.[newValue]?.scrollIntoView();
   };
