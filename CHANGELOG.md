@@ -8,8 +8,8 @@ Tidarr notable changes.
 - [Front] Add Tiddl TOML config live editor
 - [Front] Add colors in CSS editor
 - [Front/API] Add a queue play/pause button.
-
 ### 🖍 Changed
+- [API] Update Tiddl to 3.1.0
 - [API] Update some config dialog UI
 - [API] Restore mix-to-playlist processing to get more metadatas #459
 - [API] Make Plex scan requests more intelligent by scanning new folders only #456

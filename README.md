@@ -32,6 +32,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Gotify](#gotify)
   - [Apprise Api](#apprise-api)
   - [Webhook push over](#webhook-push-over)
+- [API Doc](#api-doc)
 - [User requests](#user-requests)
 - [Donate](#donate)
 - [Develop](#develop)
@@ -76,7 +77,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Server-side download list processing
 - UI built with **ReactJS** + **ExpressJS** API
 - Self-hostable with **Docker** (`linux/amd64` and `linux/arm64`)
-- Download Tidal content with [Tiddl (3.0.1)](https://github.com/oskvr37/tiddl/tree/v3.0.1)
+- Download Tidal content with [Tiddl (3.1.0)](https://github.com/oskvr37/tiddl/tree/v3.1.0)
 
 
 ## Getting Started
@@ -295,6 +296,21 @@ environment:
 
 It should also works with other services using the same payload format `{"text": "..."}`.
 
+## API Doc
+
+> [!NOTE]
+> **Integration with other applications**
+>
+> If you want to interact with Tidarr from other applications (scripts, external services, automations), you can consult the [complete API documentation](docs/API_DOCUMENTATION.md).
+>
+> Tidarr's REST API allows you to:
+> - Add downloads (albums, tracks, playlists, etc.)
+> - Manage the queue (pause, resume, delete)
+> - Synchronize playlists
+> - Manage Tidal authentication
+> - Customize configuration
+>
+> 📖 [View complete API documentation](docs/API_DOCUMENTATION.md)
 
 ## User requests
 As I'am the only maintainer for now, user requested features can takes time.
