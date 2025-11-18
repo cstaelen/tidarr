@@ -37,11 +37,12 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - [Donate](#donate)
 - [Develop](#develop)
 
-## ⚠️ Disclaimer
-
-- Need an official (shared ?) Tidal account
-- For educational purposes and personal use only
-- **Do not forget to support your local artists (merch, live, ...)** 🙏❤️
+> [!WARNING]
+> **Disclaimer**
+>
+> - Need an official (shared ?) Tidal account
+> - For educational purposes and personal use only
+> - **Do not forget to support your local artists (merch, live, ...)** 🙏❤️
 
 ## Features
 

@@ -265,26 +265,17 @@ export const ProcessingStack = (expressApp: Express) => {
   async function processingMix(item: ProcessingItemType) {
     const config = expressApp.locals.tiddlConfig as TiddlConfig;
 
-    logs(item.id, `🕖 [MIX]: Get track from mix id`);
-    const tracks = await getTracksByMixId(item.id, config);
-    logs(item.id, `✅ [MIX]: Done.`);
-
-    logs(item.id, `🕖 [MIX]: Create new playlist`);
-    const playlistId = await createNewPlaylist(item.title, config);
-    logs(item.id, `✅ [MIX]: Done.`);
+    const tracks = await getTracksByMixId(item, config);
+    const playlistId = await createNewPlaylist(item, config);
 
     if (tracks) {
-      logs(item.id, `🕖 [MIX]: Add track ids to new playlist`);
-      await addTracksToPlaylist(playlistId, tracks, config);
-      logs(item.id, `✅ [MIX]: Done.`);
+      await addTracksToPlaylist(playlistId, tracks, config, item.id);
 
       item["url"] = `playlist/${playlistId}`;
       logs(item.id, `🕖 [MIX]: Download temporary playlist`);
 
       const child = tidalDL(item.id, expressApp, () => {
-        logs(item.id, `🕖 [MIX]: Delete temporary playlist`);
-        deletePlaylist(playlistId, config);
-        logs(item.id, `✅ [MIX]: Done.`);
+        deletePlaylist(playlistId, config, item.id);
       });
       if (child) {
         item["process"] = child;
@@ -297,7 +288,7 @@ export const ProcessingStack = (expressApp: Express) => {
       updateItem(item);
     }
 
-    deletePlaylist(playlistId, config);
+    deletePlaylist(playlistId, config, item.id);
   }
 
   async function processItem(item: ProcessingItemType) {

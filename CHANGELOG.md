@@ -3,7 +3,7 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
-## 1.0.2
+## 📦 1.0.2
 ### 🚀 Added
 - [Front] Add Tiddl TOML config live editor
 - [Front] Add colors in CSS editor
@@ -21,11 +21,11 @@ Tidarr notable changes.
 - [Front] Fix `video_quality` front error
 - [API] Fix ignored umask #463
 
-## 1.0.1
+## 📦 1.0.1
 ### 🐛 Fixed
 - Fix ignoring custom toml config file #452
 
-## 1.0.0
+##📦 1.0.0
 ### ⚠️ BREAKING CHANGES
 #### Tiddl 3.0 Migration
 - **Re-authentication required**: All users must re-authenticate with Tidal after upgrading
