@@ -28,7 +28,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Custom CSS](#custom-css)
 - [Services](#services):
   - [Beets](#beets)
-  - [Plex/Plexamp](#plex-update)
+  - [Plex/Plexamp](#plex-integration)
   - [Gotify](#gotify)
   - [Apprise Api](#apprise-api)
   - [Webhook push over](#webhook-push-over)
@@ -236,7 +236,7 @@ environment:
 
 Beets options in `</mounted/config/folder/>beets-config.yml`:
 
-### Plex update
+### Plex integration
 
 Add to your *docker-compose* file in `environment:` section :
 
@@ -246,7 +246,10 @@ environment:
   - PLEX_URL=<url|ip:port>
   - PLEX_LIBRARY=<music_library_id>
   - PLEX_TOKEN=<x-plex-token>
-  - PLEX_PATH=/path/to/scan # optional - if not set, update whole library
+  # Optional - if not set, update whole library
+  - PLEX_PATH=/path/to/music/library 
+  # Optional - show the plex search button on tracks, albums and artists page
+  - PLEX_SEARCH_LINK=true 
 ```
 
 - **PlexToken** : your Plex token : https://www.plexopedia.com/plex-media-server/general/plex-token/

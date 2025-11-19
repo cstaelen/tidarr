@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 
 import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
+import { PlexSearchButton } from "../Buttons/PlexSearchButton";
 import { ArtistAvatar } from "../Cards/common/ArtistAvatar";
 import { ChipQuality } from "../Cards/common/ChipQuality";
 
@@ -15,42 +16,12 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
   return (
     <PageHeader
       title={album.title}
+      subtitle={album.type}
       url={album.url}
       image={`https://resources.tidal.com/images/${album.cover?.replace(
         /-/g,
         "/",
       )}/750x750.jpg`}
-      afterTitle={
-        <Stack
-          direction="row"
-          flexWrap="wrap"
-          alignItems="center"
-          gap={0.5}
-          style={{ marginBottom: "0.5rem" }}
-        >
-          <ChipQuality quality={album.audioQuality.toLowerCase()} />
-          <Chip label={`${album.numberOfTracks} tracks`} size="small" />
-          <Chip
-            label={`${Math.round(album.duration / 60)} min`}
-            size="small"
-            variant="outlined"
-          />
-          <Chip
-            label={`${new Date(album.releaseDate).getFullYear()}`}
-            size="small"
-            variant="outlined"
-          />
-          {album.explicit && (
-            <Chip label="Explicit" size="small" variant="outlined" />
-          )}
-          <DownloadButton
-            item={album}
-            id={album.id}
-            type="album"
-            label="Get album"
-          />
-        </Stack>
-      }
       beforeTitle={
         <Stack direction="row" flexWrap="wrap" spacing={1} alignItems="center">
           <ArtistAvatar
@@ -81,7 +52,38 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
           </Typography>
         </Stack>
       }
-      subtitle={album.type}
+      afterTitle={
+        <Stack
+          direction="row"
+          flexWrap="wrap"
+          alignItems="center"
+          gap={0.5}
+          style={{ marginBottom: "0.5rem" }}
+        >
+          <ChipQuality quality={album.audioQuality.toLowerCase()} />
+          <Chip label={`${album.numberOfTracks} tracks`} size="small" />
+          <Chip
+            label={`${Math.round(album.duration / 60)} min`}
+            size="small"
+            variant="outlined"
+          />
+          <Chip
+            label={`${new Date(album.releaseDate).getFullYear()}`}
+            size="small"
+            variant="outlined"
+          />
+          {album.explicit && (
+            <Chip label="Explicit" size="small" variant="outlined" />
+          )}
+          <DownloadButton
+            item={album}
+            id={album.id}
+            type="album"
+            label="Get album"
+          />
+          <PlexSearchButton query={album.title} pivot="albums" />
+        </Stack>
+      }
     />
   );
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { Cancel, Terminal } from "@mui/icons-material";
+import { Cancel, Replay, Terminal } from "@mui/icons-material";
 import TerminalIcon from "@mui/icons-material/Terminal";
 import { Box, Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
 import Ansi from "ansi-to-react";
@@ -15,6 +15,10 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
     openOutput ? item.id.toString() : null,
   );
   const { actions } = useProcessingProvider();
+
+  async function retry() {
+    await actions.retryItem(item);
+  }
 
   // Connect to SSE when dialog opens, disconnect when closes
   useEffect(() => {
@@ -53,7 +57,7 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
           </Ansi>
         </Pre>
         <DialogActions>
-          <Box flex="1 1 0">
+          <Box flex="1 1 0" gap={2} display="flex">
             <Button
               variant="outlined"
               color={item.status === "processing" ? "error" : "primary"}
@@ -62,6 +66,15 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
             >
               {item.status === "processing" ? "Cancel" : "Remove"}
             </Button>
+            {item.status === "error" && (
+              <Button
+                startIcon={<Replay />}
+                variant="outlined"
+                onClick={() => retry()}
+              >
+                Retry
+              </Button>
+            )}
           </Box>
           <Button variant="outlined" onClick={() => setOpenOutput(false)}>
             Close

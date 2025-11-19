@@ -3,6 +3,7 @@ import { Button, Chip, Stack, Typography } from "@mui/material";
 import { TrackType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
+import { PlexSearchButton } from "../Buttons/PlexSearchButton";
 import { ArtistAvatar } from "../Cards/common/ArtistAvatar";
 import { ChipQuality } from "../Cards/common/ChipQuality";
 
@@ -88,6 +89,7 @@ export default function TrackHeader({ track }: { track: TrackType }) {
               type="track"
               label="Track"
             />
+            <PlexSearchButton query={track.title} pivot="tracks" />
           </Stack>
         </>
       }
