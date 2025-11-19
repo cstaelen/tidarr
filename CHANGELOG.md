@@ -12,6 +12,7 @@ Tidarr notable changes.
 - [Docker] Fix missing curl binary #474 (thanks @unthoiz)
 ### 🖍 Changed
 - [API] Add `json-db` to handle data storage in json files
+- [API] Update Tidal token-refresh handler
 
 ## 📦 1.0.2
 ### 🚀 Added
