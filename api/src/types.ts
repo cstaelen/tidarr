@@ -140,7 +140,9 @@ export interface SettingsResponse {
     PLEX_LIBRARY?: string;
     PLEX_TOKEN?: string;
     PLEX_PATH?: string;
-    PLEX_SEARCH_LINK?: boolean;
+    NAVIDROME_URL?: string;
+    NAVIDROME_USER?: string;
+    NAVIDROME_PASSWORD?: string;
     GOTIFY_URL?: string;
     GOTIFY_TOKEN?: string;
     PUID?: string;

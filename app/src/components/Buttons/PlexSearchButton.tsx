@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button, CircularProgress, SvgIcon, Tooltip } from "@mui/material";
+import { TIDARR_PROXY_URL } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 interface PlexSearchButtonProps {
@@ -28,42 +29,63 @@ export const PlexSearchButton = ({
   const [plexCounts, setPlexCounts] = useState<PlexCounts | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const isButtonActive: () => boolean = useCallback(
+    () => !!(config?.PLEX_URL && config?.PLEX_TOKEN && !!query),
+    [config?.PLEX_URL, config?.PLEX_TOKEN, query],
+  );
+
   useEffect(() => {
-    if (!config?.PLEX_URL || !config?.PLEX_TOKEN || !query) {
+    if (!isButtonActive() || !config) {
       return;
     }
 
     const fetchPlexResults = async () => {
       setLoading(true);
       try {
-        const plexBaseUrl = config.PLEX_URL?.replace(/\/$/, "");
+        // Use proxy to avoid CORS
+        // Fetch without type - returns Directory elements (artists/albums) but NOT tracks
+        const url = `${TIDARR_PROXY_URL}/plex/search?query=${encodeURIComponent(query)}`;
+        const response = await fetch(url);
 
-        // Map pivot to Plex search type parameter
-        // Type codes: 8=Artist, 9=Album, 10=Track
-        const typeMap: Record<string, string> = {
-          artists: "8",
-          albums: "9",
-          tracks: "10",
-        };
+        if (!response.ok) {
+          throw new Error("Failed to fetch Plex search results");
+        }
 
-        // Fetch all three types in parallel
-        const fetchCount = async (type: string) => {
-          const url = `${plexBaseUrl}/search?type=${type}&query=${encodeURIComponent(query)}&X-Plex-Token=${config.PLEX_TOKEN}`;
-          const response = await fetch(url);
-          if (!response.ok) return 0;
-          const xmlText = await response.text();
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(xmlText, "text/xml");
-          const mediaContainer = xmlDoc.querySelector("MediaContainer");
-          const size = mediaContainer?.getAttribute("size");
-          return size ? parseInt(size, 10) : 0;
-        };
+        const xmlText = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, "text/xml");
 
-        const [artistsCount, albumsCount, tracksCount] = await Promise.all([
-          fetchCount("8"), // Artists
-          fetchCount("9"), // Albums
-          fetchCount("10"), // Tracks
-        ]);
+        // Count Directory elements by type attribute
+        let artistsCount = 0;
+        let albumsCount = 0;
+
+        const directories = xmlDoc.querySelectorAll("Directory");
+        directories.forEach((dir) => {
+          const type = dir.getAttribute("type");
+          if (type === "artist") {
+            artistsCount++;
+          } else if (type === "album") {
+            albumsCount++;
+          }
+        });
+
+        // Only fetch tracks if needed (when pivot is tracks or search)
+        let tracksCount = 0;
+        if (pivot === "tracks" || pivot === "search") {
+          const trackUrl = `${TIDARR_PROXY_URL}/plex/search?query=${encodeURIComponent(query)}&type=10`;
+          const trackResponse = await fetch(trackUrl);
+
+          if (trackResponse.ok) {
+            const trackXmlText = await trackResponse.text();
+            const trackXmlDoc = parser.parseFromString(
+              trackXmlText,
+              "text/xml",
+            );
+            const mediaContainer = trackXmlDoc.querySelector("MediaContainer");
+            const size = mediaContainer?.getAttribute("size");
+            tracksCount = size ? parseInt(size, 10) : 0;
+          }
+        }
 
         setPlexCounts({
           artists: artistsCount,
@@ -72,10 +94,12 @@ export const PlexSearchButton = ({
         });
 
         // Set the count for the current pivot
-        const typeParam = typeMap[pivot] || "";
-        if (typeParam) {
-          const currentCount = await fetchCount(typeParam);
-          setResultCount(currentCount);
+        if (pivot === "artists") {
+          setResultCount(artistsCount);
+        } else if (pivot === "albums") {
+          setResultCount(albumsCount);
+        } else if (pivot === "tracks") {
+          setResultCount(tracksCount);
         } else {
           // For general search, sum all counts
           setResultCount(artistsCount + albumsCount + tracksCount);
@@ -90,13 +114,9 @@ export const PlexSearchButton = ({
     };
 
     fetchPlexResults();
-  }, [config?.PLEX_URL, config?.PLEX_TOKEN, query, pivot]);
+  }, [config, query, pivot, isButtonActive]);
 
-  if (
-    !config?.PLEX_URL ||
-    !config?.PLEX_SEARCH_LINK ||
-    config?.PLEX_SEARCH_LINK === "false"
-  ) {
+  if (!isButtonActive() || !config) {
     return null;
   }
 
@@ -120,13 +140,17 @@ export const PlexSearchButton = ({
     <>
       <div>Plex results for &quot;{query}&quot;:</div>
       <div>
-        {plexCounts.artists} artist(s) - {plexCounts.albums} album(s) -
+        {plexCounts.artists} artist(s) - {plexCounts.albums} album(s) - {` `}
         {plexCounts.tracks} tracks
       </div>
     </>
   ) : (
     "Search in Plex"
   );
+
+  if (!isButtonActive()) {
+    return;
+  }
 
   return (
     <Tooltip title={tooltipTitle} arrow>

@@ -47,11 +47,48 @@ async function checkPlexButton(
   }
 }
 
+/**
+ * Mock Plex API proxy endpoint
+ */
+async function mockPlexProxy(page: Page) {
+  // Mock Plex search without type (returns artists and albums)
+  await page.route("**/proxy/plex/search**", async (route) => {
+    const url = new URL(route.request().url());
+    const type = url.searchParams.get("type");
+
+    if (type === "10") {
+      // Tracks request
+      const xmlResponse = `<?xml version="1.0" encoding="UTF-8"?>
+<MediaContainer size="1">
+  <Track title="Test Track" />
+</MediaContainer>`;
+      await route.fulfill({
+        status: 200,
+        headers: { "Content-Type": "application/xml" },
+        body: xmlResponse,
+      });
+    } else {
+      // General search (artists/albums)
+      const xmlResponse = `<?xml version="1.0" encoding="UTF-8"?>
+<MediaContainer size="2">
+  <Directory type="artist" title="Test Artist"/>
+  <Directory type="album" title="Test Album"/>
+</MediaContainer>`;
+      await route.fulfill({
+        status: 200,
+        headers: { "Content-Type": "application/xml" },
+        body: xmlResponse,
+      });
+    }
+  });
+}
+
 test("Plex Search: Should display 'Search on Plex' button on Album, Artist and Track pages", async ({
   page,
 }) => {
   await mockConfigAPI(page);
   await mockTidalQueries(page);
+  await mockPlexProxy(page);
 
   // Test on Album page
   await checkPlexButton(page, "/album/77610756", "albums");
@@ -63,23 +100,18 @@ test("Plex Search: Should display 'Search on Plex' button on Album, Artist and T
   await checkPlexButton(page, "/track/77610761", "tracks");
 });
 
-test("Plex Search: Should hide 'Search on Plex' button when PLEX_SEARCH_LINK is not true", async ({
+test("Plex Search: Should hide 'Search on Plex' button when PLEX var does not exists", async ({
   page,
 }) => {
   await mockTidalQueries(page);
 
-  // Mock config API with PLEX_SEARCH_LINK set to false
+  // Mock config API with no PLEX var
   await page.route("**/settings", async (route) => {
     const json = {
       noToken: false,
       output: "",
       parameters: {
         ENABLE_BEETS: "true",
-        PLEX_URL: "http://plex.url",
-        PLEX_LIBRARY: "3",
-        PLEX_TOKEN: "abc-plex-token-xyz",
-        PLEX_PATH: "/folder/to/plex/music",
-        PLEX_SEARCH_LINK: "false", // Disabled
         GOTIFY_URL: "http://gotify.url",
         GOTIFY_TOKEN: "abc-gotify-token-xyz",
         TIDARR_VERSION: "0.0.0-testing",

@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 
 import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
+import { NavidromeSearchButton } from "../Buttons/NavidromeSearchButton";
 import { PlexSearchButton } from "../Buttons/PlexSearchButton";
 import { ArtistAvatar } from "../Cards/common/ArtistAvatar";
 import { ChipQuality } from "../Cards/common/ChipQuality";
@@ -53,36 +54,41 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
         </Stack>
       }
       afterTitle={
-        <Stack
-          direction="row"
-          flexWrap="wrap"
-          alignItems="center"
-          gap={0.5}
-          style={{ marginBottom: "0.5rem" }}
-        >
-          <ChipQuality quality={album.audioQuality.toLowerCase()} />
-          <Chip label={`${album.numberOfTracks} tracks`} size="small" />
-          <Chip
-            label={`${Math.round(album.duration / 60)} min`}
-            size="small"
-            variant="outlined"
-          />
-          <Chip
-            label={`${new Date(album.releaseDate).getFullYear()}`}
-            size="small"
-            variant="outlined"
-          />
-          {album.explicit && (
-            <Chip label="Explicit" size="small" variant="outlined" />
-          )}
-          <DownloadButton
-            item={album}
-            id={album.id}
-            type="album"
-            label="Get album"
-          />
-          <PlexSearchButton query={album.title} pivot="albums" />
-        </Stack>
+        <>
+          <Stack
+            direction="row"
+            flexWrap="wrap"
+            alignItems="center"
+            gap={1}
+            mb={2}
+          >
+            <ChipQuality quality={album.audioQuality.toLowerCase()} />
+            <Chip label={`${album.numberOfTracks} tracks`} size="small" />
+            <Chip
+              label={`${Math.round(album.duration / 60)} min`}
+              size="small"
+              variant="outlined"
+            />
+            <Chip
+              label={`${new Date(album.releaseDate).getFullYear()}`}
+              size="small"
+              variant="outlined"
+            />
+            {album.explicit && (
+              <Chip label="Explicit" size="small" variant="outlined" />
+            )}
+          </Stack>
+          <Stack direction="row" flexWrap="wrap" alignItems="center" gap={1}>
+            <DownloadButton
+              item={album}
+              id={album.id}
+              type="album"
+              label="Get album"
+            />
+            <PlexSearchButton query={album.title} pivot="albums" />
+            <NavidromeSearchButton query={album.title} pivot="albums" />
+          </Stack>
+        </>
       }
     />
   );

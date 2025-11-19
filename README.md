@@ -29,6 +29,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-integration)
+  - [Navidrome search](#navidrome-search)
   - [Gotify](#gotify)
   - [Apprise Api](#apprise-api)
   - [Webhook push over](#webhook-push-over)
@@ -238,6 +239,10 @@ Beets options in `</mounted/config/folder/>beets-config.yml`:
 
 ### Plex integration
 
+You can active:
+- Plex scan after download
+- Plex search button on artist, album and track pages
+
 Add to your *docker-compose* file in `environment:` section :
 
 ```yaml
@@ -247,9 +252,7 @@ environment:
   - PLEX_LIBRARY=<music_library_id>
   - PLEX_TOKEN=<x-plex-token>
   # Optional - if not set, update whole library
-  - PLEX_PATH=/path/to/music/library 
-  # Optional - show the plex search button on tracks, albums and artists page
-  - PLEX_SEARCH_LINK=true 
+  - PLEX_PATH=/path/to/music/library
 ```
 
 - **PlexToken** : your Plex token : https://www.plexopedia.com/plex-media-server/general/plex-token/
@@ -257,7 +260,27 @@ environment:
   http://192.168.1.20:32400/web/index.html#!/media/abcdef12345678/com.plexapp.plugins.library?**source=3**
 - **Folder (optional)** : path to folder to scan url (if not set, all music library will be scanned)
 
+> [!NOTE]
+> All Plex API queries are proxied through the Tidarr backend to avoid CORS issues and keep your Plex token secure. The search button displays real-time result counts (artists, albums, tracks) from your Plex library.
+
 Doc : https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
+
+### Navidrome search
+
+You can active the Navidrome search button this way.
+
+To active the Navidrome search button on artist, album and track pages, add to your *docker-compose* file in `environment:` section :
+
+```yaml
+environment:
+  - ...
+  - NAVIDROME_URL=http://navidrome.url
+  - NAVIDROME_USER=navidrome_user
+  - NAVIDROME_PASSWORD=navidrome_password
+```
+
+> [!NOTE]
+> All Navidrome API queries are proxied through the Tidarr backend to avoid CORS issues and keep your credentials secure. The search button displays real-time result counts (artists, albums, tracks) from your Navidrome library using the Subsonic API.
 
 ### Gotify
 
