@@ -1,4 +1,6 @@
-import { execSync, spawnSync } from "child_process";
+import { execSync, spawn } from "child_process";
+import { existsSync, readFileSync } from "fs";
+import { join } from "path";
 
 import { CONFIG_PATH, ROOT_PATH, SYNC_DEFAULT_CRON } from "../../constants";
 
@@ -48,13 +50,62 @@ export async function configureServer() {
   }
 }
 
-export function refreshTidalToken() {
-  // Tiddl 3.0: Refresh token using fixed path to avoid HOME variable issues
+/**
+ * Check if Tidal token needs refresh based on expires_at timestamp
+ * Refreshes if token expires in less than 30 minutes
+ */
+function shouldRefreshToken(): boolean {
+  const authPath = join(CONFIG_PATH, ".tiddl", "auth.json");
+
+  // If auth file doesn't exist, no need to refresh
+  if (!existsSync(authPath)) {
+    return false;
+  }
+
+  try {
+    const authData = JSON.parse(readFileSync(authPath, "utf-8"));
+    const expiresAt = authData.expires_at;
+
+    if (!expiresAt) {
+      return false;
+    }
+
+    // Current time in seconds
+    const nowInSeconds = Math.floor(Date.now() / 1000);
+    // Refresh if token expires in less than 30 minutes (1800 seconds)
+    const timeUntilExpiry = expiresAt - nowInSeconds;
+
+    return timeUntilExpiry < 1800;
+  } catch {
+    console.log("⚠️ [TIDDL] Could not read auth.json, skipping token refresh");
+    return false;
+  }
+}
+
+export function refreshTidalToken(force = false) {
+  // Skip refresh if token is still valid (unless forced)
+  if (!force && !shouldRefreshToken()) {
+    return;
+  }
+
   console.log("🕖 [TIDDL] Refreshing Tidal token...");
-  spawnSync("tiddl", ["auth", "refresh"], {
+
+  // Use async spawn to avoid blocking Node.js event loop
+  const refreshProcess = spawn("tiddl", ["auth", "refresh"], {
     env: { ...process.env },
   });
-  console.log(
-    `✅ [TIDDL] Tidal token refreshed and saved to ${CONFIG_PATH}/.tiddl/auth.json`,
-  );
+
+  refreshProcess.on("close", (code) => {
+    if (code === 0) {
+      console.log(
+        `✅ [TIDDL] Tidal token refreshed and saved to ${CONFIG_PATH}/.tiddl/auth.json`,
+      );
+    } else {
+      console.log(`⚠️ [TIDDL] Token refresh exited with code ${code}`);
+    }
+  });
+
+  refreshProcess.on("error", (error) => {
+    console.log(`❌ [TIDDL] Token refresh error: ${error.message}`);
+  });
 }
