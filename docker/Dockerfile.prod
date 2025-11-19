@@ -15,7 +15,7 @@ FROM --platform=$TARGETPLATFORM python:3.13-alpine3.21 AS runner
 
 # Install base packages and clean up cache
 RUN apk update && apk upgrade && \
-    apk add --no-cache npm nodejs ffmpeg beets bash su-exec wget && \
+    apk add --no-cache npm nodejs ffmpeg beets bash su-exec wget curl && \
     rm -rf /var/cache/apk/*
 
 INCLUDE docker/stages/Dockerfile.python
