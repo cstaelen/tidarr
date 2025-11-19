@@ -81,7 +81,10 @@ export const ProcessingStack = (expressApp: Express) => {
       outputs.set(String(record.id), []);
       data.push(record);
     });
-    processQueue();
+
+    if (!isPaused) {
+      processQueue();
+    }
   }
 
   function getItemOutput(id: string): string {
