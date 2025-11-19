@@ -172,7 +172,7 @@ export async function mockConfigAPI(page: Page) {
         PLEX_LIBRARY: "3",
         PLEX_TOKEN: "abc-plex-token-xyz",
         PLEX_PATH: "/fodler/to/plex/music",
-        PLEX_SEARCH_LINK: true,
+        PLEX_SEARCH_LINK: "true",
         GOTIFY_URL: "http://gotify.url",
         GOTIFY_TOKEN: "abc-gotify-token-xyz",
         TIDARR_VERSION: "0.0.0-testing",

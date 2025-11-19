@@ -92,7 +92,11 @@ export const PlexSearchButton = ({
     fetchPlexResults();
   }, [config?.PLEX_URL, config?.PLEX_TOKEN, query, pivot]);
 
-  if (!config?.PLEX_URL || !config?.PLEX_SEARCH_LINK) {
+  if (
+    !config?.PLEX_URL ||
+    !config?.PLEX_SEARCH_LINK ||
+    config?.PLEX_SEARCH_LINK === "false"
+  ) {
     return null;
   }
 
