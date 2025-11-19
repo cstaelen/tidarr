@@ -1,17 +1,26 @@
 import { Express } from "express";
-import fs from "fs";
 import cron from "node-cron";
-import path from "path";
 
-import { ROOT_PATH, SYNC_DEFAULT_CRON } from "../../constants";
+import { SYNC_DEFAULT_CRON } from "../../constants";
 import { ProcessingItemType, SyncItemType } from "../types";
 
-export const addItemToSyncList = (item: SyncItemType) => {
-  const filePath = path.join(`${ROOT_PATH}/shared`, "sync_list.json");
+import { syncListDb } from "./db-json";
 
-  const syncList: SyncItemType[] = JSON.parse(
-    fs.readFileSync(filePath, "utf8"),
-  );
+const SYNC_LIST_PATH = "/";
+
+const loadSyncList = async (): Promise<SyncItemType[]> => {
+  try {
+    const data = await syncListDb.getData(SYNC_LIST_PATH);
+    return Array.isArray(data) ? data : [];
+  } catch {
+    // Database doesn't exist yet or path not found, initialize with empty array
+    await syncListDb.push(SYNC_LIST_PATH, []);
+    return [];
+  }
+};
+
+export const addItemToSyncList = async (item: SyncItemType) => {
+  const syncList = await loadSyncList();
 
   // Check if item already exists in the sync list
   const itemExists = syncList.some(
@@ -21,58 +30,50 @@ export const addItemToSyncList = (item: SyncItemType) => {
   if (itemExists) return;
 
   syncList.push(item);
-  fs.writeFileSync(filePath, JSON.stringify(syncList, null, 2));
+  await syncListDb.push(SYNC_LIST_PATH, syncList);
 };
 
-export const removeItemFromSyncList = (id: number) => {
-  const filePath = path.join(`${ROOT_PATH}/shared`, "sync_list.json");
-  let syncList: { id: number; url: string; contentType: string }[] = JSON.parse(
-    fs.readFileSync(filePath, "utf8"),
-  );
-
-  syncList = syncList.filter((item) => item.id !== id);
-  fs.writeFileSync(filePath, JSON.stringify(syncList, null, 2));
+export const removeItemFromSyncList = async (id: number | string) => {
+  const syncList = await loadSyncList();
+  const idString = id.toString();
+  const filteredList = syncList.filter((item) => item.id !== idString);
+  await syncListDb.push(SYNC_LIST_PATH, filteredList);
 };
 
-export const removeAllFromSyncList = () => {
-  const filePath = path.join(`${ROOT_PATH}/shared`, "sync_list.json");
-  fs.writeFileSync(filePath, JSON.stringify([], null, 2));
+export const removeAllFromSyncList = async () => {
+  await syncListDb.push(SYNC_LIST_PATH, []);
 };
 
-export const updateSyncItem = (id: string, update: Partial<SyncItemType>) => {
-  const filePath = path.join(`${ROOT_PATH}/shared`, "sync_list.json");
-  const syncList: SyncItemType[] = JSON.parse(
-    fs.readFileSync(filePath, "utf8"),
-  );
-
+export const updateSyncItem = async (
+  id: string,
+  update: Partial<SyncItemType>,
+) => {
+  const syncList = await loadSyncList();
   const itemIndex = syncList.findIndex((item) => item.id === id.toString());
+
   if (itemIndex !== -1) {
     syncList[itemIndex] = { ...syncList[itemIndex], ...update };
-    fs.writeFileSync(filePath, JSON.stringify(syncList, null, 2));
+    await syncListDb.push(SYNC_LIST_PATH, syncList);
   }
 };
 
-export const getSyncList = () => {
-  const filePath = path.join(`${ROOT_PATH}/shared`, "sync_list.json");
-  const syncList: SyncItemType[] = JSON.parse(
-    fs.readFileSync(filePath, "utf8"),
-  );
-  return syncList;
+export const getSyncList = async () => {
+  return await loadSyncList();
 };
 
 export const process_sync_list = async (app: Express) => {
-  const syncList: SyncItemType[] = getSyncList();
+  const syncList: SyncItemType[] = await getSyncList();
 
   if (!syncList || syncList?.length === 0) return;
 
   // Process each item sequentially
-  syncList.forEach((element) => {
+  for (const element of syncList) {
     const item: ProcessingItemType = app.locals.processingStack.actions.getItem(
       element.id,
     );
-    if (item && ["processing"].includes(item?.status)) return;
+    if (item && ["processing"].includes(item?.status)) continue;
     if (item && ["finished", "downloaded"].includes(item?.status)) {
-      app.locals.processingStack.actions.removeItem(element.id);
+      await app.locals.processingStack.actions.removeItem(element.id);
     }
 
     const itemToQueue: ProcessingItemType = {
@@ -87,19 +88,16 @@ export const process_sync_list = async (app: Express) => {
       url: element.url,
     };
 
-    app.locals.processingStack.actions.addItem(itemToQueue);
-    updateSyncItem(element.id, {
+    await app.locals.processingStack.actions.addItem(itemToQueue);
+    await updateSyncItem(element.id, {
       lastUpdate: new Date().toISOString(),
     });
-  });
+  }
 };
 
 export const createCronJob = async (app: Express) => {
-  const filePath = path.join(`${ROOT_PATH}/shared`, "sync_list.json");
-
-  if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, JSON.stringify([], null, 2));
-  }
+  // Initialize sync list database if needed
+  await loadSyncList();
 
   // Stop all existing cron tasks
   cron.getTasks().forEach((task) => task.stop());

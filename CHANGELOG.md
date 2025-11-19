@@ -10,6 +10,8 @@ Tidarr notable changes.
 ### 🐛 Fixed 
 - [API] Fix ignored umask #463
 - [Docker] Fix missing curl binary #474 (thanks @unthoiz)
+### 🖍 Changed
+- [API] Add `json-db` to handle data storage in json files
 
 ## 📦 1.0.2
 ### 🚀 Added

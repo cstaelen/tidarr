@@ -75,8 +75,8 @@ export const ProcessingStack = (expressApp: Express) => {
   const outputs: Map<string, string[]> = new Map(); // Store terminal output as array of lines
   let isPaused = false;
 
-  function loadDataFromFile() {
-    const records = loadQueueFromFile();
+  async function loadDataFromFile() {
+    const records = await loadQueueFromFile();
     records.forEach((record) => {
       // Initialize empty output history for each loaded item (ensure string key)
       outputs.set(String(record.id), []);
@@ -118,7 +118,7 @@ export const ProcessingStack = (expressApp: Express) => {
     notifyItemOutput(expressApp, id, currentOutput);
   }
 
-  function addItem(item: ProcessingItemType) {
+  async function addItem(item: ProcessingItemType) {
     const foundIndex = data.findIndex(
       (listItem: ProcessingItemType) => listItem?.id === item?.id,
     );
@@ -126,7 +126,7 @@ export const ProcessingStack = (expressApp: Express) => {
 
     data.push(item);
 
-    addItemToFile(item);
+    await addItemToFile(item);
     processQueue();
 
     notifySSEConnections(expressApp);
@@ -155,7 +155,7 @@ export const ProcessingStack = (expressApp: Express) => {
 
     await cleanFolder();
 
-    removeItemFromFile(id);
+    await removeItemFromFile(id);
     processQueue();
 
     notifySSEConnections(expressApp);
@@ -247,7 +247,7 @@ export const ProcessingStack = (expressApp: Express) => {
       outputs.set(String(currentItem.id), []);
 
       // Persist the change to the queue file
-      updateItemInQueueFile(currentItem);
+      await updateItemInQueueFile(currentItem);
 
       // Clean the incomplete folder
       await cleanFolder();
@@ -326,7 +326,7 @@ export const ProcessingStack = (expressApp: Express) => {
       logs(item.id, "✅ [TIDARR] No file to process.");
 
       // Remove item from persistant queue file
-      updateItemInQueueFile(item);
+      await updateItemInQueueFile(item);
 
       return;
     }
@@ -372,7 +372,7 @@ export const ProcessingStack = (expressApp: Express) => {
     item["status"] = "finished";
 
     // Remove item from persistant queue file
-    updateItemInQueueFile(item);
+    await updateItemInQueueFile(item);
 
     // Update item status
     updateItem(item);

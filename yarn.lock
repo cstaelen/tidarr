@@ -2886,6 +2886,11 @@ node-fetch-native@^1.6.7:
   resolved "https://registry.yarnpkg.com/node-fetch-native/-/node-fetch-native-1.6.7.tgz#9d09ca63066cc48423211ed4caf5d70075d76a71"
   integrity sha512-g9yhqoedzIUm0nTnTqAQvueMPVOuIY16bqgAJJC8XOOubYFNwz6IER9qs0Gq2Xd0+CecCKFjtdDTMA4u4xG06Q==
 
+node-json-db@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/node-json-db/-/node-json-db-2.4.2.tgz#3be9e0428b67e77f86b30b31c34399950c35197b"
+  integrity sha512-o4EvOlAmQdDqR+HYPTlDPeY5pXwNizf6ceb1K5P+BbLWOHSEX0Mhipg4VcTX+BhlbZ9pkUBHzd3r7CBdt7l5dw==
+
 node-releases@^2.0.21:
   version "2.0.23"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.23.tgz#2ecf3d7ba571ece05c67c77e5b7b1b6fb9e18cea"

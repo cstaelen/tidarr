@@ -18,6 +18,7 @@
     "express-http-proxy": "^2.1.2",
     "jsonwebtoken": "^9.0.2",
     "node-cron": "^4.2.1",
+    "node-json-db": "^2.4.2",
     "toml": "^3.0.0"
   },
   "scripts": {
