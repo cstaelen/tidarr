@@ -1,7 +1,8 @@
-import { ChildProcess, execSync } from "child_process";
+import { ChildProcess, execSync, spawn } from "child_process";
+import fs from "fs";
 import path from "path";
 
-import { PROCESSING_PATH, ROOT_PATH } from "../../constants";
+import { CONFIG_PATH, PROCESSING_PATH, ROOT_PATH } from "../../constants";
 import { getAppInstance } from "../app-instance";
 import { logs } from "../helpers/logs";
 import { ProcessingItemType } from "../types";
@@ -257,4 +258,81 @@ export async function killProcess(
     const context = itemId ? ` for item ${itemId}` : "";
     console.error(`Failed to kill process${context}:`, error);
   }
+}
+
+/**
+ * Executes a custom user script if it exists in the shared directory.
+ * The script is executed in the .processing directory context.
+ * @param item - The processing item
+ * @returns Promise that resolves when the script completes or if no script exists
+ */
+export async function executeCustomScript(
+  item: ProcessingItemType,
+): Promise<void> {
+  const customScriptPath = path.join(CONFIG_PATH, "custom-script.sh");
+
+  // Check if the custom script exists
+  if (!fs.existsSync(customScriptPath)) {
+    // Script is optional, don't log if missing
+    return;
+  }
+
+  logs(item.id, "🕖 [TIDARR] Executing custom script...");
+
+  return new Promise((resolve) => {
+    try {
+      // Make script executable
+      execSync(`chmod +x "${customScriptPath}"`, { encoding: "utf-8" });
+
+      // Execute script in .processing directory
+      const scriptProcess = spawn("sh", [customScriptPath], {
+        cwd: PROCESSING_PATH,
+        env: {
+          ...process.env,
+          PROCESSING_PATH,
+          ITEM_TYPE: item.type,
+          ITEM_URL: item.url,
+        },
+      });
+
+      // Capture stdout
+      scriptProcess.stdout?.on("data", (data: Buffer) => {
+        const output = data.toString().trim();
+        if (output) {
+          logs(item.id, `🤖 [CUSTOM SCRIPT] ${output}`);
+        }
+      });
+
+      // Capture stderr
+      scriptProcess.stderr?.on("data", (data: Buffer) => {
+        const output = data.toString().trim();
+        if (output) {
+          logs(item.id, `🤖 [CUSTOM SCRIPT] ${output}`);
+        }
+      });
+
+      // Handle script completion
+      scriptProcess.on("close", (code) => {
+        if (code === 0) {
+          logs(item.id, "✅ [TIDARR] Custom script executed successfully");
+          resolve();
+        } else {
+          logs(item.id, `⚠️ [TIDARR] Custom script exited with code ${code}`);
+          resolve(); // Don't reject to avoid breaking the processing pipeline
+        }
+      });
+
+      // Handle errors
+      scriptProcess.on("error", (error) => {
+        logs(item.id, `❌ [TIDARR] Custom script error: ${error.message}`);
+        resolve(); // Don't reject to avoid breaking the processing pipeline
+      });
+    } catch (error) {
+      logs(
+        item.id,
+        `❌ [TIDARR] Failed to execute custom script: ${error instanceof Error ? error.message : String(error)}`,
+      );
+      resolve(); // Don't reject to avoid breaking the processing pipeline
+    }
+  });
 }
