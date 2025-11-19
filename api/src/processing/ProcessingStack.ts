@@ -17,6 +17,7 @@ import { ProcessingItemType, TiddlConfig } from "../types";
 
 import {
   cleanFolder,
+  executeCustomScript,
   getFolderToScan,
   hasFileToMove,
   killProcess,
@@ -344,6 +345,9 @@ export const ProcessingStack = (expressApp: Express) => {
 
     // Set permissions
     setPermissions(item);
+
+    // Execute custom script if exists
+    await executeCustomScript(item);
 
     // Keep trace of folders processed
     const foldersToScan = getFolderToScan();
