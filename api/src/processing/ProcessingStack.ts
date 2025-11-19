@@ -187,7 +187,29 @@ export const ProcessingStack = (expressApp: Express) => {
 
   function updateItem(item: ProcessingItemType) {
     if (item?.status === "downloaded") {
-      postProcessing(item);
+      try {
+        postProcessing(item);
+      } catch (error) {
+        // Catch any unhandled errors in postProcessing to prevent silent failures
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
+        logs(
+          item.id,
+          `❌ [TIDARR] Unexpected error during post-processing: ${errorMessage}`,
+        );
+        console.error(
+          `❌ [TIDARR] Post-processing error for item ${item.id}:`,
+          error,
+        );
+        item["status"] = "error";
+        // Update the item in the queue file to reflect error status
+        updateItemInQueueFile(item).catch((err) =>
+          console.error(
+            `❌ [TIDARR] Failed to update queue file for item ${item.id}:`,
+            err,
+          ),
+        );
+      }
     }
     if (item?.status === "finished" || item?.status === "error") {
       processQueue();
