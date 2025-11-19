@@ -1,48 +1,40 @@
-import fs from "fs";
-import path from "path";
-
-import { ROOT_PATH } from "../../constants";
+import { queueDb } from "../services/db-json";
 import { ProcessingItemType } from "../types";
 
-const filePath = path.join(`${ROOT_PATH}/shared`, "queue.json");
+const QUEUE_PATH = "/";
 
-export function loadQueueFromFile(): ProcessingItemType[] {
-  if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, JSON.stringify([], null, 2));
+export async function loadQueueFromFile(): Promise<ProcessingItemType[]> {
+  try {
+    const data = await queueDb.getData(QUEUE_PATH);
+    return Array.isArray(data) ? data : [];
+  } catch {
+    // Database doesn't exist yet or path not found, initialize with empty array
+    await queueDb.push(QUEUE_PATH, []);
     return [];
-  } else {
-    return JSON.parse(fs.readFileSync(filePath, "utf8"));
   }
 }
 
-export const addItemToFile = (item: ProcessingItemType) => {
-  const saveList: ProcessingItemType[] = JSON.parse(
-    fs.readFileSync(filePath, "utf8"),
-  );
-
+export const addItemToFile = async (item: ProcessingItemType) => {
+  const saveList = await loadQueueFromFile();
   saveList.push(item);
-  fs.writeFileSync(filePath, JSON.stringify(saveList, null, 2));
+  await queueDb.push(QUEUE_PATH, saveList);
 };
 
-export const removeItemFromFile = (id: string) => {
-  let saveList: { id: string; url: string; contentType: string }[] = JSON.parse(
-    fs.readFileSync(filePath, "utf8"),
-  );
-
-  saveList = saveList.filter((item) => item.id !== id);
-  fs.writeFileSync(filePath, JSON.stringify(saveList, null, 2));
+export const removeItemFromFile = async (id: string) => {
+  const saveList = await loadQueueFromFile();
+  const filteredList = saveList.filter((item) => item.id !== id);
+  await queueDb.push(QUEUE_PATH, filteredList);
 };
 
-export const updateItemInQueueFile = (item: ProcessingItemType) => {
-  const saveList: ProcessingItemType[] = JSON.parse(
-    fs.readFileSync(filePath, "utf8"),
-  );
-
+export const updateItemInQueueFile = async (item: ProcessingItemType) => {
+  const saveList = await loadQueueFromFile();
   const itemIndex = saveList.findIndex((current) => current.id === item.id);
+
   if (itemIndex === -1) {
     throw new Error(`Item with id ${item.id} not found in queue`);
   }
+
   delete item.process;
   saveList[itemIndex] = { ...item };
-  fs.writeFileSync(filePath, JSON.stringify(saveList, null, 2));
+  await queueDb.push(QUEUE_PATH, saveList);
 };

@@ -25,9 +25,9 @@ const router = Router();
 router.get(
   "/sync/list",
   ensureAccessIsGranted,
-  (_req: Request, res: Response<SyncListResponse>) => {
+  async (_req: Request, res: Response<SyncListResponse>) => {
     try {
-      const list = getSyncList();
+      const list = await getSyncList();
       res.status(200).json(list);
     } catch (error) {
       handleRouteError(error, res, "get sync list");
@@ -45,8 +45,8 @@ router.post(
   validateRequestBody(["item"]),
   async (req: Request, res: Response) => {
     try {
-      addItemToSyncList(req.body.item);
-      createCronJob(req.app as Express);
+      await addItemToSyncList(req.body.item);
+      await createCronJob(req.app as Express);
 
       res.sendStatus(201);
     } catch (error) {
@@ -66,8 +66,8 @@ router.delete(
   validateIdMiddleware,
   async (req: Request, res: Response) => {
     try {
-      removeItemFromSyncList(req.body.id);
-      createCronJob(req.app as Express);
+      await removeItemFromSyncList(req.body.id);
+      await createCronJob(req.app as Express);
 
       res.sendStatus(204);
     } catch (error) {
@@ -85,8 +85,8 @@ router.delete(
   ensureAccessIsGranted,
   async (req: Request, res: Response) => {
     try {
-      removeAllFromSyncList();
-      createCronJob(req.app as Express);
+      await removeAllFromSyncList();
+      await createCronJob(req.app as Express);
 
       res.sendStatus(204);
     } catch (error) {
@@ -102,9 +102,9 @@ router.delete(
 router.post(
   "/sync/trigger",
   ensureAccessIsGranted,
-  (_req: Request, res: Response) => {
+  async (_req: Request, res: Response) => {
     try {
-      process_sync_list(res.app as Express);
+      await process_sync_list(res.app as Express);
 
       res.sendStatus(202);
     } catch (error) {

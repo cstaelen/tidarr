@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Editor from "@monaco-editor/react";
+import { Save } from "@mui/icons-material";
 import { Box, Button, CircularProgress, Portal } from "@mui/material";
 import { useFileEdit } from "src/hooks/useFileEdit";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
@@ -69,6 +70,7 @@ export default function TiddlConfigEdit() {
             <Button
               variant="contained"
               onClick={handleSave}
+              startIcon={<Save />}
               disabled={!isDirty || isSaving}
             >
               {isSaving ? <CircularProgress size={24} /> : "Save & Reload"}

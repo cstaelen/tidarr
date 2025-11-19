@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { KeyOff, Warning } from "@mui/icons-material";
+import { EditDocument, KeyOff, Warning } from "@mui/icons-material";
 import { Alert, Box, Button } from "@mui/material";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
@@ -40,6 +40,7 @@ export default function TidalPanel() {
           <Button
             variant="contained"
             color="primary"
+            startIcon={<EditDocument />}
             onClick={() => setShowEditor(!showEditor)}
           >
             Toggle editor
