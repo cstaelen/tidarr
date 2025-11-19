@@ -22,7 +22,9 @@ services:
       - PLEX_LIBRARY=
       - PLEX_TOKEN=
       - PLEX_PATH=
-      - PLEX_SEARCH_LINK=
+      - NAVIDROME_URL=
+      - NAVIDROME_USER=
+      - NAVIDROME_PASSWORD=
       - GOTIFY_URL=
       - GOTIFY_TOKEN=
       - ADMIN_PASSWORD
@@ -50,6 +52,8 @@ services:
       - PLEX_LIBRARY=3
       - PLEX_TOKEN=abc-plex-token-xyz
       - PLEX_PATH=/fodler/to/plex/music
-      - PLEX_SEARCH_LINK=true
+      - NAVIDROME_URL=http://navidrome.url
+      - NAVIDROME_USER=naviuser
+      - NAVIDROME_PASSWORD=navipwd
       - GOTIFY_URL=http://gotify.url
       - GOTIFY_TOKEN=abc-gotify-token-xyz

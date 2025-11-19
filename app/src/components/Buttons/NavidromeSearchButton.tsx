@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button, CircularProgress, SvgIcon, Tooltip } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
@@ -30,21 +30,29 @@ export const NavidromeSearchButton = ({
     useState<NavidromeCounts | null>(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!config?.NAVIDROME_URL || !query) {
-      return;
-    }
+  const isButtonAction: () => boolean = useCallback(
+    () =>
+      !!config?.NAVIDROME_USER &&
+      !!config?.NAVIDROME_PASSWORD &&
+      !!config?.NAVIDROME_URL &&
+      !!query,
+    [
+      config?.NAVIDROME_PASSWORD,
+      config?.NAVIDROME_URL,
+      config?.NAVIDROME_USER,
+      query,
+    ],
+  );
 
-    // Skip fetch if we don't have credentials
-    if (!config?.NAVIDROME_USER || !config?.NAVIDROME_PASSWORD) {
+  useEffect(() => {
+    if (!isButtonAction() || !config) {
       return;
     }
 
     const fetchNavidromeResults = async () => {
       setLoading(true);
       try {
-        // const navidromeBaseUrl = config.NAVIDROME_URL?.replace(/\/$/, "");
-        const navidromeBaseUrl = "http://navidrome.nas.docker";
+        const navidromeBaseUrl = config.NAVIDROME_URL?.replace(/\/$/, "");
 
         // Navidrome uses Subsonic API with search3 endpoint
         // Using simple username + password authentication
@@ -95,41 +103,48 @@ export const NavidromeSearchButton = ({
     };
 
     fetchNavidromeResults();
-  }, [
-    config?.NAVIDROME_URL,
-    config?.NAVIDROME_USER,
-    config?.NAVIDROME_PASSWORD,
-    query,
-    pivot,
-  ]);
+  }, [config, query, pivot, isButtonAction]);
 
-  // if (!config?.NAVIDROME_URL || !config?.NAVIDROME_SEARCH_LINK) {
-  //   return null;
-  // }
+  if (!isButtonAction()) {
+    return;
+  }
 
-  const handleNavidromeSearch = () => {
+  const handleNavidromeSearch = async () => {
     // const navidromeBaseUrl = config.NAVIDROME_URL?.replace(/\/$/, "");
     const navidromeBaseUrl = "http://navidrome.nas.docker";
 
-    // Build the Navidrome search URL based on pivot type
-    // Format: http://navidrome.url/app/#/artist?filter={"role":"albumartist","name":"query"}
-    let searchUrl = `${navidromeBaseUrl}/app/#`;
-
-    if (pivot === "artists") {
-      const filter = JSON.stringify({ role: "albumartist", name: query });
-      searchUrl += `/artist?displayedFilters=%7B%7D&filter=${encodeURIComponent(filter)}&order=ASC&page=1&perPage=15&sort=name`;
-    } else if (pivot === "albums") {
-      const filter = JSON.stringify({ name: query });
-      searchUrl += `/album?displayedFilters=%7B%7D&filter=${encodeURIComponent(filter)}&order=ASC&page=1&perPage=15&sort=name`;
-    } else if (pivot === "tracks") {
-      const filter = JSON.stringify({ title: query });
-      searchUrl += `/song?displayedFilters=%7B%7D&filter=${encodeURIComponent(filter)}&order=ASC&page=1&perPage=15&sort=title`;
-    } else {
-      // General search - use global search page
-      searchUrl += `/search?q=${encodeURIComponent(query)}`;
+    if (!config?.NAVIDROME_USER || !config?.NAVIDROME_PASSWORD) {
+      console.error("Navidrome credentials not configured");
+      return;
     }
 
-    window.open(searchUrl, "navidrome-search");
+    // First, authenticate with Navidrome using Subsonic API
+    try {
+      const loginUrl = `${navidromeBaseUrl}/rest/ping?u=${config.NAVIDROME_USER}&p=${config.NAVIDROME_PASSWORD}&v=1.16.1&c=tidarr&f=json`;
+      await fetch(loginUrl, { credentials: "include" });
+
+      // Build the Navidrome search URL based on pivot type
+      // Format: http://navidrome.url/app/#/artist?filter={"role":"albumartist","name":"query"}
+      let searchUrl = `${navidromeBaseUrl}/app/#`;
+
+      if (pivot === "artists") {
+        const filter = JSON.stringify({ role: "albumartist", name: query });
+        searchUrl += `/artist?displayedFilters=%7B%7D&filter=${encodeURIComponent(filter)}&order=ASC&page=1&perPage=15&sort=name`;
+      } else if (pivot === "albums") {
+        const filter = JSON.stringify({ name: query });
+        searchUrl += `/album?displayedFilters=%7B%7D&filter=${encodeURIComponent(filter)}&order=ASC&page=1&perPage=15&sort=name`;
+      } else if (pivot === "tracks") {
+        const filter = JSON.stringify({ title: query });
+        searchUrl += `/song?displayedFilters=%7B%7D&filter=${encodeURIComponent(filter)}&order=ASC&page=1&perPage=15&sort=title`;
+      } else {
+        // General search - use global search page
+        searchUrl += `/search?q=${encodeURIComponent(query)}`;
+      }
+
+      window.open(searchUrl, "navidrome-search");
+    } catch (error) {
+      console.error("Failed to authenticate with Navidrome:", error);
+    }
   };
 
   const buttonLabel = loading
