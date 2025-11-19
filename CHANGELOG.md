@@ -3,6 +3,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.0.3
+### 🚀 Added
+- [Front] Add Plex search button on artist, track and album pages (var: PLEX_SEARCH_LINK=true) #470
+### 🐛 Fixed 
+- [API] Fix ignored umask #463
+
 ## 📦 1.0.2
 ### 🚀 Added
 - [Front] Add Tiddl TOML config live editor
