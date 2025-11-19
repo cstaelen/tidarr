@@ -10,29 +10,31 @@ import ImageLazy from "../Cards/common/ImageLazy";
 
 const TitleWithLink = ({ url, title }: { url: string; title: string }) => {
   return (
-    <Link
-      href={url}
-      style={{ lineHeight: 1.2 }}
-      target="_blank"
-      underline="none"
-    >
-      <Typography
-        component="h1"
-        sx={{
-          fontSize: { md: 28, xs: 28 },
-          lineHeight: { md: 1.6, xs: 1.2 },
-          my: 1,
-        }}
+    <div>
+      <Link
+        href={url}
+        style={{ lineHeight: 1.2, display: "inline-block" }}
+        target="_blank"
+        underline="none"
       >
-        <strong>{title}</strong>
-        <OpenInNewIcon
-          style={{
-            verticalAlign: "middle",
-            marginLeft: "0.5rem",
+        <Typography
+          component="h1"
+          sx={{
+            fontSize: { md: 28, xs: 28 },
+            lineHeight: { md: 1.6, xs: 1.2 },
+            my: 1,
           }}
-        />
-      </Typography>
-    </Link>
+        >
+          <strong>{title}</strong>
+          <OpenInNewIcon
+            style={{
+              verticalAlign: "middle",
+              marginLeft: "0.5rem",
+            }}
+          />
+        </Typography>
+      </Link>
+    </div>
   );
 };
 

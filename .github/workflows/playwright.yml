@@ -32,9 +32,6 @@ jobs:
             -e PLEX_LIBRARY=3 \
             -e PLEX_TOKEN=abc-plex-token-xyz \
             -e PLEX_PATH=/folder/to/plex/music \
-            -e NAVIDROME_URL=http://navidrome.url \
-            -e NAVIDROME_USER=naviuser
-            -e NAVIDROME_PASSWORD=navipwd
             -e GOTIFY_URL=http://gotify.url \
             -e GOTIFY_TOKEN=abc-gotify-token-xyz \
             tidarr:test

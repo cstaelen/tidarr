@@ -27,7 +27,7 @@ export async function configureServer() {
         PLEX_PATH: process.env.PLEX_PATH || "",
         NAVIDROME_URL: process.env.NAVIDROME_URL || "",
         NAVIDROME_USER: process.env.NAVIDROME_USER || "",
-        NAVIDROME_PASSWORD: process.env.NAVIDROME_PASSWORD || "",
+        NAVIDROME_PASSWORD: process.env.NAVIDROME_PASSWORD ? "****" : "",
         GOTIFY_URL: process.env.GOTIFY_URL || "",
         GOTIFY_TOKEN: process.env.GOTIFY_TOKEN || "",
         PUID: process.env.PUID || "",

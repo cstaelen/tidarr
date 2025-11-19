@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import { Button, CircularProgress, SvgIcon, Tooltip } from "@mui/material";
+import { Album } from "@mui/icons-material";
+import { Button, CircularProgress, Tooltip } from "@mui/material";
+import { TIDARR_PROXY_URL } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 interface NavidromeSearchButtonProps {
@@ -13,13 +15,6 @@ interface NavidromeCounts {
   tracks: number;
 }
 
-// Navidrome icon (music note with wave)
-const NavidromeIcon = () => (
-  <SvgIcon viewBox="0 0 24 24">
-    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
-  </SvgIcon>
-);
-
 export const NavidromeSearchButton = ({
   query,
   pivot = "search",
@@ -30,12 +25,14 @@ export const NavidromeSearchButton = ({
     useState<NavidromeCounts | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const isButtonAction: () => boolean = useCallback(
+  const isButtonActive: () => boolean = useCallback(
     () =>
-      !!config?.NAVIDROME_USER &&
-      !!config?.NAVIDROME_PASSWORD &&
-      !!config?.NAVIDROME_URL &&
-      !!query,
+      !!(
+        config?.NAVIDROME_USER &&
+        config?.NAVIDROME_PASSWORD &&
+        config?.NAVIDROME_URL &&
+        query
+      ),
     [
       config?.NAVIDROME_PASSWORD,
       config?.NAVIDROME_URL,
@@ -45,18 +42,15 @@ export const NavidromeSearchButton = ({
   );
 
   useEffect(() => {
-    if (!isButtonAction() || !config) {
+    if (!isButtonActive() || !config) {
       return;
     }
 
     const fetchNavidromeResults = async () => {
       setLoading(true);
       try {
-        const navidromeBaseUrl = config.NAVIDROME_URL?.replace(/\/$/, "");
-
-        // Navidrome uses Subsonic API with search3 endpoint
-        // Using simple username + password authentication
-        const searchUrl = `${navidromeBaseUrl}/rest/search3?query=${encodeURIComponent(query)}&u=${config.NAVIDROME_USER}&p=${config.NAVIDROME_PASSWORD}&v=1.16.1&c=tidarr&f=json`;
+        // Use proxy to avoid CORS
+        const searchUrl = `${TIDARR_PROXY_URL}/navidrome/rest/search3?query=${encodeURIComponent(query)}`;
 
         const response = await fetch(searchUrl);
         if (!response.ok) {
@@ -103,25 +97,19 @@ export const NavidromeSearchButton = ({
     };
 
     fetchNavidromeResults();
-  }, [config, query, pivot, isButtonAction]);
-
-  if (!isButtonAction()) {
-    return;
-  }
+  }, [config, query, pivot, isButtonActive]);
 
   const handleNavidromeSearch = async () => {
-    // const navidromeBaseUrl = config.NAVIDROME_URL?.replace(/\/$/, "");
-    const navidromeBaseUrl = "http://navidrome.nas.docker";
+    const navidromeBaseUrl = config?.NAVIDROME_URL?.replace(/\/$/, "");
 
-    if (!config?.NAVIDROME_USER || !config?.NAVIDROME_PASSWORD) {
-      console.error("Navidrome credentials not configured");
+    if (!navidromeBaseUrl) {
+      console.error("Navidrome URL not configured");
       return;
     }
 
-    // First, authenticate with Navidrome using Subsonic API
+    // Authenticate with Navidrome using proxy
     try {
-      const loginUrl = `${navidromeBaseUrl}/rest/ping?u=${config.NAVIDROME_USER}&p=${config.NAVIDROME_PASSWORD}&v=1.16.1&c=tidarr&f=json`;
-      await fetch(loginUrl, { credentials: "include" });
+      await fetch("/navidrome-proxy/rest/ping", { credentials: "include" });
 
       // Build the Navidrome search URL based on pivot type
       // Format: http://navidrome.url/app/#/artist?filter={"role":"albumartist","name":"query"}
@@ -150,7 +138,7 @@ export const NavidromeSearchButton = ({
   const buttonLabel = loading
     ? "Searching..."
     : resultCount !== null
-      ? `Search on Navidrome (${resultCount})`
+      ? `Navidrome (${resultCount})`
       : "Search on Navidrome";
 
   const tooltipTitle = navidromeCounts ? (
@@ -165,13 +153,17 @@ export const NavidromeSearchButton = ({
     "Search in Navidrome"
   );
 
+  if (!isButtonActive()) {
+    return;
+  }
+
   return (
     <Tooltip title={tooltipTitle} arrow>
       <span>
         <Button
           variant="outlined"
-          color="success"
-          endIcon={loading ? <CircularProgress size={16} /> : <NavidromeIcon />}
+          color="info"
+          endIcon={loading ? <CircularProgress size={16} /> : <Album />}
           onClick={handleNavidromeSearch}
           size="small"
           disabled={loading}

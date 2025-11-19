@@ -22,126 +22,126 @@ import mockTrack from "../mocks/track.json";
 
 export async function mockTidalQueries(page: Page) {
   await page.route(
-    "http://localhost:8484/proxy/v1/pages/home?countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/tidal/v1/pages/home?countryCode=FR&deviceType=BROWSER&locale=en_US",
     async (route) => {
       await route.fulfill({ json: mockHome });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/pages/home?countryCode=EN&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/tidal/v1/pages/home?countryCode=EN&deviceType=BROWSER&locale=en_US",
     async (route) => {
       await route.fulfill({ json: mockHome });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/pages/album?countryCode=FR&deviceType=BROWSER&locale=en_US&albumId=77610756",
+    "http://localhost:8484/proxy/tidal/v1/pages/album?countryCode=FR&deviceType=BROWSER&locale=en_US&albumId=77610756",
     async (route) => {
       await route.fulfill({ json: mockAlbum });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/playlists/0b5df380-47d3-48fe-ae66-8f0dba90b1ee?countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/tidal/v1/playlists/0b5df380-47d3-48fe-ae66-8f0dba90b1ee?countryCode=FR&deviceType=BROWSER&locale=en_US",
     async (route) => {
       await route.fulfill({ json: mockPlaylist });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/playlists/0b5df380-47d3-48fe-ae66-8f0dba90b1ee/items?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
+    "http://localhost:8484/proxy/tidal/v1/playlists/0b5df380-47d3-48fe-ae66-8f0dba90b1ee/items?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
     async (route) => {
       await route.fulfill({ json: mockPlaylistTracks });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/tracks/77610761?countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/tidal/v1/tracks/77610761?countryCode=FR&deviceType=BROWSER&locale=en_US",
     async (route) => {
       await route.fulfill({ json: mockTrack });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/pages/mix?countryCode=FR&deviceType=BROWSER&locale=en_US&mixId=00166fec481604e645532e233b958b",
+    "http://localhost:8484/proxy/tidal/v1/pages/mix?countryCode=FR&deviceType=BROWSER&locale=en_US&mixId=00166fec481604e645532e233b958b",
     async (route) => {
       await route.fulfill({ json: mockMix });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/pages/artist?artistId=19368&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/tidal/v1/pages/artist?artistId=19368&countryCode=FR&deviceType=BROWSER&locale=en_US",
     async (route) => {
       await route.fulfill({ json: mockArtist });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/pages/data/feddf2f1-0ea1-4663-8804-beaf21ace6a2?artistId=19368&countryCode=FR&deviceType=BROWSER&locale=en_US&limit=15&offset=15",
+    "http://localhost:8484/proxy/tidal/v1/pages/data/feddf2f1-0ea1-4663-8804-beaf21ace6a2?artistId=19368&countryCode=FR&deviceType=BROWSER&locale=en_US&limit=15&offset=15",
     async (route) => {
       await route.fulfill({ json: mockArtistPager });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/pages/my_collection_my_mixes?countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "http://localhost:8484/proxy/tidal/v1/pages/my_collection_my_mixes?countryCode=FR&deviceType=BROWSER&locale=en_US",
     async (route) => {
       await route.fulfill({ json: mockMyMixes });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
+    "http://localhost:8484/proxy/tidal/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
       await route.fulfill({ json: mockMyPlaylistsLastCreated });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE_UPDATED",
+    "http://localhost:8484/proxy/tidal/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE_UPDATED",
     async (route) => {
       await route.fulfill({ json: mockMyPlaylistsSortUpdate });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=ASC&order=NAME",
+    "http://localhost:8484/proxy/tidal/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=ASC&order=NAME",
     async (route) => {
       await route.fulfill({ json: mockMyPlaylistsSortAlphabetical });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/users/192283714/favorites/albums?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
+    "http://localhost:8484/proxy/tidal/v1/users/192283714/favorites/albums?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteAlbums });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/users/192283714/favorites/artists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
+    "http://localhost:8484/proxy/tidal/v1/users/192283714/favorites/artists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteArtists });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/users/192283714/favorites/tracks?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
+    "http://localhost:8484/proxy/tidal/v1/users/192283714/favorites/tracks?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteTracks });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v2/favorites/mixes?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
+    "http://localhost:8484/proxy/tidal/v2/favorites/mixes?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteMixes });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/users/192283714/favorites/playlists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
+    "http://localhost:8484/proxy/tidal/v1/users/192283714/favorites/playlists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
       await route.fulfill({ json: mockMyFavoritePlaylists });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&limit=18",
+    "http://localhost:8484/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&limit=18",
     async (route) => {
       await route.fulfill({ json: mockSearch });
     },
   );
 
   [
-    "http://localhost:8484/proxy/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=18&limit=18",
-    "http://localhost:8484/proxy/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=36&limit=18",
-    "http://localhost:8484/proxy/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=54&limit=18",
-    "http://localhost:8484/proxy/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=72&limit=18",
-    "http://localhost:8484/proxy/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=90&limit=18",
+    "http://localhost:8484/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=18&limit=18",
+    "http://localhost:8484/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=36&limit=18",
+    "http://localhost:8484/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=54&limit=18",
+    "http://localhost:8484/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=72&limit=18",
+    "http://localhost:8484/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=90&limit=18",
   ].forEach(async (url) => {
     await page.route(url, async (route) => {
       await route.fulfill({ json: mockSearchPager });
@@ -161,7 +161,7 @@ export async function mockRelease(page: Page, version = "0.0.0-testing") {
   });
 }
 
-export async function mockConfigAPI(page: Page) {
+export async function mockConfigAPI(page: Page, customEnvVars?: object) {
   await page.route("**/settings", async (route) => {
     const json = {
       noToken: false,
@@ -172,9 +172,6 @@ export async function mockConfigAPI(page: Page) {
         PLEX_LIBRARY: "3",
         PLEX_TOKEN: "abc-plex-token-xyz",
         PLEX_PATH: "/fodler/to/plex/music",
-        NAVIDROME_URL: "http://navidrome.url",
-        NAVIDROME_USER: "naviuser",
-        NAVIDROME_PASSWORD: "navipwd",
         GOTIFY_URL: "http://gotify.url",
         GOTIFY_TOKEN: "abc-gotify-token-xyz",
         TIDARR_VERSION: "0.0.0-testing",
@@ -185,6 +182,7 @@ export async function mockConfigAPI(page: Page) {
         APPRISE_API_TAG: "",
         PUSH_OVER_URL: "",
         ENABLE_TIDAL_PROXY: "true",
+        ...customEnvVars,
       },
       tiddl_config: {
         auth: {

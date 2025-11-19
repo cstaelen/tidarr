@@ -3,6 +3,7 @@ import { Button, Chip, Stack, Typography } from "@mui/material";
 import { TrackType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
+import { NavidromeSearchButton } from "../Buttons/NavidromeSearchButton";
 import { PlexSearchButton } from "../Buttons/PlexSearchButton";
 import { ArtistAvatar } from "../Cards/common/ArtistAvatar";
 import { ChipQuality } from "../Cards/common/ChipQuality";
@@ -71,12 +72,7 @@ export default function TrackHeader({ track }: { track: TrackType }) {
               <Chip label="Explicit" size="small" variant="outlined" />
             )}
           </Stack>
-          <Stack
-            direction="row"
-            alignItems="center"
-            flexWrap="wrap"
-            spacing={1}
-          >
+          <Stack direction="row" alignItems="center" flexWrap="wrap" gap={1}>
             <DownloadButton
               item={track}
               id={track.album.id}
@@ -90,6 +86,7 @@ export default function TrackHeader({ track }: { track: TrackType }) {
               label="Track"
             />
             <PlexSearchButton query={track.title} pivot="tracks" />
+            <NavidromeSearchButton query={track.title} pivot="tracks" />
           </Stack>
         </>
       }

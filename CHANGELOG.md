@@ -5,9 +5,11 @@ Tidarr notable changes.
 
 ## 📦 1.0.3
 ### 🚀 Added
-- [Front] Add Plex search button on artist, track and album pages (var: PLEX_SEARCH_LINK=true) #470
+- [Front] Add Plex search button on artist, track and album pages #470
+- [Front] Add Navidrome search button on artist, track and album pages
 ### 🐛 Fixed 
 - [API] Fix ignored umask #463
+- [Docker] Fix missing curl binary #474 (thanks @unthoiz)
 
 ## 📦 1.0.2
 ### 🚀 Added
