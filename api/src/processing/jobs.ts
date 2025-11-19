@@ -67,12 +67,18 @@ export async function cleanFolder(): Promise<"finished" | "error"> {
 }
 
 export function hasFileToMove(): boolean {
-  const filesToCopy = execSync(`ls ${PROCESSING_PATH}`, { encoding: "utf-8" })
-    .trim()
-    .split("\n")
-    .filter((file) => file);
+  try {
+    const filesToCopy = execSync(`ls ${PROCESSING_PATH}`, { encoding: "utf-8" })
+      .trim()
+      .split("\n")
+      .filter((file) => file);
 
-  return filesToCopy.length > 0;
+    return filesToCopy.length > 0;
+  } catch (error) {
+    // Directory might be empty or not exist
+    console.error("❌ [TIDARR] Error checking files to move:", error);
+    return false;
+  }
 }
 
 export function replacePathInM3U(item: ProcessingItemType): void {
@@ -81,16 +87,16 @@ export function replacePathInM3U(item: ProcessingItemType): void {
 
   logs(item.id, `🕖 [TIDARR] Update track path in M3U file ...`);
 
-  const m3uFilePath = execSync(`find "${downloadDir}" -name "*.m3u"`, {
-    encoding: "utf-8",
-  }).trim();
-
-  if (!m3uFilePath) {
-    logs(item.id, `⚠️ [TIDARR] No M3U file found`);
-    return;
-  }
-
   try {
+    const m3uFilePath = execSync(`find "${downloadDir}" -name "*.m3u"`, {
+      encoding: "utf-8",
+    }).trim();
+
+    if (!m3uFilePath) {
+      logs(item.id, `⚠️ [TIDARR] No M3U file found`);
+      return;
+    }
+
     let m3uContent = execSync(`cat "${m3uFilePath}"`, {
       encoding: "utf-8",
     });

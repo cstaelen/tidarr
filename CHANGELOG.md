@@ -7,12 +7,15 @@ Tidarr notable changes.
 ### 🚀 Added
 - [Front] Add Plex search button on artist, track and album pages #470
 - [Front] Add Navidrome search button on artist, track and album pages
-### 🐛 Fixed 
+- [API] Add `custom-script/.sh` in shared folder to customize post-processing pipeline #370
+### 🐛 Fixed
 - [API] Fix ignored umask #463
+- [API] Fix albums stuck in .processing folder due to unhandled errors #477
 - [Docker] Fix missing curl binary #474 (thanks @unthoiz)
 ### 🖍 Changed
 - [API] Add `json-db` to handle data storage in json files
-- [API] Update Tidal token-refresh handler
+- [API] Update Tidal token-refresh handler (smart refresh based on expires_at, async process)
+- [API] Improve error handling in post-processing pipeline
 
 ## 📦 1.0.2
 ### 🚀 Added
