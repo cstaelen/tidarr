@@ -61,6 +61,7 @@ export async function testProcessingList(
 
   // await page.getByRole("button", { name: "close" }).first().click();
   await page.locator(".MuiDialog-container button").first().click();
+  await page.waitForTimeout(250);
 }
 
 export async function emptyProcessingList(page: Page) {

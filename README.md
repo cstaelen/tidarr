@@ -33,7 +33,9 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Gotify](#gotify)
   - [Apprise Api](#apprise-api)
   - [Webhook push over](#webhook-push-over)
-- [API Doc](#api-doc)
+- [Advanced](#advanced)
+  - [Custom Processing Script](#custom-processing-script)
+  - [API Documentation](#api-documentation)
 - [User requests](#user-requests)
 - [Donate](#donate)
 - [Develop](#develop)
@@ -45,7 +47,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 > - For educational purposes and personal use only
 > - **Do not forget to support your local artists (merch, live, ...)** 🙏❤️
 
-## Features
+## FEATURES
 
 ### Main
 - Downloadable media : tracks, albums, playlists, mixes, music videos
@@ -67,8 +69,9 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - **[Beets.io](https://beets.readthedocs.io/en/stable/)** - Tag releases 
 - **[Gotify](https://gotify.net/)** - Push notifications 
 - **[Apprise API](https://github.com/caronc/apprise-api)** - Push notifications
+- **[Plex](https://www.plex.tv/)** - Library update, search item button (album, track artiste)
+- **[Navidrome](https://www.navidrome.org/)** - Search item button (album, track artiste)
 - **Webhook push over** - Push notifications using webhook (MatterMost)
-- **[Plex](https://www.plex.tv/)** - Library update
 
 ### Companion app
 
@@ -81,8 +84,12 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Self-hostable with **Docker** (`linux/amd64` and `linux/arm64`)
 - Download Tidal content with [Tiddl (3.1.0)](https://github.com/oskvr37/tiddl/tree/v3.1.0)
 
+### Integration & Automation
 
-## Getting Started
+- **REST API** - Integrate Tidarr with external applications and automation tools
+- **Custom scripts** - Execute your own shell scripts during post-processing pipeline (after download, before moving to library)
+
+## GETTING STARTED
 
 Example docker-compose.yml :
 
@@ -111,7 +118,7 @@ docker run  \
     cstaelen/tidarr:latest
 ```
 
-## Tidal authentication
+## TIDAL AUTHENTICATION
 
 (if no `tiddl.json` file provided) :
 
@@ -129,11 +136,11 @@ docker compose exec -it -e tidarr tiddl auth login
 docker exec -it -e tidarr tiddl auth
 ```
 
-## Options
+## OPTIONS
 
 ### Download settings
 
-⚠️ Be ware to set the right template path
+⚠️ Beware to set the right template path
 
 To set your download options you can :
 - use the UI configuration editor in settings dialog
@@ -208,7 +215,7 @@ environment:
   - SYNC_CRON_EXPRESSION="0 0 * * 1"
 ```
 
-**\* Syntaxe :**
+**\* Syntax:**
 - Minute (0 - 59)
 - Hour (0 - 23)
 - Day of the month (1 - 31)
@@ -221,9 +228,7 @@ You can customize Tidarr's appearance using the UI in settings dialog, or by edi
 
 **File location**: `/your/docker/path/to/tidarr/config/custom.css`
 
-
-
-## Services
+## SERVICES
 
 ### Beets
 
@@ -308,7 +313,7 @@ If no tag is defined, default tag value will be "all".
 ### Webhook push over
 
 Many push over services can be used as an URL to curl with a payload.
-Exemple with MatterMost :
+Example with MatterMost :
 
 ```bash
 curl -i -X POST -H 'Content-Type: application/json' -d '{"text": "Hello, this is some text\nThis is more text. 🎉"}' https://your-mattermost-server.com/hooks/xxx-generatedkey-xxx
@@ -323,12 +328,27 @@ environment:
 
 It should also works with other services using the same payload format `{"text": "..."}`.
 
-## API Doc
+## ADVANCED
+
+### Custom Processing Script
+
+Tidarr supports executing a custom shell script during the post-processing pipeline. This allows you to perform custom operations on downloaded files before they are moved to your library.
+
+> [!NOTE]
+> **Interact with Tidarr download process**
+>
+> 1. Create a shell script named `custom-script.sh` in your config folder (the mounted `shared/` volume)
+> 2. The script will be automatically detected and executed during post-processing
+> 3. The script runs **after** permissions are set but **before** files are moved to the library
+>
+> 📖 [View complete API documentation](docs/CUSTOM_SCRIPT_DOCUMENTATION.md)
+
+### API Documentation
+
+If you want to interact with Tidarr from other applications (scripts, external services, automations), you can use the Express API.
 
 > [!NOTE]
 > **Integration with other applications**
->
-> If you want to interact with Tidarr from other applications (scripts, external services, automations), you can consult the [complete API documentation](docs/API_DOCUMENTATION.md).
 >
 > Tidarr's REST API allows you to:
 > - Add downloads (albums, tracks, playlists, etc.)
@@ -340,17 +360,18 @@ It should also works with other services using the same payload format `{"text":
 > 📖 [View complete API documentation](docs/API_DOCUMENTATION.md)
 
 ## User requests
-As I'am the only maintainer for now, user requested features can takes time.
+As I'm the only maintainer for now, user requested features can take time.
 1) Feel free to create an issue with `enhancement` or `bug` tag.
 2) Be my guest, fork and dev !
 
-## Donate
+## DONATE
 
 If you would like to support this project, please do not hesitate to make a donation. It contributes a lot to motivation, gives me the energy to continue maintaining the project and adding the features requested by the users :)
 
 <a href="https://www.buymeacoffee.com/clst" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="40" width="160"></a>
 
-## Develop
+## DEVELOP
+
 Want more features and/or contribute ? Be my guest, fork and dev <3
 
 Check docker environment variables in `compose.yml` before running :
@@ -358,6 +379,7 @@ Check docker environment variables in `compose.yml` before running :
 ```bash
 make dev
 ```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ### Multi-platform Docker builds
 
@@ -382,15 +404,13 @@ make testing-build
 make testing-run
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Purposes
+## PURPOSES
 
 - Renovate old torrent dl media library with full FLAC
 - Just for coding
 - Just for fun
 
-## Resources
+## RESOURCES
 
 - https://github.com/oskvr37/tiddl
 - https://github.com/yaronzz/Tidal-Media-Downloader
