@@ -163,6 +163,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 }
 
 export function tidalToken(req: Request, res: Response) {
+  console.log("🔑 [TIDDL] Request a token ...");
   const tiddlProcess = spawn(TIDDL_BINARY, ["auth", "login"], {
     env: { ...process.env },
   });
@@ -182,12 +183,11 @@ export function tidalToken(req: Request, res: Response) {
       res.write(
         `data: Authenticated! Token saved to ${CONFIG_PATH}/.tiddl/auth.json\n\n`,
       );
+      console.log("✅ [TIDDL]: Authenticated !");
     } else {
       res.write(`data: closing ${code}\n\n`);
+      console.log(`❌ [TIDDL]: Auth process exited with code ${code}`);
     }
-    console.log(
-      `${code === 0 ? "✅" : "❌"} [TIDDL]: Auth process exited with code ${code}`,
-    );
     res.end();
   });
 
