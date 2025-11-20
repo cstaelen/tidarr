@@ -34,7 +34,7 @@ export default function Home() {
     "SOCIAL",
   ];
 
-  if (!tiddlConfig?.download.video_quality) {
+  if (!tiddlConfig?.download?.video_quality) {
     ModuleFilters.push("VIDEO_LIST");
   }
 
@@ -58,7 +58,7 @@ export default function Home() {
           data?.rows?.[0]?.modules[0]?.artist && (
             <ArtistHeader
               artist={data.rows[0].modules[0].artist}
-              showVideos={hasVideos && !!tiddlConfig?.download.video_quality}
+              showVideos={hasVideos && !!tiddlConfig?.download?.video_quality}
             />
           )}
         <div className="list-modules">

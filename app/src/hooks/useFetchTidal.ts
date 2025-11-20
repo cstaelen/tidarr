@@ -3,6 +3,7 @@ import { TIDAL_API_URL, TIDARR_PROXY_URL } from "src/contants";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { ConfigTiddleType } from "src/types";
+import { getApiUrl } from "src/utils/helpers";
 
 const jsonMimeType = "application/json";
 
@@ -36,11 +37,9 @@ async function fetchTidal<T>({
   const countryCode = tiddlConfig?.auth.country_code || "EN";
   const TOKEN = tiddlConfig?.auth.token;
 
-  let apiUrl = useProxy ? `${TIDARR_PROXY_URL}/tidal` : TIDAL_API_URL;
-
-  if (import.meta.env.MODE !== "development") {
-    apiUrl = apiUrl.replace("http://localhost:8484", "");
-  }
+  const apiUrl = getApiUrl(
+    useProxy ? `${TIDARR_PROXY_URL}/tidal` : TIDAL_API_URL,
+  );
 
   options.headers = new Headers({
     ...options?.headers,

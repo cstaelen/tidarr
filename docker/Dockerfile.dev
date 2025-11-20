@@ -33,6 +33,6 @@ EXPOSE 8484
 EXPOSE 3000
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-  CMD curl -f http://localhost:8484/api/settings || exit 1
+  CMD curl -f http://localhost:8484/api/is-auth-active || exit 1
 
 ENTRYPOINT ["sh", "/home/app/standalone/docker/run-dev.sh"]

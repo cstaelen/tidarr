@@ -1,9 +1,11 @@
 import fs from "fs";
 import path from "path";
 
+import { CONFIG_PATH } from "../../constants";
+
 import { configureServer } from "./config";
 
-const CUSTOM_CSS_PATH = "/home/app/standalone/shared/custom.css";
+const CUSTOM_CSS_PATH = `${CONFIG_PATH}/custom.css`;
 
 /**
  * Read the custom CSS file content

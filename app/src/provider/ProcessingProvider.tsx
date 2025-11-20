@@ -40,7 +40,10 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   const {
     actions: { list_sse, remove, save },
   } = useApiFetcher();
-  const { quality } = useConfigProvider();
+  const {
+    quality,
+    actions: { setConfigErrors },
+  } = useConfigProvider();
   const { formatItem } = useProcessingFormat();
 
   // Add item to processing list
@@ -48,7 +51,11 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     item: TidalItemType,
     type: ContentType,
   ): Promise<void> => {
-    if (!quality) return;
+    if (!quality) {
+      setConfigErrors(["Cannot read quality settings"]);
+      return;
+    }
+
     const itemToQueue = formatItem(item, type, quality);
 
     await save(JSON.stringify({ item: itemToQueue }));

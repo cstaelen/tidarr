@@ -144,3 +144,66 @@ track_quality = "low"`;
   expect(editorText).toContain("track_quality");
   expect(editorText).toContain("low");
 });
+
+test("Edit Config: Should display error dialog when config has errors", async ({
+  page,
+}) => {
+  // Mock /settings endpoint with configErrors
+  await page.route("**/settings", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        output: "",
+        parameters: {
+          TIDARR_VERSION: "v2.0.0",
+        },
+        noToken: false,
+        tiddl_config: {
+          templates: {},
+          download: {
+            track_quality: "high",
+          },
+        },
+        configErrors: [
+          "Config file error: Cannot redefine existing key 'templates'.",
+          "Config path: /home/app/standalone/shared/.tiddl/config.toml",
+        ],
+      }),
+    });
+  });
+
+  await goToHome(page);
+
+  // DialogConfigError should be visible
+  await expect(
+    page.getByRole("heading", { name: "Tiddl Configuration Error" }),
+  ).toBeVisible();
+
+  // Check error message content
+  await expect(
+    page.getByText("Please check your config.toml file for syntax errors."),
+  ).toBeVisible();
+
+  // Check file path
+  await expect(page.getByText("shared/.tiddl/config.toml")).toHaveCount(2);
+
+  // Check error details
+  await expect(page.getByText("Error details:")).toBeVisible();
+  await expect(
+    page.getByText(
+      "Config file error: Cannot redefine existing key 'templates'.",
+    ),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "Config path: /home/app/standalone/shared/.tiddl/config.toml",
+    ),
+  ).toBeVisible();
+
+  // Close the dialog
+  await page.getByRole("button", { name: "Close" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Tiddl Configuration Error" }),
+  ).not.toBeVisible();
+});

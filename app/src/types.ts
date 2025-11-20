@@ -238,6 +238,7 @@ export type ConfigType = {
   output: string;
   parameters: ConfigParametersType;
   tiddl_config: ConfigTiddleType;
+  configErrors?: string[];
 };
 
 export type ConfigParametersType = { [key: string]: string | undefined };

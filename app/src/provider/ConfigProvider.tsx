@@ -22,6 +22,7 @@ type ConfigContextType = {
   display: DisplayType;
   config: undefined | ConfigParametersType;
   tiddlConfig: undefined | ConfigTiddleType;
+  configErrors: undefined | string[];
   isConfigModalOpen: boolean;
   actions: {
     toggleModal: (isOpen: boolean) => void;
@@ -29,6 +30,7 @@ type ConfigContextType = {
     checkForUpdates: () => void;
     setQuality: (quality: QualityType) => void;
     setDisplay: (mode: DisplayType) => void;
+    setConfigErrors: (errors: undefined | string[]) => void;
   };
 };
 
@@ -44,6 +46,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [changeLogData, setChangeLogData] = useState<string[]>([]);
   const [config, setConfig] = useState<ConfigParametersType>();
   const [tiddlConfig, setTiddlConfig] = useState<ConfigTiddleType>();
+  const [configErrors, setConfigErrors] = useState<string[] | undefined>();
 
   const [quality, setQuality] = useState<QualityType>();
 
@@ -72,6 +75,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     setTokenMissing(data?.noToken);
     setConfig(data?.parameters);
     setTiddlConfig(data?.tiddl_config);
+    setConfigErrors(data?.configErrors);
     setQuality(data?.tiddl_config?.download?.track_quality);
   };
 
@@ -125,12 +129,14 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     display,
     isConfigModalOpen,
     tiddlConfig,
+    configErrors,
     actions: {
       toggleModal,
       checkAPI,
       checkForUpdates,
       setQuality,
       setDisplay,
+      setConfigErrors,
     },
   };
 

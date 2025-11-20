@@ -3,6 +3,7 @@ import { Album } from "@mui/icons-material";
 import { Button, CircularProgress, Tooltip } from "@mui/material";
 import { TIDARR_PROXY_URL } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
+import { getApiUrl } from "src/utils/helpers";
 
 interface NavidromeSearchButtonProps {
   query: string;
@@ -50,7 +51,8 @@ export const NavidromeSearchButton = ({
       setLoading(true);
       try {
         // Use proxy to avoid CORS
-        const searchUrl = `${TIDARR_PROXY_URL}/navidrome/rest/search3?query=${encodeURIComponent(query)}`;
+        const apiUrl = getApiUrl(TIDARR_PROXY_URL);
+        const searchUrl = `${apiUrl}/navidrome/rest/search3?query=${encodeURIComponent(query)}`;
 
         const response = await fetch(searchUrl);
         if (!response.ok) {
