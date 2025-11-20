@@ -42,11 +42,12 @@ export default function TiddlConfigEdit() {
             sx={{
               border: "1px solid rgba(255, 255, 255, 0.12)",
               borderRadius: 1,
-              maxHeight: "320px",
+              height: "calc(100vh - 350px)",
+              minHeight: "320px",
             }}
           >
             <Editor
-              height="500px"
+              height="100%"
               defaultLanguage="ini"
               theme="vs-dark"
               value={content}

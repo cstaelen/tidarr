@@ -1,7 +1,9 @@
 import fs from "fs";
 import path from "path";
 
-const TOML_CONFIG_PATH = "/home/app/standalone/shared/.tiddl/config.toml";
+import { CONFIG_PATH } from "../../constants";
+
+const TOML_CONFIG_PATH = `${CONFIG_PATH}/.tiddl/config.toml`;
 
 /**
  * Read the config TOML file content

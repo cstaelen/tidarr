@@ -5,7 +5,6 @@ import { CONFIG_PATH } from "../../constants";
 import { TiddlConfig } from "../types";
 
 export function get_tiddl_config(): TiddlConfig {
-  // Use fixed path to avoid HOME variable issues with su-exec
   const tiddlDir = `${CONFIG_PATH}/.tiddl`;
 
   // Read config.toml
@@ -14,8 +13,10 @@ export function get_tiddl_config(): TiddlConfig {
     const configPath = `${tiddlDir}/config.toml`;
     const configContent = readFileSync(configPath, "utf-8");
     config = toml.parse(configContent);
-  } catch {
+  } catch (error) {
     console.log("⚠️ [TIDDL] No configuration file found.");
+    console.log(`⚠️ [TIDDL] Config path: ${tiddlDir}/config.toml`);
+    console.log(`⚠️ [TIDDL] Error: ${error}`);
   }
 
   // Read auth.json

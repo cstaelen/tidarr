@@ -7,11 +7,19 @@ PUBLIC_URL="/home/app/standalone/app/build"
 DEV_PUBLIC_URL="/home/app/standalone/app/public"
 SHARED_URL="/home/app/standalone/shared"
 
-mkdir -p $SHARED_URL/.tiddl/
+mkdir -p $SHARED_URL/.tiddl/ 2>&1 || {
+    echo "❌ [TIDDL] Failed to create .tiddl directory"
+    exit 1
+}
 
 if [ ! -f "$SHARED_URL/.tiddl/config.toml" ]; then
-    cp $SETTINGS_URL/config.toml $SHARED_URL/.tiddl/config.toml
-    echo "✅ [TIDDL] Created config.toml from template"
+    if cp $SETTINGS_URL/config.toml $SHARED_URL/.tiddl/config.toml 2>&1; then
+        echo "✅ [TIDDL] Created config.toml from template"
+    else
+        echo "❌ [TIDDL] Failed to copy config.toml - check volume permissions"
+        ls -la $SHARED_URL/.tiddl/ 2>&1 || echo "Cannot list directory"
+        exit 1
+    fi
 else
     echo "✅ [TIDDL] Config.toml already exists"
 fi

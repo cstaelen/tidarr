@@ -3,7 +3,7 @@ import { Request, Response, Router } from "express";
 import { ensureAccessIsGranted } from "../helpers/auth";
 import { handleRouteError } from "../helpers/error-handler";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
-import { refreshTidalToken } from "../services/config";
+import { refreshTidalToken } from "../services/tiddl";
 import { deleteTiddlConfig, tidalToken } from "../services/tiddl";
 import { SettingsResponse } from "../types";
 

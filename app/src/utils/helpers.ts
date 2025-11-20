@@ -20,3 +20,12 @@ export function formatDate(dateString: string): string {
   );
   return formatter.format(date);
 }
+
+export function getApiUrl(url: string): string {
+  let apiUrl = url;
+  if (import.meta.env.MODE !== "development") {
+    apiUrl = apiUrl.replace("http://localhost:8484", "");
+  }
+
+  return apiUrl;
+}

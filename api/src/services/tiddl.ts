@@ -1,8 +1,11 @@
 import { spawn, spawnSync } from "child_process";
 import { Express, Request, Response } from "express";
+import { existsSync, readFileSync } from "fs";
+import { join } from "path";
 
 import { CONFIG_PATH } from "../../constants";
 import { extractFirstLineClean } from "../helpers/ansi_parse";
+import { get_tiddl_config } from "../helpers/get_tiddl_config";
 import { logs } from "../helpers/logs";
 import { ProcessingItemType, TiddlConfig } from "../types";
 
@@ -41,7 +44,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   const args: string[] = [];
 
   args.push("download");
-  args.push("--path", "/home/app/standalone/shared/.processing");
+  args.push("--path", `${CONFIG_PATH}/.processing`);
   args.push("--scan-path", "/home/app/standalone/library");
 
   if (item.type === "mix" && config?.templates?.mix) {
@@ -184,6 +187,10 @@ export function tidalToken(req: Request, res: Response) {
         `data: Authenticated! Token saved to ${CONFIG_PATH}/.tiddl/auth.json\n\n`,
       );
       console.log("✅ [TIDDL]: Authenticated !");
+
+      // Reload tiddl config to include new auth tokens
+      req.app.locals.tiddlConfig = get_tiddl_config();
+      console.log("✅ [TIDDL]: Config reloaded with new auth tokens");
     } else {
       res.write(`data: closing ${code}\n\n`);
       console.log(`❌ [TIDDL]: Auth process exited with code ${code}`);
@@ -207,4 +214,67 @@ export function deleteTiddlConfig() {
   } catch (e) {
     console.error("❌ [TIDDL] Error deleting tiddl config:", e);
   }
+}
+
+/**
+ * Check if Tidal token needs refresh based on expires_at timestamp
+ * Refreshes if token expires in less than 30 minutes
+ */
+function shouldRefreshToken(): boolean {
+  const authPath = join(CONFIG_PATH, ".tiddl", "auth.json");
+
+  // If auth file doesn't exist, no need to refresh
+  if (!existsSync(authPath)) {
+    return false;
+  }
+
+  try {
+    const authData = JSON.parse(readFileSync(authPath, "utf-8"));
+    const expiresAt = authData.expires_at;
+
+    if (!expiresAt) {
+      return false;
+    }
+
+    // Current time in seconds
+    const nowInSeconds = Math.floor(Date.now() / 1000);
+    // Refresh if token expires in less than 30 minutes (1800 seconds)
+    const timeUntilExpiry = expiresAt - nowInSeconds;
+
+    return timeUntilExpiry < 1800;
+  } catch {
+    console.log("⚠️ [TIDDL] Could not read auth.json, skipping token refresh");
+    return false;
+  }
+}
+
+export function refreshTidalToken(force = false) {
+  // Skip refresh if token is still valid (unless forced)
+  if (!force && !shouldRefreshToken()) {
+    return;
+  }
+
+  console.log("🕖 [TIDDL] Refreshing Tidal token...");
+
+  // Use async spawn to avoid blocking Node.js event loop
+  // Explicitly set HOME to ensure tiddl can find config files
+  const refreshProcess = spawn(TIDDL_BINARY, ["auth", "refresh"], {
+    env: {
+      ...process.env,
+    },
+  });
+
+  refreshProcess.on("close", (code) => {
+    if (code === 0) {
+      console.log(
+        `✅ [TIDDL] Tidal token refreshed and saved to ${CONFIG_PATH}/.tiddl/auth.json`,
+      );
+    } else {
+      console.log(`⚠️ [TIDDL] Token refresh exited with code ${code}`);
+    }
+  });
+
+  refreshProcess.on("error", (error) => {
+    console.log(`❌ [TIDDL] Token refresh error: ${error.message}`);
+  });
 }
