@@ -1,8 +1,14 @@
 import { Express, Response } from "express";
 import { Server } from "http";
+
+import { stopTokenRefreshInterval } from "../services/token-refresh";
+
 // Graceful shutdown
 export function gracefulShutdown(signal: string, app: Express, server: Server) {
   console.log(`\n[INFO] ${signal} received. Starting graceful shutdown...`);
+
+  // Stop token refresh interval
+  stopTokenRefreshInterval();
 
   // Close all active SSE connections
   const listConnections = app.locals.activeListConnections || [];

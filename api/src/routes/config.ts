@@ -3,7 +3,6 @@ import { Request, Response, Router } from "express";
 import { ensureAccessIsGranted } from "../helpers/auth";
 import { handleRouteError } from "../helpers/error-handler";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
-import { refreshTidalToken } from "../services/tiddl";
 import { deleteTiddlConfig, tidalToken } from "../services/tiddl";
 import { SettingsResponse } from "../types";
 
@@ -18,9 +17,8 @@ router.get(
   ensureAccessIsGranted,
   (_req: Request, res: Response<SettingsResponse>) => {
     try {
-      refreshTidalToken();
+      // Load config and store in app.locals
       const { config: tiddl_config, errors: configErrors } = get_tiddl_config();
-      // Store in app.locals so it's accessible throughout the app
       res.app.locals.tiddlConfig = tiddl_config;
 
       res.status(200).json({

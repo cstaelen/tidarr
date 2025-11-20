@@ -3,6 +3,11 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.0.4
+### 🐛 Fixed
+- [API] Fix ignored umask issue
+- [API] Fix condition race issue with token refresh
+
 ## 📦 1.0.3
 ### 🚀 Added
 - [Front] Add Plex search button on artist, track and album pages #470

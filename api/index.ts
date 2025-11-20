@@ -5,6 +5,7 @@ import fs from "fs";
 import path from "path";
 
 import { setAppInstance } from "./src/app-instance";
+import { get_tiddl_config } from "./src/helpers/get_tiddl_config";
 import { gracefulShutdown } from "./src/helpers/gracefull_shutdown";
 import { ProcessingStack } from "./src/processing/ProcessingStack";
 import { setupProxies } from "./src/proxies";
@@ -17,6 +18,7 @@ import syncRouter from "./src/routes/sync";
 import tiddlTomlRouter from "./src/routes/tiddl-toml";
 import { configureServer } from "./src/services/config";
 import { createCronJob } from "./src/services/sync";
+import { startTokenRefreshInterval } from "./src/services/token-refresh";
 
 import customCssRouter from "./src/routes/custom-css";
 
@@ -71,7 +73,14 @@ const server = app.listen(port, async () => {
   const config = await configureServer();
   app.locals.config = config;
 
+  // Load tiddl config on startup
+  const { config: tiddlConfig } = get_tiddl_config();
+  app.locals.tiddlConfig = tiddlConfig;
+
   await createCronJob(app);
+
+  // Start token refresh interval (checks every 15 minutes)
+  startTokenRefreshInterval(app);
 
   await app.locals.processingStack.actions.loadDataFromFile();
   console.log(`✅ [QUEUE] Queue file loaded.`);

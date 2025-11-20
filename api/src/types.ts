@@ -77,6 +77,7 @@ export type TiddlConfig = {
     token: string;
     refresh_token: string;
     expires: number;
+    expires_at?: number; // Unix timestamp when token expires (used for refresh logic)
     user_id: string;
     country_code: string;
   };
