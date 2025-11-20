@@ -92,7 +92,10 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       data.includes("Downloaded")
     ) {
       // Extract first line and clean it (remove ANSI hyperlinks and extra lines)
-      const cleanedLine = extractFirstLineClean(data);
+      const cleanedLine = data.includes("Error")
+        ? data
+        : extractFirstLineClean(data);
+
       if (cleanedLine) {
         // Console log important lines only (for Docker logs)
         console.log(cleanedLine);

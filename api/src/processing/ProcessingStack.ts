@@ -366,7 +366,7 @@ export const ProcessingStack = (expressApp: Express) => {
     await beets(item.id);
 
     // Set permissions
-    setPermissions(item);
+    await setPermissions(item);
 
     // Execute custom script if exists
     await executeCustomScript(item);
