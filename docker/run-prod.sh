@@ -49,8 +49,9 @@ if [ -n "$PUID" ] && [ -n "$PGID" ]; then
 
   # Run Node.js as specified UID/GID using su-exec
   # Set HOME to /home/app/standalone/shared for tiddl config access
-  # Set umask for any processes that respect it (Node.js applies explicit chmod via setPermissions)
-  exec su-exec $PUID:$PGID sh -c "umask $EFFECTIVE_UMASK && exec env HOME=/home/app/standalone/shared yarn --cwd ./api prod"
+  # Export UMASK as environment variable so Node.js can access it for setPermissions()
+  # Set umask for any processes that respect it (tiddl/Python ignores shell umask)
+  exec su-exec $PUID:$PGID sh -c "export HOME=/home/app/standalone/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && exec yarn --cwd ./api prod"
 else
   # Run as root (default)
   yarn --cwd ./api prod

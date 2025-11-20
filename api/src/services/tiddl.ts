@@ -1,9 +1,7 @@
 import { spawn, spawnSync } from "child_process";
 import { Express, Request, Response } from "express";
-import { existsSync, readFileSync } from "fs";
-import { join } from "path";
 
-import { CONFIG_PATH } from "../../constants";
+import { CONFIG_PATH, TOKEN_REFRESH_THRESHOLD } from "../../constants";
 import { extractFirstLineClean } from "../helpers/ansi_parse";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
 import { logs } from "../helpers/logs";
@@ -92,7 +90,10 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       data.includes("Downloaded")
     ) {
       // Extract first line and clean it (remove ANSI hyperlinks and extra lines)
-      const cleanedLine = extractFirstLineClean(data);
+      const cleanedLine = data.includes("Error")
+        ? data
+        : extractFirstLineClean(data);
+
       if (cleanedLine) {
         // Console log important lines only (for Docker logs)
         console.log(cleanedLine);
@@ -218,39 +219,27 @@ export function deleteTiddlConfig() {
 
 /**
  * Check if Tidal token needs refresh based on expires_at timestamp
- * Refreshes if token expires in less than 30 minutes
+ * Refreshes if token expires in less than TOKEN_REFRESH_THRESHOLD seconds
+ * @param tiddlConfig - Optional TiddlConfig object from app.locals
  */
-function shouldRefreshToken(): boolean {
-  const authPath = join(CONFIG_PATH, ".tiddl", "auth.json");
-
-  // If auth file doesn't exist, no need to refresh
-  if (!existsSync(authPath)) {
+function shouldRefreshToken(tiddlConfig?: TiddlConfig): boolean {
+  // If config is not provided or missing auth data, skip refresh
+  if (!tiddlConfig?.auth?.expires_at) {
     return false;
   }
 
-  try {
-    const authData = JSON.parse(readFileSync(authPath, "utf-8"));
-    const expiresAt = authData.expires_at;
+  const expiresAt = tiddlConfig.auth.expires_at;
+  const nowInSeconds = Math.floor(Date.now() / 1000);
 
-    if (!expiresAt) {
-      return false;
-    }
+  // Refresh if token expires in less than TOKEN_REFRESH_THRESHOLD seconds
+  const timeUntilExpiry = expiresAt - nowInSeconds;
 
-    // Current time in seconds
-    const nowInSeconds = Math.floor(Date.now() / 1000);
-    // Refresh if token expires in less than 30 minutes (1800 seconds)
-    const timeUntilExpiry = expiresAt - nowInSeconds;
-
-    return timeUntilExpiry < 1800;
-  } catch {
-    console.log("⚠️ [TIDDL] Could not read auth.json, skipping token refresh");
-    return false;
-  }
+  return timeUntilExpiry < TOKEN_REFRESH_THRESHOLD;
 }
 
-export function refreshTidalToken(force = false) {
+export function refreshTidalToken(force = false, tiddlConfig?: TiddlConfig) {
   // Skip refresh if token is still valid (unless forced)
-  if (!force && !shouldRefreshToken()) {
+  if (!force && !shouldRefreshToken(tiddlConfig)) {
     return;
   }
 

@@ -74,11 +74,11 @@ export const ProcessingList = () => {
     case isPaused:
       buttonColor = "warning";
       break;
-    case isLoading:
-      buttonColor = "primary";
-      break;
     case hasError:
       buttonColor = "error";
+      break;
+    case isLoading:
+      buttonColor = "primary";
       break;
     default:
       buttonColor = "success";

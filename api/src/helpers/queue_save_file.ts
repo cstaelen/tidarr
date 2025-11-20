@@ -31,7 +31,12 @@ export const updateItemInQueueFile = async (item: ProcessingItemType) => {
   const itemIndex = saveList.findIndex((current) => current.id === item.id);
 
   if (itemIndex === -1) {
-    throw new Error(`Item with id ${item.id} not found in queue`);
+    // Item not found - it may have been removed already (e.g., auto-remove finished items)
+    // This is not an error, just skip the update
+    console.log(
+      `[QUEUE] Item ${item.id} not found in queue file - may have been removed already`,
+    );
+    return;
   }
 
   delete item.process;

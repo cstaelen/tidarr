@@ -293,7 +293,7 @@ export type ConfigTiddleType = {
   auth: {
     token: string;
     refresh_token: string;
-    expires: number;
+    expires_at: number;
     user_id: string;
     country_code: string;
   };

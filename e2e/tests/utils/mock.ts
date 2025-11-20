@@ -188,7 +188,7 @@ export async function mockConfigAPI(page: Page, customEnvVars?: object) {
         auth: {
           token: "mock-token",
           refresh_token: "mock-refresh-token",
-          expires: 1234567890,
+          expires_at: 1234567890,
           user_id: "192283714",
           country_code: "FR",
         },
