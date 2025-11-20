@@ -19,7 +19,7 @@ router.get(
   (_req: Request, res: Response<SettingsResponse>) => {
     try {
       refreshTidalToken();
-      const tiddl_config = get_tiddl_config();
+      const { config: tiddl_config, errors: configErrors } = get_tiddl_config();
       // Store in app.locals so it's accessible throughout the app
       res.app.locals.tiddlConfig = tiddl_config;
 
@@ -28,6 +28,7 @@ router.get(
         noToken:
           !tiddl_config?.auth?.token || tiddl_config?.auth?.token?.length === 0,
         tiddl_config: tiddl_config,
+        configErrors: configErrors.length > 0 ? configErrors : undefined,
       });
     } catch (error) {
       handleRouteError(error, res, "get settings");

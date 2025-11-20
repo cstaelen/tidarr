@@ -158,6 +158,7 @@ export interface SettingsResponse {
   };
   noToken: boolean;
   tiddl_config?: TiddlConfig;
+  configErrors?: string[];
 }
 
 /**

@@ -4,8 +4,12 @@ import toml from "toml";
 import { CONFIG_PATH } from "../../constants";
 import { TiddlConfig } from "../types";
 
-export function get_tiddl_config(): TiddlConfig {
+export function get_tiddl_config(): {
+  config: TiddlConfig;
+  errors: string[];
+} {
   const tiddlDir = `${CONFIG_PATH}/.tiddl`;
+  const errors: string[] = [];
 
   // Read config.toml
   let config;
@@ -14,9 +18,11 @@ export function get_tiddl_config(): TiddlConfig {
     const configContent = readFileSync(configPath, "utf-8");
     config = toml.parse(configContent);
   } catch (error) {
-    console.log("⚠️ [TIDDL] No configuration file found.");
-    console.log(`⚠️ [TIDDL] Config path: ${tiddlDir}/config.toml`);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.log("⚠️ [TIDDL] There is an issue with the config file.");
     console.log(`⚠️ [TIDDL] Error: ${error}`);
+    errors.push(`Config file error: ${errorMessage}`);
+    errors.push(`Config path: ${tiddlDir}/config.toml`);
   }
 
   // Read auth.json
@@ -31,7 +37,10 @@ export function get_tiddl_config(): TiddlConfig {
 
   // Merge config and auth into TiddlConfig structure
   return {
-    ...config,
-    auth: auth,
-  } as TiddlConfig;
+    config: {
+      ...config,
+      auth: auth,
+    } as TiddlConfig,
+    errors,
+  };
 }
