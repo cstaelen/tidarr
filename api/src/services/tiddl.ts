@@ -116,12 +116,6 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     }
   });
 
-  child.stderr?.setEncoding("utf8");
-  child.stderr?.on("data", (data) => {
-    logs(item.id, `❌ [TIDDL]: ${data}`);
-    if (onFinish) onFinish();
-  });
-
   child.on("close", (code) => {
     const currentOutput = app.locals.processingStack.actions.getItemOutput(
       item.id,
@@ -150,6 +144,12 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       isDownloaded && !hasProcessingError ? "downloaded" : "error";
     item["loading"] = false;
     app.locals.processingStack.actions.updateItem(item);
+    if (onFinish) onFinish();
+  });
+
+  child.stderr?.setEncoding("utf8");
+  child.stderr?.on("data", (data) => {
+    logs(item.id, `❌ [TIDDL]: ${data}`);
     if (onFinish) onFinish();
   });
 

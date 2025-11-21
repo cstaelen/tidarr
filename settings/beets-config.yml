@@ -1,4 +1,5 @@
-plugins: embedart importadded
+plugins: embedart importadded fetchart lyrics lastgenre missing advancedrewrite
+
 art_filename: folder
 threaded: yes
 per_disc_numbering: yes

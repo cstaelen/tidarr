@@ -1,5 +1,8 @@
 requests
 ffmpeg-python 
 mutagen
+pylast
+
+beets[fetchart, lastgenre, lastimport, advancedrewrite]
 
 tiddl == 3.1.0
