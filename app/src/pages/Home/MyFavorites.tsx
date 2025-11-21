@@ -1,7 +1,6 @@
 import { DownloadButton } from "src/components/Buttons/DownloadButton";
 import SyncButton from "src/components/Buttons/SyncButton";
 import PagedModule from "src/components/TidalModule/PagedModule";
-import { FAV_QUEUE_ENABLED } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { ContentType, FavoritesType } from "src/types";
 
@@ -13,7 +12,7 @@ function FavoritesActions({
   label: string;
 }) {
   const { quality } = useConfigProvider();
-  if (!FAV_QUEUE_ENABLED || !quality) return;
+  if (!quality) return;
   return (
     <>
       <DownloadButton

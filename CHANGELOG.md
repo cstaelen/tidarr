@@ -9,6 +9,8 @@ Tidarr notable changes.
 ### 🐛 Fixed
 - [API] Fix ignored umask issue
 - [API] Fix condition race issue with token refresh
+### 🖍 Changed
+- [API] Update to tiddl 3.1.1
 
 ## 📦 1.0.3
 ### 🚀 Added
