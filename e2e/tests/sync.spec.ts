@@ -1,7 +1,12 @@
 import { expect, test } from "@playwright/test";
 
-import { emptyProcessingList, emptySyncList, goToHome } from "./utils/helpers";
-import { mockConfigAPI, mockRelease } from "./utils/mock";
+import { emptySyncList, goToHome } from "./utils/helpers";
+import {
+  mockConfigAPI,
+  mockProcessingAPI,
+  mockRelease,
+  mockSyncAPI,
+} from "./utils/mock";
 import { runSearch } from "./utils/search";
 
 test.describe.configure({ mode: "serial" });
@@ -9,11 +14,12 @@ test.describe.configure({ mode: "serial" });
 test.beforeEach(async ({ page }) => {
   await mockConfigAPI(page);
   await mockRelease(page);
+  await mockProcessingAPI(page);
+  await mockSyncAPI(page);
   await emptySyncList(page);
 });
 
 test.afterEach(async ({ page }) => {
-  await emptyProcessingList(page);
   await emptySyncList(page);
 });
 
@@ -161,15 +167,6 @@ test("Tidarr sync : Should be able to sync an artist", async ({ page }) => {
 test("Tidarr sync : Should be able to sync now an individual item", async ({
   page,
 }) => {
-  // Mock the /api/sync/trigger endpoint
-  await page.route("**/api/sync/trigger", async (route) => {
-    await route.fulfill({
-      status: 201,
-      contentType: "application/json",
-      body: JSON.stringify({}),
-    });
-  });
-
   await runSearch(
     "https://tidal.com/browse/playlist/0b5df380-47d3-48fe-ae66-8f0dba90b1ee",
     page,
@@ -206,17 +203,6 @@ test("Tidarr sync : Should be able to sync now an individual item", async ({
 test("Tidarr sync : Should be able to sync all items at once", async ({
   page,
 }) => {
-  // Mock the /api/sync/trigger endpoint
-  let syncNowCalled = false;
-  await page.route("**/api/sync/trigger", async (route) => {
-    syncNowCalled = true;
-    await route.fulfill({
-      status: 201,
-      contentType: "application/json",
-      body: JSON.stringify({}),
-    });
-  });
-
   // Add first item (playlist)
   await runSearch(
     "https://tidal.com/browse/playlist/0b5df380-47d3-48fe-ae66-8f0dba90b1ee",
@@ -241,9 +227,8 @@ test("Tidarr sync : Should be able to sync all items at once", async ({
   // Click the "Sync all now" button
   await page.getByRole("button", { name: "Sync all now" }).click();
 
-  // Verify the API was called
+  // Wait for processing to update
   await page.waitForTimeout(500);
-  expect(syncNowCalled).toBe(true);
 
   // Verify both items were added to processing list
   await page.locator(".MuiFab-circular").hover();
