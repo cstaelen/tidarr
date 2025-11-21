@@ -14,6 +14,7 @@ type FetchTidalProps = {
   useProxy?: boolean;
   search?: FetchTidalSearchProps;
   resetTidalToken: () => void;
+  reloadTidalToken: () => Promise<ConfigTiddleType | undefined>;
 };
 
 export type FetchTidalSearchProps = {
@@ -33,6 +34,7 @@ async function fetchTidal<T>({
   useProxy,
   search,
   resetTidalToken,
+  reloadTidalToken,
 }: FetchTidalProps): Promise<T | undefined> {
   const countryCode = tiddlConfig?.auth.country_code || "EN";
   const TOKEN = tiddlConfig?.auth.token;
@@ -73,10 +75,29 @@ async function fetchTidal<T>({
   // 401
   if (response.status === 401) {
     switch (data.subStatus) {
-      // Token need refresh
-      case 11003:
-        window.location.reload();
-        break;
+      // Token needs refresh - reload config to get refreshed token from backend
+      case 11003: {
+        console.log("[useFetchTidal] Token expired, reloading config...");
+        console.log(
+          "[useFetchTidal] Old token:",
+          tiddlConfig?.auth?.token?.substring(0, 50),
+        );
+        const updatedConfig = await reloadTidalToken();
+        console.log(
+          "[useFetchTidal] New token:",
+          updatedConfig?.auth?.token?.substring(0, 50),
+        );
+        // Retry the same request with the refreshed token from backend
+        return fetchTidal({
+          url,
+          options,
+          tiddlConfig: updatedConfig,
+          useProxy,
+          search,
+          resetTidalToken,
+          reloadTidalToken,
+        });
+      }
 
       // Token expired
       // Session not valid
@@ -98,15 +119,30 @@ async function fetchTidal<T>({
 }
 
 export function useFetchTidal() {
+  const [loading, setLoading] = useState<boolean>(false);
+
   const {
     tiddlConfig,
     config,
     actions: { checkAPI },
   } = useConfigProvider();
-  const [loading, setLoading] = useState<boolean>(false);
+
   const {
-    actions: { delete_token },
+    actions: { delete_token, get_settings },
   } = useApiFetcher();
+
+  const resetTidalToken = async () => {
+    await delete_token();
+    await checkAPI();
+  };
+
+  const reloadTidalToken = async () => {
+    // Reload config to get the refreshed token from backend
+    const settings = await get_settings();
+    // Also update the context state
+    await checkAPI();
+    return settings?.tiddl_config;
+  };
 
   async function fetcher<T>(
     url: string,
@@ -114,17 +150,17 @@ export function useFetchTidal() {
     search?: FetchTidalSearchProps,
   ) {
     setLoading(true);
+
     const data = await fetchTidal<T>({
       url: url,
       options: options || {},
       tiddlConfig: tiddlConfig,
       useProxy: config?.ENABLE_TIDAL_PROXY === "true",
       search: search,
-      resetTidalToken: async () => {
-        await delete_token();
-        await checkAPI();
-      },
+      resetTidalToken: resetTidalToken,
+      reloadTidalToken: reloadTidalToken,
     });
+
     setLoading(false);
     return data;
   }

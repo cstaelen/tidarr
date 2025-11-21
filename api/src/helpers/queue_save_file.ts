@@ -16,6 +16,7 @@ export async function loadQueueFromFile(): Promise<ProcessingItemType[]> {
 
 export const addItemToFile = async (item: ProcessingItemType) => {
   const saveList = await loadQueueFromFile();
+  delete item.process;
   saveList.push(item);
   await queueDb.push(QUEUE_PATH, saveList);
 };

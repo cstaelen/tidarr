@@ -10,6 +10,7 @@ DOCKER_COMPOSE  = $(or docker compose, docker-compose)
 ##-------
 
 dev: ## Boot dev environnement
+	$(DOCKER_COMPOSE) down
 	$(DOCKER_COMPOSE) up tidarr --build --remove-orphans
 
 install: ## Install deps

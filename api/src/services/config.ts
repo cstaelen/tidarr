@@ -1,6 +1,10 @@
 import { execSync } from "child_process";
 
 import { ROOT_PATH, SYNC_DEFAULT_CRON } from "../../constants";
+import { get_tiddl_config } from "../helpers/get_tiddl_config";
+import { TiddlConfig } from "../types";
+
+import { refreshTidalToken, shouldRefreshToken } from "./tiddl";
 
 export async function configureServer() {
   console.log(`---------------------`);
@@ -46,4 +50,31 @@ export async function configureServer() {
   } catch (error: unknown) {
     console.log("❌ [TIDARR] Error config", error);
   }
+}
+
+/**
+ * Refresh Tidal token and reload config if needed
+ * Checks if token needs refresh based on expires_at timestamp
+ * Only refreshes if token is expired or expiring soon (< TOKEN_REFRESH_THRESHOLD)
+ * @param tiddlConfig - Current TiddlConfig to check expiry
+ * @returns Promise with updated TiddlConfig and errors
+ */
+export async function refreshAndReloadConfig(
+  tiddlConfig?: TiddlConfig,
+): Promise<{ config: TiddlConfig; errors: string[] }> {
+  // Skip refresh if token is still valid
+  if (!shouldRefreshToken(tiddlConfig)) {
+    // If config is already loaded and valid, return it without re-reading files
+    if (tiddlConfig) {
+      return { config: tiddlConfig, errors: [] };
+    }
+    // Otherwise load config from disk (first time only)
+    return get_tiddl_config();
+  }
+
+  // Refresh token using the centralized function
+  await refreshTidalToken(true, tiddlConfig);
+
+  // Reload config after refresh completes
+  return get_tiddl_config();
 }

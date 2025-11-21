@@ -5,7 +5,7 @@ export async function getTracksByMixId(
   item: ProcessingItemType,
   config: TiddlConfig,
 ) {
-  if (!config) return;
+  if (!config?.auth) return;
 
   logs(item.id, `🕖 [MIX]: Get track from mix id`);
 
@@ -42,11 +42,11 @@ export async function createNewPlaylist(
   item: ProcessingItemType,
   config: TiddlConfig,
 ) {
-  if (!config) return;
+  if (!config?.auth) return;
 
   logs(item.id, `🕖 [MIX]: Create new playlist`);
 
-  const url = `https://openapi.tidal.com/v2/playlists?countryCode=${config.auth.country_code}`;
+  const url = `https://openapi.tidal.com/v2/playlists?countryCode=${config?.auth?.country_code}`;
   const options: RequestInit = {};
   options.method = "POST";
   options.headers = new Headers({
@@ -85,7 +85,7 @@ export async function deletePlaylist(
   config: TiddlConfig,
   itemId: string,
 ) {
-  if (!config) return;
+  if (!config?.auth) return;
 
   logs(itemId, `🕖 [MIX]: Delete temporary playlist`);
 

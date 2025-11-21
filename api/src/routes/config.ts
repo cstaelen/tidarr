@@ -2,7 +2,7 @@ import { Request, Response, Router } from "express";
 
 import { ensureAccessIsGranted } from "../helpers/auth";
 import { handleRouteError } from "../helpers/error-handler";
-import { get_tiddl_config } from "../helpers/get_tiddl_config";
+import { refreshAndReloadConfig } from "../services/config";
 import { deleteTiddlConfig, tidalToken } from "../services/tiddl";
 import { SettingsResponse } from "../types";
 
@@ -15,10 +15,18 @@ const router = Router();
 router.get(
   "/settings",
   ensureAccessIsGranted,
-  (_req: Request, res: Response<SettingsResponse>) => {
+  async (_req: Request, res: Response<SettingsResponse>) => {
     try {
-      // Load config and store in app.locals
-      const { config: tiddl_config, errors: configErrors } = get_tiddl_config();
+      // Get config from app.locals (already loaded on startup)
+      let tiddl_config = res.app.locals.tiddlConfig;
+
+      // Refresh and reload if token needs it (expired or expiring soon)
+      // refreshAndReloadConfig checks internally via shouldRefreshToken()
+      const refreshed = await refreshAndReloadConfig(tiddl_config);
+      tiddl_config = refreshed.config;
+      const configErrors = refreshed.errors;
+
+      // Update app.locals with fresh config
       res.app.locals.tiddlConfig = tiddl_config;
 
       res.status(200).json({

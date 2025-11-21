@@ -2,7 +2,7 @@ import { Express } from "express";
 
 import { TOKEN_CHECK_INTERVAL, TOKEN_REFRESH_THRESHOLD } from "../../constants";
 
-import { refreshTidalToken } from "./tiddl";
+import { refreshAndReloadConfig } from "./config";
 
 let tokenRefreshInterval: NodeJS.Timeout | null = null;
 
@@ -43,7 +43,7 @@ export function stopTokenRefreshInterval() {
 /**
  * Check if token needs refresh and refresh if needed
  */
-function checkAndRefreshToken(app: Express) {
+async function checkAndRefreshToken(app: Express) {
   const tiddlConfig = app.locals.tiddlConfig;
 
   // If config not loaded yet, skip
@@ -51,6 +51,9 @@ function checkAndRefreshToken(app: Express) {
     return;
   }
 
-  // Call refreshTidalToken with the config from app.locals
-  refreshTidalToken(false, tiddlConfig);
+  // Refresh token and reload config (will skip if token still valid)
+  const { config: updatedConfig } = await refreshAndReloadConfig(tiddlConfig);
+
+  // Update app.locals with fresh token
+  app.locals.tiddlConfig = updatedConfig;
 }

@@ -22,7 +22,6 @@ export function get_tiddl_config(): {
     console.log("⚠️ [TIDDL] There is an issue with the config file.");
     console.log(`⚠️ [TIDDL] Error: ${error}`);
     errors.push(`Config file error: ${errorMessage}`);
-    errors.push(`Config path: ${tiddlDir}/config.toml`);
   }
 
   // Read auth.json
