@@ -2,7 +2,7 @@ import { Express } from "express";
 
 import { TOKEN_CHECK_INTERVAL, TOKEN_REFRESH_THRESHOLD } from "../../constants";
 
-import { refreshAndReloadConfig } from "./tiddl";
+import { refreshAndReloadConfig } from "./config";
 
 let tokenRefreshInterval: NodeJS.Timeout | null = null;
 

@@ -18,11 +18,13 @@ export async function moveAndClean(id: string): Promise<{
 
   if (!item) return { status: "finished" };
 
+  const itemProcessingPath = `${PROCESSING_PATH}/${item.id}`;
+
   try {
     logs(item.id, "🕖 [TIDARR] Move processed items ...");
 
     // Check if there are files to move
-    if (!hasFileToMove()) {
+    if (!hasFileToMove(itemProcessingPath)) {
       logs(item.id, "⚠️ [TIDARR] No files to move (empty download folder)");
       return { status: "finished" };
     }
@@ -33,16 +35,16 @@ export async function moveAndClean(id: string): Promise<{
       args = "-rfp";
     }
 
-    const cmd = `cp ${args} ${PROCESSING_PATH}/* ${ROOT_PATH}/library >/dev/null`;
+    const cmd = `cp ${args} "${itemProcessingPath}"/* "${ROOT_PATH}/library" >/dev/null`;
     console.log(`🕖 [TIDARR] Command: ${cmd}`);
-    execSync(cmd, { encoding: "utf-8" });
+    execSync(cmd, { encoding: "utf-8", shell: "/bin/sh" });
     logs(item.id, `✅ [TIDARR] Move complete (${item.type})`);
     status = "finished";
   } catch (e: unknown) {
     status = "error";
     logs(item.id, `❌ [TIDARR] Error moving files:\r\n${(e as Error).message}`);
   } finally {
-    const cleaningStatus = await cleanFolder();
+    const cleaningStatus = await cleanFolder(item.id);
     if (cleaningStatus === "error") {
       status = "error";
     }
@@ -53,22 +55,48 @@ export async function moveAndClean(id: string): Promise<{
   };
 }
 
-export async function cleanFolder(): Promise<"finished" | "error"> {
+export async function cleanFolder(
+  itemId?: string,
+): Promise<"finished" | "error"> {
+  const targetPath = itemId
+    ? `${PROCESSING_PATH}/${itemId}`
+    : `${PROCESSING_PATH}/*`;
+
+  // Check if target exists before attempting to remove
+  if (itemId) {
+    // For specific item, check if directory exists
+    if (!fs.existsSync(targetPath)) {
+      return "finished";
+    }
+  } else {
+    // For wildcard cleanup, check if processing folder exists
+    if (!fs.existsSync(PROCESSING_PATH)) {
+      return "finished";
+    }
+  }
+
   try {
-    const output_clean = execSync(`rm -rf ${PROCESSING_PATH}/* >/dev/null`, {
+    execSync(`rm -rf "${targetPath}"`, {
       encoding: "utf-8",
+      shell: "/bin/sh",
     });
-    console.log("🧹 [TIDARR] Clean folder", output_clean);
+    console.log(
+      `🧹 [TIDARR] Cleaned up processing folder ${itemId ? ` (item: ${itemId})` : ""}`,
+    );
     return "finished";
   } catch (e) {
-    console.log("❌ [TIDARR] Error Clean folder", e);
+    console.log(`❌ [TIDARR] Error cleaning folder:`, e);
     return "error";
   }
 }
 
-export function hasFileToMove(): boolean {
+export function hasFileToMove(path?: string): boolean {
+  const targetPath = path || PROCESSING_PATH;
   try {
-    const filesToCopy = execSync(`ls ${PROCESSING_PATH}`, { encoding: "utf-8" })
+    const filesToCopy = execSync(`ls "${targetPath}"`, {
+      encoding: "utf-8",
+      shell: "/bin/sh",
+    })
       .trim()
       .split("\n")
       .filter((file) => file);
@@ -83,7 +111,7 @@ export function hasFileToMove(): boolean {
 
 export function replacePathInM3U(item: ProcessingItemType): void {
   const basePath = process.env.M3U_BASEPATH_FILE || "./";
-  const downloadDir = PROCESSING_PATH;
+  const downloadDir = `${PROCESSING_PATH}/${item.id}`;
 
   logs(item.id, `🕖 [TIDARR] Update track path in M3U file ...`);
 
@@ -116,12 +144,15 @@ export function replacePathInM3U(item: ProcessingItemType): void {
 }
 
 export async function setPermissions(item: ProcessingItemType) {
+  const itemProcessingPath = `${PROCESSING_PATH}/${item.id}`;
+
   if (process.env.PUID && process.env.PGID) {
     try {
       const output_chown = execSync(
-        `chown -R ${process.env.PUID}:${process.env.PGID} ${PROCESSING_PATH}/*`,
+        `chown -R ${process.env.PUID}:${process.env.PGID} "${itemProcessingPath}"`,
         {
           encoding: "utf-8",
+          shell: "/bin/sh",
         },
       );
       logs(
@@ -144,14 +175,22 @@ export async function setPermissions(item: ProcessingItemType) {
       const dirMode = (0o777 & ~umaskValue).toString(8);
 
       // Apply file permissions to regular files
-      execSync(`find ${PROCESSING_PATH} -type f -exec chmod ${fileMode} {} +`, {
-        encoding: "utf-8",
-      });
+      execSync(
+        `find "${itemProcessingPath}" -type f -exec chmod ${fileMode} {} +`,
+        {
+          encoding: "utf-8",
+          shell: "/bin/sh",
+        },
+      );
 
       // Apply directory permissions to directories
-      execSync(`find ${PROCESSING_PATH} -type d -exec chmod ${dirMode} {} +`, {
-        encoding: "utf-8",
-      });
+      execSync(
+        `find "${itemProcessingPath}" -type d -exec chmod ${dirMode} {} +`,
+        {
+          encoding: "utf-8",
+          shell: "/bin/sh",
+        },
+      );
 
       logs(
         item.id,
@@ -167,7 +206,7 @@ export async function setPermissions(item: ProcessingItemType) {
 }
 
 /**
- * Scans the .processing folder to find all folders containing files and returns their parent paths.
+ * Scans a specific item's processing folder to find all folders containing files and returns their parent paths.
  * This function analyzes the structure based on tiddl templates:
  * - albums: albums/{album_artist}/{year} - {album}/
  * - tracks: tracks/{artist}/
@@ -175,16 +214,18 @@ export async function setPermissions(item: ProcessingItemType) {
  * - playlists: playlists/{playlist}/
  * - mix: playlists/{playlist}/ (or custom template)
  *
- * @returns Array of parent folder paths relative to PROCESSING_PATH that contain files to scan
+ * @param itemId - The item ID to scan folders for
+ * @returns Array of parent folder paths relative to item's processing path that contain files to scan
  */
-export function getFolderToScan(): string[] {
+export function getFolderToScan(itemId: string): string[] {
   const foldersToScan: string[] = [];
+  const itemProcessingPath = `${PROCESSING_PATH}/${itemId}`;
 
   try {
-    // Find all files (not directories) in the processing directory
+    // Find all files (not directories) in the item's processing directory
     const allFiles = execSync(
-      `find "${PROCESSING_PATH}" -type f 2>/dev/null || true`,
-      { encoding: "utf-8" },
+      `find "${itemProcessingPath}" -type f 2>/dev/null || true`,
+      { encoding: "utf-8", shell: "/bin/sh" },
     )
       .trim()
       .split("\n")
@@ -206,8 +247,8 @@ export function getFolderToScan(): string[] {
       // Get the directory containing the file
       const fileDir = path.dirname(file);
 
-      // Get relative path from PROCESSING_PATH
-      const relativePath = path.relative(PROCESSING_PATH, fileDir);
+      // Get relative path from item's processing path
+      const relativePath = path.relative(itemProcessingPath, fileDir);
 
       if (relativePath && relativePath !== ".") {
         uniqueFolders.add(relativePath);
@@ -268,7 +309,7 @@ export async function killProcess(
 
 /**
  * Executes a custom user script if it exists in the shared directory.
- * The script is executed in the .processing directory context.
+ * The script is executed in the item's .processing directory context.
  * @param item - The processing item
  * @returns Promise that resolves when the script completes or if no script exists
  */
@@ -276,6 +317,7 @@ export async function executeCustomScript(
   item: ProcessingItemType,
 ): Promise<void> {
   const customScriptPath = path.join(CONFIG_PATH, "custom-script.sh");
+  const itemProcessingPath = `${PROCESSING_PATH}/${item.id}`;
 
   // Check if the custom script exists
   if (!fs.existsSync(customScriptPath)) {
@@ -288,14 +330,17 @@ export async function executeCustomScript(
   return new Promise((resolve) => {
     try {
       // Make script executable
-      execSync(`chmod +x "${customScriptPath}"`, { encoding: "utf-8" });
+      execSync(`chmod +x "${customScriptPath}"`, {
+        encoding: "utf-8",
+        shell: "/bin/sh",
+      });
 
-      // Execute script in .processing directory
+      // Execute script in item's .processing directory
       const scriptProcess = spawn("sh", [customScriptPath], {
-        cwd: PROCESSING_PATH,
+        cwd: itemProcessingPath,
         env: {
           ...process.env,
-          PROCESSING_PATH,
+          PROCESSING_PATH: itemProcessingPath,
           ITEM_TYPE: item.type,
           ITEM_URL: item.url,
         },

@@ -78,6 +78,11 @@ export const ProcessingStack = (expressApp: Express) => {
   async function loadDataFromFile() {
     const records = await loadQueueFromFile();
     records.forEach((record) => {
+      // Reset any items that were "processing" during a crash back to "queue"
+      if (record.status === "processing") {
+        record.status = "queue";
+      }
+
       // Initialize empty output history for each loaded item (ensure string key)
       outputs.set(String(record.id), []);
       data.push(record);
@@ -135,9 +140,6 @@ export const ProcessingStack = (expressApp: Express) => {
   async function removeItem(id: string) {
     const item = getItem(id);
 
-    // Kill the process if it exists and is running
-    killProcess(item?.process, id);
-
     const foundIndex = data.findIndex(
       (listItem: ProcessingItemType) => listItem?.id === item?.id,
     );
@@ -147,13 +149,13 @@ export const ProcessingStack = (expressApp: Express) => {
       return;
     }
 
+    // Kill the process if it exists and is running
+    killProcess(item?.process, id);
     delete data[foundIndex];
     data.splice(foundIndex, 1);
 
     // Clean up output history for this item (ensure string key)
     outputs.delete(String(id));
-
-    await cleanFolder();
 
     await removeItemFromFile(id);
     processQueue();
@@ -271,8 +273,8 @@ export const ProcessingStack = (expressApp: Express) => {
       // Persist the change to the queue file
       await updateItemInQueueFile(currentItem);
 
-      // Clean the incomplete folder
-      await cleanFolder();
+      // Clean the incomplete folder for this item
+      await cleanFolder(currentItem.id);
     }
 
     notifySSEConnections(expressApp);
@@ -323,7 +325,7 @@ export const ProcessingStack = (expressApp: Express) => {
     outputs.set(String(item.id), []);
     updateItem(item);
 
-    await cleanFolder();
+    await cleanFolder(item.id);
 
     if (item.type === "mix") {
       processingMix(item);
@@ -372,7 +374,7 @@ export const ProcessingStack = (expressApp: Express) => {
     await executeCustomScript(item);
 
     // Keep trace of folders processed
-    const foldersToScan = getFolderToScan();
+    const foldersToScan = getFolderToScan(item.id);
 
     // Move to output folder
     await moveAndClean(item.id);

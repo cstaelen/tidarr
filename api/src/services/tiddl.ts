@@ -42,7 +42,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   const args: string[] = [];
 
   args.push("download");
-  args.push("--path", `${CONFIG_PATH}/.processing`);
+  args.push("--path", `${CONFIG_PATH}/.processing/${item.id}`);
   args.push("--scan-path", "/home/app/standalone/library");
 
   if (item.type === "mix" && config?.templates?.mix) {
@@ -225,9 +225,10 @@ export function deleteTiddlConfig() {
  * @param tiddlConfig - Optional TiddlConfig object from app.locals
  * @returns true if token should be refreshed, false otherwise
  */
-function shouldRefreshToken(tiddlConfig?: TiddlConfig): boolean {
+export function shouldRefreshToken(tiddlConfig?: TiddlConfig): boolean {
   // If config is not provided or missing auth data, skip refresh
   if (!tiddlConfig?.auth?.expires_at) {
+    console.log("⏭️ [TOKEN] No expires_at found, skipping refresh");
     return false;
   }
 
@@ -237,54 +238,24 @@ function shouldRefreshToken(tiddlConfig?: TiddlConfig): boolean {
   // Refresh if token expires in less than TOKEN_REFRESH_THRESHOLD seconds
   // This covers both cases: already expired (negative value) and expiring soon
   const timeUntilExpiry = expiresAt - nowInSeconds;
+  const hoursUntilExpiry = timeUntilExpiry / 3600;
 
-  return timeUntilExpiry < TOKEN_REFRESH_THRESHOLD;
+  const needsRefresh = timeUntilExpiry < TOKEN_REFRESH_THRESHOLD;
+
+  console.log(
+    `🔍 [TOKEN] Token check: expires in ${hoursUntilExpiry.toFixed(1)}h (threshold: ${TOKEN_REFRESH_THRESHOLD / 3600}h) → ${needsRefresh ? "NEEDS REFRESH" : "still valid"}`,
+  );
+
+  return needsRefresh;
 }
 
-export function refreshTidalToken(force = false, tiddlConfig?: TiddlConfig) {
+export async function refreshTidalToken(
+  force = false,
+  tiddlConfig?: TiddlConfig,
+): Promise<void> {
   // Skip refresh if token is still valid (unless forced)
   if (!force && !shouldRefreshToken(tiddlConfig)) {
     return;
-  }
-
-  console.log("🕖 [TIDDL] Refreshing Tidal token...");
-
-  // Use async spawn to avoid blocking Node.js event loop
-  // Explicitly set HOME to ensure tiddl can find config files
-  const refreshProcess = spawn(TIDDL_BINARY, ["auth", "refresh"], {
-    env: {
-      ...process.env,
-    },
-  });
-
-  refreshProcess.on("close", (code) => {
-    if (code === 0) {
-      console.log(
-        `✅ [TIDDL] Tidal token refreshed and saved to ${CONFIG_PATH}/.tiddl/auth.json`,
-      );
-    } else {
-      console.log(`⚠️ [TIDDL] Token refresh exited with code ${code}`);
-    }
-  });
-
-  refreshProcess.on("error", (error) => {
-    console.log(`❌ [TIDDL] Token refresh error: ${error.message}`);
-  });
-}
-
-/**
- * Refresh Tidal token and reload config if needed
- * Checks if token needs refresh based on expires_at timestamp
- * Only refreshes if token is expired or expiring soon (< TOKEN_REFRESH_THRESHOLD)
- * @param tiddlConfig - Current TiddlConfig to check expiry
- * @returns Promise with updated TiddlConfig and errors
- */
-export async function refreshAndReloadConfig(
-  tiddlConfig?: TiddlConfig,
-): Promise<{ config: TiddlConfig; errors: string[] }> {
-  // Skip refresh if token is still valid
-  if (!shouldRefreshToken(tiddlConfig)) {
-    return get_tiddl_config();
   }
 
   console.log("🕖 [TIDDL] Refreshing Tidal token...");
@@ -305,16 +276,12 @@ export async function refreshAndReloadConfig(
       } else {
         console.log(`⚠️ [TIDDL] Token refresh exited with code ${code}`);
       }
-
-      // Reload config after refresh completes
-      const refreshedConfig = get_tiddl_config();
-      resolve(refreshedConfig);
+      resolve();
     });
 
     refreshProcess.on("error", (error) => {
       console.log(`❌ [TIDDL] Token refresh error: ${error.message}`);
-      // Even on error, return current config
-      resolve(get_tiddl_config());
+      resolve(); // Resolve anyway to not block the caller
     });
   });
 }

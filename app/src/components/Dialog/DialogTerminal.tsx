@@ -62,7 +62,10 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
               variant="outlined"
               color={item.status === "processing" ? "error" : "primary"}
               startIcon={<Cancel />}
-              onClick={() => actions.removeItem(item.id)}
+              onClick={() => {
+                setOpenOutput(false);
+                actions.removeItem(item.id);
+              }}
             >
               {item.status === "processing" ? "Cancel" : "Remove"}
             </Button>

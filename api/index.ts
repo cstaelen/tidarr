@@ -7,6 +7,7 @@ import path from "path";
 import { setAppInstance } from "./src/app-instance";
 import { get_tiddl_config } from "./src/helpers/get_tiddl_config";
 import { gracefulShutdown } from "./src/helpers/gracefull_shutdown";
+import { cleanFolder } from "./src/processing/jobs";
 import { ProcessingStack } from "./src/processing/ProcessingStack";
 import { setupProxies } from "./src/proxies";
 // Import routers
@@ -77,13 +78,18 @@ const server = app.listen(port, async () => {
   const { config: tiddlConfig } = get_tiddl_config();
   app.locals.tiddlConfig = tiddlConfig;
 
-  await createCronJob(app);
-
   // Start token refresh interval (checks every 15 minutes)
   startTokenRefreshInterval(app);
 
+  // Clean up all processing folders (safe because loadDataFromFile resets "processing" to "queue")
+  await cleanFolder();
+
+  // Load queue file on startup
   await app.locals.processingStack.actions.loadDataFromFile();
   console.log(`✅ [QUEUE] Queue file loaded.`);
+
+  // Initiate processing cron job
+  await createCronJob(app);
 
   console.log(`⚡️ [SERVER]: Server is running at http://${hostname}:${port}`);
 });

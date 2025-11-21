@@ -13,6 +13,8 @@ export async function beets(id: string): Promise<void> {
   if (!item || !["album", "artist", "favorite_albums"].includes(item.type))
     return;
 
+  const itemProcessingPath = `${PROCESSING_PATH}/${item.id}`;
+
   try {
     // BEETS
     if (process.env.ENABLE_BEETS === "true") {
@@ -32,7 +34,7 @@ export async function beets(id: string): Promise<void> {
           `${CONFIG_PATH}/beets/beets-library.blb`,
           "import",
           "-qC",
-          PROCESSING_PATH,
+          itemProcessingPath,
         ]);
 
         let stdout = "";
