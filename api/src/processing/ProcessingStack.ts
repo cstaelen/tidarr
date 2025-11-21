@@ -1,5 +1,6 @@
 import { Express, Response } from "express";
 
+import { PROCESSING_PATH } from "../../constants";
 import { logs } from "../helpers/logs";
 import {
   addItemToFile,
@@ -338,7 +339,7 @@ export const ProcessingStack = (expressApp: Express) => {
   }
 
   async function postProcessing(item: ProcessingItemType) {
-    const shouldPostProcess = hasFileToMove();
+    const shouldPostProcess = hasFileToMove(`${PROCESSING_PATH}/${item.id}`);
 
     logs(item.id, "---------------------");
     logs(item.id, "⚙️ POST PROCESSING   ");

@@ -90,8 +90,15 @@ export async function cleanFolder(
   }
 }
 
-export function hasFileToMove(path?: string): boolean {
-  const targetPath = path || PROCESSING_PATH;
+export function hasFileToMove(pathArg?: string): boolean {
+  const targetPath = pathArg || PROCESSING_PATH;
+
+  // Check if path exists first
+  if (!fs.existsSync(targetPath)) {
+    console.log(`ℹ️ [TIDARR] Path does not exist: ${targetPath}`);
+    return false;
+  }
+
   try {
     const filesToCopy = execSync(`ls "${targetPath}"`, {
       encoding: "utf-8",
@@ -103,7 +110,7 @@ export function hasFileToMove(path?: string): boolean {
 
     return filesToCopy.length > 0;
   } catch (error) {
-    // Directory might be empty or not exist
+    // Directory might be empty or not accessible
     console.error("❌ [TIDARR] Error checking files to move:", error);
     return false;
   }
@@ -281,6 +288,9 @@ export async function killProcess(
     return;
   }
 
+  const context = itemId ? ` for item ${itemId}` : "";
+  console.error(`⏹️ [TIDARR] Kill process ${context}:`);
+
   try {
     // Remove all event listeners to prevent them from firing during kill
     process.removeAllListeners("close");
@@ -302,7 +312,6 @@ export async function killProcess(
       }, 1000);
     });
   } catch (error) {
-    const context = itemId ? ` for item ${itemId}` : "";
     console.error(`Failed to kill process${context}:`, error);
   }
 }
