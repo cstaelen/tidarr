@@ -79,6 +79,8 @@ export function validateItem(item: unknown): item is {
     "favorite_albums",
     "favorite_tracks",
     "favorite_playlists",
+    "favorite_videos",
+    "favorite_artists",
   ];
 
   if (!validTypes.includes(obj.type)) {

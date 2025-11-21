@@ -10,6 +10,8 @@ export type ContentType =
   | "favorite_albums"
   | "favorite_tracks"
   | "favorite_playlists"
+  | "favorite_videos"
+  | "favorite_artists"
   | "artist_videos"
   | "mix";
 

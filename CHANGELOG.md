@@ -11,6 +11,8 @@ Tidarr notable changes.
 - [API] Fix condition race issue with token refresh
 ### 🖍 Changed
 - [API] Update to tiddl 3.1.1
+- [Front] Re-activate favorites download
+- [Front] Video download is back
 
 ## 📦 1.0.3
 ### 🚀 Added

@@ -71,98 +71,98 @@ test("Tidarr sync : Should be able to sync an artist", async ({ page }) => {
   ).toBeVisible();
 });
 
-// test("Tidarr sync : Should be able to sync favorite albums", async ({
-//   page,
-// }) => {
-//   await goToHome(page);
-//   await page.getByRole("tab", { name: "My Favorites" }).first().click();
+test("Tidarr sync : Should be able to sync favorite albums", async ({
+  page,
+}) => {
+  await goToHome(page);
+  await page.getByRole("tab", { name: "My Favorites" }).first().click();
 
-//   await expect(page.getByRole("main")).toContainText("My Favorite albums");
+  await expect(page.getByRole("main")).toContainText("My Favorite albums");
 
-//   // Click sync button for favorite albums
-//   await page.getByTestId("btn-sync").first().click();
-//   await expect(page.getByTestId("btn-disable-sync").first()).toBeVisible();
+  // Click sync button for favorite albums
+  await page.getByTestId("btn-sync").first().click();
+  await expect(page.getByTestId("btn-disable-sync").first()).toBeVisible();
 
-//   // Go to watch list and verify
-//   await page.getByRole("tab", { name: "Watch list (1)" }).click();
-//   await expect(
-//     page.getByRole("cell", { name: "Favorite albums" }),
-//   ).toBeVisible();
-//   await expect(
-//     page.getByRole("cell", { name: "favorite_albums" }),
-//   ).toBeVisible();
+  // Go to watch list and verify
+  await page.getByRole("tab", { name: "Watch list (1)" }).click();
+  await expect(
+    page.getByRole("cell", { name: "Favorite albums" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("cell", { name: "favorite_albums" }),
+  ).toBeVisible();
 
-//   // Remove from watch list
-//   await page.getByRole("button", { name: "Remove from watch list" }).click();
-//   await expect(page.getByText("No item in watch list.")).toBeVisible();
+  // Remove from watch list
+  await page.getByRole("button", { name: "Remove from watch list" }).click();
+  await expect(page.getByText("No item in watch list.")).toBeVisible();
 
-//   // Verify sync button is back
-//   await page.getByRole("tab", { name: "My Favorites" }).first().click();
-//   await expect(page.getByTestId("btn-disable-sync")).not.toBeVisible();
-//   await expect(page.getByTestId("btn-sync").first()).toBeVisible();
-// });
+  // Verify sync button is back
+  await page.getByRole("tab", { name: "My Favorites" }).first().click();
+  await expect(page.getByTestId("btn-disable-sync")).not.toBeVisible();
+  await expect(page.getByTestId("btn-sync").first()).toBeVisible();
+});
 
-// test("Tidarr sync : Should be able to sync favorite tracks", async ({
-//   page,
-// }) => {
-//   await goToHome(page);
-//   await page.getByRole("tab", { name: "My Favorites" }).first().click();
+test("Tidarr sync : Should be able to sync favorite tracks", async ({
+  page,
+}) => {
+  await goToHome(page);
+  await page.getByRole("tab", { name: "My Favorites" }).first().click();
 
-//   await expect(page.getByRole("main")).toContainText("My Favorite tracks");
+  await expect(page.getByRole("main")).toContainText("My Favorite tracks");
 
-//   // Click sync button for favorite tracks (second one on the page)
-//   await page.getByTestId("btn-sync").nth(1).click();
-//   await expect(page.getByTestId("btn-disable-sync")).toBeVisible();
+  // Click sync button for favorite tracks (second one on the page)
+  await page.getByTestId("btn-sync").nth(1).click();
+  await expect(page.getByTestId("btn-disable-sync")).toBeVisible();
 
-//   // Go to watch list and verify
-//   await page.getByRole("tab", { name: "Watch list (1)" }).click();
-//   await expect(
-//     page.getByRole("cell", { name: "Favorite tracks" }),
-//   ).toBeVisible();
-//   await expect(
-//     page.getByRole("cell", { name: "favorite_tracks" }),
-//   ).toBeVisible();
+  // Go to watch list and verify
+  await page.getByRole("tab", { name: "Watch list (1)" }).click();
+  await expect(
+    page.getByRole("cell", { name: "Favorite tracks" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("cell", { name: "favorite_tracks" }),
+  ).toBeVisible();
 
-//   // Remove from watch list
-//   await page.getByRole("button", { name: "Remove from watch list" }).click();
-//   await expect(page.getByText("No item in watch list.")).toBeVisible();
+  // Remove from watch list
+  await page.getByRole("button", { name: "Remove from watch list" }).click();
+  await expect(page.getByText("No item in watch list.")).toBeVisible();
 
-//   // Verify sync button is back
-//   await page.getByRole("tab", { name: "My Favorites" }).first().click();
-//   await expect(page.getByTestId("btn-disable-sync")).not.toBeVisible();
-//   await expect(page.getByTestId("btn-sync").nth(1)).toBeVisible();
-// });
+  // Verify sync button is back
+  await page.getByRole("tab", { name: "My Favorites" }).first().click();
+  await expect(page.getByTestId("btn-disable-sync")).not.toBeVisible();
+  await expect(page.getByTestId("btn-sync").nth(1)).toBeVisible();
+});
 
-// test("Tidarr sync : Should be able to sync favorite playlists", async ({
-//   page,
-// }) => {
-//   await goToHome(page);
-//   await page.getByRole("tab", { name: "My Favorites" }).first().click();
+test("Tidarr sync : Should be able to sync favorite playlists", async ({
+  page,
+}) => {
+  await goToHome(page);
+  await page.getByRole("tab", { name: "My Favorites" }).first().click();
 
-//   await expect(page.getByRole("main")).toContainText("My Favorite playlists");
+  await expect(page.getByRole("main")).toContainText("My Favorite playlists");
 
-//   // Click sync button for favorite playlists (third one on the page)
-//   await page.getByTestId("btn-sync").nth(2).click();
-//   await expect(page.getByTestId("btn-disable-sync")).toBeVisible();
+  // Click sync button for favorite playlists (third one on the page)
+  await page.getByTestId("btn-sync").nth(2).click();
+  await expect(page.getByTestId("btn-disable-sync")).toBeVisible();
 
-//   // Go to watch list and verify
-//   await page.getByRole("tab", { name: "Watch list (1)" }).click();
-//   await expect(
-//     page.getByRole("cell", { name: "Favorite playlists" }),
-//   ).toBeVisible();
-//   await expect(
-//     page.getByRole("cell", { name: "favorite_playlists" }),
-//   ).toBeVisible();
+  // Go to watch list and verify
+  await page.getByRole("tab", { name: "Watch list (1)" }).click();
+  await expect(
+    page.getByRole("cell", { name: "Favorite playlists" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("cell", { name: "favorite_playlists" }),
+  ).toBeVisible();
 
-//   // Remove from watch list
-//   await page.getByRole("button", { name: "Remove from watch list" }).click();
-//   await expect(page.getByText("No item in watch list.")).toBeVisible();
+  // Remove from watch list
+  await page.getByRole("button", { name: "Remove from watch list" }).click();
+  await expect(page.getByText("No item in watch list.")).toBeVisible();
 
-//   // Verify sync button is back
-//   await page.getByRole("tab", { name: "My Favorites" }).first().click();
-//   await expect(page.getByTestId("btn-disable-sync")).not.toBeVisible();
-//   await expect(page.getByTestId("btn-sync").nth(2)).toBeVisible();
-// });
+  // Verify sync button is back
+  await page.getByRole("tab", { name: "My Favorites" }).first().click();
+  await expect(page.getByTestId("btn-disable-sync")).not.toBeVisible();
+  await expect(page.getByTestId("btn-sync").nth(2)).toBeVisible();
+});
 
 test("Tidarr sync : Should be able to sync now an individual item", async ({
   page,

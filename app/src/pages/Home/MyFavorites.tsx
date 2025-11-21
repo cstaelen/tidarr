@@ -18,7 +18,7 @@ function FavoritesActions({
       <DownloadButton
         id={type}
         type={type}
-        label="Favorite albums"
+        label={label}
         item={
           {
             id: type,
@@ -54,9 +54,6 @@ export default function MyFavorites() {
         url={`/v1/users/${tiddlConfig?.auth.user_id}/favorites/albums`}
         type="USER_ALBUM_LIST"
         title="My Favorite albums"
-        titleSide={
-          <FavoritesActions label="Favorite albums" type="favorite_albums" />
-        }
         orderParams={{
           "Recently added": { orderDirection: "DESC", order: "DATE" },
           "Recently released": {
@@ -66,6 +63,9 @@ export default function MyFavorites() {
           "Artists A-Z": { orderDirection: "ASC", order: "ARTIST" },
           Alphabetical: { orderDirection: "ASC", order: "NAME" },
         }}
+        titleSide={
+          <FavoritesActions label="Favorite albums" type="favorite_albums" />
+        }
       />
       <PagedModule
         url={`/v1/users/${tiddlConfig?.auth.user_id}/favorites/tracks`}
@@ -98,6 +98,9 @@ export default function MyFavorites() {
           "Recently added": { orderDirection: "DESC", order: "DATE" },
           "Artists A-Z": { orderDirection: "ASC", order: "NAME" },
         }}
+        titleSide={
+          <FavoritesActions label="Favorite artists" type="favorite_artists" />
+        }
       />
       <PagedModule
         url={`/v2/favorites/mixes`}
