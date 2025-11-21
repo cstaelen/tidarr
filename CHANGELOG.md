@@ -4,6 +4,8 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 1.0.4
+### 🚀 Added
+- [Beets] Add plugins: `fetchart, lastgenre, lastimport, advancedrewrite`
 ### 🐛 Fixed
 - [API] Fix ignored umask issue
 - [API] Fix condition race issue with token refresh
