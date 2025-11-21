@@ -1,4 +1,4 @@
-import test, { expect } from "@playwright/test";
+import test, { expect, Page } from "@playwright/test";
 import dotenv from "dotenv";
 
 import { emptyProcessingList, goToHome } from "./utils/helpers";
@@ -8,10 +8,35 @@ dotenv.config({ path: "../.env", override: false, quiet: true });
 
 test.describe.configure({ mode: "serial" });
 
+async function mockCustomCssAPI(page: Page, initialCss = "") {
+  let storedCss = initialCss;
+
+  // Mock GET /custom-css
+  await page.route("**/custom-css", async (route) => {
+    if (route.request().method() === "GET") {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ css: storedCss }),
+      });
+    } else if (route.request().method() === "POST") {
+      // Mock POST /custom-css
+      const postData = route.request().postDataJSON();
+      storedCss = postData.css;
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ success: true, message: "CSS saved" }),
+      });
+    }
+  });
+}
+
 test("Custom CSS: Should display Custom CSS panel in settings", async ({
   page,
 }) => {
   await mockConfigAPI(page);
+  await mockCustomCssAPI(page, "");
   await goToHome(page);
   await emptyProcessingList(page);
 
@@ -30,6 +55,7 @@ test("Custom CSS: Should load and display content from API", async ({
   page,
 }) => {
   await mockConfigAPI(page);
+  await mockCustomCssAPI(page, "body { background: #000; }");
   await goToHome(page);
   await emptyProcessingList(page);
 
@@ -47,6 +73,7 @@ test("Custom CSS: Should enable save button when CSS is modified", async ({
   page,
 }) => {
   await mockConfigAPI(page);
+  await mockCustomCssAPI(page, "");
   await goToHome(page);
   await emptyProcessingList(page);
 
@@ -68,6 +95,7 @@ test("Custom CSS: Should enable save button when CSS is modified", async ({
 
 test("Custom CSS: Should save CSS to API and persist", async ({ page }) => {
   await mockConfigAPI(page);
+  await mockCustomCssAPI(page, "");
   await goToHome(page);
   await emptyProcessingList(page);
 

@@ -53,15 +53,6 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
       testIgnore: ["**/downloads.spec.ts", "**/sync.spec.ts"],
     },
-    // {
-    //   name: "mobile_safari",
-    //   use: { ...devices["iPhone 12"] },
-    //   testIgnore: [
-    //     "**/custom-css.spec.ts",
-    //     "**/downloads.spec.ts",
-    //     "**/sync.spec.ts",
-    //   ],
-    // },
     {
       name: "chromium_downloads",
       testMatch: ["**/downloads.spec.ts"],

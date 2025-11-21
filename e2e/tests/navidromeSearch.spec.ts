@@ -37,9 +37,11 @@ async function checkNavidromeButton(
     });
 
     await navidromeButton.click();
+    await page.waitForTimeout(250);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, prefer-const
     openedUrl = await page.evaluate(() => (window as any).__lastOpenedUrl);
+    await page.waitForTimeout(250);
     expect(openedUrl).toContain("http://navidrome.url/app/#");
 
     // Verify the URL contains the correct resource type

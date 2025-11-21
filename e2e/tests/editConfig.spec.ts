@@ -12,17 +12,17 @@ async function mockTiddlTomlAPI(page: Page, initialToml = "") {
   let storedToml = initialToml;
 
   // GET tiddl-toml
-  await page.route("**/tiddl-toml", async (route) => {
+  await page.route("**/tiddl/config", async (route) => {
     if (route.request().method() === "GET") {
       await route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({ content: storedToml }),
+        body: JSON.stringify({ toml: storedToml }),
       });
     } else if (route.request().method() === "POST") {
       // POST tiddl-toml
       const postData = route.request().postDataJSON();
-      storedToml = postData.content;
+      storedToml = postData.toml;
       await route.fulfill({
         status: 200,
         contentType: "application/json",
@@ -36,6 +36,7 @@ test("Edit Config: Should display Tiddl Config tab in settings", async ({
   page,
 }) => {
   await mockConfigAPI(page);
+  await mockTiddlTomlAPI(page, "# config.toml\n");
   await goToHome(page);
 
   await page.getByRole("button", { name: "Settings" }).click();
@@ -59,6 +60,10 @@ test("Edit Config: Should load existing TOML config from API", async ({
   page,
 }) => {
   await mockConfigAPI(page);
+  await mockTiddlTomlAPI(
+    page,
+    '# config.toml\n[download]\ntrack_quality = "high"',
+  );
   await goToHome(page);
 
   await page.getByRole("button", { name: "Settings" }).click();
@@ -72,7 +77,8 @@ test("Edit Config: Should load existing TOML config from API", async ({
   const editorText = await page
     .locator(".monaco-editor .view-lines")
     .innerText();
-  expect(editorText).toContain("config.toml");
+  await page.waitForTimeout(250);
+  expect(editorText).toContain("track_quality");
 });
 
 test("Edit Config: Should enable save button when config is modified", async ({
@@ -173,6 +179,7 @@ test("Edit Config: Should display error dialog when config has errors", async ({
     });
   });
 
+  await mockTiddlTomlAPI(page, "");
   await goToHome(page);
 
   // DialogConfigError should be visible
