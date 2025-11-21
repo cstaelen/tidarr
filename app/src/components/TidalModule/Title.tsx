@@ -15,10 +15,13 @@ export function ModuleTitle({
     <div className="module-title">
       <Stack
         direction="row"
+        flexWrap="wrap"
         alignItems="center"
-        sx={{ borderBottom: "1px solid white", mb: 1 }}
+        py={2}
+        gap={2}
+        sx={{ borderBottom: "1px solid white" }}
       >
-        <Typography variant="h2" sx={{ flex: "1 1 0", my: 3 }}>
+        <Typography variant="h2" sx={{ flex: "1 1 0" }}>
           {title.toLowerCase() === "featured albums" ? "Albums" : title}{" "}
           {total ? `(${total})` : ""}
         </Typography>

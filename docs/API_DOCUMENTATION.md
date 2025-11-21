@@ -214,6 +214,28 @@ curl -X POST http://localhost:8484/api/save \
       "status": "queue"
     }
   }'
+
+# Favorite videos
+curl -X POST http://localhost:8484/api/save \
+  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "item": {
+      "type": "favorite_videos",
+      "status": "queue"
+    }
+  }'
+
+# Favorite artists
+curl -X POST http://localhost:8484/api/save \
+  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "item": {
+      "type": "favorite_artists",
+      "status": "queue"
+    }
+  }'
 ```
 
 **Response:** Status `201 Created`
@@ -578,7 +600,7 @@ docker compose exec tidarr tiddl url https://listen.tidal.com/album/251082404 do
 
 1. **Data format**: The API expects a full Tidal URL, not a numeric ID alone.
 
-2. **Supported types**: `album`, `track`, `video`, `playlist`, `mix`, `artist`, `artist_videos`, `favorite_albums`, `favorite_tracks`, `favorite_playlists`
+2. **Supported types**: `album`, `track`, `video`, `playlist`, `mix`, `artist`, `artist_videos`, `favorite_albums`, `favorite_tracks`, `favorite_playlists`, `favorite_videos`, `favorite_artists`
 
 3. **Authentication**: If `ADMIN_PASSWORD` is not set in your Docker configuration, authentication is not required.
 

@@ -21,6 +21,8 @@ const FAVORITE_TYPE_TO_RESOURCE: Record<string, string> = {
   favorite_tracks: "track",
   favorite_albums: "album",
   favorite_playlists: "playlist",
+  favorite_videos: "video",
+  favorite_artists: "artist",
 };
 
 export function tidalDL(id: string, app: Express, onFinish?: () => void) {
@@ -61,7 +63,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   if (item.type.includes("favorite_")) {
     const resource = FAVORITE_TYPE_TO_RESOURCE[item.type];
     if (resource) {
-      args.push("fav", "-r", resource);
+      args.push("fav", "-t", resource);
     }
   } else {
     args.push("url", item.url);

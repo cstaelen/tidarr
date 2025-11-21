@@ -12,5 +12,3 @@ export const LOCALSTORAGE_TOKEN_KEY = "tidarr-token";
 export const LOCALSTORAGE_REDIRECT_URL = "tidarr-redirect";
 export const LOCALSTORAGE_UPDATE_WARNING = "tidarr-update-warn";
 export const LOCALSTORAGE_DISPLAY_MODE = "tidarr-display-mode";
-
-export const FAV_QUEUE_ENABLED = false;

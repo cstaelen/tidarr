@@ -1,7 +1,6 @@
 import { DownloadButton } from "src/components/Buttons/DownloadButton";
 import SyncButton from "src/components/Buttons/SyncButton";
 import PagedModule from "src/components/TidalModule/PagedModule";
-import { FAV_QUEUE_ENABLED } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { ContentType, FavoritesType } from "src/types";
 
@@ -13,13 +12,13 @@ function FavoritesActions({
   label: string;
 }) {
   const { quality } = useConfigProvider();
-  if (!FAV_QUEUE_ENABLED || !quality) return;
+  if (!quality) return;
   return (
     <>
       <DownloadButton
         id={type}
         type={type}
-        label="Favorite albums"
+        label={label}
         item={
           {
             id: type,
@@ -55,9 +54,6 @@ export default function MyFavorites() {
         url={`/v1/users/${tiddlConfig?.auth.user_id}/favorites/albums`}
         type="USER_ALBUM_LIST"
         title="My Favorite albums"
-        titleSide={
-          <FavoritesActions label="Favorite albums" type="favorite_albums" />
-        }
         orderParams={{
           "Recently added": { orderDirection: "DESC", order: "DATE" },
           "Recently released": {
@@ -67,6 +63,9 @@ export default function MyFavorites() {
           "Artists A-Z": { orderDirection: "ASC", order: "ARTIST" },
           Alphabetical: { orderDirection: "ASC", order: "NAME" },
         }}
+        titleSide={
+          <FavoritesActions label="Favorite albums" type="favorite_albums" />
+        }
       />
       <PagedModule
         url={`/v1/users/${tiddlConfig?.auth.user_id}/favorites/tracks`}
@@ -99,6 +98,9 @@ export default function MyFavorites() {
           "Recently added": { orderDirection: "DESC", order: "DATE" },
           "Artists A-Z": { orderDirection: "ASC", order: "NAME" },
         }}
+        titleSide={
+          <FavoritesActions label="Favorite artists" type="favorite_artists" />
+        }
       />
       <PagedModule
         url={`/v2/favorites/mixes`}
