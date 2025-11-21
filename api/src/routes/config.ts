@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 
 import { ensureAccessIsGranted } from "../helpers/auth";
 import { handleRouteError } from "../helpers/error-handler";
+import { get_tiddl_config } from "../helpers/get_tiddl_config";
 import { refreshAndReloadConfig } from "../services/config";
 import { deleteTiddlConfig, tidalToken } from "../services/tiddl";
 import { SettingsResponse } from "../types";
@@ -72,6 +73,9 @@ router.delete(
   (_req: Request, res: Response) => {
     try {
       deleteTiddlConfig();
+      // Reload config after deleting token (will have no auth now)
+      const { config: freshConfig } = get_tiddl_config();
+      res.app.locals.tiddlConfig = freshConfig;
       res.sendStatus(204);
     } catch (error) {
       handleRouteError(error, res, "delete token");

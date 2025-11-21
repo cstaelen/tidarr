@@ -258,3 +258,133 @@ export async function mockItemOutputSSE(page: Page, quality = "high") {
     });
   });
 }
+
+export async function mockSyncAPI(page: Page) {
+  // In-memory sync list to simulate backend state
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const syncItems: any[] = [];
+
+  // Mock GET /api/sync/list endpoint (get sync list)
+  await page.route("**/api/sync/list", async (route) => {
+    if (route.request().method() === "GET") {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify(syncItems),
+      });
+    }
+  });
+
+  // Mock POST /api/sync/save endpoint (add to sync list)
+  await page.route("**/api/sync/save", async (route) => {
+    if (route.request().method() === "POST") {
+      const postData = route.request().postDataJSON();
+      const item = postData.item;
+
+      // Check if item already exists
+      const existingIndex = syncItems.findIndex(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (syncItem: any) => syncItem.id === item.id,
+      );
+
+      if (existingIndex === -1) {
+        syncItems.push(item);
+      }
+
+      await route.fulfill({
+        status: 201,
+      });
+    }
+  });
+
+  // Mock DELETE /api/sync/remove endpoint (remove from sync list)
+  await page.route("**/api/sync/remove", async (route) => {
+    if (route.request().method() === "DELETE") {
+      const postData = route.request().postDataJSON();
+      const index = syncItems.findIndex(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (item: any) => item.id === postData.id,
+      );
+
+      if (index > -1) {
+        syncItems.splice(index, 1);
+      }
+
+      await route.fulfill({
+        status: 204,
+      });
+    }
+  });
+
+  // Mock DELETE /api/sync/remove-all endpoint (remove all from sync list)
+  await page.route("**/api/sync/remove-all", async (route) => {
+    if (route.request().method() === "DELETE") {
+      syncItems.length = 0; // Clear array
+      await route.fulfill({
+        status: 204,
+      });
+    }
+  });
+
+  // Mock POST /api/sync/trigger endpoint (sync now)
+  await page.route("**/api/sync/trigger", async (route) => {
+    if (route.request().method() === "POST") {
+      await route.fulfill({
+        status: 202,
+      });
+    }
+  });
+}
+
+export async function mockProcessingAPI(page: Page) {
+  // In-memory processing list to simulate backend state
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const processingItems: any[] = [];
+
+  // Mock /api/save endpoint (add to processing queue)
+  await page.route("**/api/save", async (route) => {
+    const postData = route.request().postDataJSON();
+    const item = postData.item;
+    processingItems.push({
+      ...item,
+      status: "queue",
+      loading: true,
+    });
+
+    await route.fulfill({
+      status: 201,
+      contentType: "application/json",
+      body: JSON.stringify({ success: true, item: postData }),
+    });
+  });
+
+  // Mock /api/remove endpoint (remove from processing queue)
+  await page.route("**/api/remove", async (route) => {
+    const postData = route.request().postDataJSON();
+
+    const index = processingItems.findIndex(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (item: any) => item.id === postData.id,
+    );
+    if (index > -1) {
+      processingItems.splice(index, 1);
+    }
+
+    await route.fulfill({
+      status: 204,
+    });
+  });
+
+  // Mock SSE endpoint for processing list updates
+  await page.route("**/api/stream-processing", async (route) => {
+    await route.fulfill({
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${JSON.stringify(processingItems)}\n\n`,
+    });
+  });
+}

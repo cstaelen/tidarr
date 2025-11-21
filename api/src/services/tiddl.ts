@@ -168,6 +168,13 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
 export function tidalToken(req: Request, res: Response) {
   console.log("🔑 [TIDDL] Request a token ...");
+
+  // Check if already authenticated with valid token
+  const currentConfig = req.app.locals.tiddlConfig;
+  if (currentConfig?.auth?.token && !shouldRefreshToken(currentConfig)) {
+    return;
+  }
+
   const tiddlProcess = spawn(TIDDL_BINARY, ["auth", "login"], {
     env: { ...process.env },
   });
@@ -190,7 +197,8 @@ export function tidalToken(req: Request, res: Response) {
       console.log("✅ [TIDDL]: Authenticated !");
 
       // Reload tiddl config to include new auth tokens
-      req.app.locals.tiddlConfig = get_tiddl_config();
+      const { config: freshConfig } = get_tiddl_config();
+      req.app.locals.tiddlConfig = freshConfig;
       console.log("✅ [TIDDL]: Config reloaded with new auth tokens");
     } else {
       res.write(`data: closing ${code}\n\n`);
