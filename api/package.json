@@ -8,7 +8,12 @@
     "@types/express": "^5.0.5",
     "@types/express-http-proxy": "^1.6.7",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.10.0"
+    "@types/node": "^24.10.0",
+    "@types/supertest": "^6.0.3",
+    "@vitest/coverage-v8": "^4.0.13",
+    "@vitest/ui": "^4.0.12",
+    "supertest": "^7.1.4",
+    "vitest": "^4.0.12"
   },
   "dependencies": {
     "apicache": "^1.6.3",
@@ -25,6 +30,10 @@
     "build": "npx tsc --project ./tsconfig.json",
     "start": "npx tsx --watch index.ts",
     "prod": "node ./dist/index.js",
+    "test": "vitest",
+    "test:ui": "vitest --ui --open",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "find-deadcode": "ts-prune | (! grep -v 'used in module')",
     "depcheck": "npx depcheck"
   }

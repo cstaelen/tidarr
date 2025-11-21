@@ -68,35 +68,39 @@ app.use("/api", syncRouter);
 app.use("/api", customCssRouter);
 app.use("/api", tiddlTomlRouter);
 
-// Run
+// Run server only in production/development (not in test mode)
+// In test mode, supertest manages the server lifecycle automatically
+if (process.env.NODE_ENV !== "test") {
+  const server = app.listen(port, async () => {
+    const config = await configureServer();
+    app.locals.config = config;
 
-const server = app.listen(port, async () => {
-  const config = await configureServer();
-  app.locals.config = config;
+    // Load tiddl config on startup
+    const { config: tiddlConfig } = get_tiddl_config();
+    app.locals.tiddlConfig = tiddlConfig;
 
-  // Load tiddl config on startup
-  const { config: tiddlConfig } = get_tiddl_config();
-  app.locals.tiddlConfig = tiddlConfig;
+    // Start token refresh interval (checks every 15 minutes)
+    startTokenRefreshInterval(app);
 
-  // Start token refresh interval (checks every 15 minutes)
-  startTokenRefreshInterval(app);
+    // Clean up all processing folders (safe because loadDataFromFile resets "processing" to "queue")
+    await cleanFolder();
 
-  // Clean up all processing folders (safe because loadDataFromFile resets "processing" to "queue")
-  await cleanFolder();
+    // Load queue file on startup
+    await app.locals.processingStack.actions.loadDataFromFile();
+    console.log(`✅ [QUEUE] Queue file loaded.`);
 
-  // Load queue file on startup
-  await app.locals.processingStack.actions.loadDataFromFile();
-  console.log(`✅ [QUEUE] Queue file loaded.`);
+    // Initiate processing cron job
+    await createCronJob(app);
 
-  // Initiate processing cron job
-  await createCronJob(app);
+    console.log(
+      `⚡️ [SERVER]: Server is running at http://${hostname}:${port}`,
+    );
+  });
 
-  console.log(`⚡️ [SERVER]: Server is running at http://${hostname}:${port}`);
-});
-
-// Graceful shutdown
-process.on("SIGTERM", () => gracefulShutdown("SIGTERM", app, server));
-process.on("SIGINT", () => gracefulShutdown("SIGINT", app, server));
+  // Graceful shutdown
+  process.on("SIGTERM", () => gracefulShutdown("SIGTERM", app, server));
+  process.on("SIGINT", () => gracefulShutdown("SIGINT", app, server));
+}
 
 // fallback load app
 
@@ -107,3 +111,6 @@ if (fs.existsSync(frontendFiles)) {
     res.sendFile(path.join(frontendFiles, "index.html"));
   });
 }
+
+// Export app for testing
+export default app;

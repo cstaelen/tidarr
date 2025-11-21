@@ -1,0 +1,76 @@
+name: Vitest API Tests
+on:
+  push:
+    branches-ignore: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: vitest-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  test:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    name: "API Unit Tests"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+          cache-dependency-path: api/yarn.lock
+
+      - name: Install dependencies
+        working-directory: ./api
+        run: yarn install --frozen-lockfile
+
+      - name: Run Vitest tests
+        working-directory: ./api
+        run: yarn test:run
+
+      - name: Generate coverage report
+        if: success()
+        working-directory: ./api
+        run: yarn test:coverage
+
+      - name: Upload coverage reports
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-coverage-report
+          path: ./api/coverage/
+          retention-days: 30
+
+      - name: Comment coverage on PR
+        if: github.event_name == 'pull_request' && success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const coveragePath = './api/coverage/coverage-summary.json';
+
+            if (fs.existsSync(coveragePath)) {
+              const coverage = JSON.parse(fs.readFileSync(coveragePath, 'utf8'));
+              const total = coverage.total;
+
+              const comment = `## 📊 API Test Coverage Report
+
+              | Metric | Coverage |
+              |--------|----------|
+              | Lines | ${total.lines.pct}% |
+              | Statements | ${total.statements.pct}% |
+              | Functions | ${total.functions.pct}% |
+              | Branches | ${total.branches.pct}% |
+              `;
+
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            }
