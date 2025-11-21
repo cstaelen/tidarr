@@ -157,6 +157,7 @@ export const ProcessingStack = (expressApp: Express) => {
 
     // Clean up output history for this item (ensure string key)
     outputs.delete(String(id));
+    cleanFolder(item.id);
 
     await removeItemFromFile(id);
     processQueue();
@@ -261,15 +262,18 @@ export const ProcessingStack = (expressApp: Express) => {
       // Kill the process if it exists and is running
       await killProcess(currentItem.process, currentItem.id);
 
+      // Clean up files
+      cleanFolder(currentItem.id);
+
+      // Clean up outputs
+      outputs.delete(String(currentItem.id));
+      outputs.set(String(currentItem.id), []);
+
       // Reset the item to queue status
       currentItem.status = "queue";
       delete currentItem.process;
 
       updateItem(currentItem);
-
-      // Clean up outputs
-      outputs.delete(String(currentItem.id));
-      outputs.set(String(currentItem.id), []);
 
       // Persist the change to the queue file
       await updateItemInQueueFile(currentItem);

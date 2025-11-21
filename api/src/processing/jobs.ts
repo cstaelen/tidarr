@@ -76,7 +76,7 @@ export async function cleanFolder(
   }
 
   try {
-    execSync(`rm -rf "${targetPath}"`, {
+    execSync(`rm -rf ${targetPath}`, {
       encoding: "utf-8",
       shell: "/bin/sh",
     });
