@@ -10,7 +10,7 @@ Tidarr notable changes.
 - [API] Fix ignored umask issue
 - [API] Fix condition race issue with token refresh
 ### 🖍 Changed
-- [API] Update to tiddl 3.1.1
+- [API] Update to tiddl 3.1.2
 - [Front] Re-activate favorites download
 - [Front] Video download is back
 
