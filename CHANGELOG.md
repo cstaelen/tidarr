@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.0.5
+### 🐛 Fixed
+- [Beets] Fix tags writing
+
 ## 📦 1.0.4
 ### 🚀 Added
 - [Beets] Add plugins: `fetchart, lastgenre, lastimport, advancedrewrite`
