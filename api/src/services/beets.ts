@@ -1,9 +1,46 @@
-import { spawn } from "child_process";
+import { spawnSync } from "child_process";
 
 import { CONFIG_PATH, PROCESSING_PATH } from "../../constants";
 import { getAppInstance } from "../app-instance";
 import { logs } from "../helpers/logs";
 import { ProcessingItemType } from "../types";
+
+function spawnBeet(
+  itemId: string,
+  command: string,
+  additionalArgs: string[] = [],
+): void {
+  const binary = "beet";
+  const args = [
+    "-c",
+    `${CONFIG_PATH}/beets-config.yml`,
+    "-l",
+    `${CONFIG_PATH}/beets/beets-library.blb`,
+    command,
+    ...additionalArgs,
+  ];
+
+  console.log(`${binary} ${args.join(" ")}`);
+
+  const result = spawnSync(binary, args);
+
+  if (result.stdout) {
+    const stdout = result.stdout.toString("utf8");
+    console.log(stdout);
+  }
+
+  if (result.stderr) {
+    const stderr = result.stderr.toString("utf8");
+    console.error(stderr);
+    if (stderr.trim()) {
+      logs(itemId, `⚠️ [BEETS] ${stderr.trim()}`);
+    }
+  }
+
+  if (result.status === 0) {
+    logs(itemId, `✅ [BEETS] ${command} success`);
+  }
+}
 
 export async function beets(id: string): Promise<void> {
   const app = getAppInstance();
@@ -18,56 +55,20 @@ export async function beets(id: string): Promise<void> {
   try {
     // BEETS
     if (process.env.ENABLE_BEETS === "true") {
-      const binary = `beet`;
-
       logs(item.id, "🕖 [BEETS] Running ...", { skipConsole: true });
       console.log("--------------------");
       console.log("🎧 BEETS             ");
       console.log("--------------------");
 
-      // Use spawn (async) instead of spawnSync to avoid blocking the event loop
-      await new Promise<void>((resolve, reject) => {
-        const beetsProcess = spawn(binary, [
-          "-c",
-          `${CONFIG_PATH}/beets-config.yml`,
-          "-l",
-          `${CONFIG_PATH}/beets/beets-library.blb`,
-          "import",
-          "-qC",
-          itemProcessingPath,
-        ]);
+      spawnBeet(item.id, "import", ["-qC", itemProcessingPath]);
 
-        let stdout = "";
-        let stderr = "";
+      // Run beet write after import
+      logs(item.id, "🕖 [BEETS] Writing tags ...", { skipConsole: true });
+      console.log("--------------------");
+      console.log("🏷️  BEETS WRITE      ");
+      console.log("--------------------");
 
-        beetsProcess.stdout.on("data", (data: Buffer) => {
-          const output = data.toString("utf8");
-          stdout += output;
-          console.log(output);
-        });
-
-        beetsProcess.stderr.on("data", (data: Buffer) => {
-          const output = data.toString("utf8");
-          stderr += output;
-          console.error(output);
-        });
-
-        beetsProcess.on("close", (code: number | null) => {
-          if (code === 0 && stdout) {
-            logs(item.id, `✅ [BEETS] Success`);
-            resolve();
-          } else if (stderr) {
-            logs(item.id, `⚠️ [BEETS] ${stderr.trim()}`);
-            resolve();
-          } else {
-            resolve();
-          }
-        });
-
-        beetsProcess.on("error", (err: Error) => {
-          reject(err);
-        });
-      });
+      spawnBeet(item.id, "write", [itemProcessingPath]);
     }
   } catch (err: unknown) {
     logs(

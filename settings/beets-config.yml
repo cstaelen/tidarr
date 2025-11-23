@@ -21,12 +21,23 @@ import:
     move: no
     resume: ask
     incremental: no
-    quiet_fallback: skip
+    quiet_fallback: asis
     timid: no
-    duplicate_action: skip
+    duplicate_action: asis
     log: /home/app/standalone/shared/beets/beet.log
     languages: ['en']
     group_albums: no
+
+lastgenre:
+  auto: yes
+  source: album
+  count: 2
+  force: no
+  keep_existing: yes
+  canonical: no
+  title_case: yes
+  fallback: ""
+  min_weight: 10
 
 match:
     strong_rec_thresh: 0.10 # 0.04
