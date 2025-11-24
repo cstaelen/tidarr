@@ -85,14 +85,23 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   let hasProcessingError = false;
 
   child.stdout?.on("data", (data: string) => {
+    console.log(data);
     if (
-      data.includes("Error") ||
+      data.includes("Error") &&
+      !data.includes("Downloaded") &&
+      !data.includes("Downloading")
+    ) {
+      hasProcessingError = true;
+    }
+
+    if (
+      hasProcessingError ||
       data.includes("Exists") ||
       data.includes("Total downloads") ||
       data.includes("Downloaded")
     ) {
       // Extract first line and clean it (remove ANSI hyperlinks and extra lines)
-      const cleanedLine = data.includes("Error")
+      const cleanedLine = hasProcessingError
         ? data
         : extractFirstLineClean(data);
 
@@ -106,8 +115,6 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
           logs(item.id, lastTotalProgress, { skipConsole: true });
         }
       }
-
-      if (data.includes("Error")) hasProcessingError = true;
 
       return;
     }
