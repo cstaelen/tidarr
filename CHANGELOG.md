@@ -3,6 +3,13 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.0.6
+### 🐛 Fixed
+- [API] Fix tiddl console raw output
+### 🖍 Changed
+- [e2e] Playwright test isolation with TestContainers
+- [e2e] Remove mocks, use docker prod image
+
 ## 📦 1.0.5
 ### 🐛 Fixed
 - [Beets] Fix tags writing

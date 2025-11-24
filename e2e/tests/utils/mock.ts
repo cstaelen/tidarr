@@ -22,126 +22,126 @@ import mockTrack from "../mocks/track.json";
 
 export async function mockTidalQueries(page: Page) {
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/pages/home?countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "**/proxy/tidal/v1/pages/home?countryCode=FR&deviceType=BROWSER&locale=en_US",
     async (route) => {
       await route.fulfill({ json: mockHome });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/pages/home?countryCode=EN&deviceType=BROWSER&locale=en_US",
+    "**/proxy/tidal/v1/pages/home?countryCode=EN&deviceType=BROWSER&locale=en_US",
     async (route) => {
       await route.fulfill({ json: mockHome });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/pages/album?countryCode=FR&deviceType=BROWSER&locale=en_US&albumId=77610756",
+    "**/proxy/tidal/v1/pages/album?countryCode=FR&deviceType=BROWSER&locale=en_US&albumId=77610756",
     async (route) => {
       await route.fulfill({ json: mockAlbum });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/playlists/0b5df380-47d3-48fe-ae66-8f0dba90b1ee?countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "**/proxy/tidal/v1/playlists/0b5df380-47d3-48fe-ae66-8f0dba90b1ee?countryCode=FR&deviceType=BROWSER&locale=en_US",
     async (route) => {
       await route.fulfill({ json: mockPlaylist });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/playlists/0b5df380-47d3-48fe-ae66-8f0dba90b1ee/items?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
+    "**/proxy/tidal/v1/playlists/0b5df380-47d3-48fe-ae66-8f0dba90b1ee/items?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
     async (route) => {
       await route.fulfill({ json: mockPlaylistTracks });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/tracks/77610761?countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "**/proxy/tidal/v1/tracks/77610761?countryCode=FR&deviceType=BROWSER&locale=en_US",
     async (route) => {
       await route.fulfill({ json: mockTrack });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/pages/mix?countryCode=FR&deviceType=BROWSER&locale=en_US&mixId=00166fec481604e645532e233b958b",
+    "**/proxy/tidal/v1/pages/mix?countryCode=FR&deviceType=BROWSER&locale=en_US&mixId=00166fec481604e645532e233b958b",
     async (route) => {
       await route.fulfill({ json: mockMix });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/pages/artist?artistId=19368&countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "**/proxy/tidal/v1/pages/artist?artistId=19368&countryCode=FR&deviceType=BROWSER&locale=en_US",
     async (route) => {
       await route.fulfill({ json: mockArtist });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/pages/data/feddf2f1-0ea1-4663-8804-beaf21ace6a2?artistId=19368&countryCode=FR&deviceType=BROWSER&locale=en_US&limit=15&offset=15",
+    "**/proxy/tidal/v1/pages/data/feddf2f1-0ea1-4663-8804-beaf21ace6a2?artistId=19368&countryCode=FR&deviceType=BROWSER&locale=en_US&limit=15&offset=15",
     async (route) => {
       await route.fulfill({ json: mockArtistPager });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/pages/my_collection_my_mixes?countryCode=FR&deviceType=BROWSER&locale=en_US",
+    "**/proxy/tidal/v1/pages/my_collection_my_mixes?countryCode=FR&deviceType=BROWSER&locale=en_US",
     async (route) => {
       await route.fulfill({ json: mockMyMixes });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
+    "**/proxy/tidal/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
       await route.fulfill({ json: mockMyPlaylistsLastCreated });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE_UPDATED",
+    "**/proxy/tidal/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE_UPDATED",
     async (route) => {
       await route.fulfill({ json: mockMyPlaylistsSortUpdate });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=ASC&order=NAME",
+    "**/proxy/tidal/v1/users/192283714/playlistsAndFavoritePlaylists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=ASC&order=NAME",
     async (route) => {
       await route.fulfill({ json: mockMyPlaylistsSortAlphabetical });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/users/192283714/favorites/albums?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
+    "**/proxy/tidal/v1/users/192283714/favorites/albums?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteAlbums });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/users/192283714/favorites/artists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
+    "**/proxy/tidal/v1/users/192283714/favorites/artists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteArtists });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/users/192283714/favorites/tracks?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
+    "**/proxy/tidal/v1/users/192283714/favorites/tracks?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteTracks });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v2/favorites/mixes?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
+    "**/proxy/tidal/v2/favorites/mixes?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteMixes });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/users/192283714/favorites/playlists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
+    "**/proxy/tidal/v1/users/192283714/favorites/playlists?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
       await route.fulfill({ json: mockMyFavoritePlaylists });
     },
   );
   await page.route(
-    "http://localhost:8484/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&limit=18",
+    "**/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&limit=18",
     async (route) => {
       await route.fulfill({ json: mockSearch });
     },
   );
 
   [
-    "http://localhost:8484/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=18&limit=18",
-    "http://localhost:8484/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=36&limit=18",
-    "http://localhost:8484/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=54&limit=18",
-    "http://localhost:8484/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=72&limit=18",
-    "http://localhost:8484/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=90&limit=18",
+    "**/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=18&limit=18",
+    "**/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=36&limit=18",
+    "**/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=54&limit=18",
+    "**/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=72&limit=18",
+    "**/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=90&limit=18",
   ].forEach(async (url) => {
     await page.route(url, async (route) => {
       await route.fulfill({ json: mockSearchPager });
@@ -161,30 +161,26 @@ export async function mockRelease(page: Page, version = "0.0.0-testing") {
   });
 }
 
-export async function mockConfigAPI(page: Page, customEnvVars?: object) {
+export async function mockConfigAPI(
+  page: Page,
+  customSettings?: Record<string, object | string | boolean>,
+) {
   await page.route("**/settings", async (route) => {
+    // Fetch real config from the container
+    const realResponse = await route.fetch();
+    const realConfig = await realResponse.json();
+
     const json = {
+      ...realConfig,
       noToken: false,
-      output: "",
+      ...customSettings,
       parameters: {
-        ENABLE_BEETS: "true",
-        PLEX_URL: "http://plex.url",
-        PLEX_LIBRARY: "3",
-        PLEX_TOKEN: "abc-plex-token-xyz",
-        PLEX_PATH: "/fodler/to/plex/music",
-        GOTIFY_URL: "http://gotify.url",
-        GOTIFY_TOKEN: "abc-gotify-token-xyz",
-        TIDARR_VERSION: "0.0.0-testing",
-        PUID: "",
-        PGID: "",
-        UMASK: "",
-        APPRISE_API_ENDPOINT: "",
-        APPRISE_API_TAG: "",
-        PUSH_OVER_URL: "",
-        ENABLE_TIDAL_PROXY: "true",
-        ...customEnvVars,
+        ...realConfig?.parameters,
+        ...(customSettings?.parameters as object),
       },
       tiddl_config: {
+        ...realConfig?.tiddl_config,
+        ...(customSettings?.tiddl_config as object),
         auth: {
           token: "mock-token",
           refresh_token: "mock-refresh-token",
@@ -192,53 +188,10 @@ export async function mockConfigAPI(page: Page, customEnvVars?: object) {
           user_id: "192283714",
           country_code: "FR",
         },
-        templates: {
-          track: "tracks/{artist}/{artist} - {title}",
-          video: "videos/{artist}/{artist} - {title}",
-          album: "albums/{album_artist}/{year} - {album}/{number:02d}. {title}",
-          playlist:
-            "playlists/{playlist}/{playlist_number:02d}. {artist} - {title}",
-        },
-        download: {
-          track_quality: "high",
-          video_quality: "hd",
-          download_path: "/home/app/standalone/download/incomplete",
-          threads_count: 4,
-          singles_filter: "none",
-          videos_filter: "none",
-        },
-        metadata: {
-          embed_lyrics: false,
-          cover: true,
-        },
-        cover: {
-          save: true,
-          size: 1280,
-        },
-        m3u: {
-          save: true,
-        },
       },
     };
     await route.fulfill({ json });
     return;
-  });
-}
-
-export async function mockAuthAPI(page: Page, token: string) {
-  await page.route("*/**/is-auth-active", async (route) => {
-    const json = { isAuthActive: true };
-    await route.fulfill({ json });
-  });
-
-  await page.route("*/**/auth", async (route) => {
-    const json = { accessGranted: true, token: token };
-    await route.fulfill({ json });
-  });
-
-  await page.route("*/**/settings", async (route) => {
-    const json = { noToken: false };
-    await route.fulfill({ json });
   });
 }
 
@@ -255,136 +208,6 @@ export async function mockItemOutputSSE(page: Page, quality = "high") {
         Connection: "keep-alive",
       },
       body: `data: ${JSON.stringify({ id: itemId, output: mockOutput })}\n\n`,
-    });
-  });
-}
-
-export async function mockSyncAPI(page: Page) {
-  // In-memory sync list to simulate backend state
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const syncItems: any[] = [];
-
-  // Mock GET /api/sync/list endpoint (get sync list)
-  await page.route("**/api/sync/list", async (route) => {
-    if (route.request().method() === "GET") {
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify(syncItems),
-      });
-    }
-  });
-
-  // Mock POST /api/sync/save endpoint (add to sync list)
-  await page.route("**/api/sync/save", async (route) => {
-    if (route.request().method() === "POST") {
-      const postData = route.request().postDataJSON();
-      const item = postData.item;
-
-      // Check if item already exists
-      const existingIndex = syncItems.findIndex(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (syncItem: any) => syncItem.id === item.id,
-      );
-
-      if (existingIndex === -1) {
-        syncItems.push(item);
-      }
-
-      await route.fulfill({
-        status: 201,
-      });
-    }
-  });
-
-  // Mock DELETE /api/sync/remove endpoint (remove from sync list)
-  await page.route("**/api/sync/remove", async (route) => {
-    if (route.request().method() === "DELETE") {
-      const postData = route.request().postDataJSON();
-      const index = syncItems.findIndex(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (item: any) => item.id === postData.id,
-      );
-
-      if (index > -1) {
-        syncItems.splice(index, 1);
-      }
-
-      await route.fulfill({
-        status: 204,
-      });
-    }
-  });
-
-  // Mock DELETE /api/sync/remove-all endpoint (remove all from sync list)
-  await page.route("**/api/sync/remove-all", async (route) => {
-    if (route.request().method() === "DELETE") {
-      syncItems.length = 0; // Clear array
-      await route.fulfill({
-        status: 204,
-      });
-    }
-  });
-
-  // Mock POST /api/sync/trigger endpoint (sync now)
-  await page.route("**/api/sync/trigger", async (route) => {
-    if (route.request().method() === "POST") {
-      await route.fulfill({
-        status: 202,
-      });
-    }
-  });
-}
-
-export async function mockProcessingAPI(page: Page) {
-  // In-memory processing list to simulate backend state
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const processingItems: any[] = [];
-
-  // Mock /api/save endpoint (add to processing queue)
-  await page.route("**/api/save", async (route) => {
-    const postData = route.request().postDataJSON();
-    const item = postData.item;
-    processingItems.push({
-      ...item,
-      status: "queue",
-      loading: true,
-    });
-
-    await route.fulfill({
-      status: 201,
-      contentType: "application/json",
-      body: JSON.stringify({ success: true, item: postData }),
-    });
-  });
-
-  // Mock /api/remove endpoint (remove from processing queue)
-  await page.route("**/api/remove", async (route) => {
-    const postData = route.request().postDataJSON();
-
-    const index = processingItems.findIndex(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (item: any) => item.id === postData.id,
-    );
-    if (index > -1) {
-      processingItems.splice(index, 1);
-    }
-
-    await route.fulfill({
-      status: 204,
-    });
-  });
-
-  // Mock SSE endpoint for processing list updates
-  await page.route("**/api/stream-processing", async (route) => {
-    await route.fulfill({
-      status: 200,
-      headers: {
-        "Content-Type": "text/event-stream",
-        "Cache-Control": "no-cache",
-        Connection: "keep-alive",
-      },
-      body: `data: ${JSON.stringify(processingItems)}\n\n`,
     });
   });
 }

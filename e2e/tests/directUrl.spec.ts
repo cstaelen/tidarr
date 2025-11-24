@@ -1,9 +1,9 @@
-import test, { expect, Page } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
+
+import { test } from "../test-isolation";
 
 import { waitForLoader } from "./utils/helpers";
 import { countItems, runSearch } from "./utils/search";
-
-test.describe.configure({ mode: "serial" });
 
 async function testArtistSection(
   sectionIndex: number,

@@ -1,14 +1,9 @@
 import { expect, Page } from "@playwright/test";
 
-import { goToHome, waitForLoader } from "./helpers";
-import { mockConfigAPI, mockRelease, mockTidalQueries } from "./mock";
+import { waitForLoader } from "./helpers";
 
 export async function runSearch(keyword: string, page: Page) {
-  await mockConfigAPI(page);
-  await mockRelease(page);
-  await mockTidalQueries(page);
-
-  await goToHome(page);
+  await page.goto("/");
   await page.evaluate("localStorage.clear()");
 
   await expect(page.getByTestId("logo")).toBeInViewport();

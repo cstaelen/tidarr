@@ -1,14 +1,9 @@
-import { expect, test } from "@playwright/test";
+import { expect } from "@playwright/test";
 
-import { emptyProcessingList, goToHome } from "./utils/helpers";
-import { mockConfigAPI, mockItemOutputSSE } from "./utils/mock";
+import { test } from "../test-isolation";
+
+import { mockItemOutputSSE } from "./utils/mock";
 import { runSearch } from "./utils/search";
-
-test.describe.configure({ mode: "serial" });
-
-test.afterEach(async ({ page }) => {
-  await emptyProcessingList(page);
-});
 
 test("Queue: Should be able to pause the queue", async ({ page }) => {
   await mockItemOutputSSE(page, "high");
@@ -71,8 +66,7 @@ test("Queue: Should be able to resume the queue", async ({ page }) => {
     });
   });
 
-  await mockConfigAPI(page);
-  await goToHome(page);
+  await page.goto("/");
 
   // Add an item to the queue
   await runSearch("Nirvana", page);
@@ -108,8 +102,7 @@ test("Queue: Should load queue status on mount", async ({ page }) => {
     });
   });
 
-  await mockConfigAPI(page);
-  await goToHome(page);
+  await page.goto("/");
 
   // Add an item to trigger the processing list to appear
   await mockItemOutputSSE(page, "high");
@@ -139,8 +132,7 @@ test("Queue: Should display warning color when paused", async ({ page }) => {
     });
   });
 
-  await mockConfigAPI(page);
-  await goToHome(page);
+  await page.goto("/");
 
   // Add an item to the queue
   await runSearch("Nirvana", page);

@@ -4,6 +4,9 @@ import { defineConfig, devices } from "@playwright/test";
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  /* Global setup - builds Docker image before all tests */
+  globalSetup: require.resolve("./global-setup"),
+
   testDir: "./tests",
   snapshotDir: "./snapshots",
   outputDir: "./test-results",
@@ -31,8 +34,8 @@ export default defineConfig({
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: `http://localhost:${process.env.IS_DOCKER ? 8484 : 3000}/`,
+    /* Note: baseURL is set dynamically per test via the tidarrUrl fixture */
+    /* Each test gets its own isolated container on a random port */
     locale: "en-US",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
@@ -51,21 +54,6 @@ export default defineConfig({
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
-      testIgnore: ["**/downloads.spec.ts", "**/sync.spec.ts"],
-    },
-    {
-      name: "chromium_downloads",
-      testMatch: ["**/downloads.spec.ts"],
-      use: { ...devices["Desktop Chrome"] },
-      fullyParallel: false,
-      dependencies: ["chromium"],
-    },
-    {
-      name: "chromium_sync",
-      testMatch: ["**/sync.spec.ts"],
-      use: { ...devices["Desktop Chrome"] },
-      fullyParallel: false,
-      dependencies: ["chromium_downloads"],
     },
   ],
   expect: {

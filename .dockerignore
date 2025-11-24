@@ -32,9 +32,7 @@ README.md
 *.md
 
 # Testing
-e2e/test-results
-e2e/playwright-report
-playwright-report
+e2e
 coverage
 
 # Shared runtime data (mounted volume)

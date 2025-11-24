@@ -5,3 +5,4 @@ node_modules/
 /playwright/.cache/
 /snapshots/*/*-darwin.png
 custom.css
+.env.e2e.local

@@ -1,4 +1,6 @@
-import { expect, Locator, test } from "@playwright/test";
+import { expect, Locator } from "@playwright/test";
+
+import { test } from "../test-isolation";
 
 import { waitForImgLoaded, waitForLoader } from "./utils/helpers";
 import { countItems, runSearch } from "./utils/search";

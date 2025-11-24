@@ -1,6 +1,8 @@
-import test, { expect, Page } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 
-import { mockConfigAPI, mockTidalQueries } from "./utils/mock";
+import { test } from "../test-isolation";
+
+import { mockConfigAPI } from "./utils/mock";
 
 /**
  * Helper function to verify Plex search button visibility and functionality
@@ -86,8 +88,6 @@ async function mockPlexProxy(page: Page) {
 test("Plex Search: Should display 'Search on Plex' button on Album, Artist and Track pages", async ({
   page,
 }) => {
-  await mockConfigAPI(page);
-  await mockTidalQueries(page);
   await mockPlexProxy(page);
 
   // Test on Album page
@@ -103,48 +103,9 @@ test("Plex Search: Should display 'Search on Plex' button on Album, Artist and T
 test("Plex Search: Should hide 'Search on Plex' button when PLEX var does not exists", async ({
   page,
 }) => {
-  await mockTidalQueries(page);
-
   // Mock config API with no PLEX var
-  await page.route("**/settings", async (route) => {
-    const json = {
-      noToken: false,
-      output: "",
-      parameters: {
-        ENABLE_BEETS: "true",
-        GOTIFY_URL: "http://gotify.url",
-        GOTIFY_TOKEN: "abc-gotify-token-xyz",
-        TIDARR_VERSION: "0.0.0-testing",
-        PUID: "",
-        PGID: "",
-        UMASK: "",
-        APPRISE_API_ENDPOINT: "",
-        APPRISE_API_TAG: "",
-        PUSH_OVER_URL: "",
-        ENABLE_TIDAL_PROXY: "true",
-      },
-      tiddl_config: {
-        auth: {
-          token: "mock-token",
-          refresh_token: "mock-refresh-token",
-          expires_at: 1234567890,
-          user_id: "192283714",
-          country_code: "FR",
-        },
-        templates: {
-          track: "tracks/{artist}/{artist} - {title}",
-          video: "videos/{artist}/{artist} - {title}",
-          album: "albums/{album_artist}/{year} - {album}/{number:02d}. {title}",
-          playlist:
-            "playlists/{playlist}/{playlist_number:02d}. {artist} - {title}",
-          mix: "playlists/{playlist}/{playlist_number:02d}. {artist} - {title}",
-        },
-        download: {
-          quality: "high",
-        },
-      },
-    };
-    await route.fulfill({ json });
+  await mockConfigAPI(page, {
+    parameters: {},
   });
 
   // Test on Album page - button should NOT be visible
