@@ -6,6 +6,7 @@ Tidarr notable changes.
 ## 📦 1.0.5
 ### 🐛 Fixed
 - [Beets] Fix tags writing
+- [API] Fix Tiddl error parsing
 
 ## 📦 1.0.4
 ### 🚀 Added
