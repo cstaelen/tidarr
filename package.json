@@ -16,14 +16,15 @@
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-simple-import-sort": "^12.1.1",
+    "globals": "^16.5.0",
     "prettier": "^3.6.2",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.47.0"
   },
   "scripts": {
-    "app-build": "yarn --cwd ./app build",
-    "api-build": "yarn --cwd ./api build",
-    "dev": "concurrently -n api,front \"yarn --cwd ./api start\" \"yarn --cwd app start\"",
+    "app-build": "pnpm --filter tidarr-react build",
+    "api-build": "pnpm --filter tidarr-api build",
+    "dev": "concurrently -n api,front \"pnpm --filter tidarr-api start\" \"pnpm --filter tidarr-react start\"",
     "prod": "node ./api/dist/index.js",
     "eslint": "eslint .",
     "eslint-fix": "eslint --fix .",

@@ -14,9 +14,7 @@ dev: ## Boot dev environnement
 	$(DOCKER_COMPOSE) up tidarr --build --remove-orphans
 
 install: ## Install deps
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/api tidarr yarn install
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/app tidarr yarn install
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e tidarr yarn install
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone tidarr pnpm install
 ##
 ## Playwright 🚨
 ##--------------
@@ -44,20 +42,20 @@ testing-ui: ## Run local Playwright UI
 ##----------------
 
 quality-deadcode: ## Fin deadcode with `ts-prune`
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/api tidarr yarn find-deadcode
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/app tidarr yarn find-deadcode
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e tidarr yarn find-deadcode
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/api tidarr pnpm find-deadcode
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/app tidarr pnpm find-deadcode
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e tidarr pnpm find-deadcode
 
 quality-depcheck: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/api tidarr yarn depcheck
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/app tidarr yarn depcheck
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e tidarr yarn depcheck
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/api tidarr pnpm depcheck
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/app tidarr pnpm depcheck
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e tidarr pnpm depcheck
 
 quality-lint: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone tidarr yarn eslint
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone tidarr pnpm eslint
 
 quality-lint-fix: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone tidarr yarn eslint-fix
+	$(DOCKER_COMPOSE) exec -w /home/app/standalone tidarr pnpm eslint-fix
 
 ##
 ## Builder 🚀

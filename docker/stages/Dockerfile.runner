@@ -3,24 +3,24 @@ ENV SHELL=bash
 ENV HOME=/home/app/standalone/shared
 
 # Copy built artifacts from builder stage
-COPY --from=app_builder /home/app/standalone/api/dist /home/app/standalone/api/dist
-COPY --from=app_builder /home/app/standalone/api/scripts /home/app/standalone/api/scripts
-COPY --from=app_builder /home/app/standalone/app/dist /home/app/standalone/app/build
-COPY --from=app_builder /home/app/standalone/settings /home/app/standalone/settings
-COPY --from=app_builder /home/app/standalone/.env /home/app/standalone/.env
-COPY --from=app_builder /home/app/standalone/docker/entrypoint.sh /home/app/standalone/docker/entrypoint.sh
+COPY --from=builder /home/app/standalone/api/dist /home/app/standalone/api/dist
+COPY --from=builder /home/app/standalone/api/scripts /home/app/standalone/api/scripts
+COPY --from=builder /home/app/standalone/app/dist /home/app/standalone/app/build
+COPY --from=builder /home/app/standalone/settings /home/app/standalone/settings
+COPY --from=builder /home/app/standalone/.env /home/app/standalone/.env
+COPY --from=builder /home/app/standalone/docker/entrypoint.sh /home/app/standalone/docker/entrypoint.sh
 
-# Install yarn, production dependencies, then clean up
-RUN npm install -g yarn && \
+# Install pnpm, production dependencies, then clean up
+RUN npm install -g pnpm && \
     mkdir -p /home/app/standalone/shared/.processing
 
 # Copy workspace configuration and API package files
-COPY package.json yarn.lock* ./
+COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml ./
 COPY api/package.json ./api/package.json
 
 RUN \
-      --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \
-      yarn install --frozen-lockfile --production && \
+      --mount=type=cache,target=/root/.local/share/pnpm/store,sharing=locked \
+      pnpm install --frozen-lockfile --prod && \
       npm uninstall -g npm && \
       rm -rf /root/.npm /tmp/* /var/tmp/* && \
       find ./node_modules -type f \( -name '*.d.ts' -o -name '*.md' -o -name '*.map' -o -name 'README*' -o -name 'LICENSE*' -o -name 'CHANGELOG*' \) -delete && \

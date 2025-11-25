@@ -18,19 +18,21 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Enable Corepack
-        run: corepack enable
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
       - name: Use Node.js 22.x
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
-          cache: 'yarn'
+          cache: 'pnpm'
 
       - name: Install deps
         run: |
-          yarn install
+          pnpm install
 
       - name: Run ESLINT
         run: |
-          yarn eslint
+          pnpm eslint
       

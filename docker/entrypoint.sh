@@ -64,16 +64,16 @@ if [ -n "$PUID" ] && [ -n "$PGID" ]; then
   # Export UMASK as environment variable so Node.js can access it for setPermissions()
   # Set umask for any processes that respect it (tiddl/Python ignores shell umask)
   if [ "$ENVIRONMENT" = "development" ]; then
-    exec su-exec $PUID:$PGID sh -c "export HOME=/home/app/standalone/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && exec sh -c 'yarn install && yarn dev'"
+    exec su-exec $PUID:$PGID sh -c "export HOME=/home/app/standalone/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && exec sh -c 'pnpm install && pnpm dev'"
   else
-    exec su-exec $PUID:$PGID sh -c "export HOME=/home/app/standalone/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && exec yarn --cwd ./api prod"
+    exec su-exec $PUID:$PGID sh -c "export HOME=/home/app/standalone/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && exec pnpm --filter tidarr-api prod"
   fi
 else
   # Run as root (default)
   if [ "$ENVIRONMENT" = "development" ]; then
-    yarn install
-    yarn dev
+    pnpm install
+    pnpm dev
   else
-    yarn --cwd ./api prod
+    pnpm --filter tidarr-api prod
   fi
 fi

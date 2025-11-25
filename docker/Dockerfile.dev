@@ -15,16 +15,16 @@ RUN apk update && apk upgrade && \
     apk add --no-cache npm nodejs ffmpeg beets bash su-exec curl git && \
     rm -rf /var/cache/apk/*
 
-# Install global npm packages
-RUN npm install -g yarn tsx
+# Install pnpm and global npm packages
+RUN npm install -g pnpm tsx
 
 INCLUDE docker/stages/Dockerfile.python
 
 # Copy package files first for better caching
-COPY package.json yarn.lock* ./
-COPY api/package.json api/yarn.lock* ./api/
-COPY app/package.json app/yarn.lock* ./app/
-COPY e2e/package.json e2e/yarn.lock* ./e2e/
+COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml ./
+COPY api/package.json ./api/
+COPY app/package.json ./app/
+COPY e2e/package.json ./e2e/
 
 # Copy the rest of the application
 COPY . .

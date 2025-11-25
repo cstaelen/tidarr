@@ -1,8 +1,6 @@
 # Dependencies
 node_modules
 .pnpm-store
-.yarn
-.npm
 
 # Git
 .git
@@ -32,7 +30,9 @@ README.md
 *.md
 
 # Testing
-e2e
+e2e/test-results
+e2e/playwright-report
+playwright-report
 coverage
 
 # Shared runtime data (mounted volume)
