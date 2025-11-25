@@ -4,6 +4,7 @@ import { Alert, AlertTitle, Box, Button, Link } from "@mui/material";
 import { ArtistType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
+import { JellyfinSearchButton } from "../Buttons/JellyfinSearchButton";
 import { NavidromeSearchButton } from "../Buttons/NavidromeSearchButton";
 import { PlexSearchButton } from "../Buttons/PlexSearchButton";
 import SyncButton from "../Buttons/SyncButton";
@@ -58,6 +59,7 @@ export default function ArtistHeader({
             )}
             <PlexSearchButton query={artist.name} pivot="artists" />
             <NavidromeSearchButton query={artist.name} pivot="artists" />
+            <JellyfinSearchButton query={artist.name} pivot="artists" />
           </Box>
         }
       />

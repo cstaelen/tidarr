@@ -3,6 +3,7 @@ import { Button, Chip, Stack, Typography } from "@mui/material";
 import { TrackType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
+import { JellyfinSearchButton } from "../Buttons/JellyfinSearchButton";
 import { NavidromeSearchButton } from "../Buttons/NavidromeSearchButton";
 import { PlexSearchButton } from "../Buttons/PlexSearchButton";
 import { ArtistAvatar } from "../Cards/common/ArtistAvatar";
@@ -87,6 +88,7 @@ export default function TrackHeader({ track }: { track: TrackType }) {
             />
             <PlexSearchButton query={track.title} pivot="tracks" />
             <NavidromeSearchButton query={track.title} pivot="tracks" />
+            <JellyfinSearchButton query={track.title} pivot="tracks" />
           </Stack>
         </>
       }
