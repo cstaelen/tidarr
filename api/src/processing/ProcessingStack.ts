@@ -11,6 +11,7 @@ import {
 import { appriseApiPush } from "../services/apprise-api";
 import { beets } from "../services/beets";
 import { gotifyPush } from "../services/gotify";
+import { ntfyPush } from "../services/ntfy";
 import { plexUpdate } from "../services/plex";
 import { hookPushOver } from "../services/pushover";
 import { tidalDL } from "../services/tiddl";
@@ -389,6 +390,9 @@ export const ProcessingStack = (expressApp: Express) => {
 
     // Gotify notification
     await gotifyPush(item);
+
+    // Ntfy notification
+    await ntfyPush(item);
 
     // Webhook push over notification
     await hookPushOver(item);
