@@ -7,7 +7,6 @@ import { ProcessingItemType } from "../types";
 export async function jellyfinUpdate(item: ProcessingItemType) {
   try {
     if (
-      process.env.ENABLE_JELLYFIN_UPDATE === "true" &&
       process.env.JELLYFIN_URL &&
       process.env.JELLYFIN_API_KEY
     ) {
