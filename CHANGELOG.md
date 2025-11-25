@@ -4,6 +4,9 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 1.0.6
+### 🚀 Added
+- [API] Add Jellifyn library scan
+- [API] Add NTFY.sh notification service
 ### 🐛 Fixed
 - [API] Fix tiddl console raw output
 - [API] Fix remove from watch list button
@@ -11,6 +14,7 @@ Tidarr notable changes.
 - [e2e] Playwright test isolation with TestContainers
 - [e2e] Remove mocks, use docker prod image
 - [Docker] Simplify Dockerfile
+- [API] Update tiddl to 3.1.3
 
 ## 📦 1.0.5
 ### 🐛 Fixed
