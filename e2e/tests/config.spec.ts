@@ -65,6 +65,8 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     ["NAVIDROME_URL", "	"],
     ["NAVIDROME_USER", "	"],
     ["NAVIDROME_PASSWORD", "	"],
+    ["JELLYFIN_URL", " "],
+    ["JELLYFIN_API_KEY", " "],
     ["GOTIFY_URL", "	"],
     ["GOTIFY_TOKEN", "	"],
     ["PUID", "	1000"],

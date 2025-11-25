@@ -11,8 +11,8 @@ import {
 import { appriseApiPush } from "../services/apprise-api";
 import { beets } from "../services/beets";
 import { gotifyPush } from "../services/gotify";
-import { plexUpdate } from "../services/plex";
 import { jellyfinUpdate } from "../services/jellyfin";
+import { plexUpdate } from "../services/plex";
 import { hookPushOver } from "../services/pushover";
 import { tidalDL } from "../services/tiddl";
 import { ProcessingItemType, TiddlConfig } from "../types";
