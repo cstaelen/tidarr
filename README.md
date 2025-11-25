@@ -31,6 +31,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Plex/Plexamp](#plex-integration)
   - [Navidrome search](#navidrome-search)
   - [Gotify](#gotify)
+  - [Ntfy](#ntfy)
   - [Apprise Api](#apprise-api)
   - [Webhook push over](#webhook-push-over)
 - [Advanced](#advanced)
@@ -67,7 +68,8 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 ### Service integration
 
 - **[Beets.io](https://beets.readthedocs.io/en/stable/)** - Tag releases 
-- **[Gotify](https://gotify.net/)** - Push notifications 
+- **[Gotify](https://gotify.net/)** - Push notifications
+- **[Ntfy](https://ntfy.sh)** - Push notifications
 - **[Apprise API](https://github.com/caronc/apprise-api)** - Push notifications
 - **[Plex](https://www.plex.tv/)** - Library update, search item button (album, track artiste)
 - **[Navidrome](https://www.navidrome.org/)** - Search item button (album, track artiste)
@@ -296,6 +298,19 @@ environment:
   - ...
   - GOTIFY_URL=<url|ip:port>
   - GOTIFY_TOKEN=<gotify_app_token>
+```
+
+### Ntfy
+
+Add to your *docker-compose* file in `environment:` section:
+
+```yaml
+environment:
+  - ...
+  - NTFY_URL=<url|ip:port>
+  - NTFY_TOPIC=<ntfy_topic>
+  - NTFY_TOKEN=<ntfy_token_security> # optional if it is not public
+  - NTFY_PRIORITY=<ntfy_priority> # optional (default=3)
 ```
 
 ### Apprise API
