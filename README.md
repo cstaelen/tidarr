@@ -71,6 +71,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - **[Gotify](https://gotify.net/)** - Push notifications 
 - **[Apprise API](https://github.com/caronc/apprise-api)** - Push notifications
 - **[Plex](https://www.plex.tv/)** - Library update, search item button (album, track artiste)
+- **[Jellyfin](hhttps://jellyfin.org/)** - Library update
 - **[Navidrome](https://www.navidrome.org/)** - Search item button (album, track artiste)
 - **Webhook push over** - Push notifications using webhook (MatterMost)
 
@@ -274,7 +275,7 @@ Doc : https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
 ### Jellyfin integration
 
 You can active:
-- Plex scan after download
+- Jellyfin scan after download
 
 Add to your *docker-compose* file in `environment:` section :
 
@@ -286,7 +287,6 @@ environment:
 ```
 
 - **Jellyfin API Key** : your Jellyfin API Key : Go to Dashboard -> API Keys
-
 
 ### Navidrome search
 
