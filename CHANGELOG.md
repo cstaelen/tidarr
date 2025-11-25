@@ -6,9 +6,11 @@ Tidarr notable changes.
 ## 📦 1.0.6
 ### 🐛 Fixed
 - [API] Fix tiddl console raw output
+- [API] Fix remove from watch list button
 ### 🖍 Changed
 - [e2e] Playwright test isolation with TestContainers
 - [e2e] Remove mocks, use docker prod image
+- [Docker] Simplify Dockerfile
 
 ## 📦 1.0.5
 ### 🐛 Fixed

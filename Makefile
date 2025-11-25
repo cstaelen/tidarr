@@ -2,7 +2,7 @@ IMAGE=cstaelen/tidarr
 IMAGE_TAG?=testing
 BUILD_VERSION?=0.0.0-prod
 PLATFORMS?=linux/amd64,linux/arm64
-DOCKERFILE=./docker/Dockerfile.prod
+DOCKERFILE=./docker/Dockerfile
 DOCKER_COMPOSE  = $(or docker compose, docker-compose)
 
 ##
@@ -22,7 +22,7 @@ install: ## Install deps
 ##--------------
 
 testing-build: ## Build Tidarr production Docker image for E2E tests
-	docker build -t tidarr-prod -f docker/Dockerfile.prod .
+	docker build -t tidarr-prod --target production -f docker/Dockerfile .
 
 testing-run: ## Run Playwright E2E tests (each test gets isolated container on random port) (arg: f=filter)
 	cd e2e && npx playwright test $(f)
@@ -64,7 +64,7 @@ quality-lint-fix: ## Check dependencies
 ##-----------
 
 docker-build:
-	docker buildx build --platform ${PLATFORMS} --build-arg VERSION=${BUILD_VERSION} -f ${DOCKERFILE} -t ${IMAGE}:${IMAGE_TAG} .
+	docker buildx build --platform ${PLATFORMS} --target production --build-arg VERSION=${BUILD_VERSION} -f ${DOCKERFILE} -t ${IMAGE}:${IMAGE_TAG} .
 
 docker-run: ## Run tidarr docker image
 	docker run \
