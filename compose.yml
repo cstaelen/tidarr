@@ -1,8 +1,9 @@
 services:
   tidarr:
-    build: 
+    build:
       context: .
-      dockerfile: './docker/Dockerfile.dev'
+      dockerfile: './docker/Dockerfile'
+      target: development
     container_name: 'tidarr'
     ports:
       - 8484:8484

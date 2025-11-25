@@ -37,7 +37,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./docker/Dockerfile.prod
+          file: ./docker/Dockerfile
+          target: production
           platforms: ${{ env.DOCKER_PLATFORMS }}
           push: true
           build-args: VERSION=${{ github.ref_name }}
@@ -49,7 +50,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./docker/Dockerfile.prod
+          file: ./docker/Dockerfile
+          target: production
           platforms: ${{ env.DOCKER_PLATFORMS }}
           push: true
           build-args: VERSION=${{ github.ref_name }}

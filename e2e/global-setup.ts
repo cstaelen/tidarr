@@ -11,10 +11,13 @@ export default function globalSetup() {
   const projectRoot = path.resolve(__dirname, "..");
 
   try {
-    execSync("docker build -t tidarr-prod -f docker/Dockerfile.prod .", {
-      cwd: projectRoot,
-      stdio: "inherit",
-    });
+    execSync(
+      "docker build -t tidarr-prod --target production -f docker/Dockerfile .",
+      {
+        cwd: projectRoot,
+        stdio: "inherit",
+      },
+    );
 
     console.log("\n✅ Docker image built successfully!\n");
   } catch (error) {
