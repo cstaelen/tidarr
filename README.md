@@ -29,6 +29,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-integration)
+  - [Jellyfin](#jellyfin-integration)
   - [Navidrome search](#navidrome-search)
   - [Gotify](#gotify)
   - [Apprise Api](#apprise-api)
@@ -269,6 +270,23 @@ environment:
 > All Plex API queries are proxied through the Tidarr backend to avoid CORS issues and keep your Plex token secure. The search button displays real-time result counts (artists, albums, tracks) from your Plex library.
 
 Doc : https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
+
+### Jellyfin integration
+
+You can active:
+- Plex scan after download
+
+Add to your *docker-compose* file in `environment:` section :
+
+```yaml
+environment:
+  - ...
+  - JELLYFIN_URL=<url|ip:port>
+  - JELLYFIN_API_KEY=<X-Emby-Token>
+```
+
+- **Jellyfin API Key** : your Jellyfin API Key : Go to Dashboard -> API Keys
+
 
 ### Navidrome search
 
