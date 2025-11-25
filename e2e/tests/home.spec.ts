@@ -1,14 +1,11 @@
-import test, { expect } from "@playwright/test";
+import { expect } from "@playwright/test";
 
-import { goToHome } from "./utils/helpers";
-import { mockConfigAPI, mockRelease } from "./utils/mock";
+import { test } from "../test-isolation";
+
 import { countItems } from "./utils/search";
 
 test("Tidarr Home : Should see the homepage and tabs", async ({ page }) => {
-  await mockConfigAPI(page);
-  await mockRelease(page);
-
-  await goToHome(page);
+  await page.goto("/");
   await page.evaluate("localStorage.clear()");
 
   await expect(page.getByTestId("logo")).toBeInViewport();
@@ -37,10 +34,7 @@ test("Tidarr Home : Should see the homepage and tabs", async ({ page }) => {
 test("Tidarr Home : Should be able to sort playlists and favorites", async ({
   page,
 }) => {
-  await mockConfigAPI(page);
-  await mockRelease(page);
-
-  await goToHome(page);
+  await page.goto("/");
   await page.evaluate("localStorage.clear()");
 
   await expect(page.getByTestId("logo")).toBeInViewport();

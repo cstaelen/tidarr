@@ -1,20 +1,12 @@
-import { expect, test } from "@playwright/test";
+import { expect } from "@playwright/test";
+
+import { test } from "../test-isolation";
 
 import mockHome from "./mocks/home.json";
 import mockSearch from "./mocks/search.json";
-import {
-  emptyProcessingList,
-  goToHome,
-  testProcessingList,
-} from "./utils/helpers";
-import { mockConfigAPI, mockItemOutputSSE } from "./utils/mock";
+import { testProcessingList } from "./utils/helpers";
+import { mockItemOutputSSE } from "./utils/mock";
 import { runSearch } from "./utils/search";
-
-test.describe.configure({ mode: "serial" });
-
-test.afterEach(async ({ page }) => {
-  await emptyProcessingList(page);
-});
 
 test("Tidarr download : Should be able to download album", async ({ page }) => {
   await page.route("**/home", async (route) => {
@@ -156,8 +148,7 @@ test("Tidarr download : Should be able to download mix", async ({ page }) => {
     });
   });
 
-  await mockConfigAPI(page);
-  await goToHome(page);
+  await page.goto("/");
   await page.getByRole("tab", { name: "My Mixes" }).first().click();
 
   await expect(page.getByRole("main")).toContainText("My Daily Discovery");
@@ -185,8 +176,7 @@ test("Tidarr download : Should be able to download favorite albums", async ({
     });
   });
 
-  await mockConfigAPI(page);
-  await goToHome(page);
+  await page.goto("/");
   await page.getByRole("tab", { name: "My Favorites" }).first().click();
 
   await expect(page.getByRole("main")).toContainText("My Favorite albums");
@@ -218,8 +208,7 @@ test("Tidarr download : Should be able to download favorite tracks", async ({
     });
   });
 
-  await mockConfigAPI(page);
-  await goToHome(page);
+  await page.goto("/");
   await page.getByRole("tab", { name: "My Favorites" }).first().click();
 
   await expect(page.getByRole("main")).toContainText("My Favorite tracks");
@@ -251,8 +240,7 @@ test("Tidarr download : Should be able to download favorite playlists", async ({
     });
   });
 
-  await mockConfigAPI(page);
-  await goToHome(page);
+  await page.goto("/");
   await page.getByRole("tab", { name: "My Favorites" }).first().click();
 
   await expect(page.getByRole("main")).toContainText("My Favorite playlists");
@@ -332,7 +320,6 @@ test("Tidarr download : Should be able to clear finished items", async ({
 
   // Clean up
   await page.route("**/stream-processing", (route) => route.continue());
-  await emptyProcessingList(page);
 });
 
 test("Tidarr download : Should be able to clear all items with confirmation", async ({
@@ -358,7 +345,9 @@ test("Tidarr download : Should be able to clear all items with confirmation", as
   await page.locator("button.MuiFab-circular").click();
 
   // Verify item is in the list
-  await expect(page.getByLabel("Processing table")).toContainText("In Utero");
+  await expect(page.getByLabel("Processing table")).toContainText(
+    "MTV Unplugged In New York",
+  );
 
   // Setup confirmation dialog handler - dismiss first
   page.once("dialog", (dialog) => {

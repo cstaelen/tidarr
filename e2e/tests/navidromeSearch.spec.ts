@@ -1,6 +1,8 @@
-import test, { expect, Page } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 
-import { mockConfigAPI, mockTidalQueries } from "./utils/mock";
+import { test } from "../test-isolation";
+
+import { mockConfigAPI } from "./utils/mock";
 
 /**
  * Helper function to verify Navidrome search button visibility and functionality
@@ -93,11 +95,12 @@ test("Navidrome Search: Should display 'Navidrome' button on Album, Artist and T
   page,
 }) => {
   await mockConfigAPI(page, {
-    NAVIDROME_URL: "http://navidrome.url",
-    NAVIDROME_USER: "test-user",
-    NAVIDROME_PASSWORD: "test-password",
+    parameters: {
+      NAVIDROME_URL: "http://navidrome.url",
+      NAVIDROME_USER: "test-user",
+      NAVIDROME_PASSWORD: "test-password",
+    },
   });
-  await mockTidalQueries(page);
   await mockNavidromeProxy(page);
 
   // Test on Album page
@@ -113,9 +116,6 @@ test("Navidrome Search: Should display 'Navidrome' button on Album, Artist and T
 test("Navidrome Search: Should hide 'Navidrome' button when NAVIDROME var does not exist", async ({
   page,
 }) => {
-  await mockConfigAPI(page);
-  await mockTidalQueries(page);
-
   // Test on Album page - button should NOT be visible
   await checkNavidromeButton(page, "/album/77610756", "albums", false);
 

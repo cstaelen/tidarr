@@ -85,7 +85,6 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   let hasProcessingError = false;
 
   child.stdout?.on("data", (data: string) => {
-    console.log(data);
     if (
       data.includes("Error") &&
       !data.includes("Downloaded") &&

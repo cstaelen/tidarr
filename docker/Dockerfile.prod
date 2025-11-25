@@ -27,4 +27,4 @@ ENV VERSION=$VERSION
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:8484/api/is-auth-active || exit 1
 
-ENTRYPOINT ["sh", "/home/app/standalone/docker/run-prod.sh"]
+ENTRYPOINT ["sh", "/home/app/standalone/docker/entrypoint.sh"]

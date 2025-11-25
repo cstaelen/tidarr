@@ -1,27 +1,8 @@
-import { expect, test } from "@playwright/test";
+import { expect } from "@playwright/test";
 
-import { emptySyncList, goToHome } from "./utils/helpers";
-import {
-  mockConfigAPI,
-  mockProcessingAPI,
-  mockRelease,
-  mockSyncAPI,
-} from "./utils/mock";
+import { test } from "../test-isolation";
+
 import { runSearch } from "./utils/search";
-
-test.describe.configure({ mode: "serial" });
-
-test.beforeEach(async ({ page }) => {
-  await mockConfigAPI(page);
-  await mockRelease(page);
-  await mockProcessingAPI(page);
-  await mockSyncAPI(page);
-  await emptySyncList(page);
-});
-
-test.afterEach(async ({ page }) => {
-  await emptySyncList(page);
-});
 
 test("Tidarr sync : Should be able to sync a playlist", async ({ page }) => {
   await runSearch(
@@ -34,10 +15,13 @@ test("Tidarr sync : Should be able to sync a playlist", async ({ page }) => {
   await page.getByTestId("btn-sync").nth(0).first().click();
   await expect(page.getByTestId("btn-disable-sync")).toBeVisible();
 
-  await goToHome(page);
+  await page.goto("/");
   await page.getByRole("tab", { name: "Watch list (1)" }).click();
   await expect(page.getByRole("cell", { name: "Grown Country" })).toBeVisible();
   await expect(page.getByRole("cell", { name: "playlist" })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Remove from watch list" }),
+  ).toBeVisible();
   await page.getByRole("button", { name: "Remove from watch list" }).click();
   await expect(page.getByText("No item in watch list.")).toBeVisible();
 
@@ -57,29 +41,33 @@ test("Tidarr sync : Should be able to sync an artist", async ({ page }) => {
   await page.getByTestId("btn-sync").nth(0).click();
   await expect(page.getByTestId("btn-disable-sync").nth(0)).toBeVisible();
 
-  await goToHome(page);
+  await page.goto("/");
   await page.getByRole("tab", { name: "Watch list (1)" }).click();
   await expect(page.getByRole("cell", { name: "Nirvana" })).toBeVisible();
   await expect(page.getByRole("cell", { name: "artist" })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Remove from watch list" }),
+  ).toBeVisible();
   await page.getByRole("button", { name: "Remove from watch list" }).click();
   await expect(page.getByText("No item in watch list.")).toBeVisible();
 
   await runSearch("https://tidal.com/browse/artist/19368", page);
-  await expect(page.getByTestId("btn-disable-sync")).not.toBeVisible();
   await expect(
     page.locator(".MuiPaper-root").nth(1).getByTestId("btn-sync"),
   ).toBeVisible();
+  await expect(page.getByTestId("btn-disable-sync")).not.toBeVisible();
 });
 
 test("Tidarr sync : Should be able to sync favorite albums", async ({
   page,
 }) => {
-  await goToHome(page);
+  await page.goto("/");
   await page.getByRole("tab", { name: "My Favorites" }).first().click();
 
   await expect(page.getByRole("main")).toContainText("My Favorite albums");
 
   // Click sync button for favorite albums
+  await expect(page.getByTestId("btn-sync").first()).toBeVisible();
   await page.getByTestId("btn-sync").first().click();
   await expect(page.getByTestId("btn-disable-sync").first()).toBeVisible();
 
@@ -93,6 +81,9 @@ test("Tidarr sync : Should be able to sync favorite albums", async ({
   ).toBeVisible();
 
   // Remove from watch list
+  await expect(
+    page.getByRole("button", { name: "Remove from watch list" }),
+  ).toBeVisible();
   await page.getByRole("button", { name: "Remove from watch list" }).click();
   await expect(page.getByText("No item in watch list.")).toBeVisible();
 
@@ -105,7 +96,7 @@ test("Tidarr sync : Should be able to sync favorite albums", async ({
 test("Tidarr sync : Should be able to sync favorite tracks", async ({
   page,
 }) => {
-  await goToHome(page);
+  await page.goto("/");
   await page.getByRole("tab", { name: "My Favorites" }).first().click();
 
   await expect(page.getByRole("main")).toContainText("My Favorite tracks");
@@ -136,7 +127,7 @@ test("Tidarr sync : Should be able to sync favorite tracks", async ({
 test("Tidarr sync : Should be able to sync favorite playlists", async ({
   page,
 }) => {
-  await goToHome(page);
+  await page.goto("/");
   await page.getByRole("tab", { name: "My Favorites" }).first().click();
 
   await expect(page.getByRole("main")).toContainText("My Favorite playlists");
@@ -179,7 +170,7 @@ test("Tidarr sync : Should be able to sync now an individual item", async ({
   await expect(page.getByTestId("btn-disable-sync")).toBeVisible();
 
   // Go to watch list
-  await goToHome(page);
+  await page.goto("/");
   await page.getByRole("tab", { name: "Watch list (1)" }).click();
   await expect(page.getByRole("cell", { name: "Grown Country" })).toBeVisible();
 
@@ -219,7 +210,7 @@ test("Tidarr sync : Should be able to sync all items at once", async ({
   await expect(page.getByTestId("btn-disable-sync").nth(0)).toBeVisible();
 
   // Go to watch list
-  await goToHome(page);
+  await page.goto("/");
   await page.getByRole("tab", { name: "Watch list (2)" }).click();
   await expect(page.getByRole("cell", { name: "Grown Country" })).toBeVisible();
   await expect(page.getByRole("cell", { name: "Nirvana" })).toBeVisible();
@@ -275,7 +266,7 @@ test("Tidarr sync : Should be able to remove all items from watch list", async (
   await expect(page.getByTestId("btn-disable-sync").nth(0)).toBeVisible();
 
   // Go to watch list
-  await goToHome(page);
+  await page.goto("/");
   await page.getByRole("tab", { name: "Watch list (2)" }).click();
   await expect(page.getByRole("cell", { name: "Grown Country" })).toBeVisible();
   await expect(page.getByRole("cell", { name: "Nirvana" })).toBeVisible();
@@ -311,7 +302,7 @@ test("Tidarr sync : Should cancel remove all when user declines confirmation", a
   await expect(page.getByTestId("btn-disable-sync").nth(0)).toBeVisible();
 
   // Go to watch list
-  await goToHome(page);
+  await page.goto("/");
   await page.getByRole("tab", { name: "Watch list (2)" }).click();
   await expect(page.getByRole("cell", { name: "Grown Country" })).toBeVisible();
   await expect(page.getByRole("cell", { name: "Nirvana" })).toBeVisible();

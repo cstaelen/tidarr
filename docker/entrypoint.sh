@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # AUTH JWT RANDOM SECRET
 export JWT_SECRET=`tr -dc A-Za-z0-9 </dev/urandom | head -c 15; echo`
 
@@ -10,7 +12,15 @@ cat << "EOF"
   |_| |___|____/_/   \_\_| \_\_| \_\
 EOF
 echo "----------------------------------------"
-echo " DEVELOPMENT MODE - VERSION: ${VERSION:-unknown}"
+
+# Detect environment mode (default: production)
+MODE=${NODE_ENV:-production}
+
+if [ "$MODE" = "development" ]; then
+  echo " DEVELOPMENT MODE - VERSION: ${VERSION:-unknown}"
+else
+  echo " PRODUCTION MODE - VERSION: ${VERSION:-unknown}"
+fi
 echo "----------------------------------------"
 
 # Set custom umask (default: 0022 for 755 permissions)
@@ -30,11 +40,11 @@ umask $EFFECTIVE_UMASK
 if [ -n "$PUID" ] && [ -n "$PGID" ]; then
   echo "🔑 [TIDARR] Setting ownership to PUID=$PUID PGID=$PGID"
   echo "🔑 [TIDARR] Using UMASK=$EFFECTIVE_UMASK"
-  
+
   # Create required directories if they don't exist
   mkdir -p /home/app/standalone/shared/.tiddl 2>/dev/null || true
   mkdir -p /home/app/standalone/shared/beets 2>/dev/null || true
-  
+
   # Change ownership only of specific Tidarr-related files/directories
   # Avoid traversing cache directories (.cache, .yarn, .pki, node_modules)
   chown $PUID:$PGID /home/app/standalone/shared 2>/dev/null || true
@@ -44,13 +54,26 @@ if [ -n "$PUID" ] && [ -n "$PGID" ]; then
   chown $PUID:$PGID /home/app/standalone/shared/*.css 2>/dev/null || true
   chown $PUID:$PGID /home/app/standalone/shared/*.yml 2>/dev/null || true
 
-  # Run yarn as specified UID/GID using su-exec
+  # In production, allow the user to write custom.css in the app/build directory
+  if [ "$ENVIRONMENT" != "development" ]; then
+    chown -R $PUID:$PGID /home/app/standalone/app/build 2>/dev/null || true
+  fi
+
+  # Run as specified UID/GID using su-exec
   # Set HOME to /home/app/standalone/shared for tiddl config access
   # Export UMASK as environment variable so Node.js can access it for setPermissions()
   # Set umask for any processes that respect it (tiddl/Python ignores shell umask)
-  exec su-exec $PUID:$PGID sh -c "export HOME=/home/app/standalone/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && exec sh -c 'yarn install && yarn dev'"
+  if [ "$ENVIRONMENT" = "development" ]; then
+    exec su-exec $PUID:$PGID sh -c "export HOME=/home/app/standalone/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && exec sh -c 'yarn install && yarn dev'"
+  else
+    exec su-exec $PUID:$PGID sh -c "export HOME=/home/app/standalone/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && exec yarn --cwd ./api prod"
+  fi
 else
   # Run as root (default)
-  yarn install
-  yarn dev
+  if [ "$ENVIRONMENT" = "development" ]; then
+    yarn install
+    yarn dev
+  else
+    yarn --cwd ./api prod
+  fi
 fi

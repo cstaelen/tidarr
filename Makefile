@@ -21,26 +21,23 @@ install: ## Install deps
 ## Playwright 🚨
 ##--------------
 
-testing-build: ## Build container with Playwright tests and production build image
-	$(DOCKER_COMPOSE) up -d testing --build --remove-orphans
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e testing yarn install
+testing-build: ## Build Tidarr production Docker image for E2E tests
+	docker build -t tidarr-prod -f docker/Dockerfile.prod .
 
-testing-run: ## Run Playwright tests with production build image (arg: f=filter)
-	$(DOCKER_COMPOSE) restart testing
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e testing npx playwright test $(f)
+testing-run: ## Run Playwright E2E tests (each test gets isolated container on random port) (arg: f=filter)
+	cd e2e && npx playwright test $(f)
 
 testing-update-snapshots: ## Update Playwright snapshots (arg: f=filter)
-	$(DOCKER_COMPOSE) restart testing
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e testing npx playwright test $(f) --reporter=list --update-snapshots
+	cd e2e && npx playwright test $(f) --reporter=list --update-snapshots
 
 testing-show-report: ## Show last playwright report
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e testing npx playwright show-report --host 0.0.0.0
+	cd e2e && npx playwright show-report
 
 testing-clean: ## Clean Playwright reports
 	rm -rf playwright-report e2e/playwright-report e2e/test-results
 
 testing-ui: ## Run local Playwright UI
-	yarn --cwd ./e2e playwright:test-ui
+	cd e2e && npx playwright test --ui
 
 ##
 ## Code quality 🧙
