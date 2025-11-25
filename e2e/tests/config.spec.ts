@@ -57,31 +57,31 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
   await page.getByRole("tab", { name: "Env vars" }).click();
 
   const dataAPIRows = [
-    ["ENABLE_BEETS", "	false"],
-    ["PLEX_URL", "	"],
-    ["PLEX_LIBRARY", "	"],
-    ["PLEX_TOKEN", "	"],
-    ["PLEX_PATH", "	"],
-    ["NAVIDROME_URL", "	"],
-    ["NAVIDROME_USER", "	"],
-    ["NAVIDROME_PASSWORD", "	"],
-    ["JELLYFIN_URL", " "],
-    ["JELLYFIN_API_KEY", " "],
-    ["GOTIFY_URL", "	"],
-    ["GOTIFY_TOKEN", "	"],
-    ["NTFY_URL", " "],
-    ["NTFY_TOPIC", " "],
-    ["NTFY_TOKEN", " "],
-    ["NTFY_PRIORITY", " "],
-    ["PUID", "	1000"],
-    ["PGID", "	1000"],
-    ["UMASK", "	0002"],
-    ["TIDARR_VERSION", "	0.0.0-testing"],
-    ["APPRISE_API_ENDPOINT", "	"],
-    ["APPRISE_API_TAG", "	"],
-    ["PUSH_OVER_URL", "	"],
-    ["LOCK_QUALITY", "	"],
-    ["ENABLE_TIDAL_PROXY", "	true"],
+    ["ENABLE_BEETS", "false"],
+    ["PLEX_URL", ""],
+    ["PLEX_LIBRARY", ""],
+    ["PLEX_TOKEN", ""],
+    ["PLEX_PATH", ""],
+    ["JELLYFIN_URL", ""],
+    ["JELLYFIN_API_KEY", ""],
+    ["NAVIDROME_URL", ""],
+    ["NAVIDROME_USER", ""],
+    ["NAVIDROME_PASSWORD", ""],
+    ["GOTIFY_URL", ""],
+    ["GOTIFY_TOKEN", ""],
+    ["NTFY_URL", ""],
+    ["NTFY_TOPIC", ""],
+    ["NTFY_TOKEN", ""],
+    ["NTFY_PRIORITY", ""],
+    ["PUID", "1000"],
+    ["PGID", "1000"],
+    ["UMASK", "0002"],
+    ["TIDARR_VERSION", "0.0.0-testing"],
+    ["APPRISE_API_ENDPOINT", ""],
+    ["APPRISE_API_TAG", ""],
+    ["PUSH_OVER_URL", ""],
+    ["LOCK_QUALITY", ""],
+    ["ENABLE_TIDAL_PROXY", "true"],
     ["SYNC_CRON_EXPRESSION", "0 3 * * *"],
   ];
   const tableAPIRows = await page
@@ -91,10 +91,12 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     .all();
 
   expect(tableAPIRows.length).toEqual(dataAPIRows?.length);
-  tableAPIRows.forEach((row, index) => {
-    expect(row.locator("td").first()).toContainText(dataAPIRows[index][0]);
-    expect(row.locator("td").last()).toContainText(dataAPIRows[index][1]);
-  });
+  for (const [index, row] of tableAPIRows.entries()) {
+    await expect(row.locator("td").first()).toContainText(
+      dataAPIRows[index][0],
+    );
+    await expect(row.locator("td").last()).toContainText(dataAPIRows[index][1]);
+  }
 
   // Tab Tidal token
   await expect(
