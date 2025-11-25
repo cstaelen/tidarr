@@ -36,7 +36,9 @@ export const addItemToSyncList = async (item: SyncItemType) => {
 export const removeItemFromSyncList = async (id: number | string) => {
   const syncList = await loadSyncList();
   const idString = id.toString();
-  const filteredList = syncList.filter((item) => item.id !== idString);
+  const filteredList = syncList.filter(
+    (item) => item.id.toString() !== idString,
+  );
   await syncListDb.push(SYNC_LIST_PATH, filteredList);
 };
 

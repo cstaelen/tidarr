@@ -29,6 +29,8 @@ export async function configureServer() {
         PLEX_LIBRARY: process.env.PLEX_LIBRARY || "",
         PLEX_TOKEN: process.env.PLEX_TOKEN || "",
         PLEX_PATH: process.env.PLEX_PATH || "",
+        JELLYFIN_URL: process.env.JELLYFIN_URL || "",
+        JELLYFIN_API_KEY: process.env.JELLYFIN_API_KEY || "",
         NAVIDROME_URL: process.env.NAVIDROME_URL || "",
         NAVIDROME_USER: process.env.NAVIDROME_USER || "",
         NAVIDROME_PASSWORD: process.env.NAVIDROME_PASSWORD ? "****" : "",

@@ -29,6 +29,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-integration)
+  - [Jellyfin](#jellyfin-integration)
   - [Navidrome search](#navidrome-search)
   - [Gotify](#gotify)
   - [Ntfy](#ntfy)
@@ -72,6 +73,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - **[Ntfy](https://ntfy.sh)** - Push notifications
 - **[Apprise API](https://github.com/caronc/apprise-api)** - Push notifications
 - **[Plex](https://www.plex.tv/)** - Library update, search item button (album, track artiste)
+- **[Jellyfin](hhttps://jellyfin.org/)** - Library update
 - **[Navidrome](https://www.navidrome.org/)** - Search item button (album, track artiste)
 - **Webhook push over** - Push notifications using webhook (MatterMost)
 
@@ -271,6 +273,22 @@ environment:
 > All Plex API queries are proxied through the Tidarr backend to avoid CORS issues and keep your Plex token secure. The search button displays real-time result counts (artists, albums, tracks) from your Plex library.
 
 Doc : https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
+
+### Jellyfin integration
+
+You can active:
+- Jellyfin scan after download
+
+Add to your *docker-compose* file in `environment:` section :
+
+```yaml
+environment:
+  - ...
+  - JELLYFIN_URL=<url|ip:port>
+  - JELLYFIN_API_KEY=<X-Emby-Token>
+```
+
+- **Jellyfin API Key** : your Jellyfin API Key : Go to Dashboard -> API Keys
 
 ### Navidrome search
 

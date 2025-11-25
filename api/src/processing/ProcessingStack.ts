@@ -11,6 +11,7 @@ import {
 import { appriseApiPush } from "../services/apprise-api";
 import { beets } from "../services/beets";
 import { gotifyPush } from "../services/gotify";
+import { jellyfinUpdate } from "../services/jellyfin";
 import { ntfyPush } from "../services/ntfy";
 import { plexUpdate } from "../services/plex";
 import { hookPushOver } from "../services/pushover";
@@ -387,6 +388,9 @@ export const ProcessingStack = (expressApp: Express) => {
 
     // Plex library update with specific paths
     await plexUpdate(item, foldersToScan);
+
+    // Jellyfin library update
+    await jellyfinUpdate(item);
 
     // Gotify notification
     await gotifyPush(item);
