@@ -88,7 +88,7 @@ export default function TrackHeader({ track }: { track: TrackType }) {
             />
             <PlexSearchButton query={track.title} pivot="tracks" />
             <NavidromeSearchButton query={track.title} pivot="tracks" />
-            <JellyfinSearchButton query={track.title} pivot="tracks" />
+            <JellyfinSearchButton query={track.title} albumQuery={track.album.title} pivot="tracks" />
           </Stack>
         </>
       }

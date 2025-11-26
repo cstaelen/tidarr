@@ -6,6 +6,7 @@ import { getApiUrl } from "src/utils/helpers";
 
 interface JellyfinSearchButtonProps {
   query: string;
+  albumQuery: string;
   pivot?: "artists" | "albums" | "tracks" | "search";
 }
 
@@ -23,13 +24,12 @@ const JellyfinIcon = () => (
 
 export const JellyfinSearchButton = ({
   query,
+  albumQuery,
   pivot = "search",
 }: JellyfinSearchButtonProps) => {
   const { config } = useConfigProvider();
   const [resultCount, setResultCount] = useState<number | null>(null);
-  const [jellyfinCounts, setJellyfinCounts] = useState<JellyfinCounts | null>(
-    null,
-  );
+  const [jellyfinCounts, setJellyfinCounts] = useState<JellyfinCounts | null>(null);
   const [loading, setLoading] = useState(false);
 
   const isButtonActive: () => boolean = useCallback(
@@ -38,9 +38,7 @@ export const JellyfinSearchButton = ({
   );
 
   useEffect(() => {
-    if (!isButtonActive() || !config) {
-      return;
-    }
+    if (!isButtonActive() || !config) return;
 
     const fetchJellyfinResults = async () => {
       setLoading(true);
@@ -48,46 +46,63 @@ export const JellyfinSearchButton = ({
         // Use proxy to avoid CORS
         const apiUrl = getApiUrl(TIDARR_PROXY_URL);
 
-        // Jellyfin API: GET /Items with SearchTerm and IncludeItemTypes
-        // We need to make separate requests for each type to get accurate counts
-        const searchParams = new URLSearchParams({
-          searchTerm: query,
-          limit: "0", // We only want total count
-          recursive: "true",
-        });
+        let artistsCount = 0;
+        let albumsCount = 0;
+        let tracksCount = 0;
 
-        // Fetch artists
-        const artistParams = new URLSearchParams(searchParams);
-        artistParams.set("includeItemTypes", "MusicArtist");
-        const artistResponse = await fetch(
-          `${apiUrl}/jellyfin/Items?${artistParams.toString()}`,
-        );
-
-        // Fetch albums
-        const albumParams = new URLSearchParams(searchParams);
-        albumParams.set("includeItemTypes", "MusicAlbum");
-        const albumResponse = await fetch(
-          `${apiUrl}/jellyfin/Items?${albumParams.toString()}`,
-        );
-
-        // Fetch tracks
-        const trackParams = new URLSearchParams(searchParams);
-        trackParams.set("includeItemTypes", "Audio");
-        const trackResponse = await fetch(
-          `${apiUrl}/jellyfin/Items?${trackParams.toString()}`,
-        );
-
-        if (!artistResponse.ok || !albumResponse.ok || !trackResponse.ok) {
-          throw new Error("Failed to fetch Jellyfin search results");
+        // Artists
+        if (pivot === "artists") {
+          const artistResponse = await fetch(`${apiUrl}/jellyfin/Artists/${encodeURIComponent(query)}`);
+          if (artistResponse.ok) {
+            const artistData = await artistResponse.json();
+            artistsCount = artistData.ArtistCount ?? 1; // fallback to jellyfin 10.10.7
+            albumsCount = artistData.AlbumCount
+            tracksCount = artistData.SongCount
+          }
         }
 
-        const artistData = await artistResponse.json();
-        const albumData = await albumResponse.json();
-        const trackData = await trackResponse.json();
+        // Albums
+        if (pivot === "albums") {
+          const albumResponse = await fetch(
+            `${apiUrl}/jellyfin/Search/Hints?searchTerm=${encodeURIComponent(query)}&includeItemTypes=MusicAlbum`,
+          );
+          if (albumResponse.ok) {
+            const albumData = await albumResponse.json();
+            const albumHint = Array.isArray(albumData.SearchHints) ? albumData.SearchHints[0] : null;
+            if (albumHint?.ItemId) {
+              albumsCount = albumData.TotalRecordCount > 0 ? 1 : 0;
+              const itemsResponse = await fetch(
+                `${apiUrl}/jellyfin/Items?parentId=${encodeURIComponent(albumHint.ItemId)}&includeItemTypes=Audio&limit=0`,
+              );
+              if (itemsResponse.ok) {
+                const trackData = await itemsResponse.json();
+                tracksCount = trackData.TotalRecordCount || 0;
+              }
+            }
+          }
+        }
 
-        const artistsCount = artistData.TotalRecordCount || 0;
-        const albumsCount = albumData.TotalRecordCount || 0;
-        const tracksCount = trackData.TotalRecordCount || 0;
+        // Tracks
+        if (pivot === "tracks") {
+          // first locate the album
+          const albumResponse = await fetch(
+            `${apiUrl}/jellyfin/Search/Hints?searchTerm=${encodeURIComponent(albumQuery)}&includeItemTypes=MusicAlbum`,
+          );
+          if (albumResponse.ok) {
+            const albumData = await albumResponse.json();
+            const albumHint = Array.isArray(albumData.SearchHints) ? albumData.SearchHints[0] : null;
+            if (albumHint?.ItemId) {
+              // after search track into album
+              const trackResponse = await fetch(
+                `${apiUrl}/jellyfin/Search/Hints?searchTerm=${encodeURIComponent(query)}&parentId=${encodeURIComponent(albumHint.ItemId)}&includeItemTypes=Audio`,
+              );
+              if (trackResponse.ok) {
+                const trackData = await trackResponse.json();
+                tracksCount = trackData.TotalRecordCount || 0;
+              }
+            }
+          }
+        }
 
         setJellyfinCounts({
           artists: artistsCount,
@@ -103,7 +118,7 @@ export const JellyfinSearchButton = ({
         } else if (pivot === "tracks") {
           setResultCount(tracksCount);
         } else {
-          // For general search, sum all counts
+          // For general search, sum all counts (counts = 1 always)
           setResultCount(artistsCount + albumsCount + tracksCount);
         }
       } catch (error) {
@@ -120,7 +135,6 @@ export const JellyfinSearchButton = ({
 
   const handleJellyfinSearch = () => {
     const jellyfinBaseUrl = config?.JELLYFIN_URL?.replace(/\/$/, "");
-
     if (!jellyfinBaseUrl) {
       console.error("Jellyfin URL not configured");
       return;
@@ -128,18 +142,8 @@ export const JellyfinSearchButton = ({
 
     // Build the Jellyfin search URL
     // Jellyfin web interface uses: /web/index.html#!/search.html?query=xxx
-    let searchUrl = `${jellyfinBaseUrl}/web/index.html#!/search.html?query=${encodeURIComponent(query)}`;
-
-    // Add filter based on pivot type
-    if (pivot === "artists") {
-      searchUrl += "&filter=Artists";
-    } else if (pivot === "albums") {
-      searchUrl += "&filter=Albums";
-    } else if (pivot === "tracks") {
-      searchUrl += "&filter=Songs";
-    }
-    // For general search, no filter is applied (shows all results)
-
+    // There is no filter to apply to searches (shows all results)
+    const searchUrl = `${jellyfinBaseUrl}/web/index.html#!/search.html?query=${encodeURIComponent(query)}`;
     window.open(searchUrl, "jellyfin-search");
   };
 
