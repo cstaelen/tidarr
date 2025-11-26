@@ -73,7 +73,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - **[Ntfy](https://ntfy.sh)** - Push notifications
 - **[Apprise API](https://github.com/caronc/apprise-api)** - Push notifications
 - **[Plex](https://www.plex.tv/)** - Library update, search item button (album, track artiste)
-- **[Jellyfin](hhttps://jellyfin.org/)** - Library update
+- **[Jellyfin](https://jellyfin.org/)** - Library update
 - **[Navidrome](https://www.navidrome.org/)** - Search item button (album, track artiste)
 - **Webhook push over** - Push notifications using webhook (MatterMost)
 
