@@ -52,7 +52,7 @@ export const NavidromeSearchButton = ({
       try {
         // Use proxy to avoid CORS
         const apiUrl = getApiUrl(TIDARR_PROXY_URL);
-        const searchUrl = `${apiUrl}/navidrome/rest/search3?query=${encodeURIComponent(query)}`;
+        const searchUrl = `${apiUrl}/navidrome/rest/search3.view?query=${encodeURIComponent(query)}&albumCount=100&songCount=1000`;
 
         const response = await fetch(searchUrl);
         if (!response.ok) {
@@ -68,7 +68,9 @@ export const NavidromeSearchButton = ({
           return;
         }
 
-        const artistsCount = searchResult.artist?.length || 0;
+        const artistsCount = searchResult.artist
+          ? searchResult.artist.filter((a: any) => a.name === query).length
+          : 0;
         const albumsCount = searchResult.album?.length || 0;
         const tracksCount = searchResult.song?.length || 0;
 
