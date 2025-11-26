@@ -200,6 +200,7 @@ export const JellyfinSearchButton = ({
               position: "absolute",
               inset: 0,
               borderRadius: "inherit",
+              margin: "-1px",
               padding: "1px",
               background: "linear-gradient(45deg, #883aa2, #0093cb)",
               WebkitMask:
