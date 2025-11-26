@@ -21,7 +21,7 @@ async function checkPlexButton(
 
   const plexButton = page
     .getByRole("button", {
-      name: /Search on Plex/i,
+      name: /Plex/i,
     })
     .first();
 
