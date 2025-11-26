@@ -139,7 +139,7 @@ export const JellyfinSearchButton = ({
     };
 
     fetchJellyfinResults();
-  }, [config, query, pivot, isButtonActive]);
+  }, [config, query, pivot, isButtonActive, albumQuery]);
 
   const handleJellyfinSearch = () => {
     const jellyfinBaseUrl = config?.JELLYFIN_URL?.replace(/\/$/, "");
