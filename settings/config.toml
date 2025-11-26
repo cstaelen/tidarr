@@ -86,8 +86,8 @@ rewrite_metadata = false
 # embed metadata in files
 enable = true
 
-# embed lyrics in metadata
-embed_lyrics = false
+# embed lyrics in metadata (see https://github.com/cstaelen/tidarr/issues/503)
+lyrics = false
 
 # embed track cover in the track file
 cover = true
