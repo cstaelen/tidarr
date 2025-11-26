@@ -5,8 +5,9 @@ Tidarr notable changes.
 
 ## 📦 1.0.6
 ### 🚀 Added
-- [API] Add Jellifyn library scan
 - [API] Add NTFY.sh notification service
+- [API] Add Jellifyn library scan
+- [Front] Add Jellifyn search button on artist, album and track pages
 ### 🐛 Fixed
 - [API] Fix tiddl console raw output
 - [API] Fix remove from watch list button
