@@ -29,7 +29,9 @@ export const JellyfinSearchButton = ({
 }: JellyfinSearchButtonProps) => {
   const { config } = useConfigProvider();
   const [resultCount, setResultCount] = useState<number | null>(null);
-  const [jellyfinCounts, setJellyfinCounts] = useState<JellyfinCounts | null>(null);
+  const [jellyfinCounts, setJellyfinCounts] = useState<JellyfinCounts | null>(
+    null,
+  );
   const [loading, setLoading] = useState(false);
 
   const isButtonActive: () => boolean = useCallback(
@@ -52,12 +54,14 @@ export const JellyfinSearchButton = ({
 
         // Artists
         if (pivot === "artists") {
-          const artistResponse = await fetch(`${apiUrl}/jellyfin/Artists/${encodeURIComponent(query)}`);
+          const artistResponse = await fetch(
+            `${apiUrl}/jellyfin/Artists/${encodeURIComponent(query)}`,
+          );
           if (artistResponse.ok) {
             const artistData = await artistResponse.json();
             artistsCount = artistData.ArtistCount ?? 1; // fallback to jellyfin 10.10.7
-            albumsCount = artistData.AlbumCount
-            tracksCount = artistData.SongCount
+            albumsCount = artistData.AlbumCount;
+            tracksCount = artistData.SongCount;
           }
         }
 
@@ -68,7 +72,9 @@ export const JellyfinSearchButton = ({
           );
           if (albumResponse.ok) {
             const albumData = await albumResponse.json();
-            const albumHint = Array.isArray(albumData.SearchHints) ? albumData.SearchHints[0] : null;
+            const albumHint = Array.isArray(albumData.SearchHints)
+              ? albumData.SearchHints[0]
+              : null;
             if (albumHint?.ItemId) {
               albumsCount = albumData.TotalRecordCount;
               const itemsResponse = await fetch(
@@ -90,7 +96,9 @@ export const JellyfinSearchButton = ({
           );
           if (albumResponse.ok) {
             const albumData = await albumResponse.json();
-            const albumHint = Array.isArray(albumData.SearchHints) ? albumData.SearchHints[0] : null;
+            const albumHint = Array.isArray(albumData.SearchHints)
+              ? albumData.SearchHints[0]
+              : null;
             if (albumHint?.ItemId) {
               // after search track into album
               const trackResponse = await fetch(
