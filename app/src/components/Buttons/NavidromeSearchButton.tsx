@@ -69,7 +69,9 @@ export const NavidromeSearchButton = ({
         }
 
         const artistsCount = searchResult.artist
-          ? searchResult.artist.filter((a: any) => a.name === query).length
+          ? (searchResult.artist as { name: string }[]).filter(
+              (a) => a.name === query,
+            ).length
           : 0;
         const albumsCount = searchResult.album?.length || 0;
         const tracksCount = searchResult.song?.length || 0;
