@@ -70,13 +70,13 @@ export const JellyfinSearchButton = ({
             const albumData = await albumResponse.json();
             const albumHint = Array.isArray(albumData.SearchHints) ? albumData.SearchHints[0] : null;
             if (albumHint?.ItemId) {
-              albumsCount = albumData.TotalRecordCount > 0 ? 1 : 0;
+              albumsCount = albumData.TotalRecordCount;
               const itemsResponse = await fetch(
                 `${apiUrl}/jellyfin/Items?parentId=${encodeURIComponent(albumHint.ItemId)}&includeItemTypes=Audio&limit=0`,
               );
               if (itemsResponse.ok) {
                 const trackData = await itemsResponse.json();
-                tracksCount = trackData.TotalRecordCount || 0;
+                tracksCount = trackData.TotalRecordCount;
               }
             }
           }
@@ -98,7 +98,7 @@ export const JellyfinSearchButton = ({
               );
               if (trackResponse.ok) {
                 const trackData = await trackResponse.json();
-                tracksCount = trackData.TotalRecordCount || 0;
+                tracksCount = trackData.TotalRecordCount;
               }
             }
           }
