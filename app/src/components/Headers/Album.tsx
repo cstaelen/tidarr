@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 
 import { AlbumType } from "../../types";
 import { DownloadButton } from "../Buttons/DownloadButton";
+import { JellyfinSearchButton } from "../Buttons/JellyfinSearchButton";
 import { NavidromeSearchButton } from "../Buttons/NavidromeSearchButton";
 import { PlexSearchButton } from "../Buttons/PlexSearchButton";
 import { ArtistAvatar } from "../Cards/common/ArtistAvatar";
@@ -87,6 +88,7 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
             />
             <PlexSearchButton query={album.title} pivot="albums" />
             <NavidromeSearchButton query={album.title} pivot="albums" />
+            <JellyfinSearchButton query={album.title} pivot="albums" />
           </Stack>
         </>
       }

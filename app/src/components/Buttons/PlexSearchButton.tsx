@@ -135,7 +135,7 @@ export const PlexSearchButton = ({
   const buttonLabel = loading
     ? "Searching..."
     : resultCount !== null
-      ? `Search on Plex (${resultCount})`
+      ? `Plex (${resultCount})`
       : "Search on Plex";
 
   const tooltipTitle = plexCounts ? (

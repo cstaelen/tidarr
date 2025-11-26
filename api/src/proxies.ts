@@ -47,6 +47,27 @@ export function setupProxies(app: Express): void {
     );
   }
 
+  // Jellyfin API proxy
+  if (process.env.JELLYFIN_URL && process.env.JELLYFIN_API_KEY) {
+    const jellyfinBaseUrl = process.env.JELLYFIN_URL.replace(/\/$/, "");
+    app.use(
+      "/proxy/jellyfin",
+      proxy(jellyfinBaseUrl, {
+        proxyReqOptDecorator: function (proxyReqOpts) {
+          delete proxyReqOpts.headers["referer"];
+          delete proxyReqOpts.headers["origin"];
+          // Add Jellyfin API key in header
+          if (!proxyReqOpts.headers) {
+            proxyReqOpts.headers = {};
+          }
+          proxyReqOpts.headers["X-Emby-Token"] =
+            process.env.JELLYFIN_API_KEY || "";
+          return proxyReqOpts;
+        },
+      }),
+    );
+  }
+
   // Navidrome API proxy (optional)
   if (
     process.env.NAVIDROME_URL &&
