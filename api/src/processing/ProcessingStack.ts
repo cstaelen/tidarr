@@ -130,7 +130,9 @@ export const ProcessingStack = (expressApp: Express) => {
     const foundIndex = data.findIndex(
       (listItem: ProcessingItemType) => listItem?.id === item?.id,
     );
-    if (foundIndex !== -1) return;
+    if (foundIndex !== -1) {
+      await removeItem(item.id);
+    }
 
     data.push(item);
 

@@ -158,6 +158,7 @@ export interface SettingsResponse {
     LOCK_QUALITY?: string;
     ENABLE_TIDAL_PROXY?: string;
     SYNC_CRON_EXPRESSION?: string;
+    ENABLE_HISTORY?: string;
   };
   noToken: boolean;
   tiddl_config?: TiddlConfig;
