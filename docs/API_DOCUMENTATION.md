@@ -7,6 +7,7 @@ This documentation describes how to use the Tidarr REST API with curl to automat
 - [Basic Configuration](#basic-configuration)
 - [Authentication](#authentication)
 - [Download Endpoints](#download-endpoints)
+- [History Endpoints](#history-endpoints)
 - [Configuration Endpoints](#configuration-endpoints)
 - [Synchronization Endpoints](#synchronization-endpoints)
 - [Custom CSS Endpoints](#custom-css-endpoints)
@@ -312,6 +313,52 @@ curl http://localhost:8484/api/queue/status \
   "isPaused": false
 }
 ```
+
+---
+
+## History Endpoints
+
+The history feature tracks downloaded items. It can be enabled by setting `ENABLE_HISTORY=true` in your Docker configuration.
+
+### Get download history
+
+Returns the list of all downloaded items.
+
+```bash
+curl http://localhost:8484/api/history/list \
+  -H "Authorization: Bearer $TIDARR_TOKEN"
+```
+
+**Response:**
+```json
+[
+  {
+    "id": "251082404",
+    "type": "album",
+    "url": "https://listen.tidal.com/album/251082404",
+    "title": "Album Name",
+    "downloadedAt": 1234567890
+  }
+]
+```
+
+**Note:** History is only available when `ENABLE_HISTORY=true` is set in your environment variables.
+
+### Clear download history
+
+Removes all items from the download history.
+
+```bash
+curl -X DELETE http://localhost:8484/api/history/list \
+  -H "Authorization: Bearer $TIDARR_TOKEN"
+```
+
+**Response:** Status `204 No Content`
+
+**Behavior:**
+- Deletes the entire download history
+- Does not affect the current download queue
+- Only clears the history tracking, does not delete downloaded files
 
 ---
 

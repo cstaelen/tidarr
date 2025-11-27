@@ -26,6 +26,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [M3U track base path](#m3u-track-base-path)
   - [Sync playlists and mixes](#sync-playlists-and-mixes)
   - [Custom CSS](#custom-css)
+  - [Download History](#download-history)
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-integration)
@@ -232,6 +233,21 @@ environment:
 You can customize Tidarr's appearance using the UI in settings dialog, or by editing the `custom.css` file. This file is automatically created in your config folder on first launch.
 
 **File location**: `/your/docker/path/to/tidarr/config/custom.css`
+
+### Download History
+
+Track your downloaded items with the history feature. When enabled, Tidarr will maintain a list of all downloaded content and mark items as already downloaded in the UI.
+
+```yaml
+environment:
+  - ...
+  - ENABLE_HISTORY=true
+```
+
+**Features:**
+- Persistent download tracking across restarts
+- Visual indicators for already downloaded items (green checkmark)
+- Manual history clearing available in settings dialog
 
 ## SERVICES
 
