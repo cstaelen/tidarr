@@ -13,11 +13,13 @@ import { setupProxies } from "./src/proxies";
 // Import routers
 import authRouter from "./src/routes/auth";
 import configRouter from "./src/routes/config";
+import historyRouter from "./src/routes/history";
 import processingRouter from "./src/routes/processing";
 import sseRouter from "./src/routes/sse";
 import syncRouter from "./src/routes/sync";
 import tiddlTomlRouter from "./src/routes/tiddl-toml";
 import { configureServer } from "./src/services/config";
+import { loadHistoryFromFile } from "./src/services/history";
 import { createCronJob } from "./src/services/sync";
 import { startTokenRefreshInterval } from "./src/services/token-refresh";
 
@@ -48,6 +50,7 @@ app.locals.processingStack = processingList;
 app.locals.addOutputLog = processingList.actions.addOutputLog;
 app.locals.activeListConnections = [];
 app.locals.activeItemOutputConnections = new Map<string, Response[]>();
+app.locals.history = [];
 
 app.all("/{*any}", function (_req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -67,6 +70,7 @@ app.use("/api", configRouter);
 app.use("/api", syncRouter);
 app.use("/api", customCssRouter);
 app.use("/api", tiddlTomlRouter);
+app.use("/api", historyRouter);
 
 // Run
 
@@ -77,6 +81,10 @@ const server = app.listen(port, async () => {
   // Load tiddl config on startup
   const { config: tiddlConfig } = get_tiddl_config();
   app.locals.tiddlConfig = tiddlConfig;
+
+  // Load download history
+  const history = await loadHistoryFromFile();
+  app.locals.history = history;
 
   // Start token refresh interval (checks every 15 minutes)
   startTokenRefreshInterval(app);
