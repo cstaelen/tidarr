@@ -226,6 +226,9 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     return await queryExpressJS<AuthType>(`${apiUrl}/auth`, {
       method: "POST",
       body: body,
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
   }
 
