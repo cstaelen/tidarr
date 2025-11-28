@@ -3,6 +3,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.0.7
+### 🚀 Added
+- [API] Add persistant history separated from queue
+### 🖍 Changed
+- [API] json-db: add cache for file reading
+
 ## 📦 1.0.6
 ### 🚀 Added
 - [API] Add NTFY.sh notification service
