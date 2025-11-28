@@ -3,7 +3,7 @@ import path from "path";
 
 import { CONFIG_PATH } from "../../constants";
 
-// Queue database
+// Queue database (saveOnPush enabled, cache used to avoid disk reads)
 const queueDbPath = path.join(CONFIG_PATH, "queue");
 export const queueDb = new JsonDB(new Config(queueDbPath, true, false, "/"));
 
