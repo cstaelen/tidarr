@@ -56,7 +56,7 @@ export const DownloadButton = ({
     }
 
     // If history is enabled, check local history
-    if (config?.ENABLE_HISTORY === "true") {
+    if (config?.ENABLE_HISTORY === "true" && !force) {
       const isInHistory = history?.some(
         (x) => x?.toString() === id?.toString(),
       );
@@ -64,7 +64,15 @@ export const DownloadButton = ({
     }
 
     return undefined;
-  }, [processingList, config?.ENABLE_HISTORY, history, id, type, addToHistory]);
+  }, [
+    processingList,
+    force,
+    config?.ENABLE_HISTORY,
+    history,
+    id,
+    type,
+    addToHistory,
+  ]);
 
   const downloadItem = async () => {
     if (force) await actions.removeItem(id);
