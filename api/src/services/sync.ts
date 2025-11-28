@@ -8,14 +8,28 @@ import { syncListDb } from "./db-json";
 
 const SYNC_LIST_PATH = "/";
 
+// In-memory cache to avoid disk reads
+let syncListCache: SyncItemType[] | null = null;
+
+/**
+ * Load sync list from file (only on first call, then uses cache)
+ */
 const loadSyncList = async (): Promise<SyncItemType[]> => {
+  // Return cache if available
+  if (syncListCache !== null) {
+    return syncListCache;
+  }
+
+  // First load: read from disk
   try {
     const data = await syncListDb.getData(SYNC_LIST_PATH);
-    return Array.isArray(data) ? data : [];
+    syncListCache = Array.isArray(data) ? data : [];
+    return syncListCache;
   } catch {
     // Database doesn't exist yet or path not found, initialize with empty array
-    await syncListDb.push(SYNC_LIST_PATH, []);
-    return [];
+    await syncListDb.push(SYNC_LIST_PATH, []); // auto-saves with saveOnPush=true
+    syncListCache = [];
+    return syncListCache;
   }
 };
 
@@ -30,6 +44,11 @@ export const addItemToSyncList = async (item: SyncItemType) => {
   if (itemExists) return;
 
   syncList.push(item);
+
+  // Update cache
+  syncListCache = syncList;
+
+  // Write to disk (auto-saves with saveOnPush=true)
   await syncListDb.push(SYNC_LIST_PATH, syncList);
 };
 
@@ -40,10 +59,18 @@ export const removeItemFromSyncList = async (id: number | string) => {
     (item) => item.id.toString() !== idString,
   );
 
+  // Update cache
+  syncListCache = filteredList;
+
+  // Write to disk (auto-saves with saveOnPush=true)
   await syncListDb.push(SYNC_LIST_PATH, filteredList);
 };
 
 export const removeAllFromSyncList = async () => {
+  // Update cache
+  syncListCache = [];
+
+  // Write to disk (auto-saves with saveOnPush=true)
   await syncListDb.push(SYNC_LIST_PATH, []);
 };
 
@@ -56,6 +83,11 @@ export const updateSyncItem = async (
 
   if (itemIndex !== -1) {
     syncList[itemIndex] = { ...syncList[itemIndex], ...update };
+
+    // Update cache
+    syncListCache = syncList;
+
+    // Write to disk (auto-saves with saveOnPush=true)
     await syncListDb.push(SYNC_LIST_PATH, syncList);
   }
 };
