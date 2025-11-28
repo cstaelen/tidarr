@@ -6,6 +6,7 @@ const QUEUE_PATH = "/";
 
 // In-memory cache to avoid disk reads
 let queueCache: ProcessingItemType[] | null = null;
+let queueCacheMap: Map<string, ProcessingItemType> | null = null;
 
 /**
  * Load queue from file (only on first call, then uses cache)
@@ -20,11 +21,14 @@ export async function loadQueueFromFile(): Promise<ProcessingItemType[]> {
   try {
     const data = await queueDb.getData(QUEUE_PATH);
     queueCache = Array.isArray(data) ? data : [];
+    // Build Map for O(1) lookups
+    queueCacheMap = new Map(queueCache.map((item) => [item.id, item]));
     return queueCache;
   } catch {
     // Database doesn't exist yet or path not found, initialize with empty array
     await queueDb.push(QUEUE_PATH, []); // auto-saves with saveOnPush=true
     queueCache = [];
+    queueCacheMap = new Map();
     return queueCache;
   }
 }
@@ -36,6 +40,7 @@ export const addItemToFile = async (item: ProcessingItemType) => {
 
   // Update cache
   queueCache = saveList;
+  queueCacheMap?.set(item.id, item);
 
   // Write to disk (auto-saves with saveOnPush=true)
   await queueDb.push(QUEUE_PATH, saveList);
@@ -47,6 +52,7 @@ export const removeItemFromFile = async (id: string) => {
 
   // Update cache
   queueCache = filteredList;
+  queueCacheMap?.delete(id);
 
   // Write to disk (auto-saves with saveOnPush=true)
   await queueDb.push(QUEUE_PATH, filteredList);
@@ -54,9 +60,9 @@ export const removeItemFromFile = async (id: string) => {
 
 export const updateItemInQueueFile = async (item: ProcessingItemType) => {
   const saveList = await loadQueueFromFile();
-  const itemIndex = saveList.findIndex((current) => current.id === item.id);
 
-  if (itemIndex === -1) {
+  // O(1) lookup using Map instead of O(n) findIndex
+  if (!queueCacheMap?.has(item.id)) {
     // Item not found - it may have been removed already (e.g., auto-remove finished items)
     // This is not an error, just skip the update
     console.log(
@@ -64,6 +70,8 @@ export const updateItemInQueueFile = async (item: ProcessingItemType) => {
     );
     return;
   }
+
+  const itemIndex = saveList.findIndex((current) => current.id === item.id);
 
   delete item.process;
 
@@ -79,6 +87,7 @@ export const updateItemInQueueFile = async (item: ProcessingItemType) => {
 
   // Update cache
   queueCache = saveList;
+  queueCacheMap?.set(item.id, item);
 
   // Write to disk (auto-saves with saveOnPush=true)
   await queueDb.push(QUEUE_PATH, saveList);

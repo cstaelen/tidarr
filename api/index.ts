@@ -51,6 +51,7 @@ app.locals.addOutputLog = processingList.actions.addOutputLog;
 app.locals.activeListConnections = [];
 app.locals.activeItemOutputConnections = new Map<string, Response[]>();
 app.locals.history = [];
+app.locals.historySet = new Set<string>();
 
 app.all("/{*any}", function (_req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -85,6 +86,7 @@ const server = app.listen(port, async () => {
   // Load download history
   const history = await loadHistoryFromFile();
   app.locals.history = history;
+  app.locals.historySet = new Set(history);
 
   // Start token refresh interval (checks every 15 minutes)
   startTokenRefreshInterval(app);

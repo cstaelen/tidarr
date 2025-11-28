@@ -27,12 +27,13 @@ export async function addItemToHistory(itemId: string) {
   const app = getAppInstance();
   const id = itemId.toString();
 
-  // If existing in history -> skip
-  if (app.locals.history.includes(id)) {
+  // O(1) lookup using Set instead of O(n) array.includes()
+  if (app.locals.historySet.has(id)) {
     return;
   }
 
   app.locals.history.push(id);
+  app.locals.historySet.add(id);
 
   // Write only the new item at the end of the array (more efficient than rewriting entire file)
   const newIndex = app.locals.history.length - 1;
@@ -47,6 +48,7 @@ export async function flushHistory() {
 
   const app = getAppInstance();
   app.locals.history = [];
+  app.locals.historySet.clear();
 
   await historyDb.push(QUEUE_PATH, []);
 
