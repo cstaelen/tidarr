@@ -7,11 +7,11 @@ ARG TARGETPLATFORM
 
 FROM python:3.13-alpine3.21 AS base
 
-WORKDIR /home/app/standalone
+WORKDIR /tidarr
 
 ENV SHELL=bash \
     PYTHONUNBUFFERED=1 \
-    HOME=/home/app/standalone/shared
+    HOME=/shared
 
 # Install system dependencies (shared by dev and prod)
 RUN apk update && apk upgrade && \
@@ -36,8 +36,8 @@ RUN apk add --no-cache --virtual .build-deps \
     apk del .build-deps
 
 # Create beets directory structure
-RUN mkdir -p /home/app/standalone/shared/beets && \
-    touch /home/app/standalone/shared/beets/beets-library.blb
+RUN mkdir -p /shared/beets && \
+    touch /shared/beets/beets-library.blb
 
 ###############################################################
 ## DEVELOPMENT IMAGE                                          #
@@ -62,7 +62,7 @@ EXPOSE 8484 3000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
   CMD curl -f http://localhost:8484/api/is-auth-active || exit 1
 
-ENTRYPOINT ["sh", "/home/app/standalone/docker/entrypoint.sh"]
+ENTRYPOINT ["sh", "/tidarr/docker/entrypoint.sh"]
 
 ###############################################################
 ## BUILD APP (production only)                                #
@@ -70,7 +70,7 @@ ENTRYPOINT ["sh", "/home/app/standalone/docker/entrypoint.sh"]
 
 FROM --platform=$BUILDPLATFORM ghcr.io/linuxserver/baseimage-alpine:3.21 AS app_builder
 
-WORKDIR /home/app/standalone
+WORKDIR /tidarr
 
 ENV SHELL=bash
 ARG NODE_ENV
@@ -101,12 +101,12 @@ ARG VERSION
 ENV VERSION=$VERSION
 
 # Copy built artifacts from builder stage
-COPY --from=app_builder /home/app/standalone/api/dist /home/app/standalone/api/dist
-COPY --from=app_builder /home/app/standalone/api/scripts /home/app/standalone/api/scripts
-COPY --from=app_builder /home/app/standalone/app/dist /home/app/standalone/app/build
-COPY --from=app_builder /home/app/standalone/settings /home/app/standalone/settings
-COPY --from=app_builder /home/app/standalone/.env /home/app/standalone/.env
-COPY --from=app_builder /home/app/standalone/docker/entrypoint.sh /home/app/standalone/docker/entrypoint.sh
+COPY --from=app_builder /tidarr/api/dist /tidarr/api/dist
+COPY --from=app_builder /tidarr/api/scripts /tidarr/api/scripts
+COPY --from=app_builder /tidarr/app/dist /tidarr/app/build
+COPY --from=app_builder /tidarr/settings /tidarr/settings
+COPY --from=app_builder /tidarr/.env /tidarr/.env
+COPY --from=app_builder /tidarr/docker/entrypoint.sh /tidarr/docker/entrypoint.sh
 
 # Copy workspace configuration and API package files
 COPY package.json yarn.lock* ./
@@ -114,7 +114,7 @@ COPY api/package.json ./api/package.json
 
 # Install production dependencies and clean up aggressively
 RUN --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \
-    mkdir -p /home/app/standalone/shared/.processing && \
+    mkdir -p /shared/.processing && \
     yarn install --frozen-lockfile --production && \
     npm uninstall -g npm && \
     rm -rf /root/.npm /tmp/* /var/tmp/* && \
@@ -126,4 +126,4 @@ EXPOSE 8484
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:8484/api/is-auth-active || exit 1
 
-ENTRYPOINT ["sh", "/home/app/standalone/docker/entrypoint.sh"]
+ENTRYPOINT ["sh", "/tidarr/docker/entrypoint.sh"]

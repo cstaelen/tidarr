@@ -105,8 +105,8 @@ services:
         ports:
             - 8484:8484
         volumes:
-            - /any/folder/to/tidarr/config:/home/app/standalone/shared
-            - /any/folder/to/library:/home/app/standalone/library
+            - /any/folder/to/tidarr/config:/shared
+            - /any/folder/to/library:/music
         restart: 'unless-stopped'
 ```
 
@@ -117,8 +117,8 @@ docker run  \
 		--rm \
 		--name tidarr \
 		-p 8484:8484 \
-		-v /any/folder/to/tidarr/config:/home/app/standalone/shared \
-		-v /any/folder/to/library:/home/app/standalone/library \
+		-v /any/folder/to/tidarr/config:/shared \
+		-v /any/folder/to/library:/music \
     cstaelen/tidarr:latest
 ```
 

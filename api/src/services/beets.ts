@@ -1,8 +1,9 @@
 import { spawnSync } from "child_process";
 
-import { CONFIG_PATH, PROCESSING_PATH } from "../../constants";
+import { CONFIG_PATH } from "../../constants";
 import { getAppInstance } from "../app-instance";
 import { logs } from "../helpers/logs";
+import { getProcessingPath } from "../processing/jobs";
 import { ProcessingItemType } from "../types";
 
 function spawnBeet(
@@ -46,11 +47,12 @@ export async function beets(id: string): Promise<void> {
   const app = getAppInstance();
   const item: ProcessingItemType =
     app.locals.processingStack.actions.getItem(id);
+  const processingPath = getProcessingPath();
 
   if (!item || !["album", "artist", "favorite_albums"].includes(item.type))
     return;
 
-  const itemProcessingPath = `${PROCESSING_PATH}/${item.id}`;
+  const itemProcessingPath = `${processingPath}/${item.id}`;
 
   try {
     // BEETS

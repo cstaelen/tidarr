@@ -43,7 +43,7 @@ app.use(cors());
 // Setup all API proxies (Tidal, Plex, Navidrome)
 setupProxies(app);
 
-const processingList = ProcessingStack(app);
+const processingList = ProcessingStack();
 app.locals.processingStack = processingList;
 app.locals.addOutputLog = processingList.actions.addOutputLog;
 app.locals.activeListConnections = [];
@@ -100,7 +100,7 @@ process.on("SIGINT", () => gracefulShutdown("SIGINT", app, server));
 
 // fallback load app
 
-const frontendFiles = "/home/app/standalone/app/build";
+const frontendFiles = "/tidarr/app/build";
 if (fs.existsSync(frontendFiles)) {
   app.use(express.static(frontendFiles));
   app.get("/{*any}", (_, res) => {
