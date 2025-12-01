@@ -5,6 +5,7 @@ import { CONFIG_PATH, TOKEN_REFRESH_THRESHOLD } from "../../constants";
 import { extractFirstLineClean } from "../helpers/ansi_parse";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
 import { logs } from "../helpers/logs";
+import { getProcessingPath } from "../processing/jobs";
 import { ProcessingItemType, TiddlConfig } from "../types";
 
 // Constants
@@ -44,8 +45,10 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   const args: string[] = [];
 
   args.push("download");
-  args.push("--path", `${CONFIG_PATH}/.processing/${item.id}`);
-  args.push("--scan-path", "/home/app/standalone/library");
+
+  // Use getProcessingPath() to ensure trailing slashes are handled
+  const processingPath = getProcessingPath();
+  args.push("--path", `${processingPath}/${item.id}`);
 
   if (item.type === "mix" && config?.templates?.mix) {
     args.push("-o", config.templates.mix);

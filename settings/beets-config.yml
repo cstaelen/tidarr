@@ -24,7 +24,7 @@ import:
     quiet_fallback: asis
     timid: no
     duplicate_action: asis
-    log: /home/app/standalone/shared/beets/beet.log
+    log: /shared/beets/beet.log
     languages: ['en']
     group_albums: no
 

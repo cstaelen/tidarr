@@ -1,10 +1,11 @@
+import { getAppInstance } from "../app-instance";
 import { logs } from "../helpers/logs";
-import { ProcessingItemType, TiddlConfig } from "../types";
+import { ProcessingItemType } from "../types";
 
-export async function getTracksByMixId(
-  item: ProcessingItemType,
-  config: TiddlConfig,
-) {
+export async function getTracksByMixId(item: ProcessingItemType) {
+  const app = getAppInstance();
+  const config = app.locals.config;
+
   if (!config?.auth) return;
 
   logs(item.id, `🕖 [MIX]: Get track from mix id`);
@@ -38,10 +39,10 @@ export async function getTracksByMixId(
   return ids;
 }
 
-export async function createNewPlaylist(
-  item: ProcessingItemType,
-  config: TiddlConfig,
-) {
+export async function createNewPlaylist(item: ProcessingItemType) {
+  const app = getAppInstance();
+  const config = app.locals.config;
+
   if (!config?.auth) return;
 
   logs(item.id, `🕖 [MIX]: Create new playlist`);
@@ -80,11 +81,10 @@ export async function createNewPlaylist(
   return json.data.id;
 }
 
-export async function deletePlaylist(
-  playlistId: number,
-  config: TiddlConfig,
-  itemId: string,
-) {
+export async function deletePlaylist(playlistId: number, itemId: string) {
+  const app = getAppInstance();
+  const config = app.locals.config;
+
   if (!config?.auth) return;
 
   logs(itemId, `🕖 [MIX]: Delete temporary playlist`);
@@ -108,7 +108,10 @@ export async function deletePlaylist(
   return response;
 }
 
-export async function getPlaylistEtag(playlistId: number, config: TiddlConfig) {
+export async function getPlaylistEtag(playlistId: number) {
+  const app = getAppInstance();
+  const config = app.locals.config;
+
   if (!config) return;
 
   const playlistRes = await fetch(
@@ -137,14 +140,16 @@ export async function getPlaylistEtag(playlistId: number, config: TiddlConfig) {
 export async function addTracksToPlaylist(
   playlistId: number,
   trackIds: number[],
-  config: TiddlConfig,
   itemId: string,
 ) {
+  const app = getAppInstance();
+  const config = app.locals.config;
+
   if (!config) return;
 
   logs(itemId, `🕖 [MIX]: Add track ids to new playlist`);
 
-  const etag = await getPlaylistEtag(playlistId, config);
+  const etag = await getPlaylistEtag(playlistId);
   const url = `https://tidal.com/v1/playlists/${playlistId}/items?countryCode=FR&locale=fr_FR&deviceType=BROWSER`;
 
   const options: RequestInit = {

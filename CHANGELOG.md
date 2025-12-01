@@ -3,6 +3,14 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+⚠️ Docker volume path as changed. Beware to check your path in `docker-compose.yml` and `config.toml` tiddl congif files.
+
+## 📦 1.0.7
+### 🖍 Changed
+- [Tiddl] `scan_path` and `download_path` are now handled by tidarr
+- [Docker] Change docker volume path to `/shared` and `/music`
+- [Docker] Move `/home/app/standalone`to `/tidarr`
+
 ## 📦 1.0.6
 ### 🚀 Added
 - [API] Add NTFY.sh notification service
