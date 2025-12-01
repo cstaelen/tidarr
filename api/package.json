@@ -14,7 +14,7 @@
     "apicache": "^1.6.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.1.0",
+    "express": "^5.2.0",
     "express-http-proxy": "^2.1.2",
     "jsonwebtoken": "^9.0.2",
     "node-cron": "^4.2.1",
