@@ -37,6 +37,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Webhook push over](#webhook-push-over)
 - [Advanced](#advanced)
   - [Custom Processing Script](#custom-processing-script)
+  - [No-download flag](#no-download)
   - [API Documentation](#api-documentation)
 - [User requests](#user-requests)
 - [Donate](#donate)
@@ -378,6 +379,12 @@ Tidarr supports executing a custom shell script during the post-processing pipel
 > 3. The script runs **after** permissions are set but **before** files are moved to the library
 >
 > 📖 [View complete API documentation](docs/CUSTOM_SCRIPT_DOCUMENTATION.md)
+
+### NO DOWNLOAD
+
+If you want to use Tidarr only as UI and not download files, you can set `NO_DOWNLOAD=true` in the environment variables.
+
+This way you can use Tidarr to manage your download history, watchlist, and keep benefits of post-processing and services integration and process download via custom scripts.
 
 ### API Documentation
 

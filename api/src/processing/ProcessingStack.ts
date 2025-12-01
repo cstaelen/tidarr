@@ -190,7 +190,7 @@ export const ProcessingStack = () => {
   }
 
   function updateItem(item: ProcessingItemType) {
-    if (item?.status === "downloaded") {
+    if (item?.status === "downloaded" || item?.status === "skip_dl") {
       try {
         postProcessing(item);
       } catch (error) {
@@ -323,6 +323,12 @@ export const ProcessingStack = () => {
   }
 
   async function processItem(item: ProcessingItemType) {
+    if (app.locals.config.parameters?.NO_DOWNLOAD === "true") {
+      item["status"] = "skip_dl";
+      updateItem(item);
+      return;
+    }
+
     item["status"] = "processing";
     // Initialize empty output history in the Map (ensure string key)
     outputs.set(String(item.id), []);
@@ -341,8 +347,11 @@ export const ProcessingStack = () => {
   }
 
   async function postProcessing(item: ProcessingItemType) {
+    const isNoDownload = app.locals.config.parameters?.NO_DOWNLOAD === "true";
     const processingPath = getProcessingPath();
-    const shouldPostProcess = hasFileToMove(`${processingPath}/${item.id}`);
+    const shouldPostProcess = isNoDownload
+      ? true
+      : hasFileToMove(`${processingPath}/${item.id}`);
 
     logs(item.id, "---------------------");
     logs(item.id, "⚙️ POST PROCESSING   ");

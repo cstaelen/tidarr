@@ -83,6 +83,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     ["LOCK_QUALITY", ""],
     ["ENABLE_TIDAL_PROXY", "true"],
     ["SYNC_CRON_EXPRESSION", "0 3 * * *"],
+    ["NO_DOWNLOAD", ""],
   ];
   const tableAPIRows = await page
     .locator("#alert-dialog-description div")

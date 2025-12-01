@@ -6,6 +6,8 @@ Tidarr notable changes.
 ⚠️ Docker volume path as changed. Beware to check your path in `docker-compose.yml` and `config.toml` tiddl congif files.
 
 ## 📦 1.0.7
+### 🚀 Added
+- [API] Add `NO_DOWNLOAD` env var to use Tidarr as UI and download with custom scripts.
 ### 🖍 Changed
 - [Tiddl] `scan_path` and `download_path` are now handled by tidarr
 - [Docker] Change docker volume path to `/shared` and `/music`

@@ -20,7 +20,13 @@ export type ProcessingItemType = {
   artist: string;
   title: string;
   type: ContentType;
-  status: "queue" | "finished" | "downloaded" | "processing" | "error";
+  status:
+    | "queue"
+    | "finished"
+    | "downloaded"
+    | "processing"
+    | "error"
+    | "skip_dl";
   quality: QualityType;
   url: string;
   loading: boolean;
