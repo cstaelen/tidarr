@@ -8,11 +8,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.56.1",
+    "@playwright/test": "^1.57.0",
     "@types/node": "^24.10.1",
     "dotenv": "^17.2.3",
     "playwright": "^1.54.2",
-    "testcontainers": "^11.8.1"
+    "testcontainers": "^11.9.0"
   },
   "scripts": {
     "playwright:test": "playwright test",
