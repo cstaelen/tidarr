@@ -448,6 +448,17 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  // Play track
+
+  async function sign(id: string) {
+    return await queryExpressJS(`${apiUrl}/sign/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
   const value = {
     apiUrl,
     error: {
@@ -480,6 +491,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       get_queue_status,
       get_list_history,
       flush_history,
+      sign,
     },
   };
 

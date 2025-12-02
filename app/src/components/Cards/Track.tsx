@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
-import { Box, Chip, Stack, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Chip, Stack, useMediaQuery, useTheme, IconButton } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import StopIcon from "@mui/icons-material/Stop";
 import { TrackType } from "src/types";
 
 import { DownloadButton } from "../Buttons/DownloadButton";
@@ -11,6 +13,7 @@ import { ArtistAvatar } from "./common/ArtistAvatar";
 import { ChipQuality } from "./common/ChipQuality";
 import CoverLink from "./common/CoverLink";
 import ImageLazy from "./common/ImageLazy";
+import { usePlayer } from "src/provider/PlayerProvider";
 
 function StackDownloadButtons({ track }: { track: TrackType }) {
   return (
@@ -54,12 +57,7 @@ function AlbumLink({ track }: { track: TrackType }) {
   return (
     <>
       Album :{" "}
-      <Link
-        to={`/album/${track.album.id}`}
-        style={{
-          color: theme.palette.primary.main,
-        }}
-      >
+      <Link to={`/album/${track.album.id}`} style={{ color: theme.palette.primary.main }}>
         {track.album.title}
       </Link>
     </>
@@ -147,6 +145,9 @@ function ArtistLink({ track }: { track: TrackType }) {
 }
 
 function TrackCard({ track }: { track: TrackType }) {
+  const { playingTrackId, play, stop } = usePlayer();
+  const isPlaying = playingTrackId === track.id;
+
   return (
     <Card
       sx={{
@@ -202,9 +203,12 @@ function TrackCard({ track }: { track: TrackType }) {
               >
                 <AlbumLink track={track} />
               </Box>
-              <div>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <IconButton onClick={() => (isPlaying ? stop() : play(track))} size="small" color="primary">
+                  {isPlaying ? <StopIcon fontSize="small" /> : <PlayArrowIcon fontSize="small" />}
+                </IconButton>
                 <StackDownloadButtons track={track} />
-              </div>
+              </Stack>
             </Stack>
           </CardContent>
         </Box>
@@ -214,6 +218,9 @@ function TrackCard({ track }: { track: TrackType }) {
 }
 
 function TrackInline({ track }: { track: TrackType }) {
+  const { playingTrackId, play, stop } = usePlayer();
+  const isPlaying = playingTrackId === track.id;
+
   const cellStyle: React.CSSProperties = {
     lineHeight: "1.25",
     padding: "0.25rem",
@@ -256,7 +263,12 @@ function TrackInline({ track }: { track: TrackType }) {
           <AlbumLink track={track} />
         </div>
         <div style={cellStyle}>
-          <StackDownloadButtons track={track} />
+          <Stack direction="row" spacing={1} alignItems="center">
+            <IconButton onClick={() => (isPlaying ? stop() : play(track))} size="small" color="primary">
+              {isPlaying ? <StopIcon fontSize="small" /> : <PlayArrowIcon fontSize="small" />}
+            </IconButton>
+            <StackDownloadButtons track={track} />
+          </Stack>
         </div>
       </Box>
     </Card>

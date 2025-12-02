@@ -16,6 +16,7 @@ import Search from "./pages/Search";
 import { APIFetcherProvider } from "./provider/ApiFetcherProvider";
 import { AuthProvider } from "./provider/AuthProvider";
 import { ConfigProvider } from "./provider/ConfigProvider";
+import { PlayerProvider } from "./provider/PlayerProvider";
 
 import "./index.css";
 
@@ -54,20 +55,22 @@ root.render(
       <APIFetcherProvider>
         <ConfigProvider>
           <AuthProvider>
-            <Routes>
-              <Route path={ROUTE_LOGIN} element={<Login />} />
-              <Route element={<PrivateRoute />}>
-                <Route element={<DefaultLayout />}>
-                  <Route path="/" element={<HomeTabs />} />
-                  <Route path="/search/:keywords" element={<Search />} />
-                  <Route path="/artist/:id" element={<PageArtist />} />
-                  <Route path="/mix/:id" element={<PageMix />} />
-                  <Route path="/playlist/:id" element={<PagePlaylist />} />
-                  <Route path="/album/:id" element={<PageAlbum />} />
-                  <Route path="/track/:id" element={<PageTrack />} />
+            <PlayerProvider> {}
+              <Routes>
+                <Route path={ROUTE_LOGIN} element={<Login />} />
+                <Route element={<PrivateRoute />}>
+                  <Route element={<DefaultLayout />}>
+                    <Route path="/" element={<HomeTabs />} />
+                    <Route path="/search/:keywords" element={<Search />} />
+                    <Route path="/artist/:id" element={<PageArtist />} />
+                    <Route path="/mix/:id" element={<PageMix />} />
+                    <Route path="/playlist/:id" element={<PagePlaylist />} />
+                    <Route path="/album/:id" element={<PageAlbum />} />
+                    <Route path="/track/:id" element={<PageTrack />} />
+                  </Route>
                 </Route>
-              </Route>
-            </Routes>
+              </Routes>
+            </PlayerProvider>
           </AuthProvider>
         </ConfigProvider>
       </APIFetcherProvider>
