@@ -55,7 +55,9 @@ root.render(
       <APIFetcherProvider>
         <ConfigProvider>
           <AuthProvider>
-            <PlayerProvider> {}
+            <PlayerProvider>
+              {" "}
+              {}
               <Routes>
                 <Route path={ROUTE_LOGIN} element={<Login />} />
                 <Route element={<PrivateRoute />}>

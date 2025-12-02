@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { signUrl } from "../helpers/signature";
-import { getPlaybackInfo } from "../services/playback";
 import { pipeline } from "stream";
 import { promisify } from "util";
+
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
+import { signUrl } from "../helpers/signature";
+import { getPlaybackInfo } from "../services/playback";
 
 const streamPipeline = promisify(pipeline);
 const router = Router();
@@ -41,7 +42,7 @@ router.get("/play/:id", async (req, res) => {
   try {
     const tiddlConfig = req.app.locals.tiddlConfig || get_tiddl_config();
     const token = tiddlConfig?.auth?.token;
-    const country = tiddlConfig?.auth?.country_code || "ES";
+    const country = tiddlConfig?.auth?.country_code || "EN";
 
     if (!token) {
       return res.status(400).json({ error: "No proxy token available" });
@@ -68,7 +69,9 @@ router.get("/play/:id", async (req, res) => {
     });
 
     if (!upstream.ok || !upstream.body) {
-      return res.status(upstream.status).json({ error: "Upstream fetch failed" });
+      return res
+        .status(upstream.status)
+        .json({ error: "Upstream fetch failed" });
     }
 
     res.status(upstream.status);

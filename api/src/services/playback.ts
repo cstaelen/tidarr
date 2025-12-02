@@ -1,4 +1,5 @@
 import { Buffer } from "buffer";
+
 import { parseManifest } from "../helpers/manifest";
 
 /**
@@ -13,7 +14,7 @@ export async function getPlaybackInfo(
   id: string,
   quality: string,
   token: string,
-  country: string
+  country: string,
 ): Promise<string[] | null> {
   const url = `https://api.tidal.com/v1/tracks/${id}/playbackinfo?countryCode=${country}&audioquality=${quality}&playbackmode=STREAM&assetpresentation=FULL`;
 
@@ -27,7 +28,7 @@ export async function getPlaybackInfo(
 
     if (!res.ok) {
       console.error(
-        `getPlaybackInfo: upstream responded ${res.status} for ${id} (${quality})`
+        `getPlaybackInfo: upstream responded ${res.status} for ${id} (${quality})`,
       );
       return null;
     }

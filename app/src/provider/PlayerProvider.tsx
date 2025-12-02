@@ -1,13 +1,13 @@
 import {
   createContext,
-  useContext,
-  useState,
   ReactNode,
+  useContext,
   useEffect,
   useRef,
+  useState,
 } from "react";
-import { TrackType } from "src/types";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
+import { TrackType } from "src/types";
 
 interface PlayerContextType {
   playingTrackId: string | null;
@@ -48,7 +48,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     if (streamUrl && audioRef.current) {
       audioRef.current.src = streamUrl;
       audioRef.current.load();
-      audioRef.current.play().catch(err => {
+      audioRef.current.play().catch((err) => {
         console.warn("Autoplay blocked:", err);
       });
     }
