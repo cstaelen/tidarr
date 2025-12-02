@@ -376,7 +376,9 @@ Tidarr supports executing a custom shell script during the post-processing pipel
 >
 > 1. Create a shell script named `custom-script.sh` in your config folder (the mounted `shared/` volume)
 > 2. The script will be automatically detected and executed during post-processing
-> 3. The script runs **after** permissions are set but **before** files are moved to the library
+> 3. The script runs **after** the tiddl download process (if not deactivated)
+> 
+> To keep the benefits of post processing, all your files must be in the download folder using `PROCESSING_PATH` var available in `custom-script.sh`.
 >
 > 📖 [View complete API documentation](docs/CUSTOM_SCRIPT_DOCUMENTATION.md)
 
@@ -384,7 +386,7 @@ Tidarr supports executing a custom shell script during the post-processing pipel
 
 If you want to use Tidarr only as UI and not download files, you can set `NO_DOWNLOAD=true` in the environment variables.
 
-This way you can use Tidarr to manage your download history, watchlist, and keep benefits of post-processing and services integration and process download via custom scripts.
+This way you can use Tidarr to manage your download history, watchlist, and keep benefits of json DB (`sync_list.json`, `queue.json`) to manage download via custom scripts.
 
 ### API Documentation
 

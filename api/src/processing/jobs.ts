@@ -129,6 +129,8 @@ export function hasFileToMove(pathArg?: string): boolean {
 }
 
 export function replacePathInM3U(item: ProcessingItemType): void {
+  if (item["type"] !== "playlist" && item["type"] !== "mix") return;
+
   const processingPath = getProcessingPath();
   const basePath = process.env.M3U_BASEPATH_FILE || "./";
   const downloadDir = `${processingPath}/${item.id}`;

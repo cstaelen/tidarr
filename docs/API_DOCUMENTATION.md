@@ -424,7 +424,7 @@ curl -X POST http://localhost:8484/api/sync/trigger \
 
 **Response:** Status `202 Accepted`
 
-This endpoint will immediately queue all items from the watch list for download. Items already in the queue with status "processing" will be skipped. Items with status "finished" or "downloaded" will be removed from the queue and re-added.
+This endpoint will immediately queue all items from the watch list for download. Items already in the queue with status "processing" will be skipped. Items with status "finished" will be removed from the queue and re-added.
 
 **Note:** The synchronization cron is configured via the `SYNC_CRON_EXPRESSION` environment variable (default: `0 3 * * *` = every day at 3 AM).
 

@@ -152,7 +152,8 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     }
 
     item["status"] =
-      isDownloaded && !hasProcessingError ? "downloaded" : "error";
+      !isDownloaded || hasProcessingError ? "error" : item["status"];
+
     item["loading"] = false;
     app.locals.processingStack.actions.updateItem(item);
     if (onFinish) onFinish();

@@ -75,7 +75,7 @@ export const process_sync_list = async (app: Express) => {
       element.id,
     );
     if (item && ["processing"].includes(item?.status)) continue;
-    if (item && ["finished", "downloaded"].includes(item?.status)) {
+    if (item && ["finished", "no_download"].includes(item?.status)) {
       await app.locals.processingStack.actions.removeItem(element.id);
     }
 
@@ -127,10 +127,10 @@ export const createCronJob = async (app: Express) => {
   try {
     cron.schedule(
       finalExpression,
-      () => {
+      async () => {
         try {
           // Read the sync list fresh each time the cron runs
-          process_sync_list(app);
+          await process_sync_list(app);
         } catch (callbackError) {
           console.error("❌ [SYNC] Error in cron callback:", callbackError);
         }
