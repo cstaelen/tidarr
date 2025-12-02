@@ -48,7 +48,7 @@ router.get("/play/:id", async (req, res) => {
       return res.status(400).json({ error: "No proxy token available" });
     }
 
-    const qualities = ["HI_RES_LOSSLESS", "LOSSLESS", "HIGH", "LOW"];
+    const qualities = ["LOSSLESS", "HIGH", "LOW"];
     let chosenUrl: string | null = null;
 
     for (const q of qualities) {
