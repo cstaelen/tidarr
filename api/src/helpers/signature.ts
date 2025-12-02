@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-const SECRET = process.env.PLAY_SECRET || "supersecret";
+const SECRET = process.env.STREAM_SECRET || "supersecret";
 
 /**
  * Generates an HMAC signature for a streaming resource.
