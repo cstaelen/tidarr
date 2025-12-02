@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { Block } from "@mui/icons-material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckIcon from "@mui/icons-material/Check";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -83,6 +84,8 @@ export const DownloadButton = ({
           <CheckIcon color="success" />
         ) : status === "processing" ? (
           <CircularProgress size={20} />
+        ) : status === "no_download" ? (
+          <Block color="disabled" />
         ) : (
           <DownloadIcon />
         )

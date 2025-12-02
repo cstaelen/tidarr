@@ -20,21 +20,17 @@ jobs:
         with:
           node-version: 20
           cache: 'yarn'
-          cache-dependency-path: e2e/yarn.lock
 
       - name: Install dependencies
-        working-directory: ./e2e
         run: yarn install --frozen-lockfile
 
       - name: Install Playwright Browsers
-        working-directory: ./e2e
-        run: npx playwright install --with-deps chromium
+        run: yarn workspace tidarr-testing exec playwright install --with-deps chromium
 
       - name: Run Playwright tests
-        working-directory: ./e2e
         env:
           CI: true
-        run: npx playwright test
+        run: yarn workspace tidarr-testing playwright:test
 
       - uses: actions/upload-artifact@v4
         if: failure()

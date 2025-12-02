@@ -34,4 +34,5 @@ services:
       - PUSH_OVER_URL=
       - M3U_BASEPATH_FILE=
       - SYNC_CRON_EXPRESSION=
+      - NO_DOWNLOAD=
       

@@ -178,7 +178,7 @@ export const ProcessingStack = () => {
 
   async function removeFinishedItems() {
     const itemsToRemove = data.filter((item) =>
-      ["finished", "downloaded", "error"].includes(item.status),
+      ["finished", "error"].includes(item.status),
     );
     for (const item of itemsToRemove) {
       try {
@@ -190,31 +190,6 @@ export const ProcessingStack = () => {
   }
 
   function updateItem(item: ProcessingItemType) {
-    if (item?.status === "downloaded") {
-      try {
-        postProcessing(item);
-      } catch (error) {
-        // Catch any unhandled errors in postProcessing to prevent silent failures
-        const errorMessage =
-          error instanceof Error ? error.message : String(error);
-        logs(
-          item.id,
-          `❌ [TIDARR] Unexpected error during post-processing: ${errorMessage}`,
-        );
-        console.error(
-          `❌ [TIDARR] Post-processing error for item ${item.id}:`,
-          error,
-        );
-        item["status"] = "error";
-        // Update the item in the queue file to reflect error status
-        updateItemInQueueFile(item).catch((err) =>
-          console.error(
-            `❌ [TIDARR] Failed to update queue file for item ${item.id}:`,
-            err,
-          ),
-        );
-      }
-    }
     if (item?.status === "finished" || item?.status === "error") {
       processQueue();
     }
@@ -236,7 +211,18 @@ export const ProcessingStack = () => {
     return data[foundIndex];
   }
 
-  function processQueue(): void {
+  async function prepareProcessing(item: ProcessingItemType) {
+    item["status"] = "processing";
+    item["loading"] = false;
+    updateItem(item);
+
+    // Initialize empty output history in the Map (ensure string key)
+    outputs.set(String(item.id), []);
+
+    await cleanFolder(item.id);
+  }
+
+  async function processQueue(): Promise<void> {
     if (isPaused) return;
 
     const indexCurrent = data.findIndex(
@@ -248,7 +234,17 @@ export const ProcessingStack = () => {
 
     if (indexCurrent !== -1) return;
     if (indexNext !== -1) {
-      processItem(data[indexNext]);
+      const item = data[indexNext];
+      await prepareProcessing(item);
+
+      // If no_download=true skip processing.
+      if (app.locals.config.parameters?.NO_DOWNLOAD === "true") {
+        item["status"] = "no_download";
+        updateItem(item);
+        return;
+      }
+
+      processItem(item);
     }
   }
 
@@ -295,87 +291,76 @@ export const ProcessingStack = () => {
     return { isPaused };
   }
 
-  async function processingMix(item: ProcessingItemType) {
+  async function prepareMixToPlaylist(
+    item: ProcessingItemType,
+  ): Promise<string | undefined> {
     const tracks = await getTracksByMixId(item);
     const playlistId = await createNewPlaylist(item);
 
     if (tracks) {
       await addTracksToPlaylist(playlistId, tracks, item.id);
-
-      item["url"] = `playlist/${playlistId}`;
-      logs(item.id, `🕖 [MIX]: Download temporary playlist`);
-
-      const child = tidalDL(item.id, app, () => {
-        deletePlaylist(playlistId, item.id);
-      });
-      if (child) {
-        item["process"] = child;
-      }
-
-      return;
-    } else {
-      logs(item.id, `⚠️ [MIX]: No track found.`);
-      item["status"] = "error";
-      updateItem(item);
+      return playlistId;
     }
 
+    logs(item.id, `⚠️ [MIX]: No track found.`);
+    item["status"] = "error";
+    updateItem(item);
     deletePlaylist(playlistId, item.id);
   }
 
   async function processItem(item: ProcessingItemType) {
-    item["status"] = "processing";
-    // Initialize empty output history in the Map (ensure string key)
-    outputs.set(String(item.id), []);
-    updateItem(item);
-
-    await cleanFolder(item.id);
-
+    let playlistId;
     if (item.type === "mix") {
-      processingMix(item);
-    } else {
-      const child = tidalDL(item.id, app);
-      if (child) {
-        item["process"] = child;
-      }
+      const playlistId = await prepareMixToPlaylist(item);
+      item["url"] = `playlist/${playlistId}`;
+    }
+
+    const child = tidalDL(item.id, app, async () => {
+      if (playlistId) deletePlaylist(playlistId, item.id);
+      postProcessing(item);
+      return;
+    });
+
+    if (child) {
+      item["process"] = child;
     }
   }
 
   async function postProcessing(item: ProcessingItemType) {
-    const processingPath = getProcessingPath();
-    const shouldPostProcess = hasFileToMove(`${processingPath}/${item.id}`);
-
     logs(item.id, "---------------------");
     logs(item.id, "⚙️ POST PROCESSING   ");
     logs(item.id, "---------------------");
-
-    if (!shouldPostProcess) {
-      item["status"] = "finished";
-      updateItem(item);
-      logs(item.id, "✅ [TIDARR] No file to process.");
-
-      // Remove item from persistant queue file
-      await updateItemInQueueFile(item);
-
-      return;
-    }
 
     if (item["status"] === "error") {
       logs(item.id, "⚠️ [TIDDL] An error occured while downloading.");
       return;
     }
 
-    if (item["type"] === "playlist" || item["type"] === "mix") {
-      replacePathInM3U(item);
+    // Stop if there is no file to process (maybe existing)
+    const processingPath = getProcessingPath();
+    const shouldPostProcess = hasFileToMove(`${processingPath}/${item.id}`);
+
+    if (!shouldPostProcess) {
+      item["status"] = "finished";
+      updateItem(item);
+      logs(item.id, "✅ [TIDARR] No file to process.");
+
+      await updateItemInQueueFile(item);
+
+      return;
     }
+
+    // Execute custom script if exists
+    await executeCustomScript(item);
+
+    // Update m3u item path
+    replacePathInM3U(item);
 
     // Beets process
     await beets(item.id);
 
     // Set permissions
     await setPermissions(item);
-
-    // Execute custom script if exists
-    await executeCustomScript(item);
 
     // Keep trace of folders processed
     const foldersToScan = getFolderToScan(item.id);
