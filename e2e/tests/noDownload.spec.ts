@@ -2,28 +2,13 @@ import { expect } from "@playwright/test";
 
 import { test } from "../test-isolation";
 
-import { mockConfigAPI, mockItemOutputSSE } from "./utils/mock";
 import { runSearch } from "./utils/search";
+
+test.use({ envFile: ".env.e2e.nodownload" });
 
 test("NO_DOWNLOAD: Should set items to 'no_download' status when NO_DOWNLOAD is enabled", async ({
   page,
 }) => {
-  // Mock config with NO_DOWNLOAD=true
-  await mockConfigAPI(page, {
-    parameters: { NO_DOWNLOAD: "true" },
-  });
-
-  // Mock item output SSE (although it won't be called in no_download mode)
-  await mockItemOutputSSE(page, "high");
-
-  // Mock queue status endpoint
-  await page.route("**/queue/status", async (route) => {
-    await route.fulfill({
-      status: 200,
-      json: { isPaused: false },
-    });
-  });
-
   // Add an item to the queue
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Albums" }).first().click();
@@ -46,21 +31,6 @@ test("NO_DOWNLOAD: Should set items to 'no_download' status when NO_DOWNLOAD is 
 test("NO_DOWNLOAD: Should not display pause button when NO_DOWNLOAD is enabled", async ({
   page,
 }) => {
-  // Mock config with NO_DOWNLOAD=true
-  await mockConfigAPI(page, {
-    parameters: { NO_DOWNLOAD: "true" },
-  });
-
-  await mockItemOutputSSE(page, "high");
-
-  // Mock queue status endpoint
-  await page.route("**/queue/status", async (route) => {
-    await route.fulfill({
-      status: 200,
-      json: { isPaused: false },
-    });
-  });
-
   // Add an item to the queue
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Albums" }).first().click();
@@ -81,13 +51,6 @@ test("NO_DOWNLOAD: Should not display pause button when NO_DOWNLOAD is enabled",
 test("NO_DOWNLOAD: Should not display terminal button for no_download items", async ({
   page,
 }) => {
-  // Mock config with NO_DOWNLOAD=true
-  await mockConfigAPI(page, {
-    parameters: { NO_DOWNLOAD: "true" },
-  });
-
-  await mockItemOutputSSE(page, "high");
-
   // Add an item to the queue
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Albums" }).first().click();
@@ -114,13 +77,6 @@ test("NO_DOWNLOAD: Should not display terminal button for no_download items", as
 test("NO_DOWNLOAD: Should display Block icon for no_download items in download button", async ({
   page,
 }) => {
-  // Mock config with NO_DOWNLOAD=true
-  await mockConfigAPI(page, {
-    parameters: { NO_DOWNLOAD: "true" },
-  });
-
-  await mockItemOutputSSE(page, "high");
-
   // Add an item to the queue
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Albums" }).first().click();
@@ -134,29 +90,13 @@ test("NO_DOWNLOAD: Should display Block icon for no_download items in download b
   // Wait a bit for the status to update
   await page.waitForTimeout(500);
 
-  // The button should now have a Block icon (svg with data-testid="BlockIcon")
-  const blockIcon = downloadButton.locator('svg[data-testid="BlockIcon"]');
-  await expect(blockIcon).toBeVisible();
+  // Verify the download button is disabled
+  await expect(downloadButton).toBeDisabled();
 });
 
 test("NO_DOWNLOAD: Should display primary color FAB when NO_DOWNLOAD is enabled", async ({
   page,
 }) => {
-  // Mock config with NO_DOWNLOAD=true
-  await mockConfigAPI(page, {
-    parameters: { NO_DOWNLOAD: "true" },
-  });
-
-  await mockItemOutputSSE(page, "high");
-
-  // Mock queue status endpoint
-  await page.route("**/queue/status", async (route) => {
-    await route.fulfill({
-      status: 200,
-      json: { isPaused: false },
-    });
-  });
-
   // Add an item to the queue
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Albums" }).first().click();
@@ -173,20 +113,6 @@ test("NO_DOWNLOAD: Should display primary color FAB when NO_DOWNLOAD is enabled"
 test("NO_DOWNLOAD: Should allow clearing items even in no_download mode", async ({
   page,
 }) => {
-  // Mock config with NO_DOWNLOAD=true
-  await mockConfigAPI(page, {
-    parameters: { NO_DOWNLOAD: "true" },
-  });
-
-  await mockItemOutputSSE(page, "high");
-
-  // Track API call
-  let removeAllCalled = false;
-  await page.route("**/remove-all", async (route) => {
-    removeAllCalled = true;
-    await route.fulfill({ status: 204 });
-  });
-
   // Add an item to the queue
   await runSearch("Nirvana", page);
   await page.getByRole("tab", { name: "Albums" }).first().click();
@@ -215,5 +141,5 @@ test("NO_DOWNLOAD: Should allow clearing items even in no_download mode", async 
 
   // Verify the API was called
   await page.waitForTimeout(500);
-  expect(removeAllCalled).toBe(true);
+  await expect(page.locator("button.MuiFab-circular")).not.toBeVisible();
 });

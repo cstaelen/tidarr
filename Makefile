@@ -14,15 +14,16 @@ dev: ## Boot dev environnement
 	$(DOCKER_COMPOSE) up tidarr --build --remove-orphans
 
 install: ## Install deps
-	$(DOCKER_COMPOSE) exec -w /tidarr/api tidarr yarn install
-	$(DOCKER_COMPOSE) exec -w /tidarr/app tidarr yarn install
-	$(DOCKER_COMPOSE) exec -w /tidarr/e2e tidarr yarn install
+	$(DOCKER_COMPOSE) exec tidarr yarn install
 ##
 ## Playwright 🚨
 ##--------------
 
 testing-build: ## Build Tidarr production Docker image for E2E tests
 	docker build -t tidarr-prod --target production -f docker/Dockerfile .
+
+testing-install: ## Install Playwright browsers
+	cd e2e && npx playwright install
 
 testing-run: ## Run Playwright E2E tests (each test gets isolated container on random port) (arg: f=filter)
 	cd e2e && npx playwright test $(f)
