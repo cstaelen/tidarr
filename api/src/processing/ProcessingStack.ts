@@ -216,7 +216,6 @@ export const ProcessingStack = () => {
 
   async function prepareProcessing(item: ProcessingItemType) {
     item["status"] = "processing";
-    item["loading"] = false;
     updateItem(item);
 
     // Initialize empty output history in the Map (ensure string key)
@@ -243,7 +242,9 @@ export const ProcessingStack = () => {
       // If no_download=true skip processing.
       if (app.locals.config.parameters?.NO_DOWNLOAD === "true") {
         item["status"] = "no_download";
+        item["loading"] = false;
         updateItem(item);
+
         return;
       }
 
