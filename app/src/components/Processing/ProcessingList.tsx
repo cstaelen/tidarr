@@ -13,6 +13,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
@@ -24,6 +25,7 @@ import { ProcessingPauseButton } from "./ProcessingPauseButton";
 
 export const ProcessingList = () => {
   const { processingList, isPaused } = useProcessingProvider();
+  const { config } = useConfigProvider();
   const { actions } = useConfigProvider();
   const { actions: apiActions } = useApiFetcher();
   const [open, setOpen] = useState(false);
@@ -77,7 +79,7 @@ export const ProcessingList = () => {
     case hasError:
       buttonColor = "error";
       break;
-    case isLoading:
+    case isLoading || config?.NO_DOWNLOAD === "true":
       buttonColor = "primary";
       break;
     default:
@@ -173,7 +175,15 @@ export const ProcessingList = () => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <ProcessingPauseButton />
+            <div>
+              {config?.NO_DOWNLOAD !== "true" ? (
+                <ProcessingPauseButton />
+              ) : (
+                <Typography color="warning">
+                  No download mode is active
+                </Typography>
+              )}
+            </div>
             <Box display="flex" gap={2}>
               <Button
                 size="small"
@@ -183,7 +193,7 @@ export const ProcessingList = () => {
                 disabled={
                   isRemoving ||
                   !processingList?.some((item) =>
-                    ["finished", "downloaded", "error"].includes(item.status),
+                    ["finished", "error"].includes(item.status),
                   )
                 }
               >

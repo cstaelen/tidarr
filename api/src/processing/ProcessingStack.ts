@@ -1,6 +1,6 @@
 import { Express, Response } from "express";
 
-import { PROCESSING_PATH } from "../../constants";
+import { getAppInstance } from "../app-instance";
 import { logs } from "../helpers/logs";
 import {
   addItemToFile,
@@ -16,12 +16,13 @@ import { ntfyPush } from "../services/ntfy";
 import { plexUpdate } from "../services/plex";
 import { hookPushOver } from "../services/pushover";
 import { tidalDL } from "../services/tiddl";
-import { ProcessingItemType, TiddlConfig } from "../types";
+import { ProcessingItemType } from "../types";
 
 import {
   cleanFolder,
   executeCustomScript,
   getFolderToScan,
+  getProcessingPath,
   hasFileToMove,
   killProcess,
   moveAndClean,
@@ -35,8 +36,8 @@ import {
   getTracksByMixId,
 } from "./mix-to-playlist";
 
-export function notifySSEConnections(expressApp: Express) {
-  const { processingStack, activeListConnections } = expressApp.locals;
+export function notifySSEConnections(app: Express) {
+  const { processingStack, activeListConnections } = app.locals;
 
   // Data no longer contains output/output_history, send directly
   const data = JSON.stringify(processingStack.data);
@@ -46,13 +47,9 @@ export function notifySSEConnections(expressApp: Express) {
   });
 }
 
-export function notifyItemOutput(
-  expressApp: Express,
-  itemId: string,
-  output: string,
-) {
+export function notifyItemOutput(app: Express, itemId: string, output: string) {
   const connections: Map<string, Response[]> =
-    expressApp.locals.activeItemOutputConnections;
+    app.locals.activeItemOutputConnections;
   // Ensure itemId is a string for Map lookup
   const itemIdString = String(itemId);
   const itemConnections = connections.get(itemIdString);
@@ -73,8 +70,10 @@ export function notifyItemOutput(
   }
 }
 
-export const ProcessingStack = (expressApp: Express) => {
+export const ProcessingStack = () => {
+  const app: Express = getAppInstance();
   const data: ProcessingItemType[] = [];
+  const dataMap: Map<string, ProcessingItemType> = new Map(); // O(1) item lookups
   const outputs: Map<string, string[]> = new Map(); // Store terminal output as array of lines
   let isPaused = false;
 
@@ -89,6 +88,7 @@ export const ProcessingStack = (expressApp: Express) => {
       // Initialize empty output history for each loaded item (ensure string key)
       outputs.set(String(record.id), []);
       data.push(record);
+      dataMap.set(record.id, record);
     });
 
     if (!isPaused) {
@@ -123,39 +123,42 @@ export const ProcessingStack = (expressApp: Express) => {
 
     // Notify connected clients about the output update
     const currentOutput = getItemOutput(idString);
-    notifyItemOutput(expressApp, id, currentOutput);
+    notifyItemOutput(app, id, currentOutput);
   }
 
   async function addItem(item: ProcessingItemType) {
-    const foundIndex = data.findIndex(
-      (listItem: ProcessingItemType) => listItem?.id === item?.id,
-    );
-    if (foundIndex !== -1) return;
+    // O(1) lookup using Map instead of O(n) findIndex
+    if (dataMap.has(item.id)) {
+      await removeItem(item.id);
+    }
 
     data.push(item);
+    dataMap.set(item.id, item);
 
     await addItemToFile(item);
     processQueue();
 
-    notifySSEConnections(expressApp);
+    notifySSEConnections(app);
   }
 
   async function removeItem(id: string) {
-    const item = getItem(id);
+    // O(1) lookup using Map
+    const item = dataMap.get(id);
+
+    if (!item) {
+      console.warn(`removeItem: Item ${id} not found in processing list`);
+      return;
+    }
 
     const foundIndex = data.findIndex(
       (listItem: ProcessingItemType) => listItem?.id === item?.id,
     );
-
-    if (foundIndex === -1) {
-      console.warn(`removeItem: Item ${id} not found in processing list`);
-      return;
-    }
 
     // Kill the process if it exists and is running
     killProcess(item?.process, id);
     delete data[foundIndex];
     data.splice(foundIndex, 1);
+    dataMap.delete(id);
 
     // Clean up output history for this item (ensure string key)
     outputs.delete(String(id));
@@ -164,7 +167,7 @@ export const ProcessingStack = (expressApp: Express) => {
     await removeItemFromFile(id);
     processQueue();
 
-    notifySSEConnections(expressApp);
+    notifySSEConnections(app);
   }
 
   async function removeAllItems() {
@@ -180,7 +183,7 @@ export const ProcessingStack = (expressApp: Express) => {
 
   async function removeFinishedItems() {
     const itemsToRemove = data.filter((item) =>
-      ["finished", "downloaded", "error"].includes(item.status),
+      ["finished", "error"].includes(item.status),
     );
     for (const item of itemsToRemove) {
       try {
@@ -192,53 +195,36 @@ export const ProcessingStack = (expressApp: Express) => {
   }
 
   function updateItem(item: ProcessingItemType) {
-    if (item?.status === "downloaded") {
-      try {
-        postProcessing(item);
-      } catch (error) {
-        // Catch any unhandled errors in postProcessing to prevent silent failures
-        const errorMessage =
-          error instanceof Error ? error.message : String(error);
-        logs(
-          item.id,
-          `❌ [TIDARR] Unexpected error during post-processing: ${errorMessage}`,
-        );
-        console.error(
-          `❌ [TIDARR] Post-processing error for item ${item.id}:`,
-          error,
-        );
-        item["status"] = "error";
-        // Update the item in the queue file to reflect error status
-        updateItemInQueueFile(item).catch((err) =>
-          console.error(
-            `❌ [TIDARR] Failed to update queue file for item ${item.id}:`,
-            err,
-          ),
-        );
-      }
-    }
     if (item?.status === "finished" || item?.status === "error") {
       processQueue();
     }
 
     // Notify list connections about status changes (without output data)
-    notifySSEConnections(expressApp);
+    notifySSEConnections(app);
 
     // Notify item-specific output connections with the latest output
     const currentOutput = getItemOutput(item.id);
     if (currentOutput) {
-      notifyItemOutput(expressApp, item.id, currentOutput);
+      notifyItemOutput(app, item.id, currentOutput);
     }
   }
 
   function getItem(id: string): ProcessingItemType {
-    const foundIndex = data.findIndex(
-      (listItem: ProcessingItemType) => listItem?.id === id,
-    );
-    return data[foundIndex];
+    // O(1) lookup using Map instead of O(n) findIndex
+    return dataMap.get(id) as ProcessingItemType;
   }
 
-  function processQueue(): void {
+  async function prepareProcessing(item: ProcessingItemType) {
+    item["status"] = "processing";
+    updateItem(item);
+
+    // Initialize empty output history in the Map (ensure string key)
+    outputs.set(String(item.id), []);
+
+    await cleanFolder(item.id);
+  }
+
+  async function processQueue(): Promise<void> {
     if (isPaused) return;
 
     const indexCurrent = data.findIndex(
@@ -250,7 +236,19 @@ export const ProcessingStack = (expressApp: Express) => {
 
     if (indexCurrent !== -1) return;
     if (indexNext !== -1) {
-      processItem(data[indexNext]);
+      const item = data[indexNext];
+      await prepareProcessing(item);
+
+      // If no_download=true skip processing.
+      if (app.locals.config.parameters?.NO_DOWNLOAD === "true") {
+        item["status"] = "no_download";
+        item["loading"] = false;
+        updateItem(item);
+
+        return;
+      }
+
+      processItem(item);
     }
   }
 
@@ -284,101 +282,89 @@ export const ProcessingStack = (expressApp: Express) => {
       await cleanFolder(currentItem.id);
     }
 
-    notifySSEConnections(expressApp);
+    notifySSEConnections(app);
   }
 
   function resumeQueue() {
     isPaused = false;
     processQueue(); // Restart the queue
-    notifySSEConnections(expressApp);
+    notifySSEConnections(app);
   }
 
   function getQueueStatus() {
     return { isPaused };
   }
 
-  async function processingMix(item: ProcessingItemType) {
-    const config = expressApp.locals.tiddlConfig as TiddlConfig;
-
-    const tracks = await getTracksByMixId(item, config);
-    const playlistId = await createNewPlaylist(item, config);
+  async function prepareMixToPlaylist(
+    item: ProcessingItemType,
+  ): Promise<string | undefined> {
+    const tracks = await getTracksByMixId(item);
+    const playlistId = await createNewPlaylist(item);
 
     if (tracks) {
-      await addTracksToPlaylist(playlistId, tracks, config, item.id);
-
-      item["url"] = `playlist/${playlistId}`;
-      logs(item.id, `🕖 [MIX]: Download temporary playlist`);
-
-      const child = tidalDL(item.id, expressApp, () => {
-        deletePlaylist(playlistId, config, item.id);
-      });
-      if (child) {
-        item["process"] = child;
-      }
-
-      return;
-    } else {
-      logs(item.id, `⚠️ [MIX]: No track found.`);
-      item["status"] = "error";
-      updateItem(item);
+      await addTracksToPlaylist(playlistId, tracks, item.id);
+      return playlistId;
     }
 
-    deletePlaylist(playlistId, config, item.id);
+    logs(item.id, `⚠️ [MIX]: No track found.`);
+    item["status"] = "error";
+    updateItem(item);
+    deletePlaylist(playlistId, item.id);
   }
 
   async function processItem(item: ProcessingItemType) {
-    item["status"] = "processing";
-    // Initialize empty output history in the Map (ensure string key)
-    outputs.set(String(item.id), []);
-    updateItem(item);
-
-    await cleanFolder(item.id);
-
+    let playlistId;
     if (item.type === "mix") {
-      processingMix(item);
-    } else {
-      const child = tidalDL(item.id, expressApp);
-      if (child) {
-        item["process"] = child;
-      }
+      const playlistId = await prepareMixToPlaylist(item);
+      item["url"] = `playlist/${playlistId}`;
+    }
+
+    const child = tidalDL(item.id, app, async () => {
+      if (playlistId) deletePlaylist(playlistId, item.id);
+      postProcessing(item);
+      return;
+    });
+
+    if (child) {
+      item["process"] = child;
     }
   }
 
   async function postProcessing(item: ProcessingItemType) {
-    const shouldPostProcess = hasFileToMove(`${PROCESSING_PATH}/${item.id}`);
-
     logs(item.id, "---------------------");
     logs(item.id, "⚙️ POST PROCESSING   ");
     logs(item.id, "---------------------");
-
-    if (!shouldPostProcess) {
-      item["status"] = "finished";
-      updateItem(item);
-      logs(item.id, "✅ [TIDARR] No file to process.");
-
-      // Remove item from persistant queue file
-      await updateItemInQueueFile(item);
-
-      return;
-    }
 
     if (item["status"] === "error") {
       logs(item.id, "⚠️ [TIDDL] An error occured while downloading.");
       return;
     }
 
-    if (item["type"] === "playlist" || item["type"] === "mix") {
-      replacePathInM3U(item);
+    // Stop if there is no file to process (maybe existing)
+    const processingPath = getProcessingPath();
+    const shouldPostProcess = hasFileToMove(`${processingPath}/${item.id}`);
+
+    if (!shouldPostProcess) {
+      item["status"] = "finished";
+      updateItem(item);
+      logs(item.id, "✅ [TIDARR] No file to process.");
+
+      await updateItemInQueueFile(item);
+
+      return;
     }
+
+    // Execute custom script if exists
+    await executeCustomScript(item);
+
+    // Update m3u item path
+    replacePathInM3U(item);
 
     // Beets process
     await beets(item.id);
 
     // Set permissions
     await setPermissions(item);
-
-    // Execute custom script if exists
-    await executeCustomScript(item);
 
     // Keep trace of folders processed
     const foldersToScan = getFolderToScan(item.id);

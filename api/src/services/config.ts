@@ -51,6 +51,8 @@ export async function configureServer() {
         ENABLE_TIDAL_PROXY: process.env.ENABLE_TIDAL_PROXY || "",
         SYNC_CRON_EXPRESSION:
           process.env.SYNC_CRON_EXPRESSION || SYNC_DEFAULT_CRON || "",
+        NO_DOWNLOAD: process.env.NO_DOWNLOAD || "",
+        ENABLE_HISTORY: process.env.ENABLE_HISTORY || "",
       },
     };
   } catch (error: unknown) {

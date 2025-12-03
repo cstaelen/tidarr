@@ -353,7 +353,13 @@ export type ProcessingItemType = {
   title: string;
   quality: QualityType;
   type: ContentType;
-  status: "queue" | "finished" | "beet" | "processing" | "error";
+  status:
+    | "queue"
+    | "finished"
+    | "beet"
+    | "processing"
+    | "error"
+    | "no_download";
   url: string;
   loading: boolean;
   error: boolean;

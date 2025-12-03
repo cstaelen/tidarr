@@ -26,6 +26,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [M3U track base path](#m3u-track-base-path)
   - [Sync playlists and mixes](#sync-playlists-and-mixes)
   - [Custom CSS](#custom-css)
+  - [Download History](#download-history)
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-integration)
@@ -37,6 +38,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Webhook push over](#webhook-push-over)
 - [Advanced](#advanced)
   - [Custom Processing Script](#custom-processing-script)
+  - [No-download flag](#no-download)
   - [API Documentation](#api-documentation)
 - [User requests](#user-requests)
 - [Donate](#donate)
@@ -105,8 +107,8 @@ services:
         ports:
             - 8484:8484
         volumes:
-            - /any/folder/to/tidarr/config:/home/app/standalone/shared
-            - /any/folder/to/library:/home/app/standalone/library
+            - /any/folder/to/tidarr/config:/shared
+            - /any/folder/to/library:/music
         restart: 'unless-stopped'
 ```
 
@@ -117,8 +119,8 @@ docker run  \
 		--rm \
 		--name tidarr \
 		-p 8484:8484 \
-		-v /any/folder/to/tidarr/config:/home/app/standalone/shared \
-		-v /any/folder/to/library:/home/app/standalone/library \
+		-v /any/folder/to/tidarr/config:/shared \
+		-v /any/folder/to/library:/music \
     cstaelen/tidarr:latest
 ```
 
@@ -231,6 +233,21 @@ environment:
 You can customize Tidarr's appearance using the UI in settings dialog, or by editing the `custom.css` file. This file is automatically created in your config folder on first launch.
 
 **File location**: `/your/docker/path/to/tidarr/config/custom.css`
+
+### Download History
+
+Track your downloaded items with the history feature. When enabled, Tidarr will maintain a list of all downloaded content and mark items as already downloaded in the UI.
+
+```yaml
+environment:
+  - ...
+  - ENABLE_HISTORY=true
+```
+
+**Features:**
+- Persistent download tracking across restarts
+- Visual indicators for already downloaded items (green checkmark)
+- Manual history clearing available in settings dialog
 
 ## SERVICES
 
@@ -375,9 +392,17 @@ Tidarr supports executing a custom shell script during the post-processing pipel
 >
 > 1. Create a shell script named `custom-script.sh` in your config folder (the mounted `shared/` volume)
 > 2. The script will be automatically detected and executed during post-processing
-> 3. The script runs **after** permissions are set but **before** files are moved to the library
+> 3. The script runs **after** the tiddl download process (if not deactivated)
+> 
+> To keep the benefits of post processing, all your files must be in the download folder using `PROCESSING_PATH` var available in `custom-script.sh`.
 >
 > 📖 [View complete API documentation](docs/CUSTOM_SCRIPT_DOCUMENTATION.md)
+
+### NO DOWNLOAD
+
+If you want to use Tidarr only as UI and not download files, you can set `NO_DOWNLOAD=true` in the environment variables.
+
+This way you can use Tidarr to manage your download history, watchlist, and keep benefits of json DB (`sync_list.json`, `queue.json`) to manage download via custom scripts.
 
 ### API Documentation
 

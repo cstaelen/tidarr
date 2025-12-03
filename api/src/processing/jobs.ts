@@ -2,10 +2,17 @@ import { ChildProcess, execSync, spawn } from "child_process";
 import fs from "fs";
 import path from "path";
 
-import { CONFIG_PATH, PROCESSING_PATH, ROOT_PATH } from "../../constants";
+import { CONFIG_PATH } from "../../constants";
 import { getAppInstance } from "../app-instance";
 import { logs } from "../helpers/logs";
 import { ProcessingItemType } from "../types";
+
+export function getProcessingPath(): string {
+  const app = getAppInstance();
+  const downloadPath = app.locals.tiddlConfig?.download.download_path;
+  // Remove trailing slash if present to avoid double slashes
+  return downloadPath?.replace(/\/+$/, "");
+}
 
 export async function moveAndClean(id: string): Promise<{
   status: "finished" | "error" | undefined;
@@ -13,12 +20,13 @@ export async function moveAndClean(id: string): Promise<{
   const app = getAppInstance();
   const item: ProcessingItemType =
     app.locals.processingStack.actions.getItem(id);
-
+  const processingPath = getProcessingPath();
   let status: "finished" | "error" | undefined;
 
   if (!item) return { status: "finished" };
 
-  const itemProcessingPath = `${PROCESSING_PATH}/${item.id}`;
+  const itemProcessingPath = `${processingPath}/${item.id}`;
+  const libraryPath = app.locals.tiddlConfig.download.scan_path;
 
   try {
     logs(item.id, "🕖 [TIDARR] Move processed items ...");
@@ -35,7 +43,7 @@ export async function moveAndClean(id: string): Promise<{
       args = "-rfp";
     }
 
-    const cmd = `cp ${args} "${itemProcessingPath}"/* "${ROOT_PATH}/library" >/dev/null`;
+    const cmd = `cp ${args} "${itemProcessingPath}"/* "${libraryPath}" >/dev/null`;
     console.log(`🕖 [TIDARR] Command: ${cmd}`);
     execSync(cmd, { encoding: "utf-8", shell: "/bin/sh" });
     logs(item.id, `✅ [TIDARR] Move complete (${item.type})`);
@@ -58,9 +66,11 @@ export async function moveAndClean(id: string): Promise<{
 export async function cleanFolder(
   itemId?: string,
 ): Promise<"finished" | "error"> {
+  const processingPath = getProcessingPath();
+
   const targetPath = itemId
-    ? `${PROCESSING_PATH}/${itemId}`
-    : `${PROCESSING_PATH}/*`;
+    ? `${processingPath}/${itemId}`
+    : `${processingPath}/*`;
 
   // Check if target exists before attempting to remove
   if (itemId) {
@@ -70,7 +80,7 @@ export async function cleanFolder(
     }
   } else {
     // For wildcard cleanup, check if processing folder exists
-    if (!fs.existsSync(PROCESSING_PATH)) {
+    if (!fs.existsSync(processingPath)) {
       return "finished";
     }
   }
@@ -91,7 +101,9 @@ export async function cleanFolder(
 }
 
 export function hasFileToMove(pathArg?: string): boolean {
-  const targetPath = pathArg || PROCESSING_PATH;
+  const processingPath = getProcessingPath();
+
+  const targetPath = pathArg || processingPath;
 
   // Check if path exists first
   if (!fs.existsSync(targetPath)) {
@@ -117,8 +129,11 @@ export function hasFileToMove(pathArg?: string): boolean {
 }
 
 export function replacePathInM3U(item: ProcessingItemType): void {
+  if (item["type"] !== "playlist" && item["type"] !== "mix") return;
+
+  const processingPath = getProcessingPath();
   const basePath = process.env.M3U_BASEPATH_FILE || "./";
-  const downloadDir = `${PROCESSING_PATH}/${item.id}`;
+  const downloadDir = `${processingPath}/${item.id}`;
 
   logs(item.id, `🕖 [TIDARR] Update track path in M3U file ...`);
 
@@ -151,7 +166,9 @@ export function replacePathInM3U(item: ProcessingItemType): void {
 }
 
 export async function setPermissions(item: ProcessingItemType) {
-  const itemProcessingPath = `${PROCESSING_PATH}/${item.id}`;
+  const processingPath = getProcessingPath();
+
+  const itemProcessingPath = `${processingPath}/${item.id}`;
 
   if (process.env.PUID && process.env.PGID) {
     try {
@@ -225,8 +242,10 @@ export async function setPermissions(item: ProcessingItemType) {
  * @returns Array of parent folder paths relative to item's processing path that contain files to scan
  */
 export function getFolderToScan(itemId: string): string[] {
+  const processingPath = getProcessingPath();
+
   const foldersToScan: string[] = [];
-  const itemProcessingPath = `${PROCESSING_PATH}/${itemId}`;
+  const itemProcessingPath = `${processingPath}/${itemId}`;
 
   try {
     // Find all files (not directories) in the item's processing directory
@@ -325,8 +344,9 @@ export async function killProcess(
 export async function executeCustomScript(
   item: ProcessingItemType,
 ): Promise<void> {
+  const processingPath = getProcessingPath();
   const customScriptPath = path.join(CONFIG_PATH, "custom-script.sh");
-  const itemProcessingPath = `${PROCESSING_PATH}/${item.id}`;
+  const itemProcessingPath = `${processingPath}/${item.id}`;
 
   // Check if the custom script exists
   if (!fs.existsSync(customScriptPath)) {

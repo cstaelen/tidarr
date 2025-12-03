@@ -14,15 +14,16 @@ dev: ## Boot dev environnement
 	$(DOCKER_COMPOSE) up tidarr --build --remove-orphans
 
 install: ## Install deps
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/api tidarr yarn install
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/app tidarr yarn install
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e tidarr yarn install
+	$(DOCKER_COMPOSE) exec tidarr yarn install
 ##
 ## Playwright 🚨
 ##--------------
 
 testing-build: ## Build Tidarr production Docker image for E2E tests
 	docker build -t tidarr-prod --target production -f docker/Dockerfile .
+
+testing-install: ## Install Playwright browsers
+	cd e2e && npx playwright install
 
 testing-run: ## Run Playwright E2E tests (each test gets isolated container on random port) (arg: f=filter)
 	cd e2e && npx playwright test $(f)
@@ -44,20 +45,20 @@ testing-ui: ## Run local Playwright UI
 ##----------------
 
 quality-deadcode: ## Fin deadcode with `ts-prune`
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/api tidarr yarn find-deadcode
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/app tidarr yarn find-deadcode
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e tidarr yarn find-deadcode
+	$(DOCKER_COMPOSE) exec -w /tidarr/api tidarr yarn find-deadcode
+	$(DOCKER_COMPOSE) exec -w /tidarr/app tidarr yarn find-deadcode
+	$(DOCKER_COMPOSE) exec -w /tidarr/e2e tidarr yarn find-deadcode
 
 quality-depcheck: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/api tidarr yarn depcheck
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/app tidarr yarn depcheck
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone/e2e tidarr yarn depcheck
+	$(DOCKER_COMPOSE) exec -w /tidarr/api tidarr yarn depcheck
+	$(DOCKER_COMPOSE) exec -w /tidarr/app tidarr yarn depcheck
+	$(DOCKER_COMPOSE) exec -w /tidarr/e2e tidarr yarn depcheck
 
 quality-lint: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone tidarr yarn eslint
+	$(DOCKER_COMPOSE) exec -w /tidarr tidarr yarn eslint
 
 quality-lint-fix: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /home/app/standalone tidarr yarn eslint-fix
+	$(DOCKER_COMPOSE) exec -w /tidarr tidarr yarn eslint-fix
 
 ##
 ## Builder 🚀
@@ -71,8 +72,8 @@ docker-run: ## Run tidarr docker image
 		--rm \
 		--name tidarr \
 		-p 8484:8484 \
-		-v ${PWD}/docker/mnt/config:/home/app/standalone/shared \
-		-v ${PWD}/docker/mnt/library:/home/app/standalone/library \
+		-v ${PWD}/docker/mnt/config:/shared \
+		-v ${PWD}/docker/mnt/library:/music \
 		-e ENABLE_BEETS=true \
 		-e ENABLE_TIDAL_PROXY=true \
 		-e PUID=501 \

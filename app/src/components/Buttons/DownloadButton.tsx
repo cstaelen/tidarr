@@ -1,10 +1,13 @@
 import { useMemo } from "react";
+import { Block } from "@mui/icons-material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckIcon from "@mui/icons-material/Check";
 import DownloadIcon from "@mui/icons-material/Download";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Button, CircularProgress } from "@mui/material";
 import { TIDAL_ALBUM_URL, TIDAL_MIX_URL } from "src/contants";
+import { useConfigProvider } from "src/provider/ConfigProvider";
+import { useHistoryProvider } from "src/provider/HistoryProvider";
 
 import { useProcessingProvider } from "../../provider/ProcessingProvider";
 import {
@@ -29,18 +32,47 @@ export const DownloadButton = ({
   force?: boolean;
 }) => {
   const { processingList, actions } = useProcessingProvider();
+  const { config } = useConfigProvider();
+  const {
+    history,
+    actions: { addToHistory },
+  } = useHistoryProvider();
 
   const status = useMemo(() => {
-    if (!processingList || processingList?.length === 0 || !id) {
-      return undefined;
-    }
-
-    const index = processingList.findIndex(
+    // Check if item is currently in the processing queue
+    const processingItem = processingList?.find(
       (x) => x.id?.toString() === id?.toString() && x.type === type,
     );
 
-    return index > -1 ? processingList?.[index]?.status : undefined;
-  }, [processingList, id, type]);
+    if (processingItem) {
+      const itemStatus = processingItem.status;
+
+      // When item finishes and history is enabled, add to local history
+      if (itemStatus === "finished" && config?.ENABLE_HISTORY === "true") {
+        addToHistory(id.toString());
+      }
+
+      return itemStatus;
+    }
+
+    // If history is enabled, check local history
+    if (config?.ENABLE_HISTORY === "true" && !force) {
+      const isInHistory = history?.some(
+        (x) => x?.toString() === id?.toString(),
+      );
+      return isInHistory ? "finished" : undefined;
+    }
+
+    return undefined;
+  }, [
+    processingList,
+    force,
+    config?.ENABLE_HISTORY,
+    history,
+    id,
+    type,
+    addToHistory,
+  ]);
 
   const downloadItem = async () => {
     if (force) await actions.removeItem(id);
@@ -74,6 +106,7 @@ export const DownloadButton = ({
     <Button
       variant="outlined"
       data-testid="btn-dl"
+      color={status === "finished" ? "success" : "primary"}
       endIcon={
         status === "queue" ? (
           <AccessTimeIcon />
@@ -83,11 +116,13 @@ export const DownloadButton = ({
           <CheckIcon color="success" />
         ) : status === "processing" ? (
           <CircularProgress size={20} />
+        ) : status === "no_download" ? (
+          <Block color="disabled" />
         ) : (
           <DownloadIcon />
         )
       }
-      disabled={!!status && !force}
+      disabled={!!status && status !== "finished" && !force}
       onClick={() => downloadItem()}
       size="small"
     >

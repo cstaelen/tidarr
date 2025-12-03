@@ -20,7 +20,7 @@ export type ProcessingItemType = {
   artist: string;
   title: string;
   type: ContentType;
-  status: "queue" | "finished" | "downloaded" | "processing" | "error";
+  status: "queue" | "finished" | "processing" | "error" | "no_download";
   quality: QualityType;
   url: string;
   loading: boolean;
@@ -158,6 +158,7 @@ export interface SettingsResponse {
     LOCK_QUALITY?: string;
     ENABLE_TIDAL_PROXY?: string;
     SYNC_CRON_EXPRESSION?: string;
+    ENABLE_HISTORY?: string;
   };
   noToken: boolean;
   tiddl_config?: TiddlConfig;

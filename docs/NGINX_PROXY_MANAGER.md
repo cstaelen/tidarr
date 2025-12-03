@@ -244,9 +244,8 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - ./shared:/app/shared
-      - ./library:/library
-      - ./incomplete:/incomplete
+      - ./shared:/shared
+      - ./library:/music
     networks:
       - proxy_network
 

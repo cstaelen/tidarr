@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
+import { Block } from "@mui/icons-material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -17,7 +18,7 @@ import { ProcessingItemType } from "src/types";
 import { DialogTerminal } from "../Dialog/DialogTerminal";
 
 export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
-  const step = item?.status;
+  const status = item?.status;
   const { actions } = useProcessingProvider();
 
   if (!item?.status) return null;
@@ -33,16 +34,18 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
           <RemoveButton onClick={() => actions.removeItem(item.id)}>
             <ClearIcon />
           </RemoveButton>
-          {step === "finished" ? (
+          {status === "finished" ? (
             <CheckIcon color="success" />
-          ) : step === "error" ? (
+          ) : status === "error" ? (
             <WarningIcon color="error" />
-          ) : step === "queue" ? (
+          ) : status === "queue" ? (
             <AccessTimeIcon />
+          ) : status === "no_download" ? (
+            <Block color="disabled" />
           ) : (
             <CircularProgress size={20} />
           )}
-          {step === "error" ? (
+          {status === "error" ? (
             <>
               &nbsp;&nbsp;
               <Button variant="outlined" size="small" onClick={() => run()}>
@@ -51,8 +54,10 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
             </>
           ) : null}
           &nbsp;&nbsp;
-          {item.status !== "queue" && <DialogTerminal item={item} />}
-          {step}
+          {item.status !== "queue" && item.status !== "no_download" && (
+            <DialogTerminal item={item} />
+          )}
+          {status}
         </Box>
       </TableCell>
       <TableCell scope="row">

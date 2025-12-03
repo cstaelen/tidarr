@@ -9,9 +9,9 @@ services:
       - 8484:8484
       - 3000:3000
     volumes:
-      - ./docker/mnt/config:/home/app/standalone/shared
-      - ./docker/mnt/library:/home/app/standalone/library
-      - .:/home/app/standalone # only used in dev environment
+      - ./docker/mnt/config:/shared
+      - ./docker/mnt/library:/music
+      - .:/tidarr # only used in dev environment
     restart: 'unless-stopped'
     environment:
       - PUID=
@@ -34,4 +34,6 @@ services:
       - PUSH_OVER_URL=
       - M3U_BASEPATH_FILE=
       - SYNC_CRON_EXPRESSION=
+      - NO_DOWNLOAD=
+      - ENABLE_HISTORY=
       

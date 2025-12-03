@@ -118,7 +118,7 @@ test("Edit Config: Should display error dialog when config has errors", async ({
   await mockConfigAPI(page, {
     configErrors: [
       "Config file error: Cannot redefine existing key 'templates'.",
-      "Config path: /home/app/standalone/shared/.tiddl/config.toml",
+      "Config path: /shared/.tiddl/config.toml",
     ],
   });
 
@@ -145,9 +145,7 @@ test("Edit Config: Should display error dialog when config has errors", async ({
     ),
   ).toBeVisible();
   await expect(
-    page.getByText(
-      "Config path: /home/app/standalone/shared/.tiddl/config.toml",
-    ),
+    page.getByText("Config path: /shared/.tiddl/config.toml"),
   ).toBeVisible();
 
   // Close the dialog

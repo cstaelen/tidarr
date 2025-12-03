@@ -7,6 +7,7 @@ This documentation describes how to use the Tidarr REST API with curl to automat
 - [Basic Configuration](#basic-configuration)
 - [Authentication](#authentication)
 - [Download Endpoints](#download-endpoints)
+- [History Endpoints](#history-endpoints)
 - [Configuration Endpoints](#configuration-endpoints)
 - [Synchronization Endpoints](#synchronization-endpoints)
 - [Custom CSS Endpoints](#custom-css-endpoints)
@@ -315,6 +316,52 @@ curl http://localhost:8484/api/queue/status \
 
 ---
 
+## History Endpoints
+
+The history feature tracks downloaded items. It can be enabled by setting `ENABLE_HISTORY=true` in your Docker configuration.
+
+### Get download history
+
+Returns the list of all downloaded items.
+
+```bash
+curl http://localhost:8484/api/history/list \
+  -H "Authorization: Bearer $TIDARR_TOKEN"
+```
+
+**Response:**
+```json
+[
+  {
+    "id": "251082404",
+    "type": "album",
+    "url": "https://listen.tidal.com/album/251082404",
+    "title": "Album Name",
+    "downloadedAt": 1234567890
+  }
+]
+```
+
+**Note:** History is only available when `ENABLE_HISTORY=true` is set in your environment variables.
+
+### Clear download history
+
+Removes all items from the download history.
+
+```bash
+curl -X DELETE http://localhost:8484/api/history/list \
+  -H "Authorization: Bearer $TIDARR_TOKEN"
+```
+
+**Response:** Status `204 No Content`
+
+**Behavior:**
+- Deletes the entire download history
+- Does not affect the current download queue
+- Only clears the history tracking, does not delete downloaded files
+
+---
+
 ## Configuration Endpoints
 
 ### Get Tidarr configuration
@@ -424,7 +471,7 @@ curl -X POST http://localhost:8484/api/sync/trigger \
 
 **Response:** Status `202 Accepted`
 
-This endpoint will immediately queue all items from the watch list for download. Items already in the queue with status "processing" will be skipped. Items with status "finished" or "downloaded" will be removed from the queue and re-added.
+This endpoint will immediately queue all items from the watch list for download. Items already in the queue with status "processing" will be skipped. Items with status "finished" will be removed from the queue and re-added.
 
 **Note:** The synchronization cron is configured via the `SYNC_CRON_EXPRESSION` environment variable (default: `0 3 * * *` = every day at 3 AM).
 

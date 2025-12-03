@@ -2,10 +2,10 @@
 
 echo "🕖 [TIDARR] Application loading ... "
 
-SETTINGS_URL="/home/app/standalone/settings"
-PUBLIC_URL="/home/app/standalone/app/build"
-DEV_PUBLIC_URL="/home/app/standalone/app/public"
-SHARED_URL="/home/app/standalone/shared"
+SETTINGS_URL="/tidarr/settings"
+PUBLIC_URL="/tidarr/build"
+DEV_PUBLIC_URL="/tidarr/app/public"
+SHARED_URL="/shared"
 
 mkdir -p $SHARED_URL/.tiddl/ 2>&1 || {
     echo "❌ [TIDDL] Failed to create .tiddl directory"
