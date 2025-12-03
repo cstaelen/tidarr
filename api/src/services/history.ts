@@ -11,7 +11,8 @@ export async function loadHistoryFromFile(): Promise<string[]> {
   try {
     const data = await historyDb.getData(QUEUE_PATH);
     console.log("✅ [HISTORY] Processing history loaded.");
-    return Array.isArray(data) ? data : [];
+    // Convert numeric-keyed object to array of values
+    return Array.isArray(data) ? data : Object.values(data);
   } catch {
     // Database doesn't exist yet or path not found, initialize with empty array
     await historyDb.push(QUEUE_PATH, []);
