@@ -35,4 +35,5 @@ services:
       - M3U_BASEPATH_FILE=
       - SYNC_CRON_EXPRESSION=
       - NO_DOWNLOAD=
+      - ENABLE_HISTORY=
       

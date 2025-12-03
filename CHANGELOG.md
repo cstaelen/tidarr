@@ -3,15 +3,18 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.0.7
+
 ⚠️ Docker volume path as changed. Beware to check your path in `docker-compose.yml` and `config.toml` tiddl congif files.
 
-## 📦 1.0.7
 ### 🚀 Added
-- [API] Add `NO_DOWNLOAD` env var to use Tidarr UI only and process download with custom scripts.
+- [API] Add `NO_DOWNLOAD` env var to use Tidarr UI only and process download with custom scripts. #517
+- [API] Add persistant history separated from queue #512
 ### 🖍 Changed
-- [Tiddl] `scan_path` and `download_path` are now handled by tidarr
-- [Docker] Change docker volume path to `/shared` and `/music`
+- [Tiddl] Tidarr use now toml `scan_path` and `download_path` parameters
+- [Docker] Update docker volume path to `/shared` and `/music`
 - [Docker] Move `/home/app/standalone`to `/tidarr`
+- [API] json-db: add cache for file reading
 
 ## 📦 1.0.6
 ### 🚀 Added

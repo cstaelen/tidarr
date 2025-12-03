@@ -63,6 +63,8 @@ type ApiFetcherContextType = {
     pause_queue: () => Promise<void>;
     resume_queue: () => Promise<void>;
     get_queue_status: () => Promise<{ isPaused: boolean } | undefined>;
+    get_list_history: () => Promise<string[] | undefined>;
+    flush_history: () => Promise<unknown>;
   };
 };
 
@@ -210,17 +212,11 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
   async function remove_all() {
     return await queryExpressJS(`${apiUrl}/remove-all`, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
   }
   async function remove_finished() {
     return await queryExpressJS(`${apiUrl}/remove-finished`, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
   }
 
@@ -229,10 +225,10 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
   async function auth(body?: string): Promise<AuthType | undefined> {
     return await queryExpressJS<AuthType>(`${apiUrl}/auth`, {
       method: "POST",
+      body: body,
       headers: {
         "Content-Type": "application/json",
       },
-      body: body,
     });
   }
 
@@ -432,6 +428,26 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     );
   }
 
+  // Queue History
+
+  async function get_list_history() {
+    return await queryExpressJS<string[]>(`${apiUrl}/history/list`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
+  async function flush_history() {
+    return await queryExpressJS(`${apiUrl}/history/list`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
   const value = {
     apiUrl,
     error: {
@@ -462,6 +478,8 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       pause_queue,
       resume_queue,
       get_queue_status,
+      get_list_history,
+      flush_history,
     },
   };
 

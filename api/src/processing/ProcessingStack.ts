@@ -73,6 +73,7 @@ export function notifyItemOutput(app: Express, itemId: string, output: string) {
 export const ProcessingStack = () => {
   const app: Express = getAppInstance();
   const data: ProcessingItemType[] = [];
+  const dataMap: Map<string, ProcessingItemType> = new Map(); // O(1) item lookups
   const outputs: Map<string, string[]> = new Map(); // Store terminal output as array of lines
   let isPaused = false;
 
@@ -87,6 +88,7 @@ export const ProcessingStack = () => {
       // Initialize empty output history for each loaded item (ensure string key)
       outputs.set(String(record.id), []);
       data.push(record);
+      dataMap.set(record.id, record);
     });
 
     if (!isPaused) {
@@ -125,12 +127,13 @@ export const ProcessingStack = () => {
   }
 
   async function addItem(item: ProcessingItemType) {
-    const foundIndex = data.findIndex(
-      (listItem: ProcessingItemType) => listItem?.id === item?.id,
-    );
-    if (foundIndex !== -1) return;
+    // O(1) lookup using Map instead of O(n) findIndex
+    if (dataMap.has(item.id)) {
+      await removeItem(item.id);
+    }
 
     data.push(item);
+    dataMap.set(item.id, item);
 
     await addItemToFile(item);
     processQueue();
@@ -139,21 +142,23 @@ export const ProcessingStack = () => {
   }
 
   async function removeItem(id: string) {
-    const item = getItem(id);
+    // O(1) lookup using Map
+    const item = dataMap.get(id);
+
+    if (!item) {
+      console.warn(`removeItem: Item ${id} not found in processing list`);
+      return;
+    }
 
     const foundIndex = data.findIndex(
       (listItem: ProcessingItemType) => listItem?.id === item?.id,
     );
 
-    if (foundIndex === -1) {
-      console.warn(`removeItem: Item ${id} not found in processing list`);
-      return;
-    }
-
     // Kill the process if it exists and is running
     killProcess(item?.process, id);
     delete data[foundIndex];
     data.splice(foundIndex, 1);
+    dataMap.delete(id);
 
     // Clean up output history for this item (ensure string key)
     outputs.delete(String(id));
@@ -205,15 +210,12 @@ export const ProcessingStack = () => {
   }
 
   function getItem(id: string): ProcessingItemType {
-    const foundIndex = data.findIndex(
-      (listItem: ProcessingItemType) => listItem?.id === id,
-    );
-    return data[foundIndex];
+    // O(1) lookup using Map instead of O(n) findIndex
+    return dataMap.get(id) as ProcessingItemType;
   }
 
   async function prepareProcessing(item: ProcessingItemType) {
     item["status"] = "processing";
-    item["loading"] = false;
     updateItem(item);
 
     // Initialize empty output history in the Map (ensure string key)
@@ -240,7 +242,9 @@ export const ProcessingStack = () => {
       // If no_download=true skip processing.
       if (app.locals.config.parameters?.NO_DOWNLOAD === "true") {
         item["status"] = "no_download";
+        item["loading"] = false;
         updateItem(item);
+
         return;
       }
 
