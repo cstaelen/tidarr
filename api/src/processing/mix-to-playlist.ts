@@ -4,16 +4,17 @@ import { ProcessingItemType } from "../types";
 
 export async function getTracksByMixId(item: ProcessingItemType) {
   const app = getAppInstance();
-  const config = app.locals.config;
+  const tiddlConfig = app.locals.tiddlConfig;
 
-  if (!config?.auth) return;
+  if (!tiddlConfig?.auth) return;
 
   logs(item.id, `🕖 [MIX]: Get track from mix id`);
 
-  const url = `https://api.tidal.com/v1/mixes/${item.id}/items?countryCode=${config.auth.country_code}`;
+  const url = `https://api.tidal.com/v1/mixes/${item.id}/items?countryCode=${tiddlConfig.auth.country_code}`;
+
   const options: RequestInit = {};
   options.headers = new Headers({
-    Authorization: `Bearer ${config.auth.token}`,
+    Authorization: `Bearer ${tiddlConfig.auth.token}`,
   });
 
   const response = await fetch(url, options);
@@ -41,17 +42,17 @@ export async function getTracksByMixId(item: ProcessingItemType) {
 
 export async function createNewPlaylist(item: ProcessingItemType) {
   const app = getAppInstance();
-  const config = app.locals.config;
+  const tiddlConfig = app.locals.tiddlConfig;
 
-  if (!config?.auth) return;
+  if (!tiddlConfig?.auth) return;
 
   logs(item.id, `🕖 [MIX]: Create new playlist`);
 
-  const url = `https://openapi.tidal.com/v2/playlists?countryCode=${config?.auth?.country_code}`;
+  const url = `https://openapi.tidal.com/v2/playlists?countryCode=${tiddlConfig?.auth?.country_code}`;
   const options: RequestInit = {};
   options.method = "POST";
   options.headers = new Headers({
-    Authorization: `Bearer ${config.auth.token}`,
+    Authorization: `Bearer ${tiddlConfig.auth.token}`,
     "Content-Type": "application/json",
   });
 
@@ -83,17 +84,17 @@ export async function createNewPlaylist(item: ProcessingItemType) {
 
 export async function deletePlaylist(playlistId: number, itemId: string) {
   const app = getAppInstance();
-  const config = app.locals.config;
+  const tiddlConfig = app.locals.tiddlConfig;
 
-  if (!config?.auth) return;
+  if (!tiddlConfig?.auth) return;
 
   logs(itemId, `🕖 [MIX]: Delete temporary playlist`);
 
-  const url = `https://api.tidal.com/v1/playlists/${playlistId}?countryCode=${config.auth.country_code}`;
+  const url = `https://api.tidal.com/v1/playlists/${playlistId}?countryCode=${tiddlConfig.auth.country_code}`;
   const options: RequestInit = {};
   options.method = "DELETE";
   options.headers = new Headers({
-    Authorization: `Bearer ${config.auth.token}`,
+    Authorization: `Bearer ${tiddlConfig.auth.token}`,
     "Content-Type": "application/json",
   });
 
@@ -110,14 +111,14 @@ export async function deletePlaylist(playlistId: number, itemId: string) {
 
 export async function getPlaylistEtag(playlistId: number) {
   const app = getAppInstance();
-  const config = app.locals.config;
+  const tiddlConfig = app.locals.tiddlConfig;
 
-  if (!config) return;
+  if (!tiddlConfig) return;
 
   const playlistRes = await fetch(
-    `https://tidal.com/v1/playlists/${playlistId}?countryCode=${config.auth.country_code}`,
+    `https://tidal.com/v1/playlists/${playlistId}?countryCode=${tiddlConfig.auth.country_code}`,
     {
-      headers: { Authorization: `Bearer ${config.auth.token}` },
+      headers: { Authorization: `Bearer ${tiddlConfig.auth.token}` },
     },
   );
 
@@ -143,9 +144,9 @@ export async function addTracksToPlaylist(
   itemId: string,
 ) {
   const app = getAppInstance();
-  const config = app.locals.config;
+  const tiddlConfig = app.locals.tiddlConfig;
 
-  if (!config) return;
+  if (!tiddlConfig) return;
 
   logs(itemId, `🕖 [MIX]: Add track ids to new playlist`);
 
@@ -155,7 +156,7 @@ export async function addTracksToPlaylist(
   const options: RequestInit = {
     method: "POST",
     headers: new Headers({
-      Authorization: `Bearer ${config.auth.token}`,
+      Authorization: `Bearer ${tiddlConfig.auth.token}`,
       "Content-Type": "application/x-www-form-urlencoded",
       "If-None-Match": etag,
     } as HeadersInit),

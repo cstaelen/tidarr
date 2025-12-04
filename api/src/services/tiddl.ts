@@ -89,7 +89,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   child.stdout?.on("data", (data: string) => {
     if (
-      data.includes("Error") &&
+      data.includes("Error:") &&
       !data.includes("Downloaded") &&
       !data.includes("Downloading")
     ) {
@@ -98,7 +98,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
     if (
       hasProcessingError ||
-      data.includes("Exists") ||
+      data.includes("Error:") ||
       data.includes("Total downloads") ||
       data.includes("Downloaded")
     ) {

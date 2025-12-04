@@ -308,6 +308,7 @@ export const ProcessingStack = () => {
 
     logs(item.id, `⚠️ [MIX]: No track found.`);
     item["status"] = "error";
+    item["loading"] = false;
     updateItem(item);
     deletePlaylist(playlistId, item.id);
   }
@@ -317,6 +318,9 @@ export const ProcessingStack = () => {
     if (item.type === "mix") {
       const playlistId = await prepareMixToPlaylist(item);
       item["url"] = `playlist/${playlistId}`;
+      if (!playlistId) {
+        return;
+      }
     }
 
     const child = tidalDL(item.id, app, async () => {
