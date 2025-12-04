@@ -85,10 +85,7 @@ export const ProcessingStack = () => {
         record.status = "queue";
       }
 
-      // Initialize empty output history for each loaded item (ensure string key)
-      outputs.set(String(record.id), []);
-      data.push(record);
-      dataMap.set(record.id, record);
+      addItem(record);
     });
 
     if (!isPaused) {
@@ -127,16 +124,26 @@ export const ProcessingStack = () => {
   }
 
   async function addItem(item: ProcessingItemType) {
+    const noDownloadMode = process.env?.NO_DOWNLOAD === "true";
+
     // O(1) lookup using Map instead of O(n) findIndex
     if (dataMap.has(item.id)) {
       await removeItem(item.id);
     }
 
+    await addItemToFile(item);
+
+    if (noDownloadMode) {
+      item["status"] = "no_download";
+      item["loading"] = false;
+    }
+
     data.push(item);
     dataMap.set(item.id, item);
 
-    await addItemToFile(item);
-    processQueue();
+    if (!noDownloadMode) {
+      processQueue();
+    }
 
     notifySSEConnections(app);
   }
@@ -154,8 +161,12 @@ export const ProcessingStack = () => {
       (listItem: ProcessingItemType) => listItem?.id === item?.id,
     );
 
+    // Remove in queue file
+    await removeItemFromFile(id);
+
     // Kill the process if it exists and is running
     killProcess(item?.process, id);
+
     delete data[foundIndex];
     data.splice(foundIndex, 1);
     dataMap.delete(id);
@@ -164,7 +175,6 @@ export const ProcessingStack = () => {
     outputs.delete(String(id));
     cleanFolder(item.id);
 
-    await removeItemFromFile(id);
     processQueue();
 
     notifySSEConnections(app);
@@ -238,16 +248,6 @@ export const ProcessingStack = () => {
     if (indexNext !== -1) {
       const item = data[indexNext];
       await prepareProcessing(item);
-
-      // If no_download=true skip processing.
-      if (app.locals.config.parameters?.NO_DOWNLOAD === "true") {
-        item["status"] = "no_download";
-        item["loading"] = false;
-        updateItem(item);
-
-        return;
-      }
-
       processItem(item);
     }
   }
