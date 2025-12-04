@@ -88,23 +88,21 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   let hasProcessingError = false;
 
   child.stdout?.on("data", (data: string) => {
-    if (
-      data.includes("Error:") &&
-      !data.includes("Downloaded") &&
-      !data.includes("Downloading")
-    ) {
+    const lines = data?.split("\r");
+    const errorLines = lines.filter((line) => line.includes("[31mError:\x1B"));
+    if (errorLines.length > 0) {
       hasProcessingError = true;
     }
 
     if (
-      hasProcessingError ||
-      data.includes("Error:") ||
+      errorLines.length > 0 ||
+      data.includes("Exists") ||
       data.includes("Total downloads") ||
       data.includes("Downloaded")
     ) {
       // Extract first line and clean it (remove ANSI hyperlinks and extra lines)
       const cleanedLine = hasProcessingError
-        ? data
+        ? extractFirstLineClean(errorLines[0] || "")
         : extractFirstLineClean(data);
 
       if (cleanedLine) {
