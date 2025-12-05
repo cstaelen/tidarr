@@ -12,7 +12,6 @@ let queueCacheMap: Map<string, ProcessingItemType> | null = null;
  * Load queue from file (only on first call, then uses cache)
  */
 export async function loadQueueFromFile(): Promise<ProcessingItemType[]> {
-  // Return cache if available
   if (queueCache !== null) {
     return queueCache;
   }
@@ -26,7 +25,7 @@ export async function loadQueueFromFile(): Promise<ProcessingItemType[]> {
     return queueCache;
   } catch {
     // Database doesn't exist yet or path not found, initialize with empty array
-    await queueDb.push(QUEUE_PATH, []); // auto-saves with saveOnPush=true
+    await queueDb.push(QUEUE_PATH, []);
     queueCache = [];
     queueCacheMap = new Map();
     return queueCache;
@@ -35,6 +34,12 @@ export async function loadQueueFromFile(): Promise<ProcessingItemType[]> {
 
 export const addItemToFile = async (item: ProcessingItemType) => {
   const saveList = await loadQueueFromFile();
+
+  // Check if item with this ID already exists
+  if (queueCacheMap?.has(item.id)) {
+    return;
+  }
+
   delete item.process;
   saveList.push(item);
 

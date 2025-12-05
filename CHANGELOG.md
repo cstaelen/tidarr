@@ -15,6 +15,7 @@ Tidarr notable changes.
 - [Docker] Update docker volume path to `/shared` and `/music`
 - [Docker] Move `/home/app/standalone`to `/tidarr`
 - [API] json-db: add cache for file reading
+- [API] Update tiddl to 3.1.5
 
 ## 📦 1.0.6
 ### 🚀 Added
