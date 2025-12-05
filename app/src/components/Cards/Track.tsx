@@ -14,9 +14,12 @@ import CoverLink from "./common/CoverLink";
 import ImageLazy from "./common/ImageLazy";
 
 function StackDownloadButtons({ track }: { track: TrackType }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Stack direction="row" flexWrap="wrap" spacing={1}>
-      <PlayerButton track={track} />
+      {!isMobile && <PlayerButton track={track} />}
       <DownloadButton
         item={track}
         id={track.album.id}
@@ -29,20 +32,18 @@ function StackDownloadButtons({ track }: { track: TrackType }) {
 }
 
 function StackChips({ track }: { track: TrackType }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
-    <Box
-      display="flex"
-      flexWrap="wrap"
-      gap={0.5}
-      alignItems="flex-start"
-      my={1}
-    >
-      <ChipQuality quality={track?.audioQuality?.toLowerCase()} />
+    <Box display="flex" flexWrap="wrap" gap={1.5} alignItems="center" my={0.5}>
+      {isMobile && <PlayerButton track={track} />}
       <Chip
         label={`${Math.round(track.duration / 60)} min.`}
         color="success"
         size="small"
       />
+      <ChipQuality quality={track?.audioQuality?.toLowerCase()} />
       {track?.explicit && (
         <Chip label="Explicit" variant="outlined" size="small" />
       )}
@@ -78,7 +79,7 @@ function ArtistPic({ track }: { track: TrackType }) {
   );
 }
 
-function TrackCoverLink({
+export function TrackCoverLink({
   track,
   width,
   height,

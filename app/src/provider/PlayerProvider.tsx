@@ -8,6 +8,7 @@ import {
 } from "react";
 import { Stop } from "@mui/icons-material";
 import { Box, SpeedDial } from "@mui/material";
+import { TrackCoverLink } from "src/components/Cards/Track";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { TrackType } from "src/types";
 
@@ -67,6 +68,7 @@ const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const [playingTrackId, setPlayingTrackId] = useState<string | null>(null);
   const [streamUrl, setStreamUrl] = useState<string | null>(null);
+  const [currentItem, setCurrentItem] = useState<TrackType | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const { actions } = useApiFetcher();
   const [open, setOpen] = useState(false);
@@ -79,6 +81,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     const data = await actions.signStream(track.id); // backend return { url }
     if (data?.url) {
       setStreamUrl(data.url);
+      setCurrentItem(track);
     } else {
       console.warn("No signed URL returned", data);
     }
@@ -87,6 +90,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const stop = () => {
     setPlayingTrackId(null);
     setStreamUrl(null);
+    setCurrentItem(null);
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
@@ -116,7 +120,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       <SpeedDial
         ariaLabel="SpeedDial playground example"
         hidden={!streamUrl}
-        onClick={() => setStreamUrl(null)}
+        onClick={() => (open ? setStreamUrl(null) : null)}
         icon={!open ? <AnimatedEqualizer /> : <Stop />}
         FabProps={{
           color: "warning",
@@ -127,13 +131,53 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         onOpen={handleOpen}
         open={open}
       >
-        {streamUrl && (
-          <audio
-            style={{ opacity: open ? 1 : 0 }}
-            ref={audioRef}
-            controls
-            autoPlay
-          />
+        {streamUrl && currentItem && (
+          <>
+            <Box
+              display={open ? "flex" : "none"}
+              bgcolor="#282828"
+              alignItems="center"
+              borderRadius={2}
+              overflow="hidden"
+              boxShadow="0 0 15px 0px black"
+            >
+              <Box flex="auto">
+                <TrackCoverLink track={currentItem} width={60} height={60} />
+              </Box>
+              <Box py={1} px={2} fontSize={13}>
+                <Box
+                  component="strong"
+                  sx={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 1,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    maxWidth: 200,
+                  }}
+                >
+                  {currentItem?.title}
+                </Box>
+                <Box
+                  component="i"
+                  sx={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 1,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    maxWidth: 200,
+                  }}
+                >
+                  {currentItem?.artists[0].name}
+                </Box>
+              </Box>
+            </Box>
+            <audio
+              style={{ opacity: 0, position: "absolute", zIndex: -1 }}
+              ref={audioRef}
+              controls
+              autoPlay
+            />
+          </>
         )}
       </SpeedDial>
     </PlayerContext.Provider>

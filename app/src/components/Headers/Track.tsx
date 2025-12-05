@@ -62,20 +62,20 @@ export default function TrackHeader({ track }: { track: TrackType }) {
             alignItems="center"
             flexWrap="wrap"
             mb={2}
-            gap={0.5}
+            gap={1.5}
           >
-            <ChipQuality quality={track.audioQuality.toLowerCase()} />
+            <PlayerButton track={track} />
             <Chip
               label={`${Math.round(track.duration / 60)} min.`}
               color="success"
               size="small"
             />
+            <ChipQuality quality={track.audioQuality.toLowerCase()} />
             {track.explicit && (
               <Chip label="Explicit" size="small" variant="outlined" />
             )}
           </Stack>
           <Stack direction="row" alignItems="center" flexWrap="wrap" gap={1}>
-            <PlayerButton track={track} />
             <DownloadButton
               item={track}
               id={track.album.id}
