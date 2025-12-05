@@ -35,7 +35,8 @@ async function fetchTidal<T>({
   search,
   resetTidalToken,
   reloadTidalToken,
-}: FetchTidalProps): Promise<T | undefined> {
+  retryCount = 0,
+}: FetchTidalProps & { retryCount?: number }): Promise<T | undefined> {
   const countryCode = tiddlConfig?.auth.country_code || "EN";
   const TOKEN = tiddlConfig?.auth.token;
 
@@ -77,7 +78,18 @@ async function fetchTidal<T>({
     switch (data.subStatus) {
       // Token needs refresh - reload config to get refreshed token from backend
       case 11003: {
-        console.log("[useFetchTidal] Token expired, reloading config...");
+        // Prevent infinite loop by limiting retries
+        if (retryCount >= 3) {
+          console.error(
+            "[useFetchTidal] Token refresh retry limit reached. Resetting token.",
+          );
+          resetTidalToken();
+          throw new Error("Token refresh failed after 3 attempts");
+        }
+
+        console.log(
+          `[useFetchTidal] Token expired, reloading config... (attempt ${retryCount + 1}/3)`,
+        );
         console.log(
           "[useFetchTidal] Old token:",
           tiddlConfig?.auth?.token?.substring(0, 50),
@@ -87,6 +99,19 @@ async function fetchTidal<T>({
           "[useFetchTidal] New token:",
           updatedConfig?.auth?.token?.substring(0, 50),
         );
+
+        // Check if token actually changed
+        if (
+          tiddlConfig?.auth?.token &&
+          updatedConfig?.auth?.token === tiddlConfig?.auth?.token
+        ) {
+          console.warn(
+            "[useFetchTidal] Token unchanged after refresh attempt. Waiting before retry...",
+          );
+          // Wait 1 second before retrying to avoid rapid loops
+          await new Promise((r) => setTimeout(r, 1000));
+        }
+
         // Retry the same request with the refreshed token from backend
         return fetchTidal({
           url,
@@ -96,6 +121,7 @@ async function fetchTidal<T>({
           search,
           resetTidalToken,
           reloadTidalToken,
+          retryCount: retryCount + 1,
         });
       }
 
