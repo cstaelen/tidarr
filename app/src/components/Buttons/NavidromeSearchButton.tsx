@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { Album } from "@mui/icons-material";
-import { Button, CircularProgress, Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import { TIDARR_PROXY_URL } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { getApiUrl } from "src/utils/helpers";
+
+import ButtonGradient from "./ButtonGradient";
 
 interface NavidromeSearchButtonProps {
   query: string;
@@ -166,16 +168,17 @@ export const NavidromeSearchButton = ({
   return (
     <Tooltip title={tooltipTitle} arrow>
       <span>
-        <Button
-          variant="outlined"
-          color="info"
-          endIcon={loading ? <CircularProgress size={16} /> : <Album />}
+        <ButtonGradient
           onClick={handleNavidromeSearch}
-          size="small"
+          loading={loading}
           disabled={loading}
+          endIcon={<Album />}
+          color="info"
+          gradientFrom="#037ef9"
+          gradientTo="#00b7ff"
         >
           {buttonLabel}
-        </Button>
+        </ButtonGradient>
       </span>
     </Tooltip>
   );
