@@ -6,8 +6,54 @@ import {
   useRef,
   useState,
 } from "react";
+import { Stop } from "@mui/icons-material";
+import { Box, SpeedDial } from "@mui/material";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { TrackType } from "src/types";
+
+// Animated Equalizer Component
+function AnimatedEqualizer() {
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "flex-end",
+        gap: "3px",
+        height: "24px",
+        justifyContent: "center",
+      }}
+    >
+      {[0, 1, 2, 3].map((i) => (
+        <Box
+          key={i}
+          sx={{
+            width: "4px",
+            backgroundColor: "currentColor",
+            borderRadius: "2px 2px 0 0",
+            animation: `equalizerBounce${i % 2} 0.6s ease-in-out infinite`,
+            animationDelay: `${i * 0.05}s`,
+            "@keyframes equalizerBounce0": {
+              "0%, 100%": {
+                height: "6px",
+              },
+              "50%": {
+                height: "18px",
+              },
+            },
+            "@keyframes equalizerBounce1": {
+              "0%, 100%": {
+                height: "18px",
+              },
+              "50%": {
+                height: "6px",
+              },
+            },
+          }}
+        />
+      ))}
+    </Box>
+  );
+}
 
 interface PlayerContextType {
   playingTrackId: string | null;
@@ -23,10 +69,14 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const [streamUrl, setStreamUrl] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const { actions } = useApiFetcher();
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const play = async (track: TrackType) => {
     setPlayingTrackId(track.id);
-    const data = await actions.sign(track.id); // backend return { url }
+    const data = await actions.signStream(track.id); // backend return { url }
     if (data?.url) {
       setStreamUrl(data.url);
     } else {
@@ -45,6 +95,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
+    function init() {
+      setOpen(true);
+      setTimeout(() => setOpen(false), 3000);
+    }
+
     if (streamUrl && audioRef.current) {
       audioRef.current.src = streamUrl;
       audioRef.current.load();
@@ -52,26 +107,35 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         console.warn("Autoplay blocked:", err);
       });
     }
+    init();
   }, [streamUrl]);
 
   return (
     <PlayerContext.Provider value={{ playingTrackId, streamUrl, play, stop }}>
       {children}
-      {streamUrl && (
-        <audio
-          ref={audioRef}
-          controls
-          autoPlay
-          style={{
-            position: "fixed",
-            bottom: 0,
-            left: 0,
-            width: "100%",
-            zIndex: 9999,
-            backgroundColor: "#111",
-          }}
-        />
-      )}
+      <SpeedDial
+        ariaLabel="SpeedDial playground example"
+        hidden={!streamUrl}
+        onClick={() => setStreamUrl(null)}
+        icon={!open ? <AnimatedEqualizer /> : <Stop />}
+        FabProps={{
+          color: "warning",
+        }}
+        direction="right"
+        sx={{ position: "fixed", bottom: 50, left: 16, zIndex: "2000" }}
+        onClose={handleClose}
+        onOpen={handleOpen}
+        open={open}
+      >
+        {streamUrl && (
+          <audio
+            style={{ opacity: open ? 1 : 0 }}
+            ref={audioRef}
+            controls
+            autoPlay
+          />
+        )}
+      </SpeedDial>
     </PlayerContext.Provider>
   );
 }

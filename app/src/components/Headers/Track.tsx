@@ -5,6 +5,7 @@ import { TrackType } from "src/types";
 import { DownloadButton } from "../Buttons/DownloadButton";
 import { JellyfinSearchButton } from "../Buttons/JellyfinSearchButton";
 import { NavidromeSearchButton } from "../Buttons/NavidromeSearchButton";
+import { PlayerButton } from "../Buttons/PlayerButton";
 import { PlexSearchButton } from "../Buttons/PlexSearchButton";
 import { ArtistAvatar } from "../Cards/common/ArtistAvatar";
 import { ChipQuality } from "../Cards/common/ChipQuality";
@@ -74,6 +75,7 @@ export default function TrackHeader({ track }: { track: TrackType }) {
             )}
           </Stack>
           <Stack direction="row" alignItems="center" flexWrap="wrap" gap={1}>
+            <PlayerButton track={track} />
             <DownloadButton
               item={track}
               id={track.album.id}

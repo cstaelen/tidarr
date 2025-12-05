@@ -65,6 +65,7 @@ type ApiFetcherContextType = {
     get_queue_status: () => Promise<{ isPaused: boolean } | undefined>;
     get_list_history: () => Promise<string[] | undefined>;
     flush_history: () => Promise<unknown>;
+    signStream: (id: string) => Promise<{ url: string } | undefined>;
   };
 };
 
@@ -450,13 +451,16 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
 
   // Play track
 
-  async function sign(id: string) {
-    return await queryExpressJS(`${apiUrl}/sign/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+  async function signStream(id: string) {
+    return await queryExpressJS<{ url: string }>(
+      `${apiUrl}/stream/sign/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
   }
 
   const value = {
@@ -491,7 +495,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       get_queue_status,
       get_list_history,
       flush_history,
-      sign,
+      signStream,
     },
   };
 

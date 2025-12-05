@@ -10,18 +10,23 @@ const streamPipeline = promisify(pipeline);
 const router = Router();
 
 // Endpoint firm URL
-router.get("/sign/:id", (req, res) => {
+router.get("/stream/sign/:id", (req, res) => {
   const { id } = req.params;
   if (!id) return res.status(400).json({ error: "Missing id" });
 
   const expires = Math.floor(Date.now() / 1000) + 300;
   const sig = signUrl(id, expires);
 
-  res.json({ url: `/api/play/${id}?exp=${expires}&sig=${sig}` });
+  const baseUrl = `${req.protocol}://${req.get("host")}`;
+  const url = new URL(`/api/stream/play/${id}`, baseUrl);
+  url.searchParams.set("exp", expires.toString());
+  url.searchParams.set("sig", sig);
+
+  res.json({ url: url.toString() });
 });
 
 // Endpoint play
-router.get("/play/:id", async (req, res) => {
+router.get("/stream/play/:id", async (req, res) => {
   const { id } = req.params;
   const { exp, sig } = req.query as { exp?: string; sig?: string };
 
@@ -92,7 +97,14 @@ router.get("/play/:id", async (req, res) => {
 
     await streamPipeline(upstream.body, res);
   } catch (err) {
-    console.error("Error in /api/play:", err);
+    // Ignore premature close errors (client stopped playback)
+    const error = err as Error & { code?: string };
+    if (error.code === "ERR_STREAM_PREMATURE_CLOSE") {
+      // Client disconnected, this is normal when user stops playback
+      return;
+    }
+
+    console.error("Error in /api/stream/play:", err);
     if (!res.headersSent) {
       res.status(500).json({ error: "Internal server error" });
     } else {
