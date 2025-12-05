@@ -80,9 +80,25 @@ export async function refreshAndReloadConfig(
     return get_tiddl_config();
   }
 
+  const oldToken = tiddlConfig?.auth?.token;
+
   // Refresh token using the centralized function
   await refreshTidalToken(true, tiddlConfig);
 
   // Reload config after refresh completes
-  return get_tiddl_config();
+  const result = get_tiddl_config();
+
+  // Verify that the token actually changed
+  const newToken = result.config?.auth?.token;
+  if (oldToken && newToken && oldToken === newToken) {
+    console.log(
+      "⚠️ [TOKEN] Warning: Token refresh completed but token unchanged. This may indicate a refresh failure.",
+    );
+  } else if (newToken) {
+    console.log(
+      `✅ [TOKEN] Token successfully refreshed (${newToken.substring(0, 20)}...)`,
+    );
+  }
+
+  return result;
 }

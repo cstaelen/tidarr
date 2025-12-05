@@ -286,11 +286,13 @@ export async function refreshTidalToken(
       },
     });
 
-    refreshProcess.on("close", (code) => {
+    refreshProcess.on("close", async (code) => {
       if (code === 0) {
         console.log(
           `✅ [TIDDL] Tidal token refreshed and saved to ${CONFIG_PATH}/.tiddl/auth.json`,
         );
+        // Wait 500ms to ensure file is written to disk before resolving
+        await new Promise((r) => setTimeout(r, 500));
       } else {
         console.log(`⚠️ [TIDDL] Token refresh exited with code ${code}`);
       }
