@@ -83,14 +83,16 @@ export function TrackCoverLink({
   track,
   width,
   height,
+  targetUrl,
 }: {
   track: TrackType;
   width: string | number;
   height: string | number;
+  targetUrl?: string;
 }) {
   return (
     <CoverLink
-      url={`/track/${track.id}`}
+      url={targetUrl || `/track/${track.id}`}
       style={{
         display: "block",
         pointerEvents: track?.allowStreaming ? "inherit" : "none",

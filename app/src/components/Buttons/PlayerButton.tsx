@@ -9,8 +9,8 @@ interface PlayerButtonProps {
 }
 
 export const PlayerButton = ({ track }: PlayerButtonProps) => {
-  const { playingTrackId, streamUrl, play, stop } = usePlayer();
-  const isPlaying = streamUrl && playingTrackId === track.id;
+  const { playingTrack, streamUrl, play, stop } = usePlayer();
+  const isPlaying = streamUrl && playingTrack?.id === track.id;
 
   return (
     <IconButton
