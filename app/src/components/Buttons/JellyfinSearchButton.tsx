@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { Box, Button, CircularProgress, SvgIcon, Tooltip } from "@mui/material";
+import { SvgIcon, Tooltip } from "@mui/material";
 import { TIDARR_PROXY_URL } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { getApiUrl } from "src/utils/helpers";
+
+import ButtonGradient from "./ButtonGradient";
 
 interface JellyfinSearchButtonProps {
   query: string;
@@ -180,56 +182,17 @@ export const JellyfinSearchButton = ({
   return (
     <Tooltip title={tooltipTitle} arrow>
       <span>
-        <Button
-          variant="outlined"
-          color="info"
-          endIcon={loading ? <CircularProgress size={16} /> : <JellyfinIcon />}
+        <ButtonGradient
           onClick={handleJellyfinSearch}
-          size="small"
+          loading={loading}
           disabled={loading}
-          sx={{
-            position: "relative",
-            borderColor: "transparent",
-            borderWidth: 1,
-            borderStyle: "solid",
-            background: "transparent",
-            backgroundClip: "padding-box",
-
-            "&::before": {
-              content: '""',
-              position: "absolute",
-              inset: 0,
-              borderRadius: "inherit",
-              margin: "-1px",
-              padding: "1px",
-              background: "linear-gradient(45deg, #883aa2, #0093cb)",
-              WebkitMask:
-                "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-              WebkitMaskComposite: "xor",
-              mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-              maskComposite: "exclude",
-              pointerEvents: "none",
-            },
-            "&:hover": {
-              backgroundColor: "var(--variant-outlinedBg);",
-            },
-            "&:hover::before": {
-              background: "linear-gradient(45deg, #bb6dd4, #00B5DC)",
-            },
-          }}
+          endIcon={<JellyfinIcon />}
+          color="info"
+          gradientFrom="#883aa2"
+          gradientTo="#0093cb"
         >
-          <Box
-            component="span"
-            sx={{
-              background: "linear-gradient(45deg, #bb6dd4, #00B5DC)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            {buttonLabel}
-          </Box>
-        </Button>
+          {buttonLabel}
+        </ButtonGradient>
       </span>
     </Tooltip>
   );

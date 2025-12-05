@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { Button, CircularProgress, SvgIcon, Tooltip } from "@mui/material";
+import { SvgIcon, Tooltip } from "@mui/material";
 import { TIDARR_PROXY_URL } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { getApiUrl } from "src/utils/helpers";
+
+import ButtonGradient from "./ButtonGradient";
 
 interface PlexSearchButtonProps {
   query: string;
@@ -157,16 +159,17 @@ export const PlexSearchButton = ({
   return (
     <Tooltip title={tooltipTitle} arrow>
       <span>
-        <Button
-          variant="outlined"
-          color="warning"
-          endIcon={loading ? <CircularProgress size={16} /> : <PlexIcon />}
+        <ButtonGradient
           onClick={handlePlexSearch}
-          size="small"
+          loading={loading}
           disabled={loading}
+          endIcon={<PlexIcon />}
+          color="warning"
+          gradientFrom="#ce6503cd"
+          gradientTo="#f9d403"
         >
           {buttonLabel}
-        </Button>
+        </ButtonGradient>
       </span>
     </Tooltip>
   );
