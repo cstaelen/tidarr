@@ -147,12 +147,12 @@ export function replacePathInM3U(item: ProcessingItemType): void {
       return;
     }
 
-    let m3uContent = execSync(`cat "${m3uFilePath}"`, {
-      encoding: "utf-8",
-    });
+    // Use fs.readFileSync instead of shell `cat` to avoid issues with special characters
+    let m3uContent = fs.readFileSync(m3uFilePath, "utf-8");
 
     m3uContent = m3uContent.replace(new RegExp(downloadDir, "g"), basePath);
-    execSync(`echo "${m3uContent}" > "${m3uFilePath}"`);
+    // Use fs.writeFileSync instead of shell `echo` to preserve $ characters in artist names
+    fs.writeFileSync(m3uFilePath, m3uContent, "utf-8");
     logs(
       item.id,
       `✅ [TIDARR] M3U file updated with base path : ${basePath} !`,
