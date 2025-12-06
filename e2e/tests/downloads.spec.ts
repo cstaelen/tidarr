@@ -45,7 +45,7 @@ test("Tidarr download : Should be able to download track", async ({ page }) => {
     })
     .click();
 
-  await page.getByRole("button", { name: "Track" }).nth(0).click();
+  await page.getByRole("button", { name: "Track", exact: true }).nth(0).click();
 
   await testProcessingList(
     page,

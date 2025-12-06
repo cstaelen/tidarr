@@ -62,7 +62,9 @@ test("Tidarr direct url : Should display album result using Tidal album url", as
 
   const albumCount = await page.getByRole("button", { name: "Album" }).count();
   await expect(albumCount).toEqual(54);
-  const trackCount = await page.getByRole("button", { name: "Track" }).count();
+  const trackCount = await page
+    .getByRole("button", { exact: true, name: "Track" })
+    .count();
   await expect(trackCount).toEqual(13);
 
   await expect(page.url()).toContain("/album/77610756");
@@ -85,7 +87,9 @@ test("Tidarr direct url : Should display playlist result using Tidal playlist ur
 
   const albumCount = await page.getByRole("button", { name: "Album" }).count();
   await expect(albumCount).toEqual(18);
-  const trackCount = await page.getByRole("button", { name: "Track" }).count();
+  const trackCount = await page
+    .getByRole("button", { name: "Track", exact: true })
+    .count();
   await expect(trackCount).toEqual(18);
 
   await expect(page.url()).toContain(
@@ -121,7 +125,9 @@ test("Tidarr direct url : Should display track result using Tidal track url", as
 
   const albumCount = await page.getByRole("button", { name: "Album" }).count();
   await expect(albumCount).toEqual(15);
-  const trackCount = await page.getByRole("button", { name: "Track" }).count();
+  const trackCount = await page
+    .getByRole("button", { name: "Track", exact: true })
+    .count();
   await expect(trackCount).toEqual(14);
 
   await expect(page.url()).toContain("/track/77610761");
@@ -138,7 +144,9 @@ test("Tidarr direct url : Should display mix result using Tidal mix url", async 
   await expect(page.getByRole("button", { name: "Get mix" })).toBeVisible();
   const albumCount = await page.getByRole("button", { name: "Album" }).count();
   await expect(albumCount).toEqual(100);
-  const trackCount = await page.getByRole("button", { name: "Track" }).count();
+  const trackCount = await page
+    .getByRole("button", { name: "Track", exact: true })
+    .count();
   await expect(trackCount).toEqual(100);
 
   await expect(page.url()).toContain("/mix/00166fec481604e645532e233b958b");

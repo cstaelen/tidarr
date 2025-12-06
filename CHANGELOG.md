@@ -10,12 +10,15 @@ Tidarr notable changes.
 ### 🚀 Added
 - [API] Add `NO_DOWNLOAD` env var to use Tidarr UI only and process download with custom scripts. #517
 - [API] Add persistant history separated from queue #512
+- [Front] Add track audio player #513 (Thanks @unthoiz)
 ### 🖍 Changed
 - [Tiddl] Tidarr use now toml `scan_path` and `download_path` parameters
 - [Docker] Update docker volume path to `/shared` and `/music`
 - [Docker] Move `/home/app/standalone`to `/tidarr`
 - [API] json-db: add cache for file reading
 - [API] Update tiddl to 3.1.5
+### 🐛 Fixed
+- [M3U] Preserve $ characters in artist names #532 (Thanks @djdubd)
 
 ## 📦 1.0.6
 ### 🚀 Added

@@ -5,6 +5,7 @@ import { TrackType } from "src/types";
 import { DownloadButton } from "../Buttons/DownloadButton";
 import { JellyfinSearchButton } from "../Buttons/JellyfinSearchButton";
 import { NavidromeSearchButton } from "../Buttons/NavidromeSearchButton";
+import { PlayerButton } from "../Buttons/PlayerButton";
 import { PlexSearchButton } from "../Buttons/PlexSearchButton";
 import { ArtistAvatar } from "../Cards/common/ArtistAvatar";
 import { ChipQuality } from "../Cards/common/ChipQuality";
@@ -61,14 +62,15 @@ export default function TrackHeader({ track }: { track: TrackType }) {
             alignItems="center"
             flexWrap="wrap"
             mb={2}
-            gap={0.5}
+            gap={1.5}
           >
-            <ChipQuality quality={track.audioQuality.toLowerCase()} />
+            <PlayerButton track={track} />
             <Chip
               label={`${Math.round(track.duration / 60)} min.`}
               color="success"
               size="small"
             />
+            <ChipQuality quality={track.audioQuality.toLowerCase()} />
             {track.explicit && (
               <Chip label="Explicit" size="small" variant="outlined" />
             )}
