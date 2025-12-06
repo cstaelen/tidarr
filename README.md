@@ -404,6 +404,14 @@ If you want to use Tidarr only as UI and not download files, you can set `NO_DOW
 
 This way you can use Tidarr to manage your download history, watchlist, and keep benefits of json DB (`sync_list.json`, `queue.json`) to manage download via custom scripts.
 
+> [!NOTE]
+> **Unecessary configurations**
+>
+> In NO_DOWNLOAD mode those configurations are unecessary:
+> - Docker library volume can be omit
+> - `.tiddl/config.toml` as no effect
+>
+
 ### API Documentation
 
 If you want to interact with Tidarr from other applications (scripts, external services, automations), you can use the Express API.
