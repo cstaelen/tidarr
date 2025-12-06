@@ -131,6 +131,7 @@ const PlayBack = ({ track, audioUrl, audioRef }: PlayBackProps) => {
           onClick={togglePlayPause}
           size="small"
           sx={{ color: "white", p: 0 }}
+          data-testid={isPlaying ? "playback-pause" : "playback-resume"}
         >
           {isPlaying ? <Pause /> : <PlayArrow />}
         </IconButton>
@@ -153,7 +154,12 @@ const PlayBack = ({ track, audioUrl, audioRef }: PlayBackProps) => {
         <Box fontSize={11} color="text.secondary">
           {formatTime(duration)}
         </Box>
-        <IconButton onClick={stop} size="small" sx={{ color: "white", p: 0 }}>
+        <IconButton
+          onClick={stop}
+          size="small"
+          sx={{ color: "white", p: 0 }}
+          data-testid="playback-stop"
+        >
           <Stop />
         </IconButton>
       </Box>

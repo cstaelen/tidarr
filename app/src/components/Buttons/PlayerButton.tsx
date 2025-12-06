@@ -20,6 +20,7 @@ export const PlayerButton = ({ track }: PlayerButtonProps) => {
       sx={{
         border: "1px solid gray",
       }}
+      aria-label={isPlaying ? "Stop track" : "Play track"}
     >
       {isPlaying ? (
         <StopIcon fontSize="small" />
