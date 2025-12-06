@@ -409,7 +409,7 @@ This way you can use Tidarr to manage your download history, watchlist, and keep
 >
 > In NO_DOWNLOAD mode those configurations are unecessary:
 > - Docker library volume can be omit
-> - `.tiddl/config.toml` as no effect
+> - `.tiddl/config.toml` has no effect
 >
 
 ### API Documentation
