@@ -308,7 +308,7 @@ environment:
 - **Jellyfin API Key** : your Jellyfin API Key : Go to Dashboard -> API Keys
 
 > [!NOTE]
-> All Jellyfin API queries are proxied through the Tidarr backend to avoid CORS issues and keep your Jellyfin API Key secure. The search button displays real-time result counts (artists, albums, tracks) from your Jellyfin library.
+> All Jellyfin API queries are proxied through the Tidarr backend to avoid CORS issues and keep your Jellyfin API Key secure. The search button displays real-time result counts (artists, albums, tracks, videos) from your Jellyfin library.
 
 ### Navidrome search
 
