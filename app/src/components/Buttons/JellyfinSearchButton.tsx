@@ -167,7 +167,7 @@ export const JellyfinSearchButton = ({
     let searchUrl: string;
 
     // Build the Jellyfin search URL
-    // Jellyfin web interface uses: /web/#/search.html?query=xxx
+    // Jellyfin web interface uses: /web/#/search.html?collectionType=music&query=xxx
     if (pivot === "tracks" && parentId) {
       // Search within the specific album to avoid matches with other albums
       searchUrl = `${jellyfinBaseUrl}/web/#/search.html?collectionType=music&query=${encodeURIComponent(query)}&parentId=${encodeURIComponent(parentId)}`;

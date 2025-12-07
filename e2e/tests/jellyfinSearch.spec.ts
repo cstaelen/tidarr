@@ -44,7 +44,9 @@ async function checkJellyfinButton(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, prefer-const
     openedUrl = await page.evaluate(() => (window as any).__lastOpenedUrl);
     await page.waitForTimeout(250);
-    expect(openedUrl).toContain("http://jellyfin.url/web/#/search.html?query=");
+    expect(openedUrl).toContain(
+      "http://jellyfin.url/web/#/search.html?collectionType=music&query=",
+    );
 
     // Jellyfin doesn't have pivot filtering in the URL like Plex/Navidrome
     // It just performs a general search with the query
@@ -60,7 +62,6 @@ async function mockJellyfinProxy(page: Page) {
   // Mock Jellyfin Artists endpoint
   await page.route("**/proxy/jellyfin/Artists/**", async (route) => {
     const json = {
-      ArtistCount: 1,
       AlbumCount: 5,
       SongCount: 42,
       MusicVideoCount: 3,
