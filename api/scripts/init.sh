@@ -3,7 +3,7 @@
 echo "🕖 [TIDARR] Application loading ... "
 
 SETTINGS_URL="/tidarr/settings"
-PUBLIC_URL="/tidarr/build"
+PUBLIC_URL="/tidarr/app/build"
 DEV_PUBLIC_URL="/tidarr/app/public"
 SHARED_URL="/shared"
 

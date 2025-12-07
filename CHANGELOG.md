@@ -3,6 +3,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.0.8
+### 🐛 Fixed
+- [API] Fix reload tiddl conf after edit #537
+- [API] Fix Quoted m3u override issue
+- [API] Fix custom CSS not applying #540
+
 ## 📦 1.0.7
 
 ⚠️ Docker volume path as changed. Beware to check your path in `docker-compose.yml` and `config.toml` tiddl congif files.
