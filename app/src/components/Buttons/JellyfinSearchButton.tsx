@@ -16,6 +16,7 @@ interface JellyfinCounts {
   artists: number;
   albums: number;
   tracks: number;
+  videos: number;
 }
 
 const JellyfinIcon = () => (
@@ -35,6 +36,7 @@ export const JellyfinSearchButton = ({
     null,
   );
   const [loading, setLoading] = useState(false);
+  const [parentId, setParentId] = useState<string | null>(null);
 
   const isButtonActive: () => boolean = useCallback(
     () => !!(config?.JELLYFIN_URL && config?.JELLYFIN_API_KEY && query),
@@ -53,17 +55,27 @@ export const JellyfinSearchButton = ({
         let artistsCount = 0;
         let albumsCount = 0;
         let tracksCount = 0;
+        let videosCount = 0;
 
         // Artists
         if (pivot === "artists") {
+          // Normalize: replace any '/' with a space
+          const safeQuery = query.replaceAll("/", " ");
+
           const artistResponse = await fetch(
-            `${apiUrl}/jellyfin/Artists/${encodeURIComponent(query)}`,
+            `${apiUrl}/jellyfin/Artists/${encodeURIComponent(safeQuery)}`,
           );
           if (artistResponse.ok) {
             const artistData = await artistResponse.json();
-            artistsCount = artistData.ArtistCount ?? 1; // fallback to jellyfin 10.10.7
             albumsCount = artistData.AlbumCount;
             tracksCount = artistData.SongCount;
+            videosCount = artistData.MusicVideoCount;
+            if (tracksCount > 0 || videosCount > 0) {
+              // Jellyfin <10.11 does not expose ArtistCount
+              // Jellyfin 10.11.x exposes ArtistCount but always returns 0
+              // Assume at least 1 artist when tracks/videos exist (compatibility fallback)
+              artistsCount = 1;
+            }
           }
         }
 
@@ -102,6 +114,7 @@ export const JellyfinSearchButton = ({
               ? albumData.SearchHints[0]
               : null;
             if (albumHint?.ItemId) {
+              setParentId(albumHint.ItemId);
               // after search track into album
               const trackResponse = await fetch(
                 `${apiUrl}/jellyfin/Search/Hints?searchTerm=${encodeURIComponent(query)}&parentId=${encodeURIComponent(albumHint.ItemId)}&includeItemTypes=Audio`,
@@ -118,6 +131,7 @@ export const JellyfinSearchButton = ({
           artists: artistsCount,
           albums: albumsCount,
           tracks: tracksCount,
+          videos: videosCount,
         });
 
         // Set the count for the current pivot
@@ -150,10 +164,17 @@ export const JellyfinSearchButton = ({
       return;
     }
 
+    let searchUrl: string;
+
     // Build the Jellyfin search URL
-    // Jellyfin web interface uses: /web/index.html#!/search.html?query=xxx
-    // There is no filter to apply to searches (shows all results)
-    const searchUrl = `${jellyfinBaseUrl}/web/index.html#!/search.html?query=${encodeURIComponent(query)}`;
+    // Jellyfin web interface uses: /web/#/search.html?query=xxx
+    if (pivot === "tracks" && parentId) {
+      // Search within the specific album to avoid matches with other albums
+      searchUrl = `${jellyfinBaseUrl}/web/#/search.html?collectionType=music&query=${encodeURIComponent(query)}&parentId=${encodeURIComponent(parentId)}`;
+    } else {
+      // Generic search
+      searchUrl = `${jellyfinBaseUrl}/web/#/search.html?collectionType=music&query=${encodeURIComponent(query)}`;
+    }
     window.open(searchUrl, "jellyfin-search");
   };
 
@@ -168,7 +189,7 @@ export const JellyfinSearchButton = ({
       <div>Jellyfin results for &quot;{query}&quot;:</div>
       <div>
         {jellyfinCounts.artists} artist(s) - {jellyfinCounts.albums} album(s) -{" "}
-        {jellyfinCounts.tracks} track(s)
+        {jellyfinCounts.tracks} track(s) - {jellyfinCounts.videos} video(s)
       </div>
     </>
   ) : (
