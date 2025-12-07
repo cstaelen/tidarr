@@ -19,8 +19,6 @@ export async function configureServer() {
       },
     );
 
-    console.log(output_config);
-
     return {
       output: output_config,
       parameters: {
