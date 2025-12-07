@@ -26,13 +26,13 @@ test("Custom CSS: Should enable save button when CSS is modified", async ({
   await expect(saveButton).toBeEnabled();
 });
 
-test("Custom CSS: Should save CSS to API and persist", async ({ page }) => {
+test("Custom CSS: Should apply styles to DOM and persist", async ({ page }) => {
   await page.goto("/");
 
   await page.getByRole("button", { name: "Settings" }).click();
   await page.getByRole("tab", { name: "Custom CSS" }).click();
 
-  const newCSS = "h1 { font-size: 32px; }";
+  const newCSS = "body { background-color: rgb(255, 0, 0); }";
 
   // Wait for Monaco editor to load
   await page.locator(".monaco-editor").waitFor();
@@ -49,7 +49,16 @@ test("Custom CSS: Should save CSS to API and persist", async ({ page }) => {
   ).toBeEnabled();
   await page.getByRole("button", { name: "Save & Reload" }).click();
 
-  // After reload, verify the CSS is still there
+  // Wait for page to reload
+  await page.waitForLoadState("load");
+
+  // Verify the CSS is actually applied to the DOM
+  const backgroundColor = await page.locator("body").evaluate((el) => {
+    return window.getComputedStyle(el).backgroundColor;
+  });
+  expect(backgroundColor).toBe("rgb(255, 0, 0)");
+
+  // After reload, verify the CSS is still there in the editor
   await page.getByRole("button", { name: "Settings" }).click();
   await page.getByRole("tab", { name: "Custom CSS" }).click();
 
@@ -58,6 +67,7 @@ test("Custom CSS: Should save CSS to API and persist", async ({ page }) => {
   const editorText = await page
     .locator(".monaco-editor .view-lines")
     .innerText();
-  expect(editorText).toContain("font-size");
-  expect(editorText).toContain("32px");
+  expect(editorText).toContain("background-color");
+  // Normalize whitespace since Monaco may format differently
+  expect(editorText.replace(/\s+/g, " ")).toContain("rgb(255, 0, 0)");
 });

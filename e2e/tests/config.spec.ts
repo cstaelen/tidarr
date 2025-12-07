@@ -85,6 +85,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     ["SYNC_CRON_EXPRESSION", "0 3 * * *"],
     ["NO_DOWNLOAD", ""],
     ["ENABLE_HISTORY", "true"],
+    ["M3U_BASEPATH_FILE", "../../"],
   ];
   const tableAPIRows = await page
     .locator("#alert-dialog-description div")
