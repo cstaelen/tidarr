@@ -95,15 +95,12 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     }
 
     if (
-      errorLines.length > 0 ||
       data.includes("Exists") ||
       data.includes("Total downloads") ||
       data.includes("Downloaded")
     ) {
       // Extract first line and clean it (remove ANSI hyperlinks and extra lines)
-      const cleanedLine = hasProcessingError
-        ? extractFirstLineClean(errorLines[0] || "")
-        : extractFirstLineClean(data);
+      const cleanedLine = extractFirstLineClean(data);
 
       if (cleanedLine) {
         // Console log important lines only (for Docker logs)
@@ -116,6 +113,12 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
         }
       }
 
+      return;
+    }
+
+    if (errorLines.length > 0) {
+      logs(item.id, errorLines.join("\n"), { replaceLast: true });
+      logs(item.id, " ");
       return;
     }
 
