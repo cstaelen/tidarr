@@ -2,15 +2,11 @@ import { expect } from "@playwright/test";
 
 import { test } from "../test-isolation";
 
-import { mockConfigAPI } from "./utils/mock";
 import { runSearch } from "./utils/search";
 
 test("History: Should see and clear all history when flush is called", async ({
   page,
 }) => {
-  // Enable history feature
-  await mockConfigAPI(page, { ENABLE_HISTORY: "true" });
-
   let historyDeleteCalled = false;
   const historyAfterDelete: string[] = [];
 

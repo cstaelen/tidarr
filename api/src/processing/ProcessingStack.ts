@@ -351,7 +351,7 @@ export const ProcessingStack = () => {
     if (!shouldPostProcess) {
       item["status"] = "finished";
       updateItem(item);
-      logs(item.id, "✅ [TIDARR] No file to process.");
+      logs(item.id, "⚠️ [TIDARR] No file to process.");
 
       await updateItemInQueueFile(item);
 
