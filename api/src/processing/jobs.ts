@@ -153,10 +153,7 @@ export function replacePathInM3U(item: ProcessingItemType): void {
     m3uContent = m3uContent.replace(new RegExp(downloadDir, "g"), basePath);
     // Use fs.writeFileSync instead of shell `echo` to preserve $ characters in artist names
     fs.writeFileSync(m3uFilePath, m3uContent, "utf-8");
-    logs(
-      item.id,
-      `✅ [TIDARR] M3U file updated with base path : ${basePath} !`,
-    );
+    logs(item.id, `✅ [TIDARR] M3U file updated with base path : ${basePath}`);
   } catch (e) {
     logs(
       item.id,
