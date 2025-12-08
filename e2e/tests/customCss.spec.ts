@@ -51,6 +51,7 @@ test("Custom CSS: Should apply styles to DOM and persist", async ({ page }) => {
 
   // Wait for page to reload
   await page.waitForLoadState("load");
+  await page.waitForTimeout(500);
 
   // Verify the CSS is actually applied to the DOM
   const backgroundColor = await page.locator("body").evaluate((el) => {
