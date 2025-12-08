@@ -5,17 +5,17 @@
   "devDependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^7.3.5",
-    "@mui/material": "^7.3.5",
+    "@mui/icons-material": "^7.3.6",
+    "@mui/material": "^7.3.6",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "event-source-plus": "0.1.15",
     "globals": "^16.5.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "react-router-dom": "^7.9.6",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "react-router-dom": "^7.10.1",
     "vite": "^7.2.4"
   },
   "scripts": {
@@ -39,7 +39,7 @@
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
     "ansi-to-react": "^6.1.6",
-    "markdown-to-jsx": "^9.3.0",
+    "markdown-to-jsx": "^9.3.2",
     "monaco-editor": "^0.55.1"
   }
 }
