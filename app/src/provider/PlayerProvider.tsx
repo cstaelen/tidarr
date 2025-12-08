@@ -10,6 +10,7 @@ import { Backdrop, Box, SpeedDial } from "@mui/material";
 import PlayBack from "src/components/Player/PlayBack";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { TrackType } from "src/types";
+import { getApiUrl } from "src/utils/helpers";
 
 // Animated Equalizer Component
 function AnimatedEqualizer({ animated }: { animated?: boolean }) {
@@ -85,7 +86,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const play = async (track: TrackType) => {
     const data = await actions.signStream(track.id); // backend return { url }
     if (data?.url) {
-      setStreamUrl(data.url);
+      setStreamUrl(getApiUrl(data.url));
       setPlayingTrack(track);
     } else {
       console.warn("No signed URL returned", data);
