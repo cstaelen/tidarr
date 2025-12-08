@@ -1,6 +1,6 @@
-import { getAppInstance } from "../app-instance";
+import { getAppInstance } from "../helpers/app-instance";
 
-import { stripAnsiCodes } from "./ansi_parse";
+import { stripAnsiCodes } from "./ansi-parse";
 
 /**
  * Logs a message for a processing item.

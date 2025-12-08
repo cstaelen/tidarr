@@ -1,7 +1,7 @@
 import { execSync } from "child_process";
 
 import { curl_escape_double_quote } from "../helpers/curl_escape";
-import { logs } from "../helpers/logs";
+import { logs } from "../processing/logs";
 import { ProcessingItemType } from "../types";
 
 export async function ntfyPush(item: ProcessingItemType) {

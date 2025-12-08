@@ -1,7 +1,6 @@
-import { execSync } from "child_process";
-
-import { ROOT_PATH, SYNC_DEFAULT_CRON } from "../../constants";
+import { SYNC_DEFAULT_CRON } from "../../constants";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
+import { initializeFiles } from "../helpers/initialize-server";
 import { TiddlConfig } from "../types";
 
 import { refreshTidalToken, shouldRefreshToken } from "./tiddl";
@@ -12,12 +11,7 @@ export async function configureServer() {
   console.log(`---------------------`);
 
   try {
-    const output_config = execSync(
-      `bash ${ROOT_PATH}/api/scripts/init.sh ${process.env.ENVIRONMENT}`,
-      {
-        encoding: "utf-8",
-      },
-    );
+    const output_config = initializeFiles();
 
     return {
       output: output_config,

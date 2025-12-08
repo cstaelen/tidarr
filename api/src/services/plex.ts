@@ -1,7 +1,7 @@
 // PLEX API
 // https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
 
-import { logs } from "../helpers/logs";
+import { logs } from "../processing/logs";
 import { ProcessingItemType } from "../types";
 
 export async function plexUpdate(

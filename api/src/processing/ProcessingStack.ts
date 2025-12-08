@@ -1,7 +1,6 @@
 import { Express, Response } from "express";
 
-import { getAppInstance } from "../app-instance";
-import { logs } from "../helpers/logs";
+import { getAppInstance } from "../helpers/app-instance";
 import {
   addItemToFile,
   loadQueueFromFile,
@@ -29,6 +28,7 @@ import {
   replacePathInM3U,
   setPermissions,
 } from "./jobs";
+import { logs } from "./logs";
 import {
   addTracksToPlaylist,
   createNewPlaylist,

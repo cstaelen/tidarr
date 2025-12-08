@@ -1,7 +1,7 @@
 // JELLYFIN API
 // https://api.jellyfin.org/#tag/Library/operation/RefreshLibrary
 
-import { logs } from "../helpers/logs";
+import { logs } from "../processing/logs";
 import { ProcessingItemType } from "../types";
 
 export async function jellyfinUpdate(item: ProcessingItemType) {

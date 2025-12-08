@@ -1,9 +1,9 @@
 import { spawnSync } from "child_process";
 
 import { CONFIG_PATH } from "../../constants";
-import { getAppInstance } from "../app-instance";
-import { logs } from "../helpers/logs";
+import { getAppInstance } from "../helpers/app-instance";
 import { getProcessingPath } from "../processing/jobs";
+import { logs } from "../processing/logs";
 import { ProcessingItemType } from "../types";
 
 function spawnBeet(

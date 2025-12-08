@@ -1,4 +1,4 @@
-import { getAppInstance } from "../app-instance";
+import { getAppInstance } from "../helpers/app-instance";
 import { historyDb } from "../services/db-json";
 
 const QUEUE_PATH = "/";

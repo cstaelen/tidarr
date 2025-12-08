@@ -3,9 +3,10 @@ import fs from "fs";
 import path from "path";
 
 import { CONFIG_PATH } from "../../constants";
-import { getAppInstance } from "../app-instance";
-import { logs } from "../helpers/logs";
+import { getAppInstance } from "../helpers/app-instance";
 import { ProcessingItemType } from "../types";
+
+import { logs } from "./logs";
 
 export function getProcessingPath(): string {
   const app = getAppInstance();
