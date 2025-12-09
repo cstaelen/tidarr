@@ -4,7 +4,7 @@ import express, { Express, Response } from "express";
 import fs from "fs";
 import path from "path";
 
-import { setAppInstance } from "./src/app-instance";
+import { setAppInstance } from "./src/helpers/app-instance";
 import { get_tiddl_config } from "./src/helpers/get_tiddl_config";
 import { gracefulShutdown } from "./src/helpers/gracefull_shutdown";
 import { cleanFolder } from "./src/processing/jobs";

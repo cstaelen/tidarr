@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 
-import { getAppInstance } from "../app-instance";
+import { getAppInstance } from "../helpers/app-instance";
 import { ensureAccessIsGranted } from "../helpers/auth";
 import { handleRouteError } from "../helpers/error-handler";
 import { flushHistory } from "../services/history";

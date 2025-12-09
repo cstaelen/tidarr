@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 import { CONFIG_PATH } from "../../constants";
-import { getAppInstance } from "../app-instance";
+import { getAppInstance } from "../helpers/app-instance";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
 
 const TOML_CONFIG_PATH = `${CONFIG_PATH}/.tiddl/config.toml`;

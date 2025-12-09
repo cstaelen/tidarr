@@ -2,10 +2,10 @@ import { spawn, spawnSync } from "child_process";
 import { Express, Request, Response } from "express";
 
 import { CONFIG_PATH, TOKEN_REFRESH_THRESHOLD } from "../../constants";
-import { extractFirstLineClean } from "../helpers/ansi_parse";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
-import { logs } from "../helpers/logs";
+import { extractFirstLineClean } from "../processing/ansi-parse";
 import { getProcessingPath } from "../processing/jobs";
+import { logs } from "../processing/logs";
 import { ProcessingItemType, TiddlConfig } from "../types";
 
 // Constants
