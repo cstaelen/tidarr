@@ -8,6 +8,7 @@ Tidarr notable changes.
 - [Front] Fix player CORS issue
 ### 🖍 Changes
 - [API] Move init.sh script to typescript
+- [Docker] Update custom ownership appliance on /shared folder
 
 
 ## 📦 1.0.8

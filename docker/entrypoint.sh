@@ -42,17 +42,14 @@ if [ -n "$PUID" ] && [ -n "$PGID" ]; then
   echo "🔑 [TIDARR] Using UMASK=$EFFECTIVE_UMASK"
 
   # Create required directories if they don't exist
+  mkdir -p /shared/.processing 2>/dev/null || true
   mkdir -p /shared/.tiddl 2>/dev/null || true
   mkdir -p /shared/beets 2>/dev/null || true
 
   # Change ownership only of specific Tidarr-related files/directories
   # Avoid traversing cache directories (.cache, .yarn, .pki, node_modules)
   chown $PUID:$PGID /shared 2>/dev/null || true
-  chown -R $PUID:$PGID /shared/.tiddl 2>/dev/null || true
-  chown -R $PUID:$PGID /shared/beets 2>/dev/null || true
-  chown $PUID:$PGID /shared/*.json 2>/dev/null || true
-  chown $PUID:$PGID /shared/*.css 2>/dev/null || true
-  chown $PUID:$PGID /shared/*.yml 2>/dev/null || true
+  find /shared -mindepth 1 \( -path /shared/.npm -o -path /shared/.yarn \) -prune -o -exec chown $PUID:$PGID {} +
 
   # In production, allow the user to write custom.css in the app/build directory
   if [ "$ENVIRONMENT" != "development" ]; then
