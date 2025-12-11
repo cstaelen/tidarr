@@ -5,7 +5,6 @@ import {
   SseMessage,
 } from "event-source-plus";
 import { LOCALSTORAGE_TOKEN_KEY, TIDARR_API_URL } from "src/contants";
-import { getApiUrl } from "src/utils/helpers";
 
 import {
   AuthType,
@@ -76,7 +75,7 @@ const ApiFetcherContext = React.createContext<ApiFetcherContextType>(
 export function APIFetcherProvider({ children }: { children: ReactNode }) {
   const [apiError, setApiError] = useState<Response>();
 
-  const apiUrl = getApiUrl(TIDARR_API_URL);
+  const apiUrl = TIDARR_API_URL;
 
   async function queryExpressJS<T>(
     url: string,

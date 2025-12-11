@@ -3,7 +3,6 @@ import { TIDAL_API_URL, TIDARR_PROXY_URL } from "src/contants";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { ConfigTiddleType } from "src/types";
-import { getApiUrl } from "src/utils/helpers";
 
 const jsonMimeType = "application/json";
 
@@ -40,9 +39,7 @@ async function fetchTidal<T>({
   const countryCode = tiddlConfig?.auth.country_code || "EN";
   const TOKEN = tiddlConfig?.auth.token;
 
-  const apiUrl = getApiUrl(
-    useProxy ? `${TIDARR_PROXY_URL}/tidal` : TIDAL_API_URL,
-  );
+  const apiUrl = useProxy ? `${TIDARR_PROXY_URL}/tidal` : TIDAL_API_URL;
 
   options.headers = new Headers({
     ...options?.headers,
@@ -58,7 +55,8 @@ async function fetchTidal<T>({
     options.headers.set("Content-Type", jsonMimeType);
   }
 
-  const urlObj = new URL(url, TIDARR_PROXY_URL);
+  // Use TIDAL_API_URL as base for URL parsing (always absolute)
+  const urlObj = new URL(url, TIDAL_API_URL);
   urlObj.searchParams.append("countryCode", countryCode);
   urlObj.searchParams.append("deviceType", "BROWSER");
   urlObj.searchParams.append("locale", "en_US");

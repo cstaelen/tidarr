@@ -17,12 +17,9 @@ router.get("/stream/sign/:id", (req, res) => {
   const expires = Math.floor(Date.now() / 1000) + 300;
   const sig = signUrl(id, expires);
 
-  const baseUrl = `${req.protocol}://${req.get("host")}`;
-  const url = new URL(`/api/stream/play/${id}`, baseUrl);
-  url.searchParams.set("exp", expires.toString());
-  url.searchParams.set("sig", sig);
+  const url = `/api/stream/play/${id}?exp=${expires}&sig=${sig}`;
 
-  res.json({ url: url.toString() });
+  res.json({ url });
 });
 
 // Endpoint play

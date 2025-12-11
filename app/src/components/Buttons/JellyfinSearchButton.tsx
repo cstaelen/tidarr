@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { SvgIcon, Tooltip } from "@mui/material";
 import { TIDARR_PROXY_URL } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
-import { getApiUrl } from "src/utils/helpers";
 
 import ButtonGradient from "./ButtonGradient";
 
@@ -50,8 +49,6 @@ export const JellyfinSearchButton = ({
       setLoading(true);
       try {
         // Use proxy to avoid CORS
-        const apiUrl = getApiUrl(TIDARR_PROXY_URL);
-
         let artistsCount = 0;
         let albumsCount = 0;
         let tracksCount = 0;
@@ -63,7 +60,7 @@ export const JellyfinSearchButton = ({
           const safeQuery = query.replaceAll("/", " ");
 
           const artistResponse = await fetch(
-            `${apiUrl}/jellyfin/Artists/${encodeURIComponent(safeQuery)}`,
+            `${TIDARR_PROXY_URL}/jellyfin/Artists/${encodeURIComponent(safeQuery)}`,
           );
           if (artistResponse.ok) {
             const artistData = await artistResponse.json();
@@ -82,7 +79,7 @@ export const JellyfinSearchButton = ({
         // Albums
         if (pivot === "albums") {
           const albumResponse = await fetch(
-            `${apiUrl}/jellyfin/Search/Hints?searchTerm=${encodeURIComponent(query)}&includeItemTypes=MusicAlbum`,
+            `${TIDARR_PROXY_URL}/jellyfin/Search/Hints?searchTerm=${encodeURIComponent(query)}&includeItemTypes=MusicAlbum`,
           );
           if (albumResponse.ok) {
             const albumData = await albumResponse.json();
@@ -92,7 +89,7 @@ export const JellyfinSearchButton = ({
             if (albumHint?.ItemId) {
               albumsCount = albumData.TotalRecordCount;
               const itemsResponse = await fetch(
-                `${apiUrl}/jellyfin/Items?parentId=${encodeURIComponent(albumHint.ItemId)}&includeItemTypes=Audio&limit=0`,
+                `${TIDARR_PROXY_URL}/jellyfin/Items?parentId=${encodeURIComponent(albumHint.ItemId)}&includeItemTypes=Audio&limit=0`,
               );
               if (itemsResponse.ok) {
                 const trackData = await itemsResponse.json();
@@ -106,7 +103,7 @@ export const JellyfinSearchButton = ({
         if (pivot === "tracks") {
           // first locate the album
           const albumResponse = await fetch(
-            `${apiUrl}/jellyfin/Search/Hints?searchTerm=${encodeURIComponent(albumQuery)}&includeItemTypes=MusicAlbum`,
+            `${TIDARR_PROXY_URL}/jellyfin/Search/Hints?searchTerm=${encodeURIComponent(albumQuery)}&includeItemTypes=MusicAlbum`,
           );
           if (albumResponse.ok) {
             const albumData = await albumResponse.json();
@@ -117,7 +114,7 @@ export const JellyfinSearchButton = ({
               setParentId(albumHint.ItemId);
               // after search track into album
               const trackResponse = await fetch(
-                `${apiUrl}/jellyfin/Search/Hints?searchTerm=${encodeURIComponent(query)}&parentId=${encodeURIComponent(albumHint.ItemId)}&includeItemTypes=Audio`,
+                `${TIDARR_PROXY_URL}/jellyfin/Search/Hints?searchTerm=${encodeURIComponent(query)}&parentId=${encodeURIComponent(albumHint.ItemId)}&includeItemTypes=Audio`,
               );
               if (trackResponse.ok) {
                 const trackData = await trackResponse.json();

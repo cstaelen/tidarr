@@ -5,66 +5,20 @@ import { test } from "../test-isolation";
 import { mockItemOutputSSE } from "./utils/mock";
 import { runSearch } from "./utils/search";
 
-test("Queue: Should be able to pause the queue", async ({ page }) => {
-  await mockItemOutputSSE(page, "high");
-
-  // Track API calls
-  let pauseCalled = false;
-  await page.route("**/queue/pause", async (route) => {
-    pauseCalled = true;
-    await route.fulfill({ status: 204 });
-  });
-
-  // Mock queue status endpoint
-  await page.route("**/queue/status", async (route) => {
-    await route.fulfill({
-      status: 200,
-      json: { isPaused: false },
-    });
-  });
-
-  // Add an item to the queue
-  await runSearch("Nirvana", page);
-  await page.getByRole("tab", { name: "Albums" }).first().click();
-  await page
-    .locator("div:nth-child(2) > .MuiPaper-root > div:nth-child(2)")
-    .getByTestId("btn-dl")
-    .click();
-
-  // Open processing list
-  await expect(page.locator("button.MuiFab-circular")).toBeVisible();
-  await page.locator("button.MuiFab-circular").click();
-
-  // Verify item is in the list
-  await expect(page.getByLabel("Processing table")).toContainText("In Utero");
-
-  // Find and click the pause button
-  const pauseButton = page.getByRole("button", { name: "Pause" });
-  await expect(pauseButton).toBeVisible();
-  await pauseButton.click();
-
-  // Verify the pause API was called
-  await page.waitForTimeout(500);
-  expect(pauseCalled).toBe(true);
-});
-
-test("Queue: Should be able to resume the queue", async ({ page }) => {
-  await mockItemOutputSSE(page, "high");
-
+test("Queue: Should be able to pause-resume the queue", async ({ page }) => {
   // Track API calls
   let resumeCalled = false;
+  let pauseCalled = false;
   await page.route("**/queue/resume", async (route) => {
     resumeCalled = true;
-    await route.fulfill({ status: 204 });
+    route.continue();
+  });
+  await page.route("**/queue/pause", async (route) => {
+    pauseCalled = true;
+    route.continue();
   });
 
-  // Mock queue status as paused
-  await page.route("**/queue/status", async (route) => {
-    await route.fulfill({
-      status: 200,
-      json: { isPaused: true },
-    });
-  });
+  await mockItemOutputSSE(page, "high");
 
   await page.goto("/");
 
@@ -75,12 +29,20 @@ test("Queue: Should be able to resume the queue", async ({ page }) => {
 
   // Open processing list
   await expect(page.locator("button.MuiFab-circular")).toBeVisible();
-  await page.locator("button.MuiFab-circular").click();
+  await page.locator("button.MuiFab-circular").hover();
 
   // Wait for pause button to appear (it should be in "resume" state - showing PlayArrow icon)
   await page.waitForTimeout(500);
 
   // Find and click the resume button (when paused, the button shows PlayArrow)
+  const pauseButton = page.getByRole("button", { name: "Pause" });
+  await expect(pauseButton).toBeVisible();
+  await pauseButton.click();
+
+  // Verify the resume API was called
+  await page.waitForTimeout(500);
+  expect(pauseCalled).toBe(true);
+
   const resumeButton = page.getByRole("button", { name: "Resume" });
   await expect(resumeButton).toBeVisible();
   await resumeButton.click();

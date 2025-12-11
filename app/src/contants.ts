@@ -5,8 +5,8 @@ export const TIDAL_MIX_URL = "http://www.tidal.com/mix/";
 export const TIDAL_VIDEO_URL = "http://www.tidal.com/browse/video";
 
 export const TIDARR_REPO_URL = "cstaelen/tidarr";
-export const TIDARR_API_URL = "http://localhost:8484/api";
-export const TIDARR_PROXY_URL = "http://localhost:8484/proxy";
+export const TIDARR_API_URL = "/api";
+export const TIDARR_PROXY_URL = "/proxy";
 
 export const LOCALSTORAGE_TOKEN_KEY = "tidarr-token";
 export const LOCALSTORAGE_REDIRECT_URL = "tidarr-redirect";
