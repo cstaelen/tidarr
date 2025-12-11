@@ -3,7 +3,6 @@ import { Album } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { TIDARR_PROXY_URL } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
-import { getApiUrl } from "src/utils/helpers";
 
 import ButtonGradient from "./ButtonGradient";
 
@@ -53,8 +52,7 @@ export const NavidromeSearchButton = ({
       setLoading(true);
       try {
         // Use proxy to avoid CORS
-        const apiUrl = getApiUrl(TIDARR_PROXY_URL);
-        const searchUrl = `${apiUrl}/navidrome/rest/search3.view?query=${encodeURIComponent(query)}&albumCount=100&songCount=1000`;
+        const searchUrl = `${TIDARR_PROXY_URL}/navidrome/rest/search3.view?query=${encodeURIComponent(query)}&albumCount=100&songCount=1000`;
 
         const response = await fetch(searchUrl);
         if (!response.ok) {

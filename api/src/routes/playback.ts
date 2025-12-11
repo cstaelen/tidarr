@@ -17,7 +17,7 @@ router.get("/stream/sign/:id", (req, res) => {
   const expires = Math.floor(Date.now() / 1000) + 300;
   const sig = signUrl(id, expires);
 
-  const url = `http://localhost:8484/api/stream/play/${id}?exp=${expires}&sig=${sig}`;
+  const url = `/api/stream/play/${id}?exp=${expires}&sig=${sig}`;
 
   res.json({ url });
 });

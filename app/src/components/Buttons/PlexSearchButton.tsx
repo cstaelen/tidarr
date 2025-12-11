@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { SvgIcon, Tooltip } from "@mui/material";
 import { TIDARR_PROXY_URL } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
-import { getApiUrl } from "src/utils/helpers";
 
 import ButtonGradient from "./ButtonGradient";
 
@@ -47,8 +46,7 @@ export const PlexSearchButton = ({
       try {
         // Use proxy to avoid CORS
         // Fetch without type - returns Directory elements (artists/albums) but NOT tracks
-        const apiUrl = getApiUrl(TIDARR_PROXY_URL);
-        const url = `${apiUrl}/plex/search?query=${encodeURIComponent(query)}`;
+        const url = `${TIDARR_PROXY_URL}/plex/search?query=${encodeURIComponent(query)}`;
         const response = await fetch(url);
 
         if (!response.ok) {

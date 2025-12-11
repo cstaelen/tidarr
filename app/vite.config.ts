@@ -9,6 +9,16 @@ export default defineConfig({
     cors: true,
     open: false,
     port: 3000,
+    proxy: {
+      "/api": {
+        target: "http://localhost:8484",
+        changeOrigin: true,
+      },
+      "/proxy": {
+        target: "http://localhost:8484",
+        changeOrigin: true,
+      },
+    },
   },
   resolve: {
     alias: {
