@@ -21,6 +21,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Download settings](#download-settings)
   - [PUID/PGID/UMASK](#puid-pgid-umask)
   - [Password protection](#password-protection)
+  - [OpenID Connect (OIDC) Authentication](#openid-connect-oidc-authentication)
   - [Lock quality selector](#lock-quality-selector)
   - [Proxy](#proxy)
   - [M3U track base path](#m3u-track-base-path)
@@ -57,11 +58,12 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Downloadable media : tracks, albums, playlists, mixes, music videos
 - Max quality : FLAC, **24 bit 192.0 kHz** (if available)
 - Tidal trends content
-- User playlists, mixes, favorites 
+- User playlists, mixes, favorites
 - Search by keywords
 - Search by url : artist url, album url, playlist url, track url, mix url
 - Download covers
 - Admin password
+- OpenID Connect (OIDC) authentication support
 - M3U file for playlist with customizable path
 - Watch and sync playlists, mixes, favorites and artists with cron
 - Skip download if track exists
@@ -176,6 +178,31 @@ If not set, no password is required to access the app.
   - ...
   - ADMIN_PASSWORD=<string> # if not set, no password are required to access
 ```
+
+### OpenID Connect (OIDC) Authentication
+
+Tidarr supports OIDC authentication for integration with identity providers like Keycloak, Authelia, Authentik, Auth0, etc.
+
+When OIDC is configured, the login page will display a "Login with OpenID" button instead of the password field.
+
+```yaml
+environment:
+  - ...
+  - OIDC_ISSUER=https://your-oidc-provider.com
+  - OIDC_CLIENT_ID=tidarr
+  - OIDC_CLIENT_SECRET=your-client-secret
+  - OIDC_REDIRECT_URI=https://your-tidarr-domain.com/api/auth/oidc/callback
+```
+
+> [!NOTE]
+> **OIDC Configuration**
+>
+> - **OIDC_ISSUER**: The URL of your OpenID Connect provider (must include `/.well-known/openid-configuration`)
+> - **OIDC_CLIENT_ID**: The client ID registered in your OIDC provider
+> - **OIDC_CLIENT_SECRET**: The client secret for your application
+> - **OIDC_REDIRECT_URI**: The callback URL (must match the one configured in your OIDC provider)
+> - OIDC authentication takes precedence over password authentication if both are configured
+> - JWT tokens are valid for 12 hours after successful authentication
 
 ### Lock quality selector
 

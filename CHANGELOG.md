@@ -4,6 +4,8 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 1.1.0
+### 🚀 Added
+- [API] Add support for OIDC authentication
 ### 🐛 Fixed
 - [API] Fix default m3u base path
 
