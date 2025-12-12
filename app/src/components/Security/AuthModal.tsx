@@ -1,4 +1,5 @@
 import { FormEvent, useRef, useState } from "react";
+import { Key } from "@mui/icons-material";
 import AlbumIcon from "@mui/icons-material/Album";
 import { Alert, Box, Button, Input, Modal, Typography } from "@mui/material";
 import { useAuth } from "src/provider/AuthProvider";
@@ -83,7 +84,12 @@ export const AuthModal = () => {
             </form>
           )}
           {authType === "oidc" && (
-            <Button variant="contained" onClick={loginWithOIDC} fullWidth>
+            <Button
+              endIcon={<Key />}
+              variant="contained"
+              onClick={loginWithOIDC}
+              fullWidth
+            >
               Login with OpenID
             </Button>
           )}

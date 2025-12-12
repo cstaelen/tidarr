@@ -3,13 +3,16 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.1.0
+### 🚀 Added
+- [API] Add support for OIDC authentication
+
 ## 📦 1.0.9
 ### 🐛 Fixed
 - [Front] Fix player CORS issue
 ### 🖍 Changes
 - [API] Move init.sh script to typescript
 - [Docker] Update custom ownership appliance on /shared folder
-
 
 ## 📦 1.0.8
 ### 🐛 Fixed
