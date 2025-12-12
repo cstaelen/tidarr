@@ -315,6 +315,7 @@ export type AuthType = {
 
 export type CheckAuthType = {
   isAuthActive: boolean;
+  authType: "password" | "oidc" | null;
 };
 
 // TOKEN
