@@ -34,7 +34,7 @@ export default function TypeResults(props: TabContentProps) {
       <Module data={props.data.items} type={props.type} loading={loading} />
       <PagerButton
         page={page}
-        setPage={() => actions.setPage(page + 1)}
+        setPage={(p: number) => actions.setPage(p)}
         itemPerPage={TIDAL_ITEMS_PER_PAGE}
         totalItems={props.data.totalNumberOfItems}
       />
