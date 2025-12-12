@@ -1,4 +1,5 @@
 import { FormEvent, useRef, useState } from "react";
+import { Key } from "@mui/icons-material";
 import AlbumIcon from "@mui/icons-material/Album";
 import { Alert, Box, Button, Input, Modal, Typography } from "@mui/material";
 import { useAuth } from "src/provider/AuthProvider";
@@ -30,7 +31,7 @@ export const AuthModal = () => {
   const refInput = useRef<HTMLInputElement>(null);
   const [authError, setAuthError] = useState<boolean | string>(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, loginWithOIDC, authType } = useAuth();
 
   async function submitForm(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -68,18 +69,30 @@ export const AuthModal = () => {
         </Box>
         {authError && <Alert severity="error">{authError}</Alert>}
         <Box sx={styleContent}>
-          <form onSubmit={(e) => submitForm(e)} style={{ display: "flex" }}>
-            <Input
-              ref={refInput}
-              id="password"
-              name="password"
-              type="password"
-              placeholder="Password..."
-            />
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Loading..." : "Submit"}
+          {authType === "password" && (
+            <form onSubmit={(e) => submitForm(e)} style={{ display: "flex" }}>
+              <Input
+                ref={refInput}
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Password..."
+              />
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? "Loading..." : "Submit"}
+              </Button>
+            </form>
+          )}
+          {authType === "oidc" && (
+            <Button
+              endIcon={<Key />}
+              variant="contained"
+              onClick={loginWithOIDC}
+              fullWidth
+            >
+              Login with OpenID
             </Button>
-          </form>
+          )}
         </Box>
       </Box>
     </Modal>

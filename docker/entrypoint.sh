@@ -1,7 +1,10 @@
 #!/bin/sh
 
-# AUTH JWT RANDOM SECRET
-export JWT_SECRET=`tr -dc A-Za-z0-9 </dev/urandom | head -c 15; echo`
+# AUTH JWT SECRET
+# Use JWT_SECRET from environment if set, otherwise generate a random one
+if [ -z "$JWT_SECRET" ]; then
+  export JWT_SECRET=`tr -dc A-Za-z0-9 </dev/urandom | head -c 15; echo`
+fi
 
 echo "----------------------------------------"
 cat << "EOF"
