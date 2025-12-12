@@ -49,7 +49,7 @@ if [ -n "$PUID" ] && [ -n "$PGID" ]; then
   # Change ownership only of specific Tidarr-related files/directories
   # Avoid traversing cache directories (.cache, .yarn, .pki, node_modules)
   chown $PUID:$PGID /shared 2>/dev/null || true
-  find /shared -mindepth 1 \( -path /shared/.npm -o -path /shared/.yarn \) -prune -o -exec chown $PUID:$PGID {} +
+  find /shared -mindepth 1 \( -path /shared/.npm -o -path /shared/.yarn -o -path /shared/.cache \) -prune -o -exec chown $PUID:$PGID {} +
 
   # In production, allow the user to write custom.css in the app/build directory
   if [ "$ENVIRONMENT" != "development" ]; then

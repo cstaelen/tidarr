@@ -128,14 +128,14 @@ export const ProcessingList = () => {
       open={open}
     >
       <Backdrop onClick={handleClose} open={open} />
-      <Box
+
+      <Paper
         sx={{
           maxWidth: {
             xs: "90vw",
             md: "750px",
           },
           maxHeight: "80vh",
-          padding: "20px",
           opacity: open ? 1 : 0,
           position: "absolute",
           overflow: "auto",
@@ -143,30 +143,25 @@ export const ProcessingList = () => {
           visibility: open ? "visible" : "hidden",
         }}
       >
-        <Paper>
-          <TableContainer sx={{ minWidth: "700px" }}>
-            <Table size="small" aria-label="Processing table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <strong>Processing list</strong>
-                  </TableCell>
-                  <TableCell>Title</TableCell>
-                  <TableCell>Artist</TableCell>
-                  <TableCell>Type</TableCell>
-                  <TableCell>Quality</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {processingList?.map((item, index) => (
-                  <ProcessingItem
-                    item={item}
-                    key={`processing-index-${index}`}
-                  />
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+        <TableContainer sx={{ minWidth: "700px" }}>
+          <Table size="small" aria-label="Processing table">
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <strong>Processing list</strong>
+                </TableCell>
+                <TableCell>Title</TableCell>
+                <TableCell>Artist</TableCell>
+                <TableCell>Type</TableCell>
+                <TableCell>Quality</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {processingList?.map((item, index) => (
+                <ProcessingItem item={item} key={`processing-index-${index}`} />
+              ))}
+            </TableBody>
+          </Table>
           <Box
             display="flex"
             gap={2}
@@ -211,8 +206,8 @@ export const ProcessingList = () => {
               </Button>
             </Box>
           </Box>
-        </Paper>
-      </Box>
+        </TableContainer>
+      </Paper>
     </SpeedDial>
   );
 };
