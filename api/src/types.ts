@@ -130,6 +130,7 @@ export interface AuthResponse {
 
 export interface IsAuthActiveResponse {
   isAuthActive: boolean;
+  authType: "password" | "oidc" | null;
 }
 
 /**
