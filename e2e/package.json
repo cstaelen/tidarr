@@ -9,10 +9,10 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.57.0",
-    "@types/node": "^24.10.1",
+    "@types/node": "^25.0.2",
     "dotenv": "^17.2.3",
     "playwright": "^1.57.0",
-    "testcontainers": "^11.9.0"
+    "testcontainers": "^11.10.0"
   },
   "scripts": {
     "playwright:test": "playwright test",
