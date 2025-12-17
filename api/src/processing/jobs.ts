@@ -133,7 +133,7 @@ export function replacePathInM3U(item: ProcessingItemType): void {
   if (item["type"] !== "playlist" && item["type"] !== "mix") return;
 
   const processingPath = getProcessingPath();
-  const basePath = process.env.M3U_BASEPATH_FILE?.replaceAll('"', "") || "./";
+  const basePath = process.env.M3U_BASEPATH_FILE?.replaceAll('"', "") || ".";
   const downloadDir = `${processingPath}/${item.id}`;
 
   logs(item.id, `🕖 [TIDARR] Update track path in M3U file ...`);
