@@ -135,6 +135,8 @@ export function replacePathInM3U(item: ProcessingItemType): void {
   const processingPath = getProcessingPath();
   const basePath = process.env.M3U_BASEPATH_FILE?.replaceAll('"', "") || ".";
   const downloadDir = `${processingPath}/${item.id}`;
+  const app = getAppInstance();
+  const libraryPath = app.locals.tiddlConfig.download.scan_path;
 
   logs(item.id, `🕖 [TIDARR] Update track path in M3U file ...`);
 
@@ -151,7 +153,12 @@ export function replacePathInM3U(item: ProcessingItemType): void {
     // Use fs.readFileSync instead of shell `cat` to avoid issues with special characters
     let m3uContent = fs.readFileSync(m3uFilePath, "utf-8");
 
+    // Replace paths in two steps:
+    // 1. Replace processing path: /music/.processing/{item.id}/ -> ./
     m3uContent = m3uContent.replace(new RegExp(downloadDir, "g"), basePath);
+    // 2. Replace library path: /music/ -> ./
+    m3uContent = m3uContent.replace(new RegExp(libraryPath, "g"), basePath);
+
     // Use fs.writeFileSync instead of shell `echo` to preserve $ characters in artist names
     fs.writeFileSync(m3uFilePath, m3uContent, "utf-8");
     logs(item.id, `✅ [TIDARR] M3U file updated with base path : ${basePath}`);

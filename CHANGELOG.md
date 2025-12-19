@@ -5,9 +5,9 @@ Tidarr notable changes.
 
 ## 📦 1.1.0
 ### 🚀 Added
-- [API] Add support for OIDC authentication
+- [API] Add support for OIDC authentication #409
 ### 🐛 Fixed
-- [API] Fix default m3u base path
+- [API] Fix default m3u base path #562
 
 ## 📦 1.0.9
 ### 🐛 Fixed
