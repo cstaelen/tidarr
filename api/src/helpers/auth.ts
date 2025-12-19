@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
+import { is_oidc_configured } from "../services/auth";
+
 export function ensureAccessIsGranted(
   req: Request,
   res: Response,
@@ -10,8 +12,10 @@ export function ensureAccessIsGranted(
   const authHeader = req?.headers?.["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   const envPassword = process.env?.ADMIN_PASSWORD;
+  const enableOidc = is_oidc_configured();
 
-  if (!envPassword) return next();
+  // No auth configured
+  if (!envPassword && !enableOidc) return next();
 
   if (!jwtSecret) {
     res
@@ -31,8 +35,16 @@ export function ensureAccessIsGranted(
       return;
     }
 
-    if ((decoded as jwt.JwtPayload).tidarrPasswd !== envPassword) {
+    const payload = decoded as jwt.JwtPayload;
+
+    // Validate based on auth type
+    if (envPassword && payload.tidarrPasswd !== envPassword) {
       res.status(403).json({ error: true, message: "Wrong password" });
+      return;
+    }
+
+    if (enableOidc && !payload.oidcSub) {
+      res.status(403).json({ error: true, message: "Invalid OIDC token" });
       return;
     }
 

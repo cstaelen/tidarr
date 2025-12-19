@@ -29,6 +29,10 @@ services:
       - GOTIFY_URL=
       - GOTIFY_TOKEN=
       - ADMIN_PASSWORD
+      - OIDC_ISSUER=
+      - OIDC_CLIENT_ID=
+      - OIDC_CLIENT_SECRET=
+      - OIDC_REDIRECT_URI=
       - APPRISE_API_ENDPOINT=
       - APPRISE_API_TAG=
       - PUSH_OVER_URL=

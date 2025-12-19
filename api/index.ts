@@ -14,6 +14,7 @@ import { setupProxies } from "./src/proxies";
 import authRouter from "./src/routes/auth";
 import configRouter from "./src/routes/config";
 import historyRouter from "./src/routes/history";
+import oidcRouter from "./src/routes/oidc";
 import playRoutes from "./src/routes/playback";
 import processingRouter from "./src/routes/processing";
 import sseRouter from "./src/routes/sse";
@@ -66,6 +67,7 @@ app.all("/{*any}", function (_req, res, next) {
 
 // Register routers
 app.use("/api", authRouter);
+app.use("/api", oidcRouter);
 app.use("/api", processingRouter);
 app.use("/api", sseRouter);
 app.use("/api", configRouter);

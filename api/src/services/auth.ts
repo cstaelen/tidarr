@@ -29,6 +29,21 @@ export async function proceed_auth(password: string, res: Response) {
   res.status(200).send({ accessGranted: true, token });
 }
 
+export function is_oidc_configured() {
+  return !!(
+    process.env?.OIDC_ISSUER &&
+    process.env?.OIDC_CLIENT_ID &&
+    process.env?.OIDC_CLIENT_SECRET &&
+    process.env?.OIDC_REDIRECT_URI
+  );
+}
+
 export function is_auth_active() {
-  return !!process.env?.ADMIN_PASSWORD;
+  return !!process.env?.ADMIN_PASSWORD || is_oidc_configured();
+}
+
+export function get_auth_type(): "password" | "oidc" | null {
+  if (process.env?.ADMIN_PASSWORD) return "password";
+  if (is_oidc_configured()) return "oidc";
+  return null;
 }

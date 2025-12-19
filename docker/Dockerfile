@@ -111,10 +111,14 @@ COPY --from=app_builder /tidarr/docker/entrypoint.sh /tidarr/docker/entrypoint.s
 COPY package.json yarn.lock* ./
 COPY api/package.json ./api/package.json
 
-# Install production dependencies and clean up aggressively
+# Install production dependencies with build tools, then clean up aggressively
 RUN --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \
+    apk add --no-cache --virtual .build-deps \
+        python3-dev \
+        build-base && \
     mkdir -p /shared/.processing && \
     yarn install --frozen-lockfile --production && \
+    apk del .build-deps && \
     npm uninstall -g npm && \
     rm -rf /root/.npm /tmp/* /var/tmp/* && \
     find ./node_modules -type f \( -name '*.d.ts' -o -name '*.md' -o -name '*.map' -o -name 'README*' -o -name 'LICENSE*' -o -name 'CHANGELOG*' \) -delete && \
