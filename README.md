@@ -181,7 +181,7 @@ If not set, no password is required to access the app.
 
 ### OpenID Connect (OIDC) Authentication
 
-Tidarr supports OIDC authentication for integration with identity providers like Keycloak, Authelia, Authentik, Auth0, etc.
+Tidarr supports OIDC authentication for integration with identity providers like Keycloak, PocketID, Authentik, etc.
 
 When OIDC is configured, the login page will display a "Login with OpenID" button instead of the password field.
 
@@ -197,7 +197,7 @@ environment:
 > [!NOTE]
 > **OIDC Configuration**
 >
-> - **OIDC_ISSUER**: The URL of your OpenID Connect provider (must include `/.well-known/openid-configuration`)
+> - **OIDC_ISSUER**: The URL of your OpenID Connect provider
 > - **OIDC_CLIENT_ID**: The client ID registered in your OIDC provider
 > - **OIDC_CLIENT_SECRET**: The client secret for your application
 > - **OIDC_REDIRECT_URI**: The callback URL (must match the one configured in your OIDC provider)

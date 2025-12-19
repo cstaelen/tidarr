@@ -45,13 +45,14 @@ router.get("/auth/oidc/login", async (_req: Request, res: Response) => {
     const oidc = await import("openid-client");
 
     // Discover OIDC provider configuration
-    // Pass allowInsecureRequests in options for HTTP development
     const config = await oidc.discovery(
       new URL(issuerUrl),
       clientId,
       clientSecret,
       undefined,
-      { execute: [oidc.allowInsecureRequests] },
+      {
+        execute: [oidc.allowInsecureRequests],
+      },
     );
 
     // Generate state and PKCE code verifier for security
@@ -130,13 +131,14 @@ router.get("/auth/oidc/callback", async (req: Request, res: Response) => {
     const oidc = await import("openid-client");
 
     // Discover OIDC provider configuration
-    // Pass allowInsecureRequests in options for HTTP development
     const config = await oidc.discovery(
       new URL(issuerUrl),
       clientId,
       clientSecret,
       undefined,
-      { execute: [oidc.allowInsecureRequests] },
+      {
+        execute: [oidc.allowInsecureRequests],
+      },
     );
 
     // Exchange code for tokens
