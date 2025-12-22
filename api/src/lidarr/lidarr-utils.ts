@@ -19,12 +19,22 @@ export function getAlbumArtist(album: TidalAlbum): string {
  * Escape XML special characters
  */
 export function escapeXml(str: string): string {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
+  return str.replace(/[&<>"']/g, (char) => {
+    switch (char) {
+      case "&":
+        return "&amp;";
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case '"':
+        return "&quot;";
+      case "'":
+        return "&apos;";
+      default:
+        return char;
+    }
+  });
 }
 
 /**
@@ -35,6 +45,7 @@ export function getQualityInfo(quality: string): {
   category: string;
   categoryId: string;
   qualityName: string;
+  sizePerTrackMB: number;
 } {
   const qualityMap: Record<
     string,
@@ -43,6 +54,7 @@ export function getQualityInfo(quality: string): {
       category: string;
       categoryId: string;
       qualityName: string;
+      sizePerTrackMB: number;
     }
   > = {
     low: {
@@ -50,55 +62,32 @@ export function getQualityInfo(quality: string): {
       category: "Audio &gt; Other",
       categoryId: "3050",
       qualityName: "MP3-96",
+      sizePerTrackMB: 5,
     },
     normal: {
       format: "M4A 320kbps",
       category: "Audio &gt; MP3",
       categoryId: "3010",
       qualityName: "AAC-320",
+      sizePerTrackMB: 10,
     },
     high: {
       format: "FLAC 16-bit 44.1kHz",
       category: "Audio &gt; Lossless",
       categoryId: "3040",
       qualityName: "FLAC",
+      sizePerTrackMB: 40,
     },
     max: {
       format: "FLAC 24-bit 192kHz",
       category: "Audio &gt; Lossless",
       categoryId: "3040",
       qualityName: "FLAC 24bit",
+      sizePerTrackMB: 80,
     },
   };
 
   return qualityMap[quality] || qualityMap.max;
-}
-
-/**
- * Get album edition type
- */
-export function getAlbumEditionType(title: string): string {
-  const lowerTitle = title.toLowerCase();
-
-  const editionKeywords: Record<string, string> = {
-    deluxe: "Deluxe",
-    expanded: "Expanded",
-    remastered: "Remastered",
-    anniversary: "Anniversary",
-    special: "Special",
-    limited: "Limited",
-    collector: "Collector",
-    bonus: "Bonus",
-    live: "Live",
-    tour: "Tour",
-    edition: "Special",
-  };
-
-  const found = Object.entries(editionKeywords).find(([keyword]) =>
-    lowerTitle.includes(keyword),
-  );
-
-  return found ? found[1] : "Standard";
 }
 
 /**
@@ -138,8 +127,6 @@ export function generateNewznabItem(
   // Include API key in download URL (Lidarr needs it to download)
   const apiKey = req.query.apikey || req.headers["x-api-key"];
   const downloadUrl = `${req.protocol}://${req.get("host")}/api/lidarr/download/${album.id}${apiKey ? `?apikey=${apiKey}` : ""}`;
-
-  const albumUrl = `https://listen.tidal.com/album/${album.id}`;
   const tidarrUrl = `${req.protocol}://${req.get("host")}/album/${album.id}`;
   const albumArtist = getAlbumArtist(album);
 
@@ -147,7 +134,10 @@ export function generateNewznabItem(
     ? new Date(album.releaseDate).toUTCString()
     : new Date().toUTCString();
 
-  const estimatedSize = (album.numberOfTracks || 10) * 50 * 1024 * 1024;
+  // Calculate estimated size based on quality
+  const estimatedSize =
+    (album.numberOfTracks || 10) * qualityInfo.sizePerTrackMB * 1024 * 1024;
+
   const year = album.releaseDate
     ? new Date(album.releaseDate).getFullYear()
     : "";
@@ -155,8 +145,6 @@ export function generateNewznabItem(
   const formattedArtist = formatForMusicBrainz(albumArtist);
   const formattedTitle = formatForMusicBrainz(album.title);
   const titleWithQuality = `${formattedArtist} - ${formattedTitle}${year ? ` (${year})` : ""} [${qualityInfo.qualityName}]`;
-
-  const editionType = getAlbumEditionType(formattedTitle);
 
   return `    <item>
       <title>${escapeXml(titleWithQuality)}</title>
@@ -167,20 +155,5 @@ export function generateNewznabItem(
       <category>${qualityInfo.category}</category>
       <description>${escapeXml(`${formattedArtist} - ${formattedTitle}${year ? ` (${year})` : ""} [${qualityInfo.qualityName}] - ${qualityInfo.format}`)}</description>
       <enclosure url="${downloadUrl}" length="${estimatedSize}" type="application/x-nzb"/>
-      <newznab:attr name="category" value="3000"/>
-      <newznab:attr name="category" value="${qualityInfo.categoryId}"/>
-      <newznab:attr name="size" value="${estimatedSize}"/>
-      <newznab:attr name="quality" value="${qualityInfo.qualityName}"/>
-      <newznab:attr name="artist" value="${escapeXml(formattedArtist)}"/>
-      <newznab:attr name="album" value="${escapeXml(formattedTitle)}"/>
-      <newznab:attr name="year" value="${year}"/>
-      <newznab:attr name="genre" value="Music"/>
-      <newznab:attr name="tracks" value="${album.numberOfTracks || 0}"/>
-      <newznab:attr name="coverurl" value="https://resources.tidal.com/images/${album.id?.toString().replace(/-/g, "/")}/1280x1280.jpg"/>
-      <newznab:attr name="files" value="${album.numberOfTracks || 0}"/>
-      <newznab:attr name="grabs" value="0"/>
-      <newznab:attr name="info" value="${albumUrl}"/>
-      <newznab:attr name="edition" value="${editionType}"/>
-      <newznab:attr name="tidarrurl" value="${tidarrUrl}"/>
     </item>`;
 }

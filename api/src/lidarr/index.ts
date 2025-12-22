@@ -1,16 +1,17 @@
-import { Express, Request, Response } from "express";
+import { Request, Response } from "express";
 
 import { getAppInstance } from "../helpers/app-instance";
+
 import {
   generateNewznabItem,
-  getAlbumArtist,
+  generateNzbContent,
   getQualityInfo,
-} from "../helpers/lidarr-utils";
+} from "./lidarr-utils";
 import {
+  addAlbumToQueue,
   matchTidalAlbums,
   searchTidalForLidarr,
-} from "../helpers/tidal-search-albums";
-import { TidalAlbum } from "../types";
+} from "./tidal-search-albums";
 
 export function handleCapsRequest(req: Request, res: Response): void {
   console.log("[Lidarr] Capabilities request (t=caps)");
@@ -103,27 +104,41 @@ ${items}
 </rss>`);
 }
 
-export async function addAlbumToQueue(
-  app: Express,
-  albumData: TidalAlbum,
-  albumId: string,
-): Promise<void> {
-  const processingItem = {
-    id: `lidarr-${albumId}-${Date.now()}`,
-    artist: getAlbumArtist(albumData),
-    title: albumData.title,
-    type: "album" as const,
-    status: "queue" as const,
-    quality: app.locals.tiddlConfig?.download?.track_quality || "max",
-    url: `album/${albumId}`,
-    loading: true,
-    error: false,
-  };
+export async function handleDownloadFromLidarr(id: string, res: Response) {
+  console.log(`[Lidarr] Download triggered for album ID: ${id}`);
 
-  await app.locals.processingStack.actions.removeItem(processingItem.id);
-  await app.locals.processingStack.actions.addItem(processingItem);
+  const app = getAppInstance();
+  const tiddlConfig = app.locals.tiddlConfig;
+  const countryCode = tiddlConfig?.auth?.country_code || "US";
+  const albumUrl = `${process.env.TIDAL_API_URL || "https://api.tidal.com"}/v1/albums/${id}?countryCode=${countryCode}`;
 
-  console.log(
-    `[Lidarr] Album "${albumData.title}" (${albumId}) added to queue`,
-  );
+  const response = await fetch(albumUrl, {
+    headers: {
+      Authorization: `Bearer ${tiddlConfig?.auth?.token}`,
+    },
+  });
+
+  if (response.ok) {
+    const albumData = await response.json();
+    await addAlbumToQueue(app, albumData, id);
+
+    const nzbContent = generateNzbContent(id);
+    res.set("Content-Type", "application/x-nzb");
+    res.set("Content-Disposition", `attachment; filename="tidarr-${id}.nzb"`);
+    res.send(nzbContent);
+
+    console.log(`[Lidarr] Successfully returned NZB for album ${id}`);
+  } else {
+    const errorBody = await response.text();
+    console.error(
+      `[Lidarr] Failed to fetch album details: ${response.status} ${response.statusText}`,
+    );
+    console.error(`[Lidarr] Error response body: ${errorBody}`);
+
+    res.status(500).json({
+      error: "Failed to fetch album details from Tidal",
+      tidalStatus: response.status,
+      tidalStatusText: response.statusText,
+    });
+  }
 }
