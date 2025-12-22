@@ -5,7 +5,9 @@ Tidarr notable changes.
 
 ## 📦 1.1.1
 ### 🚀 Added
-- [API] Add Lidarr request support
+- [Front] Add API key manager in configuration dialog
+- [API] Add X-API-KEY header to authenticate external queries
+- [API] Add Lidarr NZB indexer endpoints
 
 ## 📦 1.1.0
 ### 🚀 Added

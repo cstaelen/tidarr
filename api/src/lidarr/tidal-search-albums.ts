@@ -193,3 +193,28 @@ export function matchTidalAlbums(
 
   return [filtered[0].album];
 }
+
+export async function addAlbumToQueue(
+  app: Express,
+  albumData: TidalAlbum,
+  albumId: string,
+): Promise<void> {
+  const processingItem = {
+    id: `lidarr-${albumId}-${Date.now()}`,
+    artist: getAlbumArtist(albumData),
+    title: albumData.title,
+    type: "album" as const,
+    status: "queue" as const,
+    quality: app.locals.tiddlConfig?.download?.track_quality || "max",
+    url: `album/${albumId}`,
+    loading: true,
+    error: false,
+  };
+
+  await app.locals.processingStack.actions.removeItem(processingItem.id);
+  await app.locals.processingStack.actions.addItem(processingItem);
+
+  console.log(
+    `[Lidarr] Album "${albumData.title}" (${albumId}) added to queue`,
+  );
+}
