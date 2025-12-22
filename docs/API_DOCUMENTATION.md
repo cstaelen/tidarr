@@ -6,11 +6,13 @@ This documentation describes how to use the Tidarr REST API with curl to automat
 
 - [Basic Configuration](#basic-configuration)
 - [Authentication](#authentication)
+- [API Key Management](#api-key-management)
 - [Download Endpoints](#download-endpoints)
 - [History Endpoints](#history-endpoints)
 - [Configuration Endpoints](#configuration-endpoints)
 - [Synchronization Endpoints](#synchronization-endpoints)
 - [Custom CSS Endpoints](#custom-css-endpoints)
+- [Lidarr Integration](#lidarr-integration-newznab-indexer)
 - [Usage Examples](#usage-examples)
 
 ---
@@ -25,24 +27,45 @@ All API endpoints (except `/api/is-auth-active`) require authentication if `ADMI
 
 ## Authentication
 
-### Check if authentication is active
+Tidarr supports two authentication methods for API access:
+
+### 🔑 Recommended: API Key (X-Api-Key header)
+
+The API key is automatically generated on first startup and stored in `/shared/.tidarr-api-key`.
 
 ```bash
-curl http://localhost:8484/api/is-auth-active
+# Get your API key
+export TIDARR_API_KEY=$(docker exec tidarr cat /shared/.tidarr-api-key)
+
+# Use it in requests
+curl http://localhost:8484/api/settings \
+  -H "X-Api-Key: $TIDARR_API_KEY"
 ```
 
-**Response:**
-```json
-{
-  "isAuthActive": true
-}
+**Advantages:**
+- ✅ Secure random key (64 hex characters)
+- ✅ Separate from your admin password
+- ✅ Can be regenerated anytime
+- ✅ Standard *arr protocol
+- ✅ No expiration (unlike JWT tokens)
+
+**Alternative:** API key can also be sent via query parameter (not recommended for production):
+```bash
+curl "http://localhost:8484/api/settings?apikey=$TIDARR_API_KEY"
 ```
 
-### Login and get a JWT token
+📖 See [API Key Documentation](API_KEY.md) for complete guide.
 
-If authentication is active, you must first obtain a JWT token:
+---
+
+### 🔐 Alternative: JWT Token (Bearer authentication)
+
+**Best for:** Web UI, interactive sessions
+
+If authentication is active, you can obtain a JWT token:
 
 ```bash
+# Login
 curl -X POST http://localhost:8484/api/auth \
   -H 'Content-Type: application/json' \
   -d '{"password": "your_password"}'
@@ -56,14 +79,85 @@ curl -X POST http://localhost:8484/api/auth \
 }
 ```
 
-**Use the token for subsequent requests:**
-
+**Use the token:**
 ```bash
 export TIDARR_TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 
 curl http://localhost:8484/api/settings \
-  -H "Authorization: Bearer $TIDARR_TOKEN"
+  -H "X-Api-Key: $TIDARR_API_KEY"
 ```
+
+**Note:** JWT tokens are primarily used by the web UI. For automation and scripts, **prefer the API key method**.
+
+---
+
+### Check if authentication is active
+
+```bash
+curl http://localhost:8484/api/is-auth-active
+```
+
+**Response:**
+```json
+{
+  "isAuthActive": true
+}
+```
+
+---
+
+## API Key Management
+
+These endpoints allow you to retrieve and regenerate your API key programmatically.
+
+### Get current API key
+
+**Endpoint:** `GET /api/api-key`
+
+**Authentication:** Requires JWT token (web UI login)
+
+```bash
+# Login first to get JWT token
+TOKEN=$(curl -s -X POST http://localhost:8484/api/auth \
+  -H 'Content-Type: application/json' \
+  -d '{"password": "your_password"}' | jq -r '.token')
+
+# Get API key
+curl http://localhost:8484/api/api-key \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+**Response:**
+```json
+{
+  "apiKey": "9a72222ec7eb4e96b5f33fe2b93b6fc5d1e8f4a3b6c9d0e7f2a5b8c1d4e7f0a3"
+}
+```
+
+**Fields:**
+- `apiKey`: Your current API key (use this in *arr apps like Lidarr)
+
+### Regenerate API key
+
+**Endpoint:** `POST /api/api-key/regenerate`
+
+**Authentication:** Requires JWT token (web UI login)
+
+⚠️ **Warning:** This will invalidate your current API key. You'll need to update it in all applications using it (Lidarr, scripts, etc.).
+
+```bash
+curl -X POST http://localhost:8484/api/api-key/regenerate \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+**Response:**
+```json
+{
+  "apiKey": "1f8b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b"
+}
+```
+
+📖 For complete API key documentation, see [API_KEY.md](API_KEY.md)
 
 ---
 
@@ -75,11 +169,237 @@ curl http://localhost:8484/api/settings \
 
 **Important:** The API uses full Tidal URLs (not numeric IDs).
 
+### Lidarr Integration (Newznab Indexer)
+
+Tidarr implements the **Newznab protocol** for seamless integration with Lidarr. This allows Lidarr to search and download albums from Tidal's catalog automatically.
+
+**Base URL:** `http://your-tidarr-url:8484/api/lidarr`
+
+#### Setup in Lidarr
+
+1. **Go to Settings → Indexers** in Lidarr
+2. **Click +** and select **Newznab**
+3. **Configure the indexer:**
+   - **Name:** Tidarr
+   - **Enable RSS:** ❌ Disabled (optional)
+   - **Enable Automatic Search:** ✅ Enabled
+   - **Enable Interactive Search:** ✅ Enabled
+   - **URL:** `http://your-tidarr-url:8484`
+   - **API Path:** `/api/lidarr`
+   - **API Key:** Get from Tidarr (see below)
+   - **Categories:** Select `3000` (Audio), `3010` (Audio/MP3), `3040` (Audio/Lossless)
+4. **Click Test** to verify the connection
+5. **Save** the configuration
+
+**Getting Your API Key:**
+```bash
+# Via Docker CLI
+docker exec tidarr cat /shared/.tidarr-api-key
+
+# Or via Tidarr Web UI: Settings → Authentication → API Key
+```
+
+**Note:** If authentication is not enabled, leave the API Key field empty.
+
+#### Supported Newznab Endpoints
+
+##### 1. Get Capabilities
+
+**Endpoint:** `GET /api/lidarr?t=caps`
+
+Returns the indexer capabilities in XML format. This is called by Lidarr to determine what the indexer supports.
+
+**Authentication:** Supports API key via header or query parameter
+
+**Examples:**
+```bash
+# Using X-Api-Key header
+curl -H "X-Api-Key: your-api-key" "http://localhost:8484/api/lidarr?t=caps"
+
+# Using query parameter
+curl "http://localhost:8484/api/lidarr?t=caps&apikey=your-api-key"
+
+# Without authentication (if not required)
+curl "http://localhost:8484/api/lidarr?t=caps"
+```
+
+**Response:**
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<caps>
+  <server version="1.0" title="Tidarr" strapline="Tidal Music Indexer" email="tidarr@tidarr.com" url="http://localhost:8484" image="http://localhost:8484/logo.png"/>
+  <limits max="100" default="100"/>
+  <registration available="no" open="no"/>
+  <searching>
+    <search available="yes" supportedParams="q"/>
+    <music-search available="yes" supportedParams="q,artist,album"/>
+    <audio-search available="yes" supportedParams="q,artist,album"/>
+  </searching>
+  <categories>
+    <category id="3000" name="Audio">
+      <subcat id="3010" name="MP3"/>
+      <subcat id="3040" name="Lossless"/>
+      <subcat id="3050" name="Other"/>
+    </category>
+  </categories>
+</caps>
+```
+
+##### 2. Search for Albums
+
+**Endpoint:** `GET /api/lidarr?t=search&q={query}`
+
+Search Tidal's catalog using a query string.
+
+**Authentication:** Supports API key via header or query parameter
+
+**Parameters:**
+- `t` - Request type: `search`, `music-search`, or `audio-search`
+- `q` - Search query (e.g., "Daft Punk Random Access Memories")
+- `artist` - Artist name (optional)
+- `album` - Album name (optional)
+- `apikey` - API key (if using query parameter authentication)
+
+**Examples:**
+```bash
+# Using X-Api-Key header
+curl -H "X-Api-Key: your-api-key" \
+  "http://localhost:8484/api/lidarr?t=search&q=Daft%20Punk%20Random%20Access%20Memories"
+
+# Using query parameter
+curl "http://localhost:8484/api/lidarr?t=search&q=Daft%20Punk&apikey=your-api-key"
+
+# Without authentication (if not required)
+curl "http://localhost:8484/api/lidarr?t=search&q=Pennywise"
+```
+
+**Response:** Newznab XML format with matching albums. Each item includes a download URL with the API key embedded (if provided in the search request).
+
+##### 3. Download Album (Grab)
+
+**Endpoint:** `GET /api/lidarr/download/{albumId}`
+
+Trigger the download of a specific album and add it to Tidarr's queue.
+
+**Authentication:** Supports API key via header or query parameter
+
+**Important:** When Lidarr searches for albums, the download URLs in the search results automatically include the API key that was used for the search. This ensures Lidarr can download without re-authentication issues.
+
+**Examples:**
+```bash
+# Using X-Api-Key header
+curl -H "X-Api-Key: your-api-key" \
+  "http://localhost:8484/api/lidarr/download/34277251"
+
+# Using query parameter (automatically added by search results)
+curl "http://localhost:8484/api/lidarr/download/34277251?apikey=your-api-key"
+```
+
+**Response:** NZB file format (required by Lidarr protocol)
+
+##### 4. Check Download Status
+
+**Endpoint:** `GET /api/lidarr/status/{albumId}`
+
+Check if an album has been successfully queued for download.
+
+**Example:**
+```bash
+curl "http://localhost:8484/api/lidarr/status/34277251"
+```
+
+**Response:**
+```json
+{
+  "status": "queued",
+  "message": "Album is in download queue",
+  "item": {
+    "id": "lidarr-34277251-1234567890",
+    "artist": "Daft Punk",
+    "title": "Random Access Memories",
+    "type": "album",
+    "status": "queue",
+    "quality": "max",
+    "url": "album/34277251"
+  }
+}
+```
+
+#### Advanced Features
+
+**Smart Query Parsing:**
+- Automatically detects artist/album from queries like "Artist - Album"
+- Handles various delimiters: " - ", " – ", ": ", " : "
+- Falls back to midpoint splitting for queries without delimiters
+
+**Album Edition Detection:**
+- Identifies different editions: Standard, Deluxe, Remastered, Anniversary, etc.
+- Prioritizes Standard editions (score: 100) over special editions
+- Removes duplicate albums, keeping only the highest priority version
+
+**Quality Mapping:**
+- `low` → MP3-96 (M4A 96kbps)
+- `normal` → AAC-320 (M4A 320kbps)
+- `high` → FLAC (FLAC 16-bit 44.1kHz)
+- `max` → FLAC 24bit (FLAC 24-bit 192kHz)
+
+**MusicBrainz Compatibility:**
+- Formats artist and album names according to MusicBrainz guidelines
+- Applies proper title case formatting
+- Handles common words (the, of, and, etc.) appropriately
+
+#### Error Handling
+
+**Invalid API Key (403 Forbidden):**
+```json
+{
+  "error": true,
+  "message": "Invalid API key"
+}
+```
+
+**Token Required (403 Forbidden):**
+```json
+{
+  "error": true,
+  "message": "Token required"
+}
+```
+
+**Album Not Found:**
+```json
+{
+  "error": "Failed to fetch album details from Tidal",
+  "tidalStatus": 404,
+  "tidalStatusText": "Not Found"
+}
+```
+
+**Empty Search Results:**
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Tidarr</title>
+    <newznab:response offset="0" total="0"/>
+  </channel>
+</rss>
+```
+
+**How matching works:**
+- Searches Tidal with artist name + album title
+- Compares results using similarity scoring:
+  - Artist name: 40%
+  - Album title: 50%
+  - Release year: 10%
+- Returns best match if score is above 60% threshold
+- Logs all candidates with scores for debugging
+
 #### Album
 
 ```bash
 curl -X POST http://localhost:8484/api/save \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
@@ -94,7 +414,7 @@ curl -X POST http://localhost:8484/api/save \
 
 ```bash
 curl -X POST http://localhost:8484/api/save \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
@@ -109,7 +429,7 @@ curl -X POST http://localhost:8484/api/save \
 
 ```bash
 curl -X POST http://localhost:8484/api/save \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
@@ -124,7 +444,7 @@ curl -X POST http://localhost:8484/api/save \
 
 ```bash
 curl -X POST http://localhost:8484/api/save \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
@@ -139,7 +459,7 @@ curl -X POST http://localhost:8484/api/save \
 
 ```bash
 curl -X POST http://localhost:8484/api/save \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
@@ -154,7 +474,7 @@ curl -X POST http://localhost:8484/api/save \
 
 ```bash
 curl -X POST http://localhost:8484/api/save \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
@@ -169,7 +489,7 @@ curl -X POST http://localhost:8484/api/save \
 
 ```bash
 curl -X POST http://localhost:8484/api/save \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
@@ -185,7 +505,7 @@ curl -X POST http://localhost:8484/api/save \
 ```bash
 # Favorite albums
 curl -X POST http://localhost:8484/api/save \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
@@ -196,7 +516,7 @@ curl -X POST http://localhost:8484/api/save \
 
 # Favorite tracks
 curl -X POST http://localhost:8484/api/save \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
@@ -207,7 +527,7 @@ curl -X POST http://localhost:8484/api/save \
 
 # Favorite playlists
 curl -X POST http://localhost:8484/api/save \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
@@ -218,7 +538,7 @@ curl -X POST http://localhost:8484/api/save \
 
 # Favorite videos
 curl -X POST http://localhost:8484/api/save \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
@@ -229,7 +549,7 @@ curl -X POST http://localhost:8484/api/save \
 
 # Favorite artists
 curl -X POST http://localhost:8484/api/save \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
@@ -245,7 +565,7 @@ curl -X POST http://localhost:8484/api/save \
 
 ```bash
 curl -X DELETE http://localhost:8484/api/remove \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{"id": "12345"}'
 ```
@@ -256,7 +576,7 @@ curl -X DELETE http://localhost:8484/api/remove \
 
 ```bash
 curl -X DELETE http://localhost:8484/api/remove-all \
-  -H "Authorization: Bearer $TIDARR_TOKEN"
+  -H "X-Api-Key: $TIDARR_API_KEY"
 ```
 
 **Response:** Status `204 No Content`
@@ -265,7 +585,7 @@ curl -X DELETE http://localhost:8484/api/remove-all \
 
 ```bash
 curl -X DELETE http://localhost:8484/api/remove-finished \
-  -H "Authorization: Bearer $TIDARR_TOKEN"
+  -H "X-Api-Key: $TIDARR_API_KEY"
 ```
 
 **Response:** Status `204 No Content`
@@ -276,7 +596,7 @@ Pauses the download queue. If an item is currently being processed, it will be c
 
 ```bash
 curl -X POST http://localhost:8484/api/queue/pause \
-  -H "Authorization: Bearer $TIDARR_TOKEN"
+  -H "X-Api-Key: $TIDARR_API_KEY"
 ```
 
 **Response:** Status `204 No Content`
@@ -293,7 +613,7 @@ Resumes the download queue after it has been paused.
 
 ```bash
 curl -X POST http://localhost:8484/api/queue/resume \
-  -H "Authorization: Bearer $TIDARR_TOKEN"
+  -H "X-Api-Key: $TIDARR_API_KEY"
 ```
 
 **Response:** Status `204 No Content`
@@ -304,7 +624,7 @@ Returns the current status of the download queue (paused or active).
 
 ```bash
 curl http://localhost:8484/api/queue/status \
-  -H "Authorization: Bearer $TIDARR_TOKEN"
+  -H "X-Api-Key: $TIDARR_API_KEY"
 ```
 
 **Response:**
@@ -326,7 +646,7 @@ Returns the list of all downloaded items.
 
 ```bash
 curl http://localhost:8484/api/history/list \
-  -H "Authorization: Bearer $TIDARR_TOKEN"
+  -H "X-Api-Key: $TIDARR_API_KEY"
 ```
 
 **Response:**
@@ -350,7 +670,7 @@ Removes all items from the download history.
 
 ```bash
 curl -X DELETE http://localhost:8484/api/history/list \
-  -H "Authorization: Bearer $TIDARR_TOKEN"
+  -H "X-Api-Key: $TIDARR_API_KEY"
 ```
 
 **Response:** Status `204 No Content`
@@ -368,7 +688,7 @@ curl -X DELETE http://localhost:8484/api/history/list \
 
 ```bash
 curl http://localhost:8484/api/settings \
-  -H "Authorization: Bearer $TIDARR_TOKEN"
+  -H "X-Api-Key: $TIDARR_API_KEY"
 ```
 
 **Response:**
@@ -401,7 +721,7 @@ curl http://localhost:8484/api/settings \
 
 ```bash
 curl -X DELETE http://localhost:8484/api/token \
-  -H "Authorization: Bearer $TIDARR_TOKEN"
+  -H "X-Api-Key: $TIDARR_API_KEY"
 ```
 
 **Response:** Status `204 No Content`
@@ -416,7 +736,7 @@ Synchronization allows automatic downloading of new songs from a playlist accord
 
 ```bash
 curl http://localhost:8484/api/sync/list \
-  -H "Authorization: Bearer $TIDARR_TOKEN"
+  -H "X-Api-Key: $TIDARR_API_KEY"
 ```
 
 **Response:**
@@ -435,7 +755,7 @@ curl http://localhost:8484/api/sync/list \
 
 ```bash
 curl -X POST http://localhost:8484/api/sync/save \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
@@ -453,7 +773,7 @@ curl -X POST http://localhost:8484/api/sync/save \
 
 ```bash
 curl -X DELETE http://localhost:8484/api/sync/remove \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{"id": "abc123-def456"}'
 ```
@@ -466,7 +786,7 @@ Manually trigger synchronization of all items in the watch list (instead of wait
 
 ```bash
 curl -X POST http://localhost:8484/api/sync/trigger \
-  -H "Authorization: Bearer $TIDARR_TOKEN"
+  -H "X-Api-Key: $TIDARR_API_KEY"
 ```
 
 **Response:** Status `202 Accepted`
@@ -483,7 +803,7 @@ This endpoint will immediately queue all items from the watch list for download.
 
 ```bash
 curl http://localhost:8484/api/custom-css \
-  -H "Authorization: Bearer $TIDARR_TOKEN"
+  -H "X-Api-Key: $TIDARR_API_KEY"
 ```
 
 **Response:**
@@ -497,7 +817,7 @@ curl http://localhost:8484/api/custom-css \
 
 ```bash
 curl -X POST http://localhost:8484/api/custom-css \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "css": "body { background-color: #1a1a1a; }"
@@ -522,7 +842,7 @@ Retrieve the current Tiddl configuration file (config.toml):
 
 ```bash
 curl http://localhost:8484/api/tiddl/config \
-  -H "Authorization: Bearer $TIDARR_TOKEN"
+  -H "X-Api-Key: $TIDARR_API_KEY"
 ```
 
 **Response:**
@@ -538,7 +858,7 @@ Update the Tiddl configuration file:
 
 ```bash
 curl -X POST http://localhost:8484/api/tiddl/config \
-  -H "Authorization: Bearer $TIDARR_TOKEN" \
+  -H "X-Api-Key: $TIDARR_API_KEY" \
   -H 'Content-Type: application/json' \
   -d '{
     "toml": "[download]\nquality = \"max\"\nthreads = 8\n..."
