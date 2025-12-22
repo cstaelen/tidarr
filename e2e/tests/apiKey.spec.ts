@@ -69,7 +69,7 @@ test.describe("Tests with password auth", () => {
 
     // Check regenerate button is present
     await expect(
-      page.getByLabel("Generate new API key").getByRole("button"),
+      page.getByRole("button", { name: "Generate new API key" }),
     ).toBeVisible();
 
     // Check usage tip
@@ -99,9 +99,9 @@ test.describe("Tests with password auth", () => {
     expect(apiKey).toBeDefined();
 
     // Click regenerate button
-    const regenerateButton = page
-      .getByLabel("Generate new API key")
-      .getByRole("button");
+    const regenerateButton = page.getByRole("button", {
+      name: "Generate new API key",
+    });
 
     // Accept confirmation dialog
     page.on("dialog", async (dialog) => {
