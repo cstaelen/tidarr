@@ -21,8 +21,8 @@ export function ensureAccessIsGranted(
   const queryApiKey = req.query.apikey as string;
   const providedApiKey = xApiKey || queryApiKey;
 
-  // Get configured API key (generated or from env, fallback to ADMIN_PASSWORD for backward compatibility)
-  const configuredApiKey = getOrCreateApiKey() || envPassword;
+  // Get configured API key (always generated/exists)
+  const configuredApiKey = getOrCreateApiKey();
 
   // No auth configured
   if (!envPassword && !enableOidc) return next();
@@ -36,7 +36,7 @@ export function ensureAccessIsGranted(
 
   // If API key is provided (*arr apps), validate it
   if (providedApiKey) {
-    if (configuredApiKey && providedApiKey === configuredApiKey) {
+    if (providedApiKey === configuredApiKey) {
       return next();
     } else {
       res.status(403).json({ error: true, message: "Invalid API key" });

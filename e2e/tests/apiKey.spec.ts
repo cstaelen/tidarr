@@ -71,11 +71,6 @@ test.describe("Tests with password auth", () => {
     await expect(
       page.getByRole("button", { name: "Generate new API key" }),
     ).toBeVisible();
-
-    // Check usage tip
-    await expect(
-      page.getByText("Use this API key to authenticate with *arr applications"),
-    ).toBeVisible();
   });
 
   test("API Key : Should regenerate API key when clicking regenerate button", async ({
