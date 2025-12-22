@@ -41,6 +41,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Custom Processing Script](#custom-processing-script)
   - [No-download flag](#no-download)
   - [API Documentation](#api-documentation)
+  - [Lidarr Integration](#lidarr-integration) 📖
 - [User requests](#user-requests)
 - [Donate](#donate)
 - [Develop](#develop)
@@ -104,6 +105,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 ### Integration & Automation
 
 - **REST API** - Integrate Tidarr with external applications and automation tools
+- **Lidarr connector** - Search and download albums from Lidarr using MusicBrainz metadata
 - **Custom scripts** - Execute your own shell scripts during post-processing pipeline (after download, before moving to library)
 
 ## GETTING STARTED
@@ -461,8 +463,32 @@ If you want to interact with Tidarr from other applications (scripts, external s
 > - Synchronize playlists
 > - Manage Tidal authentication
 > - Customize configuration
+> - **Connect with Lidarr** - Request album downloads using MusicBrainz metadata
 >
 > 📖 [View complete API documentation](docs/API_DOCUMENTATION.md)
+
+### Lidarr Integration
+
+Tidarr can be integrated with Lidarr as a Newznab indexer to automatically search and download albums from Tidal. This allows you to leverage Lidarr's powerful library management while using Tidarr for high-quality music downloads.
+
+> [!NOTE]
+> **Quick Setup**
+>
+> 1. Go to **Settings → Indexers** in Lidarr
+> 2. Click **+** and select **Newznab**
+> 3. Configure the indexer:
+>    - **Name**: Tidarr
+>    - **URL**: `http://your-tidarr-url:8484`
+>    - **API Path**: `/api/lidarr`
+>    - **API Key**: Your `ADMIN_PASSWORD` (if authentication enabled), otherwise leave empty
+>    - **Categories**: `3000`, `3010`, `3040`
+> 4. Test and Save
+>
+> Tidarr supports the standard `X-Api-Key` header protocol used by all *arr applications.
+>
+> 📖 **[Complete Setup Guide](docs/LIDARR_INTEGRATION.md)** - Detailed configuration, troubleshooting, and advanced topics
+>
+> 🌐 **[Wiki](https://github.com/cstaelen/tidarr/wiki)** - Community guides and examples (coming soon)
 
 ## User requests
 As I'm the only maintainer for now, user requested features can take time.
