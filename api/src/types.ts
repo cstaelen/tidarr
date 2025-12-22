@@ -202,3 +202,29 @@ export interface ErrorResponse {
   error: string;
   details?: unknown;
 }
+
+/**
+ * Tidal API search response types (for Lidarr indexer)
+ */
+export interface TidalAlbum {
+  id: number;
+  title: string;
+  artist?: {
+    id: number;
+    name: string;
+  };
+  artists?: Array<{
+    id: number;
+    name: string;
+  }>;
+  releaseDate?: string;
+  numberOfTracks?: number;
+  duration?: number;
+}
+
+export interface TidalSearchResponse {
+  albums?: {
+    items?: TidalAlbum[];
+    totalNumberOfItems?: number;
+  };
+}

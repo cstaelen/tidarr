@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 
 import { test } from "../test-isolation";
 
+import { oidcLogin } from "./utils/login";
+
 test.use({ envFile: ".env.e2e.oidc" });
 
 test("OIDC authentication: Should see OIDC login button", async ({ page }) => {
@@ -25,22 +27,7 @@ test("OIDC authentication: Should store token from URL parameter", async ({
   page,
 }) => {
   // Create a valid OIDC token
-  const jwtSecret = process.env.JWT_SECRET || "tidarr-secret";
-  const tidarrToken = jwt.sign(
-    {
-      oidcSub: "test-user-123",
-      email: "test@example.com",
-      name: "Test User",
-    },
-    jwtSecret,
-    { expiresIn: "12h" },
-  );
-
-  // Navigate with token parameter (simulates OIDC callback)
-  await page.goto(`/?token=${tidarrToken}`);
-
-  // Wait for AuthProvider useEffect to process the token
-  await page.waitForTimeout(2000);
+  const tidarrToken = await oidcLogin(page);
 
   // Verify token was set in localStorage
   const token = (await page.evaluate(
@@ -65,20 +52,7 @@ test("OIDC authentication: Should require re-authentication after token removal"
   page,
 }) => {
   // Create and set a valid token
-  const jwtSecret = process.env.JWT_SECRET || "tidarr-secret";
-  const tidarrToken = jwt.sign(
-    {
-      oidcSub: "test-user-123",
-      email: "test@example.com",
-      name: "Test User",
-    },
-    jwtSecret,
-    { expiresIn: "12h" },
-  );
-
-  // Simulate OIDC callback by navigating with token parameter
-  await page.goto(`/?token=${tidarrToken}`);
-  await page.waitForTimeout(1000);
+  await oidcLogin(page);
 
   // Should be on homepage
   await expect(page.getByRole("heading", { name: "Tidarr" })).toBeInViewport();
@@ -126,20 +100,7 @@ test("OIDC authentication: Should handle missing OIDC configuration", async ({
 });
 
 test("OIDC authentication: Should be able to logout", async ({ page }) => {
-  const jwtSecret = process.env.JWT_SECRET || "tidarr-secret";
-  const tidarrToken = jwt.sign(
-    {
-      oidcSub: "test-user-123",
-      email: "test@example.com",
-      name: "Test User",
-    },
-    jwtSecret,
-    { expiresIn: "12h" },
-  );
-
-  // Navigate with token to simulate OIDC callback
-  await page.goto(`/?token=${tidarrToken}`);
-  await page.waitForTimeout(1000);
+  await oidcLogin(page);
 
   // Should be on homepage
   await expect(page.getByRole("heading", { name: "Tidarr" })).toBeInViewport();
@@ -158,20 +119,7 @@ test("OIDC authentication: Should redirect to requested URL after login", async 
   page,
 }) => {
   // Create a valid token
-  const jwtSecret = process.env.JWT_SECRET || "tidarr-secret";
-  const tidarrToken = jwt.sign(
-    {
-      oidcSub: "test-user-123",
-      email: "test@example.com",
-      name: "Test User",
-    },
-    jwtSecret,
-    { expiresIn: "12h" },
-  );
-
-  // Simulate OIDC callback
-  await page.goto(`/?token=${tidarrToken}`);
-  await page.waitForTimeout(1000);
+  await oidcLogin(page);
 
   // Navigate to search page with token already set
   await page.goto("/search/Nirvana");

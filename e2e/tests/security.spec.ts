@@ -2,21 +2,14 @@ import { expect } from "@playwright/test";
 
 import { test } from "../test-isolation";
 
+import { login } from "./utils/login";
+
 test.use({ envFile: ".env.e2e.auth" });
 test("Tidarr security : Should see login page", async ({ page }) => {
   await page.goto("/");
   await page.evaluate("localStorage.clear()");
-  await expect(
-    page.getByRole("heading", { name: "Tidarr authentication" }),
-  ).toBeInViewport();
 
-  // When I proceed to login
-  await page.getByPlaceholder("Password...").fill("passwdtidarr");
-  await page.getByRole("button", { name: "Submit" }).click();
-
-  // Then I should be on homepage
-  await expect(page.getByRole("heading", { name: "Tidarr" })).toBeInViewport();
-  await page.waitForTimeout(500);
+  await login(page);
 
   // And A new token should be set
   const token = await page.evaluate("localStorage.getItem('tidarr-token')");
@@ -51,15 +44,10 @@ test("Tidarr security : Should be redirected to requested url after login", asyn
   page,
 }) => {
   await page.goto("/search/Nirvana");
-  await expect(
-    page.getByRole("heading", { name: "Tidarr authentication" }),
-  ).toBeInViewport();
 
-  // When I proceed to login
-  await page.getByPlaceholder("Password...").fill("passwdtidarr");
-  await page.getByRole("button", { name: "Submit" }).click();
+  await login(page);
 
-  // Then I should be on homepage
+  // Then I should be redirected to the requested URL
   await expect(
     page.getByRole("link", { name: "Nirvana", exact: true }).first(),
   ).toBeInViewport();
@@ -69,12 +57,8 @@ test("Tidarr security : Should be able to log out", async ({ page }) => {
   await page.goto("/login");
   await page.evaluate("localStorage.clear()");
 
-  // When I go to login page and log in
-  await page.getByPlaceholder("Password...").fill("passwdtidarr");
-  await page.getByRole("button", { name: "Submit" }).click();
+  await login(page);
 
-  // Then I should be on the homepage
-  await expect(page.getByRole("heading", { name: "Tidarr" })).toBeInViewport();
   await expect(page.getByLabel("Logout")).toBeInViewport();
 
   // When I click on logout button
@@ -106,11 +90,12 @@ test("Tidarr security : Wrong credentials should display an error", async ({
     });
   });
   await page.goto("/");
+
   await expect(
     page.getByRole("heading", { name: "Tidarr authentication" }),
   ).toBeInViewport();
 
-  // When I proceed to login
+  // When I proceed to login with wrong credentials
   await page.getByPlaceholder("Password...").fill("passwdtidarr");
   await page.getByRole("button", { name: "Submit" }).click();
 

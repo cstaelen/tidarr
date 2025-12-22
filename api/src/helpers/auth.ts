@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
+import { getOrCreateApiKey } from "../services/api-key";
 import { is_oidc_configured } from "../services/auth";
 
 export function ensureAccessIsGranted(
@@ -14,6 +15,15 @@ export function ensureAccessIsGranted(
   const envPassword = process.env?.ADMIN_PASSWORD;
   const enableOidc = is_oidc_configured();
 
+  // Check for API key (used by *arr apps: Lidarr, Radarr, Sonarr, etc.)
+  // They can send it via X-Api-Key header OR apikey query parameter
+  const xApiKey = req.headers["x-api-key"] as string;
+  const queryApiKey = req.query.apikey as string;
+  const providedApiKey = xApiKey || queryApiKey;
+
+  // Get configured API key (generated or from env, fallback to ADMIN_PASSWORD for backward compatibility)
+  const configuredApiKey = getOrCreateApiKey() || envPassword;
+
   // No auth configured
   if (!envPassword && !enableOidc) return next();
 
@@ -22,6 +32,16 @@ export function ensureAccessIsGranted(
       .status(403)
       .json({ error: true, message: "JWT secret key is missing." });
     return;
+  }
+
+  // If API key is provided (*arr apps), validate it
+  if (providedApiKey) {
+    if (configuredApiKey && providedApiKey === configuredApiKey) {
+      return next();
+    } else {
+      res.status(403).json({ error: true, message: "Invalid API key" });
+      return;
+    }
   }
 
   if (!token) {
