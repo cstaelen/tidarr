@@ -122,7 +122,8 @@ export function generateNewznabItem(
   req: Request,
   qualityInfo: ReturnType<typeof getQualityInfo>,
 ): string {
-  const guid = `tidarr-album-${album.id}`;
+  if (!album?.id) return "";
+  const guid = album.id;
 
   // Include API key in download URL (Lidarr needs it to download)
   const apiKey = req.query.apikey || req.headers["x-api-key"];
