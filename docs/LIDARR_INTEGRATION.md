@@ -114,52 +114,49 @@ The quality and format of downloaded albums are controlled by your Tidarr config
 
 - **Template path**: set in `.tiddl/config.toml`
 
-## Search Algorithm
+## Search Behavior
 
-### Query Processing
+### What to Expect
 
-Lidarr sends queries in the format: `"Artist Album"` (e.g., `"Pennywise All or Nothing"`)
+Tidarr uses smart matching to find the best album results from Tidal:
 
-Tidarr processes this by:
-1. **Normalizing**: Converts to lowercase, removes special characters
-2. **Searching Tidal**: Searches Tidal's catalog with the normalized query
-3. **Scoring**: Each result is scored based on match quality
+✅ **Works well with**:
+- Standard album searches: `"Artist Album Name"`
+- Artists with special characters: `"AC/DC"`, `"N.W.A"`, etc.
+- Partial album titles: Searches for `"For Those About to Rock"` will find `"For Those About to Rock (We Salute You)"`
+- Self-titled albums: `"Bad Religion Bad Religion"` correctly identifies self-titled albums
+- Multiple editions: Automatically selects the best matching edition (usually Standard over Deluxe)
 
-### Scoring System
+⚠️ **Limitations**:
+- **Album not on Tidal**: If an album isn't available on Tidal, no results will be returned
+- **Very different naming**: If Tidal uses a significantly different album title, matching may fail
+- **Artist-only matches**: If only the artist matches but not the album title, no results (prevents wrong downloads)
+- **Top 50 results**: Only searches the first 50 results from Tidal - very obscure albums may be missed
 
-Each album receives a score from 0.0 to 1.0:
+### Search Tips
 
-**Perfect Match (1.0)**:
-- Both artist name and album title are found in the query
-- Minimal remaining characters after matching
+**For best results**:
+1. Use standard album names without extra info
+   - ✅ Good: `"Pennywise All or Nothing"`
+   - ❌ Avoid: `"Pennywise - All or Nothing (2012) [Deluxe]"`
 
-**Good Match (0.5 - 0.8)**:
-- Artist found, album title has high similarity
-- OR album title found, artist has high similarity
+2. If automatic search fails, try manual search with simpler queries
+   - Instead of full album name, try just the first few words
 
-**Weak Match (< 0.5)**:
-- Only partial similarity detected
-- These results are filtered out
+3. Check if the album exists on Tidal first
+   - Not all albums are available on Tidal (licensing restrictions)
 
-### Penalty System
+4. For artists with special characters, both formats work:
+   - `"AC/DC Power Up"` and `"AC DC Power Up"` will both work
 
-Albums receive a penalty based on extra text in the title:
+### When No Results Are Found
 
-- **Remaining characters** after removing artist and album name from query
-- **Penalty calculation**: `min(0.5, remainingChars × 0.05)`
-- **Examples**:
-  - Query: `"Pennywise Yesterdays"`
-  - Album: `"Yesterdays (Deluxe Edition)"`
-  - Remaining: `"deluxe edition"` (14 chars)
-  - Penalty: 0.5 (capped)
-  - Final Score: 0.5 (just meets threshold)
+If Lidarr shows no results from Tidarr:
 
-### Edition Handling
-
-When multiple editions exist (Standard, Deluxe, Remastered, etc.):
-- All editions are scored equally
-- The **highest scoring** edition is returned
-- This typically favors editions with titles closer to the search query
+1. **Check Tidal availability**: Search for the album manually on Tidal's website/app
+2. **Try simpler query**: Use just artist name and first word of album
+3. **Check logs**: Tidarr logs show what was searched and why results were filtered
+4. **Verify authentication**: Make sure Tidal auth is still valid in Tidarr settings
 
 
 ## Advanced Topics
@@ -197,7 +194,7 @@ Downloads triggered by Lidarr go through Tidarr's normal processing pipeline:
 ### Queue Management
 
 All Lidarr-triggered downloads:
-- Are added to Tidarr's queue with ID: `lidarr-{albumId}-{timestamp}`
+- Are added to Tidarr's queue with ID
 - Appear in Tidarr's UI
 - Can be paused/resumed like any other download
 - Respect queue order (sequential processing)

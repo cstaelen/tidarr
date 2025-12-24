@@ -44,10 +44,19 @@ export async function handleSearchRequest(
   res: Response,
   params: { q?: string; artist?: string; album?: string },
 ): Promise<void> {
-  const { q } = params;
+  let { q } = params;
+  const { artist, album } = params;
+
+  // If no q but artist/album provided (t=music), construct query
+  if (!q && (artist || album)) {
+    q = [artist, album].filter(Boolean).join(" ");
+    console.log(`[Lidarr] Constructed query from artist/album: "${q}"`);
+  }
 
   if (!q) {
-    console.log("[Lidarr] No search query provided, returning empty results");
+    console.log(
+      "⏹️ [Lidarr] No search query provided, returning empty results",
+    );
     res.set("Content-Type", "application/xml");
     res.send(`<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:newznab="http://www.newzbin.com/DTD/2010/feeds/attributes/">
@@ -86,7 +95,7 @@ export async function handleSearchRequest(
           .join("\n")
       : "";
 
-  console.log(`[Lidarr] Returning ${results.length} results to Lidarr`);
+  console.log(`✅ [Lidarr] Returning ${results.length} results to Lidarr`);
 
   res.set("Content-Type", "application/xml");
   res.send(`<?xml version="1.0" encoding="UTF-8"?>
@@ -105,7 +114,7 @@ ${items}
 }
 
 export async function handleDownloadFromLidarr(id: string, res: Response) {
-  console.log(`[Lidarr] Download triggered for album ID: ${id}`);
+  console.log(`⬇ [Lidarr] Download triggered for album ID: ${id}`);
 
   const app = getAppInstance();
   const tiddlConfig = app.locals.tiddlConfig;
@@ -127,11 +136,11 @@ export async function handleDownloadFromLidarr(id: string, res: Response) {
     res.set("Content-Disposition", `attachment; filename="tidarr-${id}.nzb"`);
     res.send(nzbContent);
 
-    console.log(`[Lidarr] Successfully returned NZB for album ${id}`);
+    console.log(`✅ [Lidarr] Successfully returned NZB for album ${id}`);
   } else {
     const errorBody = await response.text();
     console.error(
-      `[Lidarr] Failed to fetch album details: ${response.status} ${response.statusText}`,
+      `❌ [Lidarr] Failed to fetch album details: ${response.status} ${response.statusText}`,
     );
     console.error(`[Lidarr] Error response body: ${errorBody}`);
 
