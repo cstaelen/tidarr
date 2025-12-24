@@ -189,9 +189,9 @@ export function matchTidalAlbums(
   const filtered = scoredAlbums.filter((item) => item.score >= 0.5);
 
   // Sort by score (highest first)
-  filtered.sort((a, b) => b.score - a.score);
+  if (filtered?.length > 0) filtered.sort((a, b) => b.score - a.score);
 
-  return [filtered[0].album];
+  return [filtered[0]?.album];
 }
 
 export async function addAlbumToQueue(
@@ -200,12 +200,12 @@ export async function addAlbumToQueue(
   albumId: string,
 ): Promise<void> {
   const processingItem = {
-    id: `lidarr-${albumId}-${Date.now()}`,
+    id: albumId,
     artist: getAlbumArtist(albumData),
     title: albumData.title,
     type: "album" as const,
     status: "queue" as const,
-    quality: app.locals.tiddlConfig?.download?.track_quality || "max",
+    quality: app.locals.tiddlConfig?.download?.track_quality || "high",
     url: `album/${albumId}`,
     loading: true,
     error: false,
