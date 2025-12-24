@@ -45,6 +45,15 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - [Donate](#donate)
 - [Develop](#develop)
 
+------------------------------
+
+> [!NOTE]
+> **Lidarr Integration**
+>
+> Lidarr integration is currently a work in progress. We need testers and feedback to improve this feature.
+>
+> 📖 [Integration Guide](https://github.com/cstaelen/tidarr/wiki/%5BBETA%5D-Lidarr-Integration-Guide) | 💬 [Discussion & Feedback](https://github.com/cstaelen/tidarr/discussions/568)
+
 > [!WARNING]
 > **Disclaimer**
 >
