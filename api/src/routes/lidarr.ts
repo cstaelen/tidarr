@@ -19,7 +19,7 @@ router.get(
   ensureAccessIsGranted,
   async (req: Request, res: Response) => {
     try {
-      const { t, q } = req.query;
+      const { t, q, artist, album } = req.query;
 
       // Handle capabilities request (t=caps)
       if (t === "caps") {
@@ -29,6 +29,8 @@ router.get(
       // Handle search requests (t=search or t=music)
       return await handleSearchRequest(req, res, {
         q: q as string,
+        artist: artist as string,
+        album: album as string,
       });
     } catch (error) {
       handleRouteError(error, res, "Lidarr indexer request");
