@@ -18,7 +18,8 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "prettier": "^3.7.4",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.50.0"
+    "typescript-eslint": "^8.50.0",
+    "node-fetch": "^3.3.2"
   },
   "scripts": {
     "app-build": "yarn --cwd ./app build",

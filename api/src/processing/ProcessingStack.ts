@@ -12,6 +12,10 @@ import { beets } from "../services/beets";
 import { gotifyPush } from "../services/gotify";
 import { jellyfinUpdate } from "../services/jellyfin";
 import { ntfyPush } from "../services/ntfy";
+import {
+  clearPlaylistProgress,
+  getCompletedTrackCount,
+} from "../services/playlist-progress";
 import { plexUpdate } from "../services/plex";
 import { hookPushOver } from "../services/pushover";
 import { tidalDL } from "../services/tiddl";
@@ -167,6 +171,11 @@ export const ProcessingStack = () => {
     // Kill the process if it exists and is running
     killProcess(item?.process, id);
 
+    // Clear playlist progress tracking
+    if (item.type === "playlist" || item.type === "album") {
+      await clearPlaylistProgress(item.id);
+    }
+
     delete data[foundIndex];
     data.splice(foundIndex, 1);
     dataMap.delete(id);
@@ -231,7 +240,24 @@ export const ProcessingStack = () => {
     // Initialize empty output history in the Map (ensure string key)
     outputs.set(String(item.id), []);
 
-    await cleanFolder(item.id);
+    // Check if this is a retry OR if there's existing progress from previous attempt
+    const isRetry = (item.retryCount || 0) > 0;
+    const hasPartialSuccess = item.downloadedCount && item.downloadedCount > 0;
+
+    // Also check persistent storage for any completed tracks
+    const persistedCount = await getCompletedTrackCount(item.id);
+    const hasPersistedProgress = persistedCount > 0;
+
+    // Don't clean if we have any progress (retry, partial, or persisted)
+    if (isRetry || hasPartialSuccess || hasPersistedProgress) {
+      const count = persistedCount || item.downloadedCount || 0;
+      logs(
+        item.id,
+        `🔄 [RESUME] Keeping ${count} already downloaded files, will skip existing`,
+      );
+    } else {
+      await cleanFolder(item.id);
+    }
   }
 
   async function processQueue(): Promise<void> {
@@ -341,7 +367,60 @@ export const ProcessingStack = () => {
 
     if (item["status"] === "error") {
       logs(item.id, "⚠️ [TIDDL] An error occured while downloading.");
-      return;
+
+      // Initialize retry tracking
+      const retryCount = item.retryCount || 0;
+      const maxRetries = item.maxRetries || 3;
+      const hasPartialSuccess = item.downloadedCount && item.downloadedCount > 0;
+
+      // If we have partial success, tiddl's skip_existing will resume
+      if (retryCount < maxRetries) {
+        logs(
+          item.id,
+          `🔄 [RETRY] Retrying download (attempt ${retryCount + 1}/${maxRetries})`,
+        );
+
+        if (hasPartialSuccess) {
+          logs(
+            item.id,
+            `✅ [RETRY] ${item.downloadedCount}/${item.totalCount} tracks already downloaded, will skip existing`,
+          );
+        }
+
+        // Increment retry count and reset to queue
+        item.retryCount = retryCount + 1;
+        item.status = "queue";
+        item.error = false;
+        item.loading = false;
+
+        // Don't clean the processing folder - keep downloaded files
+        // tiddl's skip_existing setting will skip already downloaded tracks
+
+        // Update item in queue file
+        await updateItemInQueueFile(item);
+
+        // Trigger queue processing - must call directly since status is "queue"
+        updateItem(item);
+        processQueue(); // Explicitly trigger queue to process retry
+
+        return;
+      } else {
+        logs(
+          item.id,
+          `❌ [RETRY] Max retries (${maxRetries}) reached. Marking as failed.`,
+        );
+
+        if (hasPartialSuccess) {
+          logs(
+            item.id,
+            `📊 [RETRY] Final result: ${item.downloadedCount}/${item.totalCount} tracks downloaded`,
+          );
+          // Don't clean folder - keep what we have
+        }
+
+        await updateItemInQueueFile(item);
+        return;
+      }
     }
 
     // Stop if there is no file to process (maybe existing)
@@ -397,6 +476,12 @@ export const ProcessingStack = () => {
     logs(item.id, "---------------------");
     logs(item.id, "✅ [TIDARR] Post processing complete.");
     item["status"] = "finished";
+
+    // Clear playlist progress tracking for completed items
+    if (item.type === "playlist" || item.type === "album") {
+      await clearPlaylistProgress(item.id);
+      logs(item.id, "🧹 [PLAYLIST] Progress tracking cleared");
+    }
 
     // Remove item from persistant queue file
     await updateItemInQueueFile(item);
