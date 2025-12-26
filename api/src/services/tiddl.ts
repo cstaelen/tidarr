@@ -1,21 +1,17 @@
 import { spawn, spawnSync } from "child_process";
 import { Express, Request, Response } from "express";
-import fs from "fs";
 import path from "path";
 
 import { CONFIG_PATH, TOKEN_REFRESH_THRESHOLD } from "../../constants";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
 import { extractFirstLineClean } from "../processing/ansi-parse";
-import {
-  getProcessingPath,
-  moveAndClean,
-  processSingleTrack,
-} from "../processing/jobs";
+import { getProcessingPath, processSingleTrack } from "../processing/jobs";
 import { logs } from "../processing/logs";
 import { ProcessingItemType, TiddlConfig } from "../types";
+
 import {
-  markTrackCompleted,
   getCompletedTrackCount,
+  markTrackCompleted,
 } from "./playlist-progress";
 
 // Constants
@@ -35,52 +31,6 @@ const FAVORITE_TYPE_TO_RESOURCE: Record<string, string> = {
   favorite_videos: "video",
   favorite_artists: "artist",
 };
-
-/**
- * Move a completed track from processing folder to final destination
- * Returns the track identifier (filename) for progress tracking
- */
-async function moveCompletedTrack(
-  itemId: string,
-  trackFilename: string,
-): Promise<string | null> {
-  try {
-    const processingPath = getProcessingPath();
-    const itemProcessingPath = path.join(processingPath, itemId);
-    const trackPath = path.join(itemProcessingPath, trackFilename);
-
-    // Check if file exists
-    if (!fs.existsSync(trackPath)) {
-      console.log(
-        `⚠️ [TRACK MOVE] File not found: ${trackFilename}, may have been moved already`,
-      );
-      return null;
-    }
-
-    // Get file stats to ensure it's not being written
-    const stats = fs.statSync(trackPath);
-    const now = Date.now();
-    const fileAge = now - stats.mtimeMs;
-
-    // Wait a bit if file was just modified (still being written)
-    if (fileAge < 1000) {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    }
-
-    // Move the file immediately using the same logic as moveAndClean
-    // For now, we'll just log and mark as completed
-    // The actual move will happen in post-processing
-    console.log(`✅ [TRACK COMPLETE] Downloaded: ${trackFilename}`);
-
-    return trackFilename;
-  } catch (error) {
-    console.error(
-      `❌ [TRACK MOVE] Error moving track ${trackFilename}:`,
-      error,
-    );
-    return null;
-  }
-}
 
 export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   const item: ProcessingItemType =
@@ -175,8 +125,13 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     // Look for patterns like "Downloaded: Artist - Track.flac" or similar
     // The output contains ANSI hyperlinks like: ]8;id=123;file://path.flac\x1B\\
     // We need to extract the full path until the ANSI escape sequence
-    const downloadedMatch = data.match(/file:\/\/([^\x1B\x07]+\.(flac|mp3|m4a|opus))/i);
-    if (downloadedMatch && (item.type === "playlist" || item.type === "album")) {
+    const downloadedMatch = data.match(
+      /file:\/\/([^\\x1B\\x07]+\.(flac|mp3|m4a|opus))/i,
+    );
+    if (
+      downloadedMatch &&
+      (item.type === "playlist" || item.type === "album")
+    ) {
       // Extract the full path from the file:// URL
       const fullPath = downloadedMatch[1];
 

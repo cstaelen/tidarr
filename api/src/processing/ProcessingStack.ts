@@ -371,7 +371,8 @@ export const ProcessingStack = () => {
       // Initialize retry tracking
       const retryCount = item.retryCount || 0;
       const maxRetries = item.maxRetries || 3;
-      const hasPartialSuccess = item.downloadedCount && item.downloadedCount > 0;
+      const hasPartialSuccess =
+        item.downloadedCount && item.downloadedCount > 0;
 
       // If we have partial success, tiddl's skip_existing will resume
       if (retryCount < maxRetries) {

@@ -64,7 +64,9 @@ export async function processSingleTrack(
           { encoding: "utf-8", shell: "/bin/sh" },
         );
       } catch (error) {
-        console.log(`⚠️ [TRACK PROCESS] Chown failed for ${trackFilename}`);
+        console.log(
+          `⚠️ [TRACK PROCESS] Chown failed for ${trackFilename}. Error: ${error.message}`,
+        );
       }
     }
 
@@ -78,7 +80,9 @@ export async function processSingleTrack(
           shell: "/bin/sh",
         });
       } catch (error) {
-        console.log(`⚠️ [TRACK PROCESS] Chmod failed for ${trackFilename}`);
+        console.log(
+          `⚠️ [TRACK PROCESS] Chmod failed for ${trackFilename}. Error: ${error.message}`,
+        );
       }
     }
 

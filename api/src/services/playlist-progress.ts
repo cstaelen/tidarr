@@ -1,4 +1,4 @@
-import { JsonDB, Config } from "node-json-db";
+import { Config, JsonDB } from "node-json-db";
 import path from "path";
 
 import { CONFIG_PATH } from "../../constants";
@@ -112,9 +112,7 @@ export async function getCompletedTrackCount(
 /**
  * Clear progress for a playlist (when finished or removed)
  */
-export async function clearPlaylistProgress(
-  playlistId: string,
-): Promise<void> {
+export async function clearPlaylistProgress(playlistId: string): Promise<void> {
   const allProgress = await getAllPlaylistProgress();
   delete allProgress[playlistId];
   await playlistProgressDb.push(PROGRESS_PATH, allProgress);
