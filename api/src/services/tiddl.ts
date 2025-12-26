@@ -1,12 +1,18 @@
 import { spawn, spawnSync } from "child_process";
 import { Express, Request, Response } from "express";
+import path from "path";
 
 import { CONFIG_PATH, TOKEN_REFRESH_THRESHOLD } from "../../constants";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
 import { extractFirstLineClean } from "../processing/ansi-parse";
-import { getProcessingPath } from "../processing/jobs";
+import { getProcessingPath, processSingleTrack } from "../processing/jobs";
 import { logs } from "../processing/logs";
 import { ProcessingItemType, TiddlConfig } from "../types";
+
+import {
+  getCompletedTrackCount,
+  markTrackCompleted,
+} from "./playlist-progress";
 
 // Constants
 const TIDDL_BINARY = "tiddl";
@@ -41,6 +47,24 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   logs(item.id, "---------------------");
   logs(item.id, "🎵 TIDDL PROCESSING  ");
   logs(item.id, "---------------------");
+
+  // Load previously completed tracks from persistent storage
+  const loadPreviousProgress = async () => {
+    if (item.type === "playlist" || item.type === "album") {
+      const completedCount = await getCompletedTrackCount(item.id);
+      if (completedCount > 0) {
+        logs(
+          item.id,
+          `📊 [RESUME] Found ${completedCount} previously completed tracks`,
+        );
+        item.downloadedCount = completedCount;
+        return completedCount;
+      }
+    }
+    return 0;
+  };
+
+  loadPreviousProgress();
 
   const args: string[] = [];
 
@@ -86,12 +110,85 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   child.stdout?.setEncoding("utf8");
   let lastTotalProgress = "";
   let hasProcessingError = false;
+  let downloadedCount = 0;
+  let totalCount = 0;
+  let lastProcessedTrack = "";
 
-  child.stdout?.on("data", (data: string) => {
+  child.stdout?.on("data", async (data: string) => {
     const lines = data?.split("\r");
     const errorLines = lines.filter((line) => line.includes("[31mError:\x1B"));
     if (errorLines.length > 0) {
       hasProcessingError = true;
+    }
+
+    // Detect successful track download
+    // Look for patterns like "Downloaded: Artist - Track.flac" or similar
+    // The output contains ANSI hyperlinks like: ]8;id=123;file://path.flac\x1B\\
+    // We need to extract the full path until the ANSI escape sequence
+    const downloadedMatch = data.match(
+      /file:\/\/([^\\x1B\\x07]+\.(flac|mp3|m4a|opus))/i,
+    );
+    if (
+      downloadedMatch &&
+      (item.type === "playlist" || item.type === "album")
+    ) {
+      // Extract the full path from the file:// URL
+      const fullPath = downloadedMatch[1];
+
+      // URL decode the path (handles %20 etc)
+      const decodedPath = decodeURIComponent(fullPath);
+
+      // Extract just the filename from the full path
+      const trackFilename = path.basename(decodedPath);
+
+      // Avoid processing the same track multiple times
+      if (trackFilename && trackFilename !== lastProcessedTrack) {
+        lastProcessedTrack = trackFilename;
+
+        // Immediately process and move the track to final destination
+        const moved = await processSingleTrack(item.id, trackFilename);
+
+        if (moved) {
+          // Mark track as completed in persistent storage AFTER successful move
+          await markTrackCompleted(item.id, trackFilename, totalCount);
+
+          // Update downloadedCount from persistent storage
+          const completedCount = await getCompletedTrackCount(item.id);
+          downloadedCount = completedCount;
+          item.downloadedCount = completedCount;
+
+          logs(
+            item.id,
+            `✅ [TRACK SAVED] ${trackFilename} (${completedCount}/${totalCount || "?"})`,
+          );
+        } else {
+          logs(
+            item.id,
+            `⚠️ [TRACK SAVE FAILED] Could not move ${trackFilename}`,
+          );
+        }
+      }
+    }
+
+    // Track progress for playlists/albums
+    // Look for patterns like "Downloaded 5/20" or "Total downloads: 20"
+    const downloadMatch = data.match(/Downloaded\s+(\d+)\/(\d+)/i);
+    if (downloadMatch) {
+      const reportedCount = parseInt(downloadMatch[1], 10);
+      totalCount = parseInt(downloadMatch[2], 10);
+
+      // Use the persistent count if available, otherwise use tiddl's count
+      const persistentCount = await getCompletedTrackCount(item.id);
+      downloadedCount = persistentCount > 0 ? persistentCount : reportedCount;
+
+      item.downloadedCount = downloadedCount;
+      item.totalCount = totalCount;
+    }
+
+    const totalMatch = data.match(/Total downloads:\s*(\d+)/i);
+    if (totalMatch) {
+      totalCount = parseInt(totalMatch[1], 10);
+      item.totalCount = totalCount;
     }
 
     if (
@@ -146,14 +243,40 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     const isDownloaded =
       currentOutput.includes("can't save playlist m3u file") || code === 0;
 
+    // Check if we have partial success (some tracks downloaded)
+    const hasPartialSuccess =
+      downloadedCount > 0 && downloadedCount < totalCount;
+
     if (isDownloaded) {
       logs(item.id, `✅ [TIDDL] Download succeed (code: ${code})`);
+      if (hasPartialSuccess) {
+        logs(
+          item.id,
+          `📊 [TIDDL] Downloaded ${downloadedCount}/${totalCount} tracks`,
+        );
+      }
     } else {
       logs(item.id, `❌ [TIDDL] Tiddl process exited with code ${code})`);
+      if (hasPartialSuccess) {
+        logs(
+          item.id,
+          `⚠️ [TIDDL] Partial success: ${downloadedCount}/${totalCount} tracks downloaded`,
+        );
+      }
     }
 
-    item["status"] =
-      !isDownloaded || hasProcessingError ? "error" : item["status"];
+    // For playlists/albums with partial success, don't mark as complete error
+    // The retry logic will handle resuming from where it left off
+    if (hasPartialSuccess && hasProcessingError) {
+      logs(
+        item.id,
+        `🔄 [TIDDL] Will retry remaining ${totalCount - downloadedCount} tracks`,
+      );
+      item["status"] = "error"; // Mark for retry, but files are preserved
+    } else {
+      item["status"] =
+        !isDownloaded || hasProcessingError ? "error" : item["status"];
+    }
 
     item["loading"] = false;
     app.locals.processingStack.actions.updateItem(item);

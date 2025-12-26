@@ -26,6 +26,10 @@ export type ProcessingItemType = {
   loading: boolean;
   error: boolean;
   process?: ChildProcess;
+  retryCount?: number; // Number of times this item has been retried
+  maxRetries?: number; // Maximum number of retries (default: 3)
+  downloadedCount?: number; // For playlists: number of tracks successfully downloaded
+  totalCount?: number; // For playlists: total number of tracks
 };
 
 export type TiddlConfig = {
