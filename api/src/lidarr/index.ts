@@ -7,11 +7,7 @@ import {
   generateNzbContent,
   getQualityInfo,
 } from "./lidarr-utils";
-import {
-  addAlbumToQueue,
-  matchTidalAlbums,
-  searchTidalForLidarr,
-} from "./tidal-search-albums";
+import { addAlbumToQueue, searchTidalForLidarr } from "./tidal-search-albums";
 
 export function handleCapsRequest(req: Request, res: Response): void {
   console.log("[Lidarr] Capabilities request (t=caps)");
@@ -78,10 +74,7 @@ export async function handleSearchRequest(
   }
 
   const app = getAppInstance();
-  let results = await searchTidalForLidarr(q, app);
-
-  // Apply smart matching
-  results = matchTidalAlbums(results, q);
+  const results = await searchTidalForLidarr(q, app);
 
   // Generate response
   const tiddlConfig = app.locals.tiddlConfig;
@@ -95,7 +88,9 @@ export async function handleSearchRequest(
           .join("\n")
       : "";
 
-  console.log(`✅ [Lidarr] Returning ${results.length} results to Lidarr`);
+  console.log(
+    `${results.length > 0 ? "✅" : "0️⃣"} [Lidarr] Returning ${results.length} results to Lidarr`,
+  );
 
   res.set("Content-Type", "application/xml");
   res.send(`<?xml version="1.0" encoding="UTF-8"?>
