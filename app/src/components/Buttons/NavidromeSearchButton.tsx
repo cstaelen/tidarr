@@ -70,7 +70,7 @@ export const NavidromeSearchButton = ({
 
         const artistsCount = searchResult.artist
           ? (searchResult.artist as { name: string }[]).filter(
-              (a) => a.name === query,
+              (a) => a.name.toLowerCase() === query.toLowerCase(),
             ).length
           : 0;
         const albumsCount = searchResult.album?.length || 0;

@@ -35,7 +35,7 @@ test("History: Should see and clear all history when flush is called", async ({
   // Wait for settings to load
   await page.waitForTimeout(500);
 
-  await page.getByRole("tab", { name: "Tidal configuration" }).click();
+  await page.getByRole("tab", { name: "Tidal" }).click();
 
   // Look for a button or action to clear history
   // Note: This assumes there's a UI element for clearing history in settings
