@@ -114,49 +114,56 @@ The quality and format of downloaded albums are controlled by your Tidarr config
 
 - **Template path**: set in `.tiddl/config.toml`
 
-## Search Behavior
+## How Search Works
+
+### Search Process
+
+When Lidarr searches for an album, Tidarr:
+
+1. **Receives the query** from Lidarr (either `t=music` with `artist`/`album` params or `t=search` with `q` param)
+2. **Constructs search query**: Combines artist + album for `t=music` requests
+3. **Queries Tidal API**: Searches for matching albums (up to 50 results)
+4. **Returns all results**: Sends all Tidal results back to Lidarr in Newznab XML format
+5. **Lidarr matches**: Lidarr's own matching algorithm selects the best result
+
+**Important**: Tidarr acts as a simple indexer - it returns raw Tidal search results without filtering. Lidarr handles all matching and selection logic.
 
 ### What to Expect
 
-Tidarr uses smart matching to find the best album results from Tidal:
-
-✅ **Works well with**:
-- Standard album searches: `"Artist Album Name"`
-- Artists with special characters: `"AC/DC"`, `"N.W.A"`, etc.
-- Partial album titles: Searches for `"For Those About to Rock"` will find `"For Those About to Rock (We Salute You)"`
-- Self-titled albums: `"Bad Religion Bad Religion"` correctly identifies self-titled albums
-- Multiple editions: Automatically selects the best matching edition (usually Standard over Deluxe)
+✅ **Tidarr will return results for**:
+- Any album available on Tidal
+- All editions (Standard, Deluxe, Remastered, etc.)
+- Up to 50 albums per search
 
 ⚠️ **Limitations**:
 - **Album not on Tidal**: If an album isn't available on Tidal, no results will be returned
-- **Very different naming**: If Tidal uses a significantly different album title, matching may fail
-- **Artist-only matches**: If only the artist matches but not the album title, no results (prevents wrong downloads)
-- **Top 50 results**: Only searches the first 50 results from Tidal - very obscure albums may be missed
+- **Tidal's search algorithm**: Results depend entirely on how Tidal's search API ranks albums
+- **Result limit**: Only the top 50 results from Tidal are returned
 
 ### Search Tips
 
 **For best results**:
-1. Use standard album names without extra info
-   - ✅ Good: `"Pennywise All or Nothing"`
-   - ❌ Avoid: `"Pennywise - All or Nothing (2012) [Deluxe]"`
 
-2. If automatic search fails, try manual search with simpler queries
-   - Instead of full album name, try just the first few words
+1. **Ensure album exists on Tidal**
+   - Check Tidal's website/app to verify availability
+   - Not all albums are available due to licensing restrictions
 
-3. Check if the album exists on Tidal first
-   - Not all albums are available on Tidal (licensing restrictions)
+2. **Let Lidarr's matching work**
+   - Lidarr handles all matching logic - Tidarr just provides the raw results
+   - Configure Lidarr's preferences for best matching behavior
 
-4. For artists with special characters, both formats work:
-   - `"AC/DC Power Up"` and `"AC DC Power Up"` will both work
+3. **Check authentication**
+   - Make sure Tidal auth is still valid in Tidarr settings
+   - Expired tokens will result in no results
 
 ### When No Results Are Found
 
 If Lidarr shows no results from Tidarr:
 
-1. **Check Tidal availability**: Search for the album manually on Tidal's website/app
-2. **Try simpler query**: Use just artist name and first word of album
-3. **Check logs**: Tidarr logs show what was searched and why results were filtered
-4. **Verify authentication**: Make sure Tidal auth is still valid in Tidarr settings
+1. **Verify Tidal availability**: Search manually on Tidal to confirm the album exists
+2. **Check Tidarr logs**: See what query was sent to Tidal and how many results returned
+3. **Verify authentication**: Ensure Tidal token is valid in Tidarr settings
+4. **Try manual search**: Use Lidarr's manual search to see all available results
 
 
 ## Advanced Topics

@@ -4,7 +4,6 @@ import { TIDAL_API_URL } from "../../constants";
 import { TidalAlbum, TidalSearchResponse } from "../types";
 
 import { getAlbumArtist } from "./lidarr-utils";
-import { getAlbumScoring } from "./scoring-album";
 
 /**
  * Searches Tidal for albums (for indexer search results)
@@ -50,51 +49,11 @@ export async function searchTidalForLidarr(
     }
 
     const data: TidalSearchResponse = await response.json();
-    const albums = data?.albums?.items || [];
-    console.log(
-      `✅ [Lidarr] Found ${albums.length} results from Tidal : ${query}`,
-    );
-
-    return albums;
+    return data?.albums?.items || [];
   } catch (error) {
     console.error("❌ [Lidarr] Error searching Tidal:", error);
     return [];
   }
-}
-
-/**
- * Match albums against search criteria
- * @param albums - Array of albums to filter
- * @param query - Complete query string that may contain "artist - album" format
- */
-export function matchTidalAlbums(
-  albums: TidalAlbum[],
-  query: string,
-): TidalAlbum[] {
-  if (!albums?.length) return [];
-
-  console.log(
-    `[Lidarr] Matching ${albums.length} albums against query: "${query}"`,
-  );
-
-  const scoredAlbums = albums.map((album) => {
-    return getAlbumScoring(album, query);
-  });
-
-  console.log(
-    `[Lidarr] After scoring: ${scoredAlbums.filter((item) => item.score >= 0.5).length}/${scoredAlbums.length} albums passed threshold (≥0.5)`,
-  );
-
-  const filtered = scoredAlbums.filter((item) => item.score >= 0.5);
-
-  // Sort by score (highest first)
-  if (filtered?.length > 0) {
-    filtered.sort((a, b) => b.score - a.score);
-    // return [filtered[0].album];
-    return filtered.slice(0, 10).map((item) => item.album);
-  }
-
-  return [];
 }
 
 export async function addAlbumToQueue(
