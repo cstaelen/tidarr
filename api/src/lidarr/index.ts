@@ -2,11 +2,7 @@ import { Request, Response } from "express";
 
 import { getAppInstance } from "../helpers/app-instance";
 
-import {
-  generateNewznabItem,
-  generateNzbContent,
-  getQualityInfo,
-} from "./lidarr-utils";
+import { generateNewznabItem, generateNzbContent } from "./lidarr-utils";
 import { addAlbumToQueue, searchTidalForLidarr } from "./tidal-search-albums";
 
 export function handleCapsRequest(req: Request, res: Response): void {
@@ -76,16 +72,9 @@ export async function handleSearchRequest(
   const app = getAppInstance();
   const results = await searchTidalForLidarr(q, app);
 
-  // Generate response
-  const tiddlConfig = app.locals.tiddlConfig;
-  const quality = tiddlConfig?.download?.track_quality || "max";
-  const qualityInfo = getQualityInfo(quality);
-
   const items =
     results.length > 0
-      ? results
-          .map((album) => generateNewznabItem(album, req, qualityInfo))
-          .join("\n")
+      ? results.map((album) => generateNewznabItem(album, req)).join("\n")
       : "";
 
   console.log(
