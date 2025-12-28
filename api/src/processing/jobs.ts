@@ -8,6 +8,121 @@ import { ProcessingItemType } from "../types";
 
 import { logs } from "./logs";
 
+/**
+ * Process and move a single track file immediately after download
+ * This allows playlist downloads to save tracks incrementally
+ */
+export async function processSingleTrack(
+  itemId: string,
+  trackFilename: string,
+): Promise<boolean> {
+  const app = getAppInstance();
+  const item: ProcessingItemType =
+    app.locals.processingStack.actions.getItem(itemId);
+
+  if (!item) {
+    console.error(`[TRACK PROCESS] Item ${itemId} not found`);
+    return false;
+  }
+
+  const processingPath = getProcessingPath();
+  const itemProcessingPath = path.join(processingPath, String(item.id));
+  const libraryPath = app.locals.tiddlConfig.download.scan_path;
+
+  try {
+    // Find the track file in the processing folder structure
+    const trackPath = findFileInDirectory(itemProcessingPath, trackFilename);
+
+    if (!trackPath) {
+      console.log(
+        `⚠️ [TRACK PROCESS] File not found: ${trackFilename}, may have been moved already`,
+      );
+      return false;
+    }
+
+    // Get the relative path from itemProcessingPath to maintain folder structure
+    const relativePath = path.relative(itemProcessingPath, trackPath);
+    const relativeDir = path.dirname(relativePath);
+
+    // Build destination path maintaining folder structure
+    const destDir = path.join(libraryPath, relativeDir);
+    const destPath = path.join(libraryPath, relativePath);
+
+    // Create destination directory if it doesn't exist
+    if (!fs.existsSync(destDir)) {
+      fs.mkdirSync(destDir, { recursive: true });
+    }
+
+    // Copy the file
+    fs.copyFileSync(trackPath, destPath);
+
+    // Set permissions if PUID/PGID are set
+    if (process.env.PUID && process.env.PGID) {
+      try {
+        execSync(
+          `chown ${process.env.PUID}:${process.env.PGID} "${destPath}"`,
+          { encoding: "utf-8", shell: "/bin/sh" },
+        );
+      } catch (error) {
+        console.log(
+          `⚠️ [TRACK PROCESS] Chown failed for ${trackFilename}. Error: ${error.message}`,
+        );
+      }
+    }
+
+    // Apply UMASK permissions
+    if (process.env.UMASK) {
+      try {
+        const umaskValue = parseInt(process.env.UMASK, 8);
+        const filePerms = (0o666 & ~umaskValue).toString(8);
+        execSync(`chmod ${filePerms} "${destPath}"`, {
+          encoding: "utf-8",
+          shell: "/bin/sh",
+        });
+      } catch (error) {
+        console.log(
+          `⚠️ [TRACK PROCESS] Chmod failed for ${trackFilename}. Error: ${error.message}`,
+        );
+      }
+    }
+
+    console.log(`✅ [TRACK PROCESS] Copied: ${trackFilename} → ${destPath}`);
+
+    // Don't delete source file yet - tiddl may still need it for post-processing
+    // The processing folder will be cleaned up after the entire download completes
+
+    return true;
+  } catch (error) {
+    console.error(
+      `❌ [TRACK PROCESS] Error processing ${trackFilename}:`,
+      error,
+    );
+    return false;
+  }
+}
+
+/**
+ * Recursively find a file in a directory by filename
+ */
+function findFileInDirectory(dir: string, filename: string): string | null {
+  if (!fs.existsSync(dir)) return null;
+
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+
+    if (entry.isDirectory()) {
+      const found = findFileInDirectory(fullPath, filename);
+      if (found) return found;
+    } else if (entry.name === filename) {
+      return fullPath;
+    }
+  }
+
+  return null;
+}
+
 export function getProcessingPath(): string {
   const app = getAppInstance();
   const downloadPath = app.locals.tiddlConfig?.download.download_path;
