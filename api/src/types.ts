@@ -220,6 +220,8 @@ export interface TidalAlbum {
   releaseDate?: string;
   numberOfTracks?: number;
   duration?: number;
+  type: string;
+  audioQuality: string;
 }
 
 export interface TidalSearchResponse {

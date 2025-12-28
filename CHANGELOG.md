@@ -8,6 +8,7 @@ Tidarr notable changes.
 - [Front] Add API key manager in configuration dialog
 - [API] Add X-API-KEY header to authenticate external queries
 - [API] Add Lidarr NZB indexer endpoints
+- [API] Add replay gain post processing step (REPLAY_GAIN=true)
 
 ## 📦 1.1.0
 ### 🚀 Added

@@ -64,21 +64,21 @@ export function getQualityInfo(quality: string): {
       qualityName: "MP3-96",
       sizePerTrackMB: 5,
     },
-    normal: {
+    high: {
       format: "M4A 320kbps",
       category: "Audio &gt; MP3",
       categoryId: "3010",
       qualityName: "AAC-320",
       sizePerTrackMB: 10,
     },
-    high: {
+    lossless: {
       format: "FLAC 16-bit 44.1kHz",
       category: "Audio &gt; Lossless",
       categoryId: "3040",
       qualityName: "FLAC",
       sizePerTrackMB: 40,
     },
-    max: {
+    hires_lossless: {
       format: "FLAC 24-bit 192kHz",
       category: "Audio &gt; Lossless",
       categoryId: "3040",
@@ -87,7 +87,7 @@ export function getQualityInfo(quality: string): {
     },
   };
 
-  return qualityMap[quality] || qualityMap.max;
+  return qualityMap[quality] || qualityMap.lossless;
 }
 
 /**
@@ -117,13 +117,11 @@ export function generateNzbContent(albumId: string): string {
 /**
  * Generate Newznab XML item for an album
  */
-export function generateNewznabItem(
-  album: TidalAlbum,
-  req: Request,
-  qualityInfo: ReturnType<typeof getQualityInfo>,
-): string {
+export function generateNewznabItem(album: TidalAlbum, req: Request): string {
   if (!album?.id) return "";
   const guid = album.id;
+
+  const qualityInfo = getQualityInfo(album.audioQuality.toLowerCase());
 
   // Include API key in download URL (Lidarr needs it to download)
   const apiKey = req.query.apikey || req.headers["x-api-key"];
@@ -145,7 +143,7 @@ export function generateNewznabItem(
 
   const formattedArtist = formatForMusicBrainz(albumArtist);
   const formattedTitle = formatForMusicBrainz(album.title);
-  const titleWithQuality = `${formattedArtist} - ${formattedTitle}${year ? ` (${year})` : ""} [${qualityInfo.qualityName}]`;
+  const titleWithQuality = `${formattedArtist} - ${formattedTitle}${year ? ` (${year})` : ""} [${qualityInfo.qualityName}] (${album.numberOfTracks} tracks)`;
 
   return `    <item>
       <title>${escapeXml(titleWithQuality)}</title>
@@ -154,7 +152,14 @@ export function generateNewznabItem(
       <comments>${tidarrUrl}#comments</comments>
       <pubDate>${pubDate}</pubDate>
       <category>${qualityInfo.category}</category>
-      <description>${escapeXml(`${formattedArtist} - ${formattedTitle}${year ? ` (${year})` : ""} [${qualityInfo.qualityName}] - ${qualityInfo.format}`)}</description>
+      <description>${escapeXml(`${formattedArtist} - ${formattedTitle}${year ? ` (${year})` : ""} [${qualityInfo.qualityName}] - ${qualityInfo.format} - ${album.numberOfTracks} tracks - type: ${album.type?.toUpperCase()}`)}</description>
       <enclosure url="${downloadUrl}" length="${estimatedSize}" type="application/x-nzb"/>
+      <newznab:attr name="artist" value="${escapeXml(albumArtist)}"/>
+      <newznab:attr name="album" value="${escapeXml(album.title)}"/>
+      <newznab:attr name="size" value="${estimatedSize}"/>
+      <newznab:attr name="category" value="${qualityInfo.categoryId}"/>
+      ${year ? `<newznab:attr name="year" value="${year}"/>` : ""}
+      ${album.numberOfTracks ? `<newznab:attr name="tracks" value="${album.numberOfTracks}"/>` : ""}
+      ${album.type ? `<newznab:attr name="type" value="${escapeXml(album.type)}"/>` : ""}
     </item>`;
 }
