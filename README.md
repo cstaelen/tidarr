@@ -81,7 +81,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 
 ### Service integration
 
-- **[Beets.io](https://beets.readthedocs.io/en/stable/)** - Tag releases 
+- **[Beets.io](https://beets.readthedocs.io/en/stable/)** - Tag releases
 - **[Gotify](https://gotify.net/)** - Push notifications
 - **[Ntfy](https://ntfy.sh)** - Push notifications
 - **[Apprise API](https://github.com/caronc/apprise-api)** - Push notifications
@@ -295,7 +295,7 @@ Add to your *docker-compose* file in `environment:` section :
 environment:
   - ...
   - ENABLE_BEETS=true
-```   
+```
 
 Beets options in `</mounted/config/folder/>beets-config.yml`:
 

@@ -17,6 +17,7 @@ export async function configureServer() {
       output: output_config,
       parameters: {
         ENABLE_BEETS: process.env.ENABLE_BEETS || "",
+        REPLAY_GAIN: process.env.REPLAY_GAIN || "",
         PLEX_URL: process.env.PLEX_URL || "",
         PLEX_LIBRARY: process.env.PLEX_LIBRARY || "",
         PLEX_TOKEN: process.env.PLEX_TOKEN || "",
