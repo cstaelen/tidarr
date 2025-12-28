@@ -40,4 +40,5 @@ services:
       - SYNC_CRON_EXPRESSION=
       - NO_DOWNLOAD=
       - ENABLE_HISTORY=
+      - REPLAY_GAIN=
       

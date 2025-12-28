@@ -14,6 +14,7 @@ import { jellyfinUpdate } from "../services/jellyfin";
 import { ntfyPush } from "../services/ntfy";
 import { plexUpdate } from "../services/plex";
 import { hookPushOver } from "../services/pushover";
+import { applyReplayGain } from "../services/rsgain";
 import { tidalDL } from "../services/tiddl";
 import { ProcessingItemType } from "../types";
 
@@ -366,6 +367,9 @@ export const ProcessingStack = () => {
 
     // Beets process
     await beets(item.id);
+
+    // Apply ReplayGain tags
+    await applyReplayGain(item.id, `${processingPath}/${item.id}`);
 
     // Set permissions
     await setPermissions(item);

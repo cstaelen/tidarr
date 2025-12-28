@@ -22,7 +22,8 @@ RUN apk update && apk upgrade && \
         bash \
         su-exec \
         curl \
-        wget && \
+        wget \
+        rsgain && \
     rm -rf /var/cache/apk/*
 
 # Install Python and Node dependencies
