@@ -1,9 +1,10 @@
 import { Express } from "express";
 
-import { TIDAL_API_URL } from "../../constants";
-import { TidalAlbum, TidalSearchResponse } from "../types";
+import { TIDAL_API_URL } from "../../../constants";
+import { getAppInstance } from "../../helpers/app-instance";
+import { TidalAlbum, TidalSearchResponse } from "../../types";
 
-import { getAlbumArtist } from "./lidarr-utils";
+import { getAlbumArtist } from "./lidarr";
 
 /**
  * Searches Tidal for albums (for indexer search results)
@@ -56,27 +57,37 @@ export async function searchTidalForLidarr(
   }
 }
 
-export async function addAlbumToQueue(
-  app: Express,
-  albumData: TidalAlbum,
-  albumId: string,
-): Promise<void> {
-  const processingItem = {
-    id: albumId,
-    artist: getAlbumArtist(albumData),
-    title: albumData.title,
-    type: "album" as const,
-    status: "queue" as const,
-    quality: app.locals.tiddlConfig?.download?.track_quality || "high",
-    url: `album/${albumId}`,
-    loading: true,
-    error: false,
-  };
+export async function addAlbumToQueue(id: string): Promise<void> {
+  const app = getAppInstance();
+  const tiddlConfig = app.locals.tiddlConfig;
+  const countryCode = tiddlConfig?.auth?.country_code || "US";
+  const albumUrl = `${process.env.TIDAL_API_URL || "https://api.tidal.com"}/v1/albums/${id}?countryCode=${countryCode}`;
 
-  await app.locals.processingStack.actions.removeItem(processingItem.id);
-  await app.locals.processingStack.actions.addItem(processingItem);
+  const response = await fetch(albumUrl, {
+    headers: {
+      Authorization: `Bearer ${tiddlConfig?.auth?.token}`,
+    },
+  });
 
-  console.log(
-    `🕖 [Lidarr] Album "${albumData.title}" (${albumId}) added to queue`,
-  );
+  if (response.ok) {
+    const albumData = await response.json();
+    const processingItem = {
+      id: id,
+      artist: getAlbumArtist(albumData),
+      title: albumData.title,
+      type: "album" as const,
+      status: "queue" as const,
+      quality: app.locals.tiddlConfig?.download?.track_quality || "high",
+      url: `album/${id}`,
+      loading: true,
+      error: false,
+    };
+
+    await app.locals.processingStack.actions.removeItem(processingItem.id);
+    await app.locals.processingStack.actions.addItem(processingItem);
+
+    console.log(
+      `🕖 [Lidarr] Album "${albumData.title}" (${id}) added to queue`,
+    );
+  }
 }
