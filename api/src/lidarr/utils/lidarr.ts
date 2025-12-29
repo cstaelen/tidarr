@@ -1,6 +1,6 @@
 import { Request } from "express";
 
-import { TidalAlbum } from "../types";
+import { TidalAlbum } from "../../types";
 
 import { formatForMusicBrainz } from "./musicbrainz";
 

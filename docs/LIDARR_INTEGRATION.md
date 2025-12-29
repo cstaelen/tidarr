@@ -52,15 +52,36 @@ Tidarr can be integrated with Lidarr as a Newznab indexer to automatically searc
 
 ### 2. Configure Download Client
 
-If there is no Usenet download client, you must add Lidarr's **Usenet Blackhole** download client:
+Add Tidarr as a **SABnzbd** download client:
 
 1. Go to **Settings → Download Clients** in Lidarr
-2. Click **+** and select **Usenet Blackhole**
+2. Click **+** and select **SABnzbd**
 3. Configure:
-   - **Name**: Tidarr Blackhole
-   - **Nzb Folder**: Any temporary folder (e.g., `/tmp`)
-   - **Watch Folder**: Leave empty (not needed)
-4. Click **Test** and **Save**
+
+| Setting | Value |
+|---------|-------|
+| **Name** | Tidarr |
+| **Enable** | ✅ Enabled |
+| **Host** | `your-tidarr-url` (e.g., `192.168.1.245`) |
+| **Port** | `8484` |
+| **URL Base** | `/api/sabnzbd` |
+| **API Key** | Same as indexer API key (or any value if no auth enabled) |
+| **Category** | `music` (optional but recommended) |
+
+> **Note on API Key:**
+> - If Tidarr has authentication enabled: Use the same API key as the indexer
+> - If Tidarr has NO authentication: Enter any value (e.g., `0000`) - it's required by Lidarr but won't be validated
+
+4. Click **Test** to verify the connection
+5. Click **Save**
+
+> **Current Implementation Status:**
+> - ✅ **Download triggering** (`addfile`) - Fully functional
+> - ⚠️ **Queue status tracking** - Not yet implemented
+> - ⚠️ **Download history** - Not yet implemented
+> - ⚠️ **Progress tracking** - Not yet implemented
+>
+> For now, downloads will be triggered successfully but Lidarr won't see real-time queue/history status. Track downloads in Tidarr's UI instead.
 
 ### 3. Verify Music Library Path
 
