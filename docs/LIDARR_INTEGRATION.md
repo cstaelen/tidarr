@@ -5,52 +5,28 @@ Tidarr can be integrated with Lidarr as a Newznab indexer to automatically searc
 ## Table of Contents
 
 - [Quick Setup](#quick-setup)
+  - [1. Configure Download Client](#1-configure-download-client)
+  - [2. Add Tidarr as an Indexer in Lidarr](#2-add-tidarr-as-an-indexer-in-lidarr)
+  - [3. Verify Music Library Path](#3-verify-music-library-path)
 - [How It Works](#how-it-works)
-- [Configuration Options](#configuration-options)
-- [Search Algorithm](#search-algorithm)
-- [Troubleshooting](#troubleshooting)
+  - [Workflow](#workflow)
+  - [Architecture](#architecture)
+- [How Search Works](#how-search-works)
+  - [Search Process](#search-process)
+  - [What to Expect](#what-to-expect)
+  - [Search Tips](#search-tips)
+  - [When No Results Are Found](#when-no-results-are-found)
 - [Advanced Topics](#advanced-topics)
+  - [API Endpoints](#api-endpoints)
+  - [Release Processing](#release-processing)
+  - [Queue Management](#queue-management)
+- [Resources](#resources)
 
 ## Quick Setup
 
-### 1. Add Tidarr as an Indexer in Lidarr
+> **Important:** Configure the download client FIRST (step 1), then the indexer (step 2). The indexer configuration needs to reference the download client you create.
 
-1. Go to **Settings → Indexers** in Lidarr
-2. Click **+** and select **Newznab**
-3. Configure the indexer with these settings:
-
-| Setting | Value |
-|---------|-------|
-| **Name** | Tidarr |
-| **Enable RSS** | ❌ Disabled (optional) |
-| **Enable Automatic Search** | ✅ Enabled |
-| **Enable Interactive Search** | ✅ Enabled |
-| **URL** | `http://your-tidarr-url:8484` |
-| **API Path** | `/api/lidarr` |
-| **API Key** | Get from Tidarr (see below) |
-| **Categories** | `3000` (Audio), `3010` (Audio/MP3), `3040` (Audio/Lossless) |
-
-> **Getting Your API Key:**
->
-> **Option 1: Via Docker CLI (recommended)**
-> ```bash
-> docker exec tidarr cat /shared/.tidarr-api-key
-> ```
->
-> **Option 2: Via Tidarr Web UI**
-> - Go to Settings → Security
-> - Copy the API key displayed in the "API Key" section
->
->
-> **If no authentication:**
-> - Leave the API Key field empty
->
-> Lidarr will send the API key via the `X-Api-Key` header or `?apikey=` query parameter (standard *arr protocol)
-
-4. Click **Test** to verify the connection
-5. Click **Save** to complete the setup
-
-### 2. Configure Download Client
+### 1. Configure Download Client
 
 Add Tidarr as a **SABnzbd** download client:
 
@@ -65,12 +41,22 @@ Add Tidarr as a **SABnzbd** download client:
 | **Host** | `your-tidarr-url` (e.g., `192.168.1.245`) |
 | **Port** | `8484` |
 | **URL Base** | `/api/sabnzbd` |
-| **API Key** | Same as indexer API key (or any value if no auth enabled) |
+| **API Key** | Get from Tidarr (see below) |
 | **Category** | `music` (optional but recommended) |
 
-> **Note on API Key:**
-> - If Tidarr has authentication enabled: Use the same API key as the indexer
-> - If Tidarr has NO authentication: Enter any value (e.g., `0000`) - it's required by Lidarr but won't be validated
+> **Getting Your API Key:**
+>
+> **Option 1: Via Docker CLI (recommended)**
+> ```bash
+> docker exec tidarr cat /shared/.tidarr-api-key
+> ```
+>
+> **Option 2: Via Tidarr Web UI**
+> - Go to Settings → Security
+> - Copy the API key displayed in the "API Key" section
+>
+> **If no authentication:**
+> - Enter any value (e.g., `0000`) - it's required by Lidarr but won't be validated
 
 4. Click **Test** to verify the connection
 5. Click **Save**
@@ -82,6 +68,29 @@ Add Tidarr as a **SABnzbd** download client:
 > - ⚠️ **Progress tracking** - Not yet implemented
 >
 > For now, downloads will be triggered successfully but Lidarr won't see real-time queue/history status. Track downloads in Tidarr's UI instead.
+
+### 2. Add Tidarr as an Indexer in Lidarr
+
+1. Go to **Settings → Indexers** in Lidarr
+2. Click **+** and select **Newznab**
+3. Configure the indexer with these settings:
+
+| Setting | Value |
+|---------|-------|
+| **Name** | Tidarr |
+| **Enable RSS** | ❌ Disabled (optional) |
+| **Enable Automatic Search** | ✅ Enabled |
+| **Enable Interactive Search** | ✅ Enabled |
+| **URL** | `http://your-tidarr-url:8484` |
+| **API Path** | `/api/lidarr` |
+| **API Key** | Same as download client (from step 1) |
+| **Categories** | `3000` (Audio), `3010` (Audio/MP3), `3040` (Audio/Lossless) |
+| **Download Client** | Select **Tidarr** (the SABnzbd client created in step 1) |
+
+> **Important:** Make sure to select the Tidarr download client in the "Download Client" dropdown. This ensures that when Lidarr grabs an album from this indexer, it will use the correct download client.
+
+4. Click **Test** to verify the connection
+5. Click **Save** to complete the setup
 
 ### 3. Verify Music Library Path
 
@@ -120,20 +129,6 @@ These paths should point to the same location.
 │         (/music)            │
 └─────────────────────────────┘
 ```
-
-## Configuration Options
-
-### Tidarr Settings
-
-The quality and format of downloaded albums are controlled by your Tidarr configuration:
-
-- **Quality**: Set in Tiddl config.toml file
-  - `low`: M4A 96kbps
-  - `normal`: M4A 320kbps
-  - `high`: 16-bit FLAC
-  - `max`: 24-bit FLAC (up to 192kHz if available)
-
-- **Template path**: set in `.tiddl/config.toml`
 
 ## How Search Works
 
