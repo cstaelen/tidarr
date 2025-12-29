@@ -1,6 +1,6 @@
 # Self-hosted Tidal Media Downloader Docker Image
 
-Tidarr is a Docker image that provides a web interface to download up to **24-bit 192.0 kHz** media (tracks, albums, playlists, music videos) from Tidal using Tiddl python binary. Format on the fly with Beets, automatically update your Plex library, and push notifications.
+Tidarr is a Docker image that provides a web interface to download up to **24-bit 192.0 kHz** media (tracks, albums, playlists, music videos) from Tidal using Tiddl python binary. Format on the fly with Beets, automatically update your Plex library, push notifications, use as a Lidarr provider.
 
 [![GitHub Stars](https://img.shields.io/github/stars/cstaelen/tidarr.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr)
 [![GitHub Release](https://img.shields.io/github/release-date/cstaelen/tidarr?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr/releases)
@@ -30,6 +30,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Sync playlists and mixes](#sync-playlists-and-mixes)
   - [Custom CSS](#custom-css)
   - [Download History](#download-history)
+  - [Replay Gain](#replay-gain)
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-integration)
@@ -39,7 +40,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Ntfy](#ntfy)
   - [Apprise Api](#apprise-api)
   - [Webhook push over](#webhook-push-over)
-  - [Lidarr Integration (BETA)](#lidarr-integration-beta)
+  - [Lidarr connector](#lidarr-connector)
 - [Advanced](#advanced)
   - [Custom Processing Script](#custom-processing-script)
   - [No-download flag](#no-download)
@@ -292,6 +293,19 @@ environment:
 - Visual indicators for already downloaded items (green checkmark)
 - Manual history clearing available in settings dialog
 
+### Replay Gain
+
+Enable automatic Replay Gain analysis for your music library. When activated, Tidarr will scan audio files and add loudness normalization metadata using `FFmpeg` and `rsgain`.
+
+```yaml
+environment:
+  - ...
+  - ENABLE_REPLAY_GAIN=true
+```
+
+> [!NOTE]
+> Replay Gain scanning happens after Beets tagging (if enabled) and before moving files to your library. The process adds minimal overhead to downloads while ensuring consistent playback volume across your music collection.
+
 ## SERVICES
 
 ### Beets
@@ -428,30 +442,27 @@ environment:
 
 It should also works with other services using the same payload format `{"text": "..."}`.
 
-### Lidarr Integration (BETA)
+### Lidarr connector
 
-Tidarr can be integrated with Lidarr as a Newznab indexer to automatically search and download albums from Tidal. 
+Tidarr can be integrated with Lidarr as both a Newznab indexer and a SABnzbd download client. This allows you to leverage Lidarr's powerful library management while using Tidarr for high-quality music downloads from Tidal.
 
-This allows you to leverage Lidarr's powerful library management while using Tidarr for high-quality music downloads.
+**What you can do:**
+- Automatically search for albums in Tidal via Lidarr
+- Trigger downloads directly from Lidarr
+- Manage your music library with Lidarr's metadata matching
 
 > [!NOTE]
 > **Quick Setup**
 >
-> 1. Go to **Settings → Indexers** in Lidarr
-> 2. Click **+** and select **Newznab**
-> 3. Configure the indexer:
->    - **Name**: Tidarr
->    - **URL**: `http://your-tidarr-url:8484`
->    - **API Path**: `/api/lidarr`
->    - **API Key**: Your api key, if authentication enabled, otherwise leave empty
->    - **Categories**: `3000`, `3010`, `3040`
-> 4. Test and Save
+> **Step 1: Add Tidarr as Indexer**
 >
-> Tidarr supports the standard `X-Api-Key` header protocol used by all \*arr applications.
+> **Step 2: Add Tidarr as Download Client**
 >
-> Api key can be found and renewed in configuration dialog.
+> **Notes:**
+> - Tidarr supports the standard `X-Api-Key` header protocol used by all \*arr applications
+> - API key can be found and renewed in configuration dialog
 >
-> 📖 **[Complete Setup Guide](https://github.com/cstaelen/tidarr/wiki/%5BBETA%5D-Lidarr-Integration-Guide)** - Detailed configuration, troubleshooting, and advanced topics
+> 📖 **[Complete Setup Guide](docs/LIDARR_INTEGRATION.md)** - Detailed configuration, troubleshooting, and advanced topics
 
 ## ADVANCED
 
@@ -493,12 +504,12 @@ If you want to interact with Tidarr from other applications (scripts, external s
 >
 > Tidarr's REST API allows you to:
 >
+> - Secure API requests using `X-API-KEY` header (available in configuration dialog)
 > - Add downloads (albums, tracks, playlists, etc.)
 > - Manage the queue (pause, resume, delete)
 > - Synchronize playlists
 > - Manage Tidal authentication
 > - Customize configuration
-> - **Connect with Lidarr** - Request album downloads using MusicBrainz metadata
 >
 > 📖 [View complete API documentation](docs/API_DOCUMENTATION.md)
 
