@@ -3,6 +3,7 @@ import {
   Description,
   Headphones,
   List,
+  Lock,
   Palette,
   Settings,
   Update,
@@ -10,6 +11,7 @@ import {
 import { Tab, Tabs } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
+import AuthPanel from "../Parameters/AuthPanel";
 import CustomCSSPanel from "../Parameters/CustomCSSPanel";
 import DocsPanel from "../Parameters/DocsPanel";
 import TidalPanel from "../Parameters/TidalPanel";
@@ -46,12 +48,9 @@ export const DialogConfig = () => {
       >
         <Tab label="Updates" icon={<Update />} iconPosition="start" />
         <Tab label="Env vars" icon={<List />} iconPosition="start" />
-        <Tab
-          label="Tidal configuration"
-          icon={<Headphones />}
-          iconPosition="start"
-        />
+        <Tab label="Tidal" icon={<Headphones />} iconPosition="start" />
         <Tab label="Custom CSS" icon={<Palette />} iconPosition="start" />
+        <Tab label="Security" icon={<Lock />} iconPosition="start" />
         <Tab label="Docs" icon={<Description />} iconPosition="start" />
       </Tabs>
 
@@ -59,7 +58,8 @@ export const DialogConfig = () => {
       {currentTab === 1 && <VariablesPanel />}
       {currentTab === 2 && <TidalPanel />}
       {currentTab === 3 && <CustomCSSPanel />}
-      {currentTab === 4 && <DocsPanel />}
+      {currentTab === 4 && <AuthPanel />}
+      {currentTab === 5 && <DocsPanel />}
     </DialogHandler>
   );
 };
