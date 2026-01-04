@@ -37,8 +37,9 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [isPaused, setIsPaused] = useState<boolean>();
   const [processingEventSource, setProcessingEventSource] =
     useState<EventSourceController>();
+
   const {
-    actions: { list_sse, remove, save },
+    actions: { list_sse, remove, save, get_queue_status },
   } = useApiFetcher();
   const {
     quality,
@@ -100,6 +101,21 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       setProcessingEventSource(undefined);
     }
   }, [processingEventSource]);
+
+  // Get queue status (pause/resume)
+  useEffect(() => {
+    async function load() {
+      try {
+        const status = await get_queue_status();
+        if (status) {
+          setIsPaused(status.isPaused);
+        }
+      } catch (error) {
+        console.error("Failed to load queue status:", error);
+      }
+    }
+    load();
+  }, [get_queue_status]);
 
   // First load
   useEffect(() => {

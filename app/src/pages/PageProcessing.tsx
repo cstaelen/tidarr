@@ -1,10 +1,11 @@
 import React from "react";
+import { Queue, Sync } from "@mui/icons-material";
 import { Box, Container, Portal, Tab, Tabs, useTheme } from "@mui/material";
+import ProcessingList from "src/components/Processing/ProcessingList";
+import { useProcessingProvider } from "src/provider/ProcessingProvider";
+import { useSync } from "src/provider/SyncProvider";
 
-import MyFavorites from "./MyFavorites";
-import MyMixes from "./MyMixes";
-import MyPlaylists from "./MyPlaylists";
-import Trends from "./Trends";
+import WatchList from "../components/Processing/WatchList";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -29,7 +30,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-export default function HomeTabs() {
+export default function ProcessingTabs() {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
@@ -37,10 +38,13 @@ export default function HomeTabs() {
     setValue(newValue);
   };
 
+  const { syncList } = useSync();
+  const { processingList } = useProcessingProvider();
+
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
       <Portal container={document.getElementById("app-bar")}>
-        <Container maxWidth="lg">
+        <Container maxWidth="md">
           <Tabs
             value={value}
             onChange={handleChange}
@@ -49,26 +53,32 @@ export default function HomeTabs() {
             variant={window.innerWidth > 800 ? "fullWidth" : "scrollable"}
             aria-label="Tidal home tabs"
           >
-            <Tab label="Tidal Trends" />
-            <Tab label="My Mixes" />
-            <Tab label="My Playlists" />
-            <Tab label="My Favorites" />
+            <Tab
+              label={
+                <Box display="flex" alignItems="center" gap={1}>
+                  <Queue />
+                  {`Queue (${processingList?.length || 0})`}
+                </Box>
+              }
+            />
+            <Tab
+              label={
+                <Box display="flex" alignItems="center" gap={1}>
+                  <Sync />
+                  {`Watch list (${syncList?.length || 0})`}
+                </Box>
+              }
+            />
           </Tabs>
         </Container>
       </Portal>
 
-      <Container maxWidth="lg">
+      <Container maxWidth="md">
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <Trends />
+          <ProcessingList />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <MyMixes />
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-          <MyPlaylists />
-        </TabPanel>
-        <TabPanel value={value} index={3} dir={theme.direction}>
-          <MyFavorites />
+          <WatchList />
         </TabPanel>
       </Container>
     </Box>

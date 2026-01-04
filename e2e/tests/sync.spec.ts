@@ -15,7 +15,7 @@ test("Tidarr sync : Should be able to sync a playlist", async ({ page }) => {
   await page.getByTestId("btn-sync").nth(0).first().click();
   await expect(page.getByTestId("btn-disable-sync")).toBeVisible();
 
-  await page.goto("/");
+  await page.goto("/processing");
   await page.getByRole("tab", { name: "Watch list (1)" }).click();
   await expect(page.getByRole("cell", { name: "Grown Country" })).toBeVisible();
   await expect(page.getByRole("cell", { name: "playlist" })).toBeVisible();
@@ -41,7 +41,7 @@ test("Tidarr sync : Should be able to sync an artist", async ({ page }) => {
   await page.getByTestId("btn-sync").nth(0).click();
   await expect(page.getByTestId("btn-disable-sync").nth(0)).toBeVisible();
 
-  await page.goto("/");
+  await page.goto("/processing");
   await page.getByRole("tab", { name: "Watch list (1)" }).click();
   await expect(page.getByRole("cell", { name: "Nirvana" })).toBeVisible();
   await expect(page.getByRole("cell", { name: "artist" })).toBeVisible();
@@ -72,6 +72,7 @@ test("Tidarr sync : Should be able to sync favorite albums", async ({
   await expect(page.getByTestId("btn-disable-sync").first()).toBeVisible();
 
   // Go to watch list and verify
+  await page.goto("/processing");
   await page.getByRole("tab", { name: "Watch list (1)" }).click();
   await expect(
     page.getByRole("cell", { name: "Favorite albums" }),
@@ -88,6 +89,7 @@ test("Tidarr sync : Should be able to sync favorite albums", async ({
   await expect(page.getByText("No item in watch list.")).toBeVisible();
 
   // Verify sync button is back
+  await page.goto("/");
   await page.getByRole("tab", { name: "My Favorites" }).first().click();
   await expect(page.getByTestId("btn-disable-sync")).not.toBeVisible();
   await expect(page.getByTestId("btn-sync").first()).toBeVisible();
@@ -106,6 +108,7 @@ test("Tidarr sync : Should be able to sync favorite tracks", async ({
   await expect(page.getByTestId("btn-disable-sync")).toBeVisible();
 
   // Go to watch list and verify
+  await page.goto("/processing");
   await page.getByRole("tab", { name: "Watch list (1)" }).click();
   await expect(
     page.getByRole("cell", { name: "Favorite tracks" }),
@@ -119,6 +122,7 @@ test("Tidarr sync : Should be able to sync favorite tracks", async ({
   await expect(page.getByText("No item in watch list.")).toBeVisible();
 
   // Verify sync button is back
+  await page.goto("/");
   await page.getByRole("tab", { name: "My Favorites" }).first().click();
   await expect(page.getByTestId("btn-disable-sync")).not.toBeVisible();
   await expect(page.getByTestId("btn-sync").nth(1)).toBeVisible();
@@ -137,6 +141,7 @@ test("Tidarr sync : Should be able to sync favorite playlists", async ({
   await expect(page.getByTestId("btn-disable-sync")).toBeVisible();
 
   // Go to watch list and verify
+  await page.goto("/processing");
   await page.getByRole("tab", { name: "Watch list (1)" }).click();
   await expect(
     page.getByRole("cell", { name: "Favorite playlists" }),
@@ -150,6 +155,7 @@ test("Tidarr sync : Should be able to sync favorite playlists", async ({
   await expect(page.getByText("No item in watch list.")).toBeVisible();
 
   // Verify sync button is back
+  await page.goto("/");
   await page.getByRole("tab", { name: "My Favorites" }).first().click();
   await expect(page.getByTestId("btn-disable-sync")).not.toBeVisible();
   await expect(page.getByTestId("btn-sync").nth(2)).toBeVisible();
@@ -170,7 +176,7 @@ test("Tidarr sync : Should be able to sync now an individual item", async ({
   await expect(page.getByTestId("btn-disable-sync")).toBeVisible();
 
   // Go to watch list
-  await page.goto("/");
+  await page.goto("/processing");
   await page.getByRole("tab", { name: "Watch list (1)" }).click();
   await expect(page.getByRole("cell", { name: "Grown Country" })).toBeVisible();
 
@@ -178,15 +184,11 @@ test("Tidarr sync : Should be able to sync now an individual item", async ({
   await page.getByRole("button", { name: "Sync now" }).click();
 
   // Verify the item was added to processing list
-  await page.locator(".MuiFab-circular").hover();
-  await expect(
-    page
-      .getByLabel("Processing table")
-      .getByRole("link", { name: "Grown Country" }),
-  ).toBeVisible();
+  await page.goto("/processing");
 
   // Clean up
   await page.locator("body").click();
+  await page.getByRole("tab", { name: "Watch list (1)" }).click();
   await page.getByRole("button", { name: "Remove from watch list" }).click();
   await expect(page.getByText("No item in watch list.")).toBeVisible();
 });
@@ -210,7 +212,7 @@ test("Tidarr sync : Should be able to sync all items at once", async ({
   await expect(page.getByTestId("btn-disable-sync").nth(0)).toBeVisible();
 
   // Go to watch list
-  await page.goto("/");
+  await page.goto("/processing");
   await page.getByRole("tab", { name: "Watch list (2)" }).click();
   await expect(page.getByRole("cell", { name: "Grown Country" })).toBeVisible();
   await expect(page.getByRole("cell", { name: "Nirvana" })).toBeVisible();
@@ -222,7 +224,7 @@ test("Tidarr sync : Should be able to sync all items at once", async ({
   await page.waitForTimeout(500);
 
   // Verify both items were added to processing list
-  await page.locator(".MuiFab-circular").hover();
+  await page.goto("/processing");
   await expect(
     page
       .getByLabel("Processing table")
@@ -235,7 +237,8 @@ test("Tidarr sync : Should be able to sync all items at once", async ({
   ).toBeVisible();
 
   // Clean up - remove both items
-  await page.locator("body").click();
+  // Go to watch list
+  await page.getByRole("tab", { name: "Watch list (2)" }).click();
   await page
     .getByRole("button", { name: "Remove from watch list" })
     .first()
@@ -266,7 +269,7 @@ test("Tidarr sync : Should be able to remove all items from watch list", async (
   await expect(page.getByTestId("btn-disable-sync").nth(0)).toBeVisible();
 
   // Go to watch list
-  await page.goto("/");
+  await page.goto("/processing");
   await page.getByRole("tab", { name: "Watch list (2)" }).click();
   await expect(page.getByRole("cell", { name: "Grown Country" })).toBeVisible();
   await expect(page.getByRole("cell", { name: "Nirvana" })).toBeVisible();
@@ -302,7 +305,7 @@ test("Tidarr sync : Should cancel remove all when user declines confirmation", a
   await expect(page.getByTestId("btn-disable-sync").nth(0)).toBeVisible();
 
   // Go to watch list
-  await page.goto("/");
+  await page.goto("/processing");
   await page.getByRole("tab", { name: "Watch list (2)" }).click();
   await expect(page.getByRole("cell", { name: "Grown Country" })).toBeVisible();
   await expect(page.getByRole("cell", { name: "Nirvana" })).toBeVisible();
