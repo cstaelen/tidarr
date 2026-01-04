@@ -65,6 +65,18 @@ type ApiFetcherContextType = {
     get_list_history: () => Promise<string[] | undefined>;
     flush_history: () => Promise<unknown>;
     signStream: (id: string) => Promise<{ url: string } | undefined>;
+    get_api_key: () => Promise<
+      | {
+          apiKey: string;
+        }
+      | undefined
+    >;
+    regenerate_api_key: () => Promise<
+      | {
+          apiKey: string;
+        }
+      | undefined
+    >;
   };
 };
 
@@ -462,6 +474,30 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     );
   }
 
+  // API Key management
+
+  async function get_api_key() {
+    return await queryExpressJS<{
+      apiKey: string;
+    }>(`${apiUrl}/api-key`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
+  async function regenerate_api_key() {
+    return await queryExpressJS<{
+      apiKey: string;
+    }>(`${apiUrl}/api-key/regenerate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
   const value = {
     apiUrl,
     error: {
@@ -495,6 +531,8 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       get_list_history,
       flush_history,
       signStream,
+      get_api_key,
+      regenerate_api_key,
     },
   };
 

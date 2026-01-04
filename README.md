@@ -1,5 +1,6 @@
 # Self-hosted Tidal Media Downloader Docker Image
-Tidarr is a Docker image that provides a web interface to download up to **24-bit 192.0 kHz** media (tracks, albums, playlists, music videos) from Tidal using Tiddl python binary. Format on the fly with Beets, automatically update your Plex library, and push notifications.
+
+Tidarr is a Docker image that provides a web interface to download up to **24-bit 192.0 kHz** media (tracks, albums, playlists, music videos) from Tidal using Tiddl python binary. Format on the fly with Beets, automatically update your Plex library, push notifications, use as a Lidarr provider.
 
 [![GitHub Stars](https://img.shields.io/github/stars/cstaelen/tidarr.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr)
 [![GitHub Release](https://img.shields.io/github/release-date/cstaelen/tidarr?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr/releases)
@@ -14,6 +15,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 <img src="https://github.com/cstaelen/tidarr/blob/main/.github/tidarr-demo.gif?raw=true" />
 
 ## Table of Contents
+
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Tidal authentication](#tidal-authentication)
@@ -28,6 +30,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Sync playlists and mixes](#sync-playlists-and-mixes)
   - [Custom CSS](#custom-css)
   - [Download History](#download-history)
+  - [Replay Gain](#replay-gain)
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-integration)
@@ -37,6 +40,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Ntfy](#ntfy)
   - [Apprise Api](#apprise-api)
   - [Webhook push over](#webhook-push-over)
+  - [Lidarr connector](#lidarr-connector)
 - [Advanced](#advanced)
   - [Custom Processing Script](#custom-processing-script)
   - [No-download flag](#no-download)
@@ -64,6 +68,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 ## FEATURES
 
 ### Main
+
 - Downloadable media : tracks, albums, playlists, mixes, music videos
 - Max quality : FLAC, **24 bit 192.0 kHz** (if available)
 - Tidal trends content
@@ -88,11 +93,12 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - **[Plex](https://www.plex.tv/)** - Library update, search item button (album, track artiste)
 - **[Jellyfin](https://jellyfin.org/)** - Library update, search item button (album, track artiste)
 - **[Navidrome](https://www.navidrome.org/)** - Search item button (album, track artiste)
+- **[Lidarr](https://lidarr.audio/)** - [BETA] Use Tidarr as usenet indexer (download provider)
 - **Webhook push over** - Push notifications using webhook (MatterMost)
 
 ### Companion app
 
-- Song recognition : [Shazarr project](https://github.com/cstaelen/shazarr) (Android) 
+- Song recognition : [Shazarr project](https://github.com/cstaelen/shazarr) (Android)
 
 ### Technicals
 
@@ -101,7 +107,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Self-hostable with **Docker** (`linux/amd64` and `linux/arm64`)
 - Download Tidal content with [Tiddl (3.1.5)](https://github.com/oskvr37/tiddl/tree/v3.1.5)
 
-### Integration & Automation
+### Advanced Integration & Automation
 
 - **REST API** - Integrate Tidarr with external applications and automation tools
 - **Custom scripts** - Execute your own shell scripts during post-processing pipeline (after download, before moving to library)
@@ -112,15 +118,15 @@ Example docker-compose.yml :
 
 ```yaml
 services:
-    tidarr:
-        image: cstaelen/tidarr
-        container_name: 'tidarr'
-        ports:
-            - 8484:8484
-        volumes:
-            - /any/folder/to/tidarr/config:/shared
-            - /any/folder/to/library:/music
-        restart: 'unless-stopped'
+  tidarr:
+    image: cstaelen/tidarr
+    container_name: "tidarr"
+    ports:
+      - 8484:8484
+    volumes:
+      - /any/folder/to/tidarr/config:/shared
+      - /any/folder/to/library:/music
+    restart: "unless-stopped"
 ```
 
 **or**
@@ -143,13 +149,13 @@ Authorize your device using the UI token dialog
 
 **or**
 
-```bash 
+```bash
 docker compose exec -it -e tidarr tiddl auth login
 ```
 
 **or**
 
-```bash 
+```bash
 docker exec -it -e tidarr tiddl auth
 ```
 
@@ -160,13 +166,13 @@ docker exec -it -e tidarr tiddl auth
 ⚠️ Beware to set the right template path
 
 To set your download options you can :
+
 - use the UI configuration editor in settings dialog
 - edit toml file `/your/docker/path/to/tidarr/config/.tiddl/config.toml`.
 
 → [**Tiddl config options**](https://github.com/oskvr37/tiddl/blob/main/docs/config.example.toml)
 
 → [**Tiddl path templating**](https://github.com/oskvr37/tiddl/blob/main/docs/templating.md)
-
 
 ### PUID PGID UMASK
 
@@ -183,7 +189,7 @@ environment:
 If not set, no password is required to access the app.
 
 ```yaml
- environment:
+environment:
   - ...
   - ADMIN_PASSWORD=<string> # if not set, no password are required to access
 ```
@@ -218,7 +224,7 @@ environment:
 Force use of `tiddl.json` quality value and disable quality selector in app
 
 ```yaml
- environment:
+environment:
   - ...
   - LOCK_QUALITY=true
 ```
@@ -228,18 +234,18 @@ Force use of `tiddl.json` quality value and disable quality selector in app
 You may want to use proxy for tidal server queries to enhance privacy.
 
 ```yaml
- environment:
+environment:
   - ...
   - ENABLE_TIDAL_PROXY=true
 ```
 
-### M3U track base path 
+### M3U track base path
 
 Default base path used in `.m3u` : `./`
-You can custom base path used by track path in `.m3u` file :  
+You can custom base path used by track path in `.m3u` file :
 
 ```yaml
- environment:
+environment:
   - ...
   - M3U_BASEPATH_FILE="../../"
 ```
@@ -258,6 +264,7 @@ environment:
 ```
 
 **\* Syntax:**
+
 - Minute (0 - 59)
 - Hour (0 - 23)
 - Day of the month (1 - 31)
@@ -281,15 +288,29 @@ environment:
 ```
 
 **Features:**
+
 - Persistent download tracking across restarts
 - Visual indicators for already downloaded items (green checkmark)
 - Manual history clearing available in settings dialog
+
+### Replay Gain
+
+Enable automatic Replay Gain analysis for your music library. When activated, Tidarr will scan audio files and add loudness normalization metadata using `FFmpeg` and `rsgain`.
+
+```yaml
+environment:
+  - ...
+  - ENABLE_REPLAY_GAIN=true
+```
+
+> [!NOTE]
+> Replay Gain scanning happens after Beets tagging (if enabled) and before moving files to your library. The process adds minimal overhead to downloads while ensuring consistent playback volume across your music collection.
 
 ## SERVICES
 
 ### Beets
 
-Add to your *docker-compose* file in `environment:` section :
+Add to your _docker-compose_ file in `environment:` section :
 
 ```yaml
 environment:
@@ -302,10 +323,11 @@ Beets options in `</mounted/config/folder/>beets-config.yml`:
 ### Plex integration
 
 You can active:
+
 - Plex scan after download
 - Plex search button on artist, album and track pages
 
-Add to your *docker-compose* file in `environment:` section :
+Add to your _docker-compose_ file in `environment:` section :
 
 ```yaml
 environment:
@@ -330,9 +352,10 @@ Doc : https://www.plexopedia.com/plex-media-server/api/library/scan-partial/
 ### Jellyfin integration
 
 You can active:
+
 - Jellyfin scan after download
 
-Add to your *docker-compose* file in `environment:` section :
+Add to your _docker-compose_ file in `environment:` section :
 
 ```yaml
 environment:
@@ -350,7 +373,7 @@ environment:
 
 You can active the Navidrome search button this way.
 
-To active the Navidrome search button on artist, album and track pages, add to your *docker-compose* file in `environment:` section :
+To active the Navidrome search button on artist, album and track pages, add to your _docker-compose_ file in `environment:` section :
 
 ```yaml
 environment:
@@ -365,7 +388,7 @@ environment:
 
 ### Gotify
 
-Add to your *docker-compose* file in `environment:` section :
+Add to your _docker-compose_ file in `environment:` section :
 
 ```yaml
 environment:
@@ -376,7 +399,7 @@ environment:
 
 ### Ntfy
 
-Add to your *docker-compose* file in `environment:` section:
+Add to your _docker-compose_ file in `environment:` section:
 
 ```yaml
 environment:
@@ -389,7 +412,7 @@ environment:
 
 ### Apprise API
 
-Add to your *docker-compose* file in `environment:` section :
+Add to your _docker-compose_ file in `environment:` section :
 
 ```yaml
 environment:
@@ -397,6 +420,7 @@ environment:
   - APPRISE_API_ENDPOINT=http://{apprise_api_url}:{port}/notify/{config_id}
   - APPRISE_API_TAG=tidarr # optional
 ```
+
 If no tag is defined, default tag value will be "all".
 
 ### Webhook push over
@@ -407,6 +431,7 @@ Example with MatterMost :
 ```bash
 curl -i -X POST -H 'Content-Type: application/json' -d '{"text": "Hello, this is some text\nThis is more text. 🎉"}' https://your-mattermost-server.com/hooks/xxx-generatedkey-xxx
 ```
+
 You can set URL in Tidarr env vars
 
 ```yaml
@@ -416,6 +441,28 @@ environment:
 ```
 
 It should also works with other services using the same payload format `{"text": "..."}`.
+
+### Lidarr connector
+
+Tidarr can be integrated with Lidarr as both a Newznab indexer and a SABnzbd download client. This allows you to leverage Lidarr's powerful library management while using Tidarr for high-quality music downloads from Tidal.
+
+**What you can do:**
+- Automatically search for albums in Tidal via Lidarr
+- Trigger downloads directly from Lidarr
+- Manage your music library with Lidarr's metadata matching
+
+> [!NOTE]
+> **Quick Setup**
+>
+> **Step 1: Add Tidarr as Indexer**
+>
+> **Step 2: Add Tidarr as Download Client**
+>
+> **Notes:**
+> - Tidarr supports the standard `X-Api-Key` header protocol used by all \*arr applications
+> - API key can be found and renewed in configuration dialog
+>
+> 📖 **[Complete Setup Guide](docs/LIDARR_INTEGRATION.md)** - Detailed configuration, troubleshooting, and advanced topics
 
 ## ADVANCED
 
@@ -429,7 +476,7 @@ Tidarr supports executing a custom shell script during the post-processing pipel
 > 1. Create a shell script named `custom-script.sh` in your config folder (the mounted `shared/` volume)
 > 2. The script will be automatically detected and executed during post-processing
 > 3. The script runs **after** the tiddl download process (if not deactivated)
-> 
+>
 > To keep the benefits of post processing, all your files must be in the download folder using `PROCESSING_PATH` var available in `custom-script.sh`.
 >
 > 📖 [View complete API documentation](docs/CUSTOM_SCRIPT_DOCUMENTATION.md)
@@ -444,9 +491,9 @@ This way you can use Tidarr to manage your download history, watchlist, and keep
 > **Unecessary configurations**
 >
 > In NO_DOWNLOAD mode those configurations are unecessary:
+>
 > - Docker library volume can be omit
 > - `.tiddl/config.toml` has no effect
->
 
 ### API Documentation
 
@@ -456,6 +503,8 @@ If you want to interact with Tidarr from other applications (scripts, external s
 > **Integration with other applications**
 >
 > Tidarr's REST API allows you to:
+>
+> - Secure API requests using `X-API-KEY` header (available in configuration dialog)
 > - Add downloads (albums, tracks, playlists, etc.)
 > - Manage the queue (pause, resume, delete)
 > - Synchronize playlists
@@ -465,9 +514,11 @@ If you want to interact with Tidarr from other applications (scripts, external s
 > 📖 [View complete API documentation](docs/API_DOCUMENTATION.md)
 
 ## User requests
+
 As I'm the only maintainer for now, user requested features can take time.
-1) Feel free to create an issue with `enhancement` or `bug` tag.
-2) Be my guest, fork and dev !
+
+1. Feel free to create an issue with `enhancement` or `bug` tag.
+2. Be my guest, fork and dev !
 
 ## DONATE
 
@@ -484,6 +535,7 @@ Check docker environment variables in `compose.yml` before running :
 ```bash
 make dev
 ```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ### Multi-platform Docker builds

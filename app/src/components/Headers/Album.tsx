@@ -88,7 +88,11 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
             />
             <PlexSearchButton query={album.title} pivot="albums" />
             <NavidromeSearchButton query={album.title} pivot="albums" />
-            <JellyfinSearchButton query={album.title} pivot="albums" />
+            <JellyfinSearchButton
+              query={album.title}
+              albumQuery={album.title}
+              pivot="albums"
+            />
           </Stack>
         </>
       }

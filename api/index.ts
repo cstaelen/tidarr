@@ -11,15 +11,18 @@ import { cleanFolder } from "./src/processing/jobs";
 import { ProcessingStack } from "./src/processing/ProcessingStack";
 import { setupProxies } from "./src/proxies";
 // Import routers
+import apiKeyRouter from "./src/routes/api-key";
 import authRouter from "./src/routes/auth";
 import configRouter from "./src/routes/config";
 import historyRouter from "./src/routes/history";
+import lidarrRouter from "./src/routes/lidarr";
 import oidcRouter from "./src/routes/oidc";
-import playRoutes from "./src/routes/playback";
+import playRouter from "./src/routes/playback";
 import processingRouter from "./src/routes/processing";
 import sseRouter from "./src/routes/sse";
 import syncRouter from "./src/routes/sync";
 import tiddlTomlRouter from "./src/routes/tiddl-toml";
+import { getOrCreateApiKey } from "./src/services/api-key";
 import { configureServer } from "./src/services/config";
 import { loadHistoryFromFile } from "./src/services/history";
 import { createCronJob } from "./src/services/sync";
@@ -75,7 +78,9 @@ app.use("/api", syncRouter);
 app.use("/api", customCssRouter);
 app.use("/api", tiddlTomlRouter);
 app.use("/api", historyRouter);
-app.use("/api", playRoutes);
+app.use("/api", playRouter);
+app.use("/api", apiKeyRouter);
+app.use("/api", lidarrRouter);
 
 // Run
 
@@ -86,6 +91,10 @@ const server = app.listen(port, async () => {
   // Load tiddl config on startup
   const { config: tiddlConfig } = get_tiddl_config();
   app.locals.tiddlConfig = tiddlConfig;
+
+  // Generate or load API key on startup
+  const apiKey = getOrCreateApiKey();
+  console.log(`🔑 [API KEY] API key ready (${apiKey.substring(0, 8)}...)`);
 
   // Load download history
   const history = await loadHistoryFromFile();
