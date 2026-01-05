@@ -1,10 +1,9 @@
 import React from "react";
 import { Box, Container, Portal, Tab, Tabs, useTheme } from "@mui/material";
-
-import MyFavorites from "./MyFavorites";
-import MyMixes from "./MyMixes";
-import MyPlaylists from "./MyPlaylists";
-import Trends from "./Trends";
+import MyFavorites from "src/components/Home/MyFavorites";
+import MyMixes from "src/components/Home/MyMixes";
+import MyPlaylists from "src/components/Home/MyPlaylists";
+import Trends from "src/components/Home/Trends";
 
 interface TabPanelProps {
   children?: React.ReactNode;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ClearAll, DeleteSweep } from "@mui/icons-material";
 import {
   Box,
@@ -24,6 +24,11 @@ export default function ProcessingList() {
   const { actions: apiActions } = useApiFetcher();
   const { processingList } = useProcessingProvider();
   const { config } = useConfigProvider();
+
+  const reversedProcessingList = useMemo(
+    () => processingList?.slice().reverse(),
+    [processingList],
+  );
 
   const handleRemoveAll = async () => {
     if (
@@ -120,7 +125,7 @@ export default function ProcessingList() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {processingList?.map((item, index) => (
+              {reversedProcessingList?.map((item, index) => (
                 <ProcessingItem item={item} key={`processing-index-${index}`} />
               ))}
             </TableBody>

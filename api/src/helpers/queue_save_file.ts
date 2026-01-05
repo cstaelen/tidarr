@@ -1,5 +1,4 @@
 import { queueDb } from "../services/db-json";
-import { addItemToHistory } from "../services/history";
 import { ProcessingItemType } from "../types";
 
 const QUEUE_PATH = "/";
@@ -79,13 +78,6 @@ export const updateItemInQueueFile = async (item: ProcessingItemType) => {
   const itemIndex = saveList.findIndex((current) => current.id === item.id);
 
   delete item.process;
-
-  // If item is finished, move it to history
-  if (item.status === "finished" && process.env.ENABLE_HISTORY === "true") {
-    // Add to history
-    await addItemToHistory(item.id);
-    console.log(`[QUEUE] Item ${item.id} moved to history`);
-  }
 
   // Keep in queue, just update
   saveList[itemIndex] = { ...item };
