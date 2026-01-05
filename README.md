@@ -300,7 +300,7 @@ Enable automatic Replay Gain analysis for your music library. When activated, Ti
 ```yaml
 environment:
   - ...
-  - ENABLE_REPLAY_GAIN=true
+  - REPLAY_GAIN=true
 ```
 
 > [!NOTE]
