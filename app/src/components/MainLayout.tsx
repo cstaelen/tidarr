@@ -16,7 +16,7 @@ import { DialogToken } from "./Dialog/DialogToken";
 import { DialogUpdateWarning } from "./Dialog/DialogUpdateWarning";
 import { Footer } from "./Layout/Footer";
 import { HeaderSearch } from "./Layout/HeaderSearch";
-import { ProcessingList } from "./Processing/ProcessingList";
+import { ProcessingButton } from "./Processing/ProcessingButton";
 
 function MainLayout({ children }: { children: ReactNode }) {
   const [appLoaded, setAppLoaded] = useState(false);
@@ -66,7 +66,7 @@ function MainLayout({ children }: { children: ReactNode }) {
                     children
                   )}
                 </Content>
-                <ProcessingList />
+                <ProcessingButton />
                 <DialogToken />
                 <DialogNoAPI />
                 <DialogConfigError />

@@ -3,6 +3,11 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.1.2
+### 🖍 Changes
+- [Front] Move processing queue to a separate page to avoid UI lag
+- [Front] Move watch list to to processing page
+
 ## 📦 1.1.1
 ### 🚀 Added
 - [Front] Add API key manager in configuration dialog

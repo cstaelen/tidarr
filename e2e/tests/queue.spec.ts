@@ -29,7 +29,7 @@ test("Queue: Should be able to pause-resume the queue", async ({ page }) => {
 
   // Open processing list
   await expect(page.locator("button.MuiFab-circular")).toBeVisible();
-  await page.locator("button.MuiFab-circular").hover();
+  await page.locator("button.MuiFab-circular").click();
 
   // Wait for pause button to appear (it should be in "resume" state - showing PlayArrow icon)
   await page.waitForTimeout(500);

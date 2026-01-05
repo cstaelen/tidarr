@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { Pause, PlayArrow } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
@@ -11,17 +11,6 @@ export const ProcessingPauseButton = () => {
     actions: { setIsPaused },
   } = useProcessingProvider();
   const [isLoading, setIsLoading] = useState(false);
-
-  const loadQueueStatus = useCallback(async () => {
-    try {
-      const status = await apiActions.get_queue_status();
-      if (status) {
-        setIsPaused(status.isPaused);
-      }
-    } catch (error) {
-      console.error("Failed to load queue status:", error);
-    }
-  }, [apiActions, setIsPaused]);
 
   const handleTogglePause = async () => {
     setIsLoading(true);
@@ -39,10 +28,6 @@ export const ProcessingPauseButton = () => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    loadQueueStatus();
-  }, [loadQueueStatus]);
 
   return (
     <Tooltip title={isPaused ? "Resume queue" : "Pause queue"}>

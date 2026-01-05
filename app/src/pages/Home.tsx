@@ -1,13 +1,9 @@
 import React from "react";
-import { Sync } from "@mui/icons-material";
 import { Box, Container, Portal, Tab, Tabs, useTheme } from "@mui/material";
-import { useSync } from "src/provider/SyncProvider";
-
-import MyFavorites from "./MyFavorites";
-import MyMixes from "./MyMixes";
-import MyPlaylists from "./MyPlaylists";
-import Trends from "./Trends";
-import WatchList from "./WatchList";
+import MyFavorites from "src/components/Home/MyFavorites";
+import MyMixes from "src/components/Home/MyMixes";
+import MyPlaylists from "src/components/Home/MyPlaylists";
+import Trends from "src/components/Home/Trends";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -40,8 +36,6 @@ export default function HomeTabs() {
     setValue(newValue);
   };
 
-  const { syncList } = useSync();
-
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
       <Portal container={document.getElementById("app-bar")}>
@@ -58,14 +52,6 @@ export default function HomeTabs() {
             <Tab label="My Mixes" />
             <Tab label="My Playlists" />
             <Tab label="My Favorites" />
-            <Tab
-              label={
-                <Box display="flex" alignItems="center" gap={1}>
-                  <Sync />
-                  {`Watch list (${syncList?.length || 0})`}
-                </Box>
-              }
-            />
           </Tabs>
         </Container>
       </Portal>
@@ -82,9 +68,6 @@ export default function HomeTabs() {
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
           <MyFavorites />
-        </TabPanel>
-        <TabPanel value={value} index={4} dir={theme.direction}>
-          <WatchList />
         </TabPanel>
       </Container>
     </Box>

@@ -10,6 +10,7 @@ import {
 import { appriseApiPush } from "../services/apprise-api";
 import { beets } from "../services/beets";
 import { gotifyPush } from "../services/gotify";
+import { addItemToHistory } from "../services/history";
 import { jellyfinUpdate } from "../services/jellyfin";
 import { ntfyPush } from "../services/ntfy";
 import { plexUpdate } from "../services/plex";
@@ -403,7 +404,10 @@ export const ProcessingStack = () => {
     item["status"] = "finished";
 
     // Remove item from persistant queue file
-    await updateItemInQueueFile(item);
+    await removeItemFromFile(item.id);
+
+    // Add item to history (if enabled)
+    await addItemToHistory(item.id);
 
     // Update item status
     updateItem(item);

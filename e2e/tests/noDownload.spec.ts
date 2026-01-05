@@ -139,7 +139,9 @@ test("NO_DOWNLOAD: Should allow clearing items even in no_download mode", async 
   await page.waitForTimeout(500);
   await page.getByRole("button", { name: "Clear all" }).click();
 
-  // Verify the API was called
+  // Verify the queue is empty
   await page.waitForTimeout(500);
-  await expect(page.locator("button.MuiFab-circular")).not.toBeVisible();
+  await expect(
+    page.getByLabel("Processing table").locator("tbody tr"),
+  ).toHaveCount(0);
 });
