@@ -56,7 +56,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 >
 > Lidarr integration is currently a work in progress. We need testers and feedback to improve this feature.
 >
-> 📖 [Integration Guide](https://github.com/cstaelen/tidarr/wiki/%5BBETA%5D-Lidarr-Integration-Guide) | 💬 [Discussion & Feedback](https://github.com/cstaelen/tidarr/discussions/568)
+> 📖 [Integration Guide](https://github.com/cstaelen/tidarr/wiki/Lidarr-Integration-Guide) | 💬 [Discussion & Feedback](https://github.com/cstaelen/tidarr/discussions/568)
 
 > [!WARNING]
 > **Disclaimer**
@@ -462,7 +462,7 @@ Tidarr can be integrated with Lidarr as both a Newznab indexer and a SABnzbd dow
 > - Tidarr supports the standard `X-Api-Key` header protocol used by all \*arr applications
 > - API key can be found and renewed in configuration dialog
 >
-> 📖 **[Complete Setup Guide](docs/LIDARR_INTEGRATION.md)** - Detailed configuration, troubleshooting, and advanced topics
+> 📖 **[Complete Setup Guide](https://github.com/cstaelen/tidarr/wiki/Lidarr-Integration-Guide)** - Detailed configuration, troubleshooting, and advanced topics
 
 ## ADVANCED
 

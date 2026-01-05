@@ -1,56 +1,25 @@
 import { Request, Response } from "express";
 
-import { extractAlbumIdFromNzb, parseMultipartNzb } from "./utils/nzb";
+import { getAppInstance } from "../helpers/app-instance";
+import { ProcessingItemType } from "../types";
+
+import {
+  createErrorResponse,
+  createNzoId,
+  createSuccessResponse,
+  extractAlbumIdFromNzb,
+  extractItemIdFromNzoId,
+  getQueueStatus,
+  mapItemToHistorySlot,
+  mapItemToQueueSlot,
+  parseMultipartNzb,
+} from "./utils/nzb";
 import { addAlbumToQueue } from "./utils/tidal-search-albums";
 
 /**
  * SABnzbd-compatible API for Lidarr download client integration
  * Minimal implementation supporting: version, addurl, queue, history
  */
-
-/**
- * GET /api/sabnzbd?mode=version
- * Returns SABnzbd version for compatibility check
- */
-export function handleVersionRequest(req: Request, res: Response) {
-  res.json({
-    version: "3.0.0",
-  });
-}
-
-/**
- * GET /api/sabnzbd?mode=get_config
- * Returns SABnzbd configuration
- * Required by Lidarr to validate the download client
- */
-export function handleGetConfigRequest(req: Request, res: Response) {
-  res.json({
-    config: {
-      version: "3.0.0",
-      categories: [
-        {
-          name: "music",
-          priority: 0,
-          pp: "3",
-          script: "None",
-          dir: "/music",
-        },
-        {
-          name: "*",
-          priority: 0,
-          pp: "3",
-          script: "None",
-          dir: "/music",
-        },
-      ],
-      misc: {
-        complete_dir: "/music",
-        download_dir: "/shared/.processing",
-        api_key: "",
-      },
-    },
-  });
-}
 
 /**
  * GET /api/sabnzbd?mode=addurl&name=<url>&nzbname=<name>&cat=<category>&priority=<priority>
@@ -69,19 +38,15 @@ export async function handleAddUrlRequest(req: Request, res: Response) {
       const contentType = req.headers["content-type"];
       if (!contentType || !contentType.includes("multipart/form-data")) {
         console.log("[SABnzbd] Invalid content type for addfile");
-        return res.json({
-          status: false,
-          error: "multipart/form-data required for addfile",
-        });
+        return res.json(
+          createErrorResponse("multipart/form-data required for addfile"),
+        );
       }
 
       const boundaryMatch = contentType.match(/boundary=(.+)/);
       if (!boundaryMatch) {
         console.log("[SABnzbd] No boundary found in content-type");
-        return res.json({
-          status: false,
-          error: "No boundary in multipart data",
-        });
+        return res.json(createErrorResponse("No boundary in multipart data"));
       }
 
       const boundary = boundaryMatch[1].replace(/^-+/, ""); // Remove leading dashes
@@ -90,10 +55,7 @@ export async function handleAddUrlRequest(req: Request, res: Response) {
       const rawBody = req.body;
       if (!rawBody || !Buffer.isBuffer(rawBody)) {
         console.log("[SABnzbd] No body data received or invalid format");
-        return res.json({
-          status: false,
-          error: "No file data received",
-        });
+        return res.json(createErrorResponse("No file data received"));
       }
 
       // Convert Buffer to string for parsing
@@ -104,10 +66,7 @@ export async function handleAddUrlRequest(req: Request, res: Response) {
 
       if (!nzbContent) {
         console.log("[SABnzbd] Failed to extract NZB content from upload");
-        return res.json({
-          status: false,
-          error: "Failed to parse NZB file",
-        });
+        return res.json(createErrorResponse("Failed to parse NZB file"));
       }
 
       // Extract album ID from NZB content
@@ -115,33 +74,188 @@ export async function handleAddUrlRequest(req: Request, res: Response) {
 
       if (!albumId) {
         console.log("[SABnzbd] Failed to extract album ID from NZB");
-        return res.json({
-          status: false,
-          error: "Invalid NZB format - album ID not found",
-        });
+        return res.json(
+          createErrorResponse("Invalid NZB format - album ID not found"),
+        );
       }
 
       console.log(`[SABnzbd] Extracted album ID from NZB: ${albumId}`);
 
       await addAlbumToQueue(albumId);
 
-      return res.json({
-        status: true,
-        nzo_ids: [`tidarr_nzo_${albumId}`],
-      });
+      return res.json(createSuccessResponse([createNzoId(albumId)]));
     }
 
     // Fallback
     console.log(`[SABnzbd] Unknown addurl/addfile request`);
-    return res.json({
-      status: true,
-      nzo_ids: ["tidarr_nzo_unknown"],
-    });
+    return res.json(createSuccessResponse(["tidarr_nzo_unknown"]));
   } catch (error) {
     console.error("[SABnzbd] Error in addurl/addfile:", error);
+    return res.json(createErrorResponse(String(error)));
+  }
+}
+
+/**
+ * GET /api/sabnzbd?mode=queue&name=delete&value=<nzo_id>
+ * Removes an item from the download queue
+ */
+export async function handleQueueDeleteRequest(
+  req: Request,
+  res: Response,
+): Promise<Response> {
+  try {
+    const { value } = req.query;
+
+    if (!value || typeof value !== "string") {
+      console.log("[SABnzbd] Delete request missing nzo_id");
+      return res.json(createErrorResponse("Missing nzo_id parameter"));
+    }
+
+    // Extract item ID from nzo_id format: tidarr_nzo_<id>
+    const nzoId = value as string;
+    const itemId = extractItemIdFromNzoId(nzoId);
+
+    console.log(
+      `[SABnzbd] Delete request for nzo_id: ${nzoId} (item ID: ${itemId})`,
+    );
+
+    const app = getAppInstance();
+    const processingStack = app.locals.processingStack;
+
+    if (!processingStack) {
+      return res.json(createErrorResponse("Processing stack not available"));
+    }
+
+    // Check if item exists
+    const item = processingStack.actions.getItem(itemId);
+    if (!item) {
+      console.log(`[SABnzbd] Item ${itemId} not found in queue`);
+      return res.json(createErrorResponse("Item not found"));
+    }
+
+    // Remove the item from the processing stack
+    await processingStack.actions.removeItem(itemId);
+
+    console.log(`[SABnzbd] Successfully removed item ${itemId} from queue`);
+
+    return res.json(createSuccessResponse([nzoId]));
+  } catch (error) {
+    console.error("[SABnzbd] Error in queue delete:", error);
+    return res.json(createErrorResponse(String(error)));
+  }
+}
+
+/**
+ * GET /api/sabnzbd?mode=queue
+ * Returns current download queue status
+ * Maps Tidarr processing queue to SABnzbd queue format
+ */
+export function handleQueueRequest(req: Request, res: Response) {
+  const { name } = req.query;
+
+  // Handle queue delete operations
+  if (name === "delete") {
+    return handleQueueDeleteRequest(req, res);
+  }
+
+  try {
+    const app = getAppInstance();
+    const processingStack = app.locals.processingStack;
+
+    if (!processingStack) {
+      return res.json({
+        queue: {
+          status: "Idle",
+          paused: false,
+          slots: [],
+        },
+      });
+    }
+
+    const { data } = processingStack;
+    const { isPaused } = processingStack.actions.getQueueStatus();
+
+    // Map Tidarr items to SABnzbd queue slots
+    const slots = data
+      .filter((item: ProcessingItemType) =>
+        ["queue", "processing"].includes(item.status),
+      )
+      .map((item: ProcessingItemType) => mapItemToQueueSlot(item, isPaused));
+
     return res.json({
-      status: false,
-      error: String(error),
+      queue: {
+        status: getQueueStatus(isPaused, slots.length),
+        paused: isPaused,
+        pause_int: "0",
+        speedlimit: "",
+        speedlimit_abs: "",
+        noofslots: slots.length,
+        limit: 0,
+        start: 0,
+        finish: 0,
+        slots,
+      },
+    });
+  } catch (error) {
+    console.error("[SABnzbd] Error in queue request:", error);
+    return res.json({
+      queue: {
+        status: "Idle",
+        paused: false,
+        slots: [],
+      },
+    });
+  }
+}
+
+/**
+ * GET /api/sabnzbd?mode=history&limit=<n>
+ * Returns download history
+ * Maps Tidarr finished/error items to SABnzbd history format
+ */
+export function handleHistoryRequest(req: Request, res: Response) {
+  try {
+    const app = getAppInstance();
+    const processingStack = app.locals.processingStack;
+    const { limit = "60" } = req.query;
+    const limitNum = parseInt(limit as string, 10) || 60;
+
+    if (!processingStack) {
+      return res.json({
+        history: {
+          noofslots: 0,
+          slots: [],
+        },
+      });
+    }
+
+    const { data } = processingStack;
+
+    // Map finished/error items to SABnzbd history slots
+    const slots = data
+      .filter((item: ProcessingItemType) =>
+        ["finished", "error"].includes(item.status),
+      )
+      .slice(0, limitNum)
+      .map(mapItemToHistorySlot);
+
+    return res.json({
+      history: {
+        noofslots: slots.length,
+        month_size: "0 B",
+        week_size: "0 B",
+        day_size: "0 B",
+        total_size: "0 B",
+        slots,
+      },
+    });
+  } catch (error) {
+    console.error("[SABnzbd] Error in history request:", error);
+    return res.json({
+      history: {
+        noofslots: 0,
+        slots: [],
+      },
     });
   }
 }

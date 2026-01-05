@@ -31,6 +31,11 @@ const docLinks: DocLink[] = [
     url: "https://github.com/oskvr37/tiddl/blob/main/docs/templating.md",
   },
   {
+    title: "Lidarr Integration",
+    description: "Documentation to connect Lidarr to Tidarr",
+    url: "https://github.com/cstaelen/tidarr/wiki/Lidarr-Integration-Guide",
+  },
+  {
     title: "Tidarr API",
     description: "API documentation for Tidarr",
     url: "https://github.com/cstaelen/tidarr/wiki/Tidarr-API-Documentation",
