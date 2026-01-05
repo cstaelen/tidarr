@@ -12,7 +12,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
     "event-source-plus": "0.1.15",
-    "globals": "^16.5.0",
+    "globals": "^17.0.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-router-dom": "^7.11.0",
