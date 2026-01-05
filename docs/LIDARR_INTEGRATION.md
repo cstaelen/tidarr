@@ -34,40 +34,42 @@ Add Tidarr as a **SABnzbd** download client:
 2. Click **+** and select **SABnzbd**
 3. Configure:
 
-| Setting | Value |
-|---------|-------|
-| **Name** | Tidarr |
-| **Enable** | ✅ Enabled |
-| **Host** | `your-tidarr-url` (e.g., `192.168.1.245`) |
-| **Port** | `8484` |
-| **URL Base** | `/api/sabnzbd` |
-| **API Key** | Get from Tidarr (see below) |
+| Setting      | Value                              |
+| ------------ | ---------------------------------- |
+| **Name**     | Tidarr                             |
+| **Enable**   | ✅ Enabled                         |
+| **Host**     | `your-tidarr-url`                  |
+| **Port**     | `8484`                             |
+| **URL Base** | `/api/sabnzbd`                     |
+| **API Key**  | Get from Tidarr (see below)        |
 | **Category** | `music` (optional but recommended) |
 
 > **Getting Your API Key:**
 >
 > **Option 1: Via Docker CLI (recommended)**
+>
 > ```bash
 > docker exec tidarr cat /shared/.tidarr-api-key
 > ```
 >
 > **Option 2: Via Tidarr Web UI**
+>
 > - Go to Settings → Security
 > - Copy the API key displayed in the "API Key" section
 >
 > **If no authentication:**
+>
 > - Enter any value (e.g., `0000`) - it's required by Lidarr but won't be validated
 
 4. Click **Test** to verify the connection
 5. Click **Save**
 
-> **Current Implementation Status:**
-> - ✅ **Download triggering** (`addfile`) - Fully functional
-> - ⚠️ **Queue status tracking** - Not yet implemented
-> - ⚠️ **Download history** - Not yet implemented
-> - ⚠️ **Progress tracking** - Not yet implemented
+> **✅ Fully Functional SABnzbd API:**
 >
-> For now, downloads will be triggered successfully but Lidarr won't see real-time queue/history status. Track downloads in Tidarr's UI instead.
+> - Download triggering (`addfile`)
+> - Queue status tracking with real-time updates
+> - Download history
+> - Queue management (pause, resume, delete)
 
 ### 2. Add Tidarr as an Indexer in Lidarr
 
@@ -75,59 +77,104 @@ Add Tidarr as a **SABnzbd** download client:
 2. Click **+** and select **Newznab**
 3. Configure the indexer with these settings:
 
-| Setting | Value |
-|---------|-------|
-| **Name** | Tidarr |
-| **Enable RSS** | ❌ Disabled (optional) |
-| **Enable Automatic Search** | ✅ Enabled |
-| **Enable Interactive Search** | ✅ Enabled |
-| **URL** | `http://your-tidarr-url:8484` |
-| **API Path** | `/api/lidarr` |
-| **API Key** | Same as download client (from step 1) |
-| **Categories** | `3000` (Audio), `3010` (Audio/MP3), `3040` (Audio/Lossless) |
-| **Download Client** | Select **Tidarr** (the SABnzbd client created in step 1) |
+| Setting                       | Value                                                       |
+| ----------------------------- | ----------------------------------------------------------- |
+| **Name**                      | Tidarr                                                      |
+| **Enable RSS**                | ❌ Disabled (optional)                                      |
+| **Enable Automatic Search**   | ✅ Enabled                                                  |
+| **Enable Interactive Search** | ✅ Enabled                                                  |
+| **URL**                       | `http://your-tidarr-url:8484`                               |
+| **API Path**                  | `/api/lidarr`                                               |
+| **API Key**                   | Same as download client (from step 1)                       |
+| **Categories**                | `3000` (Audio), `3010` (Audio/MP3), `3040` (Audio/Lossless) |
+| **Download Client**           | Select **Tidarr** (the SABnzbd client created in step 1)    |
 
 > **Important:** Make sure to select the Tidarr download client in the "Download Client" dropdown. This ensures that when Lidarr grabs an album from this indexer, it will use the correct download client.
 
 4. Click **Test** to verify the connection
 5. Click **Save** to complete the setup
 
-### 3. Verify Music Library Path
+### 3. Configure Shared Volumes
 
-Ensure Lidarr's music library path matches your Tidarr music volume:
+**Required:** Mount `/shared` volume in both containers for Lidarr import workflow.
 
-- **Lidarr**: Settings → Media Management → Root Folders
-- **Tidarr**: Docker volume mounted at `/music`
+**Docker Compose example:**
 
-These paths should point to the same location.
+```yaml
+services:
+  tidarr:
+    volumes:
+      - /path/to/shared:/shared
+      - /path/to/music:/music
+
+  lidarr:
+    volumes:
+      - /path/to/shared/.processing:/shared/.processing # Same path as Tidarr
+      - /path/to/music:/music
+```
+
+**Why `/shared` is needed:**
+
+- Tidarr downloads to `/shared/.processing/{id}/`
+- Lidarr imports directly from this location
+- Files are then renamed/moved to Lidarr's music library
+
+**Note:** Lidarr manages the final import, renaming, and organization according to your Lidarr settings.
 
 ## How It Works
 
 ### Workflow
 
-1. **Search**: When you search for an album in Lidarr, it queries all configured indexers including Tidarr
-2. **Query Processing**: Tidarr receives the search query and searches Tidal's catalog
-3. **Smart Matching**: Results are filtered using a matching algorithm
-4. **Results**: Matched albums are returned to Lidarr in Newznab format
-5. **Download**: When you grab an album, Lidarr calls Tidarr's download endpoint
-6. **Queue**: Tidarr adds the album to its processing queue
-7. **Download**: Album downloads in high quality (FLAC up to 24-bit if available)
-8. **Import**: Files are saved to your music library where Lidarr can import them
+1. **Search**: Lidarr queries Tidarr indexer
+2. **Results**: Tidarr searches Tidal and returns albums in Newznab format
+3. **Grab**: Lidarr sends album to Tidarr download client
+4. **Download**: Tidarr downloads to `/shared/.processing/{id}/` (high-quality FLAC up to 24-bit)
+5. **Import**: Lidarr detects completed download and imports from `.processing/{id}/`
+6. **Organize**: Lidarr renames and moves files to your music library according to your settings
 
 ### Architecture
 
 ```
-┌─────────┐         ┌─────────┐         ┌───────┐
-│ Lidarr  │────────▶│ Tidarr  │────────▶│ Tidal │
-│         │◀────────│ (API)   │◀────────│  API  │
-└─────────┘         └─────────┘         └───────┘
-     │                   │
-     │                   │
-     ▼                   ▼
-┌─────────────────────────────┐
-│    Shared Music Library     │
-│         (/music)            │
-└─────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                           Lidarr                            │
+│                                                             │
+│  ┌────────────────────┐         ┌──────────────────────┐    │
+│  │  Indexer Search    │         │  Download Client     │    │
+│  │   (Newznab API)    │         │   (SABnzbd API)      │    │
+│  └────────┬───────────┘         └──────────┬───────────┘    │
+└───────────┼────────────────────────────────┼────────────────┘
+            │                                │
+            │ 1. Search albums               │ 2. Grab album
+            │                                │ 3. Monitor queue
+            ▼                                ▼
+┌─────────────────────────────────────────────────────────────┐
+│                           Tidarr                            │
+│                                                             │
+│  ┌────────────────────┐         ┌──────────────────────┐    │
+│  │ Newznab Indexer    │         │  SABnzbd Downloader  │    │
+│  │  /api/lidarr       │         │   /api/sabnzbd       │    │
+│  └────────┬───────────┘         └──────────┬───────────┘    │
+│           │                                │                │
+│           │ Query Tidal                    │ Download       │
+│           ▼                                ▼                │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │                     Tidal API                       │    │
+│  └─────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              │ Download to
+                              ▼
+             ┌──────────────────────────────────┐
+             │  /shared/.processing/{id}/       │
+             │  (Temporary download location)   │
+             └────────────────┬─────────────────┘
+                              │
+                              │ Lidarr imports
+                              ▼
+             ┌──────────────────────────────────┐
+             │      Music Library (/music)      │
+             │   (Lidarr manages final move)    │
+             └──────────────────────────────────┘
 ```
 
 ## How Search Works
@@ -147,11 +194,13 @@ When Lidarr searches for an album, Tidarr:
 ### What to Expect
 
 ✅ **Tidarr will return results for**:
+
 - Any album available on Tidal
 - All editions (Standard, Deluxe, Remastered, etc.)
 - Up to 50 albums per search
 
 ⚠️ **Limitations**:
+
 - **Album not on Tidal**: If an album isn't available on Tidal, no results will be returned
 - **Tidal's search algorithm**: Results depend entirely on how Tidal's search API ranks albums
 - **Result limit**: Only the top 50 results from Tidal are returned
@@ -181,50 +230,134 @@ If Lidarr shows no results from Tidarr:
 3. **Verify authentication**: Ensure Tidal token is valid in Tidarr settings
 4. **Try manual search**: Use Lidarr's manual search to see all available results
 
-
 ## Advanced Topics
 
 ### API Endpoints
 
+#### Newznab Indexer Endpoints
+
 Tidarr implements these Newznab endpoints:
 
-| Endpoint | Purpose | Authentication |
-|----------|---------|----------------|
-| `GET /api/lidarr?t=caps` | Returns indexer capabilities | API key via header or query param |
-| `GET /api/lidarr?t=search&q=...` | Searches for albums | API key via header or query param |
-| `GET /api/lidarr?t=music&artist=...&album=...` | Music-specific search | API key via header or query param |
-| `GET /api/lidarr/download/:id` | Triggers album download | API key via header or query param |
+| Endpoint                                       | Purpose                      | Authentication                    |
+| ---------------------------------------------- | ---------------------------- | --------------------------------- |
+| `GET /api/lidarr?t=caps`                       | Returns indexer capabilities | API key via header or query param |
+| `GET /api/lidarr?t=search&q=...`               | Searches for albums          | API key via header or query param |
+| `GET /api/lidarr?t=music&artist=...&album=...` | Music-specific search        | API key via header or query param |
+| `GET /api/lidarr/download/:id`                 | Triggers album download      | API key via header or query param |
 
 **Authentication Methods:**
+
 - Header: `X-Api-Key: your-api-key`
 - Query param: `?apikey=your-api-key`
 
 **Important:** The download URL returned in search results automatically includes the API key from the search request, so Lidarr can download without re-authenticating.
 
+#### SABnzbd Download Client Endpoints
+
+Tidarr implements these SABnzbd-compatible endpoints:
+
+| Endpoint                                                 | Purpose                                     | Authentication          |
+| -------------------------------------------------------- | ------------------------------------------- | ----------------------- |
+| `GET /api/sabnzbd?mode=version`                          | Returns SABnzbd version (3.0.0)             | API key via query param |
+| `GET /api/sabnzbd?mode=get_config`                       | Returns downloader configuration            | API key via query param |
+| `POST /api/sabnzbd?mode=addfile`                         | Adds album to download queue via NZB upload | API key via query param |
+| `GET /api/sabnzbd?mode=queue`                            | Returns current download queue status       | API key via query param |
+| `GET /api/sabnzbd?mode=queue&name=delete&value=<nzo_id>` | Removes item from download queue            | API key via query param |
+| `GET /api/sabnzbd?mode=history&limit=<n>`                | Returns download history (completed/failed) | API key via query param |
+
+**Authentication:**
+
+- All SABnzbd endpoints require `apikey` as a query parameter
+- Example: `/api/sabnzbd?mode=version&apikey=your-api-key`
+
+**Note:** These endpoints enable Lidarr to manage downloads through Tidarr as if it were a SABnzbd download client.
 
 ### Release Processing
 
-Downloads triggered by Lidarr go through Tidarr's normal processing pipeline:
+**Lidarr-triggered downloads skip Tidarr's post-processing:**
 
-1. **Download** via Tiddl
-2. **Beets tagging** (if enabled)
-3. **Permission fixing** (UMASK)
-4. **Custom script** (if `custom-script.sh` exists)
-5. **Move to library** (`/music`)
-6. **Plex/Jellyfin scan** (if configured)
-7. **Notifications** (if configured)
+1. **Download** via Tiddl to `/shared/.processing/{id}/`
+2. **Status** marked as completed
+3. **Lidarr import** handles all remaining steps (tagging, renaming, moving)
 
-### Queue Management
+**Tidarr UI downloads use the full pipeline:**
 
-All Lidarr-triggered downloads:
-- Are added to Tidarr's queue with ID
-- Appear in Tidarr's UI
-- Can be paused/resumed like any other download
-- Respect queue order (sequential processing)
+- Beets tagging, permissions, custom scripts, move to `/music`, Plex/Jellyfin scan, notifications
+
+## Troubleshooting
+
+### Lidarr doesn't detect completed downloads
+
+**Symptom:** Downloads complete in Tidarr, but Lidarr shows them as stuck in queue or doesn't import them.
+
+**Cause:** The `/shared/.processing` volume is not properly mounted in both containers.
+
+**Solution:**
+
+1. Verify both containers have access to the same `/shared/.processing` path:
+
+```bash
+# Check Tidarr
+docker exec tidarr ls -la /shared/.processing
+
+# Check Lidarr
+docker exec lidarr ls -la /shared/.processing
+```
+
+2. Ensure your Docker Compose has matching volume mounts:
+
+```yaml
+services:
+  tidarr:
+    volumes:
+      - /path/to/shared:/shared
+
+  lidarr:
+    volumes:
+      - /path/to/shared/.processing:/shared/.processing
+```
+
+3. Restart both containers after fixing volume mounts.
+
+### Downloads fail with authentication errors
+
+**Symptom:** Lidarr shows authentication errors when trying to download from Tidarr.
+
+**Cause:** API key mismatch between indexer and download client configurations.
+
+**Solution:**
+
+1. Get the correct API key:
+   ```bash
+   docker exec tidarr cat /shared/.tidarr-api-key
+   ```
+
+2. Update both:
+   - Lidarr Indexer settings (Settings → Indexers → Tidarr)
+   - Lidarr Download Client settings (Settings → Download Clients → Tidarr)
+
+3. Test both connections in Lidarr.
+
+### No search results from Tidarr
+
+**Symptom:** Lidarr searches return 0 results from Tidarr indexer.
+
+**Possible causes and solutions:**
+
+1. **Album not on Tidal**: Search manually on Tidal to verify availability
+2. **Tidal authentication expired**: Check Tidarr settings → Tidal authentication
+3. **API key invalid**: Verify indexer API key in Lidarr matches Tidarr
+4. **Network issues**: Check Tidarr logs for connection errors
+
+### Lidarr imports files but doesn't clean up `.processing` folder
+
+**Symptom:** Files accumulate in `/shared/.processing/{id}/` after successful imports.
+
+**Cause:** This is expected behavior. Lidarr copies (not moves) files during import.
+
+**Solution:** Files in `.processing/{id}/` can be safely deleted after Lidarr completes the import. Consider adding a cleanup script or relying on Tidarr's startup cleanup (removes orphaned folders automatically).
 
 ## Resources
 
 - [Lidarr Documentation](https://wiki.servarr.com/lidarr)
 - [Newznab API Specification](https://github.com/nZEDb/nZEDb/blob/dev/docs/newznab_api_specification.txt)
-- [Tidarr API Documentation](API_DOCUMENTATION.md)
-- [Custom Script Documentation](CUSTOM_SCRIPT_DOCUMENTATION.md)

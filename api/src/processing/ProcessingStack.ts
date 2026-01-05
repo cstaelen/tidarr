@@ -336,6 +336,24 @@ export const ProcessingStack = () => {
     }
   }
 
+  async function closePostProcessing(
+    item: ProcessingItemType,
+    message: string,
+  ) {
+    logs(item.id, "---------------------");
+    logs(item.id, message);
+    item["status"] = "finished";
+
+    // Update item in persistant queue file
+    await updateItemInQueueFile(item);
+
+    // Add item to history (if enabled)
+    await addItemToHistory(item.id);
+
+    // Update item status
+    updateItem(item);
+  }
+
   async function postProcessing(item: ProcessingItemType) {
     logs(item.id, "---------------------");
     logs(item.id, "⚙️ POST PROCESSING   ");
@@ -360,6 +378,26 @@ export const ProcessingStack = () => {
       return;
     }
 
+    // Lidarr-managed workflow: skip post-processing, leave files in .processing
+    if (item.source === "lidarr") {
+      logs(item.id, "---------------------");
+      logs(
+        item.id,
+        "📦 [LIDARR] Lidarr-managed download: skipping Tidarr post-processing",
+      );
+      logs(
+        item.id,
+        `📂 [LIDARR] Files available at: ${processingPath}/${item.id}`,
+      );
+      await closePostProcessing(
+        item,
+        "✅ [LIDARR] Download complete. Ready for Lidarr import.",
+      );
+
+      return;
+    }
+
+    // Standard Tidarr workflow (non-Lidarr items)
     // Execute custom script if exists
     await executeCustomScript(item);
 
@@ -399,18 +437,8 @@ export const ProcessingStack = () => {
     // Apprise API notification
     await appriseApiPush(item);
 
-    logs(item.id, "---------------------");
-    logs(item.id, "✅ [TIDARR] Post processing complete.");
-    item["status"] = "finished";
-
-    // Remove item from persistant queue file
-    await removeItemFromFile(item.id);
-
-    // Add item to history (if enabled)
-    await addItemToHistory(item.id);
-
-    // Update item status
-    updateItem(item);
+    // Finish
+    await closePostProcessing(item, "✅ [TIDARR] Post processing complete.");
   }
 
   return {

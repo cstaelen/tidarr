@@ -4,6 +4,9 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 1.1.2
+### 🚀 Added
+- [API] Add Lidarr queue management support
+- [API] Add Lidarr import + post processing support 
 ### 🖍 Changes
 - [Front] Move processing queue to a separate page to avoid UI lag
 - [Front] Move watch list to to processing page

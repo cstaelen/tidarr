@@ -122,7 +122,13 @@ export function mapItemToQueueSlot(
 export function mapItemToHistorySlot(item: ProcessingItemType) {
   const isCompleted = item.status === "finished";
   const name = `${item.artist} - ${item.title}`;
-  const musicDir = getMusicDir();
+
+  // Lidarr-managed downloads: point to .processing folder for import
+  // Tidarr downloads: already moved to music library
+  const downloadPath =
+    item.source === "lidarr"
+      ? `${getProcessingDir()}/${item.id}`
+      : getMusicDir();
 
   return {
     status: isCompleted ? "Completed" : "Failed",
@@ -139,8 +145,8 @@ export function mapItemToHistorySlot(item: ProcessingItemType) {
     script_log: "",
     script_line: "",
     download_name: name,
-    path: musicDir,
-    storage: musicDir,
+    path: downloadPath,
+    storage: downloadPath,
     status_string: isCompleted ? "Completed" : "Failed",
   };
 }

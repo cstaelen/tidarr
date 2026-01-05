@@ -1,6 +1,6 @@
 # Self-hosted Tidal Media Downloader Docker Image
 
-Tidarr is a Docker image that provides a web interface to download up to **24-bit 192.0 kHz** media (tracks, albums, playlists, music videos) from Tidal using Tiddl python binary. Format on the fly with Beets, automatically update your Plex library, push notifications, use as a Lidarr provider.
+Tidarr is a Docker image that provides a web interface to download up to **24-bit 192.0 kHz** media (tracks, albums, playlists, music videos) from Tidal using Tiddl python binary. Format on the fly with Beets, automatically update your Plex library, push notifications, or use it as a Lidarr provider.
 
 [![GitHub Stars](https://img.shields.io/github/stars/cstaelen/tidarr.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr)
 [![GitHub Release](https://img.shields.io/github/release-date/cstaelen/tidarr?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/cstaelen/tidarr/releases)
@@ -449,14 +449,18 @@ Tidarr can be integrated with Lidarr as both a Newznab indexer and a SABnzbd dow
 **What you can do:**
 - Automatically search for albums in Tidal via Lidarr
 - Trigger downloads directly from Lidarr
+- Manage queue from Lidarr
+- Use Lidarr post processing
 - Manage your music library with Lidarr's metadata matching
 
 > [!NOTE]
 > **Quick Setup**
 >
-> **Step 1: Add Tidarr as Indexer**
+> **Step 1: Add your `config/.processing` as docker volume to lidarr container**
 >
-> **Step 2: Add Tidarr as Download Client**
+> **Step 2: Add Tidarr as Indexer**
+>
+> **Step 3: Add Tidarr as Download Client**
 >
 > **Notes:**
 > - Tidarr supports the standard `X-Api-Key` header protocol used by all \*arr applications
