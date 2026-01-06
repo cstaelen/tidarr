@@ -152,6 +152,7 @@ test("Tidarr config : Should display Docs tab with documentation links", async (
     "Tidarr Documentation",
     "Tiddl Configuration",
     "Path Templating",
+    "Lidarr Integration",
     "Tidarr API",
   ];
 
@@ -161,7 +162,7 @@ test("Tidarr config : Should display Docs tab with documentation links", async (
 
   // Check that Open buttons are visible
   const openButtons = await page.getByRole("button", { name: "Open" }).all();
-  expect(openButtons.length).toEqual(4);
+  expect(openButtons.length).toEqual(5);
 
   // Verify each button is visible
   for (const button of openButtons) {

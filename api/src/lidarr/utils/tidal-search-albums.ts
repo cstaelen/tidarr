@@ -81,6 +81,7 @@ export async function addAlbumToQueue(id: string): Promise<void> {
       url: `album/${id}`,
       loading: true,
       error: false,
+      source: "lidarr" as const, // Mark as Lidarr-managed download
     };
 
     await app.locals.processingStack.actions.removeItem(processingItem.id);

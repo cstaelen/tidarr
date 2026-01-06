@@ -4,14 +4,18 @@ import { ensureAccessIsGranted } from "../helpers/auth";
 import { handleRouteError } from "../helpers/error-handler";
 import {
   handleAddUrlRequest,
-  handleGetConfigRequest,
-  handleVersionRequest,
+  handleHistoryRequest,
+  handleQueueRequest,
 } from "../lidarr/downloader";
 import {
   handleCapsRequest,
   handleDownloadFromLidarr,
   handleSearchRequest,
 } from "../lidarr/indexer";
+import {
+  handleGetConfigRequest,
+  handleVersionRequest,
+} from "../lidarr/utils/nzb";
 
 const router = Router();
 
@@ -67,8 +71,6 @@ const handleSabnzbdRequest = async (req: Request, res: Response) => {
   try {
     const { mode } = req.query;
 
-    console.log(`[SABNZBD] mode: ${mode}`);
-
     switch (mode) {
       case "version":
         return handleVersionRequest(req, res);
@@ -81,10 +83,10 @@ const handleSabnzbdRequest = async (req: Request, res: Response) => {
         return await handleAddUrlRequest(req, res);
 
       case "queue":
-        return "[Sabdnzbd] Mode 'queue' not handled.";
+        return handleQueueRequest(req, res);
 
       case "history":
-        return "[Sabdnzbd] Mode 'history' not handled.";
+        return handleHistoryRequest(req, res);
 
       default:
         return res.status(400).json({
