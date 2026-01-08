@@ -59,7 +59,11 @@ export default function ArtistHeader({
             )}
             <PlexSearchButton query={artist.name} pivot="artists" />
             <NavidromeSearchButton query={artist.name} pivot="artists" />
-            <JellyfinSearchButton query={artist.name} pivot="artists" />
+            <JellyfinSearchButton
+              query={artist.name}
+              pivot="artists"
+              albumQuery=""
+            />
           </Box>
         }
       />

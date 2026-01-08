@@ -7,7 +7,7 @@ Tidarr can be integrated with Lidarr as a Newznab indexer to automatically searc
 - [Quick Setup](#quick-setup)
   - [1. Configure Download Client](#1-configure-download-client)
   - [2. Add Tidarr as an Indexer in Lidarr](#2-add-tidarr-as-an-indexer-in-lidarr)
-  - [3. Verify Music Library Path](#3-verify-music-library-path)
+  - [3. Configure Shared Volumes](#3-configure-shared-volumes)
 - [How It Works](#how-it-works)
   - [Workflow](#workflow)
   - [Architecture](#architecture)
@@ -19,7 +19,10 @@ Tidarr can be integrated with Lidarr as a Newznab indexer to automatically searc
 - [Advanced Topics](#advanced-topics)
   - [API Endpoints](#api-endpoints)
   - [Release Processing](#release-processing)
-  - [Queue Management](#queue-management)
+- [Troubleshooting](#troubleshooting)
+  - [Lidarr doesn't detect completed downloads](#lidarr-doesnt-detect-completed-downloads)
+  - [Downloads fail with authentication errors](#downloads-fail-with-authentication-errors)
+  - [No search results from Tidarr](#no-search-results-from-tidarr)
 - [Resources](#resources)
 
 ## Quick Setup
@@ -109,7 +112,7 @@ services:
 
   lidarr:
     volumes:
-      - /path/to/shared/.processing:/shared/.processing # Same path as Tidarr
+      - /path/to/shared/.processing:/shared/.processing # Same path as Tidarr `download_path` (config.toml)
       - /path/to/music:/music
 ```
 
@@ -349,13 +352,6 @@ services:
 3. **API key invalid**: Verify indexer API key in Lidarr matches Tidarr
 4. **Network issues**: Check Tidarr logs for connection errors
 
-### Lidarr imports files but doesn't clean up `.processing` folder
-
-**Symptom:** Files accumulate in `/shared/.processing/{id}/` after successful imports.
-
-**Cause:** This is expected behavior. Lidarr copies (not moves) files during import.
-
-**Solution:** Files in `.processing/{id}/` can be safely deleted after Lidarr completes the import. Consider adding a cleanup script or relying on Tidarr's startup cleanup (removes orphaned folders automatically).
 
 ## Resources
 
