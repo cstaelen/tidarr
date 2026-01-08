@@ -62,7 +62,7 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
       </TableCell>
       <TableCell scope="row">
         {item.id ? (
-          <Link to={`${item.type}/${item.id}`} style={{ color: "white" }}>
+          <Link to={`/${item.type}/${item.id}`} style={{ color: "white" }}>
             {item.title}
           </Link>
         ) : (
