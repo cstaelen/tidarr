@@ -31,6 +31,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Custom CSS](#custom-css)
   - [Download History](#download-history)
   - [Replay Gain](#replay-gain)
+  - [Playlist Albums](#playlist-albums)
   - [Override Download Path](#override-download-path)
 - [Services](#services):
   - [Beets](#beets)
@@ -306,6 +307,19 @@ environment:
 
 > [!NOTE]
 > Replay Gain scanning happens after Beets tagging (if enabled) and before moving files to your library. The process adds minimal overhead to downloads while ensuring consistent playback volume across your music collection.
+
+### Playlist Albums
+
+Automatically download complete albums for all tracks in a playlist. When enabled, Tidarr will extract unique album IDs from each track in the playlist and add them to the download queue.
+
+```yaml
+environment:
+  - ...
+  - PLAYLIST_ALBUMS=true
+```
+
+> [!NOTE]
+> This feature processes playlists and mixes after the playlist download completes. Albums are added to the queue automatically, eliminating the need to manually download each album. Duplicates are avoided by tracking unique album IDs + Tiddl "skip existing" feature.
 
 ### Override Download Path
 

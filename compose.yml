@@ -42,4 +42,5 @@ services:
       - NO_DOWNLOAD=
       - ENABLE_HISTORY=
       - REPLAY_GAIN=
+      - PLAYLIST_ALBUMS=
       
