@@ -23,6 +23,7 @@ import {
   cleanFolder,
   executeCustomScript,
   getFolderToScan,
+  getPlaylistAlbums,
   getProcessingPath,
   hasFileToMove,
   killProcess,
@@ -436,6 +437,9 @@ export const ProcessingStack = () => {
 
     // Apprise API notification
     await appriseApiPush(item);
+
+    // Add playlist albums to queue if enabled
+    await getPlaylistAlbums(item.id);
 
     // Finish
     await closePostProcessing(item, "✅ [TIDARR] Post processing complete.");

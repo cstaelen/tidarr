@@ -48,6 +48,7 @@ export async function configureServer() {
         NO_DOWNLOAD: process.env.NO_DOWNLOAD || "",
         ENABLE_HISTORY: process.env.ENABLE_HISTORY || "",
         M3U_BASEPATH_FILE: process.env.M3U_BASEPATH_FILE || "",
+        PLAYLIST_ALBUMS: process.env.PLAYLIST_ALBUMS || "",
       },
     };
   } catch (error: unknown) {
