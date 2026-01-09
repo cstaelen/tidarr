@@ -19,6 +19,7 @@ services:
       - UMASK=
       - TZ=Etc/UTC
       - ENABLE_BEETS=
+      - OVERRIDE_DOWNLOAD_PATH=
       - PLEX_URL=
       - PLEX_LIBRARY=
       - PLEX_TOKEN=

@@ -27,7 +27,9 @@ export async function moveAndClean(id: string): Promise<{
   if (!item) return { status: "finished" };
 
   const itemProcessingPath = `${processingPath}/${item.id}`;
-  const libraryPath = app.locals.tiddlConfig.download.scan_path;
+  const libraryPath = process.env.OVERRIDE_DOWNLOAD_PATH
+    ? process.env.OVERRIDE_DOWNLOAD_PATH
+    : app.locals.tiddlConfig.download.scan_path;
 
   try {
     logs(item.id, "🕖 [TIDARR] Move processed items ...");
@@ -136,7 +138,9 @@ export function replacePathInM3U(item: ProcessingItemType): void {
   const basePath = process.env.M3U_BASEPATH_FILE?.replaceAll('"', "") || ".";
   const downloadDir = `${processingPath}/${item.id}`;
   const app = getAppInstance();
-  const libraryPath = app.locals.tiddlConfig.download.scan_path;
+  const libraryPath = process.env.OVERRIDE_DOWNLOAD_PATH
+    ? process.env.OVERRIDE_DOWNLOAD_PATH
+    : app.locals.tiddlConfig.download.scan_path;
 
   logs(item.id, `🕖 [TIDARR] Update track path in M3U file ...`);
 

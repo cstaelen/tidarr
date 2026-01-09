@@ -31,6 +31,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Custom CSS](#custom-css)
   - [Download History](#download-history)
   - [Replay Gain](#replay-gain)
+  - [Override Download Path](#override-download-path)
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-integration)
@@ -305,6 +306,19 @@ environment:
 
 > [!NOTE]
 > Replay Gain scanning happens after Beets tagging (if enabled) and before moving files to your library. The process adds minimal overhead to downloads while ensuring consistent playback volume across your music collection.
+
+### Override Download Path
+
+Override the default download destination path configured in Tiddl. When set, downloaded files will be moved to this path instead of the `scan_path` defined in `.tiddl/config.toml`.
+
+```yaml
+environment:
+  - ...
+  - OVERRIDE_DOWNLOAD_PATH=/custom/music/path
+```
+
+> [!NOTE]
+> This allows you to keep your Tiddl configuration unchanged while directing downloads to a different location. The path must be accessible from within the container.
 
 ## SERVICES
 
