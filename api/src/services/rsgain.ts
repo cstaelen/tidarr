@@ -1,4 +1,4 @@
-import { execSync } from "child_process";
+import { spawn } from "child_process";
 
 import { getAppInstance } from "../helpers/app-instance";
 import { logs } from "../processing/logs";
@@ -22,20 +22,53 @@ export async function applyReplayGain(
   logs(itemId, `🕖 [RSGAIN] Analyzing and tagging files in: ${folderPath}`);
   app.locals.processingStack.actions.updateItem(itemId);
 
-  try {
-    // Run rsgain easy mode (automatically handles album mode with recursive scan)
-    const cmd = `rsgain easy -S -m 4 "${folderPath}"`;
+  return new Promise((resolve) => {
+    try {
+      // Run rsgain easy mode (automatically handles album mode with recursive scan)
+      const rsgainProcess = spawn(
+        "rsgain",
+        ["easy", "-S", "-m", "4", folderPath],
+        {
+          shell: "/bin/sh",
+        },
+      );
 
-    execSync(cmd, {
-      encoding: "utf-8",
-      shell: "/bin/sh",
-      stdio: "pipe",
-    });
+      let errorOutput = "";
 
-    logs(itemId, "✅ [RSGAIN] ReplayGain tags applied successfully");
-  } catch (error: unknown) {
-    const errorMessage = (error as Error).message || String(error);
-    logs(itemId, `⚠️ [RSGAIN] Failed to apply ReplayGain: ${errorMessage}`);
-    // Don't throw - ReplayGain failure shouldn't stop the pipeline
-  }
+      // Capture stderr for error messages
+      rsgainProcess.stderr?.on("data", (data: Buffer) => {
+        errorOutput += data.toString();
+      });
+
+      // Handle process completion
+      rsgainProcess.on("close", (code) => {
+        if (code === 0) {
+          logs(itemId, "✅ [RSGAIN] ReplayGain tags applied successfully");
+          resolve();
+        } else {
+          logs(
+            itemId,
+            `⚠️ [RSGAIN] Failed to apply ReplayGain (exit code: ${code})${errorOutput ? `: ${errorOutput}` : ""}`,
+          );
+          // Don't reject - ReplayGain failure shouldn't stop the pipeline
+          resolve();
+        }
+      });
+
+      // Handle errors
+      rsgainProcess.on("error", (error) => {
+        logs(
+          itemId,
+          `⚠️ [RSGAIN] Failed to apply ReplayGain: ${error.message}`,
+        );
+        // Don't reject - ReplayGain failure shouldn't stop the pipeline
+        resolve();
+      });
+    } catch (error: unknown) {
+      const errorMessage = (error as Error).message || String(error);
+      logs(itemId, `⚠️ [RSGAIN] Failed to apply ReplayGain: ${errorMessage}`);
+      // Don't reject - ReplayGain failure shouldn't stop the pipeline
+      resolve();
+    }
+  });
 }

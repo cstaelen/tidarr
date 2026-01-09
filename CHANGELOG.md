@@ -6,6 +6,9 @@ Tidarr notable changes.
 ## 📦 1.1.3
 ### 🐛 Fixed
 - [Front] Fix download links on processing page
+### 🖍 Changes
+- [API] Run rsgain process async
+
 
 ## 📦 1.1.2
 ### 🚀 Added
