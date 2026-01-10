@@ -18,6 +18,7 @@ export async function configureServer() {
       parameters: {
         ENABLE_BEETS: process.env.ENABLE_BEETS || "",
         REPLAY_GAIN: process.env.REPLAY_GAIN || "",
+        OVERRIDE_DOWNLOAD_PATH: process.env.OVERRIDE_DOWNLOAD_PATH || "",
         PLEX_URL: process.env.PLEX_URL || "",
         PLEX_LIBRARY: process.env.PLEX_LIBRARY || "",
         PLEX_TOKEN: process.env.PLEX_TOKEN || "",
@@ -47,6 +48,7 @@ export async function configureServer() {
         NO_DOWNLOAD: process.env.NO_DOWNLOAD || "",
         ENABLE_HISTORY: process.env.ENABLE_HISTORY || "",
         M3U_BASEPATH_FILE: process.env.M3U_BASEPATH_FILE || "",
+        PLAYLIST_ALBUMS: process.env.PLAYLIST_ALBUMS || "",
       },
     };
   } catch (error: unknown) {

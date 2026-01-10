@@ -59,6 +59,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
   const dataAPIRows = [
     ["ENABLE_BEETS", "false"],
     ["REPLAY_GAIN", "true"],
+    ["OVERRIDE_DOWNLOAD_PATH", ""],
     ["PLEX_URL", ""],
     ["PLEX_LIBRARY", ""],
     ["PLEX_TOKEN", ""],
@@ -87,6 +88,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     ["NO_DOWNLOAD", ""],
     ["ENABLE_HISTORY", "true"],
     ["M3U_BASEPATH_FILE", "../../"],
+    ["PLAYLIST_ALBUMS", ""],
   ];
   const tableAPIRows = await page
     .locator("#alert-dialog-description div")
