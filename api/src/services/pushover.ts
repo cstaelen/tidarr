@@ -1,8 +1,11 @@
-import { execSync } from "child_process";
+import { exec } from "child_process";
+import { promisify } from "util";
 
 import { curl_escape_double_quote } from "../helpers/curl_escape";
 import { logs } from "../processing/logs";
 import { ProcessingItemType } from "../types";
+
+const execAsync = promisify(exec);
 
 export async function hookPushOver(item: ProcessingItemType) {
   if (process.env.PUSH_OVER_URL) {
@@ -24,7 +27,7 @@ export async function hookPushOver(item: ProcessingItemType) {
 
       console.log(`🕖 [PUSHOVER WEBHOOK] Command : ${command}`);
 
-      execSync(command, { encoding: "utf-8" });
+      await execAsync(command, { encoding: "utf-8" });
 
       logs(item.id, `✅ [PUSHOVER WEBHOOK] Success output`);
     } catch (e: unknown) {

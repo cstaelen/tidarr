@@ -5,12 +5,13 @@ Tidarr notable changes.
 
 ## 📦 1.1.3
 ### 🚀 Added
-- [API] Add `OVERRIDE_DOWNLOAD_PATH` env var for custom post processing
-- [API] Add `PLAYLIST_ALBUMS` env var to download complete albums of each track of a playlist
+- [API] Add `OVERRIDE_DOWNLOAD_PATH` env var for custom post processing #313
+- [API] Add `PLAYLIST_ALBUMS` env var to download complete albums of each track of a playlist #584
 ### 🐛 Fixed
 - [Front] Fix download links on processing page
 ### 🖍 Changes
-- [API] Run rsgain process async
+- [API] Run all post processing step as async spawn to avoid blocking. #581
+
 
 
 ## 📦 1.1.2
