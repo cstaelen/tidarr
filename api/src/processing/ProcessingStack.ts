@@ -367,7 +367,7 @@ export const ProcessingStack = () => {
 
     // Stop if there is no file to process (maybe existing)
     const processingPath = getProcessingPath();
-    const shouldPostProcess = hasFileToMove(`${processingPath}/${item.id}`);
+    const shouldPostProcess = await hasFileToMove(`${processingPath}/${item.id}`);
 
     if (!shouldPostProcess) {
       item["status"] = "finished";
@@ -403,7 +403,7 @@ export const ProcessingStack = () => {
     await executeCustomScript(item);
 
     // Update m3u item path
-    replacePathInM3U(item);
+    await replacePathInM3U(item);
 
     // Beets process
     await beets(item.id);
@@ -415,7 +415,7 @@ export const ProcessingStack = () => {
     await setPermissions(item);
 
     // Keep trace of folders processed
-    const foldersToScan = getFolderToScan(item.id);
+    const foldersToScan = await getFolderToScan(item.id);
 
     // Move to output folder
     await moveAndClean(item.id);

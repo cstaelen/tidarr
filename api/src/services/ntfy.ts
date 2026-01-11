@@ -1,8 +1,11 @@
-import { execSync } from "child_process";
+import { exec } from "child_process";
+import { promisify } from "util";
 
 import { curl_escape_double_quote } from "../helpers/curl_escape";
 import { logs } from "../processing/logs";
 import { ProcessingItemType } from "../types";
+
+const execAsync = promisify(exec);
 
 export async function ntfyPush(item: ProcessingItemType) {
   if (process.env.NTFY_URL && process.env.NTFY_TOPIC) {
@@ -32,8 +35,8 @@ export async function ntfyPush(item: ProcessingItemType) {
 
       console.log(`🕖 [NTFY] URL: ${url}`);
 
-      const response = execSync(command, { encoding: "utf-8" });
-      logs(item.id, `✅ [NTFY] Notification success:\r\n${response}`);
+      const { stdout } = await execAsync(command, { encoding: "utf-8" });
+      logs(item.id, `✅ [NTFY] Notification success:\r\n${stdout}`);
     } catch (e: unknown) {
       logs(item.id, `❌ [NTFY] Notification error: ${(e as Error).message}`);
     }
