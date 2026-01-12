@@ -59,7 +59,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
   const dataAPIRows = [
     ["ENABLE_BEETS", "false"],
     ["REPLAY_GAIN", "true"],
-    ["OVERRIDE_DOWNLOAD_PATH", ""],
+    ["SKIP_POST_PROCESSING", ""],
     ["PLEX_URL", ""],
     ["PLEX_LIBRARY", ""],
     ["PLEX_TOKEN", ""],

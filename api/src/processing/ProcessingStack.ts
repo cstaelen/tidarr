@@ -23,7 +23,6 @@ import {
   cleanFolder,
   executeCustomScript,
   getFolderToScan,
-  getPlaylistAlbums,
   getProcessingPath,
   hasFileToMove,
   killProcess,
@@ -38,6 +37,7 @@ import {
   deletePlaylist,
   getTracksByMixId,
 } from "./mix-to-playlist";
+import { getPlaylistAlbums } from "./queue-playlist-albums";
 
 export function notifySSEConnections(app: Express) {
   const { processingStack, activeListConnections } = app.locals;
@@ -365,7 +365,9 @@ export const ProcessingStack = () => {
       return;
     }
 
-    // Stop if there is no file to process (maybe existing)
+    // 1. Stop if there is no file to process (maybe existing)
+    // -------
+
     const processingPath = getProcessingPath();
     const shouldPostProcess = await hasFileToMove(
       `${processingPath}/${item.id}`,
@@ -381,26 +383,41 @@ export const ProcessingStack = () => {
       return;
     }
 
-    // Lidarr-managed workflow: skip post-processing, leave files in .processing
+    // 2. Lidarr-managed workflow: skip post-processing, leave files in .processing
+    // -------
+
     if (item.source === "lidarr") {
-      logs(item.id, "---------------------");
       logs(
         item.id,
         "📦 [LIDARR] Lidarr-managed download: skipping Tidarr post-processing",
       );
-      logs(
-        item.id,
-        `📂 [LIDARR] Files available at: ${processingPath}/${item.id}`,
-      );
       await closePostProcessing(
         item,
-        "✅ [LIDARR] Download complete. Ready for Lidarr import.",
+        `✅ [LIDARR] Download complete. Ready for Lidarr import: ${processingPath}/${item.id}`,
       );
 
       return;
     }
 
-    // Standard Tidarr workflow (non-Lidarr items)
+    // 3. Skip post-processing mode: keep files in download_path
+    // -------
+
+    if (process.env.SKIP_POST_PROCESSING === "true") {
+      logs(
+        item.id,
+        "📦 [TIDARR] Post-processing disabled (SKIP_POST_PROCESSING=true)",
+      );
+      await closePostProcessing(
+        item,
+        "✅ [TIDARR] Download complete. Files remain in download_path for external processing.",
+      );
+
+      return;
+    }
+
+    // 4. Standard Tidarr workflow (non-Lidarr items)
+    // -------
+
     // Execute custom script if exists
     await executeCustomScript(item);
 
