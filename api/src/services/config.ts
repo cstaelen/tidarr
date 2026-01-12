@@ -18,7 +18,6 @@ export async function configureServer() {
       parameters: {
         ENABLE_BEETS: process.env.ENABLE_BEETS || "",
         REPLAY_GAIN: process.env.REPLAY_GAIN || "",
-        SKIP_POST_PROCESSING: process.env.SKIP_POST_PROCESSING || "",
         PLEX_URL: process.env.PLEX_URL || "",
         PLEX_LIBRARY: process.env.PLEX_LIBRARY || "",
         PLEX_TOKEN: process.env.PLEX_TOKEN || "",

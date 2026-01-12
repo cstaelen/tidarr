@@ -399,23 +399,7 @@ export const ProcessingStack = () => {
       return;
     }
 
-    // 3. Skip post-processing mode: keep files in download_path
-    // -------
-
-    if (process.env.SKIP_POST_PROCESSING === "true") {
-      logs(
-        item.id,
-        "📦 [TIDARR] Post-processing disabled (SKIP_POST_PROCESSING=true)",
-      );
-      await closePostProcessing(
-        item,
-        "✅ [TIDARR] Download complete. Files remain in download_path for external processing.",
-      );
-
-      return;
-    }
-
-    // 4. Standard Tidarr workflow (non-Lidarr items)
+    // 3. Standard Tidarr workflow (non-Lidarr items)
     // -------
 
     // Execute custom script if exists

@@ -321,19 +321,6 @@ environment:
 > [!NOTE]
 > This feature processes playlists and mixes after the playlist download completes. Albums are added to the queue automatically, eliminating the need to manually download each album. Duplicates are avoided by tracking unique album IDs + Tiddl "skip existing" feature.
 
-### Override Download Path
-
-Override the default download destination path configured in Tiddl. When set, downloaded files will be moved to this path instead of the `scan_path` defined in `.tiddl/config.toml`.
-
-```yaml
-environment:
-  - ...
-  - OVERRIDE_DOWNLOAD_PATH=/custom/music/path
-```
-
-> [!NOTE]
-> This allows you to keep your Tiddl configuration unchanged while directing downloads to a different location. The path must be accessible from within the container.
-
 ## SERVICES
 
 ### Beets
