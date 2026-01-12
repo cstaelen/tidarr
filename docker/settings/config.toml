@@ -53,15 +53,12 @@ skip_existing = true
 threads_count = 4
 
 # base download directory, by default it is set to your home directory / Music / tiddl
-download_path = "/shared/.processing"
+download_path = "/music"
 
 # if you moved the downloaded files to other directory,
 # then you should specify the destination directory there.
 # otherwise `tiddl` will not detect them and `skip_existing` will not skip
 # already downloaded files. by default scan path is set to your download path.
-#
-# /!\ Should match your mounted library docker volume.
-#
 scan_path = "/music"
 
 # this option is used to determine if you want to include downloading singles from an artist.

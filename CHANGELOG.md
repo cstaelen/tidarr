@@ -4,7 +4,14 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 1.1.3
+
+⚠️ **Update your `download_path` to set your output path** (music library)
+To be more compliant with tiddl process, `/shared/.processing` is now abstracted by Tidarr.
+After download and post-processing finished, files are moved to `download_path` and then deleted from `/shared/.processing`.
+
+
 ### 🚀 Added
+- [API] ⚠️ Tidarr downloads now to `download_path` toml config for better compliance with Tiddl
 - [API] Add `PLAYLIST_ALBUMS` env var to download complete albums of each track of a playlist #584
 ### 🐛 Fixed
 - [Front] Fix download links on processing page
