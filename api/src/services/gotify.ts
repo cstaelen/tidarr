@@ -1,8 +1,11 @@
-import { execSync } from "child_process";
+import { exec } from "child_process";
+import { promisify } from "util";
 
 import { curl_escape_double_quote } from "../helpers/curl_escape";
 import { logs } from "../processing/logs";
 import { ProcessingItemType } from "../types";
+
+const execAsync = promisify(exec);
 
 export async function gotifyPush(item: ProcessingItemType) {
   if (process.env.GOTIFY_URL && process.env.GOTIFY_TOKEN) {
@@ -22,7 +25,7 @@ export async function gotifyPush(item: ProcessingItemType) {
 
       console.log(`🕖 [GOTIFY] URL: ${command}`);
 
-      await execSync(command, { encoding: "utf-8" });
+      await execAsync(command, { encoding: "utf-8" });
       logs(item.id, `✅ [GOTIFY] Notification success`);
     } catch (e: unknown) {
       logs(item.id, `❌ [GOTIFY] Notification error: ${(e as Error).message}`);

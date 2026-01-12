@@ -1,6 +1,9 @@
-import { ChildProcess, execSync, spawn } from "child_process";
+import { ChildProcess, exec, spawn } from "child_process";
 import fs from "fs";
 import path from "path";
+import { promisify } from "util";
+
+const execAsync = promisify(exec);
 
 import { CONFIG_PATH } from "../../constants";
 import { getAppInstance } from "../helpers/app-instance";
@@ -46,7 +49,7 @@ export async function moveAndClean(id: string): Promise<{
 
     const cmd = `cp ${args} "${itemProcessingPath}"/* "${libraryPath}" >/dev/null`;
     console.log(`🕖 [TIDARR] Command: ${cmd}`);
-    execSync(cmd, { encoding: "utf-8", shell: "/bin/sh" });
+    await execAsync(cmd, { encoding: "utf-8", shell: "/bin/sh" });
     logs(item.id, `✅ [TIDARR] Move complete (${item.type})`);
     status = "finished";
   } catch (e: unknown) {
@@ -87,7 +90,7 @@ export async function cleanFolder(
   }
 
   try {
-    execSync(`rm -rf ${targetPath}`, {
+    await execAsync(`rm -rf ${targetPath}`, {
       encoding: "utf-8",
       shell: "/bin/sh",
     });
@@ -101,7 +104,7 @@ export async function cleanFolder(
   }
 }
 
-export function hasFileToMove(pathArg?: string): boolean {
+export async function hasFileToMove(pathArg?: string): Promise<boolean> {
   const processingPath = getProcessingPath();
 
   const targetPath = pathArg || processingPath;
@@ -113,13 +116,14 @@ export function hasFileToMove(pathArg?: string): boolean {
   }
 
   try {
-    const filesToCopy = execSync(`ls "${targetPath}"`, {
+    const { stdout } = await execAsync(`ls "${targetPath}"`, {
       encoding: "utf-8",
       shell: "/bin/sh",
-    })
+    });
+    const filesToCopy = stdout
       .trim()
       .split("\n")
-      .filter((file) => file);
+      .filter((file: string) => file);
 
     return filesToCopy.length > 0;
   } catch (error) {
@@ -129,7 +133,9 @@ export function hasFileToMove(pathArg?: string): boolean {
   }
 }
 
-export function replacePathInM3U(item: ProcessingItemType): void {
+export async function replacePathInM3U(
+  item: ProcessingItemType,
+): Promise<void> {
   if (item["type"] !== "playlist" && item["type"] !== "mix") return;
 
   const processingPath = getProcessingPath();
@@ -141,9 +147,10 @@ export function replacePathInM3U(item: ProcessingItemType): void {
   logs(item.id, `🕖 [TIDARR] Update track path in M3U file ...`);
 
   try {
-    const m3uFilePath = execSync(`find "${downloadDir}" -name "*.m3u"`, {
+    const { stdout } = await execAsync(`find "${downloadDir}" -name "*.m3u"`, {
       encoding: "utf-8",
-    }).trim();
+    });
+    const m3uFilePath = stdout.trim();
 
     if (!m3uFilePath) {
       logs(item.id, `⚠️ [TIDARR] No M3U file found`);
@@ -177,7 +184,7 @@ export async function setPermissions(item: ProcessingItemType) {
 
   if (process.env.PUID && process.env.PGID) {
     try {
-      const output_chown = execSync(
+      const { stdout } = await execAsync(
         `chown -R ${process.env.PUID}:${process.env.PGID} "${itemProcessingPath}"`,
         {
           encoding: "utf-8",
@@ -186,7 +193,7 @@ export async function setPermissions(item: ProcessingItemType) {
       );
       logs(
         item.id,
-        `🔑 [TIDARR] Chown PUID:PGID: ${process.env.PUID}:${process.env.PGID} - ${output_chown}`,
+        `🔑 [TIDARR] Chown PUID:PGID: ${process.env.PUID}:${process.env.PGID} - ${stdout}`,
       );
     } catch {
       // Ignore error if directory is empty
@@ -204,7 +211,7 @@ export async function setPermissions(item: ProcessingItemType) {
       const dirMode = (0o777 & ~umaskValue).toString(8);
 
       // Apply file permissions to regular files
-      execSync(
+      await execAsync(
         `find "${itemProcessingPath}" -type f -exec chmod ${fileMode} {} +`,
         {
           encoding: "utf-8",
@@ -213,7 +220,7 @@ export async function setPermissions(item: ProcessingItemType) {
       );
 
       // Apply directory permissions to directories
-      execSync(
+      await execAsync(
         `find "${itemProcessingPath}" -type d -exec chmod ${dirMode} {} +`,
         {
           encoding: "utf-8",
@@ -246,7 +253,7 @@ export async function setPermissions(item: ProcessingItemType) {
  * @param itemId - The item ID to scan folders for
  * @returns Array of parent folder paths relative to item's processing path that contain files to scan
  */
-export function getFolderToScan(itemId: string): string[] {
+export async function getFolderToScan(itemId: string): Promise<string[]> {
   const processingPath = getProcessingPath();
 
   const foldersToScan: string[] = [];
@@ -254,13 +261,14 @@ export function getFolderToScan(itemId: string): string[] {
 
   try {
     // Find all files (not directories) in the item's processing directory
-    const allFiles = execSync(
+    const { stdout } = await execAsync(
       `find "${itemProcessingPath}" -type f 2>/dev/null || true`,
       { encoding: "utf-8", shell: "/bin/sh" },
-    )
+    );
+    const allFiles = stdout
       .trim()
       .split("\n")
-      .filter((file) => file);
+      .filter((file: string) => file);
 
     if (allFiles.length === 0) {
       console.log("📁 [TIDARR] No files found in processing folder");
@@ -362,62 +370,62 @@ export async function executeCustomScript(
   logs(item.id, "🕖 [TIDARR] Executing custom script...");
 
   return new Promise((resolve) => {
-    try {
-      // Make script executable
-      execSync(`chmod +x "${customScriptPath}"`, {
-        encoding: "utf-8",
-        shell: "/bin/sh",
-      });
+    // Make script executable first
+    execAsync(`chmod +x "${customScriptPath}"`, {
+      encoding: "utf-8",
+      shell: "/bin/sh",
+    })
+      .then(() => {
+        // Execute script in item's .processing directory
+        const scriptProcess = spawn("sh", [customScriptPath], {
+          cwd: itemProcessingPath,
+          env: {
+            ...process.env,
+            PROCESSING_PATH: itemProcessingPath,
+            ITEM_TYPE: item.type,
+            ITEM_URL: item.url,
+          },
+        });
 
-      // Execute script in item's .processing directory
-      const scriptProcess = spawn("sh", [customScriptPath], {
-        cwd: itemProcessingPath,
-        env: {
-          ...process.env,
-          PROCESSING_PATH: itemProcessingPath,
-          ITEM_TYPE: item.type,
-          ITEM_URL: item.url,
-        },
-      });
+        // Capture stdout
+        scriptProcess.stdout?.on("data", (data: Buffer) => {
+          const output = data.toString().trim();
+          if (output) {
+            logs(item.id, `🤖 [CUSTOM SCRIPT] ${output}`);
+          }
+        });
 
-      // Capture stdout
-      scriptProcess.stdout?.on("data", (data: Buffer) => {
-        const output = data.toString().trim();
-        if (output) {
-          logs(item.id, `🤖 [CUSTOM SCRIPT] ${output}`);
-        }
-      });
+        // Capture stderr
+        scriptProcess.stderr?.on("data", (data: Buffer) => {
+          const output = data.toString().trim();
+          if (output) {
+            logs(item.id, `🤖 [CUSTOM SCRIPT] ${output}`);
+          }
+        });
 
-      // Capture stderr
-      scriptProcess.stderr?.on("data", (data: Buffer) => {
-        const output = data.toString().trim();
-        if (output) {
-          logs(item.id, `🤖 [CUSTOM SCRIPT] ${output}`);
-        }
-      });
+        // Handle script completion
+        scriptProcess.on("close", (code) => {
+          if (code === 0) {
+            logs(item.id, "✅ [TIDARR] Custom script executed successfully");
+            resolve();
+          } else {
+            logs(item.id, `⚠️ [TIDARR] Custom script exited with code ${code}`);
+            resolve(); // Don't reject to avoid breaking the processing pipeline
+          }
+        });
 
-      // Handle script completion
-      scriptProcess.on("close", (code) => {
-        if (code === 0) {
-          logs(item.id, "✅ [TIDARR] Custom script executed successfully");
-          resolve();
-        } else {
-          logs(item.id, `⚠️ [TIDARR] Custom script exited with code ${code}`);
+        // Handle errors
+        scriptProcess.on("error", (error) => {
+          logs(item.id, `❌ [TIDARR] Custom script error: ${error.message}`);
           resolve(); // Don't reject to avoid breaking the processing pipeline
-        }
-      });
-
-      // Handle errors
-      scriptProcess.on("error", (error) => {
-        logs(item.id, `❌ [TIDARR] Custom script error: ${error.message}`);
+        });
+      })
+      .catch((error) => {
+        logs(
+          item.id,
+          `❌ [TIDARR] Failed to execute custom script: ${error instanceof Error ? error.message : String(error)}`,
+        );
         resolve(); // Don't reject to avoid breaking the processing pipeline
       });
-    } catch (error) {
-      logs(
-        item.id,
-        `❌ [TIDARR] Failed to execute custom script: ${error instanceof Error ? error.message : String(error)}`,
-      );
-      resolve(); // Don't reject to avoid breaking the processing pipeline
-    }
   });
 }

@@ -37,6 +37,7 @@ import {
   deletePlaylist,
   getTracksByMixId,
 } from "./mix-to-playlist";
+import { getPlaylistAlbums } from "./queue-playlist-albums";
 
 export function notifySSEConnections(app: Express) {
   const { processingStack, activeListConnections } = app.locals;
@@ -364,9 +365,13 @@ export const ProcessingStack = () => {
       return;
     }
 
-    // Stop if there is no file to process (maybe existing)
+    // 1. Stop if there is no file to process (maybe existing)
+    // -------
+
     const processingPath = getProcessingPath();
-    const shouldPostProcess = hasFileToMove(`${processingPath}/${item.id}`);
+    const shouldPostProcess = await hasFileToMove(
+      `${processingPath}/${item.id}`,
+    );
 
     if (!shouldPostProcess) {
       item["status"] = "finished";
@@ -378,31 +383,30 @@ export const ProcessingStack = () => {
       return;
     }
 
-    // Lidarr-managed workflow: skip post-processing, leave files in .processing
+    // 2. Lidarr-managed workflow: skip post-processing, leave files in .processing
+    // -------
+
     if (item.source === "lidarr") {
-      logs(item.id, "---------------------");
       logs(
         item.id,
         "📦 [LIDARR] Lidarr-managed download: skipping Tidarr post-processing",
       );
-      logs(
-        item.id,
-        `📂 [LIDARR] Files available at: ${processingPath}/${item.id}`,
-      );
       await closePostProcessing(
         item,
-        "✅ [LIDARR] Download complete. Ready for Lidarr import.",
+        `✅ [LIDARR] Download complete. Ready for Lidarr import: ${processingPath}/${item.id}`,
       );
 
       return;
     }
 
-    // Standard Tidarr workflow (non-Lidarr items)
+    // 3. Standard Tidarr workflow (non-Lidarr items)
+    // -------
+
     // Execute custom script if exists
     await executeCustomScript(item);
 
     // Update m3u item path
-    replacePathInM3U(item);
+    await replacePathInM3U(item);
 
     // Beets process
     await beets(item.id);
@@ -414,7 +418,7 @@ export const ProcessingStack = () => {
     await setPermissions(item);
 
     // Keep trace of folders processed
-    const foldersToScan = getFolderToScan(item.id);
+    const foldersToScan = await getFolderToScan(item.id);
 
     // Move to output folder
     await moveAndClean(item.id);
@@ -436,6 +440,9 @@ export const ProcessingStack = () => {
 
     // Apprise API notification
     await appriseApiPush(item);
+
+    // Add playlist albums to queue if enabled
+    await getPlaylistAlbums(item.id);
 
     // Finish
     await closePostProcessing(item, "✅ [TIDARR] Post processing complete.");

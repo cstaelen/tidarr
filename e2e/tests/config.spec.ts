@@ -87,6 +87,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     ["NO_DOWNLOAD", ""],
     ["ENABLE_HISTORY", "true"],
     ["M3U_BASEPATH_FILE", "../../"],
+    ["PLAYLIST_ALBUMS", ""],
   ];
   const tableAPIRows = await page
     .locator("#alert-dialog-description div")

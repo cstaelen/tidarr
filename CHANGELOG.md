@@ -4,10 +4,12 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 1.1.3
+### 🚀 Added
+- [API] Add `PLAYLIST_ALBUMS` env var to download complete albums of each track of a playlist #584
 ### 🐛 Fixed
 - [Front] Fix download links on processing page
 ### 🖍 Changes
-- [API] Run rsgain process async
+- [API] Run all post processing step as async spawn to avoid blocking. #581
 
 
 ## 📦 1.1.2

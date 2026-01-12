@@ -1,4 +1,4 @@
-import { spawnSync } from "child_process";
+import { spawn } from "child_process";
 
 import { CONFIG_PATH } from "../../constants";
 import { getAppInstance } from "../helpers/app-instance";
@@ -10,7 +10,7 @@ function spawnBeet(
   itemId: string,
   command: string,
   additionalArgs: string[] = [],
-): void {
+): Promise<void> {
   const binary = "beet";
   const args = [
     "-c",
@@ -23,24 +23,35 @@ function spawnBeet(
 
   console.log(`${binary} ${args.join(" ")}`);
 
-  const result = spawnSync(binary, args);
+  return new Promise((resolve, reject) => {
+    const beetProcess = spawn(binary, args);
 
-  if (result.stdout) {
-    const stdout = result.stdout.toString("utf8");
-    console.log(stdout);
-  }
+    beetProcess.stdout?.on("data", (data: Buffer) => {
+      const stdout = data.toString("utf8");
+      console.log(stdout);
+    });
 
-  if (result.stderr) {
-    const stderr = result.stderr.toString("utf8");
-    console.error(stderr);
-    if (stderr.trim()) {
-      logs(itemId, `⚠️ [BEETS] ${stderr.trim()}`);
-    }
-  }
+    beetProcess.stderr?.on("data", (data: Buffer) => {
+      const stderr = data.toString("utf8");
+      console.error(stderr);
+      if (stderr.trim()) {
+        logs(itemId, `⚠️ [BEETS] ${stderr.trim()}`);
+      }
+    });
 
-  if (result.status === 0) {
-    logs(itemId, `✅ [BEETS] ${command} success`);
-  }
+    beetProcess.on("close", (code) => {
+      if (code === 0) {
+        logs(itemId, `✅ [BEETS] ${command} success`);
+        resolve();
+      } else {
+        reject(new Error(`Beets ${command} exited with code ${code}`));
+      }
+    });
+
+    beetProcess.on("error", (error) => {
+      reject(error);
+    });
+  });
 }
 
 export async function beets(id: string): Promise<void> {
@@ -62,7 +73,7 @@ export async function beets(id: string): Promise<void> {
       console.log("🎧 BEETS             ");
       console.log("--------------------");
 
-      spawnBeet(item.id, "import", ["-qC", itemProcessingPath]);
+      await spawnBeet(item.id, "import", ["-qC", itemProcessingPath]);
 
       // Run beet write after import
       logs(item.id, "🕖 [BEETS] Writing tags ...", { skipConsole: true });
@@ -70,7 +81,7 @@ export async function beets(id: string): Promise<void> {
       console.log("🏷️  BEETS WRITE      ");
       console.log("--------------------");
 
-      spawnBeet(item.id, "write", [itemProcessingPath]);
+      await spawnBeet(item.id, "write", [itemProcessingPath]);
     }
   } catch (err: unknown) {
     logs(
