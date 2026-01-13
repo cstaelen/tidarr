@@ -2,7 +2,6 @@
 
 # project
 /library
-/settings/beets/*
 /shared
 /docker/mnt
 # dependencies

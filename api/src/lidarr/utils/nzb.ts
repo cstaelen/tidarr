@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { getAppInstance } from "../../helpers/app-instance";
+import { PROCESSING_PATH } from "../../../constants";
 import { ProcessingItemType } from "../../types";
 
 /**
@@ -54,15 +54,11 @@ const SABNZBD_VERSION = "3.0.0";
 
 // Helper to get paths from tiddl config
 function getMusicDir(): string {
-  const app = getAppInstance();
-  return app.locals.tiddlConfig?.download?.scan_path || "/music";
+  return PROCESSING_PATH || "/music";
 }
 
 function getProcessingDir(): string {
-  const app = getAppInstance();
-  return (
-    app.locals.tiddlConfig?.download?.download_path || "/shared/.processing"
-  );
+  return PROCESSING_PATH;
 }
 
 // Helper functions

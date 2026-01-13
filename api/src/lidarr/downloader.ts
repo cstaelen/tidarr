@@ -177,8 +177,10 @@ export function handleQueueRequest(req: Request, res: Response) {
 
     // Map Tidarr items to SABnzbd queue slots
     const slots = data
-      .filter((item: ProcessingItemType) =>
-        ["queue", "processing"].includes(item.status),
+      .filter(
+        (item: ProcessingItemType) =>
+          ["queue", "processing"].includes(item.status) &&
+          item.source === "lidarr",
       )
       .map((item: ProcessingItemType) => mapItemToQueueSlot(item, isPaused));
 
@@ -233,8 +235,10 @@ export function handleHistoryRequest(req: Request, res: Response) {
 
     // Map finished/error items to SABnzbd history slots
     const slots = data
-      .filter((item: ProcessingItemType) =>
-        ["finished", "error"].includes(item.status),
+      .filter(
+        (item: ProcessingItemType) =>
+          ["finished", "error"].includes(item.status) &&
+          item.source === "lidarr",
       )
       .slice(0, limitNum)
       .map(mapItemToHistorySlot);

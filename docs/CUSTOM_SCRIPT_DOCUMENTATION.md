@@ -10,7 +10,7 @@
 - **OS Environment**: Alpine Linux 3.21
 - **Shell**: `/bin/sh` (Alpine's default shell - BusyBox ash)
 - **Available tools**: bash, ffmpeg, curl, wget, python3, beets, and standard Alpine utilities
-- **Working directory**: The script runs in the `.processing` directory where files are temporarily stored
+- **Working directory**: The script runs in the `/shared/.processing` directory where files are temporarily stored
 - **Timing**: Executed after Beets tagging (if enabled) and permissions setup, but before moving to library
 - **Pipeline order**: `Download → Beets → Set Permissions → **Custom Script** → Move to Library → Plex Scan → Notifications`
 

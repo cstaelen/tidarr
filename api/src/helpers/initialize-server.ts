@@ -10,7 +10,7 @@ import { CONFIG_PATH, ROOT_PATH } from "../../constants";
  */
 export function initializeFiles(): string {
   const output: string[] = [];
-  const SETTINGS_URL = join(ROOT_PATH, "settings");
+  const SETTINGS_URL = join(ROOT_PATH, "docker", "settings");
   const PUBLIC_URL = join(ROOT_PATH, "app", "build");
   const DEV_PUBLIC_URL = join(ROOT_PATH, "app", "public");
   const SHARED_URL = CONFIG_PATH;

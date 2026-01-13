@@ -104,7 +104,7 @@ ENV VERSION=$VERSION
 # Copy built artifacts from builder stage
 COPY --from=app_builder /tidarr/api/dist /tidarr/api/dist
 COPY --from=app_builder /tidarr/app/dist /tidarr/app/build
-COPY --from=app_builder /tidarr/settings /tidarr/settings
+COPY --from=app_builder /tidarr/docker/settings /tidarr/docker/settings
 COPY --from=app_builder /tidarr/.env /tidarr/.env
 COPY --from=app_builder /tidarr/docker/entrypoint.sh /tidarr/docker/entrypoint.sh
 

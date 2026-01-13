@@ -1,5 +1,6 @@
 import { Express, Response } from "express";
 
+import { PROCESSING_PATH } from "../../constants";
 import { getAppInstance } from "../helpers/app-instance";
 import {
   addItemToFile,
@@ -23,7 +24,6 @@ import {
   cleanFolder,
   executeCustomScript,
   getFolderToScan,
-  getProcessingPath,
   hasFileToMove,
   killProcess,
   moveAndClean,
@@ -368,9 +368,8 @@ export const ProcessingStack = () => {
     // 1. Stop if there is no file to process (maybe existing)
     // -------
 
-    const processingPath = getProcessingPath();
     const shouldPostProcess = await hasFileToMove(
-      `${processingPath}/${item.id}`,
+      `${PROCESSING_PATH}/${item.id}`,
     );
 
     if (!shouldPostProcess) {
@@ -393,7 +392,7 @@ export const ProcessingStack = () => {
       );
       await closePostProcessing(
         item,
-        `✅ [LIDARR] Download complete. Ready for Lidarr import: ${processingPath}/${item.id}`,
+        `✅ [LIDARR] Download complete. Ready for Lidarr import: ${PROCESSING_PATH}/${item.id}`,
       );
 
       return;
@@ -412,7 +411,7 @@ export const ProcessingStack = () => {
     await beets(item.id);
 
     // Apply ReplayGain tags
-    await applyReplayGain(item.id, `${processingPath}/${item.id}`);
+    await applyReplayGain(item.id, `${PROCESSING_PATH}/${item.id}`);
 
     // Set permissions
     await setPermissions(item);
