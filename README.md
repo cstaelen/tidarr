@@ -53,12 +53,6 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 
 ------------------------------
 
-> [!NOTE]
-> **Lidarr Integration**
->
-> Lidarr integration is currently a work in progress. We need testers and feedback to improve this feature.
->
-> 📖 [Integration Guide](https://github.com/cstaelen/tidarr/wiki/Lidarr-Integration-Guide) | 💬 [Discussion & Feedback](https://github.com/cstaelen/tidarr/discussions/568)
 
 > [!WARNING]
 > **Disclaimer**
@@ -79,6 +73,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - Search by url : artist url, album url, playlist url, track url, mix url
 - Download covers
 - Admin password
+- Lidarr integration
 - OpenID Connect (OIDC) authentication support
 - M3U file for playlist with customizable path
 - Watch and sync playlists, mixes, favorites and artists with cron
@@ -471,15 +466,27 @@ Tidarr can be integrated with Lidarr as both a Newznab indexer and a SABnzbd dow
 > [!NOTE]
 > **Quick Setup**
 >
-> **Step 1: Add your `config/.processing` as docker volume to lidarr container**
+> **Step 1: Configure shared volumes between Tidarr and Lidarr**
 >
-> **Step 2: Add Tidarr as Indexer**
+> ```yaml
+> services:
+>   tidarr:
+>     volumes:
+>       - ...
+>       - /path/to/lidarr/downloads:/shared/nzb_downloads  # Shared download location
 >
-> **Step 3: Add Tidarr as Download Client**
+>   lidarr:
+>     volumes:
+>       - ....
+>       - /path/to/lidarr/downloads:/downloads             # Same physical folder
+> ```
+>
+> **Step 2: Add Tidarr as Indexer (Lidarr settings → Indexers)**
+>
+> **Step 3: Add Tidarr as Download Client (Lidarr settings → Download Clients)**
 >
 > **Notes:**
-> - Tidarr supports the standard `X-Api-Key` header protocol used by all \*arr applications
-> - API key can be found and renewed in configuration dialog
+> - The shared download folder allows Tidarr to download files that Lidarr can then import
 >
 > 📖 **[Complete Setup Guide](https://github.com/cstaelen/tidarr/wiki/Lidarr-Integration-Guide)** - Detailed configuration, troubleshooting, and advanced topics
 

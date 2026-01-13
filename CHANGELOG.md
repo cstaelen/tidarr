@@ -5,12 +5,20 @@ Tidarr notable changes.
 
 ## 📦 1.1.3
 
-⚠️ **Update your `download_path` to set your output path** (music library)
+⚠️ **Update your `download_path` with your final output path** (music library)
+
 To be more compliant with tiddl process, `/shared/.processing` is now abstracted by Tidarr.
 After download and post-processing finished, files are moved to `download_path` and then deleted from `/shared/.processing`.
 
+⚠️ **LIDARR SETUP: Update your downloads docker volume**
+
+Tidarr provides now files to `/shared/nzb_downloads` folder.
+It must be mounted as docker volume on the same physical path as `/downloads` Lidarr volume to allow Lidarr to import files.
+
+See [Lidarr Integration Guide](LIDARR_INTEGRATION.md) for more details.
+
 ### 🚀 Added
-- [API] ⚠️ Tidarr downloads now to `download_path` toml config for better compliance with Tiddl
+- [API] ⚠️ Tidarr downloads now to `download_path` toml config for better compliance with Tiddl #313
 - [API] Add `PLAYLIST_ALBUMS` env var to download complete albums of each track of a playlist #584
 - [Front] Add back button to processing pages
 - [Front] Add processing state and count in browser tab
@@ -19,6 +27,8 @@ After download and post-processing finished, files are moved to `download_path` 
 ### 🖍 Changes
 - [API] Run all post processing step as async spawn to avoid blocking. #581
 - [Front] Add url hash navigation for home tabs
+- [API] Add dedicated download folder folder Lidarr downloads
+
 
 ## 📦 1.1.2
 ### 🚀 Added

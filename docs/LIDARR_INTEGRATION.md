@@ -5,9 +5,9 @@ Tidarr can be integrated with Lidarr as a Newznab indexer to automatically searc
 ## Table of Contents
 
 - [Quick Setup](#quick-setup)
-  - [1. Configure Download Client](#1-configure-download-client)
-  - [2. Add Tidarr as an Indexer in Lidarr](#2-add-tidarr-as-an-indexer-in-lidarr)
-  - [3. Configure Shared Volumes](#3-configure-shared-volumes)
+  - [1. Configure Shared Volumes](#1-configure-shared-volumes)
+  - [2. Configure Download Client](#2-configure-download-client)
+  - [3. Add Tidarr as an Indexer in Lidarr](#3-add-tidarr-as-an-indexer-in-lidarr)
 - [How It Works](#how-it-works)
   - [Workflow](#workflow)
   - [Architecture](#architecture)
@@ -29,7 +29,27 @@ Tidarr can be integrated with Lidarr as a Newznab indexer to automatically searc
 
 > **Important:** Configure the download client FIRST (step 1), then the indexer (step 2). The indexer configuration needs to reference the download client you create.
 
-### 1. Configure Download Client
+
+### 1. Configure Shared Volumes
+
+**Required:** Both containers must share a common download directory for the import workflow to work.
+
+**Docker Compose example:**
+
+```yaml
+services:
+  tidarr:
+    volumes:
+      - ...
+      - /path/to/lidarr/downloads:/shared/nzb_downloads  # Dedicated Lidarr download location
+
+  lidarr:
+    volumes:
+      - ...
+      - /path/to/lidarr/downloads:/downloads              # Same physical folder as Tidarr's nzb_downloads
+```
+
+### 2. Configure Download Client
 
 Add Tidarr as a **SABnzbd** download client:
 
@@ -74,7 +94,7 @@ Add Tidarr as a **SABnzbd** download client:
 > - Download history
 > - Queue management (pause, resume, delete)
 
-### 2. Add Tidarr as an Indexer in Lidarr
+### 3. Add Tidarr as an Indexer in Lidarr
 
 1. Go to **Settings → Indexers** in Lidarr
 2. Click **+** and select **Newznab**
@@ -97,32 +117,6 @@ Add Tidarr as a **SABnzbd** download client:
 4. Click **Test** to verify the connection
 5. Click **Save** to complete the setup
 
-### 3. Configure Shared Volumes
-
-**Required:** Mount `/shared` volume in both containers for Lidarr import workflow.
-
-**Docker Compose example:**
-
-```yaml
-services:
-  tidarr:
-    volumes:
-      - /path/to/shared:/shared
-      - /path/to/music:/music
-
-  lidarr:
-    volumes:
-      - /path/to/shared/.processing:/shared/.processing # Same path as Tidarr `download_path` (config.toml)
-      - /path/to/music:/music
-```
-
-**Why `/shared` is needed:**
-
-- Tidarr downloads to `/shared/.processing/{id}/`
-- Lidarr imports directly from this location
-- Files are then renamed/moved to Lidarr's music library
-
-**Note:** Lidarr manages the final import, renaming, and organization according to your Lidarr settings.
 
 ## How It Works
 
@@ -131,8 +125,8 @@ services:
 1. **Search**: Lidarr queries Tidarr indexer
 2. **Results**: Tidarr searches Tidal and returns albums in Newznab format
 3. **Grab**: Lidarr sends album to Tidarr download client
-4. **Download**: Tidarr downloads to `/shared/.processing/{id}/` (high-quality FLAC up to 24-bit)
-5. **Import**: Lidarr detects completed download and imports from `.processing/{id}/`
+4. **Download**: Tidarr downloads to `/shared/nzb_downloads/{id}/` (high-quality FLAC up to 24-bit)
+5. **Import**: Lidarr detects completed download and imports from `/downloads/{id}/` (same physical location)
 6. **Organize**: Lidarr renames and moves files to your music library according to your settings
 
 ### Architecture
@@ -167,12 +161,13 @@ services:
                               │
                               │ Download to
                               ▼
-             ┌──────────────────────────────────┐
-             │  /shared/.processing/{id}/       │
-             │  (Temporary download location)   │
-             └────────────────┬─────────────────┘
+        ┌────────────────────────────────────────────┐
+        │  /shared/nzb_downloads/{id}/ (Tidarr)      │
+        │  = /downloads/{id}/ (Lidarr)               │
+        │  (Shared physical folder)                  │
+        └─────────────────────┬──────────────────────┘
                               │
-                              │ Lidarr imports
+                              │ Lidarr imports & organizes
                               ▼
              ┌──────────────────────────────────┐
              │      Music Library (/music)      │
@@ -279,13 +274,18 @@ Tidarr implements these SABnzbd-compatible endpoints:
 
 **Lidarr-triggered downloads skip Tidarr's post-processing:**
 
-1. **Download** via Tiddl to `/shared/.processing/{id}/`
-2. **Status** marked as completed
-3. **Lidarr import** handles all remaining steps (tagging, renaming, moving)
+1. **Download** via Tiddl to `/shared/nzb_downloads/{id}/`
+2. **Status** marked as completed (files stay in place)
+3. **Lidarr import** handles all remaining steps (tagging, renaming, moving to `/music`)
 
 **Tidarr UI downloads use the full pipeline:**
 
-- Beets tagging, permissions, custom scripts, move to `/music`, Plex/Jellyfin scan, notifications
+- Download to `/shared/.processing/{id}/`
+- Beets tagging, permissions, custom scripts
+- Move to `/music`
+- Plex/Jellyfin scan, notifications
+
+**Key difference:** Lidarr downloads use a dedicated path (`nzb_downloads`) and skip all Tidarr post-processing to avoid conflicts with Lidarr's own import logic.
 
 ## Troubleshooting
 
@@ -293,18 +293,18 @@ Tidarr implements these SABnzbd-compatible endpoints:
 
 **Symptom:** Downloads complete in Tidarr, but Lidarr shows them as stuck in queue or doesn't import them.
 
-**Cause:** The `/shared/.processing` volume is not properly mounted in both containers.
+**Cause:** The shared download volume is not properly mounted in both containers.
 
 **Solution:**
 
-1. Verify both containers have access to the same `/shared/.processing` path:
+1. Verify both containers have access to the same shared download path:
 
 ```bash
-# Check Tidarr
-docker exec tidarr ls -la /shared/.processing
+# Check Tidarr (should show download folders)
+docker exec tidarr ls -la /shared/nzb_downloads
 
-# Check Lidarr
-docker exec lidarr ls -la /shared/.processing
+# Check Lidarr (should show the same folders)
+docker exec lidarr ls -la /downloads
 ```
 
 2. Ensure your Docker Compose has matching volume mounts:
@@ -313,14 +313,23 @@ docker exec lidarr ls -la /shared/.processing
 services:
   tidarr:
     volumes:
-      - /path/to/shared:/shared
+      - ...
+      - /path/to/lidarr/downloads:/shared/nzb_downloads
 
   lidarr:
     volumes:
-      - /path/to/shared/.processing:/shared/.processing
+      - ...
+      - /path/to/lidarr/downloads:/downloads  # Same physical folder
 ```
 
-3. Restart both containers after fixing volume mounts.
+3. Verify the paths point to the same physical location:
+
+```bash
+# Both should show the same content
+ls -la /path/to/lidarr/downloads
+```
+
+4. Restart both containers after fixing volume mounts.
 
 ### Downloads fail with authentication errors
 
