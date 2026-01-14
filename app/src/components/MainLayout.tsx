@@ -17,6 +17,7 @@ import { DialogUpdateWarning } from "./Dialog/DialogUpdateWarning";
 import { Footer } from "./Layout/Footer";
 import { HeaderSearch } from "./Layout/HeaderSearch";
 import { ProcessingButton } from "./Processing/ProcessingButton";
+import { DocumentTitle } from "./DocumentTitle";
 
 function MainLayout({ children }: { children: ReactNode }) {
   const [appLoaded, setAppLoaded] = useState(false);
@@ -49,6 +50,7 @@ function MainLayout({ children }: { children: ReactNode }) {
         <SearchProvider>
           <HistoryProvider>
             <ProcessingProvider>
+              <DocumentTitle />
               <SyncProvider>
                 <Content>
                   <AppBar id="app-bar" position="sticky">

@@ -9,15 +9,16 @@ Tidarr notable changes.
 To be more compliant with tiddl process, `/shared/.processing` is now abstracted by Tidarr.
 After download and post-processing finished, files are moved to `download_path` and then deleted from `/shared/.processing`.
 
-
 ### 🚀 Added
 - [API] ⚠️ Tidarr downloads now to `download_path` toml config for better compliance with Tiddl
 - [API] Add `PLAYLIST_ALBUMS` env var to download complete albums of each track of a playlist #584
+- [Front] Add back button to processing pages
+- [Front] Add processing state and count in browser tab
 ### 🐛 Fixed
 - [Front] Fix download links on processing page
 ### 🖍 Changes
 - [API] Run all post processing step as async spawn to avoid blocking. #581
-
+- [Front] Add url hash navigation for home tabs
 
 ## 📦 1.1.2
 ### 🚀 Added
