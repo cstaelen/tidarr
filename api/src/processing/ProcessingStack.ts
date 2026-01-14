@@ -1,6 +1,6 @@
 import { Express, Response } from "express";
 
-import { PROCESSING_PATH } from "../../constants";
+import { NZB_DOWNLOAD_PATH, PROCESSING_PATH } from "../../constants";
 import { getAppInstance } from "../helpers/app-instance";
 import {
   addItemToFile,
@@ -265,9 +265,6 @@ export const ProcessingStack = () => {
       // Kill the process if it exists and is running
       await killProcess(currentItem.process, currentItem.id);
 
-      // Clean up files
-      cleanFolder(currentItem.id);
-
       // Clean up outputs
       outputs.delete(String(currentItem.id));
       outputs.set(String(currentItem.id), []);
@@ -327,6 +324,11 @@ export const ProcessingStack = () => {
     }
 
     const child = tidalDL(item.id, app, async () => {
+      if (item.source === "lidarr") {
+        postProcessingLidarr(item);
+        return;
+      }
+
       if (playlistId) deletePlaylist(playlistId, item.id);
       postProcessing(item);
       return;
@@ -335,6 +337,25 @@ export const ProcessingStack = () => {
     if (child) {
       item["process"] = child;
     }
+  }
+
+  async function shouldPostProcessing(
+    item: ProcessingItemType,
+    processingPath: string,
+  ): Promise<boolean> {
+    const hasFile = await hasFileToMove(processingPath);
+
+    if (!hasFile) {
+      item["status"] = "finished";
+      updateItem(item);
+      logs(item.id, "⚠️ [TIDARR] No file to process.");
+
+      await updateItemInQueueFile(item);
+
+      return false;
+    }
+
+    return true;
   }
 
   async function closePostProcessing(
@@ -355,50 +376,47 @@ export const ProcessingStack = () => {
     updateItem(item);
   }
 
+  async function postProcessingLidarr(item: ProcessingItemType) {
+    // Stop if there is no file to process (maybe existing)
+    const processingPath = `${NZB_DOWNLOAD_PATH}/${item.id}`;
+    const shouldPostProcess = await shouldPostProcessing(item, processingPath);
+
+    if (!shouldPostProcess) return;
+
+    logs(
+      item.id,
+      "📦 [LIDARR] Lidarr-managed download: skipping Tidarr post-processing",
+    );
+    await closePostProcessing(
+      item,
+      `✅ [LIDARR] Download complete. Ready for Lidarr import: ${processingPath}`,
+    );
+
+    return;
+  }
+
   async function postProcessing(item: ProcessingItemType) {
     logs(item.id, "---------------------");
     logs(item.id, "⚙️ POST PROCESSING   ");
     logs(item.id, "---------------------");
+
+    const processingPath = `${PROCESSING_PATH}/${item.id}`;
 
     if (item["status"] === "error") {
       logs(item.id, "⚠️ [TIDDL] An error occured while downloading.");
       return;
     }
 
-    // 1. Stop if there is no file to process (maybe existing)
+    // Stop if there is no file to process (maybe existing)
     // -------
 
-    const shouldPostProcess = await hasFileToMove(
-      `${PROCESSING_PATH}/${item.id}`,
-    );
+    const shouldPostProcess = await shouldPostProcessing(item, processingPath);
 
     if (!shouldPostProcess) {
-      item["status"] = "finished";
-      updateItem(item);
-      logs(item.id, "⚠️ [TIDARR] No file to process.");
-
-      await updateItemInQueueFile(item);
-
       return;
     }
 
-    // 2. Lidarr-managed workflow: skip post-processing, leave files in .processing
-    // -------
-
-    if (item.source === "lidarr") {
-      logs(
-        item.id,
-        "📦 [LIDARR] Lidarr-managed download: skipping Tidarr post-processing",
-      );
-      await closePostProcessing(
-        item,
-        `✅ [LIDARR] Download complete. Ready for Lidarr import: ${PROCESSING_PATH}/${item.id}`,
-      );
-
-      return;
-    }
-
-    // 3. Standard Tidarr workflow (non-Lidarr items)
+    // Standard Tidarr workflow (non-Lidarr items)
     // -------
 
     // Execute custom script if exists

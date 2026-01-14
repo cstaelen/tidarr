@@ -96,18 +96,21 @@ export async function handleAddUrlRequest(req: Request, res: Response) {
 }
 
 /**
+ * Shared delete handler for both queue and history
  * GET /api/sabnzbd?mode=queue&name=delete&value=<nzo_id>
- * Removes an item from the download queue
+ * GET /api/sabnzbd?mode=history&name=delete&value=<nzo_id>
+ * Removes an item from the processing stack
  */
-export async function handleQueueDeleteRequest(
+export async function handleDeleteRequest(
   req: Request,
   res: Response,
+  source: "queue" | "history",
 ): Promise<Response> {
   try {
     const { value } = req.query;
 
     if (!value || typeof value !== "string") {
-      console.log("[SABnzbd] Delete request missing nzo_id");
+      console.log(`[SABnzbd] Delete request missing nzo_id (${source})`);
       return res.json(createErrorResponse("Missing nzo_id parameter"));
     }
 
@@ -116,7 +119,7 @@ export async function handleQueueDeleteRequest(
     const itemId = extractItemIdFromNzoId(nzoId);
 
     console.log(
-      `[SABnzbd] Delete request for nzo_id: ${nzoId} (item ID: ${itemId})`,
+      `[SABnzbd] Delete request for nzo_id: ${nzoId} (item ID: ${itemId}) from ${source}`,
     );
 
     const app = getAppInstance();
@@ -129,18 +132,18 @@ export async function handleQueueDeleteRequest(
     // Check if item exists
     const item = processingStack.actions.getItem(itemId);
     if (!item) {
-      console.log(`[SABnzbd] Item ${itemId} not found in queue`);
+      console.log(`[SABnzbd] Item ${itemId} not found in ${source}`);
       return res.json(createErrorResponse("Item not found"));
     }
 
     // Remove the item from the processing stack
     await processingStack.actions.removeItem(itemId);
 
-    console.log(`[SABnzbd] Successfully removed item ${itemId} from queue`);
+    console.log(`[SABnzbd] Successfully removed item ${itemId} from ${source}`);
 
     return res.json(createSuccessResponse([nzoId]));
   } catch (error) {
-    console.error("[SABnzbd] Error in queue delete:", error);
+    console.error(`[SABnzbd] Error in ${source} delete:`, error);
     return res.json(createErrorResponse(String(error)));
   }
 }
@@ -155,7 +158,7 @@ export function handleQueueRequest(req: Request, res: Response) {
 
   // Handle queue delete operations
   if (name === "delete") {
-    return handleQueueDeleteRequest(req, res);
+    return handleDeleteRequest(req, res, "queue");
   }
 
   try {
@@ -216,6 +219,13 @@ export function handleQueueRequest(req: Request, res: Response) {
  * Maps Tidarr finished/error items to SABnzbd history format
  */
 export function handleHistoryRequest(req: Request, res: Response) {
+  const { name } = req.query;
+
+  // Handle history delete operations
+  if (name === "delete") {
+    return handleDeleteRequest(req, res, "history");
+  }
+
   try {
     const app = getAppInstance();
     const processingStack = app.locals.processingStack;

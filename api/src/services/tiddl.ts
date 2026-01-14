@@ -3,6 +3,7 @@ import { Express, Request, Response } from "express";
 
 import {
   CONFIG_PATH,
+  NZB_DOWNLOAD_PATH,
   PROCESSING_PATH,
   TOKEN_REFRESH_THRESHOLD,
 } from "../../constants";
@@ -49,8 +50,12 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   args.push("download");
 
-  // Use PROCESSING_PATH constant for download location
-  args.push("--path", `${PROCESSING_PATH}/${item.id}`);
+  if (item.source === "lidarr") {
+    // Use PROCESSING_PATH constant for download location
+    args.push("--path", `${NZB_DOWNLOAD_PATH}/${item.id}`);
+  } else {
+    args.push("--path", `${PROCESSING_PATH}/${item.id}`);
+  }
 
   if (item.type === "mix" && config?.templates?.mix) {
     args.push("-o", config.templates.mix);

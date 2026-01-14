@@ -5,7 +5,11 @@ import { promisify } from "util";
 
 const execAsync = promisify(exec);
 
-import { CONFIG_PATH, PROCESSING_PATH } from "../../constants";
+import {
+  CONFIG_PATH,
+  NZB_DOWNLOAD_PATH,
+  PROCESSING_PATH,
+} from "../../constants";
 import { getAppInstance } from "../helpers/app-instance";
 import { ProcessingItemType } from "../types";
 
@@ -62,9 +66,18 @@ export async function moveAndClean(id: string): Promise<{
 export async function cleanFolder(
   itemId?: string,
 ): Promise<"finished" | "error"> {
+  const app = getAppInstance();
+  const item: ProcessingItemType | undefined =
+    itemId && app.locals.processingStack.actions.getItem(itemId);
+
+  let processingPath = PROCESSING_PATH;
+  if (itemId && item && item.source === "lidarr") {
+    processingPath = NZB_DOWNLOAD_PATH;
+  }
+
   const targetPath = itemId
-    ? `${PROCESSING_PATH}/${itemId}`
-    : `${PROCESSING_PATH}/*`;
+    ? `${processingPath}/${itemId}`
+    : `${processingPath}/*`;
 
   // Check if target exists before attempting to remove
   if (itemId) {
@@ -74,7 +87,7 @@ export async function cleanFolder(
     }
   } else {
     // For wildcard cleanup, check if processing folder exists
-    if (!fs.existsSync(PROCESSING_PATH)) {
+    if (!fs.existsSync(processingPath)) {
       return "finished";
     }
   }

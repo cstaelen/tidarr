@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 
-import { PROCESSING_PATH } from "../../../constants";
 import { ProcessingItemType } from "../../types";
 
 /**
@@ -51,15 +50,6 @@ export function parseMultipartNzb(
 
 // Constants
 const SABNZBD_VERSION = "3.0.0";
-
-// Helper to get paths from tiddl config
-function getMusicDir(): string {
-  return PROCESSING_PATH || "/music";
-}
-
-function getProcessingDir(): string {
-  return PROCESSING_PATH;
-}
 
 // Helper functions
 export function createNzoId(itemId: string): string {
@@ -121,10 +111,7 @@ export function mapItemToHistorySlot(item: ProcessingItemType) {
 
   // Lidarr-managed downloads: point to .processing folder for import
   // Tidarr downloads: already moved to music library
-  const downloadPath =
-    item.source === "lidarr"
-      ? `${getProcessingDir()}/${item.id}`
-      : getMusicDir();
+  const downloadPath = `/downloads/${item.id}`;
 
   return {
     status: isCompleted ? "Completed" : "Failed",
@@ -163,8 +150,8 @@ export function handleVersionRequest(req: Request, res: Response) {
  * Required by Lidarr to validate the download client
  */
 export function handleGetConfigRequest(req: Request, res: Response) {
-  const musicDir = getMusicDir();
-  const processingDir = getProcessingDir();
+  const musicDir = "/downloads";
+  const processingDir = "/downloads";
 
   res.json({
     config: {
