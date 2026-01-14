@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 
-import { NZB_DOWNLOAD_PATH } from "../../../constants";
 import { ProcessingItemType } from "../../types";
 
 /**
@@ -151,8 +150,8 @@ export function handleVersionRequest(req: Request, res: Response) {
  * Required by Lidarr to validate the download client
  */
 export function handleGetConfigRequest(req: Request, res: Response) {
-  const musicDir = NZB_DOWNLOAD_PATH;
-  const processingDir = NZB_DOWNLOAD_PATH;
+  const musicDir = "/downloads";
+  const processingDir = "/downloads";
 
   res.json({
     config: {

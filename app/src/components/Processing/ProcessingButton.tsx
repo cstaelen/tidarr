@@ -13,7 +13,9 @@ export const ProcessingButton = () => {
   const navigate = useNavigate();
 
   const isLoading = processingList
-    ? processingList?.filter((item) => item?.loading === true)?.length > 0
+    ? processingList?.filter(
+        (item) => item?.loading === true || item.status === "processing",
+      )?.length > 0
     : false;
   const hasError = processingList
     ? processingList?.filter((item) => item?.status === "error")?.length > 0

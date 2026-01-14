@@ -24,6 +24,7 @@ See [Lidarr Integration Guide](LIDARR_INTEGRATION.md) for more details.
 - [Front] Add processing state and count in browser tab
 ### 🐛 Fixed
 - [Front] Fix download links on processing page
+- [Lidarr] Fixx delete request from Lidarr queue
 ### 🖍 Changes
 - [API] Run all post processing step as async spawn to avoid blocking. #581
 - [Front] Add url hash navigation for home tabs
