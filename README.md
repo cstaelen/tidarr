@@ -32,7 +32,6 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Download History](#download-history)
   - [Replay Gain](#replay-gain)
   - [Playlist Albums](#playlist-albums)
-  - [Override Download Path](#override-download-path)
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-integration)
