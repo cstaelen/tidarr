@@ -19,6 +19,8 @@ import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 
+import BackButton from "../Buttons/BackButton";
+
 export default function ProcessingList() {
   const [isRemoving, setIsRemoving] = useState(false);
   const { actions: apiActions } = useApiFetcher();
@@ -65,6 +67,7 @@ export default function ProcessingList() {
       <ModuleTitle
         title="Download queue"
         total={processingList?.length}
+        leftBlock={<BackButton />}
         rightBlock={
           <Box
             display="flex"

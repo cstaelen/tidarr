@@ -4,10 +4,12 @@ import { Box, Stack, Typography } from "@mui/material";
 export function ModuleTitle({
   title,
   total,
+  leftBlock,
   rightBlock,
 }: {
   title: string;
   total?: number;
+  leftBlock?: ReactElement;
   rightBlock?: ReactElement;
 }) {
   if (!title) return <br />;
@@ -21,10 +23,13 @@ export function ModuleTitle({
         gap={2}
         sx={{ borderBottom: "1px solid white" }}
       >
-        <Typography variant="h2" sx={{ flex: "1 1 0" }}>
-          {title.toLowerCase() === "featured albums" ? "Albums" : title}{" "}
-          {total ? `(${total})` : ""}
-        </Typography>
+        <Box display="flex" flexGrow="1" alignItems="center" gap={2}>
+          {leftBlock}
+          <Typography variant="h2" sx={{ flex: "1 1 0" }}>
+            {title.toLowerCase() === "featured albums" ? "Albums" : title}{" "}
+            {total ? `(${total})` : ""}
+          </Typography>
+        </Box>
         <Box display="flex" alignItems="center" gap={2}>
           {rightBlock}
         </Box>

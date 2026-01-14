@@ -18,6 +18,8 @@ import { DownloadButton } from "src/components/Buttons/DownloadButton";
 import { ModuleTitle } from "src/components/TidalModule/Title";
 import { useSync } from "src/provider/SyncProvider";
 
+import BackButton from "../Buttons/BackButton";
+
 export default function WatchList() {
   const {
     syncList,
@@ -33,6 +35,7 @@ export default function WatchList() {
       <ModuleTitle
         title={`Watch list`}
         total={syncList?.length || 0}
+        leftBlock={<BackButton />}
         rightBlock={
           <Box
             display="flex"
