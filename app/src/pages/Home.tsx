@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Box, Container, Portal, Tab, Tabs, useTheme } from "@mui/material";
 import MyFavorites from "src/components/Home/MyFavorites";
 import MyMixes from "src/components/Home/MyMixes";
@@ -30,11 +31,48 @@ function TabPanel(props: TabPanelProps) {
 
 export default function HomeTabs() {
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Map tab indices to hash values
+  const tabHashes = React.useMemo(
+    () => ["trends", "my-mixes", "my-playlists", "my-favorites"],
+    [],
+  );
+
+  // Get initial tab from URL hash
+  const getInitialTab = () => {
+    const hash = location.hash.replace("#", "");
+    const index = tabHashes.indexOf(hash);
+    return index >= 0 ? index : 0;
+  };
+
+  const [value, setValue] = React.useState(getInitialTab());
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+    // Update URL hash when tab changes
+    navigate(`#${tabHashes[newValue]}`, { replace: true });
   };
+
+  // Listen for hash changes and update active tab
+  React.useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace("#", "");
+      const index = tabHashes.indexOf(hash);
+      if (index >= 0 && index !== value) {
+        setValue(index);
+      }
+    };
+
+    // Add event listener for hash changes
+    window.addEventListener("hashchange", handleHashChange);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, [value, tabHashes]);
 
   return (
     <Box sx={{ bgcolor: "background.paper" }}>

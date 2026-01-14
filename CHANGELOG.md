@@ -17,6 +17,8 @@ After download and post-processing finished, files are moved to `download_path` 
 - [Front] Fix download links on processing page
 ### 🖍 Changes
 - [API] Run all post processing step as async spawn to avoid blocking. #581
+- [Front] Add back button to processing pages
+- [Front] Add url hash navigation for home tabs
 
 
 ## 📦 1.1.2
