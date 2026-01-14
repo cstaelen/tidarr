@@ -53,7 +53,7 @@ export function useProcessingFormat() {
         title,
         type,
         quality,
-        status: "queue",
+        status: "queue_download",
         loading: true,
         error: false,
         url,

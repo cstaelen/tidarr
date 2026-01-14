@@ -108,7 +108,7 @@ export const DownloadButton = ({
       data-testid="btn-dl"
       color={status === "finished" ? "success" : "primary"}
       endIcon={
-        status === "queue" ? (
+        status === "queue_download" || status === "queue_processing" ? (
           <AccessTimeIcon />
         ) : status === "error" ? (
           <WarningIcon color="error" />

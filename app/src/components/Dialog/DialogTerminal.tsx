@@ -113,7 +113,6 @@ const Pre = styled.pre`
 `;
 
 const TerminalButton = styled(Button)`
-  margin: 0 0.5rem 0 0;
   min-width: 0;
   padding: 0;
 `;

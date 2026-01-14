@@ -7,8 +7,8 @@ import path from "path";
 import { setAppInstance } from "./src/helpers/app-instance";
 import { get_tiddl_config } from "./src/helpers/get_tiddl_config";
 import { gracefulShutdown } from "./src/helpers/gracefull_shutdown";
-import { cleanFolder } from "./src/processing/jobs";
-import { ProcessingStack } from "./src/processing/ProcessingStack";
+import { cleanFolder } from "./src/processing/utils/jobs";
+import { ProcessingStack } from "./src/processing/core/ProcessingStack";
 import { setupProxies } from "./src/proxies";
 // Import routers
 import apiKeyRouter from "./src/routes/api-key";

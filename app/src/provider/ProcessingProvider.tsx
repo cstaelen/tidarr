@@ -74,7 +74,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
     const itemToQueue: ProcessingItemType = {
       ...item,
-      status: "queue",
+      status: "queue_download",
       loading: true,
       error: false,
     };

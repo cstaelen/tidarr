@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
-import { Block } from "@mui/icons-material";
+import { Block, CoffeeMaker, MoreHoriz } from "@mui/icons-material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -11,6 +11,7 @@ import {
   CircularProgress,
   TableCell,
   TableRow,
+  Tooltip,
 } from "@mui/material";
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 import { ProcessingItemType } from "src/types";
@@ -29,22 +30,28 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
 
   return (
     <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-      <TableCell>
+      <TableCell width="6rem">
         <Box sx={{ alignItems: "center", display: "flex", flex: "0 0 auto" }}>
           <RemoveButton onClick={() => actions.removeItem(item.id)}>
             <ClearIcon />
           </RemoveButton>
-          {status === "finished" ? (
-            <CheckIcon color="success" />
-          ) : status === "error" ? (
-            <WarningIcon color="error" />
-          ) : status === "queue" ? (
-            <AccessTimeIcon />
-          ) : status === "no_download" ? (
-            <Block color="disabled" />
-          ) : (
-            <CircularProgress size={20} />
-          )}
+          <Tooltip title={status}>
+            {status === "finished" ? (
+              <CheckIcon color="success" />
+            ) : status === "error" ? (
+              <WarningIcon color="error" />
+            ) : status === "queue_download" ? (
+              <AccessTimeIcon />
+            ) : status === "queue_processing" ? (
+              <MoreHoriz />
+            ) : status === "processing" ? (
+              <CoffeeMaker />
+            ) : status === "no_download" ? (
+              <Block color="disabled" />
+            ) : (
+              <CircularProgress size={24} />
+            )}
+          </Tooltip>
           {status === "error" ? (
             <>
               &nbsp;&nbsp;
@@ -54,10 +61,8 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
             </>
           ) : null}
           &nbsp;&nbsp;
-          {item.status !== "queue" && item.status !== "no_download" && (
-            <DialogTerminal item={item} />
-          )}
-          {status}
+          {item.status !== "queue_download" &&
+            item.status !== "no_download" && <DialogTerminal item={item} />}
         </Box>
       </TableCell>
       <TableCell scope="row">

@@ -1,6 +1,5 @@
-import { getAppInstance } from "../helpers/app-instance";
-import { ProcessingItemType } from "../types";
-
+import { getAppInstance } from "../../helpers/app-instance";
+import { ProcessingItemType } from "../../types";
 import { logs } from "./logs";
 
 /**
@@ -84,7 +83,7 @@ export async function getPlaylistAlbums(itemId: string): Promise<void> {
           id: `album-${albumId}-${Date.now()}-${Math.random().toString(36).substring(7)}`,
           url: `album/${albumId}`,
           type: "album",
-          status: "queue",
+          status: "queue_download",
           loading: false,
           artist: albumInfo.artist,
           title: albumInfo.title,

@@ -1,7 +1,7 @@
 import { spawn } from "child_process";
 
 import { getAppInstance } from "../helpers/app-instance";
-import { logs } from "../processing/logs";
+import { logs } from "../processing/utils/logs";
 
 /**
  * Apply ReplayGain tags to audio files using rsgain

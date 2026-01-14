@@ -117,7 +117,7 @@ export const process_sync_list = async (app: Express) => {
       title: element.title,
       type: element.type,
       quality: element.quality,
-      status: "queue",
+      status: "queue_download",
       loading: true,
       error: false,
       url: element.url,

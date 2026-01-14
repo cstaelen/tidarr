@@ -182,8 +182,12 @@ export function handleQueueRequest(req: Request, res: Response) {
     const slots = data
       .filter(
         (item: ProcessingItemType) =>
-          ["queue", "processing"].includes(item.status) &&
-          item.source === "lidarr",
+          [
+            "queue_download",
+            "download",
+            "queue_processing",
+            "processing",
+          ].includes(item.status) && item.source === "lidarr",
       )
       .map((item: ProcessingItemType) => mapItemToQueueSlot(item, isPaused));
 
