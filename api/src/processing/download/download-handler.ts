@@ -3,13 +3,12 @@ import { Express } from "express";
 import { tidalDL } from "../../services/tiddl";
 import { ProcessingItemType } from "../../types";
 import { logs } from "../utils/logs";
-
 import {
   addTracksToPlaylist,
   createNewPlaylist,
   deletePlaylist,
   getTracksByMixId,
-} from "./mix-to-playlist";
+} from "../utils/mix-to-playlist";
 
 /**
  * Prepares a mix for download by converting it to a Tidal playlist

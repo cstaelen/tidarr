@@ -89,26 +89,21 @@ export const ProcessingStack = () => {
   }
 
   function addOutputLog(id: string, message: string, replaceLast?: boolean) {
-    // Ensure id is a string for Map storage
     const idString = String(id);
+
     if (!outputs.has(idString)) {
       outputs.set(idString, []);
     }
 
-    const outputArray = outputs.get(idString);
-    if (outputArray) {
-      if (replaceLast && outputArray.length > 0) {
-        // Replace the last output instead of pushing
-        outputArray[outputArray.length - 1] = message;
-      } else {
-        // Push new message
-        outputArray.push(message);
-      }
+    const outputArray = outputs.get(idString)!;
+
+    if (replaceLast && outputArray.length > 0) {
+      outputArray[outputArray.length - 1] = message;
+    } else {
+      outputArray.push(message);
     }
 
-    // Notify connected clients about the output update
-    const currentOutput = getItemOutput(idString);
-    notifyItemOutput(app, id, currentOutput);
+    notifyItemOutput(app, idString, getItemOutput(idString));
   }
 
   async function addItem(item: ProcessingItemType) {
@@ -218,19 +213,21 @@ export const ProcessingStack = () => {
   async function pauseQueue() {
     queueManager.setPaused(true);
 
-    // Find items currently being downloaded or post-processed
     const downloadingItem = data.find((item) => item.status === "download");
 
-    // Kill and reset downloading item
     if (downloadingItem) {
       await killProcess(downloadingItem.process, downloadingItem.id);
-      outputs.delete(String(downloadingItem.id));
-      outputs.set(String(downloadingItem.id), []);
       downloadingItem.status = "queue_download";
       delete downloadingItem.process;
+
+      outputs.set(String(downloadingItem.id), []);
+
+      await Promise.all([
+        updateItemInQueueFile(downloadingItem),
+        cleanFolder(downloadingItem.id),
+      ]);
+
       updateItem(downloadingItem);
-      await updateItemInQueueFile(downloadingItem);
-      await cleanFolder(downloadingItem.id);
     }
 
     notifySSEConnections(app);

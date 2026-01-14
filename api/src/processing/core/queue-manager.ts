@@ -1,6 +1,6 @@
 import { Express } from "express";
 
-import { ProcessingItemType } from "../../types";
+import { ProcessingItemType, ProcessingItemWithPlaylist } from "../../types";
 import { handleDownload } from "../download/download-handler";
 import { postProcessLidarr } from "../post-processing/lidarr-post-processor";
 import { postProcessTidarr } from "../post-processing/tidarr-post-processor";
@@ -61,8 +61,10 @@ export class QueueManager {
   async processQueue(): Promise<void> {
     if (this.isPaused) return;
 
-    // Check download slot (max 1)
     const isDownloading = this.data.some((item) => item.status === "download");
+    const isPostProcessing = this.data.some(
+      (item) => item.status === "processing",
+    );
 
     if (!isDownloading) {
       const nextDownload = this.data.find(
@@ -74,11 +76,6 @@ export class QueueManager {
         this.startDownload(nextDownload);
       }
     }
-
-    // Check post-processing slot (max 1)
-    const isPostProcessing = this.data.some(
-      (item) => item.status === "processing",
-    );
 
     if (!isPostProcessing) {
       const nextPostProcess = this.data.find(
@@ -100,7 +97,7 @@ export class QueueManager {
       // Download completed
       delete item.process;
 
-      // For Lidarr items, go straight to post-processing
+      // For LIDARR items, go straight to post-processing
       if (item.source === "lidarr") {
         item.status = "processing";
         this.updateItemCallback(item);
@@ -116,13 +113,12 @@ export class QueueManager {
         return;
       }
 
-      // For Tidarr items, move to post-processing queue
+      // For TIDARR items, move to post-processing queue
       item.status = "queue_processing";
 
       // Store playlistId for cleanup after post-processing
       if (playlistId) {
-        (item as ProcessingItemType & { playlistId?: string }).playlistId =
-          playlistId;
+        (item as ProcessingItemWithPlaylist).playlistId = playlistId;
       }
 
       this.updateItemCallback(item);

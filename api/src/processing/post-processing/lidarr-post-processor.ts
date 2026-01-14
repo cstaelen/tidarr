@@ -13,31 +13,22 @@ export async function postProcessLidarr(
   onComplete: () => void,
 ) {
   const processingPath = `${NZB_DOWNLOAD_PATH}/${item.id}`;
-
-  // Check if there are files to process
   const hasFile = await hasFileToMove(processingPath);
 
   if (!hasFile) {
     logs(item.id, "⚠️ [LIDARR] No file to process.");
-    item["status"] = "finished";
-    onComplete();
-    return;
+  } else {
+    logs(
+      item.id,
+      "📦 [LIDARR] Lidarr-managed download: skipping Tidarr post-processing",
+    );
+    logs(item.id, "---------------------");
+    logs(
+      item.id,
+      `✅ [LIDARR] Download complete. Ready for Lidarr import: ${processingPath}`,
+    );
   }
 
-  // Lidarr will handle all post-processing
-  logs(
-    item.id,
-    "📦 [LIDARR] Lidarr-managed download: skipping Tidarr post-processing",
-  );
-
-  logs(item.id, "---------------------");
-  logs(
-    item.id,
-    `✅ [LIDARR] Download complete. Ready for Lidarr import: ${processingPath}`,
-  );
-
-  item["status"] = "finished";
-
-  // Trigger completion callback
+  item.status = "finished";
   onComplete();
 }

@@ -7,8 +7,7 @@ import { ntfyPush } from "../../services/ntfy";
 import { plexUpdate } from "../../services/plex";
 import { hookPushOver } from "../../services/pushover";
 import { applyReplayGain } from "../../services/rsgain";
-import { ProcessingItemType } from "../../types";
-import { deletePlaylist } from "../download/mix-to-playlist";
+import { ProcessingItemType, ProcessingItemWithPlaylist } from "../../types";
 import {
   executeCustomScript,
   getFolderToScan,
@@ -18,8 +17,8 @@ import {
   setPermissions,
 } from "../utils/jobs";
 import { logs } from "../utils/logs";
-
-import { getPlaylistAlbums } from "../utils/queue-playlist-albums";
+import { deletePlaylist } from "../utils/mix-to-playlist";
+import { getPlaylistAlbums } from "../utils/playlist-albums";
 
 /**
  * Checks if an item should proceed with post-processing
@@ -93,8 +92,7 @@ export async function postProcessTidarr(
   await moveAndClean(item.id);
 
   // Clean up mix playlist if needed
-  const playlistId = (item as ProcessingItemType & { playlistId?: string })
-    .playlistId;
+  const playlistId = (item as ProcessingItemWithPlaylist).playlistId;
   if (playlistId) {
     deletePlaylist(playlistId, item.id);
   }

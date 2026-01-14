@@ -36,6 +36,10 @@ export type ProcessingItemType = {
   source?: "lidarr" | "tidarr"; // Origin of the download request
 };
 
+export type ProcessingItemWithPlaylist = ProcessingItemType & {
+  playlistId?: string;
+};
+
 export type TiddlConfig = {
   enable_cache?: boolean;
   debug?: boolean;

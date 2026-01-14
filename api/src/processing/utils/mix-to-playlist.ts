@@ -1,6 +1,7 @@
 import { getAppInstance } from "../../helpers/app-instance";
 import { ProcessingItemType } from "../../types";
-import { logs } from "../utils/logs";
+
+import { logs } from "./logs";
 
 export async function getTracksByMixId(item: ProcessingItemType) {
   const app = getAppInstance();
