@@ -1,12 +1,7 @@
 import { OpenInNew } from "@mui/icons-material";
-import {
-  Box,
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-} from "@mui/material";
+import { Box, Button, List, ListItem, ListItemText } from "@mui/material";
+
+import { ModuleTitle } from "../TidalModule/Title";
 
 interface DocLink {
   title: string;
@@ -45,9 +40,7 @@ const docLinks: DocLink[] = [
 export default function DocsPanel() {
   return (
     <Box>
-      <Typography variant="body1" color="text.secondary" sx={{ my: 2 }}>
-        Quick access to documentation resources
-      </Typography>
+      <ModuleTitle title="Documentation resources" />
       <List>
         {docLinks.map((doc) => (
           <ListItem

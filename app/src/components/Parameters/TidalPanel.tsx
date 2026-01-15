@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Cached,
   Check,
@@ -11,13 +12,16 @@ import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useHistoryProvider } from "src/provider/HistoryProvider";
 
+import { ModuleTitle } from "../TidalModule/Title";
+
 import TiddlConfigEdit from "./tidal/TiddlConfigEdit";
 import TiddlConfigList from "./tidal/TiddlConfigList";
 
 export default function TidalPanel() {
-  const { tokenMissing, actions } = useConfigProvider();
+  const { tokenMissing } = useConfigProvider();
   const [showEditor, setShowEditor] = useState<boolean>();
   const [historyFlushed, setHistoryFlushed] = useState<boolean>();
+  const navigate = useNavigate();
 
   const {
     config,
@@ -34,6 +38,7 @@ export default function TidalPanel() {
 
   return (
     <>
+      <ModuleTitle title="Tiddl configuration" />
       {tokenMissing && (
         <Box display="flex" justifyContent="center" my={4}>
           <Alert
@@ -46,7 +51,6 @@ export default function TidalPanel() {
         </Box>
       )}
 
-      <Box component="h2">Tiddl configuration</Box>
       <Box
         flex="0 0 auto"
         component="span"
@@ -69,7 +73,7 @@ export default function TidalPanel() {
             color="warning"
             startIcon={<KeyOff />}
             onClick={async () => {
-              actions.toggleModal(false);
+              navigate("/");
               await delete_token();
               checkAPI();
             }}
@@ -86,6 +90,7 @@ export default function TidalPanel() {
             onClick={async () => {
               setHistoryFlushed(true);
               await emptyHistory();
+              navigate("/");
               window.location.reload();
             }}
           >

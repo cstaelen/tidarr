@@ -12,6 +12,7 @@ import PageArtist from "./pages/PageArtist";
 import PageMix from "./pages/PageMix";
 import PagePlaylist from "./pages/PagePlaylist";
 import PageTrack from "./pages/PageTrack";
+import { Parameters } from "./pages/Parameters";
 import PageProcessing from "./pages/Processing";
 import Search from "./pages/Search";
 import { APIFetcherProvider } from "./provider/ApiFetcherProvider";
@@ -71,6 +72,7 @@ root.render(
                     <Route path="/album/:id" element={<PageAlbum />} />
                     <Route path="/track/:id" element={<PageTrack />} />
                     <Route path="/processing" element={<PageProcessing />} />
+                    <Route path="/parameters" element={<Parameters />} />
                   </Route>
                 </Route>
               </Routes>

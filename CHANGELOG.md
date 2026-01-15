@@ -6,6 +6,8 @@ Tidarr notable changes.
 ## 📦 1.1.4
 ### 🚀 Added
 - [API] Parallelize download queue and processing queue #581
+### 🖍 Changes
+- [Front] Move parameters from dialog to page
 
 
 ## 📦 1.1.3
