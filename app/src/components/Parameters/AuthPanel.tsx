@@ -118,7 +118,7 @@ export default function AuthPanel() {
 
   return (
     <Box>
-      <ModuleTitle title="Security" />
+      <ModuleTitle title="Authentication" />
 
       {/* Auth Mode Display */}
       <Box mb={3} display="flex" alignItems="center" gap={2}>

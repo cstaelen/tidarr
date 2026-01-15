@@ -10,10 +10,10 @@ dotenv.config({ path: "../.env", override: false, quiet: true });
 test("Edit Config: Should display Tiddl Config tab in settings", async ({
   page,
 }) => {
-  await page.goto("/");
-
-  await page.getByRole("button", { name: "Settings" }).click();
-  await expect(page.getByRole("heading", { name: "Settings" })).toBeVisible();
+  await page.goto("/parameters");
+  await expect(
+    page.getByRole("heading", { name: "News & updates" }),
+  ).toBeVisible();
 
   // Tab Tidal
   await expect(page.getByRole("tab", { name: "Tidal" })).toBeVisible();
