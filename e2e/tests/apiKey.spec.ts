@@ -7,11 +7,13 @@ import { login, oidcLogin } from "./utils/login";
 test("API Key : Should display authentication mode and API key in settings", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/parameters");
 
   // Open settings modal
   await page.getByRole("button", { name: "Settings" }).click();
-  await expect(page.getByRole("heading", { name: "Settings" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "News & Updates" }),
+  ).toBeVisible();
 
   // Navigate to Authentication tab
   await page.getByRole("tab", { name: "Security" }).click();

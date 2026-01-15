@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import Editor from "@monaco-editor/react";
 import { Save } from "@mui/icons-material";
-import { Box, Button, CircularProgress, Portal } from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
 import { useFileEdit } from "src/hooks/useFileEdit";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
+
+import { ModuleTitle } from "../TidalModule/Title";
 
 export default function CustomCSSPanel() {
   const {
@@ -32,6 +34,7 @@ export default function CustomCSSPanel() {
 
   return (
     <Box>
+      <ModuleTitle title="Custom CSS" />
       {isLoading ? (
         <Box display="flex" justifyContent="center" p={2}>
           <CircularProgress />
@@ -42,11 +45,10 @@ export default function CustomCSSPanel() {
             sx={{
               border: "1px solid rgba(255, 255, 255, 0.12)",
               borderRadius: 1,
-              maxHeight: "320px",
             }}
           >
             <Editor
-              height="500px"
+              height="350px"
               defaultLanguage="css"
               theme="vs-dark"
               value={content}
@@ -64,9 +66,7 @@ export default function CustomCSSPanel() {
               }}
             />
           </Box>
-          <Portal
-            container={() => document.getElementById("portal-config-actions")}
-          >
+          <Box textAlign="right" my={2}>
             <Button
               variant="contained"
               onClick={handleSave}
@@ -75,7 +75,7 @@ export default function CustomCSSPanel() {
             >
               {isSaving ? <CircularProgress size={24} /> : "Save & Reload"}
             </Button>
-          </Portal>
+          </Box>
         </>
       )}
     </Box>

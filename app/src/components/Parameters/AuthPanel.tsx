@@ -18,6 +18,8 @@ import {
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useAuth } from "src/provider/AuthProvider";
 
+import { ModuleTitle } from "../TidalModule/Title";
+
 export default function AuthPanel() {
   const { isAuthActive, authType } = useAuth();
   const {
@@ -116,9 +118,7 @@ export default function AuthPanel() {
 
   return (
     <Box>
-      <Box component="h2" mb={2}>
-        Authentication
-      </Box>
+      <ModuleTitle title="Authentication" />
 
       {/* Auth Mode Display */}
       <Box mb={3} display="flex" alignItems="center" gap={2}>

@@ -42,10 +42,11 @@ test("Tidarr config : Should see app version", async ({ page }) => {
 });
 
 test("Tidarr config : Should see configuration dialog", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/parameters");
 
-  await page.getByRole("button", { name: "Settings" }).click();
-  await expect(page.getByRole("heading", { name: "Settings" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "News & updates" }),
+  ).toBeVisible();
 
   // Tab updates
   await expect(page.getByRole("tab", { name: "Updates" })).toBeVisible();
@@ -90,9 +91,9 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     ["PLAYLIST_ALBUMS", ""],
   ];
   const tableAPIRows = await page
-    .locator("#alert-dialog-description div")
+    .getByLabel("simple table")
     .filter({ hasText: "Variable" })
-    .locator("table tbody tr")
+    .locator("tbody tr")
     .all();
 
   expect(tableAPIRows.length).toEqual(dataAPIRows?.length);
@@ -110,10 +111,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     page.getByRole("button", { name: "Revoke Tidal token" }),
   ).toBeInViewport();
 
-  const tiddlTables = await page
-    .locator("#alert-dialog-description div")
-    .locator("table")
-    .all();
+  const tiddlTables = await page.getByLabel("simple table").all();
 
   expect(tiddlTables.length).toEqual(5);
 });
@@ -126,7 +124,9 @@ test("Tidarr config : Should see update button", async ({ page }) => {
   await expect(page.getByText("Update available")).toBeVisible();
   await page.getByText("Update available").click();
   // Tab updates
-  await expect(page.getByRole("tab", { name: "Updates" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "News & Updates" }),
+  ).toBeVisible();
   await expect(page.getByText("Update available: 9.9.9")).toBeVisible();
   await expect(page.getByText("docker compose pull tidarr")).toBeVisible();
 });
@@ -134,19 +134,18 @@ test("Tidarr config : Should see update button", async ({ page }) => {
 test("Tidarr config : Should display Docs tab with documentation links", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/parameters");
 
-  await page.getByRole("button", { name: "Settings" }).click();
-  await expect(page.getByRole("heading", { name: "Settings" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "News & updates" }),
+  ).toBeVisible();
 
   // Click on Docs tab
   await expect(page.getByRole("tab", { name: "Docs" })).toBeVisible();
   await page.getByRole("tab", { name: "Docs" }).click();
 
   // Check description
-  await expect(
-    page.getByText("Quick access to documentation resources"),
-  ).toBeVisible();
+  await expect(page.getByText("Documentation resources")).toBeVisible();
 
   // Check all documentation links
   const expectedDocs = [

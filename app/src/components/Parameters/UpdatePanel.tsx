@@ -3,11 +3,14 @@ import Markdown from "markdown-to-jsx";
 import { TIDARR_REPO_URL } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
+import { ModuleTitle } from "../TidalModule/Title";
+
 export default function UpdatePanel() {
   const { config, isUpdateAvailable, releaseData, changeLogData } =
     useConfigProvider();
   return (
     <>
+      <ModuleTitle title="News & Updates" />
       <p>Current version: Tidarr {config?.TIDARR_VERSION}</p>
       {isUpdateAvailable ? (
         <>

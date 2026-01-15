@@ -9,7 +9,6 @@ import { SyncProvider } from "src/provider/SyncProvider";
 import { useConfigProvider } from "../provider/ConfigProvider";
 import { ProcessingProvider } from "../provider/ProcessingProvider";
 
-import { DialogConfig } from "./Dialog/DialogConfig";
 import { DialogConfigError } from "./Dialog/DialogConfigError";
 import { DialogNoAPI } from "./Dialog/DialogNoAPI";
 import { DialogToken } from "./Dialog/DialogToken";
@@ -72,7 +71,6 @@ function MainLayout({ children }: { children: ReactNode }) {
                 <DialogToken />
                 <DialogNoAPI />
                 <DialogConfigError />
-                <DialogConfig />
                 <DialogUpdateWarning />
               </SyncProvider>
             </ProcessingProvider>

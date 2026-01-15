@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { GitHub } from "@mui/icons-material";
 import { Button, Link, useTheme } from "@mui/material";
@@ -6,7 +7,8 @@ import { useConfigProvider } from "src/provider/ConfigProvider";
 import { customColors } from "src/utils/theme";
 
 export const Footer = () => {
-  const { isUpdateAvailable, actions, config } = useConfigProvider();
+  const { isUpdateAvailable, config } = useConfigProvider();
+  const navigate = useNavigate();
   const theme = useTheme();
 
   return (
@@ -26,7 +28,7 @@ export const Footer = () => {
         <Button
           size="small"
           sx={{ color: customColors.alert }}
-          onClick={() => actions.toggleModal(true)}
+          onClick={() => navigate("/parameters")}
           color="warning"
         >
           <strong>Update available</strong>

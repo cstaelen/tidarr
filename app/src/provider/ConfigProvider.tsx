@@ -23,9 +23,7 @@ type ConfigContextType = {
   config: undefined | ConfigParametersType;
   tiddlConfig: undefined | ConfigTiddleType;
   configErrors: undefined | string[];
-  isConfigModalOpen: boolean;
   actions: {
-    toggleModal: (isOpen: boolean) => void;
     checkAPI: () => void;
     checkForUpdates: () => void;
     setQuality: (quality: QualityType) => void;
@@ -40,7 +38,6 @@ const ConfigContext = React.createContext<ConfigContextType>(
 
 export function ConfigProvider({ children }: { children: ReactNode }) {
   const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
-  const [isConfigModalOpen, setIsConfigModalOpen] = useState<boolean>(false);
   const [tokenMissing, setTokenMissing] = useState(false);
   const [releaseData, setReleaseData] = useState<ReleaseGithubType>();
   const [changeLogData, setChangeLogData] = useState<string[]>([]);
@@ -57,11 +54,6 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const {
     actions: { get_settings },
   } = useApiFetcher();
-
-  // Open/close config modal
-  const toggleModal = (isOpen: boolean) => {
-    setIsConfigModalOpen(isOpen);
-  };
 
   // Check API
   const checkAPI = async () => {
@@ -123,11 +115,9 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     config,
     quality,
     display,
-    isConfigModalOpen,
     tiddlConfig,
     configErrors,
     actions: {
-      toggleModal,
       checkAPI,
       checkForUpdates,
       setQuality,
