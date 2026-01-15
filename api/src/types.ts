@@ -25,6 +25,7 @@ export type ProcessingItemType = {
     | "download"
     | "queue_processing"
     | "processing"
+    | "queue" // legacy
     | "finished"
     | "error"
     | "no_download";
