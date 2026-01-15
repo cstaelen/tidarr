@@ -2,7 +2,7 @@ import { spawn } from "child_process";
 
 import { CONFIG_PATH, PROCESSING_PATH } from "../../constants";
 import { getAppInstance } from "../helpers/app-instance";
-import { logs } from "../processing/logs";
+import { logs } from "../processing/utils/logs";
 import { ProcessingItemType } from "../types";
 
 function spawnBeet(

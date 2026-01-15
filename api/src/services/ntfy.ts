@@ -2,7 +2,7 @@ import { exec } from "child_process";
 import { promisify } from "util";
 
 import { curl_escape_double_quote } from "../helpers/curl_escape";
-import { logs } from "../processing/logs";
+import { logs } from "../processing/utils/logs";
 import { ProcessingItemType } from "../types";
 
 const execAsync = promisify(exec);

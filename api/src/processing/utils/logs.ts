@@ -1,4 +1,4 @@
-import { getAppInstance } from "../helpers/app-instance";
+import { getAppInstance } from "../../helpers/app-instance";
 
 import { stripAnsiCodes } from "./ansi-parse";
 

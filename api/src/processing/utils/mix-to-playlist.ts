@@ -1,5 +1,5 @@
-import { getAppInstance } from "../helpers/app-instance";
-import { ProcessingItemType } from "../types";
+import { getAppInstance } from "../../helpers/app-instance";
+import { ProcessingItemType } from "../../types";
 
 import { logs } from "./logs";
 
@@ -83,7 +83,7 @@ export async function createNewPlaylist(item: ProcessingItemType) {
   return json.data.id;
 }
 
-export async function deletePlaylist(playlistId: number, itemId: string) {
+export async function deletePlaylist(playlistId: string, itemId: string) {
   const app = getAppInstance();
   const tiddlConfig = app.locals.tiddlConfig;
 

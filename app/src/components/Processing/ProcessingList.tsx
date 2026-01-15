@@ -119,7 +119,7 @@ export default function ProcessingList() {
             <TableHead>
               <TableRow>
                 <TableCell>
-                  <strong>Processing list</strong>
+                  <strong>Status</strong>
                 </TableCell>
                 <TableCell>Title</TableCell>
                 <TableCell>Artist</TableCell>

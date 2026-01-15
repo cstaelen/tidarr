@@ -355,10 +355,11 @@ export type ProcessingItemType = {
   quality: QualityType;
   type: ContentType;
   status:
-    | "queue"
-    | "finished"
-    | "beet"
+    | "queue_download"
+    | "download"
+    | "queue_processing"
     | "processing"
+    | "finished"
     | "error"
     | "no_download";
   url: string;

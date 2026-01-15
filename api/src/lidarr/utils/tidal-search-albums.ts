@@ -76,7 +76,7 @@ export async function addAlbumToQueue(id: string): Promise<void> {
       artist: getAlbumArtist(albumData),
       title: albumData.title,
       type: "album" as const,
-      status: "queue" as const,
+      status: "queue_download" as const,
       quality: app.locals.tiddlConfig?.download?.track_quality || "high",
       url: `album/${id}`,
       loading: true,

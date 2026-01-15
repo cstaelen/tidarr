@@ -23,9 +23,8 @@ test("NO_DOWNLOAD: Should set items to 'no_download' status when NO_DOWNLOAD is 
 
   // Verify item is in the list with "no_download" status
   await expect(page.getByLabel("Processing table")).toContainText("In Utero");
-  await expect(page.getByLabel("Processing table")).toContainText(
-    "no_download",
-  );
+  await expect(page.getByText("No download mode is active")).toBeVisible();
+  await expect(page.getByLabel("no_download")).toBeVisible();
 });
 
 test("NO_DOWNLOAD: Should not display pause button when NO_DOWNLOAD is enabled", async ({

@@ -5,7 +5,7 @@
 
 import { Response } from "express";
 
-import { ProcessingStack } from "./processing/ProcessingStack";
+import { ProcessingStack } from "./processing/core/processing-manager";
 
 declare global {
   namespace Express {

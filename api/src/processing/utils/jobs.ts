@@ -9,9 +9,9 @@ import {
   CONFIG_PATH,
   NZB_DOWNLOAD_PATH,
   PROCESSING_PATH,
-} from "../../constants";
-import { getAppInstance } from "../helpers/app-instance";
-import { ProcessingItemType } from "../types";
+} from "../../../constants";
+import { getAppInstance } from "../../helpers/app-instance";
+import { ProcessingItemType } from "../../types";
 
 import { logs } from "./logs";
 

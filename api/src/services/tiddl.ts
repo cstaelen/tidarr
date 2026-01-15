@@ -8,8 +8,8 @@ import {
   TOKEN_REFRESH_THRESHOLD,
 } from "../../constants";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
-import { extractFirstLineClean } from "../processing/ansi-parse";
-import { logs } from "../processing/logs";
+import { extractFirstLineClean } from "../processing/utils/ansi-parse";
+import { logs } from "../processing/utils/logs";
 import { ProcessingItemType, TiddlConfig } from "../types";
 
 // Constants
@@ -158,6 +158,8 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     } else {
       logs(item.id, `❌ [TIDDL] Tiddl process exited with code ${code})`);
     }
+
+    console.log("hasProcessingError", hasProcessingError);
 
     item["status"] =
       !isDownloaded || hasProcessingError ? "error" : item["status"];

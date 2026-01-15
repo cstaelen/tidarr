@@ -20,13 +20,24 @@ export type ProcessingItemType = {
   artist: string;
   title: string;
   type: ContentType;
-  status: "queue" | "finished" | "processing" | "error" | "no_download";
+  status:
+    | "queue_download"
+    | "download"
+    | "queue_processing"
+    | "processing"
+    | "finished"
+    | "error"
+    | "no_download";
   quality: QualityType;
   url: string;
   loading: boolean;
   error: boolean;
   process?: ChildProcess;
   source?: "lidarr" | "tidarr"; // Origin of the download request
+};
+
+export type ProcessingItemWithPlaylist = ProcessingItemType & {
+  playlistId?: string;
 };
 
 export type TiddlConfig = {
