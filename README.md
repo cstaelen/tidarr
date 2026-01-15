@@ -344,7 +344,7 @@ environment:
   - PLEX_URL=<url|ip:port>
   - PLEX_LIBRARY=<music_library_id>
   - PLEX_TOKEN=<x-plex-token>
-  # Optional - if not set, update whole library
+  # Plex path to the library root 
   - PLEX_PATH=/path/to/music/library
 ```
 
