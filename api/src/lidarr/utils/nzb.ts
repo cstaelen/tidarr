@@ -78,7 +78,7 @@ export function mapItemToQueueSlot(
   isPaused: boolean,
 ) {
   let status = "Queued";
-  if (item.status === "processing") {
+  if (item.status === "download") {
     status = isPaused ? "Paused" : "Downloading";
   } else if (isPaused) {
     status = "Paused";
@@ -98,7 +98,7 @@ export function mapItemToQueueSlot(
     filename: `${item.artist} - ${item.title}`,
     priority: "Normal",
     cat: "music",
-    percentage: item.status === "processing" ? "50" : "0",
+    percentage: item.status === "download" ? "50" : "0",
     nzo_id: createNzoId(item.id),
     unpackopts: "3",
     labels: [],
