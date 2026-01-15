@@ -3,6 +3,11 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.1.4
+### 🚀 Added
+- [API] Parallelize download queue and processing queue #581
+
+
 ## 📦 1.1.3
 
 ⚠️ **Update your `download_path` with your final output path** (music library)
