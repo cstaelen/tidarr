@@ -5,7 +5,9 @@ Tidarr notable changes.
 
 ## 📦 1.1.5
 ### 🖍 Changes
-- [Front] Adjust token renew intervale
+- [API] Adjust token renew intervale
+### 🐛 Fixed
+- [API] Re-queue processing item from file after failed
 
 ## 📦 1.1.4
 ### 🚀 Added
