@@ -60,26 +60,31 @@ export async function configureServer() {
  * Checks if token needs refresh based on expires_at timestamp
  * Only refreshes if token is expired or expiring soon (< TOKEN_REFRESH_THRESHOLD)
  * @param tiddlConfig - Current TiddlConfig to check expiry
+ * @param forceReload - Force reload config from disk even if token doesn't need refresh
  * @returns Promise with updated TiddlConfig and errors
  */
 export async function refreshAndReloadConfig(
   tiddlConfig?: TiddlConfig,
+  forceReload = false,
 ): Promise<{ config: TiddlConfig; errors: string[] }> {
-  // Skip refresh if token is still valid
-  if (!shouldRefreshToken(tiddlConfig)) {
-    // If config is already loaded and valid, return it without re-reading files
-    if (tiddlConfig) {
-      return { config: tiddlConfig, errors: [] };
-    }
-    // Otherwise load config from disk (first time only)
+  // Check if token needs refresh
+  const needsRefresh = shouldRefreshToken(tiddlConfig);
+
+  // If token needs refresh, do it
+  if (needsRefresh) {
+    await refreshTidalToken(true, tiddlConfig);
+  }
+
+  // Always reload config from disk if forceReload is true or token was refreshed
+  if (forceReload || needsRefresh) {
     return get_tiddl_config();
   }
 
-  // Refresh token using the centralized function
-  await refreshTidalToken(true, tiddlConfig);
+  // Otherwise, if config is already loaded and valid, return it
+  if (tiddlConfig) {
+    return { config: tiddlConfig, errors: [] };
+  }
 
-  // Reload config after refresh completes
-  const result = get_tiddl_config();
-
-  return result;
+  // First time loading - read from disk
+  return get_tiddl_config();
 }

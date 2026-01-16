@@ -1,6 +1,6 @@
 import { Express } from "express";
 
-import { TOKEN_CHECK_INTERVAL, TOKEN_REFRESH_THRESHOLD } from "../../constants";
+import { TOKEN_CHECK_INTERVAL } from "../../constants";
 
 import { refreshAndReloadConfig } from "./config";
 
@@ -17,7 +17,7 @@ export function startTokenRefreshInterval(app: Express) {
   }
 
   console.log(
-    `✅ [TOKEN] Token refresh interval started (checks every ${TOKEN_REFRESH_THRESHOLD / 60} minutes)`,
+    `✅ [TOKEN] Token refresh interval started (checks every ${TOKEN_CHECK_INTERVAL / 60000} minutes)`,
   );
 
   // Run immediately on startup

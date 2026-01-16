@@ -24,11 +24,11 @@ debug = false
 
 # if you don't specify the template for a resource
 # then default template will be used.
-default = "albums/{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
+default = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
 
-track = "tracks/{album.artist}/{album.artist} - {item.title_version}"
-video = "videos/{item.artist}/{item.artist} - {item.title}"
-album = "albums/{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
+track = "{album.artist}/{album.date:%Y} - {album.title}/{album.artist} - {item.title_version}"
+video = "{album.artist}/videos/{item.artist}/{item.artist} - {item.title}"
+album = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
 playlist = "playlists/{playlist.title}/{playlist.index:02d}. {item.artist} - {item.title_version}"
 
 # Mixes are processed as playlist to get more metadatas
@@ -117,13 +117,13 @@ allowed = [
 # you must set path templates if you want to save cover files.
 
 # you can access: {item}, {album}
-# track = "tracks/{item.id}"
+# track = "{album.artist}/{album.date:%Y} - {album.title}/{album.artist} - {item.title_version}"
 
 # you can access: {album}
-# album = "albums/{album.artist} - {album.title}"
+# album = "{album.artist}/{album.date:%Y} - {album.title}/{album.artist} - {album.title}"
 
 # you can access: {playlist}
-# playlist = "playlists/{title}"
+# playlist = "playlists/{playlist.title}/{title}"
 
 
 [m3u]
