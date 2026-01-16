@@ -65,7 +65,7 @@ export default function TiddlConfigEdit() {
               }}
             />
           </Box>
-          <Box textAlign="right" my={2}>
+          <Box justifyContent="right" my={2} display="flex" gap={2}>
             <Button
               variant="contained"
               onClick={handleSave}

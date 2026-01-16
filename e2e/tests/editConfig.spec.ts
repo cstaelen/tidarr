@@ -80,9 +80,6 @@ test("Edit Config: Should save TOML config to API and persist", async ({
   await page.getByRole("tab", { name: "Tidal" }).click();
   await page.getByRole("button", { name: "Toggle editor" }).click();
 
-  const newToml = `[download]
-track_quality = "low"`;
-
   // Wait for Monaco editor to load
   await page.locator(".monaco-editor").waitFor();
 
@@ -91,14 +88,23 @@ track_quality = "low"`;
 
   // Select all and replace
   await page.keyboard.press("Control+A");
-  await page.keyboard.type(newToml);
+  await page.keyboard.press("Enter");
+  await page.keyboard.type("[download]");
+  await page.keyboard.press("Enter");
+  await page.keyboard.type('track_quality = "low"');
+  await page.keyboard.press("Enter");
 
   await expect(
     page.getByRole("button", { name: "Save & Reload" }),
   ).toBeEnabled();
   await page.getByRole("button", { name: "Save & Reload" }).click();
 
-  await page.getByRole("button", { name: "Settings" }).click();
+  await page.waitForLoadState("load");
+  await page.waitForTimeout(500);
+
+  await expect(page.locator("a").filter({ hasText: "Tidarr" })).toBeVisible();
+
+  await expect(page.getByRole("tab", { name: "Tidal" })).toBeVisible();
   await page.getByRole("tab", { name: "Tidal" }).click();
   await page.getByRole("button", { name: "Toggle editor" }).click();
 

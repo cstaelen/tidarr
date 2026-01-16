@@ -21,9 +21,9 @@ router.get(
       // Get config from app.locals (already loaded on startup)
       let tiddl_config = res.app.locals.tiddlConfig;
 
-      // Refresh and reload if token needs it (expired or expiring soon)
-      // refreshAndReloadConfig checks internally via shouldRefreshToken()
-      const refreshed = await refreshAndReloadConfig(tiddl_config);
+      // Force reload config from disk to detect config.toml changes
+      // This ensures we always have the latest download path and quality settings
+      const refreshed = await refreshAndReloadConfig(tiddl_config, true);
       tiddl_config = refreshed.config;
       const configErrors = refreshed.errors;
 
