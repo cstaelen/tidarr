@@ -8,6 +8,8 @@ Tidarr notable changes.
 - [API] Adjust token renew intervale
 ### 🐛 Fixed
 - [API] Re-queue processing item from file after failed
+- [API] Fix terminal dialog cancel button state
+- [Front] Fix download error handler
 
 ## 📦 1.1.4
 ### 🚀 Added

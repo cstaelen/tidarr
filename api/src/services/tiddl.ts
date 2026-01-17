@@ -96,7 +96,11 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   child.stdout?.on("data", (data: string) => {
     const lines = data?.split("\r");
-    const errorLines = lines.filter((line) => line.includes("[31mError:\x1B"));
+    const errorLines = lines.filter(
+      (line) =>
+        line.includes("[31mError:\x1B") ||
+        line.includes("Cannot connect to host"),
+    );
     if (errorLines.length > 0) {
       hasProcessingError = true;
     }
