@@ -66,11 +66,13 @@ export const ProcessingStack = () => {
     const records = await loadQueueFromFile();
     records.forEach((record) => {
       // Reset any items that were in-progress during a crash back to appropriate state
-      if (record.status === "download" || record.status === "queue") {
+      if (
+        record.status === "download" ||
+        record.status === "queue" ||
+        record.status === "processing" ||
+        record.status === "queue_processing"
+      ) {
         record.status = "queue_download";
-      }
-      if (record.status === "processing") {
-        record.status = "queue_processing";
       }
 
       addItem(record);
