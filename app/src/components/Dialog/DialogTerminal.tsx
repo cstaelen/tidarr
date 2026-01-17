@@ -29,6 +29,10 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
     }
   }, [openOutput, connect, disconnect]);
 
+  const isProcessing = ["processing", "download", "queue_processing"].includes(
+    item.status,
+  );
+
   return (
     <div>
       <TerminalButton
@@ -60,14 +64,14 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
           <Box flex="1 1 0" gap={2} display="flex">
             <Button
               variant="outlined"
-              color={item.status === "processing" ? "error" : "primary"}
+              color={isProcessing ? "error" : "primary"}
               startIcon={<Cancel />}
               onClick={() => {
                 setOpenOutput(false);
                 actions.removeItem(item.id);
               }}
             >
-              {item.status === "processing" ? "Cancel" : "Remove"}
+              {isProcessing ? "Cancel" : "Remove"}
             </Button>
             {item.status === "error" && (
               <Button
