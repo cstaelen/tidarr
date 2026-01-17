@@ -295,3 +295,31 @@ test("Tidarr search : Should have two display mode", async ({ page }) => {
   await scrollTo(itemLocator2);
   await expect(itemLocator2).toHaveScreenshot();
 });
+
+test("Tidarr search : Should display video mixes correctly", async ({
+  page,
+}) => {
+  // Navigate to home and check mixes
+  await page.goto("/");
+  await page.getByText("My Mixes").click();
+  await waitForImgLoaded(page);
+
+  // Video mixes should have "See videos" button instead of download/sync
+  await expect(page.getByRole("button", { name: "See videos" })).toHaveCount(8);
+
+  // Click to navigate to the video mix page
+  await page.getByRole("button", { name: "See videos" }).first().click();
+  await waitForLoader(page);
+
+  // Verify we're on the mix page
+  await expect(page.getByText("Video Mix")).toBeVisible();
+
+  // Verify the page shows videos, not tracks
+  await expect(page.getByText(/\d+ videos/)).toBeVisible();
+
+  // Video mixes should NOT have download/sync buttons on the detail page
+  await expect(page.getByRole("button", { name: "Get mix" })).not.toBeVisible();
+
+  // Should display video items
+  await countItems(".MuiContainer-root", 50, page);
+});

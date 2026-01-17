@@ -5,6 +5,7 @@ import mockArtist from "../mocks/artist.json";
 import mockArtistPager from "../mocks/artist_pager.json";
 import mockHome from "../mocks/home.json";
 import mockMix from "../mocks/mix.json";
+import mockMixVideos from "../mocks/mix_videos.json";
 import mockMyFavoriteAlbums from "../mocks/my_favorite_albums.json";
 import mockMyFavoriteArtists from "../mocks/my_favorite_artists.json";
 import mockMyFavoriteMixes from "../mocks/my_favorite_mixes.json";
@@ -61,6 +62,12 @@ export async function mockTidalQueries(page: Page) {
     "**/proxy/tidal/v1/pages/mix?countryCode=FR&deviceType=BROWSER&locale=en_US&mixId=00166fec481604e645532e233b958b",
     async (route) => {
       await route.fulfill({ json: mockMix });
+    },
+  );
+  await page.route(
+    "**/proxy/tidal/v1/pages/mix?countryCode=FR&deviceType=BROWSER&locale=en_US&mixId=0041ea97471dd336fde017d66d76cb",
+    async (route) => {
+      await route.fulfill({ json: mockMixVideos });
     },
   );
   await page.route(
