@@ -107,7 +107,7 @@ export type MixType = {
     LARGE: MixImageType;
   };
   sharingImages: null;
-  mixType: "TRACK_MIX";
+  mixType: "TRACK_MIX" | "VIDEO_DAILY_MIX";
   mixNumber: null;
   master: boolean;
   detailImages: {

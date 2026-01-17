@@ -31,11 +31,21 @@ interface ModuleContentProps {
 export default function Module(props: ModuleContentProps) {
   const { display } = useConfigProvider();
 
-  function getCols(breakpoint: string) {
+  function getCols(breakpoint: string, itemType: string) {
     if (!props.type) return;
-    const isTrack = ["TRACK_LIST", "ALBUM_ITEMS"].includes(props.type);
+
+    const isTrack =
+      ["TRACK_LIST", "ALBUM_ITEMS"].includes(props.type) &&
+      itemType !== "Music Video" &&
+      itemType !== "Live";
+
+    const isVideo =
+      ["VIDEO_LIST"].includes(props.type) ||
+      itemType === "Music Video" ||
+      itemType === "Live";
+
     const isDisplaySmall = display === "small";
-    const isVideo = ["VIDEO_LIST"].includes(props.type);
+
     switch (breakpoint) {
       case "xs":
         return 12;
@@ -77,8 +87,8 @@ export default function Module(props: ModuleContentProps) {
               data-testid="item"
               size={{
                 xs: 12,
-                md: getCols("md"),
-                lg: getCols("lg"),
+                md: getCols("md", (data as VideoType).type),
+                lg: getCols("lg", (data as VideoType).type),
               }}
               key={`album-${index}`}
             >
@@ -86,7 +96,9 @@ export default function Module(props: ModuleContentProps) {
                 <AlbumCard album={data as AlbumType} />
               ) : props.type === "ARTIST_LIST" ? (
                 <Artist artist={data as ArtistType} />
-              ) : props.type === "TRACK_LIST" ? (
+              ) : props.type === "TRACK_LIST" &&
+                (data as VideoType).type !== "Music Video" &&
+                (data as VideoType).type !== "Live" ? (
                 <Track track={data as TrackType} />
               ) : props.type === "ALBUM_ITEMS" ? (
                 <Track track={(data as ModuleItemLevelType<TrackType>)?.item} />
@@ -112,7 +124,9 @@ export default function Module(props: ModuleContentProps) {
                     (data as ModuleItemLevelType<PlaylistType>)?.playlist
                   }
                 />
-              ) : props.type === "VIDEO_LIST" ? (
+              ) : props.type === "VIDEO_LIST" ||
+                (data as VideoType).type === "Music Video" ||
+                (data as VideoType).type === "Live" ? (
                 <VideoCard video={data as VideoType} />
               ) : null}
             </Grid>

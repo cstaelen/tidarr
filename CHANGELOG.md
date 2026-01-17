@@ -10,6 +10,7 @@ Tidarr notable changes.
 - [API] Re-queue processing item from file after failed
 - [API] Fix terminal dialog cancel button state
 - [Front] Fix download error handler
+- [Front] Fix video daily mixes pages
 
 ## 📦 1.1.4
 ### 🚀 Added
