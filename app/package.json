@@ -7,7 +7,7 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.7",
     "@mui/material": "^7.3.7",
-    "@types/node": "^25.0.6",
+    "@types/node": "^25.0.9",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
@@ -39,7 +39,7 @@
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
     "ansi-to-react": "^6.1.6",
-    "markdown-to-jsx": "^9.5.6",
+    "markdown-to-jsx": "^9.5.7",
     "monaco-editor": "^0.55.1"
   }
 }
