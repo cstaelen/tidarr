@@ -16,10 +16,7 @@ cat << "EOF"
 EOF
 echo "----------------------------------------"
 
-# Detect environment mode (default: production)
-MODE=${NODE_ENV:-production}
-
-if [ "$MODE" = "development" ]; then
+if [ "$ENVIRONMENT" = "development" ]; then
   echo " DEVELOPMENT MODE - VERSION: ${VERSION:-unknown}"
 else
   echo " PRODUCTION MODE - VERSION: ${VERSION:-unknown}"

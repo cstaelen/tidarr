@@ -50,8 +50,9 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   args.push("download");
 
+  args.push("--skip-errors");
+
   if (item.source === "lidarr") {
-    // Use PROCESSING_PATH constant for download location
     args.push("--path", `${NZB_DOWNLOAD_PATH}/${item.id}`);
   } else {
     args.push("--path", `${PROCESSING_PATH}/${item.id}`);

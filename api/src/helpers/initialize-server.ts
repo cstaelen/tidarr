@@ -66,19 +66,18 @@ export function initializeFiles(): string {
     }
 
     // Copy custom.css if it doesn't exist
-    const customCssPath = join(SHARED_URL, "custom.css");
-    if (!existsSync(customCssPath)) {
-      copyFileSync(join(PUBLIC_URL, "custom.css"), customCssPath);
-      output.push("✅ [CSS] Custom style file created");
-    }
-
-    // Copy custom.css to appropriate location based on environment
-    const targetCssPath =
+    const publicCss =
       process.env.ENVIRONMENT === "development"
         ? join(DEV_PUBLIC_URL, "custom.css")
         : join(PUBLIC_URL, "custom.css");
 
-    copyFileSync(customCssPath, targetCssPath);
+    const customCssPath = join(SHARED_URL, "custom.css");
+    if (!existsSync(customCssPath)) {
+      copyFileSync(publicCss, customCssPath);
+      output.push("✅ [CSS] Custom style file created");
+    }
+
+    copyFileSync(customCssPath, publicCss);
     output.push("✅ [CSS] Load custom styles");
   } catch (error) {
     output.push(`❌ [TIDARR] Failed to initialize files: ${error}`);

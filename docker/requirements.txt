@@ -5,4 +5,4 @@ pylast
 
 beets[fetchart, lastgenre, lastimport, advancedrewrite]
 
-tiddl == 3.1.5
+tiddl == 3.2.0
