@@ -12,6 +12,8 @@ import { extractFirstLineClean } from "../processing/utils/ansi-parse";
 import { logs } from "../processing/utils/logs";
 import { ProcessingItemType, TiddlConfig } from "../types";
 
+import { checkAndRefreshToken } from "./token-refresh";
+
 // Constants
 const TIDDL_BINARY = "tiddl";
 
@@ -140,7 +142,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     }
   });
 
-  child.on("close", (code) => {
+  child.on("close", async (code) => {
     const currentOutput = app.locals.processingStack.actions.getItemOutput(
       item.id,
     );
@@ -150,9 +152,18 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       currentOutput.includes(msg),
     );
     if (hasAuthError) {
-      console.log("LOGOUT");
-      code = 401;
-      deleteTiddlConfig();
+      logs(
+        item.id,
+        "⚠️ [TIDDL] Authentication error detected, attempting token refresh...",
+      );
+
+      // This should rarely happen thanks to automatic token refresh interval
+      const refreshSuccess = await checkAndRefreshToken(app);
+
+      if (refreshSuccess) {
+        deleteTiddlConfig();
+      }
+      code = 401; // Mark as auth error
     }
 
     const isDownloaded =

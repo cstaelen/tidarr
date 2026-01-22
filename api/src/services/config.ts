@@ -60,6 +60,11 @@ export async function refreshAndReloadConfig(): Promise<{
   config: TiddlConfig;
   errors: string[];
 }> {
-  await ensureFreshToken();
+  // Try to ensure fresh token, but don't fail if no token exists
+  try {
+    await ensureFreshToken();
+  } catch (error) {
+    console.log(`❌ [Tidarr] Refresh token failed: ${error}`);
+  }
   return getFreshTiddlConfig();
 }

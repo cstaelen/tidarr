@@ -33,15 +33,18 @@ export function stopTokenRefreshInterval() {
   }
 }
 
-async function checkAndRefreshToken(app: Express) {
+/** Check token and refresh if needed, updating app.locals.tiddlConfig */
+export async function checkAndRefreshToken(app: Express): Promise<boolean> {
   try {
     await ensureFreshToken();
     const { config: freshConfig } = getFreshTiddlConfig();
     app.locals.tiddlConfig = freshConfig;
+    return !!freshConfig?.auth?.token;
   } catch (error) {
     console.error(
       "❌ [TOKEN] Refresh check error:",
       error instanceof Error ? error.message : error,
     );
+    return false;
   }
 }
