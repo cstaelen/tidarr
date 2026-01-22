@@ -235,6 +235,7 @@ export interface TidalAlbum {
   duration?: number;
   type: string;
   audioQuality: string;
+  explicit?: boolean;
 }
 
 export interface TidalSearchResponse {

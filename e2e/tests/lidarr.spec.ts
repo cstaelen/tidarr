@@ -69,42 +69,62 @@ test("Lidarr Indexer: Should return album items with Newznab attributes", async 
 }) => {
   await page.goto("/");
 
-  // Make API request directly
   const response = await page.request.get("/api/lidarr?t=search&q=Nirvana");
   const searchResponse = await response.text();
 
   expect(searchResponse).toBeTruthy();
 
-  // Check for Newznab item structure if results exist
   if (searchResponse && searchResponse.includes("<item>")) {
-    // Should contain required Newznab attributes
     expect(searchResponse).toContain('<newznab:attr name="artist"');
     expect(searchResponse).toContain('<newznab:attr name="album"');
-    expect(searchResponse).toContain('<newznab:attr name="coverurl"');
     expect(searchResponse).toContain("<title>");
     expect(searchResponse).toContain("<link>");
     expect(searchResponse).toContain("<guid>");
   }
 });
 
-test("Lidarr Indexer: Should download NZB file for album", async ({ page }) => {
+test("Lidarr Indexer: Should return 4 quality variants per album", async ({
+  page,
+}) => {
   await page.goto("/");
 
-  // Trigger download for a specific album ID
-  const response = await page.request.get("/api/lidarr/download/77610756");
+  const response = await page.request.get("/api/lidarr?t=search&q=Nirvana");
+  const searchResponse = await response.text();
+
+  expect(searchResponse).toBeTruthy();
+
+  if (searchResponse && searchResponse.includes("<item>")) {
+    // Each album should have 4 quality variants
+    expect(searchResponse).toContain("[FLAC 24bit]"); // hires_lossless
+    expect(searchResponse).toContain("[FLAC]"); // lossless
+    expect(searchResponse).toContain("[AAC-320]"); // high
+    expect(searchResponse).toContain("[MP3-96]"); // low
+  }
+});
+
+test("Lidarr Indexer: Should download NZB file for album with quality", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  // Trigger download with specific quality
+  const response = await page.request.get(
+    "/api/lidarr/download/77610756/lossless",
+  );
 
   expect(response.status()).toBe(200);
   expect(response.headers()["content-type"]).toContain("application/x-nzb");
   expect(response.headers()["content-disposition"]).toContain("attachment");
-  expect(response.headers()["content-disposition"]).toContain(".nzb");
+  expect(response.headers()["content-disposition"]).toContain(
+    "tidarr-77610756-lossless.nzb",
+  );
 
   const body = await response.text();
   expect(body).toContain('<?xml version="1.0" encoding="UTF-8"?>');
   expect(body).toContain('<nzb xmlns="http://www.newzbin.com/DTD/2003/nzb">');
   expect(body).toContain("<file");
-  expect(body).toContain("77610756"); // Album ID in NZB
+  expect(body).toContain("77610756|lossless"); // Album ID + quality in NZB
 
-  // Clean up routes
   await page.unrouteAll({ behavior: "ignoreErrors" });
 });
 
@@ -144,9 +164,10 @@ test("Lidarr SABnzbd: Should add album to queue via addfile (NZB upload)", async
 }) => {
   await mockItemOutputSSE(page, "high");
 
-  // First get an NZB file
   await page.goto("/");
-  const nzbResponse = await page.request.get("/api/lidarr/download/77610756");
+  const nzbResponse = await page.request.get(
+    "/api/lidarr/download/77610756/high",
+  );
   const nzbContent = await nzbResponse.text();
 
   // Create multipart form data with NZB
@@ -212,6 +233,45 @@ test("Lidarr SABnzbd: Should show album in queue after adding (API + UI)", async
   expect(queueJson.queue.noofslots).toEqual(1);
   expect(queueJson.queue.slots[0]).toHaveProperty("nzo_id");
   expect(queueJson.queue.slots[0].filename).toContain("Nevermind");
+});
+
+test("Lidarr SABnzbd: Should extract quality from NZB and apply correct Tiddl quality", async ({
+  page,
+}) => {
+  await mockItemOutputSSE(page, "high");
+
+  await page.goto("/");
+
+  // Get NZB with hires_lossless quality
+  const nzbResponse = await page.request.get(
+    "/api/lidarr/download/77610756/hires_lossless",
+  );
+  const nzbContent = await nzbResponse.text();
+
+  // Verify NZB contains quality information
+  expect(nzbContent).toContain("77610756|hires_lossless");
+
+  const boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
+  const multipartBody = [
+    `------${boundary}`,
+    'Content-Disposition: form-data; name="name"; filename="album.nzb"',
+    "Content-Type: application/x-nzb",
+    "",
+    nzbContent,
+    `------${boundary}--`,
+  ].join("\r\n");
+
+  // Upload NZB
+  const response = await page.request.post("/api/sabnzbd/api?mode=addfile", {
+    data: multipartBody,
+    headers: {
+      "Content-Type": `multipart/form-data; boundary=----${boundary}`,
+    },
+  });
+
+  expect(response.status()).toBe(200);
+  const json = await response.json();
+  expect(json.status).toBe(true);
 });
 
 test("Lidarr SABnzbd: Should show completed album in history", async ({

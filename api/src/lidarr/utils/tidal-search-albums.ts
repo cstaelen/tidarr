@@ -4,7 +4,7 @@ import { TIDAL_API_URL } from "../../../constants";
 import { getAppInstance } from "../../helpers/app-instance";
 import { TidalAlbum, TidalSearchResponse } from "../../types";
 
-import { getAlbumArtist } from "./lidarr";
+import { getAlbumArtist, mapQualityToTiddl } from "./lidarr";
 
 /**
  * Searches Tidal for albums (for indexer search results)
@@ -31,7 +31,7 @@ export async function searchTidalForLidarr(
     const url = new URL("/v1/search", TIDAL_API_URL);
     url.searchParams.append("query", query);
     url.searchParams.append("countryCode", countryCode);
-    url.searchParams.append("limit", "50"); // Increased from 10 to improve self-titled album matching
+    url.searchParams.append("limit", "20");
     url.searchParams.append("offset", "0");
 
     console.log(`🔎 [Lidarr] Searching album on Tidal...`);
@@ -57,7 +57,10 @@ export async function searchTidalForLidarr(
   }
 }
 
-export async function addAlbumToQueue(id: string): Promise<void> {
+export async function addAlbumToQueue(
+  id: string,
+  quality?: string | null,
+): Promise<void> {
   const app = getAppInstance();
   const tiddlConfig = app.locals.tiddlConfig;
   const countryCode = tiddlConfig?.auth?.country_code || "US";
@@ -71,24 +74,29 @@ export async function addAlbumToQueue(id: string): Promise<void> {
 
   if (response.ok) {
     const albumData = await response.json();
+
+    const tiddlQuality = quality
+      ? mapQualityToTiddl(quality)
+      : app.locals.tiddlConfig?.download?.track_quality || "high";
+
     const processingItem = {
       id: id,
       artist: getAlbumArtist(albumData),
       title: albumData.title,
       type: "album" as const,
       status: "queue_download" as const,
-      quality: app.locals.tiddlConfig?.download?.track_quality || "high",
+      quality: tiddlQuality,
       url: `album/${id}`,
       loading: true,
       error: false,
-      source: "lidarr" as const, // Mark as Lidarr-managed download
+      source: "lidarr" as const,
     };
 
     await app.locals.processingStack.actions.removeItem(processingItem.id);
     await app.locals.processingStack.actions.addItem(processingItem);
 
     console.log(
-      `🕖 [Lidarr] Album "${albumData.title}" (${id}) added to queue`,
+      `🕖 [Lidarr] "${albumData.title}" (${id}) queued → ${tiddlQuality}`,
     );
   }
 }

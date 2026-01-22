@@ -4,11 +4,22 @@ import { ProcessingItemType } from "../../types";
 
 /**
  * Extract album ID from NZB content
- * NZB format: <meta type="title">Tidarr Album {albumId}</meta>
+ * NZB format: <meta type="title">Tidarr Album {albumId}|{quality}</meta>
  */
 export function extractAlbumIdFromNzb(nzbContent: string): string | null {
   const match = nzbContent.match(
-    /<meta type="title">Tidarr Album (\d+)<\/meta>/,
+    /<meta type="title">Tidarr Album (\d+)\|[\w_]+<\/meta>/,
+  );
+  return match ? match[1] : null;
+}
+
+/**
+ * Extract quality from NZB content
+ * NZB format: <meta type="title">Tidarr Album {albumId}|{quality}</meta>
+ */
+export function extractQualityFromNzb(nzbContent: string): string | null {
+  const match = nzbContent.match(
+    /<meta type="title">Tidarr Album \d+\|([\w_]+)<\/meta>/,
   );
   return match ? match[1] : null;
 }

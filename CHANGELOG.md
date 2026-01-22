@@ -6,6 +6,7 @@ Tidarr notable changes.
 ## 📦 1.1.7
 ### 🖍 Changes
 - [Lidarr] Apply replay gain for Lidarr downloads if enabled
+- [Lidarr] Tidarr return results for each quality as a separate album to allow Lidarr to choose the quality to download
 
 ## 📦 1.1.6
 ### 🖍 Changes

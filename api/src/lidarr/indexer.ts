@@ -39,10 +39,9 @@ export async function handleSearchRequest(
   let { q } = params;
   const { artist, album } = params;
 
-  // If no q but artist/album provided (t=music), construct query
   if (!q && (artist || album)) {
     q = [artist, album].filter(Boolean).join(" ");
-    console.log(`[Lidarr] Constructed query from artist/album: "${q}"`);
+    console.log(`[Lidarr] Query: "${q}"`);
   }
 
   if (!q) {
@@ -72,13 +71,21 @@ export async function handleSearchRequest(
   const app = getAppInstance();
   const results = await searchTidalForLidarr(q, app);
 
+  const qualities = ["hires_lossless", "lossless", "high", "low"];
   const items =
     results.length > 0
-      ? results.map((album) => generateNewznabItem(album, req)).join("\n")
+      ? results
+          .flatMap((album) =>
+            qualities.map((quality) =>
+              generateNewznabItem(album, req, quality),
+            ),
+          )
+          .join("\n")
       : "";
 
+  const totalResults = results.length * qualities.length;
   console.log(
-    `${results.length > 0 ? "✅" : "0️⃣"} [Lidarr] Returning ${results.length} results to Lidarr`,
+    `${results.length > 0 ? "✅" : "0️⃣"} [Lidarr] ${totalResults} results (${results.length} albums × ${qualities.length} qualities)`,
   );
 
   res.set("Content-Type", "application/xml");
@@ -97,13 +104,18 @@ ${items}
 </rss>`);
 }
 
-export async function handleDownloadFromLidarr(id: string, res: Response) {
-  console.log(`⬇ [Lidarr] Download triggered for album ID: ${id}`);
+export async function handleDownloadFromLidarr(
+  id: string,
+  res: Response,
+  quality: string,
+) {
+  console.log(`⬇ [Lidarr] Download album ${id} (${quality})`);
 
-  const nzbContent = generateNzbContent(id);
+  const nzbContent = generateNzbContent(id, quality);
   res.set("Content-Type", "application/x-nzb");
-  res.set("Content-Disposition", `attachment; filename="tidarr-${id}.nzb"`);
+  res.set(
+    "Content-Disposition",
+    `attachment; filename="tidarr-${id}-${quality}.nzb"`,
+  );
   res.send(nzbContent);
-
-  console.log(`✅ [Lidarr] Successfully returned NZB for album ${id}`);
 }
