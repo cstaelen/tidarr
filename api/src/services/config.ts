@@ -1,9 +1,10 @@
 import { SYNC_DEFAULT_CRON } from "../../constants";
-import { get_tiddl_config } from "../helpers/get_tiddl_config";
+import {
+  ensureFreshToken,
+  getFreshTiddlConfig,
+} from "../helpers/get-fresh-token";
 import { initializeFiles } from "../helpers/initialize-server";
 import { TiddlConfig } from "../types";
-
-import { refreshTidalToken, shouldRefreshToken } from "./tiddl";
 
 export async function configureServer() {
   console.log(`---------------------`);
@@ -57,34 +58,16 @@ export async function configureServer() {
 
 /**
  * Refresh Tidal token and reload config if needed
- * Checks if token needs refresh based on expires_at timestamp
- * Only refreshes if token is expired or expiring soon (< TOKEN_REFRESH_THRESHOLD)
- * @param tiddlConfig - Current TiddlConfig to check expiry
- * @param forceReload - Force reload config from disk even if token doesn't need refresh
- * @returns Promise with updated TiddlConfig and errors
+ * Uses ensureFreshToken() which handles all refresh logic
+ * @returns Promise with fresh TiddlConfig and errors
  */
-export async function refreshAndReloadConfig(
-  tiddlConfig?: TiddlConfig,
-  forceReload = false,
-): Promise<{ config: TiddlConfig; errors: string[] }> {
-  // Check if token needs refresh
-  const needsRefresh = shouldRefreshToken(tiddlConfig);
+export async function refreshAndReloadConfig(): Promise<{
+  config: TiddlConfig;
+  errors: string[];
+}> {
+  // Ensure token is fresh (will refresh if needed)
+  await ensureFreshToken();
 
-  // If token needs refresh, do it
-  if (needsRefresh) {
-    await refreshTidalToken(true, tiddlConfig);
-  }
-
-  // Always reload config from disk if forceReload is true or token was refreshed
-  if (forceReload || needsRefresh) {
-    return get_tiddl_config();
-  }
-
-  // Otherwise, if config is already loaded and valid, return it
-  if (tiddlConfig) {
-    return { config: tiddlConfig, errors: [] };
-  }
-
-  // First time loading - read from disk
-  return get_tiddl_config();
+  // Always read fresh config from disk (no cache)
+  return getFreshTiddlConfig();
 }

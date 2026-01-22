@@ -18,13 +18,11 @@ router.get(
   ensureAccessIsGranted,
   async (_req: Request, res: Response<SettingsResponse>) => {
     try {
-      // Get config from app.locals (already loaded on startup)
-      let tiddl_config = res.app.locals.tiddlConfig;
-
       // Force reload config from disk to detect config.toml changes
       // This ensures we always have the latest download path and quality settings
-      const refreshed = await refreshAndReloadConfig(tiddl_config, true);
-      tiddl_config = refreshed.config;
+      // refreshAndReloadConfig() now uses ensureFreshToken() internally
+      const refreshed = await refreshAndReloadConfig();
+      const tiddl_config = refreshed.config;
       const configErrors = refreshed.errors;
 
       // Update app.locals with fresh config

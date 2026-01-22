@@ -1,8 +1,7 @@
 import { Express } from "express";
 
 import { TOKEN_CHECK_INTERVAL } from "../../constants";
-
-import { refreshAndReloadConfig } from "./config";
+import { ensureFreshToken, getFreshTiddlConfig } from "../helpers/get-fresh-token";
 
 let tokenRefreshInterval: NodeJS.Timeout | null = null;
 
@@ -42,18 +41,21 @@ export function stopTokenRefreshInterval() {
 
 /**
  * Check if token needs refresh and refresh if needed
+ * Uses ensureFreshToken() which handles all the logic
  */
 async function checkAndRefreshToken(app: Express) {
-  const tiddlConfig = app.locals.tiddlConfig;
+  try {
+    // ensureFreshToken() will check expiry and refresh if needed
+    await ensureFreshToken();
 
-  // If config not loaded yet, skip
-  if (!tiddlConfig) {
-    return;
+    // Update app.locals with fresh config for backward compatibility
+    // (Some routes still use app.locals.tiddlConfig)
+    const { config: freshConfig } = getFreshTiddlConfig();
+    app.locals.tiddlConfig = freshConfig;
+  } catch (error) {
+    console.error(
+      "❌ [TOKEN] Error during token refresh check:",
+      error instanceof Error ? error.message : error,
+    );
   }
-
-  // Refresh token and reload config (will skip if token still valid)
-  const { config: updatedConfig } = await refreshAndReloadConfig(tiddlConfig);
-
-  // Update app.locals with fresh token
-  app.locals.tiddlConfig = updatedConfig;
 }

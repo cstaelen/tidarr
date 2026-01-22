@@ -1,10 +1,9 @@
-import apicache from "apicache";
 import { Express } from "express";
 import proxy from "express-http-proxy";
 
 import { TIDAL_API_URL } from "../constants";
 
-const cache = apicache.middleware;
+import { ensureFreshToken } from "./helpers/get-fresh-token";
 
 /**
  * Configure all API proxies for the application
@@ -14,13 +13,29 @@ const cache = apicache.middleware;
  */
 export function setupProxies(app: Express): void {
   // Tidal API proxy
+  // Note: No cache to ensure fresh token is always used
+  // Automatically adds Authorization header with fresh Tidal token
   app.use(
     "/proxy/tidal",
-    cache("1 minute"),
     proxy(TIDAL_API_URL, {
-      proxyReqOptDecorator: function (proxyReqOpts) {
+      proxyReqOptDecorator: async function (proxyReqOpts) {
         delete proxyReqOpts.headers["referer"];
         delete proxyReqOpts.headers["origin"];
+
+        // Add fresh Tidal token to Authorization header
+        try {
+          const token = await ensureFreshToken();
+          if (!proxyReqOpts.headers) {
+            proxyReqOpts.headers = {};
+          }
+          proxyReqOpts.headers["authorization"] = `Bearer ${token}`;
+        } catch (error) {
+          console.error(
+            "⚠️ [PROXY] Failed to get Tidal token:",
+            error instanceof Error ? error.message : error,
+          );
+        }
+
         return proxyReqOpts;
       },
     }),
