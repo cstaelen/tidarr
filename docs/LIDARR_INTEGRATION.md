@@ -272,11 +272,12 @@ Tidarr implements these SABnzbd-compatible endpoints:
 
 ### Release Processing
 
-**Lidarr-triggered downloads skip Tidarr's post-processing:**
+**Lidarr-triggered downloads use minimal post-processing:**
 
 1. **Download** via Tiddl to `/shared/nzb_downloads/{id}/`
-2. **Status** marked as completed (files stay in place)
-3. **Lidarr import** handles all remaining steps (tagging, renaming, moving to `/music`)
+2. **ReplayGain** applied if enabled in Tidarr settings
+3. **Status** marked as completed (files stay in place)
+4. **Lidarr import** handles all remaining steps (tagging, renaming, moving to `/music`)
 
 **Tidarr UI downloads use the full pipeline:**
 
@@ -285,7 +286,7 @@ Tidarr implements these SABnzbd-compatible endpoints:
 - Move to `/music`
 - Plex/Jellyfin scan, notifications
 
-**Key difference:** Lidarr downloads use a dedicated path (`nzb_downloads`) and skip all Tidarr post-processing to avoid conflicts with Lidarr's own import logic.
+**Key difference:** Lidarr downloads use a dedicated path (`nzb_downloads`) and skip most Tidarr post-processing to avoid conflicts with Lidarr's own import logic. Only ReplayGain is applied before Lidarr import.
 
 ## Troubleshooting
 

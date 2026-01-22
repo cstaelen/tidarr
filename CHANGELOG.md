@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.1.7
+### 🖍 Changes
+- [Lidarr] Apply replay gain for Lidarr downloads if enabled
+
 ## 📦 1.1.6
 ### 🖍 Changes
 - [API] Update Tiddl to 3.2.0
