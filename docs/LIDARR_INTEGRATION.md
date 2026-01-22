@@ -175,58 +175,40 @@ Add Tidarr as a **SABnzbd** download client:
              └──────────────────────────────────┘
 ```
 
+## Quality Selection
+
+Each album is returned **4 times** with different quality variants:
+
+| Quality Tag    | Tidal Quality  | Tiddl CLI | Format                 |
+| -------------- | -------------- | --------- | ---------------------- |
+| `[FLAC 24bit]` | hires_lossless | `max`     | FLAC 24-bit 192kHz     |
+| `[FLAC]`       | lossless       | `high`    | FLAC 16-bit 44.1kHz    |
+| `[AAC-320]`    | high           | `normal`  | M4A 320kbps            |
+| `[MP3-96]`     | low            | `low`     | M4A 96kbps             |
+
+**How Lidarr selects quality:**
+- Lidarr matches albums based on your **Quality Profile** settings
+- Configure quality preferences in **Settings → Profiles → Quality Profiles**
+- Higher quality variants appear first, allowing Lidarr to grab the best available match
+
+**Example search result:**
+```
+Artist - Album (2024) [FLAC 24bit] (12 tracks)  ← Highest quality
+Artist - Album (2024) [FLAC] (12 tracks)
+Artist - Album (2024) [AAC-320] (12 tracks)
+Artist - Album (2024) [MP3-96] (12 tracks)       ← Lowest quality
+```
+
 ## How Search Works
 
-### Search Process
+1. Lidarr sends query → Tidarr searches Tidal (up to 20 albums)
+2. Tidarr returns ALL results with 4 quality variants each (80 total items)
+3. Lidarr's matching algorithm selects the best result based on your preferences
+4. Download triggered with selected quality → Tiddl downloads with correct CLI quality flag
 
-When Lidarr searches for an album, Tidarr:
-
-1. **Receives the query** from Lidarr (either `t=music` with `artist`/`album` params or `t=search` with `q` param)
-2. **Constructs search query**: Combines artist + album for `t=music` requests
-3. **Queries Tidal API**: Searches for matching albums (up to 50 results)
-4. **Returns all results**: Sends all Tidal results back to Lidarr in Newznab XML format
-5. **Lidarr matches**: Lidarr's own matching algorithm selects the best result
-
-**Important**: Tidarr acts as a simple indexer - it returns raw Tidal search results without filtering. Lidarr handles all matching and selection logic.
-
-### What to Expect
-
-✅ **Tidarr will return results for**:
-
-- Any album available on Tidal
-- All editions (Standard, Deluxe, Remastered, etc.)
-- Up to 50 albums per search
-
-⚠️ **Limitations**:
-
-- **Album not on Tidal**: If an album isn't available on Tidal, no results will be returned
-- **Tidal's search algorithm**: Results depend entirely on how Tidal's search API ranks albums
-- **Result limit**: Only the top 50 results from Tidal are returned
-
-### Search Tips
-
-**For best results**:
-
-1. **Ensure album exists on Tidal**
-   - Check Tidal's website/app to verify availability
-   - Not all albums are available due to licensing restrictions
-
-2. **Let Lidarr's matching work**
-   - Lidarr handles all matching logic - Tidarr just provides the raw results
-   - Configure Lidarr's preferences for best matching behavior
-
-3. **Check authentication**
-   - Make sure Tidal auth is still valid in Tidarr settings
-   - Expired tokens will result in no results
-
-### When No Results Are Found
-
-If Lidarr shows no results from Tidarr:
-
-1. **Verify Tidal availability**: Search manually on Tidal to confirm the album exists
-2. **Check Tidarr logs**: See what query was sent to Tidal and how many results returned
-3. **Verify authentication**: Ensure Tidal token is valid in Tidarr settings
-4. **Try manual search**: Use Lidarr's manual search to see all available results
+**Explicit Content:**
+- Albums with explicit content show `[EXPLICIT]` tag in title
+- Example: `Artist - Album (2024) [EXPLICIT] [FLAC] (12 tracks)`
 
 ## Advanced Topics
 

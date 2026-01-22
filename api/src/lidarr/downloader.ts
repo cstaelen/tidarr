@@ -9,6 +9,7 @@ import {
   createSuccessResponse,
   extractAlbumIdFromNzb,
   extractItemIdFromNzoId,
+  extractQualityFromNzb,
   getQueueStatus,
   mapItemToHistorySlot,
   mapItemToQueueSlot,
@@ -69,19 +70,21 @@ export async function handleAddUrlRequest(req: Request, res: Response) {
         return res.json(createErrorResponse("Failed to parse NZB file"));
       }
 
-      // Extract album ID from NZB content
       const albumId = extractAlbumIdFromNzb(nzbContent);
+      const quality = extractQualityFromNzb(nzbContent);
 
       if (!albumId) {
-        console.log("[SABnzbd] Failed to extract album ID from NZB");
+        console.log("[SABnzbd] Invalid NZB - album ID not found");
         return res.json(
           createErrorResponse("Invalid NZB format - album ID not found"),
         );
       }
 
-      console.log(`[SABnzbd] Extracted album ID from NZB: ${albumId}`);
+      console.log(
+        `[SABnzbd] Album ${albumId}${quality ? ` (${quality})` : ""}`,
+      );
 
-      await addAlbumToQueue(albumId);
+      await addAlbumToQueue(albumId, quality);
 
       return res.json(createSuccessResponse([createNzoId(albumId)]));
     }
