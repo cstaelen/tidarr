@@ -21,7 +21,6 @@ import playRouter from "./src/routes/playback";
 import processingRouter from "./src/routes/processing";
 import sseRouter from "./src/routes/sse";
 import syncRouter from "./src/routes/sync";
-import tidalTokenRouter from "./src/routes/tidal-token";
 import tiddlTomlRouter from "./src/routes/tiddl-toml";
 import { getOrCreateApiKey } from "./src/services/api-key";
 import { configureServer } from "./src/services/config";
@@ -82,7 +81,6 @@ app.use("/api", historyRouter);
 app.use("/api", playRouter);
 app.use("/api", apiKeyRouter);
 app.use("/api", lidarrRouter);
-app.use("/api", tidalTokenRouter);
 
 // Run
 

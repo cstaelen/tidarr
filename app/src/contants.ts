@@ -1,5 +1,4 @@
 export const TIDAL_ITEMS_PER_PAGE = 18;
-export const TIDAL_API_URL = "https://api.tidal.com";
 export const TIDAL_ALBUM_URL = "http://www.tidal.com/album/";
 export const TIDAL_MIX_URL = "http://www.tidal.com/mix/";
 export const TIDAL_VIDEO_URL = "http://www.tidal.com/browse/video";

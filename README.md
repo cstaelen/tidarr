@@ -225,16 +225,6 @@ environment:
   - LOCK_QUALITY=true
 ```
 
-### Proxy
-
-You may want to use proxy for tidal server queries to enhance privacy.
-
-```yaml
-environment:
-  - ...
-  - ENABLE_TIDAL_PROXY=true
-```
-
 ### M3U track base path
 
 Default base path used in `.m3u` : `./`

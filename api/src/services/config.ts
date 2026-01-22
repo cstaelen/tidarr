@@ -42,7 +42,6 @@ export async function configureServer() {
         APPRISE_API_TAG: process.env.APPRISE_API_TAG || "",
         PUSH_OVER_URL: process.env.PUSH_OVER_URL || "",
         LOCK_QUALITY: process.env.LOCK_QUALITY || "",
-        ENABLE_TIDAL_PROXY: process.env.ENABLE_TIDAL_PROXY || "",
         SYNC_CRON_EXPRESSION:
           process.env.SYNC_CRON_EXPRESSION || SYNC_DEFAULT_CRON || "",
         NO_DOWNLOAD: process.env.NO_DOWNLOAD || "",
@@ -56,18 +55,11 @@ export async function configureServer() {
   }
 }
 
-/**
- * Refresh Tidal token and reload config if needed
- * Uses ensureFreshToken() which handles all refresh logic
- * @returns Promise with fresh TiddlConfig and errors
- */
+/** Refresh token if needed and reload config from disk */
 export async function refreshAndReloadConfig(): Promise<{
   config: TiddlConfig;
   errors: string[];
 }> {
-  // Ensure token is fresh (will refresh if needed)
   await ensureFreshToken();
-
-  // Always read fresh config from disk (no cache)
   return getFreshTiddlConfig();
 }

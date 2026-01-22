@@ -12,29 +12,34 @@ import { ensureFreshToken } from "./helpers/get-fresh-token";
  * - Navidrome API proxy (optional, requires NAVIDROME_URL, NAVIDROME_USER, NAVIDROME_PASSWORD)
  */
 export function setupProxies(app: Express): void {
-  // Tidal API proxy
-  // Note: No cache to ensure fresh token is always used
-  // Automatically adds Authorization header with fresh Tidal token
+  // Tidal proxy - auto-adds fresh token
   app.use(
     "/proxy/tidal",
+    async (_req, res, next) => {
+      try {
+        await ensureFreshToken();
+        next();
+      } catch (error) {
+        console.error(
+          "⚠️ [PROXY] No Tidal token available:",
+          error instanceof Error ? error.message : error,
+        );
+        res.status(401).json({
+          status: 401,
+          userMessage: "Authentication required. Please log in to Tidal.",
+        });
+      }
+    },
     proxy(TIDAL_API_URL, {
       proxyReqOptDecorator: async function (proxyReqOpts) {
         delete proxyReqOpts.headers["referer"];
         delete proxyReqOpts.headers["origin"];
 
-        // Add fresh Tidal token to Authorization header
-        try {
-          const token = await ensureFreshToken();
-          if (!proxyReqOpts.headers) {
-            proxyReqOpts.headers = {};
-          }
-          proxyReqOpts.headers["authorization"] = `Bearer ${token}`;
-        } catch (error) {
-          console.error(
-            "⚠️ [PROXY] Failed to get Tidal token:",
-            error instanceof Error ? error.message : error,
-          );
+        const token = await ensureFreshToken();
+        if (!proxyReqOpts.headers) {
+          proxyReqOpts.headers = {};
         }
+        proxyReqOpts.headers["authorization"] = `Bearer ${token}`;
 
         return proxyReqOpts;
       },

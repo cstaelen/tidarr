@@ -170,7 +170,6 @@ export interface SettingsResponse {
     APPRISE_API_TAG?: string;
     PUSH_OVER_URL?: string;
     LOCK_QUALITY?: string;
-    ENABLE_TIDAL_PROXY?: string;
     SYNC_CRON_EXPRESSION?: string;
     ENABLE_HISTORY?: string;
   };

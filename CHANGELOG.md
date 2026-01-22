@@ -7,6 +7,8 @@ Tidarr notable changes.
 ### 🖍 Changes
 - [Lidarr] Apply replay gain for Lidarr downloads if enabled
 - [Lidarr] Tidarr return results for each quality as a separate album to allow Lidarr to choose the quality to download
+- [API] Force proxy for all tidal.com requests (ENABLE_TIDAL_PROXY can be removed).
+- [API] Refacto token refresh logic
 
 ## 📦 1.1.6
 ### 🖍 Changes

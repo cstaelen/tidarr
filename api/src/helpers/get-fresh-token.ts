@@ -3,10 +3,11 @@ import { TiddlConfig } from "../types";
 
 import { get_tiddl_config } from "./get_tiddl_config";
 
-/**
- * Get the current Tidal token, always reading from disk (no cache)
- * This ensures the token is always fresh and synchronized with auth.json
- */
+// Prevent concurrent token refreshes
+let isRefreshing = false;
+let refreshPromise: Promise<void> | null = null;
+
+/** Read tiddl config from disk (no cache) */
 export function getFreshTiddlConfig(): {
   config: TiddlConfig;
   errors: string[];
@@ -14,39 +15,40 @@ export function getFreshTiddlConfig(): {
   return get_tiddl_config();
 }
 
-/**
- * Get fresh Tidal token, with automatic refresh if needed
- * This is the main function to use when you need a valid Tidal token
- *
- * @returns Promise<string> - Fresh Tidal token
- * @throws Error if no token available
- */
+/** Get fresh token with automatic refresh if < 30min to expiry */
 export async function ensureFreshToken(): Promise<string> {
   const { config } = getFreshTiddlConfig();
 
-  // No token available
   if (!config?.auth?.token) {
     throw new Error("No Tidal token available. Please authenticate first.");
   }
 
-  // Check if token needs refresh (< 30 minutes until expiry)
   if (shouldRefreshToken(config)) {
-    await refreshTidalToken();
+    // Wait for ongoing refresh
+    if (isRefreshing && refreshPromise) {
+      await refreshPromise;
+      const { config: freshConfig } = getFreshTiddlConfig();
+      return freshConfig.auth.token;
+    }
 
-    // Read again after refresh
+    // Start refresh
+    isRefreshing = true;
+    refreshPromise = refreshTidalToken()
+      .then(() => {
+        isRefreshing = false;
+        refreshPromise = null;
+      })
+      .catch((error) => {
+        isRefreshing = false;
+        refreshPromise = null;
+        throw error;
+      });
+
+    await refreshPromise;
+
     const { config: freshConfig } = getFreshTiddlConfig();
     return freshConfig.auth.token;
   }
 
   return config.auth.token;
-}
-
-/**
- * Get fresh Tidal token without refresh (read-only)
- * Use this when you just need to read the current token
- * without triggering a refresh
- */
-export function getCurrentToken(): string | undefined {
-  const { config } = getFreshTiddlConfig();
-  return config?.auth?.token;
 }
