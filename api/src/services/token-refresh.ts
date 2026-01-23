@@ -1,59 +1,50 @@
 import { Express } from "express";
 
 import { TOKEN_CHECK_INTERVAL } from "../../constants";
-
-import { refreshAndReloadConfig } from "./config";
+import {
+  ensureFreshToken,
+  getFreshTiddlConfig,
+} from "../helpers/get-fresh-token";
 
 let tokenRefreshInterval: NodeJS.Timeout | null = null;
 
-/**
- * Initialize token refresh interval
- * Checks every x minutes if token needs refresh
- */
+/** Start token refresh interval (checks every 30min) */
 export function startTokenRefreshInterval(app: Express) {
-  // Clear any existing interval
   if (tokenRefreshInterval) {
     clearInterval(tokenRefreshInterval);
   }
 
   console.log(
-    `✅ [TOKEN] Token refresh interval started (checks every ${TOKEN_CHECK_INTERVAL / 60000} minutes)`,
+    `✅ [TOKEN] Refresh interval started (every ${TOKEN_CHECK_INTERVAL / 60000}min)`,
   );
 
-  // Run immediately on startup
   checkAndRefreshToken(app);
-
-  // Then check every x minutes
   tokenRefreshInterval = setInterval(() => {
     checkAndRefreshToken(app);
   }, TOKEN_CHECK_INTERVAL);
 }
 
-/**
- * Stop the token refresh interval (used during shutdown)
- */
+/** Stop token refresh interval */
 export function stopTokenRefreshInterval() {
   if (tokenRefreshInterval) {
     clearInterval(tokenRefreshInterval);
     tokenRefreshInterval = null;
-    console.log("⏹️ [TOKEN] Token refresh interval stopped");
+    console.log("⏹️ [TOKEN] Refresh interval stopped");
   }
 }
 
-/**
- * Check if token needs refresh and refresh if needed
- */
-async function checkAndRefreshToken(app: Express) {
-  const tiddlConfig = app.locals.tiddlConfig;
-
-  // If config not loaded yet, skip
-  if (!tiddlConfig) {
-    return;
+/** Check token and refresh if needed, updating app.locals.tiddlConfig */
+export async function checkAndRefreshToken(app: Express): Promise<boolean> {
+  try {
+    await ensureFreshToken();
+    const { config: freshConfig } = getFreshTiddlConfig();
+    app.locals.tiddlConfig = freshConfig;
+    return !!freshConfig?.auth?.token;
+  } catch (error) {
+    console.error(
+      "❌ [TOKEN] Refresh check error:",
+      error instanceof Error ? error.message : error,
+    );
+    return false;
   }
-
-  // Refresh token and reload config (will skip if token still valid)
-  const { config: updatedConfig } = await refreshAndReloadConfig(tiddlConfig);
-
-  // Update app.locals with fresh token
-  app.locals.tiddlConfig = updatedConfig;
 }
