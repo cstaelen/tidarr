@@ -3,6 +3,7 @@ import { appriseApiPush } from "../../services/apprise-api";
 import { beets } from "../../services/beets";
 import { gotifyPush } from "../../services/gotify";
 import { jellyfinUpdate } from "../../services/jellyfin";
+import { navidromeUpdate } from "../../services/navidrome";
 import { ntfyPush } from "../../services/ntfy";
 import { plexUpdate } from "../../services/plex";
 import { hookPushOver } from "../../services/pushover";
@@ -102,6 +103,9 @@ export async function postProcessTidarr(
 
   // Jellyfin library update
   await jellyfinUpdate(item);
+
+  // Navidrome library update
+  await navidromeUpdate(item);
 
   // Gotify notification
   await gotifyPush(item);
