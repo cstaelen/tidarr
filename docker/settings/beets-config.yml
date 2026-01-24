@@ -1,4 +1,4 @@
-plugins: embedart importadded fetchart lyrics lastgenre missing advancedrewrite
+plugins: embedart importadded fetchart lastgenre missing advancedrewrite
 
 art_filename: folder
 threaded: yes

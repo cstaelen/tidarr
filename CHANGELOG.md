@@ -4,6 +4,8 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 1.1.7
+### 🚀 Added
+- [API] Add Navidrome library update
 ### 🖍 Changes
 - [Lidarr] Apply replay gain for Lidarr downloads if enabled
 - [Lidarr] Tidarr return results for each quality as a separate album to allow Lidarr to choose the quality to download
