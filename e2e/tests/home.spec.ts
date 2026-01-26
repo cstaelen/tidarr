@@ -6,7 +6,6 @@ import { countItems } from "./utils/search";
 
 test("Tidarr Home : Should see the homepage and tabs", async ({ page }) => {
   await page.goto("/");
-  await page.evaluate("localStorage.clear()");
 
   await expect(page.getByTestId("logo")).toBeInViewport();
 
@@ -35,7 +34,6 @@ test("Tidarr Home : Should be able to sort playlists and favorites", async ({
   page,
 }) => {
   await page.goto("/");
-  await page.evaluate("localStorage.clear()");
 
   await expect(page.getByTestId("logo")).toBeInViewport();
 

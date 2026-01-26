@@ -9,10 +9,10 @@ import { SyncProvider } from "src/provider/SyncProvider";
 import { useConfigProvider } from "../provider/ConfigProvider";
 import { ProcessingProvider } from "../provider/ProcessingProvider";
 
+import { DialogChangelog } from "./Dialog/DialogChangelog";
 import { DialogConfigError } from "./Dialog/DialogConfigError";
 import { DialogNoAPI } from "./Dialog/DialogNoAPI";
 import { DialogToken } from "./Dialog/DialogToken";
-import { DialogUpdateWarning } from "./Dialog/DialogUpdateWarning";
 import { Footer } from "./Layout/Footer";
 import { HeaderSearch } from "./Layout/HeaderSearch";
 import { ProcessingButton } from "./Processing/ProcessingButton";
@@ -71,7 +71,7 @@ function MainLayout({ children }: { children: ReactNode }) {
                 <DialogToken />
                 <DialogNoAPI />
                 <DialogConfigError />
-                <DialogUpdateWarning />
+                <DialogChangelog />
               </SyncProvider>
             </ProcessingProvider>
           </HistoryProvider>

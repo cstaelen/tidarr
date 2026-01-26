@@ -172,6 +172,7 @@ export async function mockConfigAPI(
   page: Page,
   customSettings?: Record<string, object | string | boolean>,
 ) {
+  await page.unroute("**/settings");
   await page.route("**/settings", async (route) => {
     // Fetch real config from the container
     const realResponse = await route.fetch();

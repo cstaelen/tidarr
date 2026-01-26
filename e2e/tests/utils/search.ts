@@ -4,7 +4,6 @@ import { waitForLoader } from "./helpers";
 
 export async function runSearch(keyword: string, page: Page) {
   await page.goto("/");
-  await page.evaluate("localStorage.clear()");
 
   await expect(page.getByTestId("logo")).toBeInViewport();
   await expect(

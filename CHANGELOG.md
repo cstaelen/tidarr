@@ -7,7 +7,10 @@ Tidarr notable changes.
 ### 🚀 Added
 - [API] Add Navidrome library update #614 
 - [Front] Remove from queue by clicking twice on the download button
+- [Front] Prompt Changelog dialog on container update
 - [API] Add `custom-post-script.sh` running running after file moved.
+- [API] Plex scan also uploads the m3u file to Plex
+
 ### 🖍 Changes
 - [Lidarr] Apply replay gain for Lidarr downloads if enabled
 - [Lidarr] Tidarr return results for each quality as a separate album to allow Lidarr to choose the quality to download
