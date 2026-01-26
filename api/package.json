@@ -8,11 +8,11 @@
     "@types/express": "^5.0.5",
     "@types/express-http-proxy": "^1.6.7",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^25.0.9"
+    "@types/node": "^25.0.10"
   },
   "dependencies": {
     "apicache": "^1.6.3",
-    "cors": "^2.8.5",
+    "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^5.2.0",
     "express-http-proxy": "^2.1.2",
