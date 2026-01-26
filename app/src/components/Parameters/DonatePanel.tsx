@@ -52,15 +52,15 @@ export default function DonatePanel() {
       <ModuleTitle
         title={
           <Box display="flex" flexWrap="wrap" gap={1} alignItems="center">
-            I knew you had some love to give!
+            I knew you had some love to share too !
             <Favorite color="error" />
           </Box>
         }
       />
       <Box display="flex" flexDirection="column" gap={2}>
         <Typography variant="body1">
-          If you would like to support this project, please do not hesitate to
-          make a donation.
+          If you’d like to support this project, feel free to buy me a coffee
+          (or two)!
         </Typography>
         <Typography variant="body1">
           It contributes a lot to :
@@ -71,13 +71,19 @@ export default function DonatePanel() {
             <li>Community support – Addressing user questions and feedback.</li>
           </ul>
         </Typography>
-        <a href="https://www.buymeacoffee.com/clst" target="_blank">
-          <img
-            src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
-            alt="Buy Me A Coffee"
-            style={{ height: "50px" }}
-          />
-        </a>
+        <Paper sx={{ textAlign: "center", p: 2, lineHeight: 0 }}>
+          <a
+            href="https://www.buymeacoffee.com/clst"
+            target="_blank"
+            style={{ lineHeight: 0, marginBottom: 0 }}
+          >
+            <img
+              src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+              alt="Buy Me A Coffee"
+              style={{ height: "46px" }}
+            />
+          </a>
+        </Paper>
         <Typography variant="h2">or BTC/ETH: </Typography>
         <Paper sx={{ p: 2, display: "flex", alignItems: "center", gap: 1 }}>
           <Box flex="1 1 0" fontFamily="monospace">
