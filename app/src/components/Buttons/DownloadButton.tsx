@@ -1,10 +1,12 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Block } from "@mui/icons-material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import CancelIcon from "@mui/icons-material/Cancel";
 import CheckIcon from "@mui/icons-material/Check";
+import CoffeeMakerIcon from "@mui/icons-material/CoffeeMaker";
 import DownloadIcon from "@mui/icons-material/Download";
 import WarningIcon from "@mui/icons-material/Warning";
-import { Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress, Tooltip } from "@mui/material";
 import { TIDAL_ALBUM_URL, TIDAL_MIX_URL } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useHistoryProvider } from "src/provider/HistoryProvider";
@@ -17,6 +19,25 @@ import {
   TidalItemType,
   TrackType,
 } from "../../types";
+
+// Statuses that can be cancelled (Set for O(1) lookup)
+const CANCELLABLE_STATUSES = new Set([
+  "queue_download",
+  "queue_processing",
+  "processing",
+  "download",
+]);
+
+// Status to icon mapping
+const STATUS_ICONS: Record<string, React.ReactNode> = {
+  queue_download: <AccessTimeIcon />,
+  queue_processing: <AccessTimeIcon />,
+  error: <WarningIcon color="error" />,
+  finished: <CheckIcon color="success" />,
+  download: <CircularProgress size={18} />,
+  processing: <CoffeeMakerIcon />,
+  no_download: <Block color="disabled" />,
+};
 
 export const DownloadButton = ({
   id,
@@ -37,9 +58,9 @@ export const DownloadButton = ({
     history,
     actions: { addToHistory },
   } = useHistoryProvider();
+  const [isHovered, setIsHovered] = useState(false);
 
   const status = useMemo(() => {
-    // Check if item is currently in the processing queue
     const processingItem = processingList?.find(
       (x) => x.id?.toString() === id?.toString() && x.type === type,
     );
@@ -47,7 +68,6 @@ export const DownloadButton = ({
     if (processingItem) {
       const itemStatus = processingItem.status;
 
-      // When item finishes and history is enabled, add to local history
       if (itemStatus === "finished" && config?.ENABLE_HISTORY === "true") {
         addToHistory(id.toString());
       }
@@ -55,7 +75,6 @@ export const DownloadButton = ({
       return itemStatus;
     }
 
-    // If history is enabled, check local history
     if (config?.ENABLE_HISTORY === "true" && !force) {
       const isInHistory = history?.some(
         (x) => x?.toString() === id?.toString(),
@@ -74,59 +93,67 @@ export const DownloadButton = ({
     addToHistory,
   ]);
 
-  const downloadItem = async () => {
-    if (force) await actions.removeItem(id);
+  const isCancellable = !!status && CANCELLABLE_STATUSES.has(status);
+  const showCancelMode = isCancellable && isHovered;
 
-    switch (true) {
-      case type === "album" && !!(item as TrackType)?.album?.id:
-        actions.addItem(
-          {
-            ...(item as TrackType).album,
-            artists: [...(item as TrackType).artists],
-            url: `${TIDAL_ALBUM_URL}${(item as TrackType).album.id}`,
-          } as AlbumType,
-          type,
-        );
-        break;
-      case type === "mix":
-        actions.addItem(
-          {
-            ...item,
-            url: `${TIDAL_MIX_URL}${(item as MixType).id}`,
-          } as MixType,
-          type,
-        );
-        break;
-      default:
-        actions.addItem(item, type);
+  const handleClick = () => {
+    if (showCancelMode) {
+      actions.removeItem(id);
+      return;
+    }
+
+    if (force) actions.removeItem(id);
+
+    if (type === "album" && (item as TrackType)?.album?.id) {
+      actions.addItem(
+        {
+          ...(item as TrackType).album,
+          artists: [...(item as TrackType).artists],
+          url: `${TIDAL_ALBUM_URL}${(item as TrackType).album.id}`,
+        } as AlbumType,
+        type,
+      );
+    } else if (type === "mix") {
+      actions.addItem(
+        { ...item, url: `${TIDAL_MIX_URL}${(item as MixType).id}` } as MixType,
+        type,
+      );
+    } else {
+      actions.addItem(item, type);
     }
   };
 
+  const buttonColor = showCancelMode
+    ? "error"
+    : status === "finished"
+      ? "success"
+      : status === "error"
+        ? "warning"
+        : isCancellable
+          ? "inherit"
+          : "primary";
+
+  const buttonIcon = showCancelMode ? (
+    <CancelIcon />
+  ) : (
+    (status && STATUS_ICONS[status]) || <DownloadIcon />
+  );
+
   return (
-    <Button
-      variant="outlined"
-      data-testid="btn-dl"
-      color={status === "finished" ? "success" : "primary"}
-      endIcon={
-        status === "queue_download" || status === "queue_processing" ? (
-          <AccessTimeIcon />
-        ) : status === "error" ? (
-          <WarningIcon color="error" />
-        ) : status === "finished" ? (
-          <CheckIcon color="success" />
-        ) : status === "processing" ? (
-          <CircularProgress size={20} />
-        ) : status === "no_download" ? (
-          <Block color="disabled" />
-        ) : (
-          <DownloadIcon />
-        )
-      }
-      disabled={!!status && status !== "finished" && !force}
-      onClick={() => downloadItem()}
-      size="small"
-    >
-      {label}
-    </Button>
+    <Tooltip title={showCancelMode ? "Click to cancel download" : ""}>
+      <Button
+        variant="outlined"
+        data-testid="btn-dl"
+        color={buttonColor}
+        endIcon={buttonIcon}
+        onClick={handleClick}
+        disabled={status === "no_download"}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        size="small"
+      >
+        {label}
+      </Button>
+    </Tooltip>
   );
 };

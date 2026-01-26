@@ -7,6 +7,7 @@ Tidarr notable changes.
 ### 🚀 Added
 - [API] Add Navidrome library update
 ### 🖍 Changes
+- [Front] Remove from queue by clicking on the download button
 - [Lidarr] Apply replay gain for Lidarr downloads if enabled
 - [Lidarr] Tidarr return results for each quality as a separate album to allow Lidarr to choose the quality to download
 - [API] Force proxy for all tidal.com requests (ENABLE_TIDAL_PROXY can be removed).

@@ -6,7 +6,7 @@ import { useConfigProvider } from "src/provider/ConfigProvider";
 export default function SettingsButton() {
   const { isUpdateAvailable } = useConfigProvider();
   const navigate = useNavigate();
-  const ROUTE = "/parameters";
+  const ROUTE = "/parameters#updates";
   console.log(window.location.pathname);
   const isActive = window.location.pathname === ROUTE;
 
