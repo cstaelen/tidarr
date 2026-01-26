@@ -1,6 +1,10 @@
 import { PROCESSING_PATH } from "../../../constants";
 import { appriseApiPush } from "../../services/apprise-api";
 import { beets } from "../../services/beets";
+import {
+  executeCustomScript,
+  executePostScript,
+} from "../../services/custom-scripts";
 import { gotifyPush } from "../../services/gotify";
 import { jellyfinUpdate } from "../../services/jellyfin";
 import { navidromeUpdate } from "../../services/navidrome";
@@ -10,7 +14,6 @@ import { hookPushOver } from "../../services/pushover";
 import { applyReplayGain } from "../../services/rsgain";
 import { ProcessingItemType, ProcessingItemWithPlaylist } from "../../types";
 import {
-  executeCustomScript,
   getFolderToScan,
   hasFileToMove,
   moveAndClean,
@@ -97,6 +100,9 @@ export async function postProcessTidarr(
   if (playlistId) {
     deletePlaylist(playlistId, item.id);
   }
+
+  // Execute custom post-script if exists
+  await executePostScript(item, foldersToScan);
 
   // Plex library update with specific paths
   await plexUpdate(item, foldersToScan);

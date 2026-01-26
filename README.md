@@ -43,7 +43,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Webhook push over](#webhook-push-over)
   - [Lidarr connector](#lidarr-connector)
 - [Advanced](#advanced)
-  - [Custom Processing Script](#custom-processing-script)
+  - [Custom Processing Scripts](#custom-processing-scripts)
   - [No-download flag](#no-download)
   - [API Documentation](#api-documentation)
 - [User requests](#user-requests)
@@ -484,20 +484,21 @@ Tidarr can be integrated with Lidarr as both a Newznab indexer and a SABnzbd dow
 
 ## ADVANCED
 
-### Custom Processing Script
+### Custom Processing Scripts
 
-Tidarr supports executing a custom shell script during the post-processing pipeline. This allows you to perform custom operations on downloaded files before they are moved to your library.
+Tidarr supports two custom shell scripts during the post-processing pipeline:
+
+- **`custom-script.sh`** - Runs **before** files are moved to the library
+- **`custom-post-script.sh`** - Runs **after** files are moved to the library
 
 > [!NOTE]
 > **Interact with Tidarr download process**
 >
-> 1. Create a shell script named `custom-script.sh` in your config folder (the mounted `shared/` volume)
-> 2. The script will be automatically detected and executed during post-processing
-> 3. The script runs **after** the tiddl download process (if not deactivated)
+> 1. Create shell scripts in your config folder (the mounted `shared/` volume)
+> 2. Scripts will be automatically detected and executed during post-processing
+> 3. Use `custom-post-script.sh` to move playlists to a separate folder, sync to external storage, etc.
 >
-> To keep the benefits of post processing, all your files must be in the download folder using `PROCESSING_PATH` var available in `custom-script.sh`.
->
-> 📖 [View complete API documentation](docs/CUSTOM_SCRIPT_DOCUMENTATION.md)
+> 📖 [View complete documentation](docs/CUSTOM_SCRIPT_DOCUMENTATION.md)
 
 ### NO DOWNLOAD
 
