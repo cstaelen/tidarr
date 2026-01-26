@@ -25,6 +25,7 @@ import tiddlTomlRouter from "./src/routes/tiddl-toml";
 import { getOrCreateApiKey } from "./src/services/api-key";
 import { configureServer } from "./src/services/config";
 import { loadHistoryFromFile } from "./src/services/history";
+import { startPlexMonitor } from "./src/services/plex-monitor";
 import { createCronJob } from "./src/services/sync";
 import { startTokenRefreshInterval } from "./src/services/token-refresh";
 
@@ -103,6 +104,9 @@ const server = app.listen(port, async () => {
 
   // Start token refresh interval (checks every 15 minutes)
   startTokenRefreshInterval(app);
+
+  // Start Plex monitor for scan tracking
+  startPlexMonitor();
 
   // Clean up all processing folders (safe because loadDataFromFile resets "processing" to "queue")
   await cleanFolder();

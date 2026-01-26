@@ -243,3 +243,36 @@ export interface TidalSearchResponse {
     totalNumberOfItems?: number;
   };
 }
+
+// PLEX
+
+export type PlexNotification = {
+  NotificationContainer: {
+    type: string;
+    size: number;
+    ActivityNotification?: Array<{
+      event: string;
+      uuid: string;
+      Activity: {
+        uuid: string;
+        type: string;
+        cancellable: boolean;
+        userID: number;
+        title: string;
+        subtitle?: string;
+        progress: number;
+        Context?: {
+          key?: string;
+        };
+      };
+    }>;
+  };
+};
+
+export type PendingPlaylist = {
+  itemId: string;
+  item: ProcessingItemType;
+  foldersToScan: string[];
+  pendingFolders: Set<string>;
+  createdAt: number;
+};
