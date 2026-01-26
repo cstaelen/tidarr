@@ -7,7 +7,7 @@ export function ModuleTitle({
   leftBlock,
   rightBlock,
 }: {
-  title: string;
+  title: string | ReactElement;
   total?: number;
   leftBlock?: ReactElement;
   rightBlock?: ReactElement;
@@ -26,7 +26,10 @@ export function ModuleTitle({
         <Box display="flex" flexGrow="1" alignItems="center" gap={2}>
           {leftBlock}
           <Typography variant="h2" sx={{ flex: "1 1 0" }}>
-            {title.toLowerCase() === "featured albums" ? "Albums" : title}{" "}
+            {typeof title === "string" &&
+            title.toLowerCase() === "featured albums"
+              ? "Albums"
+              : title}{" "}
             {total ? `(${total})` : ""}
           </Typography>
         </Box>

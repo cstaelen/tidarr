@@ -88,7 +88,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - **[Apprise API](https://github.com/caronc/apprise-api)** - Push notifications
 - **[Plex](https://www.plex.tv/)** - Library update, search item button (album, track artiste)
 - **[Jellyfin](https://jellyfin.org/)** - Library update, search item button (album, track artiste)
-- **[Navidrome](https://www.navidrome.org/)** - Search item button (album, track artiste)
+- **[Navidrome](https://www.navidrome.org/)** - Library update, search item button (album, track artiste)
 - **[Lidarr](https://lidarr.audio/)** - [BETA] Use Tidarr as usenet indexer (download provider)
 - **Webhook push over** - Push notifications using webhook (MatterMost)
 
@@ -223,16 +223,6 @@ Force use of `tiddl.json` quality value and disable quality selector in app
 environment:
   - ...
   - LOCK_QUALITY=true
-```
-
-### Proxy
-
-You may want to use proxy for tidal server queries to enhance privacy.
-
-```yaml
-environment:
-  - ...
-  - ENABLE_TIDAL_PROXY=true
 ```
 
 ### M3U track base path
@@ -378,11 +368,14 @@ environment:
 > [!NOTE]
 > All Jellyfin API queries are proxied through the Tidarr backend to avoid CORS issues and keep your Jellyfin API Key secure. The search button displays real-time result counts (artists, albums, tracks, videos) from your Jellyfin library.
 
-### Navidrome search
+### Navidrome integration
 
-You can active the Navidrome search button this way.
+You can activate:
 
-To active the Navidrome search button on artist, album and track pages, add to your _docker-compose_ file in `environment:` section :
+- Navidrome scan after download
+- Navidrome search button on artist, album and track pages
+
+Add to your _docker-compose_ file in `environment:` section :
 
 ```yaml
 environment:
@@ -393,7 +386,7 @@ environment:
 ```
 
 > [!NOTE]
-> All Navidrome API queries are proxied through the Tidarr backend to avoid CORS issues and keep your credentials secure. The search button displays real-time result counts (artists, albums, tracks) from your Navidrome library using the Subsonic API.
+> All Navidrome API queries are proxied through the Tidarr backend to avoid CORS issues and keep your credentials secure. The search button displays real-time result counts (artists, albums, tracks) from your Navidrome library using the Subsonic API. Library scan is triggered automatically after each download.
 
 ### Gotify
 

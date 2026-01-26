@@ -12,6 +12,8 @@ import { extractFirstLineClean } from "../processing/utils/ansi-parse";
 import { logs } from "../processing/utils/logs";
 import { ProcessingItemType, TiddlConfig } from "../types";
 
+import { checkAndRefreshToken } from "./token-refresh";
+
 // Constants
 const TIDDL_BINARY = "tiddl";
 
@@ -140,7 +142,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     }
   });
 
-  child.on("close", (code) => {
+  child.on("close", async (code) => {
     const currentOutput = app.locals.processingStack.actions.getItemOutput(
       item.id,
     );
@@ -150,9 +152,18 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       currentOutput.includes(msg),
     );
     if (hasAuthError) {
-      console.log("LOGOUT");
-      code = 401;
-      deleteTiddlConfig();
+      logs(
+        item.id,
+        "⚠️ [TIDDL] Authentication error detected, attempting token refresh...",
+      );
+
+      // This should rarely happen thanks to automatic token refresh interval
+      const refreshSuccess = await checkAndRefreshToken(app);
+
+      if (refreshSuccess) {
+        deleteTiddlConfig();
+      }
+      code = 401; // Mark as auth error
     }
 
     const isDownloaded =
@@ -194,14 +205,10 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 }
 
 export function tidalToken(req: Request, res: Response) {
-  console.log("🔑 [TIDDL] Request a token ...");
+  console.log("🔑 [TIDDL] User requested new authentication ...");
 
-  // Check if already authenticated with valid token
-  const currentConfig = req.app.locals.tiddlConfig;
-  if (currentConfig?.auth?.token && !shouldRefreshToken(currentConfig)) {
-    return;
-  }
-
+  // User explicitly requested login, so proceed with authentication
+  // (No need to check existing token - user wants to re-authenticate)
   const tiddlProcess = spawn(TIDDL_BINARY, ["auth", "login"], {
     env: { ...process.env },
   });
@@ -254,45 +261,25 @@ export function deleteTiddlConfig() {
 
 /**
  * Check if Tidal token needs refresh based on expires_at timestamp
- * Returns true if:
- * - Token expires in less than TOKEN_REFRESH_THRESHOLD seconds (proactive refresh)
- * - Token is already expired (reactive refresh)
- * @param tiddlConfig - Optional TiddlConfig object from app.locals
- * @returns true if token should be refreshed, false otherwise
+ * Returns true if token expires in less than TOKEN_REFRESH_THRESHOLD seconds
+ *
+ * @param tiddlConfig - TiddlConfig with valid auth data
+ * @returns true if token should be refreshed, false if no expires_at or still valid
  */
-export function shouldRefreshToken(tiddlConfig?: TiddlConfig): boolean {
-  // If config is not provided or missing auth data, skip refresh
+export function shouldRefreshToken(tiddlConfig: TiddlConfig): boolean {
+  // If no expires_at, can't determine expiry - assume needs refresh to be safe
   if (!tiddlConfig?.auth?.expires_at) {
-    console.log("⏭️ [TOKEN] No expires_at found, skipping refresh");
-    return false;
+    return false; // Let ensureFreshToken() handle the "no token" case
   }
 
   const expiresAt = tiddlConfig.auth.expires_at;
   const nowInSeconds = Math.floor(Date.now() / 1000);
-
-  // Refresh if token expires in less than TOKEN_REFRESH_THRESHOLD seconds
-  // This covers both cases: already expired (negative value) and expiring soon
   const timeUntilExpiry = expiresAt - nowInSeconds;
-  const hoursUntilExpiry = timeUntilExpiry / 3600;
 
-  const needsRefresh = timeUntilExpiry < TOKEN_REFRESH_THRESHOLD;
-
-  console.log(
-    `🔍 [TOKEN] Token check: expires in ${hoursUntilExpiry.toFixed(1)}h (threshold: ${TOKEN_REFRESH_THRESHOLD / 3600}h) → ${needsRefresh ? "NEEDS REFRESH" : "still valid"}`,
-  );
-
-  return needsRefresh;
+  return timeUntilExpiry < TOKEN_REFRESH_THRESHOLD;
 }
 
-export async function refreshTidalToken(
-  force = false,
-  tiddlConfig?: TiddlConfig,
-): Promise<void> {
-  // Skip refresh if token is still valid (unless forced)
-  if (!force && !shouldRefreshToken(tiddlConfig)) {
-    return;
-  }
-
+export async function refreshTidalToken(): Promise<void> {
   console.log("🕖 [TIDDL] Refreshing Tidal token...");
 
   // Use async spawn and wait for completion

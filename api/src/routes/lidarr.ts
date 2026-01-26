@@ -48,16 +48,16 @@ router.get(
 );
 
 /**
- * GET /api/lidarr/download/:id - Trigger download
+ * GET /api/lidarr/download/:id/:quality - Trigger download with quality
  * Called by Lidarr when grabbing an album
  */
 router.get(
-  "/lidarr/download/:id",
+  "/lidarr/download/:id/:quality",
   ensureAccessIsGranted,
   async (req: Request, res: Response) => {
     try {
-      const { id } = req.params;
-      handleDownloadFromLidarr(id, res);
+      const { id, quality } = req.params;
+      handleDownloadFromLidarr(id, res, quality);
     } catch (error) {
       handleRouteError(error, res, "Lidarr download");
     }

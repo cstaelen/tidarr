@@ -7,15 +7,15 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.7",
     "@mui/material": "^7.3.7",
-    "@types/node": "^25.0.9",
-    "@types/react": "^19.2.8",
+    "@types/node": "^25.0.10",
+    "@types/react": "^19.2.9",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
     "event-source-plus": "0.1.15",
-    "globals": "^17.0.0",
+    "globals": "^17.1.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "react-router-dom": "^7.12.0",
+    "react-router-dom": "^7.13.0",
     "vite": "^7.3.1"
   },
   "scripts": {
@@ -38,8 +38,8 @@
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
-    "ansi-to-react": "^6.1.6",
-    "markdown-to-jsx": "^9.5.7",
+    "ansi-to-react": "^6.2.6",
+    "markdown-to-jsx": "^9.6.1",
     "monaco-editor": "^0.55.1"
   }
 }

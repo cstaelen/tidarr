@@ -1,4 +1,5 @@
 import { NZB_DOWNLOAD_PATH } from "../../../constants";
+import { applyReplayGain } from "../../services/rsgain";
 import { ProcessingItemType } from "../../types";
 import { hasFileToMove } from "../utils/jobs";
 import { logs } from "../utils/logs";
@@ -18,6 +19,8 @@ export async function postProcessLidarr(
   if (!hasFile) {
     logs(item.id, "⚠️ [LIDARR] No file to process.");
   } else {
+    await applyReplayGain(item.id, processingPath);
+
     logs(
       item.id,
       "📦 [LIDARR] Lidarr-managed download: skipping Tidarr post-processing",

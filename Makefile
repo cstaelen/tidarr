@@ -75,7 +75,6 @@ docker-run: ## Run tidarr docker image
 		-v ${PWD}/docker/mnt/config:/shared \
 		-v ${PWD}/docker/mnt/library:/music \
 		-e ENABLE_BEETS=true \
-		-e ENABLE_TIDAL_PROXY=true \
 		-e PUID=501 \
 		-e PGID=501 \
 		-e ADMIN_PASSWORD=tidarr \
