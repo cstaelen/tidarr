@@ -18,19 +18,31 @@ class PlexMonitor {
   private timeoutCheckInterval: NodeJS.Timeout | null = null;
   private reconnectAttempts = 0;
   private isShuttingDown = false;
+  private isRunning = false;
 
   start() {
     if (!this.isConfigured()) {
       return;
     }
 
+    if (this.isRunning) {
+      return;
+    }
+
+    this.isRunning = true;
+    this.isShuttingDown = false;
     console.log("🔌 [PLEX] Starting Plex monitor...");
     this.connect();
     this.startTimeoutChecker();
   }
 
   stop() {
+    if (!this.isRunning) {
+      return;
+    }
+
     this.isShuttingDown = true;
+    this.isRunning = false;
 
     if (this.timeoutCheckInterval) {
       clearInterval(this.timeoutCheckInterval);
@@ -51,6 +63,11 @@ class PlexMonitor {
   }
 
   registerPendingPlaylist(item: ProcessingItemType, foldersToScan: string[]) {
+    // Start monitor if not already running
+    if (!this.isRunning) {
+      this.start();
+    }
+
     const pending: PendingPlaylist = {
       itemId: item.id,
       item,
@@ -166,6 +183,11 @@ class PlexMonitor {
           if (pending.pendingFolders.size === 0) {
             this.executeUpload(pending);
             this.pendingPlaylists.delete(itemId);
+
+            // Stop monitor if no more pending playlists
+            if (this.pendingPlaylists.size === 0) {
+              this.stop();
+            }
           }
           break;
         }
@@ -198,6 +220,11 @@ class PlexMonitor {
           this.executeUpload(pending);
           this.pendingPlaylists.delete(itemId);
         }
+      }
+
+      // Stop monitor if no more pending playlists
+      if (this.pendingPlaylists.size === 0) {
+        this.stop();
       }
     }, TIMEOUT_CHECK_INTERVAL_MS);
   }
