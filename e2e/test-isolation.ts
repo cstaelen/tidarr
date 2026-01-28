@@ -101,10 +101,16 @@ export const test = base.extend<TidarrFixtures & TestOptions>({
 
   // Auto-fixture: setup global mocks for all tests
   page: async ({ page }, use) => {
+    // Set last seen version in localStorage to prevent changelog dialog
+    await page.addInitScript(() => {
+      localStorage.setItem("tidarr-last-seen-version", "0.0.0-testing");
+    });
+
     // Setup global mocks before each test
     await mockConfigAPI(page);
     await mockRelease(page);
     await mockTidalQueries(page);
+
     // Provide page to test
     await use(page);
 

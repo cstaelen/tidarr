@@ -7,7 +7,6 @@ import { login } from "./utils/login";
 test.use({ envFile: ".env.e2e.auth" });
 test("Tidarr security : Should see login page", async ({ page }) => {
   await page.goto("/");
-  await page.evaluate("localStorage.clear()");
 
   await login(page);
 
@@ -30,7 +29,6 @@ test("Tidarr security : Should be redirected to login page", async ({
   page,
 }) => {
   await page.goto("/login");
-  await page.evaluate("localStorage.clear()");
 
   // When I go to homepage
   await page.goto("/");
@@ -55,7 +53,6 @@ test("Tidarr security : Should be redirected to requested url after login", asyn
 
 test("Tidarr security : Should be able to log out", async ({ page }) => {
   await page.goto("/login");
-  await page.evaluate("localStorage.clear()");
 
   await login(page);
 
@@ -75,7 +72,6 @@ test("Tidarr security : Login page should redirect to home in public mode", asyn
 }) => {
   // When I go to login page in public mode
   await page.goto("/login");
-  await page.evaluate("localStorage.clear()");
   // then I should be redirected to homepage
   await expect(page.getByRole("heading", { name: "Tidarr" })).toBeInViewport();
 });

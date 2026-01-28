@@ -9,7 +9,6 @@ test.use({ envFile: ".env.e2e.oidc" });
 
 test("OIDC authentication: Should see OIDC login button", async ({ page }) => {
   await page.goto("/");
-  await page.evaluate("localStorage.clear()");
 
   // Should see OIDC authentication modal
   await expect(
@@ -74,7 +73,6 @@ test("OIDC authentication: Should handle OIDC callback errors gracefully", async
   tidarrUrl,
 }) => {
   await page.goto("/");
-  await page.evaluate("localStorage.clear()");
 
   // Mock failed OIDC callback (invalid state)
   await page.goto(
@@ -91,7 +89,6 @@ test("OIDC authentication: Should handle missing OIDC configuration", async ({
 }) => {
   // This test would require a different env setup, but we can test the client-side behavior
   await page.goto("/");
-  await page.evaluate("localStorage.clear()");
 
   // With OIDC configured, should see the login button
   await expect(

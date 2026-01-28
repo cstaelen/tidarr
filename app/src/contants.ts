@@ -9,5 +9,5 @@ export const TIDARR_PROXY_URL = "/proxy";
 
 export const LOCALSTORAGE_TOKEN_KEY = "tidarr-token";
 export const LOCALSTORAGE_REDIRECT_URL = "tidarr-redirect";
-export const LOCALSTORAGE_UPDATE_WARNING = "tidarr-update-warn";
+export const LOCALSTORAGE_LAST_SEEN_VERSION = "tidarr-last-seen-version";
 export const LOCALSTORAGE_DISPLAY_MODE = "tidarr-display-mode";
