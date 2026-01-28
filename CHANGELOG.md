@@ -10,6 +10,7 @@ Tidarr notable changes.
 - [Front] Prompt Changelog dialog on container update
 - [API] Add `custom-post-script.sh` running running after file moved. #614
 - [API] Plex scan also uploads the m3u file to Plex
+- [Front] Add progress indicator in processing queue
 ### 🖍 Changes
 - [Lidarr] Apply replay gain for Lidarr downloads if enabled
 - [Lidarr] Tidarr return results for each quality as a separate album to allow Lidarr to choose the quality to download
@@ -17,8 +18,6 @@ Tidarr notable changes.
 - [API] Refacto token refresh logic
 ### 🐛 Fixed
 * [Front] Fix bad url on favorites processing items #624
-
-
 
 ## 📦 1.1.6
 ### 🖍 Changes

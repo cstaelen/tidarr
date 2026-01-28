@@ -35,6 +35,10 @@ export type ProcessingItemType = {
   error: boolean;
   process?: ChildProcess;
   source?: "lidarr" | "tidarr"; // Origin of the download request
+  progress?: {
+    current: number;
+    total: number;
+  };
 };
 
 export type ProcessingItemWithPlaylist = ProcessingItemType & {
