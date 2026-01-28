@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 
 import { ensureAccessIsGranted } from "../helpers/auth";
+import { sanitizeProcessingData } from "../processing/core/processing-manager";
 
 const router = Router();
 
@@ -28,9 +29,11 @@ router.get(
         );
     });
 
-    // Send initial state to the new client
-    const data = JSON.stringify(req.app.locals.processingStack.data);
-    res.write(`data: ${data}\n\n`);
+    // Send initial state to the new client (strip internal fields)
+    const sanitizedData = sanitizeProcessingData(
+      req.app.locals.processingStack.data,
+    );
+    res.write(`data: ${JSON.stringify(sanitizedData)}\n\n`);
   },
 );
 

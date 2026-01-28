@@ -13,11 +13,21 @@ import { cleanFolder, killProcess } from "../utils/jobs";
 
 import { QueueManager } from "./queue-manager";
 
+/**
+ * Strip internal fields (like process handles) before sending to clients.
+ * Exported so it can be reused in SSE routes.
+ */
+export function sanitizeProcessingData(
+  data: (ProcessingItemType & { process?: unknown })[],
+): ProcessingItemType[] {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  return data.map(({ process, ...rest }) => rest);
+}
+
 export function notifySSEConnections(app: Express) {
   const { processingStack, activeListConnections } = app.locals;
 
-  // Data no longer contains output/output_history, send directly
-  const data = JSON.stringify(processingStack.data);
+  const data = JSON.stringify(sanitizeProcessingData(processingStack.data));
 
   activeListConnections.forEach((conn: Response) => {
     conn.write(`data: ${data}\n\n`);
