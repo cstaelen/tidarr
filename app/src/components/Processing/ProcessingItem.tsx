@@ -24,6 +24,10 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
 
   if (!item?.status) return null;
 
+  const url = item.type.includes("favorite_")
+    ? `/#my-favorites`
+    : `/${item.type}/${item.id}`;
+
   async function run() {
     await actions.retryItem(item);
   }
@@ -67,7 +71,7 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
       </TableCell>
       <TableCell scope="row">
         {item.id ? (
-          <Link to={`/${item.type}/${item.id}`} style={{ color: "white" }}>
+          <Link to={url} style={{ color: "white" }}>
             {item.title}
           </Link>
         ) : (

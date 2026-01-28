@@ -8,14 +8,17 @@ Tidarr notable changes.
 - [API] Add Navidrome library update #614 
 - [Front] Remove from queue by clicking twice on the download button
 - [Front] Prompt Changelog dialog on container update
-- [API] Add `custom-post-script.sh` running running after file moved.
+- [API] Add `custom-post-script.sh` running running after file moved. #614
 - [API] Plex scan also uploads the m3u file to Plex
-
 ### 🖍 Changes
 - [Lidarr] Apply replay gain for Lidarr downloads if enabled
 - [Lidarr] Tidarr return results for each quality as a separate album to allow Lidarr to choose the quality to download
 - [API] Force proxy for all tidal.com requests (ENABLE_TIDAL_PROXY can be removed).
 - [API] Refacto token refresh logic
+### 🐛 Fixed
+* [Front] Fix bad url on favorites processing items #624
+
+
 
 ## 📦 1.1.6
 ### 🖍 Changes
