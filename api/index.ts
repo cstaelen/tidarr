@@ -26,7 +26,6 @@ import { getOrCreateApiKey } from "./src/services/api-key";
 import { configureServer } from "./src/services/config";
 import { loadHistoryFromFile } from "./src/services/history";
 import { createCronJob } from "./src/services/sync";
-import { startTokenRefreshInterval } from "./src/services/token-refresh";
 
 import customCssRouter from "./src/routes/custom-css";
 
@@ -100,9 +99,6 @@ const server = app.listen(port, async () => {
   const history = await loadHistoryFromFile();
   app.locals.history = history;
   app.locals.historySet = new Set(history);
-
-  // Start token refresh interval (checks every 15 minutes)
-  startTokenRefreshInterval(app);
 
   // Clean up all processing folders (safe because loadDataFromFile resets "processing" to "queue")
   await cleanFolder();

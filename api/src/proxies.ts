@@ -1,50 +1,124 @@
-import { Express } from "express";
+import { Application, Express, Request, Response } from "express";
 import proxy from "express-http-proxy";
 
 import { TIDAL_API_URL } from "../constants";
 
-import { ensureFreshToken } from "./helpers/get-fresh-token";
+import { get_tiddl_config } from "./helpers/get_tiddl_config";
+import { refreshTidalToken } from "./services/tiddl";
+
+// Mutex to prevent concurrent refreshes
+let isRefreshing = false;
+let refreshPromise: Promise<void> | null = null;
+
+/**
+ * Refresh token with mutex to prevent concurrent refreshes
+ */
+async function refreshTokenOnce(app: Application): Promise<void> {
+  if (isRefreshing && refreshPromise) {
+    return refreshPromise;
+  }
+
+  isRefreshing = true;
+  refreshPromise = refreshTidalToken()
+    .then(() => {
+      const { config } = get_tiddl_config();
+      app.locals.tiddlConfig = config;
+      console.log(
+        "🔄 [PROXY] Token refreshed, new expires_at:",
+        config.auth?.expires_at,
+      );
+    })
+    .finally(() => {
+      isRefreshing = false;
+      refreshPromise = null;
+    });
+
+  return refreshPromise;
+}
 
 /**
  * Configure all API proxies for the application
- * - Tidal API proxy (always enabled)
+ * - Tidal API proxy (always enabled) - with refresh on 401
  * - Plex API proxy (optional, requires PLEX_URL and PLEX_TOKEN)
  * - Navidrome API proxy (optional, requires NAVIDROME_URL, NAVIDROME_USER, NAVIDROME_PASSWORD)
  */
 export function setupProxies(app: Express): void {
-  // Tidal proxy - auto-adds fresh token
-  app.use(
-    "/proxy/tidal",
-    async (_req, res, next) => {
-      try {
-        await ensureFreshToken();
-        next();
-      } catch (error) {
-        console.error(
-          "⚠️ [PROXY] No Tidal token available:",
-          error instanceof Error ? error.message : error,
-        );
-        res.status(401).json({
-          status: 401,
-          userMessage: "Authentication required. Please log in to Tidal.",
-        });
+  // Tidal proxy - refresh on 401, retry once
+  app.use("/proxy/tidal", async (req: Request, res: Response) => {
+    const token = req.app.locals.tiddlConfig?.auth?.token;
+
+    if (!token) {
+      res.status(401).json({
+        status: 401,
+        userMessage: "Authentication required. Please log in to Tidal.",
+      });
+      return;
+    }
+
+    const targetUrl = TIDAL_API_URL + req.url;
+
+    const makeRequest = async (
+      authToken: string,
+    ): Promise<globalThis.Response> => {
+      const headers: Record<string, string> = {
+        authorization: `Bearer ${authToken}`,
+      };
+
+      // Forward relevant headers
+      if (req.headers["content-type"]) {
+        headers["content-type"] = req.headers["content-type"] as string;
       }
-    },
-    proxy(TIDAL_API_URL, {
-      proxyReqOptDecorator: async function (proxyReqOpts) {
-        delete proxyReqOpts.headers["referer"];
-        delete proxyReqOpts.headers["origin"];
+      if (req.headers["accept"]) {
+        headers["accept"] = req.headers["accept"] as string;
+      }
 
-        const token = await ensureFreshToken();
-        if (!proxyReqOpts.headers) {
-          proxyReqOpts.headers = {};
+      return fetch(targetUrl, {
+        method: req.method,
+        headers,
+        body: ["POST", "PUT", "PATCH"].includes(req.method)
+          ? JSON.stringify(req.body)
+          : undefined,
+      });
+    };
+
+    try {
+      let response = await makeRequest(token);
+
+      // If 401, refresh token and retry once
+      if (response.status === 401) {
+        console.log("🔑 [PROXY] Got 401, refreshing token...");
+        await refreshTokenOnce(req.app);
+
+        const newToken = req.app.locals.tiddlConfig?.auth?.token;
+        if (newToken && newToken !== token) {
+          response = await makeRequest(newToken);
         }
-        proxyReqOpts.headers["authorization"] = `Bearer ${token}`;
+      }
 
-        return proxyReqOpts;
-      },
-    }),
-  );
+      // Forward response
+      res.status(response.status);
+
+      // Forward headers (skip problematic ones)
+      response.headers.forEach((value, key) => {
+        if (
+          !["content-encoding", "transfer-encoding", "connection"].includes(
+            key.toLowerCase(),
+          )
+        ) {
+          res.setHeader(key, value);
+        }
+      });
+
+      const body = await response.arrayBuffer();
+      res.send(Buffer.from(body));
+    } catch (error) {
+      console.error("❌ [PROXY] Tidal request failed:", error);
+      res.status(502).json({
+        status: 502,
+        userMessage: "Failed to reach Tidal API",
+      });
+    }
+  });
 
   // Plex API proxy (optional)
   if (process.env.PLEX_URL && process.env.PLEX_TOKEN) {

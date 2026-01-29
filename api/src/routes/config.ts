@@ -3,7 +3,6 @@ import { Request, Response, Router } from "express";
 import { ensureAccessIsGranted } from "../helpers/auth";
 import { handleRouteError } from "../helpers/error-handler";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
-import { refreshAndReloadConfig } from "../services/config";
 import { deleteTiddlConfig, tidalToken } from "../services/tiddl";
 import { SettingsResponse } from "../types";
 
@@ -16,13 +15,11 @@ const router = Router();
 router.get(
   "/settings",
   ensureAccessIsGranted,
-  async (_req: Request, res: Response<SettingsResponse>) => {
+  (_req: Request, res: Response<SettingsResponse>) => {
     try {
       // Force reload config from disk to detect config.toml changes
       // This ensures we always have the latest download path and quality settings
-      const refreshed = await refreshAndReloadConfig();
-      const tiddl_config = refreshed.config;
-      const configErrors = refreshed.errors;
+      const { config: tiddl_config, errors: configErrors } = get_tiddl_config();
 
       // Update app.locals with fresh config
       res.app.locals.tiddlConfig = tiddl_config;

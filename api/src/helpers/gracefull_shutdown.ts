@@ -2,14 +2,10 @@ import { Express, Response } from "express";
 import { Server } from "http";
 
 import { stopPlexMonitor } from "../services/plex-monitor";
-import { stopTokenRefreshInterval } from "../services/token-refresh";
 
 // Graceful shutdown
 export function gracefulShutdown(signal: string, app: Express, server: Server) {
   console.log(`\n[INFO] ${signal} received. Starting graceful shutdown...`);
-
-  // Stop token refresh interval
-  stopTokenRefreshInterval();
 
   // Stop Plex monitor
   stopPlexMonitor();
