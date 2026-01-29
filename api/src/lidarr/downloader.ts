@@ -104,7 +104,7 @@ export async function handleAddUrlRequest(req: Request, res: Response) {
  * GET /api/sabnzbd?mode=history&name=delete&value=<nzo_id>
  * Removes an item from the processing stack
  */
-export async function handleDeleteRequest(
+async function handleDeleteRequest(
   req: Request,
   res: Response,
   source: "queue" | "history",

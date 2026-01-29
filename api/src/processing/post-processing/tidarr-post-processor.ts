@@ -30,7 +30,7 @@ import { getPlaylistAlbums } from "../utils/playlist-albums";
  * @param processingPath - The path to check for files
  * @returns true if post-processing should proceed
  */
-export async function shouldPostProcess(
+async function shouldPostProcess(
   item: ProcessingItemType,
   processingPath: string,
 ): Promise<boolean> {

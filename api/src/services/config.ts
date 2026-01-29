@@ -1,10 +1,5 @@
 import { SYNC_DEFAULT_CRON } from "../../constants";
-import {
-  ensureFreshToken,
-  getFreshTiddlConfig,
-} from "../helpers/get-fresh-token";
 import { initializeFiles } from "../helpers/initialize-server";
-import { TiddlConfig } from "../types";
 
 export async function configureServer() {
   console.log(`---------------------`);
@@ -53,18 +48,4 @@ export async function configureServer() {
   } catch (error: unknown) {
     console.log("❌ [TIDARR] Error config", error);
   }
-}
-
-/** Refresh token if needed and reload config from disk */
-export async function refreshAndReloadConfig(): Promise<{
-  config: TiddlConfig;
-  errors: string[];
-}> {
-  // Try to ensure fresh token, but don't fail if no token exists
-  try {
-    await ensureFreshToken();
-  } catch (error) {
-    console.log(`❌ [Tidarr] Refresh token failed: ${error}`);
-  }
-  return getFreshTiddlConfig();
 }

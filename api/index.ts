@@ -7,9 +7,13 @@ import path from "path";
 import { setAppInstance } from "./src/helpers/app-instance";
 import { get_tiddl_config } from "./src/helpers/get_tiddl_config";
 import { gracefulShutdown } from "./src/helpers/gracefull_shutdown";
+import { logExpiresToken } from "./src/helpers/refresh-token";
 import { ProcessingStack } from "./src/processing/core/processing-manager";
 import { cleanFolder } from "./src/processing/utils/jobs";
-import { setupProxies } from "./src/proxies";
+import { setupJellyfinProxy } from "./src/proxies/jellyfin";
+import { setupNavidromeProxy } from "./src/proxies/navidrome";
+import { setupPlexProxy } from "./src/proxies/plex";
+import { setupTidalProxy } from "./src/proxies/tidal";
 // Import routers
 import apiKeyRouter from "./src/routes/api-key";
 import authRouter from "./src/routes/auth";
@@ -26,7 +30,6 @@ import { getOrCreateApiKey } from "./src/services/api-key";
 import { configureServer } from "./src/services/config";
 import { loadHistoryFromFile } from "./src/services/history";
 import { createCronJob } from "./src/services/sync";
-import { startTokenRefreshInterval } from "./src/services/token-refresh";
 
 import customCssRouter from "./src/routes/custom-css";
 
@@ -48,7 +51,11 @@ app.use(express.json());
 app.use(cors());
 
 // Setup all API proxies (Tidal, Plex, Navidrome)
-setupProxies(app);
+
+setupTidalProxy(app);
+setupPlexProxy(app);
+setupJellyfinProxy(app);
+setupNavidromeProxy(app);
 
 const processingList = ProcessingStack();
 app.locals.processingStack = processingList;
@@ -69,6 +76,7 @@ app.all("/{*any}", function (_req, res, next) {
 });
 
 // Register routers
+
 app.use("/api", authRouter);
 app.use("/api", oidcRouter);
 app.use("/api", processingRouter);
@@ -92,20 +100,20 @@ const server = app.listen(port, async () => {
   const { config: tiddlConfig } = get_tiddl_config();
   app.locals.tiddlConfig = tiddlConfig;
 
+  // Clean up all processing folders
+  await cleanFolder();
+
+  // Log token expiration status
+  logExpiresToken(tiddlConfig?.auth?.expires_at);
+
   // Generate or load API key on startup
   const apiKey = getOrCreateApiKey();
-  console.log(`🔑 [API KEY] API key ready (${apiKey.substring(0, 8)}...)`);
+  console.log(`🔑 [TIDARR] API key ready (${apiKey.substring(0, 8)}...)`);
 
   // Load download history
   const history = await loadHistoryFromFile();
   app.locals.history = history;
   app.locals.historySet = new Set(history);
-
-  // Start token refresh interval (checks every 15 minutes)
-  startTokenRefreshInterval(app);
-
-  // Clean up all processing folders (safe because loadDataFromFile resets "processing" to "queue")
-  await cleanFolder();
 
   // Load queue file on startup
   await app.locals.processingStack.actions.loadDataFromFile();

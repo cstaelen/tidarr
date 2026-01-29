@@ -46,7 +46,7 @@ export function validateRequestBody(
 /**
  * Validate item object structure for downloads
  */
-export function validateItem(item: unknown): item is {
+function validateItem(item: unknown): item is {
   url?: string;
   type: string;
   status: string;
@@ -114,7 +114,7 @@ export function validateItemMiddleware(
 /**
  * Validate ID parameter (must be non-empty string or number)
  */
-export function validateId(id: unknown): boolean {
+function validateId(id: unknown): boolean {
   if (typeof id === "string" && id.trim().length > 0) {
     return true;
   }
@@ -143,11 +143,4 @@ export function validateIdMiddleware(
   }
 
   next();
-}
-
-/**
- * Validate CSS string (basic check)
- */
-export function validateCSS(css: unknown): boolean {
-  return typeof css === "string";
 }

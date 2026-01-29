@@ -1,4 +1,4 @@
-import { ChildProcess, ChildProcessWithoutNullStreams } from "child_process";
+import { ChildProcess } from "child_process";
 
 export type QualityType = "low" | "normal" | "high" | "max";
 export type ContentType =
@@ -102,16 +102,6 @@ export type TiddlConfig = {
   };
 };
 
-export type LogType = {
-  output: string;
-  output_history: string[];
-  link: string;
-  process?: ChildProcessWithoutNullStreams;
-  status?: "finished" | "error" | "auth" | undefined;
-  loading?: boolean;
-  error?: boolean;
-};
-
 // SYNC LIST
 
 export type SyncItemType = {
@@ -125,16 +115,6 @@ export type SyncItemType = {
 };
 
 // API RESPONSES
-
-/**
- * Generic API response wrapper
- */
-export interface ApiResponse<T = unknown> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  message?: string;
-}
 
 /**
  * Authentication responses
@@ -210,14 +190,6 @@ export interface TiddlTomlSaveResponse {
  * Sync list responses
  */
 export type SyncListResponse = SyncItemType[];
-
-/**
- * Error response
- */
-export interface ErrorResponse {
-  error: string;
-  details?: unknown;
-}
 
 /**
  * Tidal API search response types (for Lidarr indexer)

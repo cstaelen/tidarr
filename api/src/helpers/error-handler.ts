@@ -49,16 +49,3 @@ export function handleValidationError(res: Response, message: string): void {
     error: message,
   });
 }
-
-/**
- * Handle not found errors with 404 status
- * @param res - Express response object
- * @param resource - What resource was not found
- */
-export function handleNotFoundError(res: Response, resource: string): void {
-  console.warn(`[NOT FOUND] ${resource}`);
-
-  res.status(404).json({
-    error: `${resource} not found`,
-  });
-}

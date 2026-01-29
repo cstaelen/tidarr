@@ -9,7 +9,9 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.58.0",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.0.10",
+    "jsonwebtoken": "^9.0.3",
     "dotenv": "^17.2.3",
     "playwright": "^1.57.0",
     "testcontainers": "^11.11.0"

@@ -110,7 +110,7 @@ export async function deletePlaylist(playlistId: string, itemId: string) {
   return response;
 }
 
-export async function getPlaylistEtag(playlistId: number) {
+async function getPlaylistEtag(playlistId: number) {
   const app = getAppInstance();
   const tiddlConfig = app.locals.tiddlConfig;
 

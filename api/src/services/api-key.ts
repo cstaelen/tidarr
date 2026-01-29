@@ -12,7 +12,7 @@ let cachedApiKey: string | null = null;
 /**
  * Generate a random API key (32 bytes = 64 hex characters)
  */
-export function generateApiKey(): string {
+function generateApiKey(): string {
   return crypto.randomBytes(32).toString("hex");
 }
 

@@ -232,10 +232,6 @@ class PlexMonitor {
 
 export const plexMonitor = new PlexMonitor();
 
-export function startPlexMonitor() {
-  plexMonitor.start();
-}
-
 export function stopPlexMonitor() {
   plexMonitor.stop();
 }

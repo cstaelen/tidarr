@@ -24,7 +24,7 @@ export function sanitizeProcessingData(
   return data.map(({ process, ...rest }) => rest);
 }
 
-export function notifySSEConnections(app: Express) {
+function notifySSEConnections(app: Express) {
   const { processingStack, activeListConnections } = app.locals;
 
   const data = JSON.stringify(sanitizeProcessingData(processingStack.data));
@@ -34,7 +34,7 @@ export function notifySSEConnections(app: Express) {
   });
 }
 
-export function notifyItemOutput(app: Express, itemId: string, output: string) {
+function notifyItemOutput(app: Express, itemId: string, output: string) {
   const connections: Map<string, Response[]> =
     app.locals.activeItemOutputConnections;
   // Ensure itemId is a string for Map lookup

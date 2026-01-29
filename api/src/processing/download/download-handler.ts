@@ -15,7 +15,7 @@ import {
  * @param item - The processing item with type "mix"
  * @returns The playlist ID or undefined if failed
  */
-export async function prepareMixToPlaylist(
+async function prepareMixToPlaylist(
   item: ProcessingItemType,
 ): Promise<string | undefined> {
   const tracks = await getTracksByMixId(item);

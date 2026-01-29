@@ -5,6 +5,11 @@ import {
   SseMessage,
 } from "event-source-plus";
 import { LOCALSTORAGE_TOKEN_KEY, TIDARR_API_URL } from "src/contants";
+import {
+  getAuthToken,
+  handleForbidden,
+  withAuthHeader,
+} from "src/helpers/auth-utils";
 
 import {
   AuthType,
@@ -93,14 +98,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     url: string,
     options?: RequestInit,
   ): Promise<T | undefined> {
-    const token = localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
-
-    if (token) {
-      options = {
-        ...options,
-        headers: { ...options?.headers, authorization: `Bearer ${token}` },
-      };
-    }
+    options = withAuthHeader(options);
 
     let output!: T;
 
@@ -119,7 +117,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
 
           if (response.status === 401) {
             // Unauthorized - redirect to login
-            if (localStorage.getItem(LOCALSTORAGE_TOKEN_KEY)) {
+            if (getAuthToken()) {
               localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
             }
             // window.location.href = "/login";
@@ -130,11 +128,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
             return;
           }
 
-          if (response.status === 403) {
-            if (localStorage.getItem(LOCALSTORAGE_TOKEN_KEY)) {
-              localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
-              window.location.reload();
-            }
+          if (handleForbidden(response)) {
             return;
           }
 
@@ -157,15 +151,10 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     url: string,
     onMessage: (message: SseMessage) => void,
   ) {
-    const token = localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
-
-    let headers = {};
-    if (token) {
-      headers = { Authorization: `Bearer ${token}` };
-    }
+    const token = getAuthToken();
 
     const eventSource = new EventSourcePlus(url, {
-      headers: headers,
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
     });
 
     const controller = eventSource.listen({
