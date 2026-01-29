@@ -6,11 +6,12 @@ This documentation describes how to use the Tidarr REST API to automate download
 
 - [Basic Configuration](#basic-configuration)
 - [Authentication](#authentication)
+- [Playback Endpoints](#playback-endpoints)
 - [Download Endpoints](#download-endpoints)
 - [Queue Management](#queue-management)
 - [History Endpoints](#history-endpoints)
 - [Configuration Endpoints](#configuration-endpoints)
-- [Synchronization Endpoints](#synchronization-endpoints)
+- [Synchronization Endpoints (watch list)](#synchronization-endpoints)
 - [Custom CSS Endpoints](#custom-css-endpoints)
 - [Lidarr Integration](#lidarr-integration)
 - [Usage Examples](#usage-examples)
@@ -106,11 +107,90 @@ GET /api/is-auth-active
 **Response:**
 ```json
 {
-  "isAuthActive": true
+  "isAuthActive": true,
+  "authType": "password"
 }
 ```
 
+**Possible `authType` values:**
+- `"password"` - Password authentication (ADMIN_PASSWORD)
+- `"oidc"` - OpenID Connect authentication
+- `null` - No authentication configured
+
 **Note:** All examples below use the API key method (`X-Api-Key` header).
+
+---
+
+### Method 3: OpenID Connect (OIDC) Authentication
+
+Tidarr supports OIDC authentication for integration with identity providers like Keycloak, PocketID, Authentik, etc.
+
+**Initiate OIDC login:**
+```bash
+GET /api/auth/oidc/login
+```
+
+Redirects the user to the configured OIDC provider for authentication.
+
+**OIDC callback:**
+```bash
+GET /api/auth/oidc/callback
+```
+
+Handles the OIDC callback and issues a JWT token. Redirects to the frontend with the token.
+
+**Required environment variables:**
+- `OIDC_ISSUER` - The URL of your OpenID Connect provider
+- `OIDC_CLIENT_ID` - The client ID registered in your OIDC provider
+- `OIDC_CLIENT_SECRET` - The client secret for your application
+- `OIDC_REDIRECT_URI` - The callback URL (e.g., `https://your-tidarr-domain.com/api/auth/oidc/callback`)
+
+---
+
+## Playback Endpoints
+
+### Generate signed streaming URL
+
+```bash
+GET /api/stream/sign/:id
+```
+
+Generates a time-limited signed URL for audio streaming.
+
+**Parameters:**
+- `id` - The Tidal track ID
+
+**Example:**
+```bash
+curl http://localhost:8484/api/stream/sign/123456789 \
+  -H "X-Api-Key: your-api-key"
+```
+
+**Response:**
+```json
+{
+  "url": "/api/stream/play/123456789?exp=1234567890&sig=abc123..."
+}
+```
+
+**Note:** The signed URL expires after 5 minutes.
+
+---
+
+### Play audio stream
+
+```bash
+GET /api/stream/play/:id?exp={expiration}&sig={signature}
+```
+
+Streams audio content with signature validation. Supports range requests for seeking.
+
+**Parameters:**
+- `id` - The Tidal track ID
+- `exp` - Expiration timestamp (from signed URL)
+- `sig` - Signature (from signed URL)
+
+**Note:** This endpoint is typically called via the signed URL obtained from `/api/stream/sign/:id`.
 
 ---
 
@@ -544,6 +624,17 @@ curl -X DELETE http://localhost:8484/api/sync/remove \
 
 ---
 
+### Remove all playlists from sync
+
+```bash
+curl -X DELETE http://localhost:8484/api/sync/remove-all \
+  -H "X-Api-Key: your-api-key"
+```
+
+**Response:** `204 No Content`
+
+---
+
 ### Trigger sync now
 
 ```bash
@@ -654,12 +745,16 @@ curl "http://localhost:8484/api/lidarr?t=music&artist=Daft%20Punk&album=Random%2
 #### Download Album
 
 ```bash
-GET /api/lidarr/download/{albumId}
+GET /api/lidarr/download/{albumId}/{quality}
 ```
+
+**Parameters:**
+- `albumId` - The Tidal album ID
+- `quality` - Download quality: `max` (24-bit), `high` (16-bit), `normal` (AAC-320), `low` (AAC-96)
 
 **Example:**
 ```bash
-curl "http://localhost:8484/api/lidarr/download/34277251?apikey=your-api-key"
+curl "http://localhost:8484/api/lidarr/download/34277251/high?apikey=your-api-key"
 ```
 
 **Response:** NZB file format
@@ -668,17 +763,17 @@ curl "http://localhost:8484/api/lidarr/download/34277251?apikey=your-api-key"
 
 ### SABnzbd Download Client Endpoints
 
-Base URL: `http://your-tidarr-url:8484/api/sabnzbd`
+Base URL: `http://your-tidarr-url:8484/api/sabnzbd/api`
 
 #### Get Version
 
 ```bash
-GET /api/sabnzbd?mode=version
+GET /api/sabnzbd/api?mode=version
 ```
 
 **Example:**
 ```bash
-curl "http://localhost:8484/api/sabnzbd?mode=version&apikey=your-api-key"
+curl "http://localhost:8484/api/sabnzbd/api?mode=version&apikey=your-api-key"
 ```
 
 **Response:**
@@ -693,12 +788,13 @@ curl "http://localhost:8484/api/sabnzbd?mode=version&apikey=your-api-key"
 #### Add Download
 
 ```bash
-GET /api/sabnzbd?mode=addurl&name={url}
+GET /api/sabnzbd/api?mode=addurl&name={url}
+POST /api/sabnzbd/api?mode=addfile  # multipart/form-data with NZB file
 ```
 
 **Example:**
 ```bash
-curl "http://localhost:8484/api/sabnzbd?mode=addurl&name=https://listen.tidal.com/album/34277251&apikey=your-api-key"
+curl "http://localhost:8484/api/sabnzbd/api?mode=addurl&name=https://listen.tidal.com/album/34277251&apikey=your-api-key"
 ```
 
 **Response:**
@@ -714,12 +810,12 @@ curl "http://localhost:8484/api/sabnzbd?mode=addurl&name=https://listen.tidal.co
 #### Get Queue
 
 ```bash
-GET /api/sabnzbd?mode=queue
+GET /api/sabnzbd/api?mode=queue
 ```
 
 **Example:**
 ```bash
-curl "http://localhost:8484/api/sabnzbd?mode=queue&apikey=your-api-key"
+curl "http://localhost:8484/api/sabnzbd/api?mode=queue&apikey=your-api-key"
 ```
 
 **Response:**
@@ -745,15 +841,36 @@ curl "http://localhost:8484/api/sabnzbd?mode=queue&apikey=your-api-key"
 
 ---
 
-#### Get History
+#### Delete from Queue
 
 ```bash
-GET /api/sabnzbd?mode=history&limit={n}
+GET /api/sabnzbd/api?mode=queue&name=delete&value={nzo_id}
 ```
 
 **Example:**
 ```bash
-curl "http://localhost:8484/api/sabnzbd?mode=history&limit=50&apikey=your-api-key"
+curl "http://localhost:8484/api/sabnzbd/api?mode=queue&name=delete&value=tidarr_nzo_34277251&apikey=your-api-key"
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "nzo_ids": ["tidarr_nzo_34277251"]
+}
+```
+
+---
+
+#### Get History
+
+```bash
+GET /api/sabnzbd/api?mode=history&limit={n}
+```
+
+**Example:**
+```bash
+curl "http://localhost:8484/api/sabnzbd/api?mode=history&limit=50&apikey=your-api-key"
 ```
 
 **Response:**
@@ -775,6 +892,27 @@ curl "http://localhost:8484/api/sabnzbd?mode=history&limit=50&apikey=your-api-ke
 **Status mapping:**
 - `Completed` - Successfully downloaded
 - `Failed` - Download failed
+
+---
+
+#### Delete from History
+
+```bash
+GET /api/sabnzbd/api?mode=history&name=delete&value={nzo_id}
+```
+
+**Example:**
+```bash
+curl "http://localhost:8484/api/sabnzbd/api?mode=history&name=delete&value=tidarr_nzo_34277251&apikey=your-api-key"
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "nzo_ids": ["tidarr_nzo_34277251"]
+}
+```
 
 ---
 

@@ -63,7 +63,7 @@ Add Tidarr as a **SABnzbd** download client:
 | **Enable**   | ✅ Enabled                         |
 | **Host**     | `your-tidarr-url`                  |
 | **Port**     | `8484`                             |
-| **URL Base** | `/api/sabnzbd`                     |
+| **URL Base** | `/api/sabnzbd/api`                 |
 | **API Key**  | Get from Tidarr (see below)        |
 | **Category** | `music` (optional but recommended) |
 
@@ -149,7 +149,7 @@ Add Tidarr as a **SABnzbd** download client:
 │                                                             │
 │  ┌────────────────────┐         ┌──────────────────────┐    │
 │  │ Newznab Indexer    │         │  SABnzbd Downloader  │    │
-│  │  /api/lidarr       │         │   /api/sabnzbd       │    │
+│  │  /api/lidarr       │         │  /api/sabnzbd/api    │    │
 │  └────────┬───────────┘         └──────────┬───────────┘    │
 │           │                                │                │
 │           │ Query Tidal                    │ Download       │
@@ -223,7 +223,7 @@ Tidarr implements these Newznab endpoints:
 | `GET /api/lidarr?t=caps`                       | Returns indexer capabilities | API key via header or query param |
 | `GET /api/lidarr?t=search&q=...`               | Searches for albums          | API key via header or query param |
 | `GET /api/lidarr?t=music&artist=...&album=...` | Music-specific search        | API key via header or query param |
-| `GET /api/lidarr/download/:id`                 | Triggers album download      | API key via header or query param |
+| `GET /api/lidarr/download/:id/:quality`        | Triggers album download      | API key via header or query param |
 
 **Authentication Methods:**
 
@@ -236,19 +236,20 @@ Tidarr implements these Newznab endpoints:
 
 Tidarr implements these SABnzbd-compatible endpoints:
 
-| Endpoint                                                 | Purpose                                     | Authentication          |
-| -------------------------------------------------------- | ------------------------------------------- | ----------------------- |
-| `GET /api/sabnzbd?mode=version`                          | Returns SABnzbd version (3.0.0)             | API key via query param |
-| `GET /api/sabnzbd?mode=get_config`                       | Returns downloader configuration            | API key via query param |
-| `POST /api/sabnzbd?mode=addfile`                         | Adds album to download queue via NZB upload | API key via query param |
-| `GET /api/sabnzbd?mode=queue`                            | Returns current download queue status       | API key via query param |
-| `GET /api/sabnzbd?mode=queue&name=delete&value=<nzo_id>` | Removes item from download queue            | API key via query param |
-| `GET /api/sabnzbd?mode=history&limit=<n>`                | Returns download history (completed/failed) | API key via query param |
+| Endpoint                                                     | Purpose                                     | Authentication          |
+| ------------------------------------------------------------ | ------------------------------------------- | ----------------------- |
+| `GET /api/sabnzbd/api?mode=version`                          | Returns SABnzbd version (3.0.0)             | API key via query param |
+| `GET /api/sabnzbd/api?mode=get_config`                       | Returns downloader configuration            | API key via query param |
+| `POST /api/sabnzbd/api?mode=addfile`                         | Adds album to download queue via NZB upload | API key via query param |
+| `GET /api/sabnzbd/api?mode=queue`                            | Returns current download queue status       | API key via query param |
+| `GET /api/sabnzbd/api?mode=queue&name=delete&value=<nzo_id>` | Removes item from download queue            | API key via query param |
+| `GET /api/sabnzbd/api?mode=history&limit=<n>`                | Returns download history (completed/failed) | API key via query param |
+| `GET /api/sabnzbd/api?mode=history&name=delete&value=<nzo_id>` | Removes item from history                 | API key via query param |
 
 **Authentication:**
 
 - All SABnzbd endpoints require `apikey` as a query parameter
-- Example: `/api/sabnzbd?mode=version&apikey=your-api-key`
+- Example: `/api/sabnzbd/api?mode=version&apikey=your-api-key`
 
 **Note:** These endpoints enable Lidarr to manage downloads through Tidarr as if it were a SABnzbd download client.
 
