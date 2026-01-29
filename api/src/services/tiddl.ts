@@ -16,6 +16,7 @@ import { checkAndRefreshToken } from "./token-refresh";
 
 // Constants
 const TIDDL_BINARY = "tiddl";
+const PROGRESS_UPDATE_THROTTLE_MS = 2000;
 
 // Error messages to detect authentication issues
 const AUTH_ERROR_MESSAGES = [
@@ -96,6 +97,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   child.stdout?.setEncoding("utf8");
   let lastTotalProgress = "";
   let hasProcessingError = false;
+  let lastProgressUpdate = 0;
 
   child.stdout?.on("data", (data: string) => {
     const lines = data?.split("\r");
@@ -138,6 +140,19 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
     if (data.includes("Total Progress")) {
       lastTotalProgress = data;
+
+      // Parse progress (e.g., "47/210") and update item (throttled)
+      const match = data.match(/(\d+)\/(\d+)/);
+      const now = Date.now();
+      if (match && now - lastProgressUpdate > PROGRESS_UPDATE_THROTTLE_MS) {
+        lastProgressUpdate = now;
+        item.progress = {
+          current: parseInt(match[1], 10),
+          total: parseInt(match[2], 10),
+        };
+        app.locals.processingStack.actions.updateItem(item);
+      }
+
       logs(item.id, data, { replaceLast: true, skipConsole: true });
     }
   });

@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { Block, CoffeeMaker, MoreHoriz } from "@mui/icons-material";
@@ -18,6 +19,17 @@ import { ProcessingItemType } from "src/types";
 
 import { DialogTerminal } from "../Dialog/DialogTerminal";
 
+import { CircularProgressWithLabel } from "./CircularProgressWithLabel";
+
+const STATUS_ICONS: Record<string, ReactElement> = {
+  finished: <CheckIcon color="success" />,
+  error: <WarningIcon color="error" />,
+  queue_download: <AccessTimeIcon />,
+  queue_processing: <MoreHoriz />,
+  processing: <CoffeeMaker />,
+  no_download: <Block color="disabled" />,
+};
+
 export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
   const status = item?.status;
   const { actions } = useProcessingProvider();
@@ -28,9 +40,19 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
     ? `/#my-favorites`
     : `/${item.type}/${item.id}`;
 
-  async function run() {
-    await actions.retryItem(item);
-  }
+  const renderStatusIcon = () => {
+    if (status === "download" && item.progress) {
+      return (
+        <CircularProgressWithLabel
+          current={item.progress.current}
+          total={item.progress.total}
+        />
+      );
+    }
+
+    const icon = STATUS_ICONS[status] ?? <CircularProgress size={24} />;
+    return <Tooltip title={status}>{icon}</Tooltip>;
+  };
 
   return (
     <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
@@ -39,31 +61,19 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
           <RemoveButton onClick={() => actions.removeItem(item.id)}>
             <ClearIcon />
           </RemoveButton>
-          <Tooltip title={status}>
-            {status === "finished" ? (
-              <CheckIcon color="success" />
-            ) : status === "error" ? (
-              <WarningIcon color="error" />
-            ) : status === "queue_download" ? (
-              <AccessTimeIcon />
-            ) : status === "queue_processing" ? (
-              <MoreHoriz />
-            ) : status === "processing" ? (
-              <CoffeeMaker />
-            ) : status === "no_download" ? (
-              <Block color="disabled" />
-            ) : (
-              <CircularProgress size={24} />
-            )}
-          </Tooltip>
-          {status === "error" ? (
+          {renderStatusIcon()}
+          {status === "error" && (
             <>
               &nbsp;&nbsp;
-              <Button variant="outlined" size="small" onClick={() => run()}>
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={() => actions.retryItem(item)}
+              >
                 Retry
               </Button>
             </>
-          ) : null}
+          )}
           &nbsp;&nbsp;
           {item.status !== "queue_download" &&
             item.status !== "no_download" && <DialogTerminal item={item} />}

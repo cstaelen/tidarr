@@ -40,6 +40,7 @@ export const addItemToFile = async (item: ProcessingItemType) => {
   }
 
   delete item.process;
+  delete item.progress;
   saveList.push(item);
 
   // Update cache
@@ -78,6 +79,7 @@ export const updateItemInQueueFile = async (item: ProcessingItemType) => {
   const itemIndex = saveList.findIndex((current) => current.id === item.id);
 
   delete item.process;
+  delete item.progress;
 
   // Keep in queue, just update
   saveList[itemIndex] = { ...item };

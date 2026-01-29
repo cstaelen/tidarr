@@ -365,6 +365,10 @@ export type ProcessingItemType = {
   url: string;
   loading: boolean;
   error: boolean;
+  progress?: {
+    current: number;
+    total: number;
+  };
 };
 
 export type ApiReturnType = {
