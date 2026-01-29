@@ -7,6 +7,7 @@ import {
   PROCESSING_PATH,
 } from "../../constants";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
+import { refreshTokenOnce } from "../helpers/refresh-token";
 import { extractFirstLineClean } from "../processing/utils/ansi-parse";
 import { logs } from "../processing/utils/logs";
 import { ProcessingItemType, TiddlConfig } from "../types";
@@ -171,10 +172,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
       // Try to refresh token
       try {
-        await refreshTidalToken();
-        const { config } = get_tiddl_config();
-        app.locals.tiddlConfig = config;
-        logs(item.id, "🔄 [TIDDL] Token refreshed");
+        await refreshTokenOnce(app);
       } catch {
         logs(item.id, "❌ [TIDDL] Token refresh failed");
         deleteTiddlConfig();

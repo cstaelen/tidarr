@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { TIDARR_PROXY_URL } from "src/contants";
+import { handleForbidden, withAuthHeader } from "src/helpers/auth-utils";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { ConfigTiddleType } from "src/types";
@@ -34,6 +35,8 @@ async function fetchTidal<T>({
   const countryCode = tiddlConfig?.auth.country_code || "EN";
   const apiUrl = `${TIDARR_PROXY_URL}/tidal`;
 
+  // Add JWT auth header
+  options = withAuthHeader(options);
   options.headers = new Headers({ ...options?.headers });
 
   if (
@@ -56,10 +59,17 @@ async function fetchTidal<T>({
 
   const urlWithParams = `${apiUrl}${urlObj.pathname}${urlObj.search}`;
   const response = await fetch(urlWithParams, options);
+
+  // 403 = Tidarr auth failed (JWT invalid) - logout and reload
+  if (handleForbidden(response)) {
+    throw new Error("Authentication required");
+  }
+
   const data = await response.json();
 
+  // 401 = Tidal token invalid - reset Tidal auth
   if (response.status === 401) {
-    console.error("[FETCH_TIDAL] 401 - Token invalid");
+    console.error("[FETCH_TIDAL] 401 - Tidal token invalid");
     console.error("[FETCH_TIDAL] SubStatus:", data.subStatus);
     resetTidalToken();
     throw new Error(
@@ -86,9 +96,9 @@ export function useFetchTidal() {
     actions: { delete_token },
   } = useApiFetcher();
 
-  const resetTidalToken = async () => {
-    await delete_token();
-    await checkAPI();
+  const resetTidalToken = () => {
+    delete_token();
+    checkAPI();
   };
 
   async function fetcher<T>(
