@@ -1,7 +1,5 @@
 import { SYNC_DEFAULT_CRON } from "../../constants";
-import { get_tiddl_config } from "../helpers/get_tiddl_config";
 import { initializeFiles } from "../helpers/initialize-server";
-import { TiddlConfig } from "../types";
 
 export async function configureServer() {
   console.log(`---------------------`);
@@ -50,12 +48,4 @@ export async function configureServer() {
   } catch (error: unknown) {
     console.log("❌ [TIDARR] Error config", error);
   }
-}
-
-/** Reload config from disk */
-export function reloadConfig(): {
-  config: TiddlConfig;
-  errors: string[];
-} {
-  return get_tiddl_config();
 }

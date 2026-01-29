@@ -91,6 +91,26 @@ const server = app.listen(port, async () => {
   const { config: tiddlConfig } = get_tiddl_config();
   app.locals.tiddlConfig = tiddlConfig;
 
+  // Log token expiration status
+  if (tiddlConfig?.auth?.expires_at) {
+    const now = Math.floor(Date.now() / 1000);
+    const expiresIn = tiddlConfig.auth.expires_at - now;
+    if (expiresIn > 0) {
+      const minutes = Math.floor(expiresIn / 60);
+      const hours = Math.floor(minutes / 60);
+      const remainingMinutes = minutes % 60;
+      console.log(
+        `🔑 [TIDAL] Token expires in ${hours}h ${remainingMinutes}min`,
+      );
+    } else {
+      console.log(
+        `⚠️ [TIDAL] Token expired ${Math.abs(Math.floor(expiresIn / 60))}min ago`,
+      );
+    }
+  } else {
+    console.log(`⚠️ [TIDAL] No token found - authentication required`);
+  }
+
   // Generate or load API key on startup
   const apiKey = getOrCreateApiKey();
   console.log(`🔑 [API KEY] API key ready (${apiKey.substring(0, 8)}...)`);

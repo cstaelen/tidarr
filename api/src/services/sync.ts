@@ -74,10 +74,7 @@ export const removeAllFromSyncList = async () => {
   await syncListDb.push(SYNC_LIST_PATH, []);
 };
 
-export const updateSyncItem = async (
-  id: string,
-  update: Partial<SyncItemType>,
-) => {
+const updateSyncItem = async (id: string, update: Partial<SyncItemType>) => {
   const syncList = await loadSyncList();
   const itemIndex = syncList.findIndex((item) => item.id === id.toString());
 

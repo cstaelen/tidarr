@@ -20,7 +20,7 @@ export type ModuleResponseType = TidalModuleListType<
   AlbumType | TrackType | PlaylistType | VideoType | ArtistType
 >;
 
-export type PagedModuleResponseType = TidalPagedListType<
+type PagedModuleResponseType = TidalPagedListType<
   AlbumType | TrackType | PlaylistType | VideoType | ArtistType
 >;
 

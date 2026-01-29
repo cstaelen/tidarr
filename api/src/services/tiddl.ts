@@ -1,7 +1,11 @@
 import { spawn, spawnSync } from "child_process";
 import { Express, Request, Response } from "express";
 
-import { CONFIG_PATH, NZB_DOWNLOAD_PATH, PROCESSING_PATH } from "../../constants";
+import {
+  CONFIG_PATH,
+  NZB_DOWNLOAD_PATH,
+  PROCESSING_PATH,
+} from "../../constants";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
 import { extractFirstLineClean } from "../processing/utils/ansi-parse";
 import { logs } from "../processing/utils/logs";
@@ -279,7 +283,6 @@ export async function refreshTidalToken(): Promise<void> {
     const refreshProcess = spawn(TIDDL_BINARY, ["auth", "refresh"], {
       env: {
         ...process.env,
-        HOME: CONFIG_PATH, // CRITICAL: tiddl uses $HOME/.tiddl/ for config
       },
     });
 

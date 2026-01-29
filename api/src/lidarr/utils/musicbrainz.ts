@@ -9,7 +9,7 @@ export function formatForMusicBrainz(str: string): string {
 /**
  * Apply MusicBrainz title case formatting
  */
-export function applyMusicBrainzTitleCase(str: string): string {
+function applyMusicBrainzTitleCase(str: string): string {
   const lowerCaseWords = new Set([
     "a",
     "an",

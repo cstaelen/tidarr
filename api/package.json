@@ -3,7 +3,6 @@
   "version": "0.0.0-dev",
   "private": true,
   "devDependencies": {
-    "@types/apicache": "^1.6.8",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.5",
     "@types/express-http-proxy": "^1.6.7",
@@ -12,7 +11,6 @@
     "@types/ws": "^8.18.1"
   },
   "dependencies": {
-    "apicache": "^1.6.3",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^5.2.0",

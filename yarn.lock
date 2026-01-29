@@ -872,14 +872,6 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.53.3.tgz#38ae84f4c04226c1d56a3b17296ef1e0460ecdfe"
   integrity sha512-UhTd8u31dXadv0MopwGgNOBpUVROFKWVQgAg5N1ESyCz8AuBcMqm4AuTjrwgQKGDfoFuz02EuMRHQIw/frmYKQ==
 
-"@types/apicache@^1.6.8":
-  version "1.6.8"
-  resolved "https://registry.npmjs.org/@types/apicache/-/apicache-1.6.8.tgz"
-  integrity sha512-PDBHDA9p/YEYRLL2KN2kr2UXRAWvZq/WM+GBN94MwPQRZORUnoazd1A1plZXWDOvCvGTgcKriRIIECnRpHhC/g==
-  dependencies:
-    "@types/express" "*"
-    "@types/redis" "^2.8.0"
-
 "@types/babel__core@^7.20.5":
   version "7.20.5"
   resolved "https://registry.npmjs.org/@types/babel__core/-/babel__core-7.20.5.tgz"
@@ -1057,13 +1049,6 @@
   dependencies:
     csstype "^3.2.2"
 
-"@types/redis@^2.8.0":
-  version "2.8.32"
-  resolved "https://registry.npmjs.org/@types/redis/-/redis-2.8.32.tgz"
-  integrity sha512-7jkMKxcGq9p242exlbsVzuJb57KqHRhNl4dHoQu2Y5v9bCAbtIXXH0R3HleSQW4CTOqpHIYUW3t6tpUj4BVQ+w==
-  dependencies:
-    "@types/node" "*"
-
 "@types/send@*":
   version "1.2.1"
   resolved "https://registry.npmjs.org/@types/send/-/send-1.2.1.tgz"
@@ -1127,7 +1112,7 @@
     natural-compare "^1.4.0"
     ts-api-utils "^2.4.0"
 
-"@typescript-eslint/parser@8.53.1", "@typescript-eslint/parser@^8.53.1":
+"@typescript-eslint/parser@8.53.1":
   version "8.53.1"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-8.53.1.tgz#58d4a70cc2daee2becf7d4521d65ea1782d6ec68"
   integrity sha512-nm3cvFN9SqZGXjmw5bZ6cGmvJSyJPn0wU9gHAZZHDnZl2wF9PhHv78Xf06E0MaNk4zLVHL8hb2/c32XvyJOLQg==
@@ -1291,11 +1276,6 @@ ansi-to-react@^6.2.6:
     anser "^2.3.2"
     escape-carriage "^1.3.1"
     linkify-it "^3.0.3"
-
-apicache@^1.6.3:
-  version "1.6.3"
-  resolved "https://registry.npmjs.org/apicache/-/apicache-1.6.3.tgz"
-  integrity sha512-jS3VfUFpQ9BesFQZcdd1vVYg3ZsO2kGPmTJHqycIYPAQs54r74CRiyj8DuzJpwzLwIfCBYzh4dy9Jt8xYbo27w==
 
 archiver-utils@^5.0.0, archiver-utils@^5.0.2:
   version "5.0.2"
@@ -2573,11 +2553,6 @@ globals@^14.0.0:
   version "14.0.0"
   resolved "https://registry.npmjs.org/globals/-/globals-14.0.0.tgz"
   integrity sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==
-
-globals@^17.1.0:
-  version "17.1.0"
-  resolved "https://registry.yarnpkg.com/globals/-/globals-17.1.0.tgz#03448e667caa3914312a7937eef48c4a59dc6859"
-  integrity sha512-8HoIcWI5fCvG5NADj4bDav+er9B9JMj2vyL2pI8D0eismKyUvPLTSs+Ln3wqhwcp306i73iyVnEKx3F6T47TGw==
 
 globalthis@^1.0.4:
   version "1.0.4"

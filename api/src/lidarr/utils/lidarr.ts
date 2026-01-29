@@ -18,7 +18,7 @@ export function getAlbumArtist(album: TidalAlbum): string {
 /**
  * Escape XML special characters
  */
-export function escapeXml(str: string): string {
+function escapeXml(str: string): string {
   return str.replace(/[&<>"']/g, (char) => {
     switch (char) {
       case "&":
