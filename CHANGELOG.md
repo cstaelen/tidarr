@@ -7,10 +7,10 @@ Tidarr notable changes.
 ### 🚀 Added
 - [API] Add Navidrome library update #614 
 - [Front] Remove from queue by clicking twice on the download button
-- [Front] Prompt Changelog dialog on container update
-- [API] Add `custom-post-script.sh` running running after file moved. #614
-- [API] Plex scan also uploads the m3u file to Plex
-- [Front] Add progress indicator in processing queue
+- [Front] Prompt changelog dialog on docker image update #597 
+- [API] Add `custom-post-script.sh` running after files moved to library. #614 
+- [API] Plex scan also uploads the m3u file to Plex (Thanks to @The24thDS)
+- [Front] Add progress indicator in processing queue #624
 ### 🖍 Changes
 - [Lidarr] Apply replay gain for Lidarr downloads if enabled
 - [Lidarr] Tidarr return results for each quality as a separate album to allow Lidarr to choose the quality to download
@@ -18,6 +18,7 @@ Tidarr notable changes.
 - [API] Refacto token refresh logic
 ### 🐛 Fixed
 * [Front] Fix bad url on favorites processing items #624
+* [API] Avoid node process from being sent over SSE #625 
 
 ## 📦 1.1.6
 ### 🖍 Changes
