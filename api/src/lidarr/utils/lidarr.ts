@@ -142,7 +142,9 @@ export function generateNewznabItem(
   const formattedArtist = formatForMusicBrainz(albumArtist);
   const formattedTitle = formatForMusicBrainz(album.title);
   const explicitTag = album.explicit ? " [EXPLICIT]" : "";
-  const titleWithQuality = `${formattedArtist} - ${formattedTitle}${year ? ` (${year})` : ""}${explicitTag} [${qualityInfo.qualityName}] (${album.numberOfTracks} tracks)`;
+  const qualityTag = `[${qualityInfo.qualityName}]`;
+  const sourceTag = "[Tidarr]";
+  const titleWithQuality = `${formattedArtist} - ${formattedTitle}${year ? ` (${year})` : ""} ${explicitTag}${qualityTag}${sourceTag}`;
 
   return `    <item>
       <title>${escapeXml(titleWithQuality)}</title>
