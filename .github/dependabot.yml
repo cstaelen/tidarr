@@ -44,3 +44,9 @@ updates:
       root-dependencies:
         patterns: 
           - "*"
+
+  - package-ecosystem: "pip"
+    directory: "/docker"
+    rebase-strategy: auto
+    schedule:
+      interval: "weekly"
