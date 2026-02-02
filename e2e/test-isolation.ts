@@ -113,7 +113,5 @@ export const test = base.extend<TidarrFixtures & TestOptions>({
 
     // Provide page to test
     await use(page);
-
-    // Cleanup after test (if needed)
   },
 });
