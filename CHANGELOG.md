@@ -7,7 +7,9 @@ Tidarr notable changes.
 ### 🚀 Added
 - [Lidarr] Add `Tidarr` keyword to Lidarr release search results
 ### 🖍 Changes
+- [Lidarr] Auto-renew token on 401 error
 - [DevOps] Monitor python packages with dependabot
+- [API] Use tidal api v2 for searching albums
 
 ## 📦 1.1.7
 ### 🚀 Added
