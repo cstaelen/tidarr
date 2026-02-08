@@ -141,10 +141,11 @@ export function generateNewznabItem(
 
   const formattedArtist = formatForMusicBrainz(albumArtist);
   const formattedTitle = formatForMusicBrainz(album.title);
-  const explicitTag = album.explicit ? " [EXPLICIT]" : "";
-  const qualityTag = `[${qualityInfo.qualityName}]`;
-  const sourceTag = "[Tidarr]";
-  const titleWithQuality = `${formattedArtist} - ${formattedTitle}${year ? ` (${year})` : ""} ${explicitTag}${qualityTag}${sourceTag}`;
+  const explicitTag = album.explicit ? "[EXPLICIT]" : "";
+  const tracksInfo = album.numberOfTracks
+    ? ` (${album.numberOfTracks} tracks)`
+    : "";
+  const titleWithQuality = `${formattedArtist} - ${formattedTitle}${year ? ` (${year})` : ""} ${explicitTag} ${qualityInfo.qualityName} [WEB]-Tidarr${tracksInfo}`;
 
   return `    <item>
       <title>${escapeXml(titleWithQuality)}</title>
@@ -153,7 +154,7 @@ export function generateNewznabItem(
       <comments>${tidarrUrl}#comments</comments>
       <pubDate>${pubDate}</pubDate>
       <category>${qualityInfo.category}</category>
-      <description>${escapeXml(`${formattedArtist} - ${formattedTitle}${year ? ` (${year})` : ""}${explicitTag} [${qualityInfo.qualityName}] - ${qualityInfo.format} - ${album.numberOfTracks} tracks - type: ${album.type?.toUpperCase()}`)}</description>
+      <description>${escapeXml(`${formattedArtist} - ${formattedTitle}${year ? ` (${year})` : ""} ${explicitTag} [${qualityInfo.qualityName}] - ${qualityInfo.format} - ${album.numberOfTracks} tracks - type: ${album.type?.toUpperCase()}`)}</description>
       <enclosure url="${downloadUrl}" length="${estimatedSize}" type="application/x-nzb"/>
       <newznab:attr name="artist" value="${escapeXml(albumArtist)}"/>
       <newznab:attr name="album" value="${escapeXml(album.title)}"/>

@@ -137,18 +137,18 @@ export async function mockTidalQueries(page: Page) {
     },
   );
   await page.route(
-    "**/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&limit=18",
+    "**/proxy/tidal/v2/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&limit=18",
     async (route) => {
       await route.fulfill({ json: mockSearch });
     },
   );
 
   [
-    "**/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=18&limit=18",
-    "**/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=36&limit=18",
-    "**/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=54&limit=18",
-    "**/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=72&limit=18",
-    "**/proxy/tidal/v1/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=90&limit=18",
+    "**/proxy/tidal/v2/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=18&limit=18",
+    "**/proxy/tidal/v2/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=36&limit=18",
+    "**/proxy/tidal/v2/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=54&limit=18",
+    "**/proxy/tidal/v2/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=72&limit=18",
+    "**/proxy/tidal/v2/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=Nirvana&offset=90&limit=18",
   ].forEach(async (url) => {
     await page.route(url, async (route) => {
       await route.fulfill({ json: mockSearchPager });

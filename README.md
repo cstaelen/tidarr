@@ -25,12 +25,11 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Password protection](#password-protection)
   - [OpenID Connect (OIDC) Authentication](#openid-connect-oidc-authentication)
   - [Lock quality selector](#lock-quality-selector)
-  - [M3U track base path](#m3u-track-base-path)
+  - [Playlist options](#playlist-options)
   - [Sync playlists and mixes](#sync-playlists-and-mixes)
   - [Custom CSS](#custom-css)
   - [Download History](#download-history)
   - [Replay Gain](#replay-gain)
-  - [Playlist Albums](#playlist-albums)
 - [Services](#services):
   - [Beets](#beets)
   - [Plex/Plexamp](#plex-integration)
@@ -136,6 +135,18 @@ docker run  \
     cstaelen/tidarr:latest
 ```
 
+> [!TIP]
+> **Separate processing drive**
+>
+> Tidarr uses `/shared/.processing/` as a temporary folder during downloads. On setups where `/shared` is on a small drive (e.g. SSD config drive), large downloads (like discographies) can fill it up.
+> You can remap the processing folder to a separate drive:
+>
+> ```yaml
+> volumes:
+>   - ...
+>   - /path/to/media-drive/processing:/shared/.processing  # Separate drive for temp downloads
+> ```
+
 ## TIDAL AUTHENTICATION
 
 (if no `tiddl.json` file provided) :
@@ -224,7 +235,9 @@ environment:
   - LOCK_QUALITY=true
 ```
 
-### M3U track base path
+### Playlist options
+
+#### M3U track base path
 
 Default base path used in `.m3u` : `./`
 You can custom base path used by track path in `.m3u` file :
@@ -234,6 +247,19 @@ environment:
   - ...
   - M3U_BASEPATH_FILE="../../"
 ```
+
+#### Playlist Albums
+
+Automatically download complete albums for all tracks in a playlist. When enabled, Tidarr will extract unique album IDs from each track in the playlist and add them to the download queue.
+
+```yaml
+environment:
+  - ...
+  - PLAYLIST_ALBUMS=true
+```
+
+> [!NOTE]
+> This feature processes playlists and mixes after the playlist download completes. Albums are added to the queue automatically, eliminating the need to manually download each album. Duplicates are avoided by tracking unique album IDs + Tiddl "skip existing" feature.
 
 ### Sync playlists and mixes
 
@@ -291,18 +317,6 @@ environment:
 > [!NOTE]
 > Replay Gain scanning happens after Beets tagging (if enabled) and before moving files to your library. The process adds minimal overhead to downloads while ensuring consistent playback volume across your music collection.
 
-### Playlist Albums
-
-Automatically download complete albums for all tracks in a playlist. When enabled, Tidarr will extract unique album IDs from each track in the playlist and add them to the download queue.
-
-```yaml
-environment:
-  - ...
-  - PLAYLIST_ALBUMS=true
-```
-
-> [!NOTE]
-> This feature processes playlists and mixes after the playlist download completes. Albums are added to the queue automatically, eliminating the need to manually download each album. Duplicates are avoided by tracking unique album IDs + Tiddl "skip existing" feature.
 
 ## SERVICES
 
