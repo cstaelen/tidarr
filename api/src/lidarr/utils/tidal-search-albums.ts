@@ -2,9 +2,38 @@ import { Express } from "express";
 
 import { TIDAL_API_URL } from "../../../constants";
 import { getAppInstance } from "../../helpers/app-instance";
+import { refreshTokenOnce } from "../../helpers/refresh-token";
 import { TidalAlbum, TidalSearchResponse } from "../../types";
 
 import { getAlbumArtist, mapQualityToTiddl } from "./lidarr";
+
+/**
+ * Fetch Tidal API with automatic token refresh on 401
+ */
+async function fetchTidalWithRefresh(
+  url: string,
+  app: Express,
+): Promise<globalThis.Response> {
+  const token = app.locals.tiddlConfig?.auth?.token;
+
+  const makeRequest = (authToken: string) =>
+    fetch(url, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
+
+  let response = await makeRequest(token);
+
+  if (response.status === 401) {
+    console.log("🔑 [Lidarr] Got 401, refreshing token...");
+    await refreshTokenOnce(app);
+    const newToken = app.locals.tiddlConfig?.auth?.token;
+    if (newToken && newToken !== token) {
+      response = await makeRequest(newToken);
+    }
+  }
+
+  return response;
+}
 
 /**
  * Searches Tidal for albums (for indexer search results)
@@ -17,18 +46,14 @@ export async function searchTidalForLidarr(
   app: Express,
 ): Promise<TidalAlbum[]> {
   try {
-    const tiddlConfig = app.locals.tiddlConfig;
-
-    if (!tiddlConfig?.auth?.token) {
+    if (!app.locals.tiddlConfig?.auth?.token) {
       console.error("[Lidarr] Tidal authentication required");
       return [];
     }
 
-    const countryCode = tiddlConfig?.auth?.country_code || "US";
-    const token = tiddlConfig?.auth?.token;
+    const countryCode = app.locals.tiddlConfig?.auth?.country_code || "US";
 
-    // Build search URL
-    const url = new URL("/v1/search", TIDAL_API_URL);
+    const url = new URL("/v2/search", TIDAL_API_URL);
     url.searchParams.append("query", query);
     url.searchParams.append("countryCode", countryCode);
     url.searchParams.append("limit", "20");
@@ -36,11 +61,7 @@ export async function searchTidalForLidarr(
 
     console.log(`🔎 [Lidarr] Searching album on Tidal...`);
 
-    const response = await fetch(url.toString(), {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetchTidalWithRefresh(url.toString(), app);
 
     if (!response.ok) {
       console.error(
@@ -62,15 +83,10 @@ export async function addAlbumToQueue(
   quality?: string | null,
 ): Promise<void> {
   const app = getAppInstance();
-  const tiddlConfig = app.locals.tiddlConfig;
-  const countryCode = tiddlConfig?.auth?.country_code || "US";
-  const albumUrl = `${process.env.TIDAL_API_URL || "https://api.tidal.com"}/v1/albums/${id}?countryCode=${countryCode}`;
+  const countryCode = app.locals.tiddlConfig?.auth?.country_code || "US";
+  const albumUrl = `${TIDAL_API_URL}/v1/albums/${id}?countryCode=${countryCode}`;
 
-  const response = await fetch(albumUrl, {
-    headers: {
-      Authorization: `Bearer ${tiddlConfig?.auth?.token}`,
-    },
-  });
+  const response = await fetchTidalWithRefresh(albumUrl, app);
 
   if (response.ok) {
     const albumData = await response.json();
