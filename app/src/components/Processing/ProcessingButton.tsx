@@ -21,8 +21,7 @@ export const ProcessingButton = () => {
     ? processingList?.filter((item) => item?.status === "error")?.length > 0
     : false;
 
-  let buttonColor: "primary" | "error" | "warning" | "success" | "inherit" =
-    "primary";
+  let buttonColor: "primary" | "error" | "warning" | "success" | "inherit";
   switch (true) {
     case isPaused:
       buttonColor = "warning";
