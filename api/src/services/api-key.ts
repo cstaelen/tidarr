@@ -71,6 +71,6 @@ export function regenerateApiKey(): string {
     return newApiKey;
   } catch (error) {
     console.error("[API Key] Error writing new API key:", error);
-    throw new Error("Failed to regenerate API key");
+    throw new Error("Failed to regenerate API key", { cause: error });
   }
 }
