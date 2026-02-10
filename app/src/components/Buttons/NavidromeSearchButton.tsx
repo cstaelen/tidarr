@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Album } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { TIDARR_PROXY_URL } from "src/contants";
+import { withAuthHeader } from "src/helpers/auth-utils";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 import ButtonGradient from "./ButtonGradient";
@@ -54,7 +55,7 @@ export const NavidromeSearchButton = ({
         // Use proxy to avoid CORS
         const searchUrl = `${TIDARR_PROXY_URL}/navidrome/rest/search3.view?query=${encodeURIComponent(query)}&albumCount=100&songCount=1000`;
 
-        const response = await fetch(searchUrl);
+        const response = await fetch(searchUrl, withAuthHeader());
         if (!response.ok) {
           throw new Error("Failed to fetch Navidrome search results");
         }

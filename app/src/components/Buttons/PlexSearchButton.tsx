@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { SvgIcon, Tooltip } from "@mui/material";
 import { TIDARR_PROXY_URL } from "src/contants";
+import { withAuthHeader } from "src/helpers/auth-utils";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 import ButtonGradient from "./ButtonGradient";
@@ -47,7 +48,7 @@ export const PlexSearchButton = ({
         // Use proxy to avoid CORS
         // Fetch without type - returns Directory elements (artists/albums) but NOT tracks
         const url = `${TIDARR_PROXY_URL}/plex/search?query=${encodeURIComponent(query)}`;
-        const response = await fetch(url);
+        const response = await fetch(url, withAuthHeader());
 
         if (!response.ok) {
           throw new Error("Failed to fetch Plex search results");
@@ -75,7 +76,7 @@ export const PlexSearchButton = ({
         let tracksCount = 0;
         if (pivot === "tracks" || pivot === "search") {
           const trackUrl = `${TIDARR_PROXY_URL}/plex/search?query=${encodeURIComponent(query)}&type=10`;
-          const trackResponse = await fetch(trackUrl);
+          const trackResponse = await fetch(trackUrl, withAuthHeader());
 
           if (trackResponse.ok) {
             const trackXmlText = await trackResponse.text();
