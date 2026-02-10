@@ -97,6 +97,13 @@ export class QueueManager {
       // Download completed
       delete item.process;
 
+      // If error
+      if (item.status === "error") {
+        // Trigger next items in queue
+        this.processQueue();
+        return;
+      }
+
       // For LIDARR items, go straight to post-processing
       if (item.source === "lidarr") {
         item.status = "processing";
