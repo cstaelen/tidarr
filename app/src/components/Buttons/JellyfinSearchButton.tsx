@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { SvgIcon, Tooltip } from "@mui/material";
 import { TIDARR_PROXY_URL } from "src/contants";
+import { withAuthHeader } from "src/helpers/auth-utils";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 import ButtonGradient from "./ButtonGradient";
@@ -61,6 +62,7 @@ export const JellyfinSearchButton = ({
 
           const artistResponse = await fetch(
             `${TIDARR_PROXY_URL}/jellyfin/Artists/${encodeURIComponent(safeQuery)}`,
+            withAuthHeader(),
           );
           if (artistResponse.ok) {
             const artistData = await artistResponse.json();
@@ -80,6 +82,7 @@ export const JellyfinSearchButton = ({
         if (pivot === "albums") {
           const albumResponse = await fetch(
             `${TIDARR_PROXY_URL}/jellyfin/Search/Hints?searchTerm=${encodeURIComponent(query)}&includeItemTypes=MusicAlbum`,
+            withAuthHeader(),
           );
           if (albumResponse.ok) {
             const albumData = await albumResponse.json();
@@ -90,6 +93,7 @@ export const JellyfinSearchButton = ({
               albumsCount = albumData.TotalRecordCount;
               const itemsResponse = await fetch(
                 `${TIDARR_PROXY_URL}/jellyfin/Items?parentId=${encodeURIComponent(albumHint.ItemId)}&includeItemTypes=Audio&limit=0`,
+                withAuthHeader(),
               );
               if (itemsResponse.ok) {
                 const trackData = await itemsResponse.json();
@@ -104,6 +108,7 @@ export const JellyfinSearchButton = ({
           // first locate the album
           const albumResponse = await fetch(
             `${TIDARR_PROXY_URL}/jellyfin/Search/Hints?searchTerm=${encodeURIComponent(albumQuery)}&includeItemTypes=MusicAlbum`,
+            withAuthHeader(),
           );
           if (albumResponse.ok) {
             const albumData = await albumResponse.json();
@@ -115,6 +120,7 @@ export const JellyfinSearchButton = ({
               // after search track into album
               const trackResponse = await fetch(
                 `${TIDARR_PROXY_URL}/jellyfin/Search/Hints?searchTerm=${encodeURIComponent(query)}&parentId=${encodeURIComponent(albumHint.ItemId)}&includeItemTypes=Audio`,
+                withAuthHeader(),
               );
               if (trackResponse.ok) {
                 const trackData = await trackResponse.json();

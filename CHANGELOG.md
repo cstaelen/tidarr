@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.1.9
+### 🐛 Fixed
+- [Front] Fix missing token for media library search button
+
 ## 📦 1.1.8
 ### 🚀 Added
 - [Lidarr] Add `Tidarr` keyword to Lidarr release search results
