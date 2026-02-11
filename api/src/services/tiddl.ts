@@ -7,7 +7,6 @@ import {
   PROCESSING_PATH,
 } from "../../constants";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
-import { refreshTokenOnce } from "../helpers/refresh-token";
 import { extractFirstLineClean } from "../processing/utils/ansi-parse";
 import { logs } from "../processing/utils/logs";
 import { ProcessingItemType, TiddlConfig } from "../types";
@@ -15,12 +14,6 @@ import { ProcessingItemType, TiddlConfig } from "../types";
 // Constants
 const TIDDL_BINARY = "tiddl";
 const PROGRESS_UPDATE_THROTTLE_MS = 2000;
-
-// Error messages to detect authentication issues
-const AUTH_ERROR_MESSAGES = [
-  "User does not have a valid session",
-  '"token": token["access_token"]',
-];
 
 // Resource mapping for favorite types
 const FAVORITE_TYPE_TO_RESOURCE: Record<string, string> = {
@@ -102,7 +95,8 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     const errorLines = lines.filter(
       (line) =>
         line.includes("[31mError:\x1B") ||
-        line.includes("Cannot connect to host"),
+        line.includes("Cannot connect to host") ||
+        line.includes("validation errors"),
     );
     if (errorLines.length > 0) {
       hasProcessingError = true;
@@ -160,42 +154,25 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       item.id,
     );
 
-    // Check for authentication errors
-    const hasAuthError = AUTH_ERROR_MESSAGES.some((msg) =>
-      currentOutput.includes(msg),
-    );
-    if (hasAuthError) {
-      logs(
-        item.id,
-        "⚠️ [TIDDL] Authentication error detected, attempting token refresh...",
-      );
-
-      // Try to refresh token
-      try {
-        await refreshTokenOnce(app);
-      } catch {
-        logs(item.id, "❌ [TIDDL] Token refresh failed");
-        deleteTiddlConfig();
-      }
-      code = 401; // Mark as auth error
-    }
-
     const isDownloaded =
-      currentOutput.includes("can't save playlist m3u file") || code === 0;
+      !hasProcessingError &&
+      (currentOutput.includes("can't save playlist m3u file") || code === 0);
 
     if (isDownloaded) {
       logs(item.id, `✅ [TIDDL] Download succeed (code: ${code})`);
     } else {
       logs(item.id, `❌ [TIDDL] Tiddl process exited with code ${code})`);
+      hasProcessingError = true;
     }
 
     console.log("hasProcessingError", hasProcessingError);
 
-    item["status"] =
-      !isDownloaded || hasProcessingError ? "error" : item["status"];
-
+    item["status"] = hasProcessingError ? "error" : item["status"];
     item["loading"] = false;
+
+    console.log("item", item);
     app.locals.processingStack.actions.updateItem(item);
+
     if (onFinish) onFinish();
   });
 

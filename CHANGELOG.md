@@ -5,7 +5,7 @@ Tidarr notable changes.
 
 ## 📦 1.1.9
 ### 🐛 Fixed
-- [Front] Fix missing token for media library search button
+- [Front] Fix tiddl Error detection
 
 ## 📦 1.1.8
 ### 🚀 Added
@@ -14,6 +14,8 @@ Tidarr notable changes.
 - [Lidarr] Auto-renew token on 401 error
 - [DevOps] Monitor python packages with dependabot
 - [API] Use tidal api v2 for searching albums
+### 🐛 Fixed
+- [Front] Fix missing token for media library search button
 
 ## 📦 1.1.7
 ### 🚀 Added
