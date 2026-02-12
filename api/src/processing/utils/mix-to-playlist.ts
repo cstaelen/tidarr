@@ -21,7 +21,8 @@ export async function getTracksByMixId(item: ProcessingItemType) {
   const response = await fetch(url, options);
 
   if (!response.ok) {
-    console.error(
+    logs(
+      item.id,
       `❌ [MIX]: Failed to add track to playlist: ${response.status}`,
     );
     return;

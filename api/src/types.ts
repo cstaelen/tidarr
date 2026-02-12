@@ -34,7 +34,8 @@ export type ProcessingItemType = {
   loading: boolean;
   error: boolean;
   process?: ChildProcess;
-  source?: "lidarr" | "tidarr"; // Origin of the download request
+  retryCount?: number;
+  source?: "lidarr" | "tidarr";
   progress?: {
     current: number;
     total: number;

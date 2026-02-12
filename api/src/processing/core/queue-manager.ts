@@ -5,6 +5,9 @@ import { handleDownload } from "../download/download-handler";
 import { postProcessLidarr } from "../post-processing/lidarr-post-processor";
 import { postProcessTidarr } from "../post-processing/tidarr-post-processor";
 import { cleanFolder } from "../utils/jobs";
+import { logs } from "../utils/logs";
+
+const MAX_RETRIES = 2;
 
 /**
  * Manages the parallel processing queue with 1 download slot and 1 post-processing slot
@@ -44,7 +47,10 @@ export class QueueManager {
     // Initialize empty output history
     this.outputs.set(String(item.id), []);
 
-    await cleanFolder(item.id);
+    // Don't clean folder on retry - tiddl skip_existing will resume
+    if (!item.retryCount) {
+      await cleanFolder(item.id);
+    }
   }
 
   /**
@@ -97,8 +103,17 @@ export class QueueManager {
       // Download completed
       delete item.process;
 
-      // If error
+      // If error, retry immediately up to MAX_RETRIES times
       if (item.status === "error") {
+        if (this.shouldRetry(item)) {
+          this.updateItemCallback(item);
+          this.startDownload(item);
+          return;
+        }
+
+        // Max retries reached, clean up processing folder
+        await cleanFolder(item.id);
+
         // Trigger next items in queue
         this.processQueue();
         return;
@@ -159,6 +174,33 @@ export class QueueManager {
 
     // Trigger next items in queue
     this.processQueue();
+  }
+
+  /**
+   * Checks if item should be retried, updates item state if yes
+   */
+  private shouldRetry(item: ProcessingItemType): boolean {
+    const retryCount = item.retryCount ?? 0;
+
+    if (retryCount >= MAX_RETRIES) {
+      logs(
+        item.id,
+        `❌ [RETRY] Max retries (${MAX_RETRIES}) reached. Download failed.`,
+      );
+      return false;
+    }
+
+    item.retryCount = retryCount + 1;
+    item.status = "download";
+    item.error = false;
+    item.loading = false;
+
+    logs(
+      item.id,
+      `🔄 [RETRY] Retrying download (attempt ${item.retryCount}/${MAX_RETRIES})...`,
+    );
+
+    return true;
   }
 
   /**
