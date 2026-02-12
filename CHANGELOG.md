@@ -4,6 +4,8 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 1.1.9
+### 🚀 Added
+- [API] Add max 2 retries on download failure
 ### 🐛 Fixed
 - [Front] Fix tiddl Error detection
 

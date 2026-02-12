@@ -165,12 +165,8 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       hasProcessingError = true;
     }
 
-    console.log("hasProcessingError", hasProcessingError);
-
     item["status"] = hasProcessingError ? "error" : item["status"];
     item["loading"] = false;
-
-    console.log("item", item);
     app.locals.processingStack.actions.updateItem(item);
 
     if (onFinish) onFinish();
