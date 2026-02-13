@@ -5,7 +5,8 @@ Tidarr notable changes.
 
 ## 📦 1.1.9
 ### 🚀 Added
-- [API] Add max 2 retries on download failure
+- [API] Add max 5 auto retries on download failure
+- [API] Add m3u for favorite tracks download
 ### 🐛 Fixed
 - [Front] Fix tiddl Error detection
 

@@ -175,7 +175,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   child.stderr?.setEncoding("utf8");
   child.stderr?.on("data", (data) => {
     logs(item.id, `❌ [TIDDL]: ${data}`);
-    if (onFinish) onFinish();
+    hasProcessingError = true;
   });
 
   child.on("error", (err) => {

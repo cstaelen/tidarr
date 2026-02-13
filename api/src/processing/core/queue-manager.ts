@@ -7,7 +7,7 @@ import { postProcessTidarr } from "../post-processing/tidarr-post-processor";
 import { cleanFolder } from "../utils/jobs";
 import { logs } from "../utils/logs";
 
-const MAX_RETRIES = 2;
+const MAX_RETRIES = 5;
 
 /**
  * Manages the parallel processing queue with 1 download slot and 1 post-processing slot
