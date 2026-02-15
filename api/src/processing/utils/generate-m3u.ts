@@ -25,7 +25,6 @@ export async function generateFavoriteTracksM3U(
 
   const app = getAppInstance();
   const processingPath = `${PROCESSING_PATH}/${item.id}`;
-  const basePath = process.env.M3U_BASEPATH_FILE?.replaceAll('"', "") || ".";
 
   logs(item.id, "🕖 [TIDARR] Generating M3U for favorite tracks ...");
 
@@ -56,20 +55,24 @@ export async function generateFavoriteTracksM3U(
 
     fs.mkdirSync(m3uDir, { recursive: true });
 
-    // Build M3U content with relative paths from the M3U file location
-    const m3uLines = ["#EXTM3U"];
+    // If library M3U exists, copy it as base (preserves existing entries)
+    const libraryPath = app.locals.tiddlConfig.download.download_path;
+    const libraryM3uPath = path.join(libraryPath, m3uRelativePath + ".m3u");
 
-    for (const audioFile of audioFiles) {
-      const relativePath = path.relative(m3uDir, audioFile);
-      m3uLines.push(`${basePath}/${relativePath}`);
+    if (fs.existsSync(libraryM3uPath)) {
+      fs.copyFileSync(libraryM3uPath, m3uFilePath);
+      logs(item.id, `📋 [TIDARR] Found existing M3U in library`);
+    } else {
+      fs.writeFileSync(m3uFilePath, "#EXTM3U\n", "utf-8");
     }
 
-    fs.writeFileSync(m3uFilePath, m3uLines.join("\n") + "\n", "utf-8");
+    // Append new tracks with absolute paths (replacePathInM3U will convert to relative)
+    fs.appendFileSync(m3uFilePath, audioFiles.join("\n") + "\n", "utf-8");
 
     const m3uRelativeDisplay = path.relative(processingPath, m3uFilePath);
     logs(
       item.id,
-      `✅ [TIDARR] M3U generated with ${audioFiles.length} track(s): ${m3uRelativeDisplay}`,
+      `✅ [TIDARR] M3U generated (${audioFiles.length} new track(s) appended): ${m3uRelativeDisplay}`,
     );
   } catch (e) {
     logs(
