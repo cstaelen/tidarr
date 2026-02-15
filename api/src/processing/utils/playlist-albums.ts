@@ -1,10 +1,82 @@
+import { TIDAL_API_URL } from "../../../constants";
 import { getAppInstance } from "../../helpers/app-instance";
-import { ProcessingItemType } from "../../types";
+import { ProcessingItemType, TiddlConfig } from "../../types";
 
 import { logs } from "./logs";
 
+const SUPPORTED_TYPES = ["playlist", "mix", "favorite_tracks"] as const;
+
 /**
- * Retrieves all unique album IDs from a playlist and adds them to the download queue.
+ * Fetches tracks from Tidal API based on item type.
+ * - playlist/mix: fetches playlist items
+ * - favorite_tracks: fetches user's favorite tracks
+ */
+async function fetchTracks(
+  item: ProcessingItemType,
+  tiddlConfig: TiddlConfig,
+): Promise<{
+  items: Array<{
+    item?: {
+      album?: { id: number; title?: string };
+      artist?: { name?: string };
+    };
+  }>;
+}> {
+  const headers = { Authorization: `Bearer ${tiddlConfig.auth.token}` };
+  const country = tiddlConfig.auth.country_code;
+
+  let url: string;
+
+  if (item.type === "favorite_tracks") {
+    const userId = tiddlConfig.auth.user_id;
+    url = `${TIDAL_API_URL}/v1/users/${userId}/favorites/tracks?countryCode=${country}&limit=500`;
+  } else {
+    const playlistId = item.url.split("/").pop();
+    if (!playlistId) {
+      throw new Error("Invalid playlist URL format");
+    }
+    url = `${TIDAL_API_URL}/v1/playlists/${playlistId}/items?countryCode=${country}&limit=500`;
+  }
+
+  const response = await fetch(url, { headers });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch tracks: ${response.status}`);
+  }
+
+  return response.json();
+}
+
+/**
+ * Extracts unique album IDs from track items.
+ */
+function extractAlbums(
+  items: Array<{
+    item?: {
+      album?: { id: number; title?: string };
+      artist?: { name?: string };
+    };
+  }>,
+): Map<number, { artist: string; title: string }> {
+  const albumsMap = new Map<number, { artist: string; title: string }>();
+
+  for (const trackItem of items) {
+    if (trackItem.item?.album?.id) {
+      const albumId = trackItem.item.album.id;
+      if (!albumsMap.has(albumId)) {
+        albumsMap.set(albumId, {
+          artist: trackItem.item.artist?.name || "",
+          title: trackItem.item.album.title || "",
+        });
+      }
+    }
+  }
+
+  return albumsMap;
+}
+
+/**
+ * Retrieves all unique album IDs from a playlist or favorite tracks and adds them to the download queue.
  * Only processes if PLAYLIST_ALBUMS environment variable is set to "true".
  *
  * @param itemId - The playlist item ID to process
@@ -13,7 +85,6 @@ import { logs } from "./logs";
 export async function getPlaylistAlbums(itemId: string): Promise<void> {
   const app = getAppInstance();
 
-  // Check if feature is enabled
   if (process.env.PLAYLIST_ALBUMS !== "true") {
     return;
   }
@@ -21,67 +92,36 @@ export async function getPlaylistAlbums(itemId: string): Promise<void> {
   const item: ProcessingItemType =
     app.locals.processingStack.actions.getItem(itemId);
 
-  if (!item || (item.type !== "playlist" && item.type !== "mix")) {
+  if (
+    !item ||
+    !SUPPORTED_TYPES.includes(item.type as (typeof SUPPORTED_TYPES)[number])
+  ) {
     return;
   }
 
   const tiddlConfig = app.locals.tiddlConfig;
+  const label =
+    item.type === "favorite_tracks" ? "favorite tracks" : "playlist";
 
   try {
-    // Extract playlist ID from URL (format: "playlist/123456")
-    const playlistId = item.url.split("/").pop();
-    if (!playlistId) {
-      throw new Error("⚠️ [PLAYLIST_ALBUMS] Invalid playlist URL format");
-    }
+    logs(itemId, `🕖 [PLAYLIST_ALBUMS] Fetching ${label} tracks...`);
 
-    logs(itemId, "🕖 [PLAYLIST_ALBUMS] Fetching playlist tracks...");
+    const data = await fetchTracks(item, tiddlConfig);
 
-    // Fetch playlist items from Tidal API
-    const url = `https://api.tidal.com/v1/playlists/${playlistId}/items?countryCode=${tiddlConfig.auth.country_code}&limit=100`;
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${tiddlConfig.auth.token}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(
-        `❌ [PLAYLIST_ALBUMS] Failed to fetch playlist: ${response.status}`,
-      );
-    }
-
-    const data = await response.json();
-
-    // Extract unique album IDs from tracks with artist and title info
-    const albumsMap = new Map<number, { artist: string; title: string }>();
-    let trackCount = 0;
-
-    if (data.items && Array.isArray(data.items)) {
-      for (const playlistItem of data.items) {
-        if (playlistItem.item?.album?.id) {
-          const albumId = playlistItem.item.album.id;
-          const artist = playlistItem.item.artist?.name || "";
-          const albumTitle = playlistItem.item.album.title || "";
-
-          // Only add if not already in the map (keep first occurrence)
-          if (!albumsMap.has(albumId)) {
-            albumsMap.set(albumId, { artist, title: albumTitle });
-          }
-          trackCount++;
-        }
-      }
-    }
+    const albumsMap =
+      data.items && Array.isArray(data.items)
+        ? extractAlbums(data.items)
+        : new Map();
 
     logs(
       itemId,
-      `📊 [PLAYLIST_ALBUMS] Found ${trackCount} tracks with ${albumsMap.size} unique albums`,
+      `📊 [PLAYLIST_ALBUMS] Found ${albumsMap.size} unique albums from ${label}`,
     );
 
-    // Add each unique album to the queue
     if (albumsMap.size > 0) {
       for (const [albumId, albumInfo] of albumsMap.entries()) {
         const newItem: ProcessingItemType = {
-          id: `album-${albumId}-${Date.now()}-${Math.random().toString(36).substring(7)}`,
+          id: albumId,
           url: `album/${albumId}`,
           type: "album",
           status: "queue_download",
@@ -101,12 +141,12 @@ export async function getPlaylistAlbums(itemId: string): Promise<void> {
         `✅ [PLAYLIST_ALBUMS] Successfully added ${albumsMap.size} albums to queue`,
       );
     } else {
-      logs(itemId, "⚠️ [PLAYLIST_ALBUMS] No albums found in playlist");
+      logs(itemId, `⚠️ [PLAYLIST_ALBUMS] No albums found in ${label}`);
     }
   } catch (error) {
     logs(
       itemId,
-      `❌ [PLAYLIST_ALBUMS] Error fetching playlist albums: ${error instanceof Error ? error.message : String(error)}`,
+      `❌ [PLAYLIST_ALBUMS] Error fetching ${label} albums: ${error instanceof Error ? error.message : String(error)}`,
     );
   }
 }

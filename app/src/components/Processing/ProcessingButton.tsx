@@ -14,7 +14,11 @@ export const ProcessingButton = () => {
 
   const isLoading = processingList
     ? processingList?.filter(
-        (item) => item?.loading === true || item.status === "processing",
+        (item) =>
+          item?.loading === true ||
+          item.status === "processing" ||
+          item.status === "queue_download" ||
+          item.status === "queue_processing",
       )?.length > 0
     : false;
   const hasError = processingList

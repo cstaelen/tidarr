@@ -13,6 +13,7 @@ import { plexUpdate } from "../../services/plex";
 import { hookPushOver } from "../../services/pushover";
 import { applyReplayGain } from "../../services/rsgain";
 import { ProcessingItemType, ProcessingItemWithPlaylist } from "../../types";
+import { generateFavoriteTracksM3U } from "../utils/generate-m3u";
 import {
   getFolderToScan,
   hasFileToMove,
@@ -76,6 +77,9 @@ export async function postProcessTidarr(
 
   // Execute custom script if exists
   await executeCustomScript(item);
+
+  // Generate M3U for favorite tracks
+  await generateFavoriteTracksM3U(item);
 
   // Update m3u item path
   await replacePathInM3U(item);
