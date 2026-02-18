@@ -5,58 +5,74 @@ import { ProcessingItemType, TiddlConfig } from "../../types";
 import { logs } from "./logs";
 
 const SUPPORTED_TYPES = ["playlist", "mix", "favorite_tracks"] as const;
+const TIDAL_PAGE_LIMIT = 100;
+
+type TrackItem = {
+  item?: {
+    album?: { id: number; title?: string };
+    artist?: { name?: string };
+  };
+};
 
 /**
- * Fetches tracks from Tidal API based on item type.
- * - playlist/mix: fetches playlist items
- * - favorite_tracks: fetches user's favorite tracks
+ * Fetches all tracks from Tidal API with pagination (max 100 per page).
  */
-async function fetchTracks(
+async function fetchAllTracks(
   item: ProcessingItemType,
   tiddlConfig: TiddlConfig,
-): Promise<{
-  items: Array<{
-    item?: {
-      album?: { id: number; title?: string };
-      artist?: { name?: string };
-    };
-  }>;
-}> {
+): Promise<TrackItem[]> {
   const headers = { Authorization: `Bearer ${tiddlConfig.auth.token}` };
   const country = tiddlConfig.auth.country_code;
 
-  let url: string;
+  const baseUrl = buildBaseUrl(item, tiddlConfig, country);
+  const allItems: TrackItem[] = [];
+  let offset = 0;
+  let totalItems = Infinity;
 
+  while (offset < totalItems) {
+    const url = `${baseUrl}&limit=${TIDAL_PAGE_LIMIT}&offset=${offset}`;
+    const response = await fetch(url, { headers });
+
+    if (!response.ok) {
+      const body = await response.text();
+      throw new Error(`Failed to fetch tracks: ${response.status} - ${body}`);
+    }
+
+    const data = await response.json();
+    totalItems = data.totalNumberOfItems ?? data.items?.length ?? 0;
+
+    if (data.items) {
+      allItems.push(...data.items);
+    }
+
+    offset += TIDAL_PAGE_LIMIT;
+  }
+
+  return allItems;
+}
+
+function buildBaseUrl(
+  item: ProcessingItemType,
+  tiddlConfig: TiddlConfig,
+  country: string,
+): string {
   if (item.type === "favorite_tracks") {
     const userId = tiddlConfig.auth.user_id;
-    url = `${TIDAL_API_URL}/v1/users/${userId}/favorites/tracks?countryCode=${country}&limit=500`;
-  } else {
-    const playlistId = item.url.split("/").pop();
-    if (!playlistId) {
-      throw new Error("Invalid playlist URL format");
-    }
-    url = `${TIDAL_API_URL}/v1/playlists/${playlistId}/items?countryCode=${country}&limit=500`;
+    return `${TIDAL_API_URL}/v1/users/${userId}/favorites/tracks?countryCode=${country}`;
   }
 
-  const response = await fetch(url, { headers });
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch tracks: ${response.status}`);
+  const playlistId = item.url.split("/").pop();
+  if (!playlistId) {
+    throw new Error("Invalid playlist URL format");
   }
-
-  return response.json();
+  return `${TIDAL_API_URL}/v1/playlists/${playlistId}/items?countryCode=${country}`;
 }
 
 /**
  * Extracts unique album IDs from track items.
  */
 function extractAlbums(
-  items: Array<{
-    item?: {
-      album?: { id: number; title?: string };
-      artist?: { name?: string };
-    };
-  }>,
+  items: TrackItem[],
 ): Map<number, { artist: string; title: string }> {
   const albumsMap = new Map<number, { artist: string; title: string }>();
 
@@ -106,12 +122,8 @@ export async function getPlaylistAlbums(itemId: string): Promise<void> {
   try {
     logs(itemId, `🕖 [PLAYLIST_ALBUMS] Fetching ${label} tracks...`);
 
-    const data = await fetchTracks(item, tiddlConfig);
-
-    const albumsMap =
-      data.items && Array.isArray(data.items)
-        ? extractAlbums(data.items)
-        : new Map();
+    const items = await fetchAllTracks(item, tiddlConfig);
+    const albumsMap = items.length > 0 ? extractAlbums(items) : new Map();
 
     logs(
       itemId,
