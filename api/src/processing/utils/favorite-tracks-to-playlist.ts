@@ -34,10 +34,7 @@ export async function getFavoriteTrackIds(
     const response = await fetch(url, { headers });
 
     if (!response.ok) {
-      logs(
-        item.id,
-        `❌ [FAV]: Failed to fetch favorites: ${response.status}`,
-      );
+      logs(item.id, `❌ [FAV]: Failed to fetch favorites: ${response.status}`);
       break;
     }
 
