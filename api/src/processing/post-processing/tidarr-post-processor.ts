@@ -13,7 +13,6 @@ import { plexUpdate } from "../../services/plex";
 import { hookPushOver } from "../../services/pushover";
 import { applyReplayGain } from "../../services/rsgain";
 import { ProcessingItemType, ProcessingItemWithPlaylist } from "../../types";
-import { generateFavoriteTracksM3U } from "../utils/generate-m3u";
 import {
   getFolderToScan,
   hasFileToMove,
@@ -78,9 +77,6 @@ export async function postProcessTidarr(
   // Execute custom script if exists
   await executeCustomScript(item);
 
-  // Generate M3U for favorite tracks
-  await generateFavoriteTracksM3U(item);
-
   // Update m3u item path
   await replacePathInM3U(item);
 
@@ -99,7 +95,7 @@ export async function postProcessTidarr(
   // Move to output folder
   await moveAndClean(item.id);
 
-  // Clean up mix playlist if needed
+  // Clean up temporary playlist if needed (mix or favorite_tracks)
   const playlistId = (item as ProcessingItemWithPlaylist).playlistId;
   if (playlistId) {
     deletePlaylist(playlistId, item.id);

@@ -3,6 +3,13 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.2.0
+### 🐛 Fixed
+- [API] Fix playlist albums download
+### 🖍 Changes
+- [API] Fav tracks are now converted in playlist before being downloaded with m3u. 
+- [API] Playlist albums download can now handle more than 100 tracks
+
 ## 📦 1.1.9
 ### 🚀 Added
 - [API] Add max 5 auto retries on download failure
