@@ -65,11 +65,10 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     args.push("--videos", "only");
   }
 
-  if (item.type.includes("favorite_")) {
-    const resource = FAVORITE_TYPE_TO_RESOURCE[item.type];
-    if (resource) {
-      args.push("fav", "-t", resource);
-    }
+  const resource = FAVORITE_TYPE_TO_RESOURCE[item.type];
+  if (resource && !item.url?.startsWith("playlist/")) {
+    // Native fav download (no playlist conversion)
+    args.push("fav", "-t", resource);
   } else {
     args.push("url", item.url);
   }

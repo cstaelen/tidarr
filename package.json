@@ -28,5 +28,8 @@
     "eslint": "eslint .",
     "eslint-fix": "eslint --fix .",
     "find-deadcode": "ts-prune | (! grep -v 'used in module')"
+  },
+  "resolutions": {
+    "minimatch": ">=10.2.1"
   }
 }

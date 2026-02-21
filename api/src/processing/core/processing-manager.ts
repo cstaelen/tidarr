@@ -8,8 +8,9 @@ import {
   updateItemInQueueFile,
 } from "../../helpers/queue_save_file";
 import { addItemToHistory } from "../../services/history";
-import { ProcessingItemType } from "../../types";
+import { ProcessingItemType, ProcessingItemWithPlaylist } from "../../types";
 import { cleanFolder, killProcess } from "../utils/jobs";
+import { deletePlaylist } from "../utils/mix-to-playlist";
 
 import { QueueManager } from "./queue-manager";
 
@@ -162,6 +163,12 @@ export const ProcessingStack = () => {
     // Kill the process if it exists and is running
     killProcess(item?.process, id);
 
+    // Clean up temporary playlist if item was interrupted mid-download
+    const playlistId = (item as ProcessingItemWithPlaylist).playlistId;
+    if (playlistId) {
+      deletePlaylist(playlistId, id);
+    }
+
     delete data[foundIndex];
     data.splice(foundIndex, 1);
     dataMap.delete(id);
@@ -229,6 +236,15 @@ export const ProcessingStack = () => {
 
     if (downloadingItem) {
       await killProcess(downloadingItem.process, downloadingItem.id);
+
+      // Clean up temporary playlist — will be recreated on resume
+      const playlistId = (downloadingItem as ProcessingItemWithPlaylist)
+        .playlistId;
+      if (playlistId) {
+        deletePlaylist(playlistId, downloadingItem.id);
+        delete (downloadingItem as ProcessingItemWithPlaylist).playlistId;
+      }
+
       downloadingItem.status = "queue_download";
       delete downloadingItem.process;
 
