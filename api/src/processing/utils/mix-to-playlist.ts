@@ -61,8 +61,8 @@ export async function createNewPlaylist(item: ProcessingItemType) {
   options.body = JSON.stringify({
     data: {
       attributes: {
-        accessType: "PUBLIC",
-        description: "descriptions",
+        accessType: "UNLISTED",
+        description: "",
         name: item.title,
       },
       type: "playlists",
