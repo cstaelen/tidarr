@@ -9,6 +9,8 @@ Tidarr notable changes.
 ### 🖍 Changes
 - [API] Fav tracks are now converted in playlist before being downloaded with m3u. 
 - [API] Playlist albums download can now handle more than 100 tracks
+- [API] Temporary playlists (used by mixes and fav tracks) are now "private"
+- [lidarr] Fixed path templating for Lidarr downloads
 
 ## 📦 1.1.9
 ### 🚀 Added
