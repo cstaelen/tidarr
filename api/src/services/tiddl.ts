@@ -48,6 +48,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   if (item.source === "lidarr") {
     args.push("--path", `${NZB_DOWNLOAD_PATH}/${item.id}`);
+    args.push("-o", "{album_artist}/{album}/{number:02d}. {title}");
   } else {
     args.push("--path", `${PROCESSING_PATH}/${item.id}`);
   }
