@@ -7,7 +7,7 @@ import { postProcessTidarr } from "../post-processing/tidarr-post-processor";
 import { cleanFolder } from "../utils/jobs";
 import { logs } from "../utils/logs";
 
-const MAX_RETRIES = 5;
+const MAX_RETRIES = 3;
 
 /**
  * Manages the parallel processing queue with 1 download slot and 1 post-processing slot
@@ -180,6 +180,14 @@ export class QueueManager {
    * Checks if item should be retried, updates item state if yes
    */
   private shouldRetry(item: ProcessingItemType): boolean {
+    if (!item.networkError) {
+      logs(
+        item.id,
+        "⛔ [RETRY] Non-retriable error (content/quality issue). Skipping retries.",
+      );
+      return false;
+    }
+
     const retryCount = item.retryCount ?? 0;
 
     if (retryCount >= MAX_RETRIES) {
