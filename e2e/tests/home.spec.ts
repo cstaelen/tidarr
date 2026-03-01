@@ -61,5 +61,5 @@ test("Tidarr Home : Should be able to sort playlists and favorites", async ({
 
   // My favorites
   await page.getByText("My Favorites").click();
-  await expect(page.getByTestId("sort-selector")).toHaveCount(3);
+  await expect(page.getByTestId("sort-selector")).toHaveCount(4);
 });
