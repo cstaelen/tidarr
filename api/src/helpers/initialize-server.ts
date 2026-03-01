@@ -77,8 +77,14 @@ export function initializeFiles(): string {
       output.push("✅ [CSS] Custom style file created");
     }
 
-    copyFileSync(customCssPath, publicCss);
-    output.push("✅ [CSS] Load custom styles");
+    try {
+      copyFileSync(customCssPath, publicCss);
+      output.push("✅ [CSS] Load custom styles");
+    } catch {
+      output.push(
+        "⚠️ [CSS] Could not load custom styles (check volume permissions) - custom.css will be ignored",
+      );
+    }
   } catch (error) {
     output.push(`❌ [TIDARR] Failed to initialize files: ${error}`);
     throw error;
