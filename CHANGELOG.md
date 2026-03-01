@@ -6,6 +6,7 @@ Tidarr notable changes.
 ## 📦 1.2.0
 ### 🐛 Fixed
 - [API] Fix playlist albums download (#654)
+- [API] Fix playlist hard-coded country code in url
 ### 🚀 Added
 - [Front] Add sorting selection on favorite track list (#671)
 ### 🖍 Changes
