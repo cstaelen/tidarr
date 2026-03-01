@@ -118,7 +118,7 @@ async function getPlaylistEtag(playlistId: number) {
   if (!tiddlConfig) return;
 
   const playlistRes = await fetch(
-    `https://tidal.com/v1/playlists/${playlistId}?countryCode=${tiddlConfig.auth.country_code}`,
+    `https://api.tidal.com/v1/playlists/${playlistId}?countryCode=${tiddlConfig.auth.country_code}`,
     {
       headers: { Authorization: `Bearer ${tiddlConfig.auth.token}` },
     },
@@ -153,7 +153,7 @@ export async function addTracksToPlaylist(
   logs(itemId, `🕖 [MIX]: Add track ids to new playlist`);
 
   const etag = await getPlaylistEtag(playlistId);
-  const url = `https://tidal.com/v1/playlists/${playlistId}/items?countryCode=FR&locale=fr_FR&deviceType=BROWSER`;
+  const url = `https://api.tidal.com/v1/playlists/${playlistId}/items?countryCode=${tiddlConfig.auth.country_code}&deviceType=BROWSER`;
 
   const options: RequestInit = {
     method: "POST",

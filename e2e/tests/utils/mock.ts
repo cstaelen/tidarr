@@ -119,7 +119,7 @@ export async function mockTidalQueries(page: Page) {
     },
   );
   await page.route(
-    "**/proxy/tidal/v1/users/192283714/favorites/tracks?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
+    "**/proxy/tidal/v1/users/192283714/favorites/tracks?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&orderDirection=DESC&order=DATE",
     async (route) => {
       await route.fulfill({ json: mockMyFavoriteTracks });
     },

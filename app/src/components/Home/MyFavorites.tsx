@@ -74,6 +74,12 @@ export default function MyFavorites() {
         titleSide={
           <FavoritesActions label="Favorite tracks" type="favorite_tracks" />
         }
+        orderParams={{
+          "Recently added": { orderDirection: "DESC", order: "DATE" },
+          "Date added": { orderDirection: "ASC", order: "DATE" },
+          "Artists A-Z": { orderDirection: "ASC", order: "ARTIST" },
+          "Title A-Z": { orderDirection: "ASC", order: "NAME" },
+        }}
       />
       <PagedModule
         url={`/v1/users/${tiddlConfig?.auth.user_id}/favorites/playlists`}

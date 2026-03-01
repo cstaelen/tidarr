@@ -5,12 +5,16 @@ Tidarr notable changes.
 
 ## 📦 1.2.0
 ### 🐛 Fixed
-- [API] Fix playlist albums download
+- [API] Fix playlist albums download (#654)
+- [API] Fix playlist hard-coded country code in url
+### 🚀 Added
+- [Front] Add sorting selection on favorite track list (#671)
 ### 🖍 Changes
-- [API] Fav tracks are now converted in playlist before being downloaded with m3u. 
+- [API] Fav tracks are now converted in playlist before being downloaded with m3u. (#657)
 - [API] Playlist albums download can now handle more than 100 tracks
-- [API] Temporary playlists (used by mixes and fav tracks) are now "private"
-- [lidarr] Fixed path templating for Lidarr downloads
+- [API] Temporary playlists (used by mixes and fav tracks) are now "private" (#657)
+- [Lidarr] Fixed path templating for Lidarr downloads
+- [Tiddl] Update Tiddl to 3.2.1
 
 ## 📦 1.1.9
 ### 🚀 Added
