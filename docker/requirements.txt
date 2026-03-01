@@ -2,4 +2,4 @@ pylast==7.0.2
 
 beets[fetchart, lastgenre, lastimport, advancedrewrite]==2.5.1
 
-tiddl==3.2.0
+tiddl==3.2.1
