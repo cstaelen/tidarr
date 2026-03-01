@@ -7,14 +7,14 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.8",
     "@mui/material": "^7.3.8",
-    "@types/node": "^25.3.0",
+    "@types/node": "^25.3.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.4",
     "event-source-plus": "0.1.15",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-router-dom": "^7.13.0",
+    "react-router-dom": "^7.13.1",
     "vite": "^7.3.1"
   },
   "scripts": {
