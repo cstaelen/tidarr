@@ -30,6 +30,6 @@
     "find-deadcode": "ts-prune | (! grep -v 'used in module')"
   },
   "resolutions": {
-    "minimatch": ">=10.2.1"
+    "minimatch": ">=10.2.3"
   }
 }

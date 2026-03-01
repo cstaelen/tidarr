@@ -91,18 +91,25 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   child.stdout?.setEncoding("utf8");
   let lastTotalProgress = "";
   let hasProcessingError = false;
+  let hasNetworkError = false;
   let lastProgressUpdate = 0;
 
   child.stdout?.on("data", (data: string) => {
     const lines = data?.split("\r");
     const errorLines = lines.filter(
       (line) =>
-        line.includes("[31mError:\x1B") ||
+        // "not a MP4 file" is a tiddl-handled fallback, not a real error
+        (line.includes("[31mError:\x1B") &&
+          !line.includes("not a MP4 file") &&
+          !line.includes("no longer available")) ||
         line.includes("Cannot connect to host") ||
         line.includes("validation errors"),
     );
     if (errorLines.length > 0) {
       hasProcessingError = true;
+      if (lines.some((line) => line.includes("Cannot connect to host"))) {
+        hasNetworkError = true;
+      }
     }
 
     if (
@@ -170,6 +177,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
     item["status"] = hasProcessingError ? "error" : item["status"];
     item["loading"] = false;
+    item["networkError"] = hasNetworkError;
     app.locals.processingStack.actions.updateItem(item);
 
     if (onFinish) onFinish();
