@@ -81,9 +81,7 @@ export function initializeFiles(): string {
       copyFileSync(customCssPath, publicCss);
       output.push("✅ [CSS] Load custom styles");
     } catch {
-      output.push(
-        "⚠️ [CSS] Could not load custom styles (check volume permissions) - custom.css will be ignored",
-      );
+      output.push("⚠️ [CSS] Could not load custom styles");
     }
   } catch (error) {
     output.push(`❌ [TIDARR] Failed to initialize files: ${error}`);
