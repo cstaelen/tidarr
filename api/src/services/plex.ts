@@ -79,9 +79,14 @@ export async function plexUpdate(
         logs(item.id, `⚠️ [PLEX] No folders were successfully scanned`);
       }
 
-      if (item.type === "playlist" && scannedFolders.length > 0) {
+      const isPlaylist =
+        item.type === "playlist" ||
+        item.type === "favorite_tracks" ||
+        item.type === "mix";
+
+      if (isPlaylist && scannedFolders.length > 0) {
         plexMonitor.registerPendingPlaylist(item, foldersToScan);
-      } else if (item.type === "playlist") {
+      } else if (isPlaylist) {
         await uploadPlaylist(item, foldersToScan);
       }
     }
