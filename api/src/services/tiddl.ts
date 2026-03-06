@@ -107,7 +107,13 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     );
     if (errorLines.length > 0) {
       hasProcessingError = true;
-      if (lines.some((line) => line.includes("Cannot connect to host"))) {
+      if (
+        lines.some(
+          (line) =>
+            line.includes("Cannot connect to host") ||
+            line.includes("Connection reset by peer"),
+        )
+      ) {
         hasNetworkError = true;
       }
     }
