@@ -161,7 +161,9 @@ export const JellyfinSearchButton = ({
   }, [config, query, pivot, isButtonActive, albumQuery]);
 
   const handleJellyfinSearch = () => {
-    const jellyfinBaseUrl = config?.JELLYFIN_URL?.replace(/\/$/, "");
+    const jellyfinBaseUrl = (
+      config?.JELLYFIN_PUBLIC_URL || config?.JELLYFIN_URL
+    )?.replace(/\/$/, "");
     if (!jellyfinBaseUrl) {
       console.error("Jellyfin URL not configured");
       return;

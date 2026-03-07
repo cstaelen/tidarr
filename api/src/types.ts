@@ -140,10 +140,14 @@ export interface SettingsResponse {
   parameters: {
     ENABLE_BEETS?: string;
     PLEX_URL?: string;
+    PLEX_PUBLIC_URL?: string;
     PLEX_LIBRARY?: string;
     PLEX_TOKEN?: string;
     PLEX_PATH?: string;
+    JELLYFIN_URL?: string;
+    JELLYFIN_PUBLIC_URL?: string;
     NAVIDROME_URL?: string;
+    NAVIDROME_PUBLIC_URL?: string;
     NAVIDROME_USER?: string;
     NAVIDROME_PASSWORD?: string;
     GOTIFY_URL?: string;

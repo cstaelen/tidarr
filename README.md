@@ -345,9 +345,10 @@ Add to your _docker-compose_ file in `environment:` section :
 environment:
   - ...
   - PLEX_URL=<url|ip:port>
+  - PLEX_PUBLIC_URL=<public_url>  # optional, for frontend links (if different from internal URL)
   - PLEX_LIBRARY=<music_library_id>
   - PLEX_TOKEN=<x-plex-token>
-  # Plex path to the library root 
+  # Plex path to the library root
   - PLEX_PATH=/path/to/music/library
 ```
 
@@ -373,6 +374,7 @@ Add to your _docker-compose_ file in `environment:` section :
 environment:
   - ...
   - JELLYFIN_URL=<url|ip:port>
+  - JELLYFIN_PUBLIC_URL=<public_url>  # optional, for frontend links (if different from internal URL)
   - JELLYFIN_API_KEY=<X-Emby-Token>
 ```
 
@@ -394,6 +396,7 @@ Add to your _docker-compose_ file in `environment:` section :
 environment:
   - ...
   - NAVIDROME_URL=http://navidrome.url
+  - NAVIDROME_PUBLIC_URL=https://navidrome.public.url  # optional, for frontend links (if different from internal URL)
   - NAVIDROME_USER=navidrome_user
   - NAVIDROME_PASSWORD=navidrome_password
 ```

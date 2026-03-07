@@ -44,6 +44,10 @@ export const NavidromeSearchButton = ({
     ],
   );
 
+  const navidromePublicUrl = (
+    config?.NAVIDROME_PUBLIC_URL || config?.NAVIDROME_URL
+  )?.replace(/\/$/, "");
+
   useEffect(() => {
     if (!isButtonActive() || !config) {
       return;
@@ -107,9 +111,7 @@ export const NavidromeSearchButton = ({
   }, [config, query, pivot, isButtonActive]);
 
   const handleNavidromeSearch = async () => {
-    const navidromeBaseUrl = config?.NAVIDROME_URL?.replace(/\/$/, "");
-
-    if (!navidromeBaseUrl) {
+    if (!navidromePublicUrl) {
       console.error("Navidrome URL not configured");
       return;
     }
@@ -120,7 +122,7 @@ export const NavidromeSearchButton = ({
 
       // Build the Navidrome search URL based on pivot type
       // Format: http://navidrome.url/app/#/artist?filter={"role":"albumartist","name":"query"}
-      let searchUrl = `${navidromeBaseUrl}/app/#`;
+      let searchUrl = `${navidromePublicUrl}/app/#`;
 
       if (pivot === "artists") {
         const filter = JSON.stringify({ role: "albumartist", name: query });
