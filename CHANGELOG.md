@@ -8,6 +8,7 @@ Tidarr notable changes.
 - [API] Fix playlist albums download (#654)
 - [API] Fix playlist hard-coded country code in url
 - [DevOps] Fix bad file access isolation on startup (#667)
+- [Plex] Mixes and fav tracks M3U files are now uploaded to Plex (#682)
 ### 🚀 Added
 - [Front] Add sorting selection on favorite track list (#671)
 ### 🖍 Changes
