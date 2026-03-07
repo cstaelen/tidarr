@@ -124,7 +124,10 @@ export const PlexSearchButton = ({
   }
 
   const handlePlexSearch = () => {
-    const plexBaseUrl = config.PLEX_URL?.replace(/\/$/, "");
+    const plexBaseUrl = (config.PLEX_PUBLIC_URL || config.PLEX_URL)?.replace(
+      /\/$/,
+      "",
+    );
 
     // Build the Plex search URL with pivot parameter
     // Format: https://app.plex.tv/desktop/#!/search?query=<query>&pivot=<pivot>

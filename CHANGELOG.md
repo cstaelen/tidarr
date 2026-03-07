@@ -11,6 +11,7 @@ Tidarr notable changes.
 - [Plex] Mixes and fav tracks M3U files are now uploaded to Plex (#682)
 ### 🚀 Added
 - [Front] Add sorting selection on favorite track list (#671)
+- [Front] Add public url env var for Jellyfin, Plex, Navidrome search buttons (#688)
 ### 🖍 Changes
 - [API] Fav tracks are now converted in playlist before being downloaded with m3u. (#657)
 - [API] Playlist albums download can now handle more than 100 tracks
