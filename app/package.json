@@ -5,9 +5,9 @@
   "devDependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^7.3.8",
-    "@mui/material": "^7.3.8",
-    "@types/node": "^25.3.3",
+    "@mui/icons-material": "^7.3.9",
+    "@mui/material": "^7.3.9",
+    "@types/node": "^25.3.5",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.4",
@@ -38,7 +38,7 @@
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
     "ansi-to-react": "^6.2.6",
-    "markdown-to-jsx": "^9.7.6",
+    "markdown-to-jsx": "^9.7.8",
     "monaco-editor": "^0.55.1"
   }
 }
