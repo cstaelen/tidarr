@@ -2,6 +2,7 @@ import { Express } from "express";
 
 import { tidalDL } from "../../services/tiddl";
 import { ProcessingItemType, ProcessingItemWithPlaylist } from "../../types";
+import { getArtistAlbums } from "../utils/artist-discography";
 import { getFavoriteTrackIds } from "../utils/favorite-tracks-to-playlist";
 import { logs } from "../utils/logs";
 import {
@@ -95,6 +96,14 @@ export async function handleDownload(
   onComplete: (playlistId?: string) => void,
 ) {
   let playlistId: string | undefined;
+
+  // Handle artist type: expand discography into individual album queue items
+  if (item.type === "artist") {
+    await getArtistAlbums(item);
+    await app.locals.processingStack.actions.removeItem(item.id);
+    // removeItem triggers processQueue internally — no need to call onComplete
+    return;
+  }
 
   // Handle mix type: convert to playlist first
   if (item.type === "mix") {

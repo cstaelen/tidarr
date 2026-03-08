@@ -73,7 +73,7 @@ export default function ArtistHeader({
         button.
         <br />
         To include them, please update "singles_filter" parameter in your
-        "tiddl.json" file.
+        "config.toml" file.
         <br />
         <Link
           href="https://github.com/cstaelen/tidarr?tab=readme-ov-file#download-settings-optional"
