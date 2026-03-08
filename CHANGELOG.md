@@ -12,11 +12,13 @@ Tidarr notable changes.
 ### 🚀 Added
 - [Front] Add sorting selection on favorite track list (#671)
 - [Front] Add public url env var for Jellyfin, Plex, Navidrome search buttons (#688)
+- [API] Add item name in custom scripts (#692)
 ### 🖍 Changes
 - [API] Fav tracks are now converted in playlist before being downloaded with m3u. (#657)
 - [API] Playlist albums download can now handle more than 100 tracks
 - [API] Temporary playlists (used by mixes and fav tracks) are now "private" (#657)
 - [API] Download retries occured only on connection error (#664)
+- [API] Discography download now use per-album processing (#687)
 - [Lidarr] Fixed path templating for Lidarr downloads
 - [Tiddl] Update Tiddl to 3.2.1
 
