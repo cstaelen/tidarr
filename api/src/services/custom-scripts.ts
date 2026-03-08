@@ -85,6 +85,7 @@ async function runScript(
  * - PROCESSING_PATH: /shared/.processing/<item-uuid> - Path to the processing directory
  * - ITEM_TYPE: Content type (album, track, playlist, etc.)
  * - ITEM_URL: Tidal URL
+ * - ITEM_NAME: Human-readable name of the item (title)
  */
 export async function executeCustomScript(
   item: ProcessingItemType,
@@ -98,6 +99,7 @@ export async function executeCustomScript(
       PROCESSING_PATH: itemProcessingPath,
       ITEM_TYPE: item.type,
       ITEM_URL: item.url,
+      ITEM_NAME: item.title,
     },
     logPrefix: "CUSTOM SCRIPT",
     scriptName: "custom script",
@@ -112,6 +114,7 @@ export async function executeCustomScript(
  * - FOLDERS_MOVED: Comma-separated list of moved folders
  * - ITEM_TYPE: Content type (album, track, playlist, etc.)
  * - ITEM_URL: Tidal URL
+ * - ITEM_NAME: Human-readable name of the item (title)
  */
 export async function executePostScript(
   item: ProcessingItemType,
@@ -128,6 +131,7 @@ export async function executePostScript(
       FOLDERS_MOVED: foldersToScan.join(","),
       ITEM_TYPE: item.type,
       ITEM_URL: item.url,
+      ITEM_NAME: item.title,
     },
     logPrefix: "POST SCRIPT",
     scriptName: "custom post-script",
