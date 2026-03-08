@@ -14,6 +14,22 @@ const router = Router();
 /**
  * GET /api/tiddl/config
  * Get tiddl config file content
+ *
+ * @openapi
+ * /api/tiddl/config:
+ *   get:
+ *     operationId: getTiddlConfig
+ *     summary: Get tiddl TOML config content
+ *     tags: [Configuration]
+ *     responses:
+ *       200:
+ *         description: TOML config content
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TiddlTomlResponse'
+ *       401:
+ *         description: Unauthorized
  */
 router.get(
   "/tiddl/config",
@@ -31,6 +47,34 @@ router.get(
 /**
  * POST /api/tiddl/config
  * Save tiddl config file content
+ *
+ * @openapi
+ * /api/tiddl/config:
+ *   post:
+ *     operationId: saveTiddlConfig
+ *     summary: Save tiddl TOML config content
+ *     tags: [Configuration]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [toml]
+ *             properties:
+ *               toml:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Config saved
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TiddlTomlSaveResponse'
+ *       400:
+ *         description: Invalid request
+ *       401:
+ *         description: Unauthorized
  */
 router.post(
   "/tiddl/config",

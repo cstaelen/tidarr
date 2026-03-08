@@ -9,6 +9,22 @@ const router = Router();
 /**
  * GET /api/api-key
  * Get the current API key for *arr integrations (Lidarr, Radarr, etc.)
+ *
+ * @openapi
+ * /api/api-key:
+ *   get:
+ *     operationId: getApiKey
+ *     summary: Get the current API key
+ *     tags: [API Key]
+ *     responses:
+ *       200:
+ *         description: Current API key
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ApiKeyResponse'
+ *       401:
+ *         description: Unauthorized
  */
 router.get(
   "/api-key",
@@ -29,6 +45,22 @@ router.get(
 /**
  * POST /api/api-key/regenerate
  * Regenerate the API key (creates a new random key)
+ *
+ * @openapi
+ * /api/api-key/regenerate:
+ *   post:
+ *     operationId: regenerateApiKey
+ *     summary: Regenerate the API key
+ *     tags: [API Key]
+ *     responses:
+ *       200:
+ *         description: New API key
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ApiKeyResponse'
+ *       401:
+ *         description: Unauthorized
  */
 router.post(
   "/api-key/regenerate",

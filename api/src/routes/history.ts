@@ -10,6 +10,24 @@ const router = Router();
 /**
  * GET /api/history/list
  * Get the download history
+ *
+ * @openapi
+ * /api/history/list:
+ *   get:
+ *     operationId: getHistory
+ *     summary: Get download history
+ *     tags: [History]
+ *     responses:
+ *       200:
+ *         description: List of downloaded item IDs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: string
+ *       401:
+ *         description: Unauthorized
  */
 router.get(
   "/history/list",
@@ -25,8 +43,20 @@ router.get(
 );
 
 /**
- * DELETE /api/remove-all
- * Clear the entire download queue
+ * DELETE /api/history/list
+ * Clear download history
+ *
+ * @openapi
+ * /api/history/list:
+ *   delete:
+ *     operationId: clearHistory
+ *     summary: Clear download history
+ *     tags: [History]
+ *     responses:
+ *       204:
+ *         description: History cleared
+ *       401:
+ *         description: Unauthorized
  */
 router.delete(
   "/history/list",

@@ -15,6 +15,22 @@ const router = Router();
 /**
  * GET /api/custom-css
  * Get custom CSS content
+ *
+ * @openapi
+ * /api/custom-css:
+ *   get:
+ *     operationId: getCustomCss
+ *     summary: Get custom CSS content
+ *     tags: [Customization]
+ *     responses:
+ *       200:
+ *         description: Custom CSS
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/CustomCSSResponse'
+ *       401:
+ *         description: Unauthorized
  */
 router.get(
   "/custom-css",
@@ -32,6 +48,34 @@ router.get(
 /**
  * POST /api/custom-css
  * Save custom CSS content
+ *
+ * @openapi
+ * /api/custom-css:
+ *   post:
+ *     operationId: saveCustomCss
+ *     summary: Save custom CSS content
+ *     tags: [Customization]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [css]
+ *             properties:
+ *               css:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: CSS saved
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/CustomCSSSaveResponse'
+ *       400:
+ *         description: Invalid request
+ *       401:
+ *         description: Unauthorized
  */
 router.post(
   "/custom-css",
