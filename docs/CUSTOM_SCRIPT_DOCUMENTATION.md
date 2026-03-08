@@ -36,6 +36,7 @@ Download → Beets → ReplayGain → Permissions → custom-script.sh → Move 
 PROCESSING_PATH  # Path to the .processing directory where files are located
 ITEM_TYPE        # Type of content: album, track, video, playlist, mix, artist, etc.
 ITEM_URL         # Tidal URL of the item being processed
+ITEM_NAME        # Human-readable name of the item (e.g. playlist/mix title)
 ```
 
 **Example script:**
@@ -92,6 +93,7 @@ DESTINATION_PATH  # The library path where files were moved (e.g., /music)
 FOLDERS_MOVED     # Comma-separated list of folders that were moved (relative to DESTINATION_PATH)
 ITEM_TYPE         # Type of content: album, track, video, playlist, mix, artist, etc.
 ITEM_URL          # Tidal URL of the item being processed
+ITEM_NAME         # Human-readable name of the item (e.g. playlist/mix title)
 ```
 
 **Example script:**
