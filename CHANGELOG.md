@@ -20,7 +20,7 @@ Tidarr notable changes.
 - [API] Download retries occured only on connection error (#664)
 - [API] Discography download now use per-album processing (#687)
 - [Lidarr] Fixed path templating for Lidarr downloads
-- [Tiddl] Update Tiddl to 3.2.1
+- [Tiddl] Update Tiddl to 3.2.2
 
 ## 📦 1.1.9
 ### 🚀 Added
