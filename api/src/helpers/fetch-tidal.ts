@@ -13,14 +13,11 @@ export async function fetchTidalWithRefresh(
 ): Promise<globalThis.Response> {
   const token = app.locals.tiddlConfig?.auth?.token;
 
-  const makeRequest = (authToken: string) =>
-    fetch(url, {
-      ...options,
-      headers: {
-        ...options.headers,
-        Authorization: `Bearer ${authToken}`,
-      },
-    });
+  const makeRequest = (authToken: string) => {
+    const headers = new Headers(options.headers as HeadersInit);
+    headers.set("Authorization", `Bearer ${authToken}`);
+    return fetch(url, { ...options, headers });
+  };
 
   let response = await makeRequest(token);
 
