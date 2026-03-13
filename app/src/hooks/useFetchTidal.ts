@@ -108,16 +108,17 @@ export function useFetchTidal() {
   ) {
     setLoading(true);
 
-    const data = await fetchTidal<T>({
-      url: url,
-      options: options || {},
-      tiddlConfig: tiddlConfig,
-      search: search,
-      resetTidalToken: resetTidalToken,
-    });
-
-    setLoading(false);
-    return data;
+    try {
+      return await fetchTidal<T>({
+        url: url,
+        options: options || {},
+        tiddlConfig: tiddlConfig,
+        search: search,
+        resetTidalToken: resetTidalToken,
+      });
+    } finally {
+      setLoading(false);
+    }
   }
 
   return {

@@ -45,7 +45,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
 
   async function queryTidal(query: string) {
     const results = await fetchTidal<TidalResponseType>(
-      "/v2/search",
+      "/v1/search",
       {},
       {
         query: query,
