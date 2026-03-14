@@ -2,38 +2,10 @@ import { Express } from "express";
 
 import { TIDAL_API_URL } from "../../../constants";
 import { getAppInstance } from "../../helpers/app-instance";
-import { refreshTokenOnce } from "../../helpers/refresh-token";
+import { fetchTidalWithRefresh } from "../../helpers/fetch-tidal";
 import { TidalAlbum, TidalSearchResponse } from "../../types";
 
 import { getAlbumArtist, mapQualityToTiddl } from "./lidarr";
-
-/**
- * Fetch Tidal API with automatic token refresh on 401
- */
-async function fetchTidalWithRefresh(
-  url: string,
-  app: Express,
-): Promise<globalThis.Response> {
-  const token = app.locals.tiddlConfig?.auth?.token;
-
-  const makeRequest = (authToken: string) =>
-    fetch(url, {
-      headers: { Authorization: `Bearer ${authToken}` },
-    });
-
-  let response = await makeRequest(token);
-
-  if (response.status === 401) {
-    console.log("🔑 [Lidarr] Got 401, refreshing token...");
-    await refreshTokenOnce(app);
-    const newToken = app.locals.tiddlConfig?.auth?.token;
-    if (newToken && newToken !== token) {
-      response = await makeRequest(newToken);
-    }
-  }
-
-  return response;
-}
 
 /**
  * Searches Tidal for albums (for indexer search results)
@@ -53,7 +25,7 @@ export async function searchTidalForLidarr(
 
     const countryCode = app.locals.tiddlConfig?.auth?.country_code || "US";
 
-    const url = new URL("/v2/search", TIDAL_API_URL);
+    const url = new URL("/v1/search", TIDAL_API_URL);
     url.searchParams.append("query", query);
     url.searchParams.append("countryCode", countryCode);
     url.searchParams.append("limit", "20");

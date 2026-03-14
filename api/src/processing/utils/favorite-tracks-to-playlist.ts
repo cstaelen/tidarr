@@ -1,5 +1,6 @@
 import { TIDAL_API_URL } from "../../../constants";
 import { getAppInstance } from "../../helpers/app-instance";
+import { fetchTidalWithRefresh } from "../../helpers/fetch-tidal";
 import { ProcessingItemType } from "../../types";
 
 import { logs } from "./logs";
@@ -23,7 +24,6 @@ export async function getFavoriteTrackIds(
 
   const userId = tiddlConfig.auth.user_id;
   const country = tiddlConfig.auth.country_code;
-  const headers = { Authorization: `Bearer ${tiddlConfig.auth.token}` };
 
   const ids: number[] = [];
   let offset = 0;
@@ -31,7 +31,7 @@ export async function getFavoriteTrackIds(
 
   while (offset < totalItems) {
     const url = `${TIDAL_API_URL}/v1/users/${userId}/favorites/tracks?countryCode=${country}&limit=${TIDAL_PAGE_LIMIT}&offset=${offset}`;
-    const response = await fetch(url, { headers });
+    const response = await fetchTidalWithRefresh(url, app);
 
     if (!response.ok) {
       logs(item.id, `❌ [FAV]: Failed to fetch favorites: ${response.status}`);
