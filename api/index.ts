@@ -32,6 +32,7 @@ import { loadHistoryFromFile } from "./src/services/history";
 import { createCronJob } from "./src/services/sync";
 
 import customCssRouter from "./src/routes/custom-css";
+import { registerOpenApiEndpoint } from "./src/openapi";
 
 dotenv.config({
   path: path.join(__dirname, "../.env"),
@@ -89,6 +90,9 @@ app.use("/api", historyRouter);
 app.use("/api", playRouter);
 app.use("/api", apiKeyRouter);
 app.use("/api", lidarrRouter);
+
+// OpenAPI spec endpoint
+registerOpenApiEndpoint(app);
 
 // Run
 

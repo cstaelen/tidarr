@@ -21,6 +21,24 @@ const router = Router();
 /**
  * GET /api/sync/list
  * Get list of synchronized playlists
+ *
+ * @openapi
+ * /api/sync/list:
+ *   get:
+ *     operationId: getSyncList
+ *     summary: Get list of synchronized playlists
+ *     tags: [Sync]
+ *     responses:
+ *       200:
+ *         description: Sync list
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/SyncItem'
+ *       401:
+ *         description: Unauthorized
  */
 router.get(
   "/sync/list",
@@ -38,6 +56,30 @@ router.get(
 /**
  * POST /api/sync/save
  * Add a playlist to synchronization list
+ *
+ * @openapi
+ * /api/sync/save:
+ *   post:
+ *     operationId: addToSyncList
+ *     summary: Add a playlist to the sync list
+ *     tags: [Sync]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [item]
+ *             properties:
+ *               item:
+ *                 $ref: '#/components/schemas/SyncItem'
+ *     responses:
+ *       201:
+ *         description: Item added to sync list
+ *       400:
+ *         description: Invalid request
+ *       401:
+ *         description: Unauthorized
  */
 router.post(
   "/sync/save",
@@ -58,6 +100,30 @@ router.post(
 /**
  * DELETE /api/sync/remove
  * Remove a playlist from synchronization list
+ *
+ * @openapi
+ * /api/sync/remove:
+ *   delete:
+ *     operationId: removeFromSyncList
+ *     summary: Remove a playlist from the sync list
+ *     tags: [Sync]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [id]
+ *             properties:
+ *               id:
+ *                 type: string
+ *     responses:
+ *       204:
+ *         description: Item removed
+ *       400:
+ *         description: Invalid or missing ID
+ *       401:
+ *         description: Unauthorized
  */
 router.delete(
   "/sync/remove",
@@ -79,6 +145,18 @@ router.delete(
 /**
  * DELETE /api/sync/remove-all
  * Remove all playlists from synchronization list
+ *
+ * @openapi
+ * /api/sync/remove-all:
+ *   delete:
+ *     operationId: clearSyncList
+ *     summary: Remove all items from the sync list
+ *     tags: [Sync]
+ *     responses:
+ *       204:
+ *         description: Sync list cleared
+ *       401:
+ *         description: Unauthorized
  */
 router.delete(
   "/sync/remove-all",
@@ -98,6 +176,18 @@ router.delete(
 /**
  * POST /api/sync/trigger
  * Manually trigger synchronization of all items
+ *
+ * @openapi
+ * /api/sync/trigger:
+ *   post:
+ *     operationId: triggerSync
+ *     summary: Manually trigger sync for all items
+ *     tags: [Sync]
+ *     responses:
+ *       202:
+ *         description: Sync triggered
+ *       401:
+ *         description: Unauthorized
  */
 router.post(
   "/sync/trigger",

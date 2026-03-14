@@ -11,6 +11,22 @@ const router = Router();
 /**
  * GET /api/settings
  * Get Tidarr configuration and Tidal token status
+ *
+ * @openapi
+ * /api/settings:
+ *   get:
+ *     operationId: getSettings
+ *     summary: Get server configuration and Tidal token status
+ *     tags: [Configuration]
+ *     responses:
+ *       200:
+ *         description: Server settings
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SettingsResponse'
+ *       401:
+ *         description: Unauthorized
  */
 router.get(
   "/settings",
@@ -60,6 +76,18 @@ router.get(
 /**
  * DELETE /api/token
  * Delete Tidal authentication token
+ *
+ * @openapi
+ * /api/token:
+ *   delete:
+ *     operationId: deleteTidalToken
+ *     summary: Delete the Tidal authentication token
+ *     tags: [Configuration]
+ *     responses:
+ *       204:
+ *         description: Token deleted
+ *       401:
+ *         description: Unauthorized
  */
 router.delete(
   "/token",

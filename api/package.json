@@ -8,6 +8,7 @@
     "@types/express-http-proxy": "^1.6.7",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.3.5",
+    "@types/swagger-jsdoc": "^6.0.4",
     "@types/ws": "^8.18.1"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
     "node-cron": "^4.2.1",
     "node-json-db": "^2.5.0",
     "openid-client": "^6.8.2",
+    "swagger-jsdoc": "^6.2.8",
     "toml": "^3.0.0",
     "ws": "^8.19.0"
   },

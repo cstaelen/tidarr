@@ -9,6 +9,35 @@ const router = Router();
 /**
  * POST /api/auth
  * Authenticate with password and get JWT token
+ *
+ * @openapi
+ * /api/auth:
+ *   post:
+ *     operationId: authenticate
+ *     summary: Login with password to get a JWT token
+ *     tags: [Authentication]
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [password]
+ *             properties:
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Authentication result
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthResponse'
+ *       400:
+ *         description: Missing password field
+ *       403:
+ *         description: Wrong password
  */
 router.post(
   "/auth",
@@ -21,6 +50,21 @@ router.post(
 /**
  * GET /api/is-auth-active
  * Check if authentication is enabled and get auth type
+ *
+ * @openapi
+ * /api/is-auth-active:
+ *   get:
+ *     operationId: getAuthStatus
+ *     summary: Check if authentication is enabled and get auth type
+ *     tags: [Authentication]
+ *     security: []
+ *     responses:
+ *       200:
+ *         description: Auth status
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/IsAuthActiveResponse'
  */
 router.get(
   "/is-auth-active",

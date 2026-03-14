@@ -22,6 +22,45 @@ const router = Router();
 /**
  * GET /api/lidarr - Newznab/Torznab indexer API
  * Implements basic Newznab protocol for Lidarr integration
+ *
+ * @openapi
+ * /api/lidarr:
+ *   get:
+ *     operationId: lidarrSearch
+ *     summary: Newznab indexer search for Lidarr integration
+ *     tags: [Lidarr]
+ *     parameters:
+ *       - in: query
+ *         name: t
+ *         schema:
+ *           type: string
+ *           enum: [caps, search, music]
+ *         required: true
+ *         description: Request type (caps for capabilities, search/music for queries)
+ *       - in: query
+ *         name: q
+ *         schema:
+ *           type: string
+ *         description: Search query
+ *       - in: query
+ *         name: artist
+ *         schema:
+ *           type: string
+ *         description: Artist name filter
+ *       - in: query
+ *         name: album
+ *         schema:
+ *           type: string
+ *         description: Album name filter
+ *     responses:
+ *       200:
+ *         description: Search results in Newznab XML format
+ *         content:
+ *           application/xml:
+ *             schema:
+ *               type: string
+ *       401:
+ *         description: Unauthorized
  */
 router.get(
   "/lidarr",
@@ -50,6 +89,35 @@ router.get(
 /**
  * GET /api/lidarr/download/:id/:quality - Trigger download with quality
  * Called by Lidarr when grabbing an album
+ *
+ * @openapi
+ * /api/lidarr/download/{id}/{quality}:
+ *   get:
+ *     operationId: lidarrDownload
+ *     summary: Trigger an album download from Lidarr
+ *     tags: [Lidarr]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Tidal album ID
+ *       - in: path
+ *         name: quality
+ *         required: true
+ *         schema:
+ *           $ref: '#/components/schemas/QualityType'
+ *         description: Download quality
+ *     responses:
+ *       200:
+ *         description: Download triggered (returns NZB file)
+ *         content:
+ *           application/x-nzb:
+ *             schema:
+ *               type: string
+ *       401:
+ *         description: Unauthorized
  */
 router.get(
   "/lidarr/download/:id/:quality",
