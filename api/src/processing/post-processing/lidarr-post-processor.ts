@@ -1,7 +1,7 @@
 import { NZB_DOWNLOAD_PATH } from "../../../constants";
 import { applyReplayGain } from "../../services/rsgain";
 import { ProcessingItemType } from "../../types";
-import { hasFileToMove } from "../utils/jobs";
+import { hasFileToMove, setPermissions } from "../utils/jobs";
 import { logs } from "../utils/logs";
 
 /**
@@ -20,6 +20,7 @@ export async function postProcessLidarr(
     logs(item.id, "⚠️ [LIDARR] No file to process.");
   } else {
     await applyReplayGain(item.id, processingPath);
+    await setPermissions(item, NZB_DOWNLOAD_PATH);
 
     logs(
       item.id,

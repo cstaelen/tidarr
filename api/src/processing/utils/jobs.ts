@@ -178,8 +178,11 @@ export async function replacePathInM3U(
   }
 }
 
-export async function setPermissions(item: ProcessingItemType) {
-  const itemProcessingPath = `${PROCESSING_PATH}/${item.id}`;
+export async function setPermissions(
+  item: ProcessingItemType,
+  basePath = PROCESSING_PATH,
+) {
+  const itemProcessingPath = `${basePath}/${item.id}`;
 
   if (process.env.PUID && process.env.PGID) {
     try {
