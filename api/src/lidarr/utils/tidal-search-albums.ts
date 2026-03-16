@@ -25,7 +25,7 @@ export async function searchTidalForLidarr(
 
     const countryCode = app.locals.tiddlConfig?.auth?.country_code || "US";
 
-    const url = new URL("/v1/search", TIDAL_API_URL);
+    const url = new URL("/v2/search", TIDAL_API_URL);
     url.searchParams.append("query", query);
     url.searchParams.append("countryCode", countryCode);
     url.searchParams.append("limit", "20");

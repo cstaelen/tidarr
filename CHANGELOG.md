@@ -4,8 +4,6 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 1.2.1
-### 🐛 Fixed
-- [Front] Rollback search api from v2 to v1 #698
 ### 🖍 Changes
 - [API] Tidal playlist fetches now renew token if needed
 
