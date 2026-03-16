@@ -69,7 +69,7 @@ export async function handleSearchRequest(
   }
 
   const app = getAppInstance();
-  const results = await searchTidalForLidarr(q, app);
+  const results = await searchTidalForLidarr(q);
 
   const qualities = ["hires_lossless", "lossless", "high", "low"];
   const items =

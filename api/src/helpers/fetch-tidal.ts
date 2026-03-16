@@ -1,5 +1,4 @@
-import { Express } from "express";
-
+import { getAppInstance } from "./app-instance";
 import { refreshTokenOnce } from "./refresh-token";
 
 /**
@@ -8,9 +7,9 @@ import { refreshTokenOnce } from "./refresh-token";
  */
 export async function fetchTidalWithRefresh(
   url: string,
-  app: Express,
   options: RequestInit = {},
 ): Promise<globalThis.Response> {
+  const app = getAppInstance();
   const token = app.locals.tiddlConfig?.auth?.token;
 
   const makeRequest = (authToken: string) => {
@@ -25,6 +24,7 @@ export async function fetchTidalWithRefresh(
     console.log("🔑 [TIDAL] Got 401, refreshing token...");
     await refreshTokenOnce(app);
     const newToken = app.locals.tiddlConfig?.auth?.token;
+
     if (newToken && newToken !== token) {
       response = await makeRequest(newToken);
     }

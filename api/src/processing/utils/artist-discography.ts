@@ -1,5 +1,6 @@
 import { TIDAL_API_URL } from "../../../constants";
 import { getAppInstance } from "../../helpers/app-instance";
+import { fetchTidalWithRefresh } from "../../helpers/fetch-tidal";
 import { ProcessingItemType, TiddlConfig } from "../../types";
 
 import { logs } from "./logs";
@@ -18,7 +19,6 @@ async function fetchAlbumsByFilter(
   filter: string,
   tiddlConfig: TiddlConfig,
 ): Promise<AlbumItem[]> {
-  const headers = { Authorization: `Bearer ${tiddlConfig.auth.token}` };
   const country = tiddlConfig.auth.country_code;
   const baseUrl = `${TIDAL_API_URL}/v1/artists/${artistId}/albums?countryCode=${country}&filter=${filter}`;
 
@@ -28,7 +28,7 @@ async function fetchAlbumsByFilter(
 
   while (offset < totalItems) {
     const url = `${baseUrl}&limit=${TIDAL_PAGE_LIMIT}&offset=${offset}`;
-    const response = await fetch(url, { headers });
+    const response = await fetchTidalWithRefresh(url);
 
     if (!response.ok) {
       const body = await response.text();

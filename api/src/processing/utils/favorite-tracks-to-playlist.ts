@@ -31,7 +31,7 @@ export async function getFavoriteTrackIds(
 
   while (offset < totalItems) {
     const url = `${TIDAL_API_URL}/v1/users/${userId}/favorites/tracks?countryCode=${country}&limit=${TIDAL_PAGE_LIMIT}&offset=${offset}`;
-    const response = await fetchTidalWithRefresh(url, app);
+    const response = await fetchTidalWithRefresh(url);
 
     if (!response.ok) {
       logs(item.id, `❌ [FAV]: Failed to fetch favorites: ${response.status}`);

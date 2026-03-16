@@ -1,5 +1,6 @@
 import { TIDAL_API_URL } from "../../../constants";
 import { getAppInstance } from "../../helpers/app-instance";
+import { fetchTidalWithRefresh } from "../../helpers/fetch-tidal";
 import { ProcessingItemType, TiddlConfig } from "../../types";
 
 import { logs } from "./logs";
@@ -21,7 +22,6 @@ async function fetchAllTracks(
   item: ProcessingItemType,
   tiddlConfig: TiddlConfig,
 ): Promise<TrackItem[]> {
-  const headers = { Authorization: `Bearer ${tiddlConfig.auth.token}` };
   const country = tiddlConfig.auth.country_code;
 
   const baseUrl = buildBaseUrl(item, tiddlConfig, country);
@@ -31,7 +31,7 @@ async function fetchAllTracks(
 
   while (offset < totalItems) {
     const url = `${baseUrl}&limit=${TIDAL_PAGE_LIMIT}&offset=${offset}`;
-    const response = await fetch(url, { headers });
+    const response = await fetchTidalWithRefresh(url);
 
     if (!response.ok) {
       const body = await response.text();
