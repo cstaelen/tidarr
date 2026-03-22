@@ -20,7 +20,7 @@
     "node-json-db": "^2.6.0",
     "openid-client": "^6.8.2",
     "toml": "^3.0.0",
-    "ws": "^8.19.0"
+    "ws": "^8.20.0"
   },
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",
