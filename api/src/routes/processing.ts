@@ -117,6 +117,25 @@ router.post(
 );
 
 /**
+ * POST /api/single-download
+ * Trigger a one-off download for a no_download item, bypassing NO_DOWNLOAD mode
+ */
+router.post(
+  "/single-download",
+  ensureAccessIsGranted,
+  validateRequestBody(["id"]),
+  validateIdMiddleware,
+  async (req: Request, res: Response) => {
+    try {
+      await req.app.locals.processingStack.actions.singleDownload(req.body.id);
+      res.sendStatus(204);
+    } catch (error) {
+      handleRouteError(error, res, "single download");
+    }
+  },
+);
+
+/**
  * GET /api/queue/status
  * Get the current queue status (paused or not)
  */

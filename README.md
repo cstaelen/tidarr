@@ -522,6 +522,9 @@ If you want to use Tidarr only as UI and not download files, you can set `NO_DOW
 
 This way you can use Tidarr to manage your download history, watchlist, and keep benefits of json DB (`sync_list.json`, `queue.json`) to manage download via custom scripts.
 
+Queue items are set to `no_download` status and never processed automatically. You can still trigger a one-off download for any individual item directly from the queue UI using the single download button.
+
+
 > [!NOTE]
 > **Unecessary configurations**
 >

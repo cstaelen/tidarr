@@ -229,6 +229,19 @@ export const ProcessingStack = () => {
     return dataMap.get(id) as ProcessingItemType;
   }
 
+  async function singleDownload(id: string) {
+    const item = dataMap.get(id);
+
+    if (!item || item.status !== "no_download") {
+      throw new Error(`Item ${id} is not in no_download status`);
+    }
+
+    item.status = "queue_download";
+    await updateItemInQueueFile(item);
+    queueManager.processQueue();
+    notifySSEConnections(app);
+  }
+
   async function pauseQueue() {
     queueManager.setPaused(true);
 
@@ -287,6 +300,7 @@ export const ProcessingStack = () => {
       loadDataFromFile,
       getItemOutput,
       addOutputLog,
+      singleDownload,
       pauseQueue,
       resumeQueue,
       getQueueStatus,

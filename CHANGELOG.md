@@ -7,6 +7,7 @@ Tidarr notable changes.
 ### 🖍 Changes
 - [API] Tidal playlist fetches now renew token if needed
 - [Lidarr] Apply PUID and PGID to Lidarr downloaded files
+- [Front] Add single download button in no-download mode #684
 
 ## 📦 1.2.0
 ### 🐛 Fixed

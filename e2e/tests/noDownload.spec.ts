@@ -109,6 +109,43 @@ test("NO_DOWNLOAD: Should display primary color FAB when NO_DOWNLOAD is enabled"
   await expect(fab).toHaveClass(/MuiFab-primary/);
 });
 
+test("NO_DOWNLOAD: Should display a Download button for no_download items and call /api/single-download on click", async ({
+  page,
+}) => {
+  let singleDownloadCalled = false;
+  let singleDownloadBody: { id: string } | undefined;
+
+  await page.route("**/single-download", async (route) => {
+    singleDownloadCalled = true;
+    singleDownloadBody = route.request().postDataJSON() as { id: string };
+    await route.fulfill({ status: 204 });
+  });
+
+  // Add an item to the queue
+  await runSearch("Nirvana", page);
+  await page.getByRole("tab", { name: "Albums" }).first().click();
+  await page
+    .locator("div:nth-child(2) > .MuiPaper-root > div:nth-child(2)")
+    .getByTestId("btn-dl")
+    .click();
+
+  // Open processing list
+  await expect(page.locator("button.MuiFab-circular")).toBeVisible();
+  await page.locator("button.MuiFab-circular").click();
+
+  // Verify the Download button is visible for no_download items
+  const downloadNowButton = page.getByTestId("btn-single-download");
+  await expect(downloadNowButton).toBeVisible();
+
+  // Click it
+  await downloadNowButton.click();
+
+  // Verify the API was called
+  await page.waitForTimeout(300);
+  expect(singleDownloadCalled).toBe(true);
+  expect(singleDownloadBody?.id).toBeTruthy();
+});
+
 test("NO_DOWNLOAD: Should allow clearing items even in no_download mode", async ({
   page,
 }) => {
