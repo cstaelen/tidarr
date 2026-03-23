@@ -5,11 +5,13 @@ import { Block, CoffeeMaker, MoreHoriz } from "@mui/icons-material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import DownloadIcon from "@mui/icons-material/Download";
 import WarningIcon from "@mui/icons-material/Warning";
 import {
   Box,
   Button,
   CircularProgress,
+  IconButton,
   TableCell,
   TableRow,
   Tooltip,
@@ -72,6 +74,20 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
               >
                 Retry
               </Button>
+            </>
+          )}
+          {status === "no_download" && (
+            <>
+              &nbsp;&nbsp;
+              <Tooltip title="Download now">
+                <IconButton
+                  size="small"
+                  data-testid="btn-single-download"
+                  onClick={() => actions.downloadNow(item.id)}
+                >
+                  <DownloadIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
             </>
           )}
           &nbsp;&nbsp;

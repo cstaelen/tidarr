@@ -9,6 +9,7 @@ This documentation describes how to use the Tidarr REST API to automate download
 - [Playback Endpoints](#playback-endpoints)
 - [Download Endpoints](#download-endpoints)
 - [Queue Management](#queue-management)
+  - [Single download (NO\_DOWNLOAD mode)](#single-download-no_download-mode)
 - [History Endpoints](#history-endpoints)
 - [Configuration Endpoints](#configuration-endpoints)
 - [Synchronization Endpoints (watch list)](#synchronization-endpoints)
@@ -449,6 +450,26 @@ curl http://localhost:8484/api/queue/status \
   "isPaused": false
 }
 ```
+
+### Single download (NO_DOWNLOAD mode)
+
+Trigger a one-off download for a specific item that is in `no_download` status. Only works when `NO_DOWNLOAD=true` is set. The item goes through the full download pipeline (beets, move to library, notifications) and ends up as `finished`.
+
+```bash
+curl -X POST http://localhost:8484/api/single-download \
+  -H "X-Api-Key: your-api-key" \
+  -H 'Content-Type: application/json' \
+  -d '{"id": "251082404"}'
+```
+
+**Response:** `204 No Content`
+
+**Behavior:**
+- Item status changes from `no_download` → `queue_download`
+- Full post-processing pipeline runs (beets, permissions, move, notifications)
+- Item ends as `finished` in the queue
+
+**Error:** `500` if the item is not found or not in `no_download` status.
 
 ---
 

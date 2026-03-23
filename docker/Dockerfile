@@ -118,7 +118,7 @@ RUN --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \
         python3-dev \
         build-base && \
     mkdir -p /shared/.processing && \
-    yarn install --frozen-lockfile --production && \
+    yarn install --frozen-lockfile --production --ignore-optional && \
     apk del .build-deps && \
     npm uninstall -g npm && \
     rm -rf /root/.npm /tmp/* /var/tmp/* && \

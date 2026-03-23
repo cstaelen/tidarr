@@ -25,6 +25,7 @@ type ProcessingContextType = {
     ) => Promise<void | undefined>;
     removeItem: (id: string) => Promise<void>;
     retryItem: (item: ProcessingItemType) => Promise<void | null>;
+    downloadNow: (id: string) => Promise<void>;
   };
 };
 
@@ -39,7 +40,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     useState<EventSourceController>();
 
   const {
-    actions: { list_sse, remove, save, get_queue_status },
+    actions: { list_sse, remove, save, get_queue_status, single_download },
   } = useApiFetcher();
   const {
     quality,
@@ -81,6 +82,11 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
     await removeItem(item.id);
     await save(JSON.stringify({ item: itemToQueue }));
+  };
+
+  // Trigger one-off download for a no_download item
+  const downloadNow = async (id: string): Promise<void> => {
+    await single_download(id);
   };
 
   // Remove item to processing list
@@ -143,6 +149,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       addItem,
       removeItem,
       retryItem,
+      downloadNow,
     },
   };
 
