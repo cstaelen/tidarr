@@ -3,6 +3,11 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.2.1
+### 🖍 Changes
+- [API] Tidal playlist fetches now renew token if needed
+- [Lidarr] Apply PUID and PGID to Lidarr downloaded files
+
 ## 📦 1.2.0
 ### 🐛 Fixed
 - [API] Fix playlist albums download (#654)

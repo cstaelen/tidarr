@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 
-import { getAppInstance } from "../helpers/app-instance";
-
 import { generateNewznabItem, generateNzbContent } from "./utils/lidarr";
 import { searchTidalForLidarr } from "./utils/tidal-search-albums";
 
@@ -68,8 +66,7 @@ export async function handleSearchRequest(
     return;
   }
 
-  const app = getAppInstance();
-  const results = await searchTidalForLidarr(q, app);
+  const results = await searchTidalForLidarr(q);
 
   const qualities = ["hires_lossless", "lossless", "high", "low"];
   const items =

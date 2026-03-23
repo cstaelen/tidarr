@@ -1,4 +1,5 @@
 import { getAppInstance } from "../../helpers/app-instance";
+import { fetchTidalWithRefresh } from "../../helpers/fetch-tidal";
 import { ProcessingItemType } from "../../types";
 
 import { logs } from "./logs";
@@ -18,7 +19,7 @@ export async function getTracksByMixId(item: ProcessingItemType) {
     Authorization: `Bearer ${tiddlConfig.auth.token}`,
   });
 
-  const response = await fetch(url, options);
+  const response = await fetchTidalWithRefresh(url, options);
 
   if (!response.ok) {
     logs(
@@ -69,7 +70,7 @@ export async function createNewPlaylist(item: ProcessingItemType) {
     },
   });
 
-  const response = await fetch(url, options);
+  const response = await fetchTidalWithRefresh(url, options);
 
   if (!response.ok) {
     console.error(
@@ -100,7 +101,7 @@ export async function deletePlaylist(playlistId: string, itemId: string) {
     "Content-Type": "application/json",
   });
 
-  const response = await fetch(url, options);
+  const response = await fetchTidalWithRefresh(url, options);
 
   if (!response.ok) {
     console.error(`❌ [MIX]: Failed to delete playlist: ${response.status}`);
@@ -117,11 +118,8 @@ async function getPlaylistEtag(playlistId: number) {
 
   if (!tiddlConfig) return;
 
-  const playlistRes = await fetch(
+  const playlistRes = await fetchTidalWithRefresh(
     `https://api.tidal.com/v1/playlists/${playlistId}?countryCode=${tiddlConfig.auth.country_code}`,
-    {
-      headers: { Authorization: `Bearer ${tiddlConfig.auth.token}` },
-    },
   );
 
   if (!playlistRes.ok) {
@@ -169,7 +167,7 @@ export async function addTracksToPlaylist(
     }).toString(),
   };
 
-  const response = await fetch(url, options);
+  const response = await fetchTidalWithRefresh(url, options);
 
   if (!response.ok) {
     throw new Error(

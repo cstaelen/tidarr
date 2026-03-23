@@ -1,50 +1,19 @@
-import { Express } from "express";
-
 import { TIDAL_API_URL } from "../../../constants";
 import { getAppInstance } from "../../helpers/app-instance";
-import { refreshTokenOnce } from "../../helpers/refresh-token";
+import { fetchTidalWithRefresh } from "../../helpers/fetch-tidal";
 import { TidalAlbum, TidalSearchResponse } from "../../types";
 
 import { getAlbumArtist, mapQualityToTiddl } from "./lidarr";
 
 /**
- * Fetch Tidal API with automatic token refresh on 401
- */
-async function fetchTidalWithRefresh(
-  url: string,
-  app: Express,
-): Promise<globalThis.Response> {
-  const token = app.locals.tiddlConfig?.auth?.token;
-
-  const makeRequest = (authToken: string) =>
-    fetch(url, {
-      headers: { Authorization: `Bearer ${authToken}` },
-    });
-
-  let response = await makeRequest(token);
-
-  if (response.status === 401) {
-    console.log("🔑 [Lidarr] Got 401, refreshing token...");
-    await refreshTokenOnce(app);
-    const newToken = app.locals.tiddlConfig?.auth?.token;
-    if (newToken && newToken !== token) {
-      response = await makeRequest(newToken);
-    }
-  }
-
-  return response;
-}
-
-/**
  * Searches Tidal for albums (for indexer search results)
  * @param query - Search query string
- * @param app - Express app instance (for tiddlConfig)
  * @returns Array of Tidal albums matching the query
  */
 export async function searchTidalForLidarr(
   query: string,
-  app: Express,
 ): Promise<TidalAlbum[]> {
+  const app = getAppInstance();
   try {
     if (!app.locals.tiddlConfig?.auth?.token) {
       console.error("[Lidarr] Tidal authentication required");
@@ -61,7 +30,7 @@ export async function searchTidalForLidarr(
 
     console.log(`🔎 [Lidarr] Searching album on Tidal...`);
 
-    const response = await fetchTidalWithRefresh(url.toString(), app);
+    const response = await fetchTidalWithRefresh(url.toString());
 
     if (!response.ok) {
       console.error(
@@ -86,7 +55,7 @@ export async function addAlbumToQueue(
   const countryCode = app.locals.tiddlConfig?.auth?.country_code || "US";
   const albumUrl = `${TIDAL_API_URL}/v1/albums/${id}?countryCode=${countryCode}`;
 
-  const response = await fetchTidalWithRefresh(albumUrl, app);
+  const response = await fetchTidalWithRefresh(albumUrl);
 
   if (response.ok) {
     const albumData = await response.json();
