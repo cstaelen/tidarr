@@ -370,6 +370,10 @@ test("Tidarr download : Should be able to clear finished items", async ({
   // Wait a bit for the mock to take effect
   await page.waitForTimeout(500);
 
+  // Finished items are hidden by default - show them first
+  await page.getByRole("button", { name: /Show finished/ }).click();
+  await expect(page.getByLabel("Finished table")).toContainText("In Utero");
+
   // Click "Clear finished" button
   await page.getByRole("button", { name: "Clear finished" }).click();
 
