@@ -83,6 +83,85 @@ test("Queue: Should load queue status on mount", async ({ page }) => {
   expect(statusCalled).toBe(true);
 });
 
+test("Queue: Should hide finished items by default and toggle visibility", async ({
+  page,
+}) => {
+  const mockData = [
+    {
+      id: "1",
+      title: "In Utero",
+      artist: "Nirvana",
+      type: "album",
+      quality: "high",
+      status: "finished",
+      loading: false,
+    },
+    {
+      id: "2",
+      title: "Nevermind",
+      artist: "Nirvana",
+      type: "album",
+      quality: "high",
+      status: "queue_download",
+      loading: false,
+    },
+  ];
+
+  await page.route("**/stream-processing", async (route) => {
+    await route.fulfill({
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${JSON.stringify(mockData)}\n\n`,
+    });
+  });
+
+  await page.goto("/");
+  await expect(page.locator("button.MuiFab-circular")).toBeVisible();
+  await page.locator("button.MuiFab-circular").click();
+
+  await page.waitForSelector('[aria-label="Processing table"]', {
+    state: "visible",
+    timeout: 5000,
+  });
+
+  // Finished item hidden by default (not in finished table, which is not rendered)
+  await expect(page.getByLabel("Processing table")).not.toContainText(
+    "In Utero",
+  );
+  await expect(page.getByLabel("Finished table")).not.toBeVisible();
+  // Non-finished item visible in processing table
+  await expect(page.getByLabel("Processing table")).toContainText("Nevermind");
+
+  // Toggle button shows count
+  const showButton = page.getByRole("button", { name: "Show finished (1)" });
+  await expect(showButton).toBeVisible();
+  // Clear finished button is also visible
+  await expect(
+    page.getByRole("button", { name: "Clear finished" }),
+  ).toBeVisible();
+  await showButton.click();
+
+  // Finished table now visible with item
+  await expect(page.getByLabel("Finished table")).toBeVisible();
+  await expect(page.getByLabel("Finished table")).toContainText("In Utero");
+
+  // Button label changed
+  await expect(
+    page.getByRole("button", { name: "Hide finished" }),
+  ).toBeVisible();
+
+  // Toggle back
+  await page.getByRole("button", { name: "Hide finished" }).click();
+  await expect(page.getByLabel("Finished table")).not.toBeVisible();
+
+  // Clean up
+  await page.route("**/stream-processing", (route) => route.continue());
+});
+
 test("Queue: Should display warning color when paused", async ({ page }) => {
   await mockItemOutputSSE(page, "high");
 

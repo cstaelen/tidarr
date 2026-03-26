@@ -1,19 +1,8 @@
 import { useMemo, useState } from "react";
-import { ClearAll, DeleteSweep } from "@mui/icons-material";
-import {
-  Box,
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { ClearAll, DeleteSweep, VisibilityOff, Visibility } from "@mui/icons-material";
+import { Box, Button, Typography } from "@mui/material";
 import { ProcessingPauseButton } from "src/components/Processing/PauseButton";
-import { ProcessingItem } from "src/components/Processing/ProcessingItem";
+import { ProcessingTable } from "src/components/Processing/ProcessingTable";
 import { ModuleTitle } from "src/components/TidalModule/Title";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
@@ -23,6 +12,7 @@ import BackButton from "../Buttons/BackButton";
 
 export default function ProcessingList() {
   const [isRemoving, setIsRemoving] = useState(false);
+  const [showFinished, setShowFinished] = useState(false);
   const { actions: apiActions } = useApiFetcher();
   const { processingList } = useProcessingProvider();
   const { config } = useConfigProvider();
@@ -30,6 +20,16 @@ export default function ProcessingList() {
   const reversedProcessingList = useMemo(
     () => processingList?.slice().reverse(),
     [processingList],
+  );
+
+  const activeList = useMemo(
+    () => reversedProcessingList?.filter((item) => item.status !== "finished"),
+    [reversedProcessingList],
+  );
+
+  const finishedList = useMemo(
+    () => reversedProcessingList?.filter((item) => item.status === "finished"),
+    [reversedProcessingList],
   );
 
   const handleRemoveAll = async () => {
@@ -88,20 +88,6 @@ export default function ProcessingList() {
               <Button
                 size="small"
                 variant="outlined"
-                startIcon={<ClearAll />}
-                onClick={handleRemoveFinished}
-                disabled={
-                  isRemoving ||
-                  !processingList?.some((item) =>
-                    ["finished", "error"].includes(item.status),
-                  )
-                }
-              >
-                Clear finished
-              </Button>
-              <Button
-                size="small"
-                variant="outlined"
                 color="error"
                 startIcon={<DeleteSweep />}
                 onClick={handleRemoveAll}
@@ -113,28 +99,42 @@ export default function ProcessingList() {
           </Box>
         }
       />
-      <Paper>
-        <TableContainer>
-          <Table aria-label="Processing table" size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <strong>Status</strong>
-                </TableCell>
-                <TableCell>Title</TableCell>
-                <TableCell>Artist</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Quality</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {reversedProcessingList?.map((item, index) => (
-                <ProcessingItem item={item} key={`processing-index-${index}`} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
+      <ProcessingTable
+        items={activeList ?? []}
+        ariaLabel="Processing table"
+        emptyMessage="Nothing to process."
+      />
+      {finishedList && finishedList.length > 0 && (
+        <>
+          <Box display="flex" justifyContent="center" alignItems="center" gap={2} mt={2}>
+            <Button
+              size="small"
+              variant="outlined"
+              startIcon={showFinished ? <VisibilityOff /> : <Visibility />}
+              onClick={() => setShowFinished((v) => !v)}
+            >
+              {showFinished ? "Hide finished" : `Show finished (${finishedList.length})`}
+            </Button>
+            <Button
+              size="small"
+              variant="outlined"
+              startIcon={<ClearAll />}
+              onClick={handleRemoveFinished}
+              disabled={isRemoving}
+            >
+              Clear finished
+            </Button>
+          </Box>
+          {showFinished && (
+            <Box mt={1}>
+              <ProcessingTable
+                items={finishedList}
+                ariaLabel="Finished table"
+              />
+            </Box>
+          )}
+        </>
+      )}
     </>
   );
 }
