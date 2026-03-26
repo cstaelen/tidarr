@@ -332,6 +332,11 @@ environment:
 
 Beets options in `</mounted/config/folder/>beets-config.yml`:
 
+> [!NOTE]
+> Beets is locked to version **2.5.1**
+>
+> Starting from 2.6.0, beets added `numba` as an unconditional dependency, which requires `llvmlite` to compile from source. `llvmlite` has no pre-built wheels for Alpine Linux (musl libc), making installation fail on both `amd64` and `arm64`. Upgrading beets requires switching the base image to a glibc-based distribution (e.g. Debian).
+
 ### Plex integration
 
 You can active:
@@ -506,6 +511,8 @@ Tidarr supports two custom shell scripts during the post-processing pipeline:
 
 - **`custom-script.sh`** - Runs **before** files are moved to the library
 - **`custom-post-script.sh`** - Runs **after** files are moved to the library
+
+You can also install additional Python packages by placing a **`requirements.txt`** file in your root config folder.
 
 > [!NOTE]
 > **Interact with Tidarr download process**

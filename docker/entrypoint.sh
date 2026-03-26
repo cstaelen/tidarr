@@ -36,6 +36,12 @@ fi
 # Set umask for root shell
 umask $EFFECTIVE_UMASK
 
+# Install custom python packages
+if [ -f /shared/requirements.txt ]; then 
+  echo "🐍 [TIDARR] Install custom python requirements ..."
+  python -m pip install --no-cache-dir -r /shared/requirements.txt
+fi
+
 # Set ownership of shared directories if PUID/PGID are set
 if [ -n "$PUID" ] && [ -n "$PGID" ]; then
   echo "🔑 [TIDARR] Setting ownership to PUID=$PUID PGID=$PGID"

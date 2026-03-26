@@ -13,12 +13,10 @@ ENV SHELL=bash \
     PYTHONUNBUFFERED=1 \
     HOME=/shared
 
-# Install system dependencies (shared by dev and prod)
 RUN apk update && apk upgrade && \
     apk add --no-cache \
         npm nodejs \
         ffmpeg \
-        beets \
         bash \
         su-exec \
         curl \
@@ -27,7 +25,6 @@ RUN apk update && apk upgrade && \
     rm -rf /var/cache/apk/*
 
 # Install Python and Node dependencies
-# Add build tools temporarily for native modules, then remove them
 COPY docker/requirements.txt docker/requirements.txt
 RUN apk add --no-cache --virtual .build-deps \
         python3-dev \
@@ -51,7 +48,6 @@ ENV NODE_ENV="${NODE_ENV}" \
     ENVIRONMENT="development" \
     VERSION="0.0.0-dev"
 
-# Install dev-only dependencies
 RUN apk add --no-cache git && \
     npm install -g tsx
 
