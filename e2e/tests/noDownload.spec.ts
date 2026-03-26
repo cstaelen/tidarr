@@ -175,9 +175,12 @@ test("NO_DOWNLOAD: Should allow clearing items even in no_download mode", async 
   await page.waitForTimeout(500);
   await page.getByRole("button", { name: "Clear all" }).click();
 
-  // Verify the queue is empty
+  // Verify the queue is empty (1 row = empty message row "Nothing to process.")
   await page.waitForTimeout(500);
   await expect(
     page.getByLabel("Processing table").locator("tbody tr"),
-  ).toHaveCount(0);
+  ).toHaveCount(1);
+  await expect(page.getByLabel("Processing table")).toContainText(
+    "Nothing to process.",
+  );
 });

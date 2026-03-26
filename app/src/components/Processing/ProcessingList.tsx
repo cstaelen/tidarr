@@ -1,5 +1,10 @@
 import { useMemo, useState } from "react";
-import { ClearAll, DeleteSweep, VisibilityOff, Visibility } from "@mui/icons-material";
+import {
+  ClearAll,
+  DeleteSweep,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
 import { ProcessingPauseButton } from "src/components/Processing/PauseButton";
 import { ProcessingTable } from "src/components/Processing/ProcessingTable";
@@ -106,14 +111,23 @@ export default function ProcessingList() {
       />
       {finishedList && finishedList.length > 0 && (
         <>
-          <Box display="flex" justifyContent="center" alignItems="center" gap={2} mt={2}>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            gap={2}
+            mt={2}
+          >
             <Button
               size="small"
               variant="outlined"
+              color="success"
               startIcon={showFinished ? <VisibilityOff /> : <Visibility />}
               onClick={() => setShowFinished((v) => !v)}
             >
-              {showFinished ? "Hide finished" : `Show finished (${finishedList.length})`}
+              {showFinished
+                ? "Hide finished"
+                : `Show finished (${finishedList.length})`}
             </Button>
             <Button
               size="small"
