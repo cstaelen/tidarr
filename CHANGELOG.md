@@ -4,6 +4,8 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 1.2.1
+### 🚀 Added
+- [API] Add new `ARTIST_SINGLE_DOWNLOAD` env var to bulk download discographies #713
 ### 🖍 Changes
 - [API] Tidal playlist fetches now renew token if needed
 - [Lidarr] Apply PUID and PGID to Lidarr downloaded files
