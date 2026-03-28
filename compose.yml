@@ -42,4 +42,5 @@ services:
       - ENABLE_HISTORY=
       - REPLAY_GAIN=
       - PLAYLIST_ALBUMS=
+      - ARTIST_SINGLE_DOWNLOAD=
       

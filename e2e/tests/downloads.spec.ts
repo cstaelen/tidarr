@@ -160,6 +160,72 @@ test("Tidarr download : Should be able to download discography", async ({
   await page.route("**/stream-processing", (route) => route.continue());
 });
 
+test.describe("ARTIST_SINGLE_DOWNLOAD", () => {
+  test.use({ envFile: ".env.e2e.artistsingledownload" });
+
+  test("Should download artist as single job without per-album expansion", async ({
+    page,
+  }) => {
+    await mockItemOutputSSE(page, "high");
+
+    // Mock stream-processing SSE before page load — artist item stays as-is (no expansion)
+    const mockArtistItem = [
+      {
+        id: "19368",
+        title: "Nirvana",
+        artist: "Nirvana",
+        type: "artist",
+        quality: "high",
+        status: "queue_download",
+        loading: false,
+      },
+    ];
+    await page.route("**/stream-processing", async (route) => {
+      await route.fulfill({
+        status: 200,
+        headers: {
+          "Content-Type": "text/event-stream",
+          "Cache-Control": "no-cache",
+          Connection: "keep-alive",
+        },
+        body: `data: ${JSON.stringify(mockArtistItem)}\n\n`,
+      });
+    });
+
+    // Intercept /api/save to verify the artist item is sent to the backend
+    let savedItem: Record<string, unknown> | null = null;
+    await page.route("**/save", async (route) => {
+      const body = route.request().postDataJSON();
+      savedItem = body?.item;
+      await route.continue();
+    });
+
+    await runSearch("https://listen.tidal.com/artist/19368", page);
+    await page.getByRole("button", { name: "Get all releases" }).click();
+
+    await page.waitForTimeout(500);
+    expect(savedItem).toMatchObject({ type: "artist" });
+
+    // Open processing list and verify artist item is present (NOT expanded into albums)
+    await expect(page.locator("button.MuiFab-circular")).toBeVisible();
+    await page.locator("button.MuiFab-circular").click();
+
+    await page.waitForSelector('[aria-label="Processing table"]', {
+      state: "visible",
+      timeout: 5000,
+    });
+
+    await expect(page.getByLabel("Processing table")).toContainText("Nirvana");
+    await expect(page.getByLabel("Processing table")).toContainText("artist");
+    await expect(page.getByLabel("Processing table")).not.toContainText(
+      "album",
+    );
+
+    // Clean up
+    await page.route("**/stream-processing", (route) => route.continue());
+  });
+});
+
 test("Tidarr download : Should be able to download all artist videos", async ({
   page,
 }) => {

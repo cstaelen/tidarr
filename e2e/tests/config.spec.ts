@@ -91,6 +91,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     ["ENABLE_HISTORY", "true"],
     ["M3U_BASEPATH_FILE", "../../"],
     ["PLAYLIST_ALBUMS", ""],
+    ["ARTIST_SINGLE_DOWNLOAD", ""],
   ];
   const tableAPIRows = await page
     .getByLabel("simple table")
