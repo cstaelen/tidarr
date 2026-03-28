@@ -26,6 +26,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [OpenID Connect (OIDC) Authentication](#openid-connect-oidc-authentication)
   - [Lock quality selector](#lock-quality-selector)
   - [Playlist options](#playlist-options)
+  - [Discography options](#discography-download-mode)
   - [Sync playlists and mixes](#sync-playlists-and-mixes)
   - [Custom CSS](#custom-css)
   - [Download History](#download-history)
@@ -260,6 +261,21 @@ environment:
 
 > [!NOTE]
 > This feature processes playlists and mixes after the playlist download completes. Albums are added to the queue automatically, eliminating the need to manually download each album. Duplicates are avoided by tracking unique album IDs + Tiddl "skip existing" feature.
+
+### Discography download mode
+
+By default, Tidarr expands an artist download into individual album queue items (one item per album). This allows better control, error isolation, and retry per album.
+
+To download an entire discography as a single tiddl job instead:
+
+```yaml
+environment:
+  - ...
+  - ARTIST_SINGLE_DOWNLOAD=true
+```
+
+> [!NOTE]
+> When `ARTIST_SINGLE_DOWNLOAD=true`, the artist is passed directly to tiddl as a single download job. This is faster but provides less granular error handling — if one album fails, the entire job may be affected.
 
 ### Sync playlists and mixes
 
