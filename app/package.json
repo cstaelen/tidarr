@@ -14,8 +14,8 @@
     "event-source-plus": "0.1.15",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-router-dom": "^7.13.1",
-    "vite": "^8.0.1"
+    "react-router-dom": "^7.13.2",
+    "vite": "^8.0.3"
   },
   "scripts": {
     "start": "vite dev",
