@@ -98,7 +98,7 @@ export class QueueManager {
   /**
    * Starts downloading an item
    */
-  private startDownload(item: ProcessingItemType): void {
+  startDownload(item: ProcessingItemType): void {
     handleDownload(item, this.app, async (playlistId) => {
       // Download completed
       delete item.process;

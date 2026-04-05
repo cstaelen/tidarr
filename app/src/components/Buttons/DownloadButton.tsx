@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import { Block } from "@mui/icons-material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckIcon from "@mui/icons-material/Check";
@@ -36,7 +35,6 @@ const STATUS_ICONS: Record<string, React.ReactNode> = {
   finished: <CheckIcon color="success" />,
   download: <CircularProgress size={18} />,
   processing: <CoffeeMakerIcon />,
-  no_download: <Block color="disabled" />,
 };
 
 export const DownloadButton = ({
@@ -147,7 +145,6 @@ export const DownloadButton = ({
         color={buttonColor}
         endIcon={buttonIcon}
         onClick={handleClick}
-        disabled={status === "no_download"}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         size="small"

@@ -74,6 +74,10 @@ export const ProcessingStack = () => {
   );
 
   async function loadDataFromFile() {
+    if (process.env.NO_DOWNLOAD === "true") {
+      queueManager.setPaused(true);
+    }
+
     const records = await loadQueueFromFile();
     records.forEach((record) => {
       // Reset any items that were in-progress during a crash back to appropriate state
@@ -81,7 +85,8 @@ export const ProcessingStack = () => {
         record.status === "download" ||
         record.status === "queue" ||
         record.status === "processing" ||
-        record.status === "queue_processing"
+        record.status === "queue_processing" ||
+        (record.status as string) === "no_download"
       ) {
         record.status = "queue_download";
       }
@@ -120,8 +125,6 @@ export const ProcessingStack = () => {
   }
 
   async function addItem(item: ProcessingItemType) {
-    const noDownloadMode = process.env?.NO_DOWNLOAD === "true";
-
     // O(1) lookup using Map instead of O(n) findIndex
     if (dataMap.has(item.id)) {
       await removeItem(item.id);
@@ -129,17 +132,10 @@ export const ProcessingStack = () => {
 
     await addItemToFile(item);
 
-    if (noDownloadMode) {
-      item["status"] = "no_download";
-      item["loading"] = false;
-    }
-
     data.push(item);
     dataMap.set(item.id, item);
 
-    if (!noDownloadMode) {
-      queueManager.processQueue();
-    }
+    queueManager.processQueue();
 
     notifySSEConnections(app);
   }
@@ -232,13 +228,18 @@ export const ProcessingStack = () => {
   async function singleDownload(id: string) {
     const item = dataMap.get(id);
 
-    if (!item || item.status !== "no_download") {
-      throw new Error(`Item ${id} is not in no_download status`);
+    if (
+      !item ||
+      !["queue_download", "error", "finished"].includes(item.status)
+    ) {
+      throw new Error(`Item ${id} cannot be individually downloaded`);
     }
 
     item.status = "queue_download";
     await updateItemInQueueFile(item);
-    queueManager.processQueue();
+    await queueManager.prepareDownload(item);
+    queueManager.startDownload(item);
+
     notifySSEConnections(app);
   }
 
@@ -275,6 +276,7 @@ export const ProcessingStack = () => {
   }
 
   function resumeQueue() {
+    if (process.env.NO_DOWNLOAD === "true") return;
     queueManager.setPaused(false);
     queueManager.processQueue(); // Restart the queue
     notifySSEConnections(app);

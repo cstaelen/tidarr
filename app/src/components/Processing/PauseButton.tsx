@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { Pause, PlayArrow } from "@mui/icons-material";
-import { IconButton, Tooltip } from "@mui/material";
+import { IconButton, Tooltip, Typography } from "@mui/material";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 
 export const ProcessingPauseButton = () => {
   const { actions: apiActions } = useApiFetcher();
+  const { config } = useConfigProvider();
   const {
     isPaused,
     actions: { setIsPaused },
   } = useProcessingProvider();
   const [isLoading, setIsLoading] = useState(false);
+
+  if (config?.NO_DOWNLOAD === "true") {
+    return <Typography color="warning">No download mode is active</Typography>;
+  }
 
   const handleTogglePause = async () => {
     setIsLoading(true);

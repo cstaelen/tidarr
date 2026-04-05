@@ -5,12 +5,11 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { ProcessingPauseButton } from "src/components/Processing/PauseButton";
 import { ProcessingTable } from "src/components/Processing/ProcessingTable";
 import { ModuleTitle } from "src/components/TidalModule/Title";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
-import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 
 import BackButton from "../Buttons/BackButton";
@@ -20,7 +19,6 @@ export default function ProcessingList() {
   const [showFinished, setShowFinished] = useState(false);
   const { actions: apiActions } = useApiFetcher();
   const { processingList } = useProcessingProvider();
-  const { config } = useConfigProvider();
 
   const reversedProcessingList = useMemo(
     () => processingList?.slice().reverse(),
@@ -81,13 +79,7 @@ export default function ProcessingList() {
             alignItems="center"
           >
             <div>
-              {config?.NO_DOWNLOAD !== "true" ? (
-                <ProcessingPauseButton />
-              ) : (
-                <Typography color="warning">
-                  No download mode is active
-                </Typography>
-              )}
+              <ProcessingPauseButton />
             </div>
             <Box display="flex" gap={2}>
               <Button
