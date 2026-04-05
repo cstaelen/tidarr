@@ -13,6 +13,7 @@ import { plexUpdate } from "../../services/plex";
 import { hookPushOver } from "../../services/pushover";
 import { applyReplayGain } from "../../services/rsgain";
 import { ProcessingItemType, ProcessingItemWithPlaylist } from "../../types";
+import { generateFavoriteTracksM3U } from "../utils/favorite-tracks-to-playlist";
 import {
   getFolderToScan,
   hasFileToMove,
@@ -77,6 +78,9 @@ export async function postProcessTidarr(
   // Execute custom script if exists
   await executeCustomScript(item);
 
+  // Generate M3U for favorite_tracks (tiddl doesn't generate one natively for fav downloads)
+  await generateFavoriteTracksM3U(item);
+
   // Update m3u item path
   await replacePathInM3U(item);
 
@@ -95,7 +99,7 @@ export async function postProcessTidarr(
   // Move to output folder
   await moveAndClean(item.id);
 
-  // Clean up temporary playlist if needed (mix or favorite_tracks)
+  // Clean up temporary playlist if needed (mix only)
   const playlistId = (item as ProcessingItemWithPlaylist).playlistId;
   if (playlistId) {
     deletePlaylist(playlistId, item.id);
