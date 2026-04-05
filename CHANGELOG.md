@@ -6,6 +6,7 @@ Tidarr notable changes.
 ## 📦 1.2.1
 ### 🚀 Added
 - [API] Add new `ARTIST_SINGLE_DOWNLOAD` env var to bulk download discographies #713
+- [Front] When queue is paused, you can single-download a specific item in the queue.
 ### 🐛 Fixed
 - [API] Fix favorite tracks download for large libraries by using native tiddl command instead of temporary playlist (was limited to 500 tracks) #721
 ### 🖍 Changes

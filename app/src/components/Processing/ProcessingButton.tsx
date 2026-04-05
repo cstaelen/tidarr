@@ -9,7 +9,7 @@ import { useProcessingProvider } from "src/provider/ProcessingProvider";
 export const ProcessingButton = () => {
   const { processingList, isPaused } = useProcessingProvider();
 
-  const { config, actions } = useConfigProvider();
+  const { actions } = useConfigProvider();
   const navigate = useNavigate();
 
   const isLoading = processingList
@@ -33,7 +33,7 @@ export const ProcessingButton = () => {
     case hasError:
       buttonColor = "error";
       break;
-    case isLoading || config?.NO_DOWNLOAD === "true":
+    case isLoading:
       buttonColor = "primary";
       break;
     case !processingList || processingList?.length === 0:

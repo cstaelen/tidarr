@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
-import { Block, CoffeeMaker, MoreHoriz } from "@mui/icons-material";
+import { CoffeeMaker, MoreHoriz } from "@mui/icons-material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -29,12 +29,11 @@ const STATUS_ICONS: Record<string, ReactElement> = {
   queue_download: <AccessTimeIcon />,
   queue_processing: <MoreHoriz />,
   processing: <CoffeeMaker />,
-  no_download: <Block color="disabled" />,
 };
 
 export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
   const status = item?.status;
-  const { actions } = useProcessingProvider();
+  const { actions, isPaused } = useProcessingProvider();
 
   if (!item?.status) return null;
 
@@ -76,7 +75,7 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
               </Button>
             </>
           )}
-          {status === "no_download" && (
+          {isPaused && status === "queue_download" && (
             <>
               &nbsp;&nbsp;
               <Tooltip title="Download now">
@@ -91,8 +90,7 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
             </>
           )}
           &nbsp;&nbsp;
-          {item.status !== "queue_download" &&
-            item.status !== "no_download" && <DialogTerminal item={item} />}
+          {item.status !== "queue_download" && <DialogTerminal item={item} />}
         </Box>
       </TableCell>
       <TableCell scope="row">

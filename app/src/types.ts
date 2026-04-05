@@ -360,8 +360,7 @@ export type ProcessingItemType = {
     | "queue_processing"
     | "processing"
     | "finished"
-    | "error"
-    | "no_download";
+    | "error";
   url: string;
   loading: boolean;
   error: boolean;

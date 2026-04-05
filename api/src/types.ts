@@ -27,8 +27,7 @@ export type ProcessingItemType = {
     | "processing"
     | "queue" // legacy
     | "finished"
-    | "error"
-    | "no_download";
+    | "error";
   quality: QualityType;
   url: string;
   loading: boolean;

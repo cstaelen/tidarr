@@ -103,10 +103,11 @@ export const process_sync_list = async (app: Express) => {
     const item: ProcessingItemType = app.locals.processingStack.actions.getItem(
       element.id,
     );
-    if (item && ["processing"].includes(item?.status)) continue;
-    if (item && ["finished", "no_download"].includes(item?.status)) {
-      await app.locals.processingStack.actions.removeItem(element.id);
-    }
+    if (
+      item &&
+      ["processing", "download", "queue_download"].includes(item?.status)
+    )
+      continue;
 
     const itemToQueue: ProcessingItemType = {
       id: element.id,
