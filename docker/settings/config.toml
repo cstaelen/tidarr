@@ -29,10 +29,10 @@ default = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {it
 track = "{album.artist}/{album.date:%Y} - {album.title}/{album.artist} - {item.title_version}"
 video = "{album.artist}/videos/{item.artist}/{item.artist} - {item.title}"
 album = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
-playlist = "playlists/{playlist.title}/{playlist.index:02d}. {item.artist} - {item.title_version}"
+playlist = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
 
 # Mixes are processed as playlist to get more metadatas
-mix = "mixes/{playlist.title}/{playlist.index:02d}. {item.artist} - {item.title_version}"
+mix = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
 
 [download]
 # low - 96 kbps, m4a

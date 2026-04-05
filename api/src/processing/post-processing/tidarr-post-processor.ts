@@ -13,6 +13,7 @@ import { plexUpdate } from "../../services/plex";
 import { hookPushOver } from "../../services/pushover";
 import { applyReplayGain } from "../../services/rsgain";
 import { ProcessingItemType, ProcessingItemWithPlaylist } from "../../types";
+import { generateFavoriteTracksM3U } from "../utils/favorite-tracks-to-playlist";
 import {
   getFolderToScan,
   hasFileToMove,
@@ -21,7 +22,6 @@ import {
   setPermissions,
 } from "../utils/jobs";
 import { logs } from "../utils/logs";
-import { generateFavoriteTracksM3U } from "../utils/favorite-tracks-to-playlist";
 import { deletePlaylist } from "../utils/mix-to-playlist";
 import { getPlaylistAlbums } from "../utils/playlist-albums";
 
