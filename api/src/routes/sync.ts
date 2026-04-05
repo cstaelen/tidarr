@@ -8,7 +8,7 @@ import {
 } from "../helpers/validation";
 import {
   addItemToSyncList,
-  createCronJob,
+  createSyncCronJob,
   getSyncList,
   process_sync_list,
   removeAllFromSyncList,
@@ -46,7 +46,7 @@ router.post(
   async (req: Request, res: Response) => {
     try {
       await addItemToSyncList(req.body.item);
-      await createCronJob(req.app as Express);
+      await createSyncCronJob(req.app as Express);
 
       res.sendStatus(201);
     } catch (error) {
@@ -67,7 +67,7 @@ router.delete(
   async (req: Request, res: Response) => {
     try {
       await removeItemFromSyncList(req.body.id);
-      await createCronJob(req.app as Express);
+      await createSyncCronJob(req.app as Express);
 
       res.sendStatus(204);
     } catch (error) {
@@ -86,7 +86,7 @@ router.delete(
   async (req: Request, res: Response) => {
     try {
       await removeAllFromSyncList();
-      await createCronJob(req.app as Express);
+      await createSyncCronJob(req.app as Express);
 
       res.sendStatus(204);
     } catch (error) {

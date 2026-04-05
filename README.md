@@ -27,6 +27,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
   - [Lock quality selector](#lock-quality-selector)
   - [Playlist options](#playlist-options)
   - [Discography options](#discography-download-mode)
+  - [Rate-limited download mode](#rate-limited-download-mode)
   - [Sync playlists and mixes](#sync-playlists-and-mixes)
   - [Custom CSS](#custom-css)
   - [Download History](#download-history)
@@ -276,6 +277,23 @@ environment:
 
 > [!NOTE]
 > When `ARTIST_SINGLE_DOWNLOAD=true`, the artist is passed directly to tiddl as a single download job. This is faster but provides less granular error handling — if one album fails, the entire job may be affected.
+
+### Rate-limited download mode
+
+Throttle downloads to avoid being rate-limited by Tidal: automatically pause the queue after N items have been downloaded, and optionally resume it on a cron schedule.
+
+```yaml
+environment:
+  - ...
+  - DOWNLOAD_BATCH_SIZE=10          # Pause queue after 10 completed items
+  - DOWNLOAD_BATCH_CRON="0 * * * *" # Resume queue every hour
+```
+
+> [!NOTE]
+> `DOWNLOAD_BATCH_SIZE` and `DOWNLOAD_BATCH_CRON` can be used independently:
+> - `DOWNLOAD_BATCH_SIZE` alone: queue auto-pauses after N items, resume manually via the UI
+> - `DOWNLOAD_BATCH_CRON` alone: queue resumes on schedule if paused (e.g. manually paused)
+> - Both together: fully automated rate-limited downloading (e.g. 10 albums per hour)
 
 ### Sync playlists and mixes
 

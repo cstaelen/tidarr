@@ -27,9 +27,10 @@ import sseRouter from "./src/routes/sse";
 import syncRouter from "./src/routes/sync";
 import tiddlTomlRouter from "./src/routes/tiddl-toml";
 import { getOrCreateApiKey } from "./src/services/api-key";
+import { createBatchCronJob } from "./src/services/batch-queue";
 import { configureServer } from "./src/services/config";
 import { loadHistoryFromFile } from "./src/services/history";
-import { createCronJob } from "./src/services/sync";
+import { createSyncCronJob } from "./src/services/sync";
 
 import customCssRouter from "./src/routes/custom-css";
 
@@ -120,7 +121,10 @@ const server = app.listen(port, async () => {
   console.log(`✅ [QUEUE] Queue file loaded.`);
 
   // Initiate processing cron job
-  await createCronJob(app);
+  await createSyncCronJob(app);
+
+  // Initiate batch queue cron job (DOWNLOAD_BATCH_CRON)
+  createBatchCronJob(app);
 
   console.log(`⚡️ [SERVER]: Server is running at http://${hostname}:${port}`);
 });

@@ -92,6 +92,8 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     ["M3U_BASEPATH_FILE", "../../"],
     ["PLAYLIST_ALBUMS", ""],
     ["ARTIST_SINGLE_DOWNLOAD", ""],
+    ["DOWNLOAD_BATCH_SIZE", ""],
+    ["DOWNLOAD_BATCH_CRON", ""],
   ];
   const tableAPIRows = await page
     .getByLabel("simple table")
