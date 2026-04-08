@@ -43,4 +43,6 @@ services:
       - REPLAY_GAIN=
       - PLAYLIST_ALBUMS=
       - ARTIST_SINGLE_DOWNLOAD=
+      - DOWNLOAD_BATCH_SIZE=
+      - DOWNLOAD_BATCH_CRON=
       

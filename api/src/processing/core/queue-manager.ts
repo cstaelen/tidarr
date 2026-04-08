@@ -1,5 +1,6 @@
 import { Express } from "express";
 
+import { checkBatchPause } from "../../services/batch-queue";
 import { ProcessingItemType, ProcessingItemWithPlaylist } from "../../types";
 import { handleDownload } from "../download/download-handler";
 import { postProcessLidarr } from "../post-processing/lidarr-post-processor";
@@ -21,6 +22,7 @@ export class QueueManager {
   private updateItemInQueueFileCallback: (
     item: ProcessingItemType,
   ) => Promise<void>;
+  private batchCompletedCount: { value: number };
 
   constructor(
     data: ProcessingItemType[],
@@ -35,6 +37,7 @@ export class QueueManager {
     this.outputs = outputs;
     this.updateItemCallback = updateItemCallback;
     this.updateItemInQueueFileCallback = updateItemInQueueFileCallback;
+    this.batchCompletedCount = { value: 0 };
   }
 
   /**
@@ -171,6 +174,12 @@ export class QueueManager {
 
     // Update item status
     this.updateItemCallback(item);
+
+    // Auto-pause after DOWNLOAD_BATCH_SIZE items completed
+    if (checkBatchPause(item.id, item.status, this.batchCompletedCount)) {
+      this.isPaused = true;
+      return;
+    }
 
     // Trigger next items in queue
     this.processQueue();

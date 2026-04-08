@@ -128,7 +128,7 @@ export const process_sync_list = async (app: Express) => {
   }
 };
 
-export const createCronJob = async (app: Express) => {
+export const createSyncCronJob = async (app: Express) => {
   // Initialize sync list database if needed
   await loadSyncList();
 
