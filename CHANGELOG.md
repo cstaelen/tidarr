@@ -9,6 +9,7 @@ Tidarr notable changes.
 - [Front] When queue is paused, you can single-download a specific item in the queue.
 ### 🐛 Fixed
 - [API] Fix favorite tracks download for large libraries by using native tiddl command instead of temporary playlist (was limited to 500 tracks) #721
+- [Front] Fix sorted playlists pager #730 
 ### 🖍 Changes
 - [API] Tidal playlist fetches now renew token if needed
 - [Lidarr] Apply PUID and PGID to Lidarr downloaded files

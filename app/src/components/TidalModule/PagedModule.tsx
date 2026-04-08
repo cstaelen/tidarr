@@ -52,7 +52,7 @@ export default function PagedModule({
   async function paginate() {
     if (!url) return;
 
-    const pageData = await queryModulePage(url, page, limit);
+    const pageData = await queryModulePage(url, page, limit, { ...sort });
     setPage(page + 1);
     setPaginatedData([...(paginatedData || []), ...(pageData?.items || [])]);
   }
@@ -78,9 +78,8 @@ export default function PagedModule({
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setPaginatedData(undefined);
-    if (sort) {
-      fetchInit();
-    }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setPage(0);
   }, [sort]);
 
   useEffect(() => {
