@@ -40,7 +40,7 @@ dotenv.config({
   quiet: true,
 });
 
-const port = 8484;
+const port = parseInt(process.env.PORT || "8484", 10);
 const hostname = "0.0.0.0";
 
 const app: Express = express();

@@ -57,7 +57,7 @@ RUN apk add --no-cache git && \
 EXPOSE 8484 3000
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-  CMD curl -f http://localhost:8484/api/is-auth-active || exit 1
+  CMD curl -f http://localhost:${PORT:-8484}/api/is-auth-active || exit 1
 
 ENTRYPOINT ["sh", "/tidarr/docker/entrypoint.sh"]
 
@@ -124,6 +124,6 @@ RUN --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \
 EXPOSE 8484
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:8484/api/is-auth-active || exit 1
+  CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT:-8484}/api/is-auth-active || exit 1
 
 ENTRYPOINT ["sh", "/tidarr/docker/entrypoint.sh"]

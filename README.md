@@ -22,6 +22,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - [Options](#options)
   - [Download settings](#download-settings)
   - [PUID/PGID/UMASK](#puid-pgid-umask)
+  - [Listening port](#listening-port)
   - [Password protection](#password-protection)
   - [OpenID Connect (OIDC) Authentication](#openid-connect-oidc-authentication)
   - [Lock quality selector](#lock-quality-selector)
@@ -190,6 +191,15 @@ environment:
   - PUID=1234
   - PGID=123
   - UMASK=0022
+```
+
+### Listening port
+Default listening port is 8484 but you can override it using :
+
+```yaml
+environment:
+  - ...
+  - PORT=9999
 ```
 
 ### Password protection
