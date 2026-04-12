@@ -38,10 +38,12 @@ export default function WatchList() {
         leftBlock={<BackButton />}
         rightBlock={
           <Box
-            display="flex"
-            gap={2}
-            justifyContent="space-between"
-            alignItems="center"
+            sx={{
+              display: "flex",
+              gap: 2,
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
             <Button
               onClick={() => syncAllNow()}
@@ -68,7 +70,6 @@ export default function WatchList() {
           </Box>
         }
       />
-
       {syncList?.length > 0 ? (
         <TableContainer component={Paper}>
           <Table
@@ -132,7 +133,13 @@ export default function WatchList() {
                     )}
                   </TableCell>
                   <TableCell align="center">
-                    <Box display="flex" gap={1} justifyContent="end">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: 1,
+                        justifyContent: "end",
+                      }}
+                    >
                       <DownloadButton
                         id={row.id}
                         type={row.type}

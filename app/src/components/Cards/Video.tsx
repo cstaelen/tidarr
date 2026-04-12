@@ -36,12 +36,14 @@ export default function VideoCard({ video }: { video: VideoType }) {
       <Card sx={{ position: "relative" }}>
         <Stack
           direction="row"
-          flexWrap="wrap"
           spacing={1}
-          alignItems="center"
           style={{
             padding: "0.4rem 0.5rem 0.5rem",
             backgroundColor: "rgba(255, 255, 255, 0.04)",
+          }}
+          sx={{
+            flexWrap: "wrap",
+            alignItems: "center",
           }}
         >
           <ArtistAvatar
@@ -75,9 +77,11 @@ export default function VideoCard({ video }: { video: VideoType }) {
             {` `}
             <Typography
               variant="subtitle2"
-              color="text.secondary"
               component="span"
               style={{ lineHeight: 1 }}
+              sx={{
+                color: "text.secondary",
+              }}
             >
               {` `}by{` `}
               <Button
@@ -137,12 +141,18 @@ export default function VideoCard({ video }: { video: VideoType }) {
             >
               <Stack
                 direction="row"
-                flexWrap="wrap"
-                gap={2}
-                alignItems="center"
-                padding={0.5}
+                sx={{
+                  flexWrap: "wrap",
+                  gap: 2,
+                  alignItems: "center",
+                  padding: 0.5,
+                }}
               >
-                <Box flex="1 1 0">
+                <Box
+                  sx={{
+                    flex: "1 1 0",
+                  }}
+                >
                   <Chip
                     label={`${Math.round(video.duration / 60)} min.`}
                     color="success"

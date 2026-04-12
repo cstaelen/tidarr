@@ -57,8 +57,19 @@ export const HeaderSearch = () => {
             },
           }}
         >
-          <Stack flex="1 1 0" direction="row" alignItems="center">
-            <Box flex="0 0 auto" px={2}>
+          <Stack
+            direction="row"
+            sx={{
+              flex: "1 1 0",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                flex: "0 0 auto",
+                px: 2,
+              }}
+            >
               <Link to="/" style={{ textDecoration: "none" }}>
                 <Title data-testid="logo">
                   <AlbumIcon />
@@ -66,16 +77,21 @@ export const HeaderSearch = () => {
                 </Title>
               </Link>
             </Box>
-            <Box flex="1 1 0">
+            <Box
+              sx={{
+                flex: "1 1 0",
+              }}
+            >
               <SearchForm />
             </Box>
           </Stack>
 
           <Box
-            flex="0 0 auto"
-            display="flex"
-            alignItems="center"
             sx={{
+              flex: "0 0 auto",
+              display: "flex",
+              alignItems: "center",
+
               margin: {
                 xs: "0.5rem 0 0",
                 md: "0 0 0 0.5rem",
@@ -121,14 +137,26 @@ export const HeaderSearch = () => {
               </ToggleButtonGroup>
             </Box>
             &nbsp;
-            <Box flex="0 0 auto">
+            <Box
+              sx={{
+                flex: "0 0 auto",
+              }}
+            >
               <DisplayButton />
             </Box>
-            <Box flex="0 0 auto">
+            <Box
+              sx={{
+                flex: "0 0 auto",
+              }}
+            >
               <SettingsButton />
             </Box>
             {isAuthActive && (
-              <Box flex="0 0 auto">
+              <Box
+                sx={{
+                  flex: "0 0 auto",
+                }}
+              >
                 <LogoutButton />
               </Box>
             )}

@@ -40,7 +40,13 @@ export default function TidalPanel() {
     <>
       <ModuleTitle title="Tiddl configuration" />
       {tokenMissing && (
-        <Box display="flex" justifyContent="center" my={4}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            my: 4,
+          }}
+        >
           <Alert
             color="warning"
             icon={<Warning sx={{ fontSize: 20 }} />}
@@ -50,14 +56,15 @@ export default function TidalPanel() {
           </Alert>
         </Box>
       )}
-
       <Box
-        flex="0 0 auto"
         component="span"
-        display="flex"
-        gap={2}
-        mb={3}
-        flexWrap="wrap"
+        sx={{
+          flex: "0 0 auto",
+          display: "flex",
+          gap: 2,
+          mb: 3,
+          flexWrap: "wrap",
+        }}
       >
         <Button
           variant="contained"

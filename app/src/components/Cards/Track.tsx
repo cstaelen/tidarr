@@ -18,7 +18,13 @@ function StackDownloadButtons({ track }: { track: TrackType }) {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Stack direction="row" flexWrap="wrap" spacing={1}>
+    <Stack
+      direction="row"
+      spacing={1}
+      sx={{
+        flexWrap: "wrap",
+      }}
+    >
       {!isMobile && <PlayerButton track={track} />}
       <DownloadButton
         item={track}
@@ -36,7 +42,15 @@ function StackChips({ track }: { track: TrackType }) {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Box display="flex" flexWrap="wrap" gap={1.5} alignItems="center" my={0.5}>
+    <Box
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 1.5,
+        alignItems: "center",
+        my: 0.5,
+      }}
+    >
       {isMobile && <PlayerButton track={track} />}
       <Chip
         label={`${Math.round(track.duration / 60)} min.`}
@@ -160,12 +174,14 @@ function TrackCard({ track }: { track: TrackType }) {
     >
       <Stack
         direction="row"
-        flexWrap="wrap"
         spacing={1}
-        alignItems="flex-start"
         style={{
           minHeight: "72px",
           backgroundColor: "rgba(255, 255, 255, 0.04)",
+        }}
+        sx={{
+          flexWrap: "wrap",
+          alignItems: "flex-start",
         }}
       >
         <TrackCoverLink track={track} height={72} width={72} />
@@ -174,9 +190,11 @@ function TrackCard({ track }: { track: TrackType }) {
           {` `}
           <Typography
             variant="subtitle2"
-            color="text.secondary"
             component="span"
             style={{ lineHeight: 1, whiteSpace: "nowrap" }}
+            sx={{
+              color: "text.secondary",
+            }}
           >
             {` `}by{` `}
             <ArtistLink track={track} />
@@ -195,17 +213,30 @@ function TrackCard({ track }: { track: TrackType }) {
           }}
         >
           <CardContent sx={{ p: "0.5rem !important", m: 0 }}>
-            <Stack direction="row" gap={1}>
+            <Stack
+              direction="row"
+              sx={{
+                gap: 1,
+              }}
+            >
               <Box
-                flex="1 1 0"
-                lineHeight={1.2}
-                fontSize={14}
-                minHeight={30}
-                alignContent="center"
+                sx={{
+                  flex: "1 1 0",
+                  lineHeight: 1.2,
+                  fontSize: 14,
+                  minHeight: 30,
+                  alignContent: "center",
+                }}
               >
                 <AlbumLink track={track} />
               </Box>
-              <Stack direction="row" spacing={1} alignItems="center">
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{
+                  alignItems: "center",
+                }}
+              >
                 <StackDownloadButtons track={track} />
               </Stack>
             </Stack>
@@ -227,8 +258,8 @@ function TrackInline({ track }: { track: TrackType }) {
   return (
     <Card sx={{ p: 1 }}>
       <Box
-        width="100%"
         sx={{
+          width: "100%",
           alignItems: "center",
           width: "100%",
           display: "grid",
@@ -247,9 +278,11 @@ function TrackInline({ track }: { track: TrackType }) {
         <div style={cellStyle}>
           <Stack
             direction="row"
-            flexWrap="wrap"
             spacing={1}
-            alignItems="center"
+            sx={{
+              flexWrap: "wrap",
+              alignItems: "center",
+            }}
           >
             <ArtistPic track={track} />
             <ArtistLink track={track} />
@@ -259,7 +292,13 @@ function TrackInline({ track }: { track: TrackType }) {
           <AlbumLink track={track} />
         </div>
         <div style={cellStyle}>
-          <Stack direction="row" spacing={1} alignItems="center">
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{
+              alignItems: "center",
+            }}
+          >
             <StackDownloadButtons track={track} />
           </Stack>
         </div>

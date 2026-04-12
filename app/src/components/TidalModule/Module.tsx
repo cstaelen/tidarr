@@ -136,7 +136,11 @@ export default function Module(props: ModuleContentProps) {
         <NoResult />
       ) : null}
       {props.loading && (
-        <Box marginTop={2}>
+        <Box
+          sx={{
+            marginTop: 2,
+          }}
+        >
           <AlbumsLoader />
         </Box>
       )}

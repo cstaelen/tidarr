@@ -19,11 +19,14 @@ export default function PagePlaylist() {
     <Container maxWidth="lg">
       {!playlist && loading && <ModuleLoader />}
       {playlist ? (
-        <Box mb={2}>
+        <Box
+          sx={{
+            mb: 2,
+          }}
+        >
           <PlaylistHeader playlist={playlist} />
         </Box>
       ) : null}
-
       <Box>
         <Module type="TRACK_LIST" data={tracks} />
         <PagerButton page={page} setPage={actions.setPage} totalItems={total} />

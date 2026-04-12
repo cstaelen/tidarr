@@ -48,7 +48,12 @@ export const DialogHandler = ({
         }}
       >
         {icon && (
-          <Box display="flex" mr={1}>
+          <Box
+            sx={{
+              display: "flex",
+              mr: 1,
+            }}
+          >
             {icon}
           </Box>
         )}
@@ -60,8 +65,18 @@ export const DialogHandler = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions sx={{ display: "flex", px: 3, py: 2 }}>
-        <Box flex="1 1 0">{buttons}</Box>
-        <Box flex="0 0 auto">
+        <Box
+          sx={{
+            flex: "1 1 0",
+          }}
+        >
+          {buttons}
+        </Box>
+        <Box
+          sx={{
+            flex: "0 0 auto",
+          }}
+        >
           <Button variant="outlined" onClick={handleClose}>
             Close
           </Button>
