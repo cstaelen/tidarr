@@ -43,7 +43,12 @@ export default function Home() {
               ModuleFilters.indexOf(item.modules[0].type as string) === -1,
           )
           .map((row, index1) => (
-            <Box marginBottom={5} key={`block-${index1}`}>
+            <Box
+              key={`block-${index1}`}
+              sx={{
+                marginBottom: 5,
+              }}
+            >
               <ModuleTitle
                 title={row.modules[0]?.title}
                 total={row.modules[0]?.pagedList?.totalNumberOfItems}

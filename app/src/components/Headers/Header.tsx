@@ -63,12 +63,14 @@ export default function PageHeader({
       {isMobile ? (
         <Box sx={{ mb: 1, mt: 4 }}>
           <Typography
-            textTransform="uppercase"
-            fontSize={14}
-            fontWeight="bold"
             color="textSecondary"
-            display="flex"
-            alignItems="center"
+            sx={{
+              textTransform: "uppercase",
+              fontSize: 14,
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+            }}
           >
             <IndentStyled />
             {subtitle}

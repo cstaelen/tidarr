@@ -21,7 +21,14 @@ export default function PlaylistHeader({
       )}/750x750.jpg`}
       subtitle="Playlist"
       afterTitle={
-        <Stack direction="row" alignItems="center" flexWrap="wrap" spacing={1}>
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            alignItems: "center",
+            flexWrap: "wrap",
+          }}
+        >
           <Chip
             label={`${Math.round(playlist.duration / 60)} min.`}
             color="success"

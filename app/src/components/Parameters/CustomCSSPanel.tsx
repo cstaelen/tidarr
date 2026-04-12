@@ -36,7 +36,13 @@ export default function CustomCSSPanel() {
     <Box>
       <ModuleTitle title="Custom CSS" />
       {isLoading ? (
-        <Box display="flex" justifyContent="center" p={2}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            p: 2,
+          }}
+        >
           <CircularProgress />
         </Box>
       ) : (
@@ -66,7 +72,12 @@ export default function CustomCSSPanel() {
               }}
             />
           </Box>
-          <Box textAlign="right" my={2}>
+          <Box
+            sx={{
+              textAlign: "right",
+              my: 2,
+            }}
+          >
             <Button
               variant="contained"
               onClick={handleSave}

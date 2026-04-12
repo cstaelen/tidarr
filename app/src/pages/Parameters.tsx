@@ -20,7 +20,13 @@ import VariablesPanel from "src/components/Parameters/VariablesPanel";
 
 const CustomTab = ({ label, icon }: { label: string; icon: ReactElement }) => {
   return (
-    <Box display="flex" alignItems="center" gap={1}>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 1,
+      }}
+    >
       {icon}
       {label}
     </Box>

@@ -37,7 +37,13 @@ export function ProcessingTable({ items, ariaLabel, emptyMessage }: Props) {
             {items.length === 0 && emptyMessage ? (
               <TableRow>
                 <TableCell colSpan={5} align="center">
-                  <Typography variant="body2" color="text.secondary" py={2}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: "text.secondary",
+                      py: 2,
+                    }}
+                  >
                     {emptyMessage}
                   </Typography>
                 </TableCell>

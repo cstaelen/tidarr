@@ -50,7 +50,13 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
         maxWidth="md"
       >
         <DialogTitle id="alert-dialog-title">
-          <Box gap={1} alignItems="center" display="flex">
+          <Box
+            sx={{
+              gap: 1,
+              alignItems: "center",
+              display: "flex",
+            }}
+          >
             <Terminal color="primary" />
             Console output
           </Box>
@@ -61,7 +67,13 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
           </Ansi>
         </Pre>
         <DialogActions>
-          <Box flex="1 1 0" gap={2} display="flex">
+          <Box
+            sx={{
+              flex: "1 1 0",
+              gap: 2,
+              display: "flex",
+            }}
+          >
             <Button
               variant="outlined"
               color={isProcessing ? "error" : "primary"}

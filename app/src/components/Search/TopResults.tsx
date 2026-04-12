@@ -114,7 +114,12 @@ export default function TopResults(
       {data.map((block) => (
         <div key={`top-${block.type}`}>
           {block?.items?.length > 0 ? (
-            <Box paddingBottom={3} key={`top-${block.type}`}>
+            <Box
+              key={`top-${block.type}`}
+              sx={{
+                paddingBottom: 3,
+              }}
+            >
               <ModuleTitle title={block.label} total={block.total} />
               <Module
                 type={block.type as ModuleTypeKeys}
@@ -122,7 +127,13 @@ export default function TopResults(
                 loading={loading}
               />
               {block?.limit && block?.items.length > block?.limit ? (
-                <Box marginTop={3} justifyContent="flex-end" display="flex">
+                <Box
+                  sx={{
+                    marginTop: 3,
+                    justifyContent: "flex-end",
+                    display: "flex",
+                  }}
+                >
                   <Button
                     endIcon={<ArrowRightAlt />}
                     onClick={() => props.changeTab(block.tab)}

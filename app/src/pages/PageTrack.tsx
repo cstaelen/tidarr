@@ -24,8 +24,20 @@ export default function PageTrack() {
     <Container maxWidth="lg">
       <>
         {loadingTrack && <ModuleLoader />}
-        <Box mb={2}>{track && <TrackHeader track={track} />}</Box>
-        <Box mb={2}>{album && <AlbumHeader album={album} />}</Box>
+        <Box
+          sx={{
+            mb: 2,
+          }}
+        >
+          {track && <TrackHeader track={track} />}
+        </Box>
+        <Box
+          sx={{
+            mb: 2,
+          }}
+        >
+          {album && <AlbumHeader album={album} />}
+        </Box>
         <Box>
           <Module type="TRACK_LIST" data={tracks} loading={loadingAlbum} />
         </Box>

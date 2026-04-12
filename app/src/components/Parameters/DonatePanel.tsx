@@ -51,13 +51,26 @@ export default function DonatePanel() {
     <>
       <ModuleTitle
         title={
-          <Box display="flex" flexWrap="wrap" gap={1} alignItems="center">
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 1,
+              alignItems: "center",
+            }}
+          >
             I knew you had some love to share too !
             <Favorite color="error" />
           </Box>
         }
       />
-      <Box display="flex" flexDirection="column" gap={2}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+        }}
+      >
         <Typography variant="body1">
           If you’d like to support this project, feel free to buy me a coffee
           (or two)!
@@ -86,7 +99,12 @@ export default function DonatePanel() {
         </Paper>
         <Typography variant="h2">or BTC/ETH: </Typography>
         <Paper sx={{ p: 2, display: "flex", alignItems: "center", gap: 1 }}>
-          <Box flex="1 1 0" fontFamily="monospace">
+          <Box
+            sx={{
+              flex: "1 1 0",
+              fontFamily: "monospace",
+            }}
+          >
             {ADDRESS}
           </Box>
           <Tooltip title="Copy address in clipboard">

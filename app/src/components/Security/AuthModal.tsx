@@ -58,9 +58,11 @@ export const AuthModal = () => {
           <Typography
             variant="h6"
             component="h6"
-            alignItems="center"
-            display="flex"
-            justifyContent="center"
+            sx={{
+              alignItems: "center",
+              display: "flex",
+              justifyContent: "center",
+            }}
           >
             <AlbumIcon />
             &nbsp;&nbsp;
