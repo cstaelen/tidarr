@@ -50,3 +50,5 @@ updates:
     rebase-strategy: auto
     schedule:
       interval: "weekly"
+    ignore:
+      - dependency-name: "beets"

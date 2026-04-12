@@ -18,6 +18,7 @@ Tidarr notable changes.
 - [Front] Add single download button in no-download mode #684
 - [Front] Add toggle finished items button in queue list
 - [Docker] Load custom `/config/requirements.txt` file to extend your scripts
+- [API] Update Tiddl to 3.2.3
 
 ## 📦 1.2.0
 ### 🐛 Fixed
