@@ -73,15 +73,22 @@ export default function ProcessingList() {
         leftBlock={<BackButton />}
         rightBlock={
           <Box
-            display="flex"
-            gap={2}
-            justifyContent="space-between"
-            alignItems="center"
+            sx={{
+              display: "flex",
+              gap: 2,
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
             <div>
               <ProcessingPauseButton />
             </div>
-            <Box display="flex" gap={2}>
+            <Box
+              sx={{
+                display: "flex",
+                gap: 2,
+              }}
+            >
               <Button
                 size="small"
                 variant="outlined"
@@ -104,11 +111,13 @@ export default function ProcessingList() {
       {finishedList && finishedList.length > 0 && (
         <>
           <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            gap={2}
-            mt={2}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 2,
+              mt: 2,
+            }}
           >
             <Button
               size="small"
@@ -132,7 +141,11 @@ export default function ProcessingList() {
             </Button>
           </Box>
           {showFinished && (
-            <Box mt={1}>
+            <Box
+              sx={{
+                mt: 1,
+              }}
+            >
               <ProcessingTable
                 items={finishedList}
                 ariaLabel="Finished table"

@@ -21,14 +21,22 @@ export default function Mix({ mix, total }: { mix: MixType; total: number }) {
           <>
             <Typography
               variant="subtitle2"
-              color="text.secondary"
               component="span"
               style={{ lineHeight: 1 }}
+              sx={{
+                color: "text.secondary",
+              }}
             >
               {` `}by{` `}
               <strong>{mix.subTitle}</strong>
             </Typography>
-            <Box mt={2} gap={1} display="flex">
+            <Box
+              sx={{
+                mt: 2,
+                gap: 1,
+                display: "flex",
+              }}
+            >
               <Chip label={`${total} ${!isVideoMix ? "tracks" : "videos"}`} />
               {!isVideoMix && (
                 <>

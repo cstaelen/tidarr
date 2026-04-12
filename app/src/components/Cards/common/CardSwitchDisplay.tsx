@@ -113,7 +113,13 @@ const CardHeader = ({
 
   if (display === "small")
     return (
-      <Box display="flex" alignItems="center" gap={1}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+        }}
+      >
         <CardArtistAvatar
           picture={artist?.picture}
           url={url}
@@ -127,11 +133,13 @@ const CardHeader = ({
               {` `}
               <Typography
                 variant="subtitle2"
-                color="text.secondary"
                 component="span"
                 style={{
                   fontSize: "0.875rem",
                   lineHeight: 1,
+                }}
+                sx={{
+                  color: "text.secondary",
                 }}
               >
                 {` `}by{` `}
@@ -160,10 +168,22 @@ const CardHeader = ({
   // Mode large
 
   return (
-    <Box m={1} sx={{ textShadow: "0 0 2px #000" }}>
+    <Box
+      sx={{
+        m: 1,
+        textShadow: "0 0 2px #000",
+      }}
+    >
       <CardTitle title={title} url={url} />
       {artist && (
-        <Box display="flex" gap={1} alignItems="center" mt={1}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 1,
+            alignItems: "center",
+            mt: 1,
+          }}
+        >
           <CardArtistAvatar
             picture={artist?.picture}
             url={url}
@@ -263,9 +283,7 @@ export default function CardSwitchDisplay({
     >
       <Stack
         direction="row"
-        flexWrap="wrap"
         spacing={1}
-        alignItems="center"
         style={{
           minHeight: "60px",
           width: "100%",
@@ -274,6 +292,10 @@ export default function CardSwitchDisplay({
             display === "small" ? "rgba(255, 255, 255, 0.04)" : "transparent",
           position: display === "small" ? "relative" : "absolute",
           zIndex: 10,
+        }}
+        sx={{
+          flexWrap: "wrap",
+          alignItems: "center",
         }}
       >
         <div style={{ lineHeight: 1.4, flex: "1 1 0" }}>
@@ -334,10 +356,12 @@ export default function CardSwitchDisplay({
               explicit) && (
               <Stack
                 direction="row"
-                flexWrap="wrap"
-                gap={0.5}
                 style={{ marginBottom: "0.5rem" }}
-                flex="1 1 0"
+                sx={{
+                  flexWrap: "wrap",
+                  gap: 0.5,
+                  flex: "1 1 0",
+                }}
               >
                 {audioQuality && (
                   <ChipQuality quality={audioQuality.toLowerCase()} />
@@ -380,7 +404,12 @@ export default function CardSwitchDisplay({
             )}
 
             {/* Action buttons */}
-            <Stack direction="row" gap={1}>
+            <Stack
+              direction="row"
+              sx={{
+                gap: 1,
+              }}
+            >
               {buttons}
             </Stack>
           </CardContent>

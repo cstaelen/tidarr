@@ -55,7 +55,13 @@ export default function ProcessingTabs() {
           >
             <Tab
               label={
-                <Box display="flex" alignItems="center" gap={1}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                  }}
+                >
                   <Queue />
                   {`Queue (${processingList?.length || 0})`}
                 </Box>
@@ -63,7 +69,13 @@ export default function ProcessingTabs() {
             />
             <Tab
               label={
-                <Box display="flex" alignItems="center" gap={1}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                  }}
+                >
                   <Sync />
                   {`Watch list (${syncList?.length || 0})`}
                 </Box>
@@ -72,7 +84,6 @@ export default function ProcessingTabs() {
           </Tabs>
         </Container>
       </Portal>
-
       <Container maxWidth="md">
         <TabPanel value={value} index={0} dir={theme.direction}>
           <ProcessingList />

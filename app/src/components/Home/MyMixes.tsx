@@ -22,7 +22,12 @@ export default function MyMixes() {
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
       {data?.rows?.map((row, index1) => (
-        <Box marginBottom={5} key={`block-${index1}`}>
+        <Box
+          key={`block-${index1}`}
+          sx={{
+            marginBottom: 5,
+          }}
+        >
           <ModuleTitle
             title="My Mixes"
             total={row?.modules[0]?.pagedList.totalNumberOfItems}

@@ -36,7 +36,6 @@ export default function Artist({ artist }: { artist: ArtistType }) {
           />
         </CoverLink>
       </CardContent>
-
       <CardContent
         sx={{
           flex: "1 1 0",
@@ -74,7 +73,13 @@ export default function Artist({ artist }: { artist: ArtistType }) {
           ) : null}
         </Box>
 
-        <Box gap={1} display="flex" sx={{ mt: 1 }}>
+        <Box
+          sx={{
+            gap: 1,
+            display: "flex",
+            mt: 1,
+          }}
+        >
           <SyncButton item={artist} type="artist" />
           <Button
             variant="outlined"

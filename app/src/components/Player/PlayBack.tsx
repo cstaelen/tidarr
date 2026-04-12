@@ -75,15 +75,26 @@ const PlayBack = ({ track, audioUrl, audioRef }: PlayBackProps) => {
 
   return (
     <Box
-      display="flex"
-      flexDirection="column"
-      bgcolor="#282828"
-      borderRadius={2}
-      overflow="hidden"
-      boxShadow="0 0 15px 0px black"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        bgcolor: "#282828",
+        borderRadius: 2,
+        overflow: "hidden",
+        boxShadow: "0 0 15px 0px black",
+      }}
     >
-      <Box display="flex" alignItems="center">
-        <Box flex="0 0 auto">
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Box
+          sx={{
+            flex: "0 0 auto",
+          }}
+        >
           <TrackCoverLink
             track={track}
             width={60}
@@ -91,7 +102,14 @@ const PlayBack = ({ track, audioUrl, audioRef }: PlayBackProps) => {
             targetUrl={`/album/${track.album.id}`}
           />
         </Box>
-        <Box py={1} px={2} fontSize={13} flex="1 1 0">
+        <Box
+          sx={{
+            py: 1,
+            px: 2,
+            fontSize: 13,
+            flex: "1 1 0",
+          }}
+        >
           <Box
             component="strong"
             sx={{
@@ -119,13 +137,15 @@ const PlayBack = ({ track, audioUrl, audioRef }: PlayBackProps) => {
         </Box>
       </Box>
       <Box
-        bgcolor="#191919"
-        flex={1}
-        display="flex"
-        alignItems="center"
-        gap={1}
-        px={1.5}
-        py={0.5}
+        sx={{
+          bgcolor: "#191919",
+          flex: 1,
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          px: 1.5,
+          py: 0.5,
+        }}
       >
         <IconButton
           onClick={togglePlayPause}
@@ -135,7 +155,13 @@ const PlayBack = ({ track, audioUrl, audioRef }: PlayBackProps) => {
         >
           {isPlaying ? <Pause /> : <PlayArrow />}
         </IconButton>
-        <Box fontSize={11} color="text.secondary" minWidth={35}>
+        <Box
+          sx={{
+            fontSize: 11,
+            color: "text.secondary",
+            minWidth: 35,
+          }}
+        >
           {formatTime(currentTime)}
         </Box>
         <Slider
@@ -151,7 +177,12 @@ const PlayBack = ({ track, audioUrl, audioRef }: PlayBackProps) => {
             },
           }}
         />
-        <Box fontSize={11} color="text.secondary">
+        <Box
+          sx={{
+            fontSize: 11,
+            color: "text.secondary",
+          }}
+        >
           {formatTime(duration)}
         </Box>
         <IconButton

@@ -33,7 +33,13 @@ export default function TiddlConfigEdit() {
   return (
     <Box>
       {isLoading ? (
-        <Box display="flex" justifyContent="center" p={2}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            p: 2,
+          }}
+        >
           <CircularProgress />
         </Box>
       ) : (
@@ -65,7 +71,14 @@ export default function TiddlConfigEdit() {
               }}
             />
           </Box>
-          <Box justifyContent="right" my={2} display="flex" gap={2}>
+          <Box
+            sx={{
+              justifyContent: "right",
+              my: 2,
+              display: "flex",
+              gap: 2,
+            }}
+          >
             <Button
               variant="contained"
               onClick={handleSave}

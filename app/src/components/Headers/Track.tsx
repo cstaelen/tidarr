@@ -26,7 +26,14 @@ export default function TrackHeader({ track }: { track: TrackType }) {
       )}/750x750.jpg`}
       subtitle="Track"
       beforeTitle={
-        <Stack direction="row" flexWrap="wrap" spacing={1} alignItems="center">
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            flexWrap: "wrap",
+            alignItems: "center",
+          }}
+        >
           <ArtistAvatar
             alt={track.artists?.[0]?.name}
             src={`https://resources.tidal.com/images/${track.artists?.[0]?.picture?.replace(
@@ -36,9 +43,11 @@ export default function TrackHeader({ track }: { track: TrackType }) {
           />
           <Typography
             variant="subtitle2"
-            color="text.secondary"
             component="span"
             style={{ lineHeight: 1 }}
+            sx={{
+              color: "text.secondary",
+            }}
           >
             {` `}by{` `}
             <Button
@@ -59,10 +68,12 @@ export default function TrackHeader({ track }: { track: TrackType }) {
         <>
           <Stack
             direction="row"
-            alignItems="center"
-            flexWrap="wrap"
-            mb={2}
-            gap={1.5}
+            sx={{
+              alignItems: "center",
+              flexWrap: "wrap",
+              mb: 2,
+              gap: 1.5,
+            }}
           >
             <PlayerButton track={track} />
             <Chip
@@ -75,7 +86,14 @@ export default function TrackHeader({ track }: { track: TrackType }) {
               <Chip label="Explicit" size="small" variant="outlined" />
             )}
           </Stack>
-          <Stack direction="row" alignItems="center" flexWrap="wrap" gap={1}>
+          <Stack
+            direction="row"
+            sx={{
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: 1,
+            }}
+          >
             <DownloadButton
               item={track}
               id={track.album.id}

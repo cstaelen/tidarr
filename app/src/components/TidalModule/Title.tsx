@@ -17,13 +17,22 @@ export function ModuleTitle({
     <div className="module-title">
       <Stack
         direction="row"
-        flexWrap="wrap"
-        alignItems="center"
-        py={2}
-        gap={2}
-        sx={{ borderBottom: "1px solid white" }}
+        sx={{
+          flexWrap: "wrap",
+          alignItems: "center",
+          py: 2,
+          gap: 2,
+          borderBottom: "1px solid white",
+        }}
       >
-        <Box display="flex" flexGrow="1" alignItems="center" gap={2}>
+        <Box
+          sx={{
+            display: "flex",
+            flexGrow: "1",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
           {leftBlock}
           <Typography variant="h2" sx={{ flex: "1 1 0" }}>
             {typeof title === "string" &&
@@ -33,7 +42,13 @@ export function ModuleTitle({
             {total ? `(${total})` : ""}
           </Typography>
         </Box>
-        <Box display="flex" alignItems="center" gap={2}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
           {rightBlock}
         </Box>
       </Stack>

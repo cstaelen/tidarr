@@ -82,7 +82,13 @@ export const DialogToken = () => {
         </Link>
         {sseController && <CircularProgress size={16} sx={{ mx: 2 }} />}
       </Paper>
-      <Typography fontStyle="italic" fontSize={14} py={1}>
+      <Typography
+        sx={{
+          fontStyle: "italic",
+          fontSize: 14,
+          py: 1,
+        }}
+      >
         This dialog will close after authentication.
       </Typography>
       <p>

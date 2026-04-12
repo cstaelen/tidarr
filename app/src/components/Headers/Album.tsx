@@ -25,7 +25,14 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
         "/",
       )}/750x750.jpg`}
       beforeTitle={
-        <Stack direction="row" flexWrap="wrap" spacing={1} alignItems="center">
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            flexWrap: "wrap",
+            alignItems: "center",
+          }}
+        >
           <ArtistAvatar
             alt={album.artists?.[0]?.name}
             src={`https://resources.tidal.com/images/${album.artists?.[0]?.picture?.replace(
@@ -35,9 +42,11 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
           />
           <Typography
             variant="subtitle2"
-            color="text.secondary"
             component="span"
             style={{ lineHeight: 1 }}
+            sx={{
+              color: "text.secondary",
+            }}
           >
             {` `}by{` `}
             <Button
@@ -58,10 +67,12 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
         <>
           <Stack
             direction="row"
-            flexWrap="wrap"
-            alignItems="center"
-            gap={1}
-            mb={2}
+            sx={{
+              flexWrap: "wrap",
+              alignItems: "center",
+              gap: 1,
+              mb: 2,
+            }}
           >
             <ChipQuality quality={album.audioQuality.toLowerCase()} />
             <Chip label={`${album.numberOfTracks} tracks`} size="small" />
@@ -79,7 +90,14 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
               <Chip label="Explicit" size="small" variant="outlined" />
             )}
           </Stack>
-          <Stack direction="row" flexWrap="wrap" alignItems="center" gap={1}>
+          <Stack
+            direction="row"
+            sx={{
+              flexWrap: "wrap",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
             <DownloadButton
               item={album}
               id={album.id}

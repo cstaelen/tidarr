@@ -119,10 +119,23 @@ export default function AuthPanel() {
   return (
     <Box>
       <ModuleTitle title="Authentication" />
-
       {/* Auth Mode Display */}
-      <Box mb={3} display="flex" alignItems="center" gap={2}>
-        <Box component="label" display="block" mb={1} fontWeight="500">
+      <Box
+        sx={{
+          mb: 3,
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+        }}
+      >
+        <Box
+          component="label"
+          sx={{
+            display: "block",
+            mb: 1,
+            fontWeight: "500",
+          }}
+        >
           Current Mode:
         </Box>
         <Chip
@@ -132,15 +145,27 @@ export default function AuthPanel() {
           variant="outlined"
         />
       </Box>
-
       {isAuthActive && (
         <>
           {/* API Key Section */}
-          <Box component="h3" mt={4} mb={2}>
+          <Box
+            component="h3"
+            sx={{
+              mt: 4,
+              mb: 2,
+            }}
+          >
             API Key
           </Box>
 
-          <Box component="p" mb={2} color="text.secondary" fontSize="0.9rem">
+          <Box
+            component="p"
+            sx={{
+              mb: 2,
+              color: "text.secondary",
+              fontSize: "0.9rem",
+            }}
+          >
             Use this API key to authenticate with external applications and
             automation scripts.
           </Box>
@@ -151,7 +176,13 @@ export default function AuthPanel() {
             </Alert>
           )}
 
-          <Box display="flex" gap={1} alignItems="flex-start">
+          <Box
+            sx={{
+              display: "flex",
+              gap: 1,
+              alignItems: "flex-start",
+            }}
+          >
             <TextField
               fullWidth
               label="API Key"
@@ -184,7 +215,13 @@ export default function AuthPanel() {
             </Tooltip>
           </Box>
 
-          <Box mt={1} fontSize="0.85rem" color="text.secondary">
+          <Box
+            sx={{
+              mt: 1,
+              fontSize: "0.85rem",
+              color: "text.secondary",
+            }}
+          >
             💡 Tip: The API key is automatically generated and stored in{" "}
             <code>/shared/.tidarr-api-key</code>
           </Box>

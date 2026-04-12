@@ -31,7 +31,14 @@ export default function ArtistHeader({
           "/",
         )}/750x750.jpg`}
         afterTitle={
-          <Box display="flex" gap={1} flexWrap="wrap" alignItems="center">
+          <Box
+            sx={{
+              display: "flex",
+              gap: 1,
+              flexWrap: "wrap",
+              alignItems: "center",
+            }}
+          >
             <SyncButton item={artist} type="artist" />
             <DownloadButton
               item={artist}
