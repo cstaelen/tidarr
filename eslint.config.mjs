@@ -13,6 +13,7 @@ export default tseslint.config(
       "**/public",
       "**/playwright-report",
       "**/dist",
+      "docker/mnt",
     ],
   },
   {
