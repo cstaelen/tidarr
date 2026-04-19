@@ -39,13 +39,22 @@ export function setupTidalProxy(app: Express): void {
           headers["accept"] = req.headers["accept"] as string;
         }
 
-        return fetch(targetUrl, {
-          method: req.method,
-          headers,
-          body: ["POST", "PUT", "PATCH"].includes(req.method)
-            ? JSON.stringify(req.body)
-            : undefined,
-        });
+        let body: string | undefined;
+        if (["POST", "PUT", "PATCH"].includes(req.method)) {
+          if (
+            req.headers["content-type"]?.includes(
+              "application/x-www-form-urlencoded",
+            )
+          ) {
+            body = new URLSearchParams(
+              req.body as Record<string, string>,
+            ).toString();
+          } else {
+            body = JSON.stringify(req.body);
+          }
+        }
+
+        return fetch(targetUrl, { method: req.method, headers, body });
       };
 
       try {
