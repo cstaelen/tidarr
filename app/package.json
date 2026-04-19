@@ -14,7 +14,7 @@
     "event-source-plus": "0.1.15",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "react-router-dom": "^7.14.0",
+    "react-router-dom": "^7.14.1",
     "vite": "^8.0.8"
   },
   "scripts": {
@@ -38,7 +38,7 @@
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
     "ansi-to-react": "^6.2.6",
-    "markdown-to-jsx": "^9.7.15",
+    "markdown-to-jsx": "^9.7.16",
     "monaco-editor": "^0.55.1"
   }
 }
