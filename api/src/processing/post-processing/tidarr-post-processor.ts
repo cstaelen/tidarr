@@ -78,10 +78,7 @@ export async function postProcessTidarr(
   // Execute custom script if exists
   await executeCustomScript(item);
 
-  // Generate M3U for favorite_tracks (tiddl doesn't generate one natively for fav downloads)
-  await generateFavoriteTracksM3U(item);
-
-  // Update m3u item path
+  // Update m3u item path (playlist/mix only — favorite_tracks M3U is written directly to library after move)
   await replacePathInM3U(item);
 
   // Beets process
@@ -104,6 +101,9 @@ export async function postProcessTidarr(
   if (playlistId) {
     deletePlaylist(playlistId, item.id);
   }
+
+  // Generate M3U for favorite_tracks directly in library (fetches full list from Tidal in date-added order)
+  await generateFavoriteTracksM3U(item);
 
   // Execute custom post-script if exists
   await executePostScript(item, foldersToScan);

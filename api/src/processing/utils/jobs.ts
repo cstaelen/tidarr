@@ -133,12 +133,7 @@ export async function hasFileToMove(pathArg?: string): Promise<boolean> {
 export async function replacePathInM3U(
   item: ProcessingItemType,
 ): Promise<void> {
-  if (
-    item["type"] !== "playlist" &&
-    item["type"] !== "mix" &&
-    item["type"] !== "favorite_tracks"
-  )
-    return;
+  if (item["type"] !== "playlist" && item["type"] !== "mix") return;
 
   const basePath = process.env.M3U_BASEPATH_FILE?.replaceAll('"', "") || ".";
   const downloadDir = `${PROCESSING_PATH}/${item.id}`;
