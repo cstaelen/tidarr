@@ -101,7 +101,10 @@ function resolveTrackTemplate(
       /\{item\.number:02d\}/g,
       (track.trackNumber ?? 1).toString().padStart(2, "0"),
     )
-    .replace(/\{item\.title_version\}/g, titleVersion);
+    .replace(/\{item\.title_version\}/g, titleVersion)
+    .split("/")
+    .map((segment) => segment.replace(/\.+$/, ""))
+    .join("/");
 }
 
 function findAudioFile(
