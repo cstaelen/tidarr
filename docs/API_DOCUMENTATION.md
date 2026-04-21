@@ -215,7 +215,7 @@ curl -X POST http://localhost:8484/api/save \
     "item": {
       "url": "https://listen.tidal.com/album/251082404",
       "type": "album",
-      "status": "queue"
+      "status": "queue_download"
     }
   }'
 ```
@@ -230,7 +230,7 @@ curl -X POST http://localhost:8484/api/save \
     "item": {
       "url": "https://listen.tidal.com/track/123456789",
       "type": "track",
-      "status": "queue"
+      "status": "queue_download"
     }
   }'
 ```
@@ -245,7 +245,7 @@ curl -X POST http://localhost:8484/api/save \
     "item": {
       "url": "https://listen.tidal.com/video/123456789",
       "type": "video",
-      "status": "queue"
+      "status": "queue_download"
     }
   }'
 ```
@@ -260,7 +260,7 @@ curl -X POST http://localhost:8484/api/save \
     "item": {
       "url": "https://listen.tidal.com/playlist/abc123-def456",
       "type": "playlist",
-      "status": "queue"
+      "status": "queue_download"
     }
   }'
 ```
@@ -275,7 +275,7 @@ curl -X POST http://localhost:8484/api/save \
     "item": {
       "url": "https://listen.tidal.com/mix/000000000000000000000000",
       "type": "mix",
-      "status": "queue"
+      "status": "queue_download"
     }
   }'
 ```
@@ -290,7 +290,7 @@ curl -X POST http://localhost:8484/api/save \
     "item": {
       "url": "https://listen.tidal.com/artist/3566315",
       "type": "artist",
-      "status": "queue"
+      "status": "queue_download"
     }
   }'
 ```
@@ -305,7 +305,7 @@ curl -X POST http://localhost:8484/api/save \
     "item": {
       "url": "https://listen.tidal.com/artist/3566315",
       "type": "artist_videos",
-      "status": "queue"
+      "status": "queue_download"
     }
   }'
 ```
@@ -320,7 +320,7 @@ curl -X POST http://localhost:8484/api/save \
   -d '{
     "item": {
       "type": "favorite_albums",
-      "status": "queue"
+      "status": "queue_download"
     }
   }'
 
@@ -331,7 +331,7 @@ curl -X POST http://localhost:8484/api/save \
   -d '{
     "item": {
       "type": "favorite_tracks",
-      "status": "queue"
+      "status": "queue_download"
     }
   }'
 
@@ -342,7 +342,7 @@ curl -X POST http://localhost:8484/api/save \
   -d '{
     "item": {
       "type": "favorite_playlists",
-      "status": "queue"
+      "status": "queue_download"
     }
   }'
 
@@ -353,7 +353,7 @@ curl -X POST http://localhost:8484/api/save \
   -d '{
     "item": {
       "type": "favorite_videos",
-      "status": "queue"
+      "status": "queue_download"
     }
   }'
 
@@ -364,7 +364,7 @@ curl -X POST http://localhost:8484/api/save \
   -d '{
     "item": {
       "type": "favorite_artists",
-      "status": "queue"
+      "status": "queue_download"
     }
   }'
 ```
@@ -453,7 +453,7 @@ curl http://localhost:8484/api/queue/status \
 
 ### Single download (NO_DOWNLOAD mode)
 
-Trigger a one-off download for a specific item that is in `no_download` status. Only works when `NO_DOWNLOAD=true` is set. The item goes through the full download pipeline (beets, move to library, notifications) and ends up as `finished`.
+Trigger a one-off download for a specific queued item, bypassing the `NO_DOWNLOAD` mode pause. The item goes through the full download pipeline (beets, move to library, notifications) and ends up as `finished`.
 
 ```bash
 curl -X POST http://localhost:8484/api/single-download \
@@ -465,11 +465,11 @@ curl -X POST http://localhost:8484/api/single-download \
 **Response:** `204 No Content`
 
 **Behavior:**
-- Item status changes from `no_download` → `queue_download`
+- Item is downloaded immediately, bypassing the paused queue
 - Full post-processing pipeline runs (beets, permissions, move, notifications)
 - Item ends as `finished` in the queue
 
-**Error:** `500` if the item is not found or not in `no_download` status.
+**Error:** `500` if the item is not found.
 
 ---
 
@@ -538,6 +538,20 @@ curl http://localhost:8484/api/settings \
   }
 }
 ```
+
+---
+
+### Run Tidal authentication flow
+
+```bash
+GET /api/run-token
+```
+
+SSE endpoint that initiates the Tidal device authentication flow. Opens a stream that sends authentication events (login URL, status updates) until authentication completes or fails.
+
+**Response:** `text/event-stream`
+
+**Note:** This endpoint is used by the web UI during initial Tidal setup. Events are streamed until authentication completes.
 
 ---
 

@@ -25,8 +25,8 @@ router.get(
 );
 
 /**
- * DELETE /api/remove-all
- * Clear the entire download queue
+ * DELETE /api/history/list
+ * Clear the download history
  */
 router.delete(
   "/history/list",

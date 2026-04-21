@@ -37,27 +37,39 @@ test("Custom CSS: Should apply styles to DOM and persist", async ({ page }) => {
   // Wait for Monaco editor to load
   await page.locator(".monaco-editor").waitFor();
 
-  // Click in Monaco editor and type
-  await page.locator(".monaco-editor .view-lines").click();
-
-  // Select all and replace
-  await page.keyboard.press("Control+A");
-  await page.keyboard.type(newCSS);
+  // Set content directly via Monaco API to avoid keyboard input issues
+  // (Ctrl+A + type can mangle content due to Monaco autocomplete interference)
+  await page.evaluate(
+    (css) =>
+      (
+        window as unknown as {
+          monaco: {
+            editor: { getModels: () => { setValue: (v: string) => void }[] };
+          };
+        }
+      ).monaco.editor
+        .getModels()[0]
+        .setValue(css),
+    newCSS,
+  );
 
   await expect(
     page.getByRole("button", { name: "Save & Reload" }),
   ).toBeEnabled();
+
+  // Intercept the reload to know when the custom.css stylesheet is actually applied
+  const cssLoaded = page.waitForResponse("**/custom.css");
   await page.getByRole("button", { name: "Save & Reload" }).click();
 
-  // Wait for page to reload
+  // Wait for the CSS file to be fetched after reload, then for full load
+  await cssLoaded;
   await page.waitForLoadState("load");
-  await page.waitForTimeout(500);
 
   // Verify the CSS is actually applied to the DOM
-  const backgroundColor = await page.locator("body").evaluate((el) => {
-    return window.getComputedStyle(el).backgroundColor;
-  });
-  expect(backgroundColor).toBe("rgb(255, 0, 0)");
+  await expect(page.locator("body")).toHaveCSS(
+    "background-color",
+    "rgb(255, 0, 0)",
+  );
 
   // After reload, verify the CSS is still there in the editor
   await page.getByRole("button", { name: "Settings" }).click();
