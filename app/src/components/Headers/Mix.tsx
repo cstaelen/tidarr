@@ -16,7 +16,11 @@ export default function Mix({ mix, total }: { mix: MixType; total: number }) {
         url={mix.url || ""}
         image={mix.images.SMALL.url}
         subtitle="Mix"
-        beforeTitle={isVideoMix ? <>Video Mix</> : <>Mix/Radio</>}
+        beforeTitle={
+          <Typography variant="caption" color="text.secondary">
+            {isVideoMix ? "Video Mix" : "Mix/Radio"}
+          </Typography>
+        }
         afterTitle={
           <>
             <Typography

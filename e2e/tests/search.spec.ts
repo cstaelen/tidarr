@@ -311,8 +311,8 @@ test("Tidarr search : Should display video mixes correctly", async ({
   await page.getByRole("button", { name: "See videos" }).first().click();
   await waitForLoader(page);
 
-  // Verify we're on the mix page
-  await expect(page.getByText("Video Mix")).toBeVisible();
+  // Verify we're on the mix page (exact match to avoid matching card titles like "My Video Mix 1")
+  await expect(page.getByText("Video Mix", { exact: true })).toBeVisible();
 
   // Verify the page shows videos, not tracks
   await expect(page.getByText(/\d+ videos/)).toBeVisible();

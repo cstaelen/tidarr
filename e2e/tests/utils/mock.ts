@@ -174,32 +174,35 @@ export async function mockConfigAPI(
 ) {
   await page.unroute("**/settings");
   await page.route("**/settings", async (route) => {
-    // Fetch real config from the container
-    const realResponse = await route.fetch();
-    const realConfig = await realResponse.json();
+    try {
+      // Fetch real config from the container
+      const realResponse = await route.fetch();
+      const realConfig = await realResponse.json();
 
-    const json = {
-      ...realConfig,
-      noToken: false,
-      ...customSettings,
-      parameters: {
-        ...realConfig?.parameters,
-        ...(customSettings?.parameters as object),
-      },
-      tiddl_config: {
-        ...realConfig?.tiddl_config,
-        ...(customSettings?.tiddl_config as object),
-        auth: {
-          token: "mock-token",
-          refresh_token: "mock-refresh-token",
-          expires_at: 1234567890,
-          user_id: "192283714",
-          country_code: "FR",
+      const json = {
+        ...realConfig,
+        noToken: false,
+        ...customSettings,
+        parameters: {
+          ...realConfig?.parameters,
+          ...(customSettings?.parameters as object),
         },
-      },
-    };
-    await route.fulfill({ json });
-    return;
+        tiddl_config: {
+          ...realConfig?.tiddl_config,
+          ...(customSettings?.tiddl_config as object),
+          auth: {
+            token: "mock-token",
+            refresh_token: "mock-refresh-token",
+            expires_at: 1234567890,
+            user_id: "192283714",
+            country_code: "FR",
+          },
+        },
+      };
+      await route.fulfill({ json });
+    } catch {
+      // Page was closed or navigated away before the route could be fulfilled — ignore
+    }
   });
 }
 
