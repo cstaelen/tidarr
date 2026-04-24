@@ -16,6 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import { DownloadButton } from "src/components/Buttons/DownloadButton";
+import { SearchFilter } from "src/components/Processing/SearchFilter";
 import { ModuleTitle } from "src/components/TidalModule/Title";
 import { useSync } from "src/provider/SyncProvider";
 
@@ -34,6 +35,7 @@ export default function WatchList() {
   const [extraPages, setExtraPages] = useState(0);
   const [sortKey, setSortKey] = useState<SortKey>("title");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     getSyncList();
@@ -49,18 +51,27 @@ export default function WatchList() {
     setExtraPages(0);
   };
 
+  const keyword = search.toLowerCase();
+
   const sortedList = useMemo(() => {
     if (!syncList) return [];
-    return syncList.slice().sort((a, b) => {
-      const aVal = a[sortKey] ?? "";
-      const bVal = b[sortKey] ?? "";
-      const cmp =
-        typeof aVal === "number" && typeof bVal === "number"
-          ? aVal - bVal
-          : String(aVal).localeCompare(String(bVal));
-      return sortDir === "asc" ? cmp : -cmp;
-    });
-  }, [syncList, sortKey, sortDir]);
+    return syncList
+      .filter(
+        (item) =>
+          !keyword ||
+          item.title?.toLowerCase().includes(keyword) ||
+          item.artist?.toLowerCase().includes(keyword),
+      )
+      .sort((a, b) => {
+        const aVal = a[sortKey] ?? "";
+        const bVal = b[sortKey] ?? "";
+        const cmp =
+          typeof aVal === "number" && typeof bVal === "number"
+            ? aVal - bVal
+            : String(aVal).localeCompare(String(bVal));
+        return sortDir === "asc" ? cmp : -cmp;
+      });
+  }, [syncList, sortKey, sortDir, keyword]);
 
   const visibleCount = PAGE_SIZE + extraPages * PAGE_SIZE;
   const visibleList = sortedList.slice(0, visibleCount);
@@ -106,6 +117,9 @@ export default function WatchList() {
           </Box>
         }
       />
+      <Box sx={{ mb: 2 }}>
+        <SearchFilter value={search} onChange={setSearch} />
+      </Box>
       {syncList?.length > 0 ? (
         <TableContainer component={Paper}>
           <Table
