@@ -187,3 +187,58 @@ test("Queue: Should display warning color when paused", async ({ page }) => {
   const fab = page.locator("button.MuiFab-circular");
   await expect(fab).toHaveClass(/MuiFab-warning/);
 });
+
+test("Queue: Should paginate with show more button when list exceeds 100 items", async ({
+  page,
+}) => {
+  const mockData = Array.from({ length: 110 }, (_, i) => ({
+    id: String(i + 1),
+    title: `Album ${i + 1}`,
+    artist: "Artist",
+    type: "album",
+    quality: "high",
+    status: "queue_download",
+    loading: false,
+  }));
+
+  await page.route("**/stream-processing", async (route) => {
+    await route.fulfill({
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${JSON.stringify(mockData)}\n\n`,
+    });
+  });
+
+  await page.goto("/");
+  await expect(page.locator("button.MuiFab-circular")).toBeVisible();
+  await page.locator("button.MuiFab-circular").click();
+
+  await page.waitForSelector('[aria-label="Processing table"]', {
+    state: "visible",
+    timeout: 5000,
+  });
+
+  // Only first 100 items visible
+  await expect(page.getByLabel("Processing table")).toContainText("Album 1");
+  await expect(page.getByLabel("Processing table")).toContainText("Album 100");
+  await expect(page.getByLabel("Processing table")).not.toContainText(
+    "Album 101",
+  );
+
+  // Show more button visible with correct count
+  const showMoreButton = page.getByRole("button", {
+    name: "Show more (10 remaining)",
+  });
+  await expect(showMoreButton).toBeVisible();
+
+  // Click show more reveals remaining items
+  await showMoreButton.click();
+  await expect(page.getByLabel("Processing table")).toContainText("Album 101");
+  await expect(showMoreButton).not.toBeVisible();
+
+  await page.route("**/stream-processing", (route) => route.continue());
+});
