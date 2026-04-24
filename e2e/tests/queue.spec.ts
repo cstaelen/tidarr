@@ -242,3 +242,91 @@ test("Queue: Should paginate with show more button when list exceeds 50 items", 
 
   await page.route("**/stream-processing", (route) => route.continue());
 });
+
+test("Queue: Should filter items by keyword on title and artist", async ({
+  page,
+}) => {
+  const mockData = [
+    {
+      id: "1",
+      title: "Nevermind",
+      artist: "Nirvana",
+      type: "album",
+      quality: "high",
+      status: "queue_download",
+      loading: false,
+    },
+    {
+      id: "2",
+      title: "In Utero",
+      artist: "Nirvana",
+      type: "album",
+      quality: "high",
+      status: "queue_download",
+      loading: false,
+    },
+    {
+      id: "3",
+      title: "OK Computer",
+      artist: "Radiohead",
+      type: "album",
+      quality: "high",
+      status: "queue_download",
+      loading: false,
+    },
+  ];
+
+  await page.route("**/stream-processing", async (route) => {
+    await route.fulfill({
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${JSON.stringify(mockData)}\n\n`,
+    });
+  });
+
+  await page.goto("/");
+  await expect(page.locator("button.MuiFab-circular")).toBeVisible();
+  await page.locator("button.MuiFab-circular").click();
+
+  await page.waitForSelector('[aria-label="Processing table"]', {
+    state: "visible",
+    timeout: 5000,
+  });
+
+  // All items visible initially
+  await expect(page.getByLabel("Processing table")).toContainText("Nevermind");
+  await expect(page.getByLabel("Processing table")).toContainText("In Utero");
+  await expect(page.getByLabel("Processing table")).toContainText(
+    "OK Computer",
+  );
+
+  // Filter by title
+  await page.getByPlaceholder("Filter by title or artist…").fill("Nevermind");
+  await expect(page.getByLabel("Processing table")).toContainText("Nevermind");
+  await expect(page.getByLabel("Processing table")).not.toContainText(
+    "In Utero",
+  );
+  await expect(page.getByLabel("Processing table")).not.toContainText(
+    "OK Computer",
+  );
+
+  // Filter by artist
+  await page.getByPlaceholder("Filter by title or artist…").fill("Nirvana");
+  await expect(page.getByLabel("Processing table")).toContainText("Nevermind");
+  await expect(page.getByLabel("Processing table")).toContainText("In Utero");
+  await expect(page.getByLabel("Processing table")).not.toContainText(
+    "OK Computer",
+  );
+
+  // Clear filter restores all items
+  await page.getByPlaceholder("Filter by title or artist…").fill("");
+  await expect(page.getByLabel("Processing table")).toContainText(
+    "OK Computer",
+  );
+
+  await page.route("**/stream-processing", (route) => route.continue());
+});

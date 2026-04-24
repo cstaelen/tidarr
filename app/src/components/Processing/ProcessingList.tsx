@@ -8,6 +8,7 @@ import {
 import { Box, Button } from "@mui/material";
 import { ProcessingPauseButton } from "src/components/Processing/PauseButton";
 import { ProcessingTable } from "src/components/Processing/ProcessingTable";
+import { SearchFilter } from "src/components/Processing/SearchFilter";
 import { ModuleTitle } from "src/components/TidalModule/Title";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
@@ -17,17 +18,34 @@ import BackButton from "../Buttons/BackButton";
 export default function ProcessingList() {
   const [isRemoving, setIsRemoving] = useState(false);
   const [showFinished, setShowFinished] = useState(false);
+  const [search, setSearch] = useState("");
   const { actions: apiActions } = useApiFetcher();
   const { processingList } = useProcessingProvider();
 
+  const keyword = search.toLowerCase();
+
   const activeList = useMemo(
-    () => processingList?.filter((item) => item.status !== "finished"),
-    [processingList],
+    () =>
+      processingList?.filter(
+        (item) =>
+          item.status !== "finished" &&
+          (!keyword ||
+            item.title?.toLowerCase().includes(keyword) ||
+            item.artist?.toLowerCase().includes(keyword)),
+      ),
+    [processingList, keyword],
   );
 
   const finishedList = useMemo(
-    () => processingList?.filter((item) => item.status === "finished"),
-    [processingList],
+    () =>
+      processingList?.filter(
+        (item) =>
+          item.status === "finished" &&
+          (!keyword ||
+            item.title?.toLowerCase().includes(keyword) ||
+            item.artist?.toLowerCase().includes(keyword)),
+      ),
+    [processingList, keyword],
   );
 
   const handleRemoveAll = async () => {
@@ -98,6 +116,9 @@ export default function ProcessingList() {
           </Box>
         }
       />
+      <Box sx={{ mb: 2 }}>
+        <SearchFilter value={search} onChange={setSearch} />
+      </Box>
       <ProcessingTable
         items={activeList ?? []}
         ariaLabel="Processing table"
