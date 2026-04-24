@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.2.2
+### 🚀 Added
+- [Front] Add processing queue pagination #750
+
 ## 📦 1.2.1
 ### 🚀 Added
 - [API] Add new `ARTIST_SINGLE_DOWNLOAD` env var to bulk download discographies #713

@@ -20,19 +20,14 @@ export default function ProcessingList() {
   const { actions: apiActions } = useApiFetcher();
   const { processingList } = useProcessingProvider();
 
-  const reversedProcessingList = useMemo(
-    () => processingList?.slice().reverse(),
+  const activeList = useMemo(
+    () => processingList?.filter((item) => item.status !== "finished"),
     [processingList],
   );
 
-  const activeList = useMemo(
-    () => reversedProcessingList?.filter((item) => item.status !== "finished"),
-    [reversedProcessingList],
-  );
-
   const finishedList = useMemo(
-    () => reversedProcessingList?.filter((item) => item.status === "finished"),
-    [reversedProcessingList],
+    () => processingList?.filter((item) => item.status === "finished"),
+    [processingList],
   );
 
   const handleRemoveAll = async () => {

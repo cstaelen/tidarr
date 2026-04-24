@@ -1,4 +1,7 @@
+import { useState } from "react";
 import {
+  Box,
+  Button,
   Paper,
   Table,
   TableBody,
@@ -11,6 +14,8 @@ import {
 import { ProcessingItem } from "src/components/Processing/ProcessingItem";
 import { ProcessingItemType } from "src/types";
 
+const PAGE_SIZE = 100;
+
 type Props = {
   items: ProcessingItemType[];
   ariaLabel: string;
@@ -18,6 +23,19 @@ type Props = {
 };
 
 export function ProcessingTable({ items, ariaLabel, emptyMessage }: Props) {
+  const [extraPages, setExtraPages] = useState(0);
+  const [lastLength, setLastLength] = useState(items.length);
+
+  if (items.length !== lastLength) {
+    setLastLength(items.length);
+    setExtraPages(0);
+  }
+
+  const visibleCount = PAGE_SIZE + extraPages * PAGE_SIZE;
+
+  const visibleItems = items.slice(0, visibleCount);
+  const remaining = items.length - visibleCount;
+
   return (
     <Paper>
       <TableContainer>
@@ -49,13 +67,24 @@ export function ProcessingTable({ items, ariaLabel, emptyMessage }: Props) {
                 </TableCell>
               </TableRow>
             ) : (
-              items.map((item, index) => (
+              visibleItems.map((item, index) => (
                 <ProcessingItem item={item} key={`${ariaLabel}-${index}`} />
               ))
             )}
           </TableBody>
         </Table>
       </TableContainer>
+      {remaining > 0 && (
+        <Box sx={{ display: "flex", justifyContent: "center", p: 1 }}>
+          <Button
+            size="small"
+            variant="text"
+            onClick={() => setExtraPages((n) => n + 1)}
+          >
+            Show more ({remaining} remaining)
+          </Button>
+        </Box>
+      )}
     </Paper>
   );
 }
