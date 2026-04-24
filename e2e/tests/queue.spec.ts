@@ -188,10 +188,10 @@ test("Queue: Should display warning color when paused", async ({ page }) => {
   await expect(fab).toHaveClass(/MuiFab-warning/);
 });
 
-test("Queue: Should paginate with show more button when list exceeds 100 items", async ({
+test("Queue: Should paginate with show more button when list exceeds 50 items", async ({
   page,
 }) => {
-  const mockData = Array.from({ length: 110 }, (_, i) => ({
+  const mockData = Array.from({ length: 60 }, (_, i) => ({
     id: String(i + 1),
     title: `Album ${i + 1}`,
     artist: "Artist",
@@ -222,11 +222,11 @@ test("Queue: Should paginate with show more button when list exceeds 100 items",
     timeout: 5000,
   });
 
-  // Only first 100 items visible
+  // Only first 50 items visible
   await expect(page.getByLabel("Processing table")).toContainText("Album 1");
-  await expect(page.getByLabel("Processing table")).toContainText("Album 100");
+  await expect(page.getByLabel("Processing table")).toContainText("Album 50");
   await expect(page.getByLabel("Processing table")).not.toContainText(
-    "Album 101",
+    "Album 51",
   );
 
   // Show more button visible with correct count
@@ -237,7 +237,7 @@ test("Queue: Should paginate with show more button when list exceeds 100 items",
 
   // Click show more reveals remaining items
   await showMoreButton.click();
-  await expect(page.getByLabel("Processing table")).toContainText("Album 101");
+  await expect(page.getByLabel("Processing table")).toContainText("Album 51");
   await expect(showMoreButton).not.toBeVisible();
 
   await page.route("**/stream-processing", (route) => route.continue());
