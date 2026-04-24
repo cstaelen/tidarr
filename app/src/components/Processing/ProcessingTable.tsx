@@ -14,7 +14,7 @@ import {
 import { ProcessingItem } from "src/components/Processing/ProcessingItem";
 import { ProcessingItemType } from "src/types";
 
-const PAGE_SIZE = 100;
+const PAGE_SIZE = 50;
 
 type Props = {
   items: ProcessingItemType[];
