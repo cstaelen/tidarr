@@ -5,7 +5,10 @@ Tidarr notable changes.
 
 ## 📦 1.2.2
 ### 🚀 Added
-- [Front] Add processing queue pagination #750
+- [Front] Add processing queue pagination and search filter #750
+- [Front] Add watchlist pagination, sort order, search filter #750
+### 🖍 Changes
+- [Front] Discography download expands albums only when processing #750
 
 ## 📦 1.2.1
 ### 🚀 Added

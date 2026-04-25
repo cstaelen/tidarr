@@ -31,7 +31,10 @@ export async function loadQueueFromFile(): Promise<ProcessingItemType[]> {
   }
 }
 
-export const addItemToFile = async (item: ProcessingItemType) => {
+export const addItemToFile = async (
+  item: ProcessingItemType,
+  insertAtFront?: boolean,
+) => {
   const saveList = await loadQueueFromFile();
 
   // Check if item with this ID already exists
@@ -43,7 +46,20 @@ export const addItemToFile = async (item: ProcessingItemType) => {
   delete item.progress;
   delete item.retryCount;
   delete item.networkError;
-  saveList.push(item);
+
+  if (insertAtFront) {
+    // Find the first queue_download item and insert before it
+    const firstQueueIndex = saveList.findIndex(
+      (i) => i.status === "queue_download",
+    );
+    if (firstQueueIndex !== -1) {
+      saveList.splice(firstQueueIndex, 0, item);
+    } else {
+      saveList.push(item);
+    }
+  } else {
+    saveList.push(item);
+  }
 
   // Update cache
   queueCache = saveList;

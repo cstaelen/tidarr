@@ -124,7 +124,7 @@ export async function getArtistAlbums(item: ProcessingItemType): Promise<void> {
         source: "tidarr",
       };
 
-      await app.locals.processingStack.actions.addItem(newItem);
+      await app.locals.processingStack.actions.addItem(newItem, true);
     }
 
     logs(item.id, `✅ [DISCOGRAPHY] Added ${albums.length} albums to queue`);

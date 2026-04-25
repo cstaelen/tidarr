@@ -124,15 +124,26 @@ export const ProcessingStack = () => {
     notifyItemOutput(app, idString, getItemOutput(idString));
   }
 
-  async function addItem(item: ProcessingItemType) {
+  async function addItem(item: ProcessingItemType, insertAtFront?: boolean) {
     // O(1) lookup using Map instead of O(n) findIndex
     if (dataMap.has(item.id)) {
       await removeItem(item.id);
     }
 
-    await addItemToFile(item);
+    await addItemToFile(item, insertAtFront);
 
-    data.push(item);
+    if (insertAtFront) {
+      const firstQueueIndex = data.findIndex(
+        (i) => i.status === "queue_download",
+      );
+      if (firstQueueIndex !== -1) {
+        data.splice(firstQueueIndex, 0, item);
+      } else {
+        data.push(item);
+      }
+    } else {
+      data.push(item);
+    }
     dataMap.set(item.id, item);
 
     queueManager.processQueue();
