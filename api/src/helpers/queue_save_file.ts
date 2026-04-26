@@ -3,6 +3,16 @@ import { ProcessingItemType } from "../types";
 
 const QUEUE_PATH = "/";
 
+function cleanItemBeforeSave(item: ProcessingItemType): ProcessingItemType {
+  delete item.process;
+  delete item.progress;
+  delete item.retryCount;
+  delete item.networkError;
+  delete item.skipped;
+
+  return item;
+}
+
 // In-memory cache to avoid disk reads
 let queueCache: ProcessingItemType[] | null = null;
 let queueCacheMap: Map<string, ProcessingItemType> | null = null;
@@ -42,10 +52,7 @@ export const addItemToFile = async (
     return;
   }
 
-  delete item.process;
-  delete item.progress;
-  delete item.retryCount;
-  delete item.networkError;
+  item = cleanItemBeforeSave(item);
 
   if (insertAtFront) {
     // Find the first queue_download item and insert before it
@@ -96,10 +103,7 @@ export const updateItemInQueueFile = async (item: ProcessingItemType) => {
 
   const itemIndex = saveList.findIndex((current) => current.id === item.id);
 
-  delete item.process;
-  delete item.progress;
-  delete item.retryCount;
-  delete item.networkError;
+  item = cleanItemBeforeSave(item);
 
   // Keep in queue, just update
   saveList[itemIndex] = { ...item };

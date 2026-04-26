@@ -5,15 +5,42 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { ProcessingPauseButton } from "src/components/Processing/PauseButton";
 import { ProcessingTable } from "src/components/Processing/ProcessingTable";
 import { SearchFilter } from "src/components/Processing/SearchFilter";
 import { ModuleTitle } from "src/components/TidalModule/Title";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 
 import BackButton from "../Buttons/BackButton";
+
+function parseCronDuration(cron: string): string {
+  const parts = cron
+    .trim()
+    .replace(/^["']|["']$/g, "")
+    .split(/\s+/);
+  if (parts.length !== 5) return cron;
+  const [minute, hour] = parts;
+
+  const minuteMatch = minute.match(/^\*\/(\d+)$/);
+  if (minuteMatch && hour === "*") {
+    const m = parseInt(minuteMatch[1]);
+    return m === 1 ? "1 minute" : `${m} minutes`;
+  }
+
+  const hourMatch = hour.match(/^\*\/(\d+)$/);
+  if (hourMatch && minute === "0") {
+    const h = parseInt(hourMatch[1]);
+    return h === 1 ? "1 hour" : `${h} hours`;
+  }
+
+  if (minute !== "*" && hour === "0") return `${minute}min`;
+  if (minute === "0" && hour !== "*") return `${hour}h`;
+
+  return cron;
+}
 
 export default function ProcessingList() {
   const [isRemoving, setIsRemoving] = useState(false);
@@ -21,8 +48,16 @@ export default function ProcessingList() {
   const [search, setSearch] = useState("");
   const { actions: apiActions } = useApiFetcher();
   const { processingList } = useProcessingProvider();
+  const { config } = useConfigProvider();
 
   const keyword = search.toLowerCase();
+
+  const batchSize = config?.DOWNLOAD_BATCH_SIZE;
+  const batchCron = config?.DOWNLOAD_BATCH_CRON;
+  const batchLabel =
+    batchSize && batchCron
+      ? `Batch download active: queue will pause every ${batchSize} downloads for ${parseCronDuration(batchCron)}`
+      : undefined;
 
   const activeList = useMemo(
     () =>
@@ -116,8 +151,21 @@ export default function ProcessingList() {
           </Box>
         }
       />
-      <Box sx={{ mb: 2 }}>
+      <Box
+        sx={{
+          mb: 2,
+          display: "flex",
+          flexFlow: "wrap",
+          gap: 2,
+          alignItems: "center",
+        }}
+      >
         <SearchFilter value={search} onChange={setSearch} />
+        {batchLabel && (
+          <Typography variant="caption" color="warning">
+            {batchLabel}
+          </Typography>
+        )}
       </Box>
       <ProcessingTable
         items={activeList ?? []}

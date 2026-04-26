@@ -6,7 +6,7 @@ import { logs } from "../processing/utils/logs";
 /**
  * Batch queue service
  *
- * Handles auto-pause after N completed items (DOWNLOAD_BATCH_SIZE)
+ * Handles auto-pause after N completed downloads (DOWNLOAD_BATCH_SIZE)
  * and optional cron-based auto-resume (DOWNLOAD_BATCH_CRON).
  */
 
@@ -15,25 +15,25 @@ export function getBatchSize(): number {
 }
 
 /**
- * Increments batch counter and returns whether the queue should be paused.
- * Returns true if DOWNLOAD_BATCH_SIZE is reached (caller should pause and skip processQueue).
+ * Increments batch counter and returns whether the download slot should be paused.
+ * Called at the end of each download (before post-processing).
+ * Returns true if DOWNLOAD_BATCH_SIZE is reached.
  */
 export function checkBatchPause(
   itemId: string,
-  itemStatus: string,
   batchCompletedCount: { value: number },
 ): boolean {
   if (!process.env.DOWNLOAD_BATCH_SIZE) return false;
 
   const batchSize = getBatchSize();
-  if (batchSize <= 0 || itemStatus !== "finished") return false;
+  if (batchSize <= 0) return false;
 
   batchCompletedCount.value++;
   if (batchCompletedCount.value >= batchSize) {
     batchCompletedCount.value = 0;
     logs(itemId, `⏸️ [BATCH] Batch of ${batchSize} completed. Queue paused.`);
     console.log(
-      `⏸️ [BATCH] Auto-pausing queue after ${batchSize} completed items.`,
+      `⏸️ [BATCH] Auto-pausing queue after ${batchSize} completed downloads.`,
     );
     return true;
   }
@@ -72,7 +72,7 @@ export function createBatchCronJob(app: Express): void {
     () => {
       const { processingStack } = app.locals;
       if (processingStack.actions.getQueueStatus().isPaused) {
-        console.log(`▶️ [BATCH] Cron triggered — resuming queue.`);
+        console.log(`▶️ [BATCH] Cron triggered — resuming downloads.`);
         processingStack.actions.resumeQueue();
       }
     },

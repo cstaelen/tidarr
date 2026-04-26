@@ -9,6 +9,7 @@ Tidarr notable changes.
 - [Front] Add watchlist pagination, sort order, search filter #750
 ### 🖍 Changes
 - [Front] Discography download expands albums only when processing #750
+- [API] Batch download count now skips existing albums #750
 
 ## 📦 1.2.1
 ### 🚀 Added
