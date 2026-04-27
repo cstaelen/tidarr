@@ -33,6 +33,7 @@ function notifySSEConnections(
   app: Express,
   isPaused: boolean,
   batchCount: number,
+  batchResumeAt: number | null,
 ) {
   const { processingStack, activeListConnections } = app.locals;
 
@@ -40,6 +41,7 @@ function notifySSEConnections(
     items: sanitizeProcessingData(processingStack.data),
     isPaused,
     batchCount,
+    batchResumeAt,
   });
 
   activeListConnections.forEach((conn: Response) => {
@@ -91,6 +93,7 @@ export const ProcessingStack = () => {
       app,
       queueManager.isPausedState(),
       queueManager.getBatchCount(),
+      queueManager.getBatchResumeAt(),
     );
   }
 
@@ -338,6 +341,7 @@ export const ProcessingStack = () => {
     return {
       isPaused: queueManager.isPausedState(),
       batchCount: queueManager.getBatchCount(),
+      batchResumeAt: queueManager.getBatchResumeAt(),
     };
   }
 

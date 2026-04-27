@@ -17,6 +17,7 @@ type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
   isPaused: boolean | undefined;
   batchCount: number;
+  batchResumeAt: number | null;
   actions: {
     setProcessingList: (list: ProcessingItemType[]) => void;
     setIsPaused: (isPaused: boolean) => void;
@@ -38,6 +39,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
   const [isPaused, setIsPaused] = useState<boolean>();
   const [batchCount, setBatchCount] = useState<number>(0);
+  const [batchResumeAt, setBatchResumeAt] = useState<number | null>(null);
   const [processingEventSource, setProcessingEventSource] =
     useState<EventSourceController>();
 
@@ -103,6 +105,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       setProcessingList,
       setIsPaused,
       setBatchCount,
+      setBatchResumeAt,
     );
     setProcessingEventSource(controller);
   }, [list_sse, processingEventSource]);
@@ -135,6 +138,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     processingList,
     isPaused,
     batchCount,
+    batchResumeAt,
     actions: {
       setProcessingList,
       setIsPaused,

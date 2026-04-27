@@ -31,6 +31,7 @@ type ApiFetcherContextType = {
       setData: (data: ProcessingItemType[]) => void,
       setIsPaused: (isPaused: boolean) => void,
       setBatchCount: (count: number) => void,
+      setBatchResumeAt: (resumeAt: number | null) => void,
     ) => {
       eventSource: EventSourcePlus;
       controller: EventSourceController;
@@ -71,7 +72,9 @@ type ApiFetcherContextType = {
     single_download: (id: string) => Promise<void>;
     pause_queue: () => Promise<void>;
     resume_queue: () => Promise<void>;
-    get_queue_status: () => Promise<{ isPaused: boolean; batchCount: number } | undefined>;
+    get_queue_status: () => Promise<
+      { isPaused: boolean; batchCount: number } | undefined
+    >;
     get_list_history: () => Promise<string[] | undefined>;
     flush_history: () => Promise<unknown>;
     signStream: (id: string) => Promise<{ url: string } | undefined>;
@@ -190,6 +193,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     setData: (data: ProcessingItemType[]) => void,
     setIsPaused: (isPaused: boolean) => void,
     setBatchCount: (count: number) => void,
+    setBatchResumeAt: (resumeAt: number | null) => void,
   ): {
     eventSource: EventSourcePlus;
     controller: EventSourceController;
@@ -199,10 +203,12 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
         items: ProcessingItemType[];
         isPaused: boolean;
         batchCount: number;
+        batchResumeAt: number | null;
       };
       setData(payload.items);
       setIsPaused(payload.isPaused);
       setBatchCount(payload.batchCount);
+      setBatchResumeAt(payload.batchResumeAt);
     });
   }
 

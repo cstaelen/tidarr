@@ -16,10 +16,9 @@ import { useProcessingProvider } from "src/provider/ProcessingProvider";
 
 import BackButton from "../Buttons/BackButton";
 
-function formatDelay(minutes: number): string {
-  if (minutes < 60) return minutes === 1 ? "1 minute" : `${minutes} minutes`;
-  const h = Math.round(minutes / 60);
-  return h === 1 ? "1 hour" : `${h} hours`;
+function getRemainingTime(batchResumeAt: number | null) {
+  if (!batchResumeAt) return;
+  return Math.max(0, Math.round((batchResumeAt - Date.now()) / 60000));
 }
 
 export default function ProcessingList() {
@@ -27,20 +26,21 @@ export default function ProcessingList() {
   const [showFinished, setShowFinished] = useState(false);
   const [search, setSearch] = useState("");
   const { actions: apiActions } = useApiFetcher();
-  const { processingList, batchCount } = useProcessingProvider();
+  const { processingList, batchCount, batchResumeAt } = useProcessingProvider();
   const { config } = useConfigProvider();
 
   const keyword = search.toLowerCase();
 
   const batchSize = config?.DOWNLOAD_BATCH_SIZE;
-  const batchDelay = config?.DOWNLOAD_BATCH_DELAY;
   const batchLabel = useMemo(() => {
     if (!batchSize) return undefined;
-    const delayStr = batchDelay
-      ? `pauses for ${formatDelay(parseFloat(batchDelay))} every ${batchSize} items`
-      : `pauses every ${batchSize} items`;
-    return `Batch download active: ${batchCount ?? 0}/${batchSize} downloads — ${delayStr}`;
-  }, [batchSize, batchDelay, batchCount]);
+    let label = `Batch download active: ${batchCount ?? 0}/${batchSize} downloads`;
+    if (batchResumeAt) {
+      const remainingMin = getRemainingTime(batchResumeAt);
+      label += ` — resumes in ${remainingMin === 0 ? "< 1" : remainingMin} min`;
+    }
+    return label;
+  }, [batchSize, batchCount, batchResumeAt]);
 
   const activeList = useMemo(
     () =>

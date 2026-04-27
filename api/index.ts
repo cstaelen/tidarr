@@ -5,6 +5,7 @@ import fs from "fs";
 import path from "path";
 
 import { setAppInstance } from "./src/helpers/app-instance";
+import { checkConfig } from "./src/helpers/check-config";
 import { get_tiddl_config } from "./src/helpers/get_tiddl_config";
 import { gracefulShutdown } from "./src/helpers/gracefull_shutdown";
 import { logExpiresToken } from "./src/helpers/refresh-token";
@@ -92,6 +93,8 @@ app.use("/api", apiKeyRouter);
 app.use("/api", lidarrRouter);
 
 // Run
+
+checkConfig();
 
 const server = app.listen(port, async () => {
   const config = await configureServer();

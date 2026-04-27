@@ -26,6 +26,7 @@ export class QueueManager {
   private onBatchResumeCallback: () => void;
   private batchCompletedCount: { value: number };
   private batchResumeTimer: NodeJS.Timeout | null = null;
+  private batchResumeAt: number | null = null;
 
   constructor(
     data: ProcessingItemType[],
@@ -87,6 +88,8 @@ export class QueueManager {
       if (nextDownload) {
         await this.prepareDownload(nextDownload);
         this.startDownload(nextDownload);
+      } else {
+        this.resetBatchCount();
       }
     }
 
@@ -157,8 +160,10 @@ export class QueueManager {
         this.isPaused = true;
         const delayMs = getBatchDelayMs();
         if (delayMs) {
+          this.batchResumeAt = Date.now() + delayMs;
           this.batchResumeTimer = setTimeout(() => {
             this.batchResumeTimer = null;
+            this.batchResumeAt = null;
             this.resetBatchCount();
             this.setPaused(false);
             this.processQueue();
@@ -245,6 +250,7 @@ export class QueueManager {
     if (!paused && this.batchResumeTimer) {
       clearTimeout(this.batchResumeTimer);
       this.batchResumeTimer = null;
+      this.batchResumeAt = null;
     }
   }
 
@@ -261,5 +267,9 @@ export class QueueManager {
 
   getBatchCount(): number {
     return this.batchCompletedCount.value;
+  }
+
+  getBatchResumeAt(): number | null {
+    return this.batchResumeAt;
   }
 }

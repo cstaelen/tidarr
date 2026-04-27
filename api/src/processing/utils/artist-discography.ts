@@ -113,7 +113,8 @@ export async function getArtistAlbums(item: ProcessingItemType): Promise<void> {
       type: "album",
       status: "queue_download",
       loading: false,
-      artist: album.artists?.[0]?.name || album.artist?.name || item.artist || "",
+      artist:
+        album.artists?.[0]?.name || album.artist?.name || item.artist || "",
       title: album.title,
       quality: item.quality,
       error: false,
