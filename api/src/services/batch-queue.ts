@@ -30,7 +30,6 @@ export function checkBatchPause(
 
   batchCompletedCount.value++;
   if (batchCompletedCount.value >= batchSize) {
-    batchCompletedCount.value = 0;
     logs(itemId, `⏸️ [BATCH] Batch of ${batchSize} completed. Queue paused.`);
     console.log(
       `⏸️ [BATCH] Auto-pausing queue after ${batchSize} completed downloads.`,
@@ -71,9 +70,19 @@ export function createBatchCronJob(app: Express): void {
     expression,
     () => {
       const { processingStack } = app.locals;
-      if (processingStack.actions.getQueueStatus().isPaused) {
+
+      const { isPaused, batchCount } = processingStack.actions.getQueueStatus();
+
+      if (isPaused) {
         console.log(`▶️ [BATCH] Cron triggered — resuming downloads.`);
         processingStack.actions.resumeQueue();
+      } else if (
+        batchCount > 0 &&
+        !processingStack.data.some(
+          (item: { status: string }) => item.status === "queue_download",
+        )
+      ) {
+        processingStack.actions.resetBatchCount();
       }
     },
     cronOptions,

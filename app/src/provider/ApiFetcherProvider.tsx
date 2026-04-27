@@ -27,7 +27,11 @@ type ApiFetcherContextType = {
   };
   actions: {
     get_settings: () => Promise<ConfigType | undefined>;
-    list_sse: (setData: (data: ProcessingItemType[]) => void) => {
+    list_sse: (
+      setData: (data: ProcessingItemType[]) => void,
+      setIsPaused: (isPaused: boolean) => void,
+      setBatchCount: (count: number) => void,
+    ) => {
       eventSource: EventSourcePlus;
       controller: EventSourceController;
     };
@@ -67,7 +71,7 @@ type ApiFetcherContextType = {
     single_download: (id: string) => Promise<void>;
     pause_queue: () => Promise<void>;
     resume_queue: () => Promise<void>;
-    get_queue_status: () => Promise<{ isPaused: boolean } | undefined>;
+    get_queue_status: () => Promise<{ isPaused: boolean; batchCount: number } | undefined>;
     get_list_history: () => Promise<string[] | undefined>;
     flush_history: () => Promise<unknown>;
     signStream: (id: string) => Promise<{ url: string } | undefined>;
@@ -182,12 +186,23 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
 
   // List processing
 
-  function list_sse(setData: (data: ProcessingItemType[]) => void): {
+  function list_sse(
+    setData: (data: ProcessingItemType[]) => void,
+    setIsPaused: (isPaused: boolean) => void,
+    setBatchCount: (count: number) => void,
+  ): {
     eventSource: EventSourcePlus;
     controller: EventSourceController;
   } {
     return streamExpressJS(`${apiUrl}/stream-processing`, (message) => {
-      setData(JSON.parse(message.data) as ProcessingItemType[]);
+      const payload = JSON.parse(message.data) as {
+        items: ProcessingItemType[];
+        isPaused: boolean;
+        batchCount: number;
+      };
+      setData(payload.items);
+      setIsPaused(payload.isPaused);
+      setBatchCount(payload.batchCount);
     });
   }
 
@@ -431,7 +446,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
   }
 
   async function get_queue_status() {
-    return await queryExpressJS<{ isPaused: boolean }>(
+    return await queryExpressJS<{ isPaused: boolean; batchCount: number }>(
       `${apiUrl}/queue/status`,
       {
         method: "GET",

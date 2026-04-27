@@ -47,17 +47,20 @@ export default function ProcessingList() {
   const [showFinished, setShowFinished] = useState(false);
   const [search, setSearch] = useState("");
   const { actions: apiActions } = useApiFetcher();
-  const { processingList } = useProcessingProvider();
+  const { processingList, batchCount } = useProcessingProvider();
   const { config } = useConfigProvider();
 
   const keyword = search.toLowerCase();
 
   const batchSize = config?.DOWNLOAD_BATCH_SIZE;
   const batchCron = config?.DOWNLOAD_BATCH_CRON;
-  const batchLabel =
-    batchSize && batchCron
-      ? `Batch download active: queue will pause every ${batchSize} downloads for ${parseCronDuration(batchCron)}`
-      : undefined;
+  const batchLabel = useMemo(
+    () =>
+      batchSize && batchCron
+        ? `Batch download active: ${batchCount ?? 0}/${batchSize} downloads — pauses for ${parseCronDuration(batchCron)} every ${batchSize} items`
+        : undefined,
+    [batchSize, batchCron, batchCount],
+  );
 
   const activeList = useMemo(
     () =>
@@ -128,9 +131,7 @@ export default function ProcessingList() {
               alignItems: "center",
             }}
           >
-            <div>
-              <ProcessingPauseButton />
-            </div>
+            <ProcessingPauseButton />
             <Box
               sx={{
                 display: "flex",

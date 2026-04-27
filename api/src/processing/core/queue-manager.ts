@@ -146,17 +146,16 @@ export class QueueManager {
         (item as ProcessingItemWithPlaylist).playlistId = playlistId;
       }
 
-      this.updateItemCallback(item);
-      await this.updateItemInQueueFileCallback(item);
-
-      // Auto-pause after DOWNLOAD_BATCH_SIZE real downloads (skip already-existing files)
+      // Increment batch counter before notifying SSE so UI sees updated count
       const processingPath = `${PROCESSING_PATH}/${item.id}`;
       const hadFiles = await hasFileToMove(processingPath);
       if (hadFiles && checkBatchPause(item.id, this.batchCompletedCount)) {
         this.isPaused = true;
       }
 
-      // Trigger next items in queue (post-processing continues even if download slot is now paused)
+      this.updateItemCallback(item);
+      await this.updateItemInQueueFileCallback(item);
+
       this.processQueue();
     });
   }
@@ -226,9 +225,10 @@ export class QueueManager {
    */
   setPaused(paused: boolean): void {
     this.isPaused = paused;
-    if (!paused) {
-      this.batchCompletedCount.value = 0;
-    }
+  }
+
+  resetBatchCount(): void {
+    this.batchCompletedCount.value = 0;
   }
 
   /**
@@ -236,5 +236,9 @@ export class QueueManager {
    */
   isPausedState(): boolean {
     return this.isPaused;
+  }
+
+  getBatchCount(): number {
+    return this.batchCompletedCount.value;
   }
 }
