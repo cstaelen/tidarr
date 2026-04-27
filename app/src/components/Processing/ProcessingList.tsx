@@ -16,30 +16,10 @@ import { useProcessingProvider } from "src/provider/ProcessingProvider";
 
 import BackButton from "../Buttons/BackButton";
 
-function parseCronDuration(cron: string): string {
-  const parts = cron
-    .trim()
-    .replace(/^["']|["']$/g, "")
-    .split(/\s+/);
-  if (parts.length !== 5) return cron;
-  const [minute, hour] = parts;
-
-  const minuteMatch = minute.match(/^\*\/(\d+)$/);
-  if (minuteMatch && hour === "*") {
-    const m = parseInt(minuteMatch[1]);
-    return m === 1 ? "1 minute" : `${m} minutes`;
-  }
-
-  const hourMatch = hour.match(/^\*\/(\d+)$/);
-  if (hourMatch && minute === "0") {
-    const h = parseInt(hourMatch[1]);
-    return h === 1 ? "1 hour" : `${h} hours`;
-  }
-
-  if (minute !== "*" && hour === "0") return `${minute}min`;
-  if (minute === "0" && hour !== "*") return `${hour}h`;
-
-  return cron;
+function formatDelay(minutes: number): string {
+  if (minutes < 60) return minutes === 1 ? "1 minute" : `${minutes} minutes`;
+  const h = Math.round(minutes / 60);
+  return h === 1 ? "1 hour" : `${h} hours`;
 }
 
 export default function ProcessingList() {
@@ -53,14 +33,14 @@ export default function ProcessingList() {
   const keyword = search.toLowerCase();
 
   const batchSize = config?.DOWNLOAD_BATCH_SIZE;
-  const batchCron = config?.DOWNLOAD_BATCH_CRON;
-  const batchLabel = useMemo(
-    () =>
-      batchSize && batchCron
-        ? `Batch download active: ${batchCount ?? 0}/${batchSize} downloads — pauses for ${parseCronDuration(batchCron)} every ${batchSize} items`
-        : undefined,
-    [batchSize, batchCron, batchCount],
-  );
+  const batchDelay = config?.DOWNLOAD_BATCH_DELAY;
+  const batchLabel = useMemo(() => {
+    if (!batchSize) return undefined;
+    const delayStr = batchDelay
+      ? `pauses for ${formatDelay(parseFloat(batchDelay))} every ${batchSize} items`
+      : `pauses every ${batchSize} items`;
+    return `Batch download active: ${batchCount ?? 0}/${batchSize} downloads — ${delayStr}`;
+  }, [batchSize, batchDelay, batchCount]);
 
   const activeList = useMemo(
     () =>

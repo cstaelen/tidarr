@@ -290,20 +290,19 @@ environment:
 
 ### Rate-limited download mode
 
-Throttle downloads to avoid being rate-limited by Tidal: automatically pause the queue after N items have been downloaded, and optionally resume it on a cron schedule.
+Throttle downloads to avoid being rate-limited by Tidal: automatically pause the queue after N items have been downloaded, and optionally resume it after a delay.
 
 ```yaml
 environment:
   - ...
-  - DOWNLOAD_BATCH_SIZE=10          # Pause queue after 10 completed items
-  - DOWNLOAD_BATCH_CRON="0 * * * *" # Resume queue every hour
+  - DOWNLOAD_BATCH_SIZE=10   # Pause queue after 10 completed downloads
+  - DOWNLOAD_BATCH_DELAY=60  # Auto-resume after 60 minutes
 ```
 
 > [!NOTE]
-> `DOWNLOAD_BATCH_SIZE` and `DOWNLOAD_BATCH_CRON` can be used independently:
-> - `DOWNLOAD_BATCH_SIZE` alone: queue auto-pauses after N items, resume manually via the UI
-> - `DOWNLOAD_BATCH_CRON` alone: queue resumes on schedule if paused (e.g. manually paused)
-> - Both together: fully automated rate-limited downloading (e.g. 10 albums per hour)
+> `DOWNLOAD_BATCH_SIZE` and `DOWNLOAD_BATCH_DELAY` can be used independently:
+> - `DOWNLOAD_BATCH_SIZE` alone: queue auto-pauses after N downloads, resume manually via the UI
+> - Both together: fully automated rate-limited downloading (e.g. 10 albums every hour)
 
 ### Sync playlists and mixes
 

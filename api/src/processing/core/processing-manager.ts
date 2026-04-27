@@ -83,6 +83,7 @@ export const ProcessingStack = () => {
     outputs,
     updateItem,
     updateItemInQueueFile,
+    () => notifySSE(),
   );
 
   function notifySSE() {

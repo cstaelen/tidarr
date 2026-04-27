@@ -1,7 +1,7 @@
 import { Express } from "express";
 
 import { PROCESSING_PATH } from "../../../constants";
-import { checkBatchPause } from "../../services/batch-queue";
+import { checkBatchPause, getBatchDelayMs } from "../../services/batch-queue";
 import { ProcessingItemType, ProcessingItemWithPlaylist } from "../../types";
 import { handleDownload } from "../download/download-handler";
 import { postProcessLidarr } from "../post-processing/lidarr-post-processor";
@@ -23,7 +23,9 @@ export class QueueManager {
   private updateItemInQueueFileCallback: (
     item: ProcessingItemType,
   ) => Promise<void>;
+  private onBatchResumeCallback: () => void;
   private batchCompletedCount: { value: number };
+  private batchResumeTimer: NodeJS.Timeout | null = null;
 
   constructor(
     data: ProcessingItemType[],
@@ -31,6 +33,7 @@ export class QueueManager {
     outputs: Map<string, string[]>,
     updateItemCallback: (item: ProcessingItemType) => void,
     updateItemInQueueFileCallback: (item: ProcessingItemType) => Promise<void>,
+    onBatchResumeCallback: () => void,
   ) {
     this.data = data;
     this.app = app;
@@ -38,6 +41,7 @@ export class QueueManager {
     this.outputs = outputs;
     this.updateItemCallback = updateItemCallback;
     this.updateItemInQueueFileCallback = updateItemInQueueFileCallback;
+    this.onBatchResumeCallback = onBatchResumeCallback;
     this.batchCompletedCount = { value: 0 };
   }
 
@@ -151,6 +155,19 @@ export class QueueManager {
       const hadFiles = await hasFileToMove(processingPath);
       if (hadFiles && checkBatchPause(item.id, this.batchCompletedCount)) {
         this.isPaused = true;
+        const delayMs = getBatchDelayMs();
+        if (delayMs) {
+          this.batchResumeTimer = setTimeout(() => {
+            this.batchResumeTimer = null;
+            this.resetBatchCount();
+            this.setPaused(false);
+            this.processQueue();
+            this.onBatchResumeCallback();
+          }, delayMs);
+          console.log(
+            `⏱️ [BATCH] Auto-resume scheduled in ${delayMs / 60000} min.`,
+          );
+        }
       }
 
       this.updateItemCallback(item);
@@ -225,6 +242,10 @@ export class QueueManager {
    */
   setPaused(paused: boolean): void {
     this.isPaused = paused;
+    if (!paused && this.batchResumeTimer) {
+      clearTimeout(this.batchResumeTimer);
+      this.batchResumeTimer = null;
+    }
   }
 
   resetBatchCount(): void {

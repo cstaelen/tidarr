@@ -1,17 +1,25 @@
-import { Express } from "express";
-import cron from "node-cron";
-
 import { logs } from "../processing/utils/logs";
 
 /**
  * Batch queue service
  *
  * Handles auto-pause after N completed downloads (DOWNLOAD_BATCH_SIZE)
- * and optional cron-based auto-resume (DOWNLOAD_BATCH_CRON).
+ * and delay-based auto-resume (DOWNLOAD_BATCH_DELAY in minutes).
  */
 
 export function getBatchSize(): number {
   return parseInt(process.env.DOWNLOAD_BATCH_SIZE || "0", 10);
+}
+
+/**
+ * Returns the batch resume delay in milliseconds from DOWNLOAD_BATCH_DELAY (minutes).
+ * Returns null if not set.
+ */
+export function getBatchDelayMs(): number | null {
+  const delay = process.env.DOWNLOAD_BATCH_DELAY;
+  if (!delay) return null;
+  const minutes = parseFloat(delay);
+  return !isNaN(minutes) && minutes > 0 ? minutes * 60 * 1000 : null;
 }
 
 /**
@@ -38,57 +46,4 @@ export function checkBatchPause(
   }
 
   return false;
-}
-
-export function getBatchCron(): string | null {
-  const raw = process.env.DOWNLOAD_BATCH_CRON;
-  if (!raw) return null;
-  const expression = raw.trim().replace(/^["']|["']$/g, "");
-  return cron.validate(expression) ? expression : null;
-}
-
-/**
- * Registers the DOWNLOAD_BATCH_CRON job that auto-resumes the queue.
- * Should be called once at server startup, alongside createSyncCronJob.
- */
-export function createBatchCronJob(app: Express): void {
-  const expression = getBatchCron();
-
-  if (!expression) {
-    if (process.env.DOWNLOAD_BATCH_CRON) {
-      console.error(
-        `❌ [BATCH] Invalid DOWNLOAD_BATCH_CRON expression: "${process.env.DOWNLOAD_BATCH_CRON}". Auto-resume disabled.`,
-      );
-    }
-    return;
-  }
-
-  const timezone = process.env.TZ;
-  const cronOptions = timezone ? { timezone } : undefined;
-
-  cron.schedule(
-    expression,
-    () => {
-      const { processingStack } = app.locals;
-
-      const { isPaused, batchCount } = processingStack.actions.getQueueStatus();
-
-      if (isPaused) {
-        console.log(`▶️ [BATCH] Cron triggered — resuming downloads.`);
-        processingStack.actions.resumeQueue();
-      } else if (
-        batchCount > 0 &&
-        !processingStack.data.some(
-          (item: { status: string }) => item.status === "queue_download",
-        )
-      ) {
-        processingStack.actions.resetBatchCount();
-      }
-    },
-    cronOptions,
-  );
-
-  console.log(
-    `✅ [BATCH] Batch cron scheduled: "${expression}" (timezone: ${timezone || "system"})`,
-  );
 }

@@ -93,7 +93,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     ["PLAYLIST_ALBUMS", ""],
     ["ARTIST_SINGLE_DOWNLOAD", ""],
     ["DOWNLOAD_BATCH_SIZE", ""],
-    ["DOWNLOAD_BATCH_CRON", ""],
+    ["DOWNLOAD_BATCH_DELAY", ""],
   ];
   const tableAPIRows = await page
     .getByLabel("simple table")
