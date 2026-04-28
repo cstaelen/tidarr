@@ -5,7 +5,7 @@ import { test } from "../test-isolation";
 import mockHome from "./mocks/home.json";
 import mockSearch from "./mocks/search.json";
 import { testProcessingList } from "./utils/helpers";
-import { mockItemOutputSSE } from "./utils/mock";
+import { mockItemOutputSSE, mockSSEPayload } from "./utils/mock";
 import { runSearch } from "./utils/search";
 
 test("Tidarr download : Should be able to download album", async ({ page }) => {
@@ -125,7 +125,7 @@ test("Tidarr download : Should be able to download discography", async ({
         "Cache-Control": "no-cache",
         Connection: "keep-alive",
       },
-      body: `data: ${JSON.stringify(mockAlbums)}\n\n`,
+      body: `data: ${mockSSEPayload(mockAlbums)}\n\n`,
     });
   });
 
@@ -363,7 +363,7 @@ test("Tidarr download : Should be able to clear finished items", async ({
         "Cache-Control": "no-cache",
         Connection: "keep-alive",
       },
-      body: `data: ${JSON.stringify(mockData)}\n\n`,
+      body: `data: ${mockSSEPayload(mockData)}\n\n`,
     });
   });
 

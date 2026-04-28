@@ -2,7 +2,7 @@ import { expect } from "@playwright/test";
 
 import { test } from "../test-isolation";
 
-import { mockItemOutputSSE } from "./utils/mock";
+import { mockItemOutputSSE, mockSSEPayload } from "./utils/mock";
 
 /**
  * Lidarr Integration Tests
@@ -300,7 +300,7 @@ test("Lidarr SABnzbd: Should show completed album in history", async ({
         "Cache-Control": "no-cache",
         Connection: "keep-alive",
       },
-      body: `data: ${JSON.stringify(mockData)}\n\n`,
+      body: `data: ${mockSSEPayload(mockData)}\n\n`,
     });
   });
 
@@ -366,7 +366,7 @@ test("Lidarr Integration: Should respect queue pause state in SABnzbd API", asyn
   await page.route("**/queue/status", async (route) => {
     await route.fulfill({
       status: 200,
-      json: { isPaused: true },
+      json: { isPaused: true, batchCount: 0, batchResumeAt: null },
     });
   });
 

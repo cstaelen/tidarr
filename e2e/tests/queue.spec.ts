@@ -2,7 +2,7 @@ import { expect } from "@playwright/test";
 
 import { test } from "../test-isolation";
 
-import { mockItemOutputSSE } from "./utils/mock";
+import { mockItemOutputSSE, mockSSEPayload } from "./utils/mock";
 import { runSearch } from "./utils/search";
 
 test("Queue: Should be able to pause-resume the queue", async ({ page }) => {
@@ -52,35 +52,45 @@ test("Queue: Should be able to pause-resume the queue", async ({ page }) => {
   expect(resumeCalled).toBe(true);
 });
 
-test("Queue: Should load queue status on mount", async ({ page }) => {
-  let statusCalled = false;
+test("Queue: Should load queue status from SSE on mount", async ({ page }) => {
+  const mockData = [
+    {
+      id: "1",
+      title: "Nevermind",
+      artist: "Nirvana",
+      type: "album",
+      quality: "high",
+      status: "queue_download",
+      loading: false,
+    },
+  ];
 
-  // Mock queue status endpoint
-  await page.route("**/queue/status", async (route) => {
-    statusCalled = true;
+  // isPaused comes from SSE payload, not from a separate REST call
+  await page.route("**/stream-processing", async (route) => {
     await route.fulfill({
       status: 200,
-      json: { isPaused: false },
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${mockSSEPayload(mockData)}\n\n`,
     });
   });
 
   await page.goto("/");
-
-  // Add an item to trigger the processing list to appear
-  await mockItemOutputSSE(page, "high");
-  await runSearch("Nirvana", page);
-  await page.getByRole("tab", { name: "Albums" }).first().click();
-  await page.getByRole("button", { name: "Get album" }).nth(2).click();
-
-  // Open processing list
   await expect(page.locator("button.MuiFab-circular")).toBeVisible();
   await page.locator("button.MuiFab-circular").click();
 
-  // Wait for the button to be visible (which should trigger the status load)
-  await page.waitForTimeout(500);
+  await page.waitForSelector('[aria-label="Processing table"]', {
+    state: "visible",
+    timeout: 5000,
+  });
 
-  // Verify the status API was called
-  expect(statusCalled).toBe(true);
+  // Queue is loaded and not paused — pause button visible
+  await expect(page.getByRole("button", { name: "Pause" })).toBeVisible();
+
+  await page.route("**/stream-processing", (route) => route.continue());
 });
 
 test("Queue: Should hide finished items by default and toggle visibility", async ({
@@ -115,7 +125,7 @@ test("Queue: Should hide finished items by default and toggle visibility", async
         "Cache-Control": "no-cache",
         Connection: "keep-alive",
       },
-      body: `data: ${JSON.stringify(mockData)}\n\n`,
+      body: `data: ${mockSSEPayload(mockData)}\n\n`,
     });
   });
 
@@ -163,29 +173,39 @@ test("Queue: Should hide finished items by default and toggle visibility", async
 });
 
 test("Queue: Should display warning color when paused", async ({ page }) => {
-  await mockItemOutputSSE(page, "high");
+  const mockData = [
+    {
+      id: "1",
+      title: "Nevermind",
+      artist: "Nirvana",
+      type: "album",
+      quality: "high",
+      status: "queue_download",
+      loading: false,
+    },
+  ];
 
-  // Mock queue status as paused
-  await page.route("**/queue/status", async (route) => {
+  // isPaused comes from SSE payload
+  await page.route("**/stream-processing", async (route) => {
     await route.fulfill({
       status: 200,
-      json: { isPaused: true },
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${JSON.stringify({ items: mockData, isPaused: true, batchCount: 0, batchResumeAt: null })}\n\n`,
     });
   });
 
   await page.goto("/");
-
-  // Add an item to the queue
-  await runSearch("Nirvana", page);
-  await page.getByRole("tab", { name: "Albums" }).first().click();
-  await page.getByRole("button", { name: "Get album" }).nth(2).click();
-
-  // Open processing list
   await expect(page.locator("button.MuiFab-circular")).toBeVisible();
 
   // Check if the FAB has warning color (orange/yellow when paused)
   const fab = page.locator("button.MuiFab-circular");
   await expect(fab).toHaveClass(/MuiFab-warning/);
+
+  await page.route("**/stream-processing", (route) => route.continue());
 });
 
 test("Queue: Should paginate with show more button when list exceeds 50 items", async ({
@@ -209,7 +229,7 @@ test("Queue: Should paginate with show more button when list exceeds 50 items", 
         "Cache-Control": "no-cache",
         Connection: "keep-alive",
       },
-      body: `data: ${JSON.stringify(mockData)}\n\n`,
+      body: `data: ${mockSSEPayload(mockData)}\n\n`,
     });
   });
 
@@ -284,7 +304,7 @@ test("Queue: Should filter items by keyword on title and artist", async ({
         "Cache-Control": "no-cache",
         Connection: "keep-alive",
       },
-      body: `data: ${JSON.stringify(mockData)}\n\n`,
+      body: `data: ${mockSSEPayload(mockData)}\n\n`,
     });
   });
 

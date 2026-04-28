@@ -4,12 +4,16 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 1.2.2
+### ⚠️ Breaking Changes
+- [API] `DOWNLOAD_BATCH_CRON` has been replaced by `DOWNLOAD_BATCH_DELAY` (minutes) to be more accurate. 
+**Don't forget to update your docker env var** #750
 ### 🚀 Added
 - [Front] Add processing queue pagination and search filter #750
 - [Front] Add watchlist pagination, sort order, search filter #750
 ### 🖍 Changes
 - [Front] Discography download expands albums only when processing #750
 - [API] Batch download count now skips existing albums #750
+
 
 ## 📦 1.2.1
 ### 🚀 Added
