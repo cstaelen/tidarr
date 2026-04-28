@@ -24,12 +24,6 @@ type Props = {
 
 export function ProcessingTable({ items, ariaLabel, emptyMessage }: Props) {
   const [extraPages, setExtraPages] = useState(0);
-  const [lastLength, setLastLength] = useState(items.length);
-
-  if (items.length !== lastLength) {
-    setLastLength(items.length);
-    setExtraPages(0);
-  }
 
   const visibleCount = PAGE_SIZE + extraPages * PAGE_SIZE;
 
