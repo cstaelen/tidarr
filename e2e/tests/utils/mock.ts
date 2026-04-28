@@ -206,6 +206,15 @@ export async function mockConfigAPI(
   });
 }
 
+export function mockSSEPayload(items: unknown[]): string {
+  return JSON.stringify({
+    items,
+    isPaused: false,
+    batchCount: 0,
+    batchResumeAt: null,
+  });
+}
+
 export async function mockItemOutputSSE(page: Page, quality = "high") {
   await page.route("**/stream-item-output/*", async (route) => {
     const itemId = route.request().url().split("/").pop();

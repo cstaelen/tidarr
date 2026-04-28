@@ -1,11 +1,12 @@
 import { Express } from "express";
 
-import { checkBatchPause } from "../../services/batch-queue";
+import { PROCESSING_PATH } from "../../../constants";
+import { checkBatchPause, getBatchDelayMs } from "../../services/batch-queue";
 import { ProcessingItemType, ProcessingItemWithPlaylist } from "../../types";
 import { handleDownload } from "../download/download-handler";
 import { postProcessLidarr } from "../post-processing/lidarr-post-processor";
 import { postProcessTidarr } from "../post-processing/tidarr-post-processor";
-import { cleanFolder } from "../utils/jobs";
+import { cleanFolder, hasFileToMove } from "../utils/jobs";
 import { logs } from "../utils/logs";
 
 const MAX_RETRIES = 3;
@@ -22,7 +23,10 @@ export class QueueManager {
   private updateItemInQueueFileCallback: (
     item: ProcessingItemType,
   ) => Promise<void>;
+  private onBatchResumeCallback: () => void;
   private batchCompletedCount: { value: number };
+  private batchResumeTimer: NodeJS.Timeout | null = null;
+  private batchResumeAt: number | null = null;
 
   constructor(
     data: ProcessingItemType[],
@@ -30,6 +34,7 @@ export class QueueManager {
     outputs: Map<string, string[]>,
     updateItemCallback: (item: ProcessingItemType) => void,
     updateItemInQueueFileCallback: (item: ProcessingItemType) => Promise<void>,
+    onBatchResumeCallback: () => void,
   ) {
     this.data = data;
     this.app = app;
@@ -37,6 +42,7 @@ export class QueueManager {
     this.outputs = outputs;
     this.updateItemCallback = updateItemCallback;
     this.updateItemInQueueFileCallback = updateItemInQueueFileCallback;
+    this.onBatchResumeCallback = onBatchResumeCallback;
     this.batchCompletedCount = { value: 0 };
   }
 
@@ -65,17 +71,16 @@ export class QueueManager {
   }
 
   /**
-   * Processes the queue - starts download and post-processing if slots available
+   * Processes the queue - starts download and post-processing if slots available.
+   * When paused, only the download slot is blocked — post-processing continues.
    */
   async processQueue(): Promise<void> {
-    if (this.isPaused) return;
-
     const isDownloading = this.data.some((item) => item.status === "download");
     const isPostProcessing = this.data.some(
       (item) => item.status === "processing",
     );
 
-    if (!isDownloading) {
+    if (!isDownloading && !this.isPaused) {
       const nextDownload = this.data.find(
         (item) => item.status === "queue_download",
       );
@@ -83,6 +88,8 @@ export class QueueManager {
       if (nextDownload) {
         await this.prepareDownload(nextDownload);
         this.startDownload(nextDownload);
+      } else {
+        this.resetBatchCount();
       }
     }
 
@@ -146,10 +153,31 @@ export class QueueManager {
         (item as ProcessingItemWithPlaylist).playlistId = playlistId;
       }
 
+      // Increment batch counter before notifying SSE so UI sees updated count
+      const processingPath = `${PROCESSING_PATH}/${item.id}`;
+      const hadFiles = await hasFileToMove(processingPath);
+      if (hadFiles && checkBatchPause(item.id, this.batchCompletedCount)) {
+        this.isPaused = true;
+        const delayMs = getBatchDelayMs();
+        if (delayMs) {
+          this.batchResumeAt = Date.now() + delayMs;
+          this.batchResumeTimer = setTimeout(() => {
+            this.batchResumeTimer = null;
+            this.batchResumeAt = null;
+            this.resetBatchCount();
+            this.setPaused(false);
+            this.processQueue();
+            this.onBatchResumeCallback();
+          }, delayMs);
+          console.log(
+            `⏱️ [BATCH] Auto-resume scheduled in ${delayMs / 60000} min.`,
+          );
+        }
+      }
+
       this.updateItemCallback(item);
       await this.updateItemInQueueFileCallback(item);
 
-      // Trigger next items in queue
       this.processQueue();
     });
   }
@@ -174,12 +202,6 @@ export class QueueManager {
 
     // Update item status
     this.updateItemCallback(item);
-
-    // Auto-pause after DOWNLOAD_BATCH_SIZE items completed
-    if (checkBatchPause(item.id, item.status, this.batchCompletedCount)) {
-      this.isPaused = true;
-      return;
-    }
 
     // Trigger next items in queue
     this.processQueue();
@@ -225,6 +247,15 @@ export class QueueManager {
    */
   setPaused(paused: boolean): void {
     this.isPaused = paused;
+    if (!paused && this.batchResumeTimer) {
+      clearTimeout(this.batchResumeTimer);
+      this.batchResumeTimer = null;
+      this.batchResumeAt = null;
+    }
+  }
+
+  resetBatchCount(): void {
+    this.batchCompletedCount.value = 0;
   }
 
   /**
@@ -232,5 +263,13 @@ export class QueueManager {
    */
   isPausedState(): boolean {
     return this.isPaused;
+  }
+
+  getBatchCount(): number {
+    return this.batchCompletedCount.value;
+  }
+
+  getBatchResumeAt(): number | null {
+    return this.batchResumeAt;
   }
 }

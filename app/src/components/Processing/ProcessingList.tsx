@@ -5,24 +5,42 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { ProcessingPauseButton } from "src/components/Processing/PauseButton";
 import { ProcessingTable } from "src/components/Processing/ProcessingTable";
 import { SearchFilter } from "src/components/Processing/SearchFilter";
 import { ModuleTitle } from "src/components/TidalModule/Title";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 
 import BackButton from "../Buttons/BackButton";
+
+function getRemainingTime(batchResumeAt: number | null) {
+  if (!batchResumeAt) return;
+  return Math.max(0, Math.round((batchResumeAt - Date.now()) / 60000));
+}
 
 export default function ProcessingList() {
   const [isRemoving, setIsRemoving] = useState(false);
   const [showFinished, setShowFinished] = useState(false);
   const [search, setSearch] = useState("");
   const { actions: apiActions } = useApiFetcher();
-  const { processingList } = useProcessingProvider();
+  const { processingList, batchCount, batchResumeAt } = useProcessingProvider();
+  const { config } = useConfigProvider();
 
   const keyword = search.toLowerCase();
+
+  const batchSize = config?.DOWNLOAD_BATCH_SIZE;
+  const batchLabel = useMemo(() => {
+    if (!batchSize) return undefined;
+    let label = `Batch download active: ${batchCount ?? 0}/${batchSize} downloads`;
+    if (batchResumeAt) {
+      const remainingMin = getRemainingTime(batchResumeAt);
+      label += ` — resumes in ${remainingMin === 0 ? "< 1" : remainingMin} min`;
+    }
+    return label;
+  }, [batchSize, batchCount, batchResumeAt]);
 
   const activeList = useMemo(
     () =>
@@ -93,9 +111,7 @@ export default function ProcessingList() {
               alignItems: "center",
             }}
           >
-            <div>
-              <ProcessingPauseButton />
-            </div>
+            <ProcessingPauseButton />
             <Box
               sx={{
                 display: "flex",
@@ -116,8 +132,21 @@ export default function ProcessingList() {
           </Box>
         }
       />
-      <Box sx={{ mb: 2 }}>
+      <Box
+        sx={{
+          mb: 2,
+          display: "flex",
+          flexFlow: "wrap",
+          gap: 2,
+          alignItems: "center",
+        }}
+      >
         <SearchFilter value={search} onChange={setSearch} />
+        {batchLabel && (
+          <Typography variant="caption" color="warning">
+            {batchLabel}
+          </Typography>
+        )}
       </Box>
       <ProcessingTable
         items={activeList ?? []}

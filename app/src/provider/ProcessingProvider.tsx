@@ -16,6 +16,8 @@ import { useConfigProvider } from "./ConfigProvider";
 type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
   isPaused: boolean | undefined;
+  batchCount: number;
+  batchResumeAt: number | null;
   actions: {
     setProcessingList: (list: ProcessingItemType[]) => void;
     setIsPaused: (isPaused: boolean) => void;
@@ -36,11 +38,13 @@ const ProcessingContext = React.createContext<ProcessingContextType>(
 export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
   const [isPaused, setIsPaused] = useState<boolean>();
+  const [batchCount, setBatchCount] = useState<number>(0);
+  const [batchResumeAt, setBatchResumeAt] = useState<number | null>(null);
   const [processingEventSource, setProcessingEventSource] =
     useState<EventSourceController>();
 
   const {
-    actions: { list_sse, remove, save, get_queue_status, single_download },
+    actions: { list_sse, remove, save, single_download },
   } = useApiFetcher();
   const {
     quality,
@@ -97,7 +101,12 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   // Update front data
   const openStreamProcessing = useCallback(async () => {
     if (processingEventSource) return;
-    const { controller } = await list_sse(setProcessingList);
+    const { controller } = await list_sse(
+      setProcessingList,
+      setIsPaused,
+      setBatchCount,
+      setBatchResumeAt,
+    );
     setProcessingEventSource(controller);
   }, [list_sse, processingEventSource]);
 
@@ -107,21 +116,6 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       setProcessingEventSource(undefined);
     }
   }, [processingEventSource]);
-
-  // Get queue status (pause/resume)
-  useEffect(() => {
-    async function load() {
-      try {
-        const status = await get_queue_status();
-        if (status) {
-          setIsPaused(status.isPaused);
-        }
-      } catch (error) {
-        console.error("Failed to load queue status:", error);
-      }
-    }
-    load();
-  }, [get_queue_status]);
 
   // First load
   useEffect(() => {
@@ -143,6 +137,8 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   const value = {
     processingList,
     isPaused,
+    batchCount,
+    batchResumeAt,
     actions: {
       setProcessingList,
       setIsPaused,

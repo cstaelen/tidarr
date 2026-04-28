@@ -29,11 +29,16 @@ router.get(
         );
     });
 
-    // Send initial state to the new client (strip internal fields)
-    const sanitizedData = sanitizeProcessingData(
-      req.app.locals.processingStack.data,
-    );
-    res.write(`data: ${JSON.stringify(sanitizedData)}\n\n`);
+    // Send initial state to the new client
+    const { isPaused, batchCount, batchResumeAt } =
+      req.app.locals.processingStack.actions.getQueueStatus();
+    const payload = JSON.stringify({
+      items: sanitizeProcessingData(req.app.locals.processingStack.data),
+      isPaused,
+      batchCount,
+      batchResumeAt,
+    });
+    res.write(`data: ${payload}\n\n`);
   },
 );
 

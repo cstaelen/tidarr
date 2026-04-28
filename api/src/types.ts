@@ -35,6 +35,7 @@ export type ProcessingItemType = {
   process?: ChildProcess;
   retryCount?: number;
   networkError?: boolean;
+  skipped?: boolean;
   source?: "lidarr" | "tidarr";
   progress?: {
     current: number;

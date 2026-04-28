@@ -3,6 +3,28 @@ import { ProcessingItemType } from "../types";
 
 const QUEUE_PATH = "/";
 
+export function insertBeforeFirstQueued<T extends { status: string }>(
+  list: T[],
+  ...items: T[]
+): void {
+  const firstQueueIndex = list.findIndex((i) => i.status === "queue_download");
+  if (firstQueueIndex !== -1) {
+    list.splice(firstQueueIndex, 0, ...items);
+  } else {
+    list.push(...items);
+  }
+}
+
+function cleanItemBeforeSave(item: ProcessingItemType): ProcessingItemType {
+  delete item.process;
+  delete item.progress;
+  delete item.retryCount;
+  delete item.networkError;
+  delete item.skipped;
+
+  return item;
+}
+
 // In-memory cache to avoid disk reads
 let queueCache: ProcessingItemType[] | null = null;
 let queueCacheMap: Map<string, ProcessingItemType> | null = null;
@@ -31,7 +53,10 @@ export async function loadQueueFromFile(): Promise<ProcessingItemType[]> {
   }
 }
 
-export const addItemToFile = async (item: ProcessingItemType) => {
+export const addItemToFile = async (
+  item: ProcessingItemType,
+  insertAtFront?: boolean,
+) => {
   const saveList = await loadQueueFromFile();
 
   // Check if item with this ID already exists
@@ -39,18 +64,60 @@ export const addItemToFile = async (item: ProcessingItemType) => {
     return;
   }
 
-  delete item.process;
-  delete item.progress;
-  delete item.retryCount;
-  delete item.networkError;
-  saveList.push(item);
+  item = cleanItemBeforeSave(item);
 
-  // Update cache
+  if (insertAtFront) {
+    insertBeforeFirstQueued(saveList, item);
+  } else {
+    saveList.push(item);
+  }
+
   queueCache = saveList;
   queueCacheMap?.set(item.id, item);
 
   // Write to disk (auto-saves with saveOnPush=true)
   await queueDb.push(QUEUE_PATH, saveList);
+};
+
+export const addItemsToFile = async (
+  items: ProcessingItemType[],
+  insertAtFront?: boolean,
+) => {
+  const saveList = await loadQueueFromFile();
+
+  const newItems = items
+    .filter((item) => !queueCacheMap?.has(item.id))
+    .map((item) => cleanItemBeforeSave(item));
+
+  if (newItems.length === 0) return;
+
+  if (insertAtFront) {
+    insertBeforeFirstQueued(saveList, ...newItems);
+  } else {
+    saveList.push(...newItems);
+  }
+
+  queueCache = saveList;
+  for (const item of newItems) {
+    queueCacheMap?.set(item.id, item);
+  }
+
+  await queueDb.push(QUEUE_PATH, saveList);
+};
+
+export const clearQueueFile = async () => {
+  queueCache = [];
+  queueCacheMap = new Map();
+  await queueDb.push(QUEUE_PATH, []);
+};
+
+export const removeItemsFromFile = async (ids: string[]) => {
+  const saveList = await loadQueueFromFile();
+  const idSet = new Set(ids);
+  const filteredList = saveList.filter((item) => !idSet.has(item.id));
+  queueCache = filteredList;
+  for (const id of ids) queueCacheMap?.delete(id);
+  await queueDb.push(QUEUE_PATH, filteredList);
 };
 
 export const removeItemFromFile = async (id: string) => {
@@ -80,10 +147,7 @@ export const updateItemInQueueFile = async (item: ProcessingItemType) => {
 
   const itemIndex = saveList.findIndex((current) => current.id === item.id);
 
-  delete item.process;
-  delete item.progress;
-  delete item.retryCount;
-  delete item.networkError;
+  item = cleanItemBeforeSave(item);
 
   // Keep in queue, just update
   saveList[itemIndex] = { ...item };

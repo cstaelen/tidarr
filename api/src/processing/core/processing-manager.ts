@@ -2,9 +2,13 @@ import { Express, Response } from "express";
 
 import { getAppInstance } from "../../helpers/app-instance";
 import {
+  addItemsToFile,
   addItemToFile,
+  clearQueueFile,
+  insertBeforeFirstQueued,
   loadQueueFromFile,
   removeItemFromFile,
+  removeItemsFromFile,
   updateItemInQueueFile,
 } from "../../helpers/queue_save_file";
 import { addItemToHistory } from "../../services/history";
@@ -25,13 +29,23 @@ export function sanitizeProcessingData(
   return data.map(({ process, ...rest }) => rest);
 }
 
-function notifySSEConnections(app: Express) {
+function notifySSEConnections(
+  app: Express,
+  isPaused: boolean,
+  batchCount: number,
+  batchResumeAt: number | null,
+) {
   const { processingStack, activeListConnections } = app.locals;
 
-  const data = JSON.stringify(sanitizeProcessingData(processingStack.data));
+  const payload = JSON.stringify({
+    items: sanitizeProcessingData(processingStack.data),
+    isPaused,
+    batchCount,
+    batchResumeAt,
+  });
 
   activeListConnections.forEach((conn: Response) => {
-    conn.write(`data: ${data}\n\n`);
+    conn.write(`data: ${payload}\n\n`);
   });
 }
 
@@ -71,7 +85,17 @@ export const ProcessingStack = () => {
     outputs,
     updateItem,
     updateItemInQueueFile,
+    () => notifySSE(),
   );
+
+  function notifySSE() {
+    notifySSEConnections(
+      app,
+      queueManager.isPausedState(),
+      queueManager.getBatchCount(),
+      queueManager.getBatchResumeAt(),
+    );
+  }
 
   async function loadDataFromFile() {
     if (process.env.NO_DOWNLOAD === "true") {
@@ -124,24 +148,48 @@ export const ProcessingStack = () => {
     notifyItemOutput(app, idString, getItemOutput(idString));
   }
 
-  async function addItem(item: ProcessingItemType) {
-    // O(1) lookup using Map instead of O(n) findIndex
+  async function addItem(item: ProcessingItemType, insertAtFront?: boolean) {
     if (dataMap.has(item.id)) {
       await removeItem(item.id);
     }
 
-    await addItemToFile(item);
+    await addItemToFile(item, insertAtFront);
 
-    data.push(item);
+    if (insertAtFront) {
+      insertBeforeFirstQueued(data, item);
+    } else {
+      data.push(item);
+    }
     dataMap.set(item.id, item);
 
     queueManager.processQueue();
 
-    notifySSEConnections(app);
+    notifySSE();
+  }
+
+  async function addItems(
+    items: ProcessingItemType[],
+    insertAtFront?: boolean,
+  ) {
+    const newItems = items.filter((item) => !dataMap.has(item.id));
+    if (newItems.length === 0) return;
+
+    await addItemsToFile(newItems, insertAtFront);
+
+    if (insertAtFront) {
+      insertBeforeFirstQueued(data, ...newItems);
+    } else {
+      data.push(...newItems);
+    }
+    for (const item of newItems) {
+      dataMap.set(item.id, item);
+    }
+
+    queueManager.processQueue();
+    notifySSE();
   }
 
   async function removeItem(id: string) {
-    // O(1) lookup using Map
     const item = dataMap.get(id);
 
     if (!item) {
@@ -153,13 +201,9 @@ export const ProcessingStack = () => {
       (listItem: ProcessingItemType) => listItem?.id === item?.id,
     );
 
-    // Remove in queue file
     await removeItemFromFile(id);
-
-    // Kill the process if it exists and is running
     killProcess(item?.process, id);
 
-    // Clean up temporary playlist if item was interrupted mid-download
     const playlistId = (item as ProcessingItemWithPlaylist).playlistId;
     if (playlistId) {
       deletePlaylist(playlistId, id);
@@ -169,37 +213,44 @@ export const ProcessingStack = () => {
     data.splice(foundIndex, 1);
     dataMap.delete(id);
 
-    // Clean up output history for this item (ensure string key)
     outputs.delete(String(id));
     cleanFolder(item.id);
 
     queueManager.processQueue();
 
-    notifySSEConnections(app);
+    notifySSE();
   }
 
   async function removeAllItems() {
-    const itemsToRemove = [...data]; // Copie immutable
-    for (const item of itemsToRemove) {
-      try {
-        await removeItem(item.id);
-      } catch (error) {
-        console.error(`Failed to remove item ${item.id}:`, error);
-      }
+    for (const item of [...data]) {
+      killProcess(item?.process, item.id);
+      const playlistId = (item as ProcessingItemWithPlaylist).playlistId;
+      if (playlistId) deletePlaylist(playlistId, item.id);
+      outputs.delete(String(item.id));
+      cleanFolder(item.id);
     }
+    data.length = 0;
+    dataMap.clear();
+    await clearQueueFile();
+    notifySSE();
   }
 
   async function removeFinishedItems() {
     const itemsToRemove = data.filter((item) =>
       ["finished", "error"].includes(item.status),
     );
+    const removeIds = new Set(itemsToRemove.map((item) => item.id));
     for (const item of itemsToRemove) {
-      try {
-        await removeItem(item.id);
-      } catch (error) {
-        console.error(`Failed to remove item ${item.id}:`, error);
-      }
+      outputs.delete(String(item.id));
+      dataMap.delete(item.id);
     }
+    data.splice(
+      0,
+      data.length,
+      ...data.filter((item) => !removeIds.has(item.id)),
+    );
+    await removeItemsFromFile([...removeIds]);
+    notifySSE();
   }
 
   function updateItem(item: ProcessingItemType) {
@@ -210,10 +261,8 @@ export const ProcessingStack = () => {
       queueManager.processQueue();
     }
 
-    // Notify list connections about status changes (without output data)
-    notifySSEConnections(app);
+    notifySSE();
 
-    // Notify item-specific output connections with the latest output
     const currentOutput = getItemOutput(item.id);
     if (currentOutput) {
       notifyItemOutput(app, item.id, currentOutput);
@@ -240,7 +289,7 @@ export const ProcessingStack = () => {
     await queueManager.prepareDownload(item);
     queueManager.startDownload(item);
 
-    notifySSEConnections(app);
+    notifySSE();
   }
 
   async function pauseQueue() {
@@ -272,18 +321,28 @@ export const ProcessingStack = () => {
       updateItem(downloadingItem);
     }
 
-    notifySSEConnections(app);
+    notifySSE();
   }
 
   function resumeQueue() {
     if (process.env.NO_DOWNLOAD === "true") return;
     queueManager.setPaused(false);
-    queueManager.processQueue(); // Restart the queue
-    notifySSEConnections(app);
+    queueManager.processQueue();
+    queueManager.resetBatchCount();
+    notifySSE();
+  }
+
+  function resetBatchCount() {
+    queueManager.resetBatchCount();
+    notifySSE();
   }
 
   function getQueueStatus() {
-    return { isPaused: queueManager.isPausedState() };
+    return {
+      isPaused: queueManager.isPausedState(),
+      batchCount: queueManager.getBatchCount(),
+      batchResumeAt: queueManager.getBatchResumeAt(),
+    };
   }
 
   // Expose addOutputLog for use by services
@@ -293,6 +352,7 @@ export const ProcessingStack = () => {
     data,
     actions: {
       addItem,
+      addItems,
       removeItem,
       removeAllItems,
       removeFinishedItems,
@@ -306,6 +366,7 @@ export const ProcessingStack = () => {
       pauseQueue,
       resumeQueue,
       getQueueStatus,
+      resetBatchCount,
     },
   };
 };

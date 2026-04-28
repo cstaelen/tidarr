@@ -39,6 +39,7 @@ async function shouldPostProcess(
 
   if (!hasFile) {
     item["status"] = "finished";
+    item["skipped"] = true;
     logs(item.id, "⚠️ [TIDARR] No file to process.");
     return false;
   }

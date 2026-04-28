@@ -107,25 +107,21 @@ export async function getArtistAlbums(item: ProcessingItemType): Promise<void> {
 
     logs(item.id, `📊 [DISCOGRAPHY] Found ${albums.length} albums`);
 
-    for (const album of albums) {
-      const artistName =
-        album.artists?.[0]?.name || album.artist?.name || item.artist;
+    const newItems: ProcessingItemType[] = albums.map((album) => ({
+      id: String(album.id),
+      url: `album/${album.id}`,
+      type: "album",
+      status: "queue_download",
+      loading: false,
+      artist:
+        album.artists?.[0]?.name || album.artist?.name || item.artist || "",
+      title: album.title,
+      quality: item.quality,
+      error: false,
+      source: "tidarr",
+    }));
 
-      const newItem: ProcessingItemType = {
-        id: String(album.id),
-        url: `album/${album.id}`,
-        type: "album",
-        status: "queue_download",
-        loading: false,
-        artist: artistName || "",
-        title: album.title,
-        quality: item.quality,
-        error: false,
-        source: "tidarr",
-      };
-
-      await app.locals.processingStack.actions.addItem(newItem);
-    }
+    await app.locals.processingStack.actions.addItems(newItems, true);
 
     logs(item.id, `✅ [DISCOGRAPHY] Added ${albums.length} albums to queue`);
   } catch (error) {
