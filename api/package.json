@@ -18,7 +18,7 @@
     "jsonwebtoken": "^9.0.3",
     "node-cron": "^4.2.1",
     "node-json-db": "^2.6.0",
-    "openid-client": "^6.8.3",
+    "openid-client": "^6.8.4",
     "toml": "^4.1.1",
     "ws": "^8.20.0"
   },
