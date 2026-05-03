@@ -131,8 +131,10 @@ export async function getPlaylistAlbums(itemId: string): Promise<void> {
     );
 
     if (albumsMap.size > 0) {
+      const newItems: ProcessingItemType[] = [];
+
       for (const [albumId, albumInfo] of albumsMap.entries()) {
-        const newItem: ProcessingItemType = {
+        newItems.push({
           id: albumId,
           url: `album/${albumId}`,
           type: "album",
@@ -143,10 +145,10 @@ export async function getPlaylistAlbums(itemId: string): Promise<void> {
           quality: item.quality,
           error: false,
           source: "tidarr",
-        };
-
-        await app.locals.processingStack.actions.addItem(newItem);
+        });
       }
+
+      await app.locals.processingStack.actions.addItems(newItems);
 
       logs(
         itemId,

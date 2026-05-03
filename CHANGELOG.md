@@ -15,7 +15,8 @@ Tidarr notable changes.
 - [Front] Discography download expands albums only when processing #750
 - [API] Batch download count now skips existing albums #750
 - [API] Optimize mass-items deletion in queue
-
+### 🐛 Fixed
+- [API] Fix memory issue with large queue
 
 
 ## 📦 1.2.1

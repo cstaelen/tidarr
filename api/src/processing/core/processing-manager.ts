@@ -143,6 +143,9 @@ export const ProcessingStack = () => {
       outputArray[outputArray.length - 1] = message;
     } else {
       outputArray.push(message);
+      if (outputArray.length > 500) {
+        outputArray.splice(0, outputArray.length - 500);
+      }
     }
 
     notifyItemOutput(app, idString, getItemOutput(idString));
