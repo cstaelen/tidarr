@@ -5,6 +5,7 @@ Tidarr notable changes.
 
 ## 📦 1.2.2
 ### ⚠️ Breaking Changes
+- [Tiddl] Update to v3.4.0a7
 - [API] `DOWNLOAD_BATCH_CRON` has been replaced by `DOWNLOAD_BATCH_DELAY` (minutes) to be more accurate. 
 **Don't forget to update your docker env var** #750
 ### 🚀 Added
@@ -14,6 +15,7 @@ Tidarr notable changes.
 - [Front] Discography download expands albums only when processing #750
 - [API] Batch download count now skips existing albums #750
 - [API] Optimize mass-items deletion in queue
+
 
 
 ## 📦 1.2.1
