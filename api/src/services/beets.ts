@@ -58,8 +58,7 @@ export async function beets(id: string): Promise<void> {
   const item: ProcessingItemType =
     app.locals.processingStack.actions.getItem(id);
 
-  if (!item || !["album", "artist", "favorite_albums"].includes(item.type))
-    return;
+  if (!item || item.type === "video") return;
 
   const itemProcessingPath = `${PROCESSING_PATH}/${item.id}`;
 

@@ -23,7 +23,7 @@ import:
     incremental: no
     quiet_fallback: asis
     timid: no
-    duplicate_action: asis
+    duplicate_action: merge
     log: /shared/beets/beet.log
     languages: ['en']
     group_albums: no
