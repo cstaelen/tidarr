@@ -6,6 +6,7 @@ Tidarr notable changes.
 ## 📦 1.2.3
 ### 🖍 Changes
 - [API] Beet is now applied to track, playlist to be able to merge
+- [API] Update Tiddl to 3.4.0
 
 ## 📦 1.2.2
 ### ⚠️ Breaking Changes
