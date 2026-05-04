@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.2.3
+### 🖍 Changes
+- [API] Beet is now applied to track, playlist to be able to merge
+
 ## 📦 1.2.2
 ### ⚠️ Breaking Changes
 - [Tiddl] Update to v3.4.0a7
