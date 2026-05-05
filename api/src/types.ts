@@ -114,6 +114,7 @@ export type SyncItemType = {
   lastUpdate?: string;
   quality: QualityType;
   type: ContentType;
+  paused?: boolean;
 };
 
 // API RESPONSES

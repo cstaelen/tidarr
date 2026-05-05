@@ -13,6 +13,7 @@ import {
   process_sync_list,
   removeAllFromSyncList,
   removeItemFromSyncList,
+  toggleSyncItemPaused,
 } from "../services/sync";
 import { SyncListResponse } from "../types";
 
@@ -109,6 +110,23 @@ router.post(
       res.sendStatus(202);
     } catch (error) {
       handleRouteError(error, res, "trigger sync");
+    }
+  },
+);
+
+/**
+ * PATCH /api/sync/toggle/:id
+ * Toggle the paused state of a sync list item
+ */
+router.patch(
+  "/sync/toggle/:id",
+  ensureAccessIsGranted,
+  async (req: Request, res: Response) => {
+    try {
+      const paused = await toggleSyncItemPaused(req.params.id);
+      res.status(200).json({ paused });
+    } catch (error) {
+      handleRouteError(error, res, "toggle sync item pause");
     }
   },
 );

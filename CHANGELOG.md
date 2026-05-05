@@ -4,6 +4,8 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 1.2.3
+### 🖍 Added
+- [Front] Add pause button on each item of the sync list
 ### 🖍 Changes
 - [API] Beet is now applied to track, playlist to be able to merge
 - [API] Update Tiddl to 3.4.0

@@ -10,10 +10,10 @@ ui:
     color: no
 
 paths:
-    default: %asciify{$albumartist}/$original_year - %asciify{$album}%aunique{}/$track - %asciify{$title}
-    singleton: Non-Album/%asciify{$artist} - %asciify{$title}
-    comp: Compilations/%asciify{$album}%aunique{}/$track - %asciify{$title}
-    albumtype_soundtrack: Soundtracks/%asciify{$album}%aunique{}/$track - %asciify{$title}
+    default: %asciify{$albumartist}/$original_year - %asciify{$album}%aunique{}/$track. %asciify{$title}
+    singleton: %asciify{$albumartist}/$original_year - %asciify{$album}%aunique{}/$track. %asciify{$title}
+    comp: Compilations/%asciify{$album}%aunique{}/$track. %asciify{$title}
+    albumtype_soundtrack: Soundtracks/%asciify{$album}%aunique{}/$track. %asciify{$title}
 
 import:
     write: yes

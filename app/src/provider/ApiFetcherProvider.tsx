@@ -54,6 +54,7 @@ type ApiFetcherContextType = {
     remove_sync_all_items: () => Promise<unknown>;
     get_sync_list: () => Promise<ProcessingItemType[] | undefined>;
     sync_now: () => Promise<void>;
+    toggle_sync_item: (id: string) => Promise<{ paused: boolean }>;
     get_custom_css: () => Promise<string | undefined>;
     set_custom_css: (
       css: string,
@@ -338,6 +339,13 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  async function toggle_sync_item(id: string): Promise<{ paused: boolean }> {
+    return await queryExpressJS<{ paused: boolean }>(
+      `${apiUrl}/sync/toggle/${id}`,
+      { method: "PATCH" },
+    );
+  }
+
   // Custom CSS
 
   async function get_custom_css() {
@@ -543,6 +551,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       remove_sync_item,
       remove_sync_all_items,
       sync_now,
+      toggle_sync_item,
       get_custom_css,
       set_custom_css,
       stream_item_output,

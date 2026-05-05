@@ -386,4 +386,5 @@ export type SyncItemType = {
   artist?: string;
   lastUpdate?: string;
   type: ContentType;
+  paused?: boolean;
 };

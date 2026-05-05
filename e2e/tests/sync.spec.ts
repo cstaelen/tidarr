@@ -286,6 +286,48 @@ test("Tidarr sync : Should be able to remove all items from watch list", async (
   await expect(page.getByRole("tab", { name: "Watch list" })).toBeVisible();
 });
 
+test("Tidarr sync : Should be able to pause and resume a sync item", async ({
+  page,
+}) => {
+  await runSearch(
+    "https://tidal.com/browse/playlist/0b5df380-47d3-48fe-ae66-8f0dba90b1ee",
+    page,
+  );
+
+  await expect(page.getByRole("main")).toContainText("Grown Country");
+
+  // Add to sync list
+  await page.getByTestId("btn-sync").nth(0).click();
+  await expect(page.getByTestId("btn-disable-sync")).toBeVisible();
+
+  // Go to watch list
+  await page.goto("/processing");
+  await page.getByRole("tab", { name: "Watch list (1)" }).click();
+  await expect(page.getByRole("cell", { name: "Grown Country" })).toBeVisible();
+
+  // Pause the item
+  await page.getByRole("button", { name: "Pause auto sync" }).click();
+  await expect(
+    page.getByRole("button", { name: "Resume auto sync" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Pause auto sync" }),
+  ).not.toBeVisible();
+
+  // Resume the item
+  await page.getByRole("button", { name: "Resume auto sync" }).click();
+  await expect(
+    page.getByRole("button", { name: "Pause auto sync" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Resume auto sync" }),
+  ).not.toBeVisible();
+
+  // Clean up
+  await page.getByRole("button", { name: "Remove from watch list" }).click();
+  await expect(page.getByText("No item in watch list.")).toBeVisible();
+});
+
 test("Tidarr sync : Should cancel remove all when user declines confirmation", async ({
   page,
 }) => {
