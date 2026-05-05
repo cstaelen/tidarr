@@ -74,6 +74,21 @@ export const removeAllFromSyncList = async () => {
   await syncListDb.push(SYNC_LIST_PATH, []);
 };
 
+export const toggleSyncItemPaused = async (id: string): Promise<boolean> => {
+  const syncList = await loadSyncList();
+  const itemIndex = syncList.findIndex((item) => item.id === id);
+
+  if (itemIndex === -1) throw new Error(`Sync item ${id} not found`);
+
+  const newPaused = !syncList[itemIndex].paused;
+  syncList[itemIndex] = { ...syncList[itemIndex], paused: newPaused };
+
+  syncListCache = syncList;
+  await syncListDb.push(SYNC_LIST_PATH, syncList);
+
+  return newPaused;
+};
+
 const updateSyncItem = async (id: string, update: Partial<SyncItemType>) => {
   const syncList = await loadSyncList();
   const itemIndex = syncList.findIndex((item) => item.id === id.toString());
@@ -103,6 +118,8 @@ export const process_sync_list = async (app: Express) => {
     const item: ProcessingItemType = app.locals.processingStack.actions.getItem(
       element.id,
     );
+    if (element.paused) continue;
+
     if (
       item &&
       ["processing", "download", "queue_download"].includes(item?.status)

@@ -17,6 +17,7 @@ interface SyncContextType {
     getSyncList: () => void;
     syncAllNow: () => Promise<void>;
     removeAllSyncItem: () => Promise<void>;
+    toggleSyncItem: (id: string) => Promise<void>;
   };
 }
 
@@ -33,6 +34,7 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
       get_sync_list,
       sync_now,
       remove_sync_all_items,
+      toggle_sync_item,
     },
   } = useApiFetcher();
 
@@ -62,6 +64,17 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     await remove_sync_all_items();
     getSyncList();
+  };
+
+  const toggleSyncItem = async (id: string) => {
+    const result = await toggle_sync_item(id);
+    if (result) {
+      setSyncList(
+        syncList.map((item) =>
+          item.id === id ? { ...item, paused: result.paused } : item,
+        ),
+      );
+    }
   };
 
   const addSyncItem = (item: SyncItemType) => {
@@ -99,6 +112,7 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
       getSyncList,
       syncAllNow,
       removeAllSyncItem,
+      toggleSyncItem,
     },
   };
 

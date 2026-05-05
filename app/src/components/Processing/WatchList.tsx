@@ -1,5 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { Sync, SyncDisabled } from "@mui/icons-material";
+import {
+  PauseCircle,
+  PlayCircle,
+  Sync,
+  SyncDisabled,
+} from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -30,7 +35,13 @@ type SortDir = "asc" | "desc";
 export default function WatchList() {
   const {
     syncList,
-    actions: { getSyncList, removeSyncItem, syncAllNow, removeAllSyncItem },
+    actions: {
+      getSyncList,
+      removeSyncItem,
+      syncAllNow,
+      removeAllSyncItem,
+      toggleSyncItem,
+    },
   } = useSync();
   const [extraPages, setExtraPages] = useState(0);
   const [sortKey, setSortKey] = useState<SortKey>("title");
@@ -157,6 +168,7 @@ export default function WatchList() {
                   key={row.id}
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
+                    opacity: row.paused ? 0.5 : 1,
                   }}
                 >
                   <TableCell>
@@ -194,6 +206,24 @@ export default function WatchList() {
                         justifyContent: "end",
                       }}
                     >
+                      <Tooltip
+                        title={
+                          row.paused ? "Resume auto sync" : "Pause auto sync"
+                        }
+                      >
+                        <Button
+                          onClick={() => toggleSyncItem(row.id)}
+                          size="small"
+                          variant="outlined"
+                          color={row.paused ? "warning" : "primary"}
+                          aria-label={
+                            row.paused ? "Resume auto sync" : "Pause auto sync"
+                          }
+                          sx={{ minWidth: 0 }}
+                        >
+                          {row.paused ? <PlayCircle /> : <PauseCircle />}
+                        </Button>
+                      </Tooltip>
                       <DownloadButton
                         id={row.id}
                         type={row.type}
