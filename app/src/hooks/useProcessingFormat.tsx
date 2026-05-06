@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 
 import {
   AlbumType,
@@ -6,70 +7,44 @@ import {
   ContentType,
   PlaylistType,
   ProcessingItemType,
-  QualityType,
   SyncItemType,
   TidalItemType,
   TrackType,
   VideoType,
 } from "../types";
 
-/**
- * Hook to format various item types into ProcessingItemType
- * Extracts id, title, artist, and url from different Tidal content types
- */
 export function useProcessingFormat() {
-  /**
-   * Format an item into a ProcessingItemType ready for the queue
-   * @param item - The Tidal content item (album, track, artist, etc.)
-   * @param type - The content type identifier
-   * @param quality - The download quality setting
-   * @returns Formatted ProcessingItemType or null if invalid
-   */
+  const { quality, atmosFilter } = useConfigProvider();
+
   const formatItem = useCallback(
-    (
-      item: TidalItemType,
-      type: ContentType,
-      quality: QualityType,
-    ): ProcessingItemType | null => {
-      // Extract ID (varies by item type)
+    (item: TidalItemType, type: ContentType): ProcessingItemType | null => {
+      if (!quality) return null;
+
       const id =
         (item as AlbumType | TrackType | ArtistType).id ||
         (item as PlaylistType).uuid;
 
       if (!id) return null;
 
-      // Extract title based on content type
-      const title = extractTitle(item, type);
-
-      // Extract artist based on content type
-      const artist = extractArtist(item, type);
-
-      // Extract URL
-      const url = extractUrl(item);
-
-      const itemToQueue: ProcessingItemType = {
+      return {
         id,
-        artist,
-        title,
+        artist: extractArtist(item, type),
+        title: extractTitle(item, type),
         type,
         quality,
+        atmosFilter,
         status: "queue_download",
         loading: true,
         error: false,
-        url,
+        url: extractUrl(item),
       };
-
-      return itemToQueue;
     },
-    [],
+    [quality, atmosFilter],
   );
 
   return { formatItem };
 }
 
-/**
- * Extract title from item based on content type
- */
 function extractTitle(item: TidalItemType, type: ContentType): string {
   switch (type) {
     case "artist":
@@ -81,9 +56,6 @@ function extractTitle(item: TidalItemType, type: ContentType): string {
   }
 }
 
-/**
- * Extract artist name from item based on content type
- */
 function extractArtist(item: TidalItemType, type: ContentType): string {
   switch (type) {
     case "artist":
@@ -94,13 +66,6 @@ function extractArtist(item: TidalItemType, type: ContentType): string {
   }
 }
 
-/**
- * Extract URL from item
- * For videos, use id.toString() as URL; for others, use url property
- */
 function extractUrl(item: TidalItemType): string {
-  if ((item as AlbumType)?.url) {
-    return (item as AlbumType)?.url;
-  }
-  return (item as VideoType).id.toString() || "";
+  return (item as AlbumType)?.url || (item as VideoType).id.toString() || "";
 }

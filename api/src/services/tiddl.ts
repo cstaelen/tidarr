@@ -63,6 +63,10 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     args.push(item.quality);
   }
 
+  if (item.atmosFilter && item.atmosFilter !== "none") {
+    args.push("--dolby-atmos", item.atmosFilter);
+  }
+
   if (["artist_videos", "video"].includes(item.type)) {
     args.push("--videos", "only");
   }

@@ -9,6 +9,7 @@ import { DownloadButton } from "../Buttons/DownloadButton";
 import { PlayerButton } from "../Buttons/PlayerButton";
 
 import { ArtistAvatar } from "./common/ArtistAvatar";
+import { ChipAtmos } from "./common/ChipAtmos";
 import { ChipQuality } from "./common/ChipQuality";
 import CoverLink from "./common/CoverLink";
 import ImageLazy from "./common/ImageLazy";
@@ -46,7 +47,7 @@ function StackChips({ track }: { track: TrackType }) {
       sx={{
         display: "flex",
         flexWrap: "wrap",
-        gap: 1.5,
+        gap: 0.5,
         alignItems: "center",
         my: 0.5,
       }}
@@ -58,6 +59,7 @@ function StackChips({ track }: { track: TrackType }) {
         size="small"
       />
       <ChipQuality quality={track?.audioQuality?.toLowerCase()} />
+      <ChipAtmos audioModes={track?.audioModes} />
       {track?.explicit && (
         <Chip label="Explicit" variant="outlined" size="small" />
       )}
@@ -69,7 +71,7 @@ function AlbumLink({ track }: { track: TrackType }) {
   const theme = useTheme();
 
   return (
-    <>
+    <div style={{ fontSize: "14px" }}>
       Album :{" "}
       <Link
         to={`/album/${track.album.id}`}
@@ -77,7 +79,7 @@ function AlbumLink({ track }: { track: TrackType }) {
       >
         {track.album.title}
       </Link>
-    </>
+    </div>
   );
 }
 
@@ -156,7 +158,7 @@ function ArtistLink({ track }: { track: TrackType }) {
   return (
     <Link
       to={`/artist/${track.artists[0].id}`}
-      style={{ color: theme.palette.primary.main }}
+      style={{ color: theme.palette.primary.main, fontSize: "14px" }}
     >
       {track.artists?.[0]?.name}
     </Link>
@@ -261,7 +263,6 @@ function TrackInline({ track }: { track: TrackType }) {
         sx={{
           width: "100%",
           alignItems: "center",
-          width: "100%",
           display: "grid",
           gridTemplateColumns: "4.5rem 1.5fr 1fr 1.5fr 2fr auto",
         }}
@@ -276,14 +277,7 @@ function TrackInline({ track }: { track: TrackType }) {
           <StackChips track={track} />
         </div>
         <div style={cellStyle}>
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{
-              flexWrap: "wrap",
-              alignItems: "center",
-            }}
-          >
+          <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
             <ArtistPic track={track} />
             <ArtistLink track={track} />
           </Stack>

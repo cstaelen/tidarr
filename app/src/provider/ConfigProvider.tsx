@@ -6,6 +6,7 @@ import {
 } from "src/contants";
 
 import {
+  AtmosFilterType,
   ConfigParametersType,
   ConfigTiddleType,
   ConfigType,
@@ -46,6 +47,7 @@ type ConfigContextType = {
   unseenReleases: ReleaseGithubType[];
   tokenMissing: boolean;
   quality: undefined | QualityType;
+  atmosFilter: undefined | AtmosFilterType;
   display: DisplayType;
   config: undefined | ConfigParametersType;
   tiddlConfig: undefined | ConfigTiddleType;
@@ -54,6 +56,7 @@ type ConfigContextType = {
     checkAPI: () => void;
     checkForUpdates: () => void;
     setQuality: (quality: QualityType) => void;
+    setAtmosFilter: (filter: AtmosFilterType) => void;
     setDisplay: (mode: DisplayType) => void;
     setConfigErrors: (errors: undefined | string[]) => void;
     markVersionAsSeen: () => void;
@@ -75,6 +78,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const [configErrors, setConfigErrors] = useState<string[] | undefined>();
 
   const [quality, setQuality] = useState<QualityType>();
+  const [atmosFilter, setAtmosFilter] = useState<AtmosFilterType>();
 
   const [display, setDisplay] = useState<DisplayType>(
     (localStorage.getItem(LOCALSTORAGE_DISPLAY_MODE) as DisplayType) || "small",
@@ -104,6 +108,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     setTiddlConfig(data?.tiddl_config);
     setConfigErrors(data?.configErrors);
     setQuality(data?.tiddl_config?.download?.track_quality);
+    setAtmosFilter(data?.tiddl_config?.download?.atmos_filter);
   };
 
   // Check Updates
@@ -188,6 +193,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     tokenMissing,
     config,
     quality,
+    atmosFilter,
     display,
     tiddlConfig,
     configErrors,
@@ -195,6 +201,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
       checkAPI,
       checkForUpdates,
       setQuality,
+      setAtmosFilter,
       setDisplay,
       setConfigErrors,
       markVersionAsSeen,

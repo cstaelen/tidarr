@@ -29,6 +29,7 @@ export type ProcessingItemType = {
     | "finished"
     | "error";
   quality: QualityType;
+  atmosFilter?: string; // "none" | "only" | "allow"
   url: string;
   loading: boolean;
   error: boolean;
@@ -67,13 +68,15 @@ export type TiddlConfig = {
     threads_count?: number;
     singles_filter?: string; // "none" | "only" | "include"
     videos_filter?: string; // "none" | "only" | "allow"
+    atmos_filter?: string; // "none" | "only" | "allow"
     update_mtime?: boolean;
     rewrite_metadata?: boolean;
   };
   metadata?: {
     enable?: boolean;
-    embed_lyrics?: boolean;
+    lyrics?: boolean;
     cover?: boolean;
+    album_review?: boolean;
   };
   cover?: {
     save?: boolean;

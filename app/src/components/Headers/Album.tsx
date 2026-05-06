@@ -8,6 +8,7 @@ import { JellyfinSearchButton } from "../Buttons/JellyfinSearchButton";
 import { NavidromeSearchButton } from "../Buttons/NavidromeSearchButton";
 import { PlexSearchButton } from "../Buttons/PlexSearchButton";
 import { ArtistAvatar } from "../Cards/common/ArtistAvatar";
+import { ChipAtmos } from "../Cards/common/ChipAtmos";
 import { ChipQuality } from "../Cards/common/ChipQuality";
 
 import PageHeader from "./Header";
@@ -75,6 +76,7 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
             }}
           >
             <ChipQuality quality={album.audioQuality.toLowerCase()} />
+            <ChipAtmos audioModes={album.audioModes} />
             <Chip label={`${album.numberOfTracks} tracks`} size="small" />
             <Chip
               label={`${Math.round(album.duration / 60)} min`}
