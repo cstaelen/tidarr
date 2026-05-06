@@ -8,6 +8,7 @@ import { NavidromeSearchButton } from "../Buttons/NavidromeSearchButton";
 import { PlayerButton } from "../Buttons/PlayerButton";
 import { PlexSearchButton } from "../Buttons/PlexSearchButton";
 import { ArtistAvatar } from "../Cards/common/ArtistAvatar";
+import { ChipAtmos } from "../Cards/common/ChipAtmos";
 import { ChipQuality } from "../Cards/common/ChipQuality";
 
 import PageHeader from "./Header";
@@ -82,6 +83,7 @@ export default function TrackHeader({ track }: { track: TrackType }) {
               size="small"
             />
             <ChipQuality quality={track.audioQuality.toLowerCase()} />
+            <ChipAtmos audioModes={track.audioModes} />
             {track.explicit && (
               <Chip label="Explicit" size="small" variant="outlined" />
             )}

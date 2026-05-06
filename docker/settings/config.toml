@@ -26,19 +26,19 @@ debug = false
 # then default template will be used.
 default = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
 
-track = "{album.artist}/{album.date:%Y} - {album.title}/{album.artist} - {item.title_version}"
+# track = "{album.artist}/{album.date:%Y} - {album.title}/{album.artist} - {item.title_version}"
+# album = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
+# playlist = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
+# mix = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
 video = "{album.artist}/videos/{item.artist}/{item.artist} - {item.title}"
-album = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
-playlist = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
 
 # Mixes are processed as playlist to get more metadatas
-mix = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
 
 [download]
 # low - 96 kbps, m4a
 # normal - 320 kbps, m4a
 # high - 16 bit, 44.1 kHz, flac
-# max - up to 24 bit, 192 kHz, flac 
+# max - up to 24 bit, 192 kHz, flac
 track_quality = "high"
 
 # sd - 360p
@@ -81,16 +81,38 @@ update_mtime = false
 # could be useful when data on Tidal has changed.
 rewrite_metadata = false
 
+# if this option is set to true, an .lrc file will be created alongside the
+# track file with the same name
+write_lrc_file = false
+
+# when enabled, existing path components are reused even if Tidal returns
+# different casing. This avoids creating separate paths on case-sensitive
+# filesystems that would conflict later when moved to case-insensitive systems.
+# For example, if "FooBar" already exists and the API returns "foobar",
+# downloads will continue under "FooBar".
+match_existing_path_case = false
+
+# Dolby Atmos filter
+# none - download only STEREO tracks
+# only - download only DOLBY_ATMOS tracks
+# allow - download both
+# (both versions won't be downloaded at a time, it depends on what Tidal returns)
+atmos_filter = "none"
+
 
 [metadata]
 # embed metadata in files
 enable = true
 
-# embed lyrics in metadata (see https://github.com/cstaelen/tidarr/issues/503)
-lyrics = false
+# embed lyrics in metadata
+lyrics = true
 
 # embed track cover in the track file
 cover = true
+
+# embed album review text to track COMMENT metadata field.
+# only works when downloading album
+album_review = false
 
 
 [cover]
@@ -117,13 +139,13 @@ allowed = [
 # you must set path templates if you want to save cover files.
 
 # you can access: {item}, {album}
-# track = "{album.artist}/{album.date:%Y} - {album.title}/{album.artist} - {item.title_version}"
+# track = "tracks/{item.id}"
 
 # you can access: {album}
-# album = "{album.artist}/{album.date:%Y} - {album.title}/{album.artist} - {album.title}"
+# album = "albums/{album.artist} - {album.title}"
 
 # you can access: {playlist}
-# playlist = "playlists/{playlist.title}/{title}"
+# playlist = "playlists/{playlist.title}"
 
 
 [m3u]
@@ -131,12 +153,12 @@ allowed = [
 save = true
 
 # "album", "mix", "playlist"
-allowed = ["mix", "playlist"]
+allowed = ["playlist"]
 
 [m3u.templates]
 # additional template values:
 # {type} - album/playlist/mix
 
-album = "m3u/{type}/{album.artist} - {album.title}"
+# album = "m3u/{type}/{album.artist} - {album.title}"
+# mix = "m3u/{type}/{now:%x}"
 playlist = "m3u/{type}/{playlist.title}"
-mix = "m3u/{type}/{now:%x}"

@@ -12,6 +12,7 @@ export type TrackType = {
   }[];
   duration: number;
   audioQuality: string;
+  audioModes?: string[];
   releaseDate: string;
   title: string;
   id: string;
@@ -56,6 +57,7 @@ export type AlbumType = {
   cover: string;
   duration: number;
   audioQuality: string;
+  audioModes?: string[];
   numberOfTracks: number;
   releaseDate: string;
   title: string;
@@ -263,13 +265,15 @@ export type ConfigTiddleType = {
     threads_count?: number;
     singles_filter?: string; // "none" | "only" | "include"
     videos_filter?: string; // "none" | "only" | "allow"
+    atmos_filter?: AtmosFilterType; // "none" | "only" | "allow"
     update_mtime?: boolean;
     rewrite_metadata?: boolean;
   };
   metadata?: {
     enable?: boolean;
-    embed_lyrics?: boolean;
+    lyrics?: boolean;
     cover?: boolean;
+    album_review?: boolean;
   };
   cover?: {
     save?: boolean;
@@ -333,6 +337,7 @@ export type LogType = {
 // PROCESSING LIST
 
 export type QualityType = "low" | "normal" | "high" | "max";
+export type AtmosFilterType = "none" | "only" | "allow";
 export type ContentType =
   | "artist"
   | "album"
@@ -353,6 +358,7 @@ export type ProcessingItemType = {
   artist: string;
   title: string;
   quality: QualityType;
+  atmosFilter?: AtmosFilterType;
   type: ContentType;
   status:
     | "queue_download"

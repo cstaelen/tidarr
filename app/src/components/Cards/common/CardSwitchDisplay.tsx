@@ -9,6 +9,7 @@ import { AlbumArtistType } from "src/types";
 import { formatDate } from "src/utils/helpers";
 
 import { ArtistAvatar } from "./ArtistAvatar";
+import { ChipAtmos } from "./ChipAtmos";
 import { ChipQuality } from "./ChipQuality";
 import CoverLink from "./CoverLink";
 import ImageLazy from "./ImageLazy";
@@ -218,6 +219,7 @@ type CardSwitchDisplayProps = {
 
   // Metadata chips
   audioQuality?: string;
+  audioModes?: string[];
   numberOfTracks?: number;
   duration?: number;
   releaseDate?: string;
@@ -236,6 +238,7 @@ export default function CardSwitchDisplay({
   subtitle,
   artist,
   audioQuality,
+  audioModes,
   numberOfTracks,
   duration,
   releaseDate,
@@ -366,6 +369,7 @@ export default function CardSwitchDisplay({
                 {audioQuality && (
                   <ChipQuality quality={audioQuality.toLowerCase()} />
                 )}
+                <ChipAtmos audioModes={audioModes} />
                 {numberOfTracks && (
                   <Chip label={`${numberOfTracks} tracks`} size="small" />
                 )}

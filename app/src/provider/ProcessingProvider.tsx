@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { EventSourceController } from "event-source-plus";
@@ -21,10 +22,7 @@ type ProcessingContextType = {
   actions: {
     setProcessingList: (list: ProcessingItemType[]) => void;
     setIsPaused: (isPaused: boolean) => void;
-    addItem: (
-      item: TidalItemType,
-      type: ContentType,
-    ) => Promise<void | undefined>;
+    addItem: (item: TidalItemType, type: ContentType) => Promise<void>;
     removeItem: (id: string) => Promise<void>;
     retryItem: (item: ProcessingItemType) => Promise<void | null>;
     downloadNow: (id: string) => Promise<void>;
@@ -40,117 +38,95 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [isPaused, setIsPaused] = useState<boolean>();
   const [batchCount, setBatchCount] = useState<number>(0);
   const [batchResumeAt, setBatchResumeAt] = useState<number | null>(null);
-  const [processingEventSource, setProcessingEventSource] =
-    useState<EventSourceController>();
+  const eventSourceRef = useRef<EventSourceController | null>(null);
 
   const {
     actions: { list_sse, remove, save, single_download },
   } = useApiFetcher();
   const {
-    quality,
     actions: { setConfigErrors },
   } = useConfigProvider();
   const { formatItem } = useProcessingFormat();
 
-  // Add item to processing list
   const addItem = async (
     item: TidalItemType,
     type: ContentType,
   ): Promise<void> => {
-    if (!quality) {
+    const itemToQueue = formatItem(item, type);
+    if (!itemToQueue) {
       setConfigErrors(["Cannot read quality settings"]);
       return;
     }
-
-    const itemToQueue = formatItem(item, type, quality);
-
     await save(JSON.stringify({ item: itemToQueue }));
   };
 
-  // Retry failed processing item
   const retryItem = async (item: ProcessingItemType): Promise<void | null> => {
     if (
-      processingList &&
-      processingList?.filter(
+      processingList?.some(
         (row) => row.id === item.id && row.status !== "error",
-      )?.length > 0
+      )
     )
       return null;
 
-    const itemToQueue: ProcessingItemType = {
-      ...item,
-      status: "queue_download",
-      loading: true,
-      error: false,
-    };
-
     await removeItem(item.id);
-    await save(JSON.stringify({ item: itemToQueue }));
+    await save(
+      JSON.stringify({
+        item: {
+          ...item,
+          status: "queue_download",
+          loading: true,
+          error: false,
+        },
+      }),
+    );
   };
 
-  // Trigger one-off download for a no_download item
   const downloadNow = async (id: string): Promise<void> => {
     await single_download(id);
   };
 
-  // Remove item to processing list
   const removeItem = async (id: string): Promise<void> => {
-    await remove(JSON.stringify({ id: id }));
+    await remove(JSON.stringify({ id }));
   };
 
-  // Update front data
-  const openStreamProcessing = useCallback(async () => {
-    if (processingEventSource) return;
-    const { controller } = await list_sse(
+  const closeStreamProcessing = useCallback(() => {
+    eventSourceRef.current?.abort();
+    eventSourceRef.current = null;
+  }, []);
+
+  useEffect(() => {
+    if (eventSourceRef.current) return;
+
+    const { controller } = list_sse(
       setProcessingList,
       setIsPaused,
       setBatchCount,
       setBatchResumeAt,
     );
-    setProcessingEventSource(controller);
-  }, [list_sse, processingEventSource]);
-
-  const closeStreamProcessing = useCallback(async () => {
-    if (processingEventSource) {
-      processingEventSource.abort();
-      setProcessingEventSource(undefined);
-    }
-  }, [processingEventSource]);
-
-  // First load
-  useEffect(() => {
-    function run() {
-      openStreamProcessing();
-    }
-
-    if (processingEventSource) return;
-
-    run();
-
+    eventSourceRef.current = controller;
     window.addEventListener("beforeunload", closeStreamProcessing);
-
     return () => {
       window.removeEventListener("beforeunload", closeStreamProcessing);
     };
-  }, [processingEventSource, closeStreamProcessing, openStreamProcessing]);
-
-  const value = {
-    processingList,
-    isPaused,
-    batchCount,
-    batchResumeAt,
-    actions: {
-      setProcessingList,
-      setIsPaused,
-      addItem,
-      removeItem,
-      retryItem,
-      downloadNow,
-    },
-  };
+  }, [closeStreamProcessing, list_sse]);
 
   return (
-    <ProcessingContext.Provider value={value}>
+    <ProcessingContext.Provider
+      value={{
+        processingList,
+        isPaused,
+        batchCount,
+        batchResumeAt,
+        actions: {
+          setProcessingList,
+          setIsPaused,
+          addItem,
+          removeItem,
+          retryItem,
+          downloadNow,
+        },
+      }}
+    >
       {children}
     </ProcessingContext.Provider>
   );

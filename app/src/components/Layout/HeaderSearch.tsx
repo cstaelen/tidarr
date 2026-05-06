@@ -12,6 +12,7 @@ import { useAuth } from "src/provider/AuthProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { QualityType } from "src/types";
 
+import AtmosFilterButton from "../Buttons/AtmosFilterButton";
 import DisplayButton from "../Buttons/DisplayModeButton";
 import LogoutButton from "../Buttons/LogoutButton";
 import SettingsButton from "../Buttons/SettingsButton";
@@ -137,6 +138,13 @@ export const HeaderSearch = () => {
               </ToggleButtonGroup>
             </Box>
             &nbsp;
+            <Box
+              sx={{
+                flex: "0 0 auto",
+              }}
+            >
+              <AtmosFilterButton />
+            </Box>
             <Box
               sx={{
                 flex: "0 0 auto",

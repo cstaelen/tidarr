@@ -4,11 +4,14 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 1.2.3
-### 🖍 Added
+### 🚀 Added
+- [API] Allow Dolby Atmos download
 - [Front] Add pause button on each item of the sync list
+- [Front] Show Dolby Atmos availability on tracks
 ### 🖍 Changes
 - [API] Beet is now applied to track, playlist to be able to merge
-- [API] Update Tiddl to 3.4.0
+- [API] Update Tiddl to 3.4.1
+- [Tiddl] Tiddl added `atmos_filter` parameters. ⚠️ Update your `config.toml` file.
 
 ## 📦 1.2.2
 ### ⚠️ Breaking Changes
