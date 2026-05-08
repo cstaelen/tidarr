@@ -353,6 +353,20 @@ export type ContentType =
   | "video"
   | "mix";
 
+export type HistoryItem = {
+  id: string;
+  type: ContentType;
+  title: string;
+  artist: string;
+};
+
+export type HistoryListResponse = {
+  total: number;
+  offset: number;
+  limit: number | null;
+  items: HistoryItem[];
+};
+
 export type ProcessingItemType = {
   id: string;
   artist: string;

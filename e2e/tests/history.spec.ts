@@ -8,7 +8,13 @@ test("History: Should see and clear all history when flush is called", async ({
   page,
 }) => {
   let historyDeleteCalled = false;
-  const historyAfterDelete: string[] = [];
+
+  const makeHistoryResponse = (ids: string[]) => ({
+    total: ids.length,
+    offset: 0,
+    limit: null,
+    items: ids.map((id) => ({ id, type: "album", title: id, artist: "" })),
+  });
 
   // Mock initial history list with items
   await page.route("**/history/list", async (route) => {
@@ -20,8 +26,8 @@ test("History: Should see and clear all history when flush is called", async ({
 
     // GET request - return history based on whether delete was called
     const mockHistory = historyDeleteCalled
-      ? historyAfterDelete
-      : ["77610756", "77610844"];
+      ? makeHistoryResponse([])
+      : makeHistoryResponse(["77610756", "77610844"]);
     await route.fulfill({ status: 200, json: mockHistory });
   });
 

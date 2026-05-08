@@ -479,23 +479,35 @@ curl -X POST http://localhost:8484/api/single-download \
 
 ### Get download history
 
+Supports optional pagination via `offset` and `limit` query parameters.
+
 ```bash
 curl http://localhost:8484/api/history/list \
+  -H "X-Api-Key: your-api-key"
+
+# Paginated
+curl "http://localhost:8484/api/history/list?offset=0&limit=100" \
   -H "X-Api-Key: your-api-key"
 ```
 
 **Response:**
 ```json
-[
-  {
-    "id": "251082404",
-    "type": "album",
-    "url": "https://listen.tidal.com/album/251082404",
-    "title": "Album Name",
-    "downloadedAt": 1234567890
-  }
-]
+{
+  "total": 42,
+  "offset": 0,
+  "limit": null,
+  "items": [
+    {
+      "id": "251082404",
+      "type": "album",
+      "title": "Album Name",
+      "artist": "Artist Name"
+    }
+  ]
+}
 ```
+
+> `limit` is `null` when no limit is specified (all items returned). The `url` can be reconstructed as `https://listen.tidal.com/{type}/{id}`.
 
 ---
 

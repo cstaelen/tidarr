@@ -15,6 +15,13 @@ export type ContentType =
   | "artist_videos"
   | "mix";
 
+export type HistoryItem = {
+  id: string;
+  type: ContentType;
+  title: string;
+  artist: string;
+};
+
 export type ProcessingItemType = {
   id: string;
   artist: string;

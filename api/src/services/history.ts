@@ -1,9 +1,10 @@
 import { getAppInstance } from "../helpers/app-instance";
 import { historyDb } from "../services/db-json";
+import { HistoryItem, ProcessingItemType } from "../types";
 
 const QUEUE_PATH = "/";
 
-export async function loadHistoryFromFile(): Promise<string[]> {
+export async function loadHistoryFromFile(): Promise<HistoryItem[]> {
   if (process.env.ENABLE_HISTORY !== "true") {
     return [];
   }
@@ -20,25 +21,30 @@ export async function loadHistoryFromFile(): Promise<string[]> {
   }
 }
 
-export async function addItemToHistory(itemId: string) {
+export async function addItemToHistory(item: ProcessingItemType) {
   if (process.env.ENABLE_HISTORY !== "true") {
     return;
   }
 
   const app = getAppInstance();
-  const id = itemId.toString();
+  const id = String(item.id);
 
-  // O(1) lookup using Set instead of O(n) array.includes()
   if (app.locals.historySet.has(id)) {
     return;
   }
 
-  app.locals.history.push(id);
+  const historyItem: HistoryItem = {
+    id,
+    type: item.type,
+    title: item.title,
+    artist: item.artist,
+  };
+
+  app.locals.history.push(historyItem);
   app.locals.historySet.add(id);
 
-  // Write only the new item at the end of the array (more efficient than rewriting entire file)
   const newIndex = app.locals.history.length - 1;
-  await historyDb.push(`/${newIndex}`, id, false);
+  await historyDb.push(`/${newIndex}`, historyItem, false);
   console.log(`✅ [HISTORY] Item "${id}" added to history.`);
 }
 

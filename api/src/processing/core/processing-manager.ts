@@ -259,7 +259,7 @@ export const ProcessingStack = () => {
   function updateItem(item: ProcessingItemType) {
     if (item?.status === "finished" || item?.status === "error") {
       // Add item to history (if enabled)
-      addItemToHistory(item.id);
+      addItemToHistory(item);
 
       queueManager.processQueue();
     }
