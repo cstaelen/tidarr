@@ -10,7 +10,7 @@ Tidarr notable changes.
 - [Front] Show Dolby Atmos availability on tracks
 ### 🖍 Changes
 - [API] Beet is now applied to track, playlist to be able to merge
-- [API] Update Tiddl to 3.4.1
+- [API] Update Tiddl to 3.4.3 (Fix auth and facebookId issue)
 - [Tiddl] Tiddl added `atmos_filter` parameters. ⚠️ Update your `config.toml` file.
 
 ## 📦 1.2.2
