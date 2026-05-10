@@ -9,7 +9,6 @@ import { checkConfig } from "./src/helpers/check-config";
 import { get_tiddl_config } from "./src/helpers/get_tiddl_config";
 import { gracefulShutdown } from "./src/helpers/gracefull_shutdown";
 import { logExpiresToken } from "./src/helpers/refresh-token";
-import { migrateHistory } from "./src/migrations/history-migration";
 import { ProcessingStack } from "./src/processing/core/processing-manager";
 import { cleanFolder } from "./src/processing/utils/jobs";
 import { setupJellyfinProxy } from "./src/proxies/jellyfin";
@@ -115,13 +114,10 @@ const server = app.listen(port, async () => {
   const apiKey = getOrCreateApiKey();
   console.log(`🔑 [TIDARR] API key ready (${apiKey.substring(0, 8)}...)`);
 
-  // Migrate history file format if needed (legacy string[] → HistoryItem[])
-  await migrateHistory();
-
   // Load download history
   const history = await loadHistoryFromFile();
   app.locals.history = history;
-  app.locals.historySet = new Set(history.map((item) => item.id));
+  app.locals.historySet = new Set(history);
 
   // Load queue file on startup
   await app.locals.processingStack.actions.loadDataFromFile();

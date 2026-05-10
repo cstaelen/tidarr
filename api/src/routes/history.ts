@@ -9,7 +9,7 @@ const router = Router();
 
 /**
  * GET /api/history/list
- * Get the download history, optionally paginated via ?offset=0&limit=100
+ * Get the download history
  */
 router.get(
   "/history/list",
@@ -17,26 +17,7 @@ router.get(
   (_req: Request, res: Response) => {
     try {
       const app = getAppInstance();
-      const history = app.locals.history;
-
-      const offset = Math.max(
-        0,
-        parseInt(String(_req.query.offset ?? 0), 10) || 0,
-      );
-      const limit =
-        Math.max(1, parseInt(String(_req.query.limit ?? 0), 10) || 0) ||
-        undefined;
-
-      const items = limit
-        ? history.slice(offset, offset + limit)
-        : history.slice(offset);
-
-      res.json({
-        total: history.length,
-        offset,
-        limit: limit ?? null,
-        items,
-      });
+      res.json(app.locals.history);
     } catch (error) {
       handleRouteError(error, res, "get history");
     }

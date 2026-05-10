@@ -38,7 +38,7 @@ export function HistoryProvider({ children }: { children: ReactNode }) {
     if (config?.ENABLE_HISTORY !== "true") return;
     async function get_list() {
       const data = await get_list_history();
-      setHistory(data?.map((item) => item.id) || []);
+      setHistory(data || []);
     }
 
     get_list();

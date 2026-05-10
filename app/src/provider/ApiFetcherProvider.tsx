@@ -15,8 +15,6 @@ import {
   AuthType,
   CheckAuthType,
   ConfigType,
-  HistoryItem,
-  HistoryListResponse,
   LogType,
   ProcessingItemType,
 } from "../types";
@@ -78,7 +76,7 @@ type ApiFetcherContextType = {
     get_queue_status: () => Promise<
       { isPaused: boolean; batchCount: number } | undefined
     >;
-    get_list_history: () => Promise<HistoryItem[] | undefined>;
+    get_list_history: () => Promise<string[] | undefined>;
     flush_history: () => Promise<unknown>;
     signStream: (id: string) => Promise<{ url: string } | undefined>;
     get_api_key: () => Promise<
@@ -476,16 +474,12 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
   // Queue History
 
   async function get_list_history() {
-    const data = await queryExpressJS<HistoryListResponse>(
-      `${apiUrl}/history/list`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+    return await queryExpressJS<string[]>(`${apiUrl}/history/list`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
-    return data?.items;
+    });
   }
 
   async function flush_history() {
