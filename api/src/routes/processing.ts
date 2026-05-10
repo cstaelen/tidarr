@@ -7,6 +7,7 @@ import {
   validateItemMiddleware,
   validateRequestBody,
 } from "../helpers/validation";
+import { sanitizeProcessingData } from "../processing/core/processing-manager";
 
 const router = Router();
 
@@ -131,6 +132,22 @@ router.post(
       res.sendStatus(204);
     } catch (error) {
       handleRouteError(error, res, "single download");
+    }
+  },
+);
+
+/**
+ * GET /api/queue/list
+ * Get the current download queue
+ */
+router.get(
+  "/queue/list",
+  ensureAccessIsGranted,
+  (req: Request, res: Response) => {
+    try {
+      res.json(sanitizeProcessingData(req.app.locals.processingStack.data));
+    } catch (error) {
+      handleRouteError(error, res, "get queue list");
     }
   },
 );

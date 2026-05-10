@@ -410,6 +410,34 @@ curl -X DELETE http://localhost:8484/api/remove-finished \
 
 ## Queue Management
 
+### Get queue list
+
+```bash
+curl http://localhost:8484/api/queue/list \
+  -H "X-Api-Key: your-api-key"
+```
+
+**Response:**
+```json
+[
+  {
+    "id": "251082404",
+    "type": "album",
+    "title": "Album Name",
+    "artist": "Artist Name",
+    "quality": "max",
+    "status": "finished",
+    "url": "https://listen.tidal.com/album/251082404",
+    "loading": false,
+    "error": false
+  }
+]
+```
+
+**Possible `status` values:** `queue_download`, `download`, `queue_processing`, `processing`, `finished`, `error`
+
+---
+
 ### Pause the queue
 
 ```bash
@@ -486,15 +514,7 @@ curl http://localhost:8484/api/history/list \
 
 **Response:**
 ```json
-[
-  {
-    "id": "251082404",
-    "type": "album",
-    "url": "https://listen.tidal.com/album/251082404",
-    "title": "Album Name",
-    "downloadedAt": 1234567890
-  }
-]
+["251082404", "77610756", "123456789"]
 ```
 
 ---
