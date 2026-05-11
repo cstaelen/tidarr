@@ -412,29 +412,42 @@ curl -X DELETE http://localhost:8484/api/remove-finished \
 
 ### Get queue list
 
+Supports optional pagination via `offset` and `limit` query parameters.
+
 ```bash
 curl http://localhost:8484/api/queue/list \
+  -H "X-Api-Key: your-api-key"
+
+# Paginated
+curl "http://localhost:8484/api/queue/list?offset=0&limit=50" \
   -H "X-Api-Key: your-api-key"
 ```
 
 **Response:**
 ```json
-[
-  {
-    "id": "251082404",
-    "type": "album",
-    "title": "Album Name",
-    "artist": "Artist Name",
-    "quality": "max",
-    "status": "finished",
-    "url": "https://listen.tidal.com/album/251082404",
-    "loading": false,
-    "error": false
-  }
-]
+{
+  "total": 42,
+  "offset": 0,
+  "limit": null,
+  "queue": [
+    {
+      "id": "251082404",
+      "type": "album",
+      "title": "Album Name",
+      "artist": "Artist Name",
+      "quality": "max",
+      "status": "finished",
+      "url": "http://www.tidal.com/album/251082404",
+      "loading": false,
+      "error": false
+    }
+  ]
+}
 ```
 
 **Possible `status` values:** `queue_download`, `download`, `queue_processing`, `processing`, `finished`, `error`
+
+> `limit` is `null` when no limit is specified (all items returned).
 
 ---
 
