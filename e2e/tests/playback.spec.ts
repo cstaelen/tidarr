@@ -78,10 +78,8 @@ test.describe("Tidarr Player", () => {
     // Wait for player to appear
     await page.waitForTimeout(1000);
 
-    // Verify SpeedDial (player FAB) is visible
-    await expect(
-      page.locator('[aria-label="Track audio player"]'),
-    ).toBeVisible();
+    // Verify player FAB is visible
+    await expect(page.locator('[aria-label="Toggle player"]')).toBeVisible();
   });
 
   test("Should display player UI, controls, and handle interactions", async ({
@@ -97,12 +95,11 @@ test.describe("Tidarr Player", () => {
     const firstTrack = page.getByTestId("item").first();
     await firstTrack.getByLabel("Play track").click();
 
-    // Open player by clicking on SpeedDial
-    const speedDial = page.locator('[aria-label="Track audio player"]');
-    const speedDialParent = page.locator("#Trackaudioplayer-action-1");
-    await speedDial.hover();
+    const speedDial = page.locator('[aria-label="Toggle player"]');
+    const playerPanel = page.getByTestId("floating-player-panel");
 
-    await expect(speedDialParent).toBeVisible();
+    // Player panel opens automatically on play
+    await expect(playerPanel).toBeVisible();
 
     // Verify track title appears in player (use last() to get the one in the player, not search results)
     await expect(
@@ -137,7 +134,7 @@ test.describe("Tidarr Player", () => {
     await stopButton.click();
     await page.waitForTimeout(500);
 
-    // Player FAB should be hidden
+    // Player FAB should be hidden after stop
     await expect(speedDial).toBeHidden();
   });
 
@@ -164,7 +161,6 @@ test.describe("Tidarr Player", () => {
 
     // Second track should still show play icon
     await expect(secondTrack.getByLabel("Play track")).toBeVisible();
-    await page.locator(".MuiBackdrop-root").click();
     // Click play on second track (should switch playback)
     await secondTrack.getByLabel("Play track").click();
     await page.waitForTimeout(500);

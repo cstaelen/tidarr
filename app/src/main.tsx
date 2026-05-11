@@ -4,6 +4,7 @@ import { ThemeProvider } from "@emotion/react";
 import { createTheme, CssBaseline } from "@mui/material";
 
 import MainLayout from "./components/MainLayout";
+import { FloatingPlayer } from "./components/Player/FloatingPlayer";
 import PrivateRoute, { ROUTE_LOGIN } from "./components/Security/PrivateRoute";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -58,8 +59,7 @@ root.render(
         <ConfigProvider>
           <AuthProvider>
             <PlayerProvider>
-              {" "}
-              {}
+              <FloatingPlayer />
               <Routes>
                 <Route path={ROUTE_LOGIN} element={<Login />} />
                 <Route element={<PrivateRoute />}>
