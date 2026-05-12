@@ -71,7 +71,7 @@ export async function addAlbumToQueue(
       type: "album" as const,
       status: "queue_download" as const,
       quality: tiddlQuality,
-      url: `album/${id}`,
+      url: `https://www.tidal.com/album/${id}`,
       loading: true,
       error: false,
       source: "lidarr" as const,

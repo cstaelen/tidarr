@@ -8,9 +8,11 @@ Tidarr notable changes.
 - [API] Allow Dolby Atmos download
 - [Front] Add pause button on each item of the sync list
 - [Front] Show Dolby Atmos availability on tracks
+- [API] Add REST queue list endpoint #782
 ### 🖍 Changes
+- [Front] Remove player auto close - Fix drawer instability
 - [API] Beet is now applied to track, playlist to be able to merge
-- [API] Update Tiddl to 3.4.1
+- [API] Update Tiddl to 3.4.3 (Fix auth and facebookId issue)
 - [Tiddl] Tiddl added `atmos_filter` parameters. ⚠️ Update your `config.toml` file.
 
 ## 📦 1.2.2
