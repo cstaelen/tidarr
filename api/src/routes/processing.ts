@@ -7,6 +7,7 @@ import {
   validateItemMiddleware,
   validateRequestBody,
 } from "../helpers/validation";
+import { sanitizeProcessingData } from "../processing/core/processing-manager";
 
 const router = Router();
 
@@ -131,6 +132,35 @@ router.post(
       res.sendStatus(204);
     } catch (error) {
       handleRouteError(error, res, "single download");
+    }
+  },
+);
+
+/**
+ * GET /api/queue/list
+ * Get the current download queue
+ */
+router.get(
+  "/queue/list",
+  ensureAccessIsGranted,
+  (req: Request, res: Response) => {
+    try {
+      const all = sanitizeProcessingData(
+        req.app.locals.processingStack.data,
+      ).reverse();
+      const offset = Math.max(
+        0,
+        parseInt(String(req.query.offset ?? 0), 10) || 0,
+      );
+      const limit =
+        Math.max(1, parseInt(String(req.query.limit ?? 0), 10) || 0) ||
+        undefined;
+      const queue = limit
+        ? all.slice(offset, offset + limit)
+        : all.slice(offset);
+      res.json({ total: all.length, offset, limit: limit ?? null, queue });
+    } catch (error) {
+      handleRouteError(error, res, "get queue list");
     }
   },
 );
