@@ -44,16 +44,16 @@ function AnimatedEqualizer({ animated }: { animated?: boolean }) {
 export function FloatingPlayer() {
   const { playingTrack, streamUrl, isPlaying } = usePlayer();
   const [open, setOpen] = useState(false);
+  const [lastStreamUrl, setLastStreamUrl] = useState(streamUrl);
   const audioRef = useRef<HTMLAudioElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  if (streamUrl !== lastStreamUrl) {
+    setLastStreamUrl(streamUrl);
     if (streamUrl) setOpen(true);
-  }, [streamUrl]);
+  }
 
   useEffect(() => {
-    if (!open) return;
-
     function handleClickOutside(e: MouseEvent) {
       if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
         setOpen(false);
@@ -62,7 +62,7 @@ export function FloatingPlayer() {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [open]);
+  }, []);
 
   if (!streamUrl) return null;
 
