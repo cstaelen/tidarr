@@ -45,14 +45,14 @@ test("Tidarr Home : Should be able to sort playlists and favorites", async ({
     "Mes titres Shazam",
   );
 
-  await page.getByRole("combobox", { name: "Sort Most recent" }).click();
+  await page.getByTestId("sort-selector").getByRole("combobox").click();
   await page.getByRole("option", { name: "Recently updated" }).click();
 
   await expect(page.getByTestId("item").first()).toContainText(
     "test clem à supprimer",
   );
 
-  await page.getByRole("combobox", { name: "Sort Recently updated" }).click();
+  await page.getByTestId("sort-selector").getByRole("combobox").click();
   await page.getByRole("option", { name: "Alphabetical" }).click();
 
   await expect(page.getByTestId("item").first()).toContainText(
