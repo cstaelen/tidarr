@@ -8,6 +8,7 @@ Tidarr notable changes.
 - [API] Allow Dolby Atmos download
 - [Front] Add pause button on each item of the sync list
 - [Front] Show Dolby Atmos availability on tracks
+- [API] Add REST queue list endpoint #782
 ### 🖍 Changes
 - [Front] Remove player auto close - Fix drawer instability
 - [API] Beet is now applied to track, playlist to be able to merge
