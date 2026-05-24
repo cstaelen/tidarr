@@ -7,15 +7,15 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.0.1",
     "@mui/material": "^9.0.1",
-    "@types/node": "^25.8.0",
-    "@types/react": "^19.2.14",
+    "@types/node": "^25.9.1",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
     "event-source-plus": "0.1.15",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.15.1",
-    "vite": "^8.0.13"
+    "vite": "^8.0.14"
   },
   "scripts": {
     "start": "vite dev",
@@ -38,7 +38,7 @@
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
     "ansi-to-react": "^6.2.6",
-    "markdown-to-jsx": "^9.8.0",
+    "markdown-to-jsx": "^9.8.1",
     "monaco-editor": "^0.55.1"
   }
 }

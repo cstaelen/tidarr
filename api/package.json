@@ -7,7 +7,7 @@
     "@types/express": "^5.0.5",
     "@types/express-http-proxy": "^1.6.7",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^25.8.0",
+    "@types/node": "^25.9.1",
     "@types/ws": "^8.18.1"
   },
   "dependencies": {
@@ -20,7 +20,7 @@
     "node-json-db": "^2.6.0",
     "openid-client": "^6.8.4",
     "toml": "^4.1.1",
-    "ws": "^8.20.1"
+    "ws": "^8.21.0"
   },
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",
