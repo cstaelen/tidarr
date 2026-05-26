@@ -1,6 +1,7 @@
 import { Express } from "express";
 
 import { tidalDL } from "../../services/tiddl";
+import { tidalDlDownload } from "../../services/tidal-dl";
 import { ProcessingItemType } from "../../types";
 import { getArtistAlbums } from "../utils/artist-discography";
 import { logs } from "../utils/logs";
@@ -69,8 +70,10 @@ export async function handleDownload(
     item["url"] = `playlist/${playlistId}`;
   }
 
-  // Start tiddl download
-  const child = tidalDL(item.id, app, async () => {
+  // Start selected Tidal downloader
+  const downloader = process.env.TIDARR_DOWNLOADER === "tidal-dl" ? tidalDlDownload : tidalDL;
+  logs(item.id, `⬇️ [DOWNLOAD] Provider: ${process.env.TIDARR_DOWNLOADER || "tiddl"}`);
+  const child = downloader(item.id, app, async () => {
     // Download completed, invoke callback
     onComplete(playlistId);
   });

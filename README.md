@@ -566,6 +566,23 @@ You can also install additional Python packages by placing a **`requirements.txt
 >
 > 📖 [View complete documentation](docs/CUSTOM_SCRIPT_DOCUMENTATION.md)
 
+### TIDAL-DL downloader backend
+
+Tidarr uses `tiddl` by default. This fork can route queue downloads through the legacy `tidal-dl` CLI instead:
+
+```yaml
+environment:
+  - TIDARR_DOWNLOADER=tidal-dl
+  - TIDAL_DL_BINARY=tidal-dl
+```
+
+Valid values:
+
+- `TIDARR_DOWNLOADER=tiddl` — upstream default.
+- `TIDARR_DOWNLOADER=tidal-dl` — execute `tidal-dl -l <tidal-url> -q <quality> -o <download-path>` from the existing queue pipeline.
+
+`tidal-dl` is installed in the Docker image. Authentication, output-path defaults, and other detailed download preferences still depend on the `tidal-dl` configuration generated for the container user.
+
 ### NO DOWNLOAD
 
 If you want to use Tidarr only as UI and not download files, you can set `NO_DOWNLOAD=true` in the environment variables.
