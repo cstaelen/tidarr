@@ -63,7 +63,7 @@ Add Tidarr as a **SABnzbd** download client:
 | **Enable**   | ✅ Enabled                         |
 | **Host**     | `your-tidarr-url`                  |
 | **Port**     | `8484`                             |
-| **URL Base** | `/api/sabnzbd/api`                 |
+| **URL Base** | `/api/sabnzbd`                     |
 | **API Key**  | Get from Tidarr (see below)        |
 | **Category** | `music` (optional but recommended) |
 
