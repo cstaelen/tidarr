@@ -254,12 +254,20 @@ export function tidalToken(req: Request, res: Response) {
 
 export function deleteTiddlConfig() {
   try {
-    spawnSync(TIDDL_BINARY, ["auth", "logout"], {
+    const result = spawnSync(TIDDL_BINARY, ["auth", "logout", "--force"], {
       env: { ...process.env },
+      encoding: "utf-8",
     });
-    console.log(
-      `✅ [TIDDL] Auth tokens deleted from ${CONFIG_PATH}/.tiddl/auth.json`,
-    );
+    if (result.status === 0) {
+      console.log(
+        `✅ [TIDDL] Auth tokens deleted from ${CONFIG_PATH}/.tiddl/auth.json`,
+      );
+    } else {
+      console.error(
+        `❌ [TIDDL] tiddl auth logout --force exited with code ${result.status}` +
+          (result.stderr ? `:\n${result.stderr.trim()}` : ""),
+      );
+    }
   } catch (e) {
     console.error("❌ [TIDDL] Error deleting tiddl config:", e);
   }
