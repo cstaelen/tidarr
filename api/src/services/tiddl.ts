@@ -284,6 +284,9 @@ export async function refreshTidalToken(): Promise<void> {
       },
     });
 
+    const stderrChunks: Buffer[] = [];
+    refreshProcess.stderr?.on("data", (chunk) => stderrChunks.push(chunk));
+
     refreshProcess.on("close", async (code) => {
       if (code === 0) {
         console.log(
@@ -292,7 +295,10 @@ export async function refreshTidalToken(): Promise<void> {
         // Wait 500ms to ensure file is written to disk before resolving
         await new Promise((r) => setTimeout(r, 500));
       } else {
-        console.log(`⚠️ [TIDDL] Token refresh exited with code ${code}`);
+        const err = Buffer.concat(stderrChunks).toString("utf-8").trim();
+        console.log(
+          `⚠️ [TIDDL] Token refresh exited with code ${code}${err ? `:\n${err}` : ""}`,
+        );
       }
       resolve();
     });
