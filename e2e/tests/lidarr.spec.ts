@@ -83,7 +83,7 @@ test("Lidarr Indexer: Should return album items with Newznab attributes", async 
   }
 });
 
-test("Lidarr Indexer: Should return 4 quality variants per album", async ({
+test("Lidarr Indexer: Should return all quality variants when no category is requested", async ({
   page,
 }) => {
   await page.goto("/");
@@ -94,11 +94,30 @@ test("Lidarr Indexer: Should return 4 quality variants per album", async ({
   expect(searchResponse).toBeTruthy();
 
   if (searchResponse && searchResponse.includes("<item>")) {
-    // Each album should have 4 quality variants
-    expect(searchResponse).toContain("[FLAC 24bit]"); // hires_lossless
-    expect(searchResponse).toContain("[FLAC]"); // lossless
-    expect(searchResponse).toContain("[AAC-320]"); // high
-    expect(searchResponse).toContain("[MP3-96]"); // low
+    expect(searchResponse).toContain("[FLAC 24bit]");
+    expect(searchResponse).toContain("[FLAC]");
+    expect(searchResponse).toContain("[AAC-320]");
+    expect(searchResponse).toContain("[MP3-96]");
+  }
+});
+
+test("Lidarr Indexer: Should infer requested quality from category", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  const response = await page.request.get(
+    "/api/lidarr?t=search&q=Nirvana&cat=3040",
+  );
+  const searchResponse = await response.text();
+
+  expect(searchResponse).toBeTruthy();
+
+  if (searchResponse && searchResponse.includes("<item>")) {
+    expect(searchResponse).toContain("[FLAC 24bit]");
+    expect(searchResponse).toContain("[FLAC]");
+    expect(searchResponse).not.toContain("[AAC-320]");
+    expect(searchResponse).not.toContain("[MP3-96]");
   }
 });
 
@@ -107,23 +126,21 @@ test("Lidarr Indexer: Should download NZB file for album with quality", async ({
 }) => {
   await page.goto("/");
 
-  // Trigger download with specific quality
-  const response = await page.request.get(
-    "/api/lidarr/download/77610756/lossless",
-  );
+  // Trigger download with specific Tiddl quality
+  const response = await page.request.get("/api/lidarr/download/77610756/high");
 
   expect(response.status()).toBe(200);
   expect(response.headers()["content-type"]).toContain("application/x-nzb");
   expect(response.headers()["content-disposition"]).toContain("attachment");
   expect(response.headers()["content-disposition"]).toContain(
-    "tidarr-77610756-lossless.nzb",
+    "tidarr-77610756-high.nzb",
   );
 
   const body = await response.text();
   expect(body).toContain('<?xml version="1.0" encoding="UTF-8"?>');
   expect(body).toContain('<nzb xmlns="http://www.newzbin.com/DTD/2003/nzb">');
   expect(body).toContain("<file");
-  expect(body).toContain("77610756|lossless"); // Album ID + quality in NZB
+  expect(body).toContain("77610756|high"); // Album ID + quality in NZB
 
   await page.unrouteAll({ behavior: "ignoreErrors" });
 });
@@ -242,14 +259,14 @@ test("Lidarr SABnzbd: Should extract quality from NZB and apply correct Tiddl qu
 
   await page.goto("/");
 
-  // Get NZB with hires_lossless quality
+  // Get NZB with Tiddl max quality
   const nzbResponse = await page.request.get(
-    "/api/lidarr/download/77610756/hires_lossless",
+    "/api/lidarr/download/77610756/max",
   );
   const nzbContent = await nzbResponse.text();
 
   // Verify NZB contains quality information
-  expect(nzbContent).toContain("77610756|hires_lossless");
+  expect(nzbContent).toContain("77610756|max");
 
   const boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
   const multipartBody = [

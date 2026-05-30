@@ -796,6 +796,7 @@ GET /api/lidarr?t=music&artist={artist}&album={album}
 - `q` - Search query
 - `artist` - Artist name (for `t=music`)
 - `album` - Album name (for `t=music`)
+- `cat` - Optional Newznab category filter. Tidarr ignores non-audio categories and narrows quality variants for `3010` (AAC-320), `3040` (lossless and hi-res lossless), and `3050` (AAC-96). No audio `cat`, `3000` anywhere in the audio category list, or an unrecognized audio subcategory searches all qualities.
 
 **Lidarr search behavior:**
 - Tidarr searches Tidal with the original query first.
@@ -1068,4 +1069,4 @@ docker compose exec tidarr tiddl download url https://listen.tidal.com/album/251
 
 ---
 
-*Part of this documentation was generated with AI assistance* 
+*Part of this documentation was generated with AI assistance*

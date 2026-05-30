@@ -177,19 +177,32 @@ Add Tidarr as a **SABnzbd** download client:
 
 ## Quality Selection
 
-Each album is returned **4 times** with different quality variants:
+Tidarr advertises Lidarr quality variants with these indexer quality keys:
 
-| Quality Tag    | Tidal Quality  | Tiddl CLI | Format                 |
+| Quality Tag    | Indexer Key    | Tiddl CLI | Format                 |
 | -------------- | -------------- | --------- | ---------------------- |
 | `[FLAC 24bit]` | hires_lossless | `max`     | FLAC 24-bit 192kHz     |
 | `[FLAC]`       | lossless       | `high`    | FLAC 16-bit 44.1kHz    |
 | `[AAC-320]`    | high           | `normal`  | M4A 320kbps            |
 | `[MP3-96]`     | low            | `low`     | M4A 96kbps             |
 
+When Lidarr sends category filters, Tidarr narrows results to the requested quality category:
+
+| Lidarr category                              | Returned qualities           |
+| -------------------------------------------- | ---------------------------- |
+| `3010`                                       | `high`                       |
+| `3040`                                       | `hires_lossless`, `lossless` |
+| `3050`                                       | `low`                        |
+| no `cat`, or `3000` anywhere                 | all quality variants         |
+| unrecognized audio subcategory, such as `3020` | all quality variants         |
+| non-audio categories only                    | all quality variants         |
+
+Tidarr ignores non-audio categories before resolving quality. `3040` is Newznab's coarse lossless category, so it includes both `hires_lossless` and `lossless`. Lidarr can still apply finer preferences using the parsed release quality from the title, while Tidarr uses the corresponding Tiddl quality in the generated download URL.
+
 **How Lidarr selects quality:**
 - Lidarr matches albums based on your **Quality Profile** settings
 - Configure quality preferences in **Settings → Profiles → Quality Profiles**
-- Higher quality variants appear first, allowing Lidarr to grab the best available match
+- Tidarr returns all variants when Lidarr does not send a specific quality category
 
 **Example search result:**
 ```
@@ -206,7 +219,7 @@ Artist - Album (2024) [MP3-96] (12 tracks)       ← Lowest quality
    - Volume shorthand normalization, such as `V.2` → `Vol. 2`
    - Comma-suffix removal from the album title, such as `Album Name, Vol. 2` → `Album Name`
 3. Tidarr merges fallback results by Tidal album ID, preserving first-seen order
-4. Tidarr returns all matched albums with 4 quality variants each
+4. Tidarr returns all matched albums, each with the quality variants inferred from Lidarr's category filter
 5. Lidarr's matching algorithm selects the best result based on your preferences
 6. Download triggered with selected quality → Tiddl downloads with correct CLI quality flag
 

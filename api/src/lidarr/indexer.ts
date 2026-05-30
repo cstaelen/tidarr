@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 
-import { generateNewznabItem, generateNzbContent } from "./utils/lidarr";
+import {
+  generateNewznabItem,
+  generateNzbContent,
+  resolveLidarrIndexerQualities,
+} from "./utils/lidarr";
 import { searchTidalForLidarr } from "./utils/tidal-search-albums";
 
 export function handleCapsRequest(req: Request, res: Response): void {
@@ -15,9 +19,9 @@ export function handleCapsRequest(req: Request, res: Response): void {
   <limits max="100" default="100"/>
   <registration available="no" open="no"/>
   <searching>
-    <search available="yes" supportedParams="q"/>
-    <music-search available="yes" supportedParams="q,artist,album"/>
-    <audio-search available="yes" supportedParams="q,artist,album"/>
+    <search available="yes" supportedParams="q,cat"/>
+    <music-search available="yes" supportedParams="q,artist,album,cat"/>
+    <audio-search available="yes" supportedParams="q,artist,album,cat"/>
   </searching>
   <categories>
     <category id="3000" name="Audio">
@@ -68,17 +72,12 @@ export async function handleSearchRequest(
 
   const results = await searchTidalForLidarr(q, { artist, album });
 
-  const qualities = ["hires_lossless", "lossless", "high", "low"];
-  const items =
-    results.length > 0
-      ? results
-          .flatMap((album) =>
-            qualities.map((quality) =>
-              generateNewznabItem(album, req, quality),
-            ),
-          )
-          .join("\n")
-      : "";
+  const qualities = resolveLidarrIndexerQualities(req.query.cat);
+  const items = results
+    .flatMap((album) =>
+      qualities.map((quality) => generateNewznabItem(album, req, quality)),
+    )
+    .join("\n");
 
   const totalResults = results.length * qualities.length;
   console.log(
@@ -95,7 +94,7 @@ export async function handleSearchRequest(
     <language>en-us</language>
     <webMaster>tidarr@tidarr.com</webMaster>
     <pubDate>${new Date().toUTCString()}</pubDate>
-    <newznab:response offset="0" total="${results.length}"/>
+    <newznab:response offset="0" total="${totalResults}"/>
 ${items}
   </channel>
 </rss>`);
