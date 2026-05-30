@@ -53,6 +53,7 @@ export async function configureServer() {
       ARTIST_SINGLE_DOWNLOAD: process.env.ARTIST_SINGLE_DOWNLOAD || "",
       DOWNLOAD_BATCH_SIZE: process.env.DOWNLOAD_BATCH_SIZE || "",
       DOWNLOAD_BATCH_DELAY: process.env.DOWNLOAD_BATCH_DELAY || "",
+      LIDARR_TIDAL_SEARCH_LIMIT: process.env.LIDARR_TIDAL_SEARCH_LIMIT || "",
     },
   };
 }

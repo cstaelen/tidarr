@@ -11,6 +11,29 @@ import {
 
 class TidalSearchRequestError extends Error {}
 
+const DEFAULT_LIDARR_TIDAL_SEARCH_LIMIT = 20;
+const MAX_LIDARR_TIDAL_SEARCH_LIMIT = 100;
+
+export function resolveLidarrTidalSearchLimit(value?: string): number {
+  const normalizedValue = value?.trim();
+
+  if (!normalizedValue || !/^[+-]?\d+$/.test(normalizedValue)) {
+    return DEFAULT_LIDARR_TIDAL_SEARCH_LIMIT;
+  }
+
+  const parsedValue = Number(normalizedValue);
+
+  if (parsedValue < 0) {
+    return DEFAULT_LIDARR_TIDAL_SEARCH_LIMIT;
+  }
+
+  if (parsedValue === 0) {
+    return MAX_LIDARR_TIDAL_SEARCH_LIMIT;
+  }
+
+  return Math.min(parsedValue, MAX_LIDARR_TIDAL_SEARCH_LIMIT);
+}
+
 /**
  * Searches Tidal for albums (for indexer search results)
  * @param query - Search query string
@@ -28,12 +51,15 @@ export async function searchTidalForLidarr(
     }
 
     const countryCode = app.locals.tiddlConfig?.auth?.country_code || "US";
+    const searchLimit = resolveLidarrTidalSearchLimit(
+      process.env.LIDARR_TIDAL_SEARCH_LIMIT,
+    );
 
     const fetchAlbums = async (searchQuery: string): Promise<TidalAlbum[]> => {
       const url = new URL("/v2/search", TIDAL_API_URL);
       url.searchParams.append("query", searchQuery);
       url.searchParams.append("countryCode", countryCode);
-      url.searchParams.append("limit", "20");
+      url.searchParams.append("limit", String(searchLimit));
       url.searchParams.append("offset", "0");
 
       console.log(`🔎 [Lidarr] Searching album on Tidal...`);

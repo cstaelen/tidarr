@@ -214,11 +214,11 @@ Artist - Album (2024) [MP3-96] (12 tracks)       ← Lowest quality
 
 ## How Search Works
 
-1. Lidarr sends query → Tidarr searches Tidal (up to 20 albums per Tidal query)
+1. Lidarr sends query → Tidarr searches Tidal with 20 albums per outbound Tidal query by default. Set `LIDARR_TIDAL_SEARCH_LIMIT` to override the per-request limit; values are capped at `100`, and `0` uses that maximum.
 2. If Lidarr supplies artist/album context and the first result set does not contain an exact normalized album match, Tidarr tries conservative fallback queries:
    - Volume shorthand normalization, such as `V.2` → `Vol. 2`
    - Comma-suffix removal from the album title, such as `Album Name, Vol. 2` → `Album Name`
-3. Tidarr merges fallback results by Tidal album ID, preserving first-seen order
+3. Tidarr merges fallback results by Tidal album ID, preserving first-seen order. Each fallback request uses the same configured per-request limit, so merged results may exceed that limit.
 4. Tidarr returns all matched albums, each with the quality variants inferred from Lidarr's category filter
 5. Lidarr's matching algorithm selects the best result based on your preferences
 6. Download triggered with selected quality → Tiddl downloads with correct CLI quality flag

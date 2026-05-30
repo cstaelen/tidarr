@@ -799,9 +799,9 @@ GET /api/lidarr?t=music&artist={artist}&album={album}
 - `cat` - Optional Newznab category filter. Tidarr ignores non-audio categories and narrows quality variants for `3010` (AAC-320), `3040` (lossless and hi-res lossless), and `3050` (AAC-96). No audio `cat`, `3000` anywhere in the audio category list, or an unrecognized audio subcategory searches all qualities.
 
 **Lidarr search behavior:**
-- Tidarr searches Tidal with the original query first.
+- Tidarr searches Tidal with the original query first. Each outbound Tidal search requests 20 albums by default; set `LIDARR_TIDAL_SEARCH_LIMIT` to override the per-request limit. Values are capped at `100`, and `0` uses that maximum.
 - When `artist`/`album` context is available and the original Tidal response does not include an exact normalized album match, Tidarr may retry conservative album fallbacks: volume shorthand normalization (`V.2` to `Vol. 2`) and comma-suffix removal from the supplied album title.
-- Fallback results are merged by Tidal album ID in first-seen order and stop early when an exact album-and-artist match is found.
+- Fallback requests use the same configured per-request limit. Results are merged by Tidal album ID in first-seen order, so the final response may exceed the per-request limit, and stop early when an exact album-and-artist match is found.
 
 **Examples:**
 ```bash

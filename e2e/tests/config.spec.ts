@@ -94,6 +94,7 @@ test("Tidarr config : Should see configuration dialog", async ({ page }) => {
     ["ARTIST_SINGLE_DOWNLOAD", ""],
     ["DOWNLOAD_BATCH_SIZE", ""],
     ["DOWNLOAD_BATCH_DELAY", ""],
+    ["LIDARR_TIDAL_SEARCH_LIMIT", ""],
   ];
   const tableAPIRows = await page
     .getByLabel("simple table")
