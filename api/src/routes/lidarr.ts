@@ -19,6 +19,18 @@ import {
 
 const router = Router();
 
+export function getLidarrQueryParam(value: unknown): string | undefined {
+  if (typeof value === "string") {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    return value.find((item): item is string => typeof item === "string");
+  }
+
+  return undefined;
+}
+
 /**
  * GET /api/lidarr - Newznab/Torznab indexer API
  * Implements basic Newznab protocol for Lidarr integration
@@ -29,17 +41,18 @@ router.get(
   async (req: Request, res: Response) => {
     try {
       const { t, q, artist, album } = req.query;
+      const requestType = getLidarrQueryParam(t);
 
       // Handle capabilities request (t=caps)
-      if (t === "caps") {
+      if (requestType === "caps") {
         return handleCapsRequest(req, res);
       }
 
       // Handle search requests (t=search or t=music)
       return await handleSearchRequest(req, res, {
-        q: q as string,
-        artist: artist as string,
-        album: album as string,
+        q: getLidarrQueryParam(q),
+        artist: getLidarrQueryParam(artist),
+        album: getLidarrQueryParam(album),
       });
     } catch (error) {
       handleRouteError(error, res, "Lidarr indexer request");

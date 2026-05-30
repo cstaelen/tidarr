@@ -4,6 +4,12 @@ import { fetchTidalWithRefresh } from "../../helpers/fetch-tidal";
 import { TidalAlbum, TidalSearchResponse } from "../../types";
 
 import { getAlbumArtist, mapQualityToTiddl } from "./lidarr";
+import {
+  type LidarrTidalSearchContext,
+  searchTidalAlbumsWithFallbacks,
+} from "./lidarr-search";
+
+class TidalSearchRequestError extends Error {}
 
 /**
  * Searches Tidal for albums (for indexer search results)
@@ -12,6 +18,7 @@ import { getAlbumArtist, mapQualityToTiddl } from "./lidarr";
  */
 export async function searchTidalForLidarr(
   query: string,
+  context: LidarrTidalSearchContext = {},
 ): Promise<TidalAlbum[]> {
   const app = getAppInstance();
   try {
@@ -22,27 +29,34 @@ export async function searchTidalForLidarr(
 
     const countryCode = app.locals.tiddlConfig?.auth?.country_code || "US";
 
-    const url = new URL("/v2/search", TIDAL_API_URL);
-    url.searchParams.append("query", query);
-    url.searchParams.append("countryCode", countryCode);
-    url.searchParams.append("limit", "20");
-    url.searchParams.append("offset", "0");
+    const fetchAlbums = async (searchQuery: string): Promise<TidalAlbum[]> => {
+      const url = new URL("/v2/search", TIDAL_API_URL);
+      url.searchParams.append("query", searchQuery);
+      url.searchParams.append("countryCode", countryCode);
+      url.searchParams.append("limit", "20");
+      url.searchParams.append("offset", "0");
 
-    console.log(`🔎 [Lidarr] Searching album on Tidal...`);
+      console.log(`🔎 [Lidarr] Searching album on Tidal...`);
 
-    const response = await fetchTidalWithRefresh(url.toString());
+      const response = await fetchTidalWithRefresh(url.toString());
 
-    if (!response.ok) {
-      console.error(
-        `❌ [Lidarr] Tidal API error: ${response.status} ${response.statusText}`,
-      );
-      return [];
+      if (!response.ok) {
+        console.error(
+          `❌ [Lidarr] Tidal API error: ${response.status} ${response.statusText}`,
+        );
+        throw new TidalSearchRequestError();
+      }
+
+      const data: TidalSearchResponse = await response.json();
+      return data?.albums?.items || [];
+    };
+
+    return await searchTidalAlbumsWithFallbacks(query, context, fetchAlbums);
+  } catch (error) {
+    if (!(error instanceof TidalSearchRequestError)) {
+      console.error("❌ [Lidarr] Error searching Tidal:", error);
     }
 
-    const data: TidalSearchResponse = await response.json();
-    return data?.albums?.items || [];
-  } catch (error) {
-    console.error("❌ [Lidarr] Error searching Tidal:", error);
     return [];
   }
 }

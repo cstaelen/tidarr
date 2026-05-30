@@ -66,7 +66,7 @@ export async function handleSearchRequest(
     return;
   }
 
-  const results = await searchTidalForLidarr(q);
+  const results = await searchTidalForLidarr(q, { artist, album });
 
   const qualities = ["hires_lossless", "lossless", "high", "low"];
   const items =

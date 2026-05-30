@@ -24,6 +24,7 @@
   },
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",
+    "test": "yarn build && node --test tests/*.test.js",
     "start": "npx tsx --watch index.ts",
     "prod": "node ./dist/index.js",
     "find-deadcode": "ts-prune | (! grep -v 'used in module')",

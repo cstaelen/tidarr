@@ -201,10 +201,16 @@ Artist - Album (2024) [MP3-96] (12 tracks)       ← Lowest quality
 
 ## How Search Works
 
-1. Lidarr sends query → Tidarr searches Tidal (up to 20 albums)
-2. Tidarr returns ALL results with 4 quality variants each (80 total items)
-3. Lidarr's matching algorithm selects the best result based on your preferences
-4. Download triggered with selected quality → Tiddl downloads with correct CLI quality flag
+1. Lidarr sends query → Tidarr searches Tidal (up to 20 albums per Tidal query)
+2. If Lidarr supplies artist/album context and the first result set does not contain an exact normalized album match, Tidarr tries conservative fallback queries:
+   - Volume shorthand normalization, such as `V.2` → `Vol. 2`
+   - Comma-suffix removal from the album title, such as `Album Name, Vol. 2` → `Album Name`
+3. Tidarr merges fallback results by Tidal album ID, preserving first-seen order
+4. Tidarr returns all matched albums with 4 quality variants each
+5. Lidarr's matching algorithm selects the best result based on your preferences
+6. Download triggered with selected quality → Tiddl downloads with correct CLI quality flag
+
+Fallbacks are only used for Lidarr indexer searches. They stop once an exact album-and-artist match is found, and they do not affect Tidarr's normal Tidal searches.
 
 **Explicit Content:**
 - Albums with explicit content show `[EXPLICIT]` tag in title

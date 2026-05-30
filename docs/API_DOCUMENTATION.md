@@ -797,6 +797,11 @@ GET /api/lidarr?t=music&artist={artist}&album={album}
 - `artist` - Artist name (for `t=music`)
 - `album` - Album name (for `t=music`)
 
+**Lidarr search behavior:**
+- Tidarr searches Tidal with the original query first.
+- When `artist`/`album` context is available and the original Tidal response does not include an exact normalized album match, Tidarr may retry conservative album fallbacks: volume shorthand normalization (`V.2` to `Vol. 2`) and comma-suffix removal from the supplied album title.
+- Fallback results are merged by Tidal album ID in first-seen order and stop early when an exact album-and-artist match is found.
+
 **Examples:**
 ```bash
 # General search
