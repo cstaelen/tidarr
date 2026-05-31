@@ -125,7 +125,7 @@ Add Tidarr as a **SABnzbd** download client:
 1. **Search**: Lidarr queries Tidarr indexer
 2. **Results**: Tidarr searches Tidal and returns albums in Newznab format
 3. **Grab**: Lidarr sends album to Tidarr download client
-4. **Download**: Tidarr downloads to `/shared/nzb_downloads/{id}/` (high-quality FLAC up to 24-bit)
+4. **Download**: Tidarr downloads the selected quality to `/shared/nzb_downloads/{id}/` (up to 24-bit when available)
 5. **Import**: Lidarr detects completed download and imports from `/downloads/{id}/` (same physical location)
 6. **Organize**: Lidarr renames and moves files to your music library according to your settings
 
@@ -179,34 +179,38 @@ Add Tidarr as a **SABnzbd** download client:
 
 Tidarr advertises Lidarr quality variants with these indexer quality keys:
 
-| Quality Tag    | Indexer Key    | Tiddl CLI | Format                 |
-| -------------- | -------------- | --------- | ---------------------- |
-| `[FLAC 24bit]` | hires_lossless | `max`     | FLAC 24-bit 192kHz     |
-| `[FLAC]`       | lossless       | `high`    | FLAC 16-bit 44.1kHz    |
-| `[AAC-320]`    | high           | `normal`  | M4A 320kbps            |
-| `[MP3-96]`     | low            | `low`     | M4A 96kbps             |
+| Quality Tag    | Indexer Key    | Tiddl CLI | Advertised when                    |
+| -------------- | -------------- | --------- | ---------------------------------- |
+| `[FLAC 24bit]` | hires_lossless | `max`     | Tidal reports a hi-res hint        |
+| `[FLAC]`       | lossless       | `high`    | Tidal reports lossless or hi-res   |
+| `[AAC-320]`    | high           | `normal`  | Tidal reports non-low or no hint   |
+| `[MP3-96]`     | low            | `low`     | Always available as a fallback     |
 
-When Lidarr sends category filters, Tidarr narrows results to the requested quality category:
+When Lidarr sends category filters, Tidarr first narrows results to candidate qualities from the requested category:
 
-| Lidarr category                              | Returned qualities           |
+| Lidarr category                              | Candidate qualities          |
 | -------------------------------------------- | ---------------------------- |
 | `3010`                                       | `high`                       |
 | `3040`                                       | `hires_lossless`, `lossless` |
 | `3050`                                       | `low`                        |
-| no `cat`, or `3000` anywhere                 | all quality variants         |
-| unrecognized audio subcategory, such as `3020` | all quality variants         |
-| non-audio categories only                    | all quality variants         |
+| no `cat`, or `3000` anywhere                 | all candidate quality variants |
+| unrecognized audio subcategory, such as `3020` | all candidate quality variants |
+| non-audio categories only                    | all candidate quality variants |
 
-Tidarr ignores non-audio categories before resolving quality. `3040` is Newznab's coarse lossless category, so it includes both `hires_lossless` and `lossless`. Lidarr can still apply finer preferences using the parsed release quality from the title, while Tidarr uses the corresponding Tiddl quality in the generated download URL.
+Tidarr ignores non-audio categories before resolving quality. `3040` is Newznab's coarse lossless category, so it can include both `hires_lossless` and `lossless` candidates. Tidarr then filters those candidates using Tidal search response hints from `audioQuality` and `mediaMetadata.tags`.
+
+`[FLAC 24bit]` is only advertised when Tidal reports a hi-res hint such as `HIRES_LOSSLESS`, `HI_RES_LOSSLESS`, `HIRES`, or `MAX`. `[FLAC]` requires a `LOSSLESS` or hi-res hint. Unknown or missing hints do not advertise `[FLAC 24bit]`, but Tidarr keeps AAC-320 and low-quality entries for compatibility.
+
+This filtering reduces optimistic Lidarr results, but it is still hint-based. Tidarr does not probe playback streams during search, so the final bit depth/sample rate depends on what Tiddl can retrieve from Tidal when the download runs.
 
 **How Lidarr selects quality:**
 - Lidarr matches albums based on your **Quality Profile** settings
 - Configure quality preferences in **Settings → Profiles → Quality Profiles**
-- Tidarr returns all variants when Lidarr does not send a specific quality category
+- Tidarr returns the Tidal-hinted eligible variants when Lidarr does not send a specific quality category
 
 **Example search result:**
 ```
-Artist - Album (2024) [FLAC 24bit] (12 tracks)  ← Highest quality
+Artist - Album (2024) [FLAC 24bit] (12 tracks)  ← Only if Tidal reports hi-res
 Artist - Album (2024) [FLAC] (12 tracks)
 Artist - Album (2024) [AAC-320] (12 tracks)
 Artist - Album (2024) [MP3-96] (12 tracks)       ← Lowest quality
@@ -219,7 +223,7 @@ Artist - Album (2024) [MP3-96] (12 tracks)       ← Lowest quality
    - Volume shorthand normalization, such as `V.2` → `Vol. 2`
    - Comma-suffix removal from the album title, such as `Album Name, Vol. 2` → `Album Name`
 3. Tidarr merges fallback results by Tidal album ID, preserving first-seen order. Each fallback request uses the same configured per-request limit, so merged results may exceed that limit.
-4. Tidarr returns all matched albums, each with the quality variants inferred from Lidarr's category filter
+4. Tidarr returns Newznab items for matched albums using quality variants inferred from Lidarr's category filter and filtered by Tidal quality hints
 5. Lidarr's matching algorithm selects the best result based on your preferences
 6. Download triggered with selected quality → Tiddl downloads with correct CLI quality flag
 

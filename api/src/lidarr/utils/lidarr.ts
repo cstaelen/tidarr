@@ -49,6 +49,8 @@ interface QualityInfoType {
 type LidarrIndexerQuality = "hires_lossless" | "lossless" | "high" | "low";
 type LidarrQualityCategoryId = "3010" | "3040" | "3050";
 
+type TidalQualityHint = "hires" | "lossless" | "high" | "low" | "unknown";
+
 const TIDDL_QUALITIES: readonly QualityType[] = [
   "max",
   "high",
@@ -100,6 +102,47 @@ const QUALITY_MAP: Record<LidarrIndexerQuality, QualityInfoType> = {
 
 const KNOWN_AUDIO_QUALITY_CATEGORY_IDS: readonly LidarrQualityCategoryId[] =
   LIDARR_QUALITY_ORDER.map((quality) => QUALITY_MAP[quality].categoryId);
+
+function normalizeQualityHint(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+
+  const normalizedValue = value.replace(/[^a-z0-9]/gi, "").toUpperCase();
+  return normalizedValue || undefined;
+}
+
+function classifyQualityHint(value: unknown): TidalQualityHint {
+  switch (normalizeQualityHint(value)) {
+    case "HIRESLOSSLESS":
+    case "HIRES":
+    case "MAX":
+      return "hires";
+    case "LOSSLESS":
+      return "lossless";
+    case "HIGH":
+    case "AAC320":
+    case "MP3320":
+      return "high";
+    case "LOW":
+    case "AAC96":
+    case "MP396":
+      return "low";
+    default:
+      return "unknown";
+  }
+}
+
+function getAlbumQualityHints(album: TidalAlbum): TidalQualityHint[] {
+  const rawHints = [
+    album.audioQuality,
+    ...(album.mediaMetadata?.tags || []),
+  ].filter((hint): hint is string => Boolean(hint));
+
+  if (rawHints.length === 0) return ["unknown"];
+
+  const qualityHints = rawHints.map(classifyQualityHint);
+  const knownQualityHints = qualityHints.filter((hint) => hint !== "unknown");
+  return knownQualityHints.length ? knownQualityHints : ["unknown"];
+}
 
 function isLidarrIndexerQuality(value: unknown): value is LidarrIndexerQuality {
   return (
@@ -183,6 +226,34 @@ export function resolveLidarrIndexerQualities(
   );
 }
 
+export function filterLidarrIndexerQualitiesForAlbum(
+  album: TidalAlbum,
+  qualities: readonly LidarrIndexerQuality[],
+): LidarrIndexerQuality[] {
+  const albumQualityHints = getAlbumQualityHints(album);
+  const hasHiResHint = albumQualityHints.includes("hires");
+  const hasLosslessHint =
+    hasHiResHint || albumQualityHints.includes("lossless");
+  const hasUnknownHint = albumQualityHints.includes("unknown");
+  const hasNonLowKnownHint =
+    hasLosslessHint || albumQualityHints.includes("high");
+
+  return qualities.filter((quality) => {
+    switch (quality) {
+      case "hires_lossless":
+        return hasHiResHint;
+      case "lossless":
+        return hasLosslessHint;
+      case "high":
+        return hasUnknownHint || hasNonLowKnownHint;
+      case "low":
+        return true;
+      default:
+        return false;
+    }
+  });
+}
+
 /**
  * Generate NZB content for Lidarr download
  */
@@ -217,7 +288,7 @@ export function generateNewznabItem(
 ): string {
   if (!album?.id) return "";
 
-  const targetQuality = quality || album.audioQuality.toLowerCase();
+  const targetQuality = quality || album.audioQuality?.toLowerCase() || "high";
   const guid = `${album.id}-${targetQuality}`;
   const qualityInfo = getQualityInfo(targetQuality);
   const downloadQuality = qualityInfo.tiddlQuality;

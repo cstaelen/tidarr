@@ -220,7 +220,10 @@ export interface TidalAlbum {
   numberOfTracks?: number;
   duration?: number;
   type: string;
-  audioQuality: string;
+  audioQuality?: string;
+  mediaMetadata?: {
+    tags?: string[];
+  };
   explicit?: boolean;
 }
 

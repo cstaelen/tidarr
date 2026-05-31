@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import {
+  filterLidarrIndexerQualitiesForAlbum,
   generateNewznabItem,
   generateNzbContent,
   resolveLidarrIndexerQualities,
@@ -179,13 +180,17 @@ export async function handleSearchRequest(
 
   const qualities = resolveLidarrIndexerQualities(req.query.cat);
   const items = results.flatMap((album) =>
-    qualities.map((quality) => generateNewznabItem(album, req, quality)),
+    filterLidarrIndexerQualitiesForAlbum(album, qualities).map((quality) =>
+      generateNewznabItem(album, req, quality),
+    ),
   );
 
   const totalResults = items.length;
   const pagedItems = items.slice(offset, offset + limit);
+  const resultIcon = results.length > 0 ? "✅" : "0️⃣";
   console.log(
-    `${results.length > 0 ? "✅" : "0️⃣"} [Lidarr] ${totalResults} results (${results.length} albums × ${qualities.length} qualities), returning ${pagedItems.length} from offset ${offset}`,
+    `${resultIcon} [Lidarr] ${totalResults} quality-filtered results from ${results.length} albums, ` +
+      `returning ${pagedItems.length} from offset ${offset}`,
   );
 
   res.set("Content-Type", "application/xml");

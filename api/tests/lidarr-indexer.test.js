@@ -32,7 +32,7 @@ function createResponse() {
   };
 }
 
-function tidalAlbum(id, title, artistName = "Daft Punk") {
+function tidalAlbum(id, title, artistName = "Daft Punk", overrides = {}) {
   return {
     id,
     title,
@@ -41,11 +41,16 @@ function tidalAlbum(id, title, artistName = "Daft Punk") {
     numberOfTracks: 13,
     audioQuality: "LOSSLESS",
     type: "album",
+    ...overrides,
   };
 }
 
 function countItems(xml) {
   return (xml.match(/<item>/g) || []).length;
+}
+
+function countOccurrences(xml, value) {
+  return xml.split(value).length - 1;
 }
 
 test("Lidarr caps advertise raw audio search without generic search fallback", () => {
@@ -107,7 +112,7 @@ test("music searches synthesize a query and preserve artist album context", asyn
       },
     },
   ]);
-  assert.match(res.body, /<newznab:response offset="0" total="4"\/>/);
+  assert.match(res.body, /<newznab:response offset="0" total="3"\/>/);
   assert.match(res.body, /Random Access Memories/);
 });
 
@@ -126,7 +131,7 @@ test("search responses honor Newznab offset and limit", async (t) => {
     album: "Discovery",
   });
 
-  assert.match(res.body, /<newznab:response offset="4" total="12"\/>/);
+  assert.match(res.body, /<newznab:response offset="4" total="9"\/>/);
   assert.equal(countItems(res.body), 5);
   assert.doesNotMatch(res.body, /Homework/);
   assert.match(res.body, /Discovery/);
@@ -147,8 +152,36 @@ test("search responses keep total count when offset is past the final item", asy
     album: "Discovery",
   });
 
-  assert.match(res.body, /<newznab:response offset="12" total="8"\/>/);
+  assert.match(res.body, /<newznab:response offset="12" total="6"\/>/);
   assert.equal(countItems(res.body), 0);
+});
+
+test("lossless category returns only Tidal-hinted lossless variants per album", async (t) => {
+  t.mock.method(tidalSearchAlbums, "searchTidalForLidarr", async () => [
+    tidalAlbum("1", "Lossless Album"),
+    tidalAlbum("2", "Hi Res Album", "Daft Punk", {
+      mediaMetadata: { tags: ["LOSSLESS", "HIRES_LOSSLESS"] },
+    }),
+    tidalAlbum("3", "High Album", "Daft Punk", {
+      audioQuality: "HIGH",
+    }),
+  ]);
+
+  const res = createResponse();
+
+  await handleSearchRequest(createRequest({ cat: "3040" }), res, {
+    searchType: "music",
+    artist: "Daft Punk",
+    album: "Discovery",
+  });
+
+  assert.match(res.body, /<newznab:response offset="0" total="3"\/>/);
+  assert.equal(countItems(res.body), 3);
+  assert.equal(countOccurrences(res.body, "Lossless Album"), 3);
+  assert.equal(countOccurrences(res.body, "Hi Res Album"), 6);
+  assert.doesNotMatch(res.body, /High Album/);
+  assert.match(res.body, /Hi Res Album.*FLAC 24bit/);
+  assert.match(res.body, /\/api\/lidarr\/download\/2\/max/);
 });
 
 test("generic search remains available as a compatibility path", async (t) => {

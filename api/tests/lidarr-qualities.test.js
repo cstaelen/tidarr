@@ -2,10 +2,13 @@ const assert = require("node:assert/strict");
 const test = require("node:test");
 
 const {
+  filterLidarrIndexerQualitiesForAlbum,
   generateNewznabItem,
   mapQualityToTiddl,
   resolveLidarrIndexerQualities,
 } = require("../dist/src/lidarr/utils/lidarr.js");
+
+const ALL_QUALITIES = ["hires_lossless", "lossless", "high", "low"];
 
 test("returns all Lidarr indexer qualities when no category is requested", () => {
   assert.deepEqual(resolveLidarrIndexerQualities(), [
@@ -105,6 +108,53 @@ test("keeps unknown direct download quality compatible with previous fallback", 
   assert.equal(mapQualityToTiddl("unknown"), "high");
 });
 
+test("quality hints allow hi-res lossless when Tidal tags include HIRES_LOSSLESS", () => {
+  assert.deepEqual(
+    filterLidarrIndexerQualitiesForAlbum(
+      {
+        audioQuality: "LOSSLESS",
+        mediaMetadata: { tags: ["LOSSLESS", "HIRES_LOSSLESS"] },
+      },
+      ALL_QUALITIES,
+    ),
+    ["hires_lossless", "lossless", "high", "low"],
+  );
+});
+
+test("quality hints keep FLAC but exclude 24-bit without hi-res tags", () => {
+  assert.deepEqual(
+    filterLidarrIndexerQualitiesForAlbum(
+      { audioQuality: "LOSSLESS" },
+      ALL_QUALITIES,
+    ),
+    ["lossless", "high", "low"],
+  );
+});
+
+test("quality hints exclude FLAC variants for high-only albums", () => {
+  assert.deepEqual(
+    filterLidarrIndexerQualitiesForAlbum(
+      { audioQuality: "HIGH" },
+      ALL_QUALITIES,
+    ),
+    ["high", "low"],
+  );
+});
+
+test("unknown or missing quality hints do not advertise 24-bit", () => {
+  assert.deepEqual(
+    filterLidarrIndexerQualitiesForAlbum(
+      { audioQuality: "surprise" },
+      ALL_QUALITIES,
+    ),
+    ["high", "low"],
+  );
+  assert.deepEqual(filterLidarrIndexerQualitiesForAlbum({}, ALL_QUALITIES), [
+    "high",
+    "low",
+  ]);
+});
+
 test("generated Newznab download URLs use Tiddl quality values", () => {
   const req = {
     protocol: "http",
@@ -129,4 +179,27 @@ test("generated Newznab download URLs use Tiddl quality values", () => {
   const highItem = generateNewznabItem(album, req, "high");
   assert.match(highItem, /\/api\/lidarr\/download\/123\/normal/);
   assert.match(highItem, /AAC-320/);
+});
+
+test("generated Newznab items without quality hints fall back to AAC-320", () => {
+  const req = {
+    protocol: "http",
+    get: () => "localhost:8484",
+    query: {},
+    headers: {},
+  };
+  const album = {
+    id: "123",
+    title: "Example Album",
+    artist: { name: "Example Artist" },
+    releaseDate: "2024-01-01",
+    numberOfTracks: 1,
+    type: "album",
+  };
+
+  const item = generateNewznabItem(album, req);
+
+  assert.match(item, /\/api\/lidarr\/download\/123\/normal/);
+  assert.match(item, /AAC-320/);
+  assert.doesNotMatch(item, /FLAC/);
 });

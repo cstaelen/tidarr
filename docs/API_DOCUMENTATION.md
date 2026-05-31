@@ -794,15 +794,17 @@ GET /api/lidarr?t=music&artist={artist}&album={album}
 - `t` - Request type: `music`
 - `artist` - Artist name
 - `album` - Album name
-- `cat` - Optional Newznab category filter. Tidarr ignores non-audio categories and narrows quality variants for `3010` (AAC-320), `3040` (lossless and hi-res lossless), and `3050` (AAC-96). No audio `cat`, `3000` anywhere in the audio category list, or an unrecognized audio subcategory searches all qualities.
+- `cat` - Optional Newznab category filter. Tidarr ignores non-audio categories and narrows candidate quality variants for `3010` (AAC-320), `3040` (lossless and hi-res lossless), and `3050` (AAC-96). No audio `cat`, `3000` anywhere in the audio category list, or an unrecognized audio subcategory searches all candidate qualities before Tidal quality-hint filtering.
 - `offset` - Optional Newznab paging offset. Defaults to `0`.
 - `limit` - Optional Newznab page size. Defaults to `50` and is capped at `100`.
 
 **Lidarr search behavior:**
 - Tidarr searches Tidal with the original query first. Each outbound Tidal search requests 20 albums by default; set `LIDARR_TIDAL_SEARCH_LIMIT` to override the per-request limit. Values are capped at `100`, and `0` uses that maximum.
+- Tidarr filters advertised quality variants with Tidal search response hints (`audioQuality` and `mediaMetadata.tags`). `[FLAC 24bit]` is only returned when Tidal reports a hi-res hint such as `HIRES_LOSSLESS`, `HI_RES_LOSSLESS`, `HIRES`, or `MAX`.
+- Quality hints reduce optimistic search results but do not guarantee final bit depth/sample rate. Downloads still request the selected Tiddl quality and use the stream Tiddl can retrieve from Tidal.
 - When `artist`/`album` context is available and the original Tidal response does not include an exact normalized album match, Tidarr may retry conservative album fallbacks: volume shorthand normalization (`V.2` to `Vol. 2`) and comma-suffix removal from the supplied album title.
 - Fallback requests use the same configured per-request limit. Results are merged by Tidal album ID in first-seen order, so the final response may exceed the per-request limit, and stop early when an exact album-and-artist match is found.
-- Tidarr honors Newznab `offset` and `limit` in the XML response while preserving the full result count in `<newznab:response total="..."/>`.
+- Tidarr honors Newznab `offset` and `limit` in the XML response while preserving the quality-filtered result count in `<newznab:response total="..."/>`.
 - This fork advertises Lidarr-compatible decoupled audio search through Newznab capabilities. `GET /api/lidarr?t=search&q={query}` remains available for manual testing and older callers, but Tidarr no longer advertises it to Lidarr.
 
 **Examples:**
@@ -826,7 +828,7 @@ GET /api/lidarr/download/{albumId}/{quality}
 
 **Parameters:**
 - `albumId` - The Tidal album ID
-- `quality` - Download quality: `max` (24-bit), `high` (16-bit), `normal` (AAC-320), `low` (AAC-96)
+- `quality` - Download quality request: `max` (highest/24-bit when available), `high` (16-bit), `normal` (AAC-320), `low` (AAC-96)
 
 **Example:**
 ```bash

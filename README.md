@@ -519,7 +519,9 @@ Tidarr can be integrated with Lidarr as both a Newznab indexer and a SABnzbd dow
 - Use Lidarr post processing
 - Manage your music library with Lidarr's metadata matching
 
-Lidarr searches request 20 albums per outbound Tidal search by default. Set `LIDARR_TIDAL_SEARCH_LIMIT` to override the per-request limit; values are capped at `100`, and `0` uses that maximum. If fallback searches run, each request uses the same configured limit and merged results may exceed the per-request value.
+Lidarr searches request 20 albums per outbound Tidal search by default. Set `LIDARR_TIDAL_SEARCH_LIMIT` to override the per-request limit; values are capped at `100` and `0` is interpreted as a request for maximum. If fallback searches run, each request uses the same configured limit and merged results may exceed the per-request value.
+
+Lidarr search results are filtered with Tidal quality hints when available. Tidarr only advertises `[FLAC 24bit]` when Tidal's search metadata reports a hi-res hint; final downloads still depend on the stream Tiddl can retrieve from Tidal.
 
 > [!NOTE]
 > **Quick Setup**
