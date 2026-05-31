@@ -9,9 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+
     - name: Yarn Audit
-      uses: pragatheeswarans/yarn-audit-action@v1.0.0
+      uses: pragatheeswarans/yarn-audit-action@f3ab4c055f4b8f1db1b1ae0e32bab690c9050603  # v1.0.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         label: 'audit issues'

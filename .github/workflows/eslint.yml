@@ -10,18 +10,19 @@ jobs:
   eslint:
     name: Run eslint scanning
     runs-on: ubuntu-latest
-    
     permissions:
       contents: read
       security-events: write
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+
       - name: Enable Corepack
         run: corepack enable
+
       - name: Use Node.js 22.x
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e  # v6.4.0
         with:
           node-version: '22.x'
           cache: 'yarn'
@@ -33,4 +34,3 @@ jobs:
       - name: Run ESLINT
         run: |
           yarn eslint
-      
