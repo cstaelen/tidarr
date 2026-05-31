@@ -14,7 +14,7 @@
     "jsonwebtoken": "^9.0.3",
     "dotenv": "^17.4.2",
     "playwright": "^1.57.0",
-    "testcontainers": "^12.0.0"
+    "testcontainers": "^12.0.1"
   },
   "scripts": {
     "playwright:test": "playwright test",
