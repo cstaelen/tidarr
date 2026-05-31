@@ -6,7 +6,10 @@ import {
   generateNzbContent,
   resolveLidarrIndexerQualities,
 } from "./utils/lidarr";
-import { searchTidalForLidarr } from "./utils/tidal-search-albums";
+import {
+  fetchAlbumTrackQualitySummary,
+  searchTidalForLidarr,
+} from "./utils/tidal-search-albums";
 
 type LidarrSearchRequestParams = {
   searchType?: string;
@@ -179,10 +182,32 @@ export async function handleSearchRequest(
   const results = await searchTidalForLidarr(q, { artist, album });
 
   const qualities = resolveLidarrIndexerQualities(req.query.cat);
-  const items = results.flatMap((album) =>
-    filterLidarrIndexerQualitiesForAlbum(album, qualities).map((quality) =>
-      generateNewznabItem(album, req, quality),
-    ),
+  const albumQualityResults = await Promise.all(
+    results.map(async (album) => {
+      const albumQualities = filterLidarrIndexerQualitiesForAlbum(
+        album,
+        qualities,
+      );
+
+      if (!albumQualities.includes("hires_lossless")) {
+        return { album, trackQualitySummary: undefined };
+      }
+
+      const trackQualitySummary = await fetchAlbumTrackQualitySummary(album.id);
+
+      return {
+        album,
+        trackQualitySummary: trackQualitySummary || {
+          trackCount: 0,
+          hiResTrackCount: 0,
+        },
+      };
+    }),
+  );
+  const items = albumQualityResults.flatMap(({ album, trackQualitySummary }) =>
+    filterLidarrIndexerQualitiesForAlbum(album, qualities, {
+      trackQualitySummary,
+    }).map((quality) => generateNewznabItem(album, req, quality)),
   );
 
   const totalResults = items.length;

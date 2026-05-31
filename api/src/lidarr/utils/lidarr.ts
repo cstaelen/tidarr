@@ -50,6 +50,21 @@ type LidarrIndexerQuality = "hires_lossless" | "lossless" | "high" | "low";
 type LidarrQualityCategoryId = "3010" | "3040" | "3050";
 
 type TidalQualityHint = "hires" | "lossless" | "high" | "low" | "unknown";
+type TidalQualityHintSource = {
+  audioQuality?: string;
+  mediaMetadata?: {
+    tags?: string[];
+  };
+};
+
+export type AlbumTrackQualitySummary = {
+  trackCount: number;
+  hiResTrackCount: number;
+};
+
+type AlbumQualityFilterOptions = {
+  trackQualitySummary?: AlbumTrackQualitySummary;
+};
 
 const TIDDL_QUALITIES: readonly QualityType[] = [
   "max",
@@ -131,10 +146,10 @@ function classifyQualityHint(value: unknown): TidalQualityHint {
   }
 }
 
-function getAlbumQualityHints(album: TidalAlbum): TidalQualityHint[] {
+function getQualityHints(source: TidalQualityHintSource): TidalQualityHint[] {
   const rawHints = [
-    album.audioQuality,
-    ...(album.mediaMetadata?.tags || []),
+    source.audioQuality,
+    ...(source.mediaMetadata?.tags || []),
   ].filter((hint): hint is string => Boolean(hint));
 
   if (rawHints.length === 0) return ["unknown"];
@@ -142,6 +157,28 @@ function getAlbumQualityHints(album: TidalAlbum): TidalQualityHint[] {
   const qualityHints = rawHints.map(classifyQualityHint);
   const knownQualityHints = qualityHints.filter((hint) => hint !== "unknown");
   return knownQualityHints.length ? knownQualityHints : ["unknown"];
+}
+
+function getAlbumQualityHints(album: TidalAlbum): TidalQualityHint[] {
+  return getQualityHints(album);
+}
+
+export function summarizeAlbumTrackQualityHints(
+  tracks: readonly TidalQualityHintSource[],
+): AlbumTrackQualitySummary {
+  return tracks.reduce<AlbumTrackQualitySummary>(
+    (summary, track) => {
+      const trackQualityHints = getQualityHints(track);
+
+      return {
+        trackCount: summary.trackCount + 1,
+        hiResTrackCount: trackQualityHints.includes("hires")
+          ? summary.hiResTrackCount + 1
+          : summary.hiResTrackCount,
+      };
+    },
+    { trackCount: 0, hiResTrackCount: 0 },
+  );
 }
 
 function isLidarrIndexerQuality(value: unknown): value is LidarrIndexerQuality {
@@ -229,6 +266,7 @@ export function resolveLidarrIndexerQualities(
 export function filterLidarrIndexerQualitiesForAlbum(
   album: TidalAlbum,
   qualities: readonly LidarrIndexerQuality[],
+  options: AlbumQualityFilterOptions = {},
 ): LidarrIndexerQuality[] {
   const albumQualityHints = getAlbumQualityHints(album);
   const hasHiResHint = albumQualityHints.includes("hires");
@@ -237,11 +275,16 @@ export function filterLidarrIndexerQualitiesForAlbum(
   const hasUnknownHint = albumQualityHints.includes("unknown");
   const hasNonLowKnownHint =
     hasLosslessHint || albumQualityHints.includes("high");
+  const allTracksHaveHiResHint = options.trackQualitySummary
+    ? options.trackQualitySummary.trackCount > 0 &&
+      options.trackQualitySummary.hiResTrackCount ===
+        options.trackQualitySummary.trackCount
+    : true;
 
   return qualities.filter((quality) => {
     switch (quality) {
       case "hires_lossless":
-        return hasHiResHint;
+        return hasHiResHint && allTracksHaveHiResHint;
       case "lossless":
         return hasLosslessHint;
       case "high":

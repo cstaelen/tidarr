@@ -6,6 +6,7 @@ const {
   generateNewznabItem,
   mapQualityToTiddl,
   resolveLidarrIndexerQualities,
+  summarizeAlbumTrackQualityHints,
 } = require("../dist/src/lidarr/utils/lidarr.js");
 
 const ALL_QUALITIES = ["hires_lossless", "lossless", "high", "low"];
@@ -117,6 +118,33 @@ test("quality hints allow hi-res lossless when Tidal tags include HIRES_LOSSLESS
       },
       ALL_QUALITIES,
     ),
+    ["hires_lossless", "lossless", "high", "low"],
+  );
+});
+
+test("track quality summary requires every track to be hi-res for FLAC 24bit", () => {
+  const album = {
+    audioQuality: "LOSSLESS",
+    mediaMetadata: { tags: ["LOSSLESS", "HIRES_LOSSLESS"] },
+  };
+
+  assert.deepEqual(
+    summarizeAlbumTrackQualityHints([
+      { mediaMetadata: { tags: ["LOSSLESS", "HIRES_LOSSLESS"] } },
+      { mediaMetadata: { tags: ["LOSSLESS"] } },
+    ]),
+    { trackCount: 2, hiResTrackCount: 1 },
+  );
+  assert.deepEqual(
+    filterLidarrIndexerQualitiesForAlbum(album, ALL_QUALITIES, {
+      trackQualitySummary: { trackCount: 2, hiResTrackCount: 1 },
+    }),
+    ["lossless", "high", "low"],
+  );
+  assert.deepEqual(
+    filterLidarrIndexerQualitiesForAlbum(album, ALL_QUALITIES, {
+      trackQualitySummary: { trackCount: 2, hiResTrackCount: 2 },
+    }),
     ["hires_lossless", "lossless", "high", "low"],
   );
 });

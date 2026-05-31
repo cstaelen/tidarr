@@ -1,9 +1,19 @@
 import { TIDAL_API_URL } from "../../../constants";
 import { getAppInstance } from "../../helpers/app-instance";
 import { fetchTidalWithRefresh } from "../../helpers/fetch-tidal";
-import { TidalAlbum, TidalSearchResponse } from "../../types";
+import {
+  TidalAlbum,
+  TidalAlbumItemsResponse,
+  TidalAlbumItemTrack,
+  TidalSearchResponse,
+} from "../../types";
 
-import { getAlbumArtist, mapQualityToTiddl } from "./lidarr";
+import {
+  type AlbumTrackQualitySummary,
+  getAlbumArtist,
+  mapQualityToTiddl,
+  summarizeAlbumTrackQualityHints,
+} from "./lidarr";
 import {
   type LidarrTidalSearchContext,
   searchTidalAlbumsWithFallbacks,
@@ -13,6 +23,7 @@ class TidalSearchRequestError extends Error {}
 
 const DEFAULT_LIDARR_TIDAL_SEARCH_LIMIT = 20;
 const MAX_LIDARR_TIDAL_SEARCH_LIMIT = 100;
+const TIDAL_ALBUM_ITEMS_LIMIT = 100;
 
 export function resolveLidarrTidalSearchLimit(value?: string): number {
   const normalizedValue = value?.trim();
@@ -84,6 +95,70 @@ export async function searchTidalForLidarr(
     }
 
     return [];
+  }
+}
+
+export async function fetchAlbumTrackQualitySummary(
+  albumId: number | string,
+): Promise<AlbumTrackQualitySummary | undefined> {
+  const tracks: TidalAlbumItemTrack[] = [];
+  let offset = 0;
+
+  try {
+    const app = getAppInstance();
+    const countryCode = app.locals.tiddlConfig?.auth?.country_code || "US";
+
+    while (true) {
+      const url = new URL(`/v1/albums/${albumId}/items`, TIDAL_API_URL);
+      url.searchParams.append("countryCode", countryCode);
+      url.searchParams.append("limit", String(TIDAL_ALBUM_ITEMS_LIMIT));
+      url.searchParams.append("offset", String(offset));
+
+      const response = await fetchTidalWithRefresh(url.toString());
+
+      if (!response.ok) {
+        console.warn(
+          `⚠️ [Lidarr] Could not validate track quality hints for album ${albumId}: ${response.status} ${response.statusText}`,
+        );
+        return undefined;
+      }
+
+      const data: TidalAlbumItemsResponse = await response.json();
+      const items = data?.items || [];
+
+      for (const albumItem of items) {
+        if (albumItem.type === "track" && albumItem.item) {
+          tracks.push(albumItem.item);
+        }
+      }
+
+      const pageLimit =
+        typeof data.limit === "number" && data.limit > 0
+          ? data.limit
+          : items.length;
+      const totalItems =
+        typeof data.totalNumberOfItems === "number"
+          ? data.totalNumberOfItems
+          : offset + items.length;
+
+      if (
+        items.length === 0 ||
+        pageLimit === 0 ||
+        offset + pageLimit >= totalItems
+      ) {
+        break;
+      }
+
+      offset += pageLimit;
+    }
+
+    return summarizeAlbumTrackQualityHints(tracks);
+  } catch (error) {
+    console.warn(
+      `⚠️ [Lidarr] Could not validate track quality hints for album ${albumId}:`,
+      error,
+    );
+    return undefined;
   }
 }
 

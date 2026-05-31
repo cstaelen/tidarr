@@ -167,6 +167,12 @@ test("lossless category returns only Tidal-hinted lossless variants per album", 
     }),
   ]);
 
+  t.mock.method(
+    tidalSearchAlbums,
+    "fetchAlbumTrackQualitySummary",
+    async () => ({ trackCount: 13, hiResTrackCount: 13 }),
+  );
+
   const res = createResponse();
 
   await handleSearchRequest(createRequest({ cat: "3040" }), res, {
@@ -181,6 +187,42 @@ test("lossless category returns only Tidal-hinted lossless variants per album", 
   assert.equal(countOccurrences(res.body, "Hi Res Album"), 6);
   assert.doesNotMatch(res.body, /High Album/);
   assert.match(res.body, /Hi Res Album.*FLAC 24bit/);
+  assert.match(res.body, /\/api\/lidarr\/download\/2\/max/);
+});
+
+test("FLAC 24bit results require all album tracks to carry hi-res hints", async (t) => {
+  t.mock.method(tidalSearchAlbums, "searchTidalForLidarr", async () => [
+    tidalAlbum("1", "Mixed Max Album", "Daft Punk", {
+      mediaMetadata: { tags: ["LOSSLESS", "HIRES_LOSSLESS"] },
+    }),
+    tidalAlbum("2", "Full Max Album", "Daft Punk", {
+      mediaMetadata: { tags: ["LOSSLESS", "HIRES_LOSSLESS"] },
+    }),
+  ]);
+
+  t.mock.method(
+    tidalSearchAlbums,
+    "fetchAlbumTrackQualitySummary",
+    async (albumId) =>
+      albumId === "1"
+        ? { trackCount: 2, hiResTrackCount: 1 }
+        : { trackCount: 2, hiResTrackCount: 2 },
+  );
+
+  const res = createResponse();
+
+  await handleSearchRequest(createRequest({ cat: "3040" }), res, {
+    searchType: "music",
+    artist: "Daft Punk",
+    album: "Discovery",
+  });
+
+  assert.match(res.body, /<newznab:response offset="0" total="3"\/>/);
+  assert.equal(countItems(res.body), 3);
+  assert.match(res.body, /Mixed Max Album.*FLAC/);
+  assert.doesNotMatch(res.body, /Mixed Max Album.*FLAC 24bit/);
+  assert.doesNotMatch(res.body, /\/api\/lidarr\/download\/1\/max/);
+  assert.match(res.body, /Full Max Album.*FLAC 24bit/);
   assert.match(res.body, /\/api\/lidarr\/download\/2\/max/);
 });
 

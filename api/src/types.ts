@@ -227,6 +227,25 @@ export interface TidalAlbum {
   explicit?: boolean;
 }
 
+export interface TidalAlbumItemTrack {
+  id: number;
+  title: string;
+  audioQuality?: string;
+  mediaMetadata?: {
+    tags?: string[];
+  };
+}
+
+export interface TidalAlbumItemsResponse {
+  items?: Array<{
+    item?: TidalAlbumItemTrack;
+    type?: string;
+  }>;
+  limit?: number;
+  offset?: number;
+  totalNumberOfItems?: number;
+}
+
 export interface TidalSearchResponse {
   albums?: {
     items?: TidalAlbum[];
