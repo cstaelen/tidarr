@@ -13,15 +13,17 @@ export function handleCapsRequest(req: Request, res: Response): void {
   const baseUrl = `${req.protocol}://${req.get("host")}`;
 
   res.set("Content-Type", "application/xml; charset=utf-8");
-  res.send(`<?xml version="1.0" encoding="UTF-8"?>
+  res.send(buildLidarrCapsXml(baseUrl));
+}
+
+export function buildLidarrCapsXml(baseUrl: string): string {
+  return `<?xml version="1.0" encoding="UTF-8"?>
 <caps>
   <server version="1.0" title="Tidarr" strapline="Tidal Music Indexer" email="tidarr@tidarr.com" url="${baseUrl}" image="${baseUrl}/logo.png"/>
   <limits max="100" default="100"/>
   <registration available="no" open="no"/>
   <searching>
-    <search available="yes" supportedParams="q,cat"/>
-    <music-search available="yes" supportedParams="q,artist,album,cat"/>
-    <audio-search available="yes" supportedParams="q,artist,album,cat"/>
+    <audio-search available="yes" supportedParams="q,artist,album,cat" searchEngine="raw"/>
   </searching>
   <categories>
     <category id="3000" name="Audio">
@@ -30,20 +32,31 @@ export function handleCapsRequest(req: Request, res: Response): void {
       <subcat id="3050" name="Other"/>
     </category>
   </categories>
-</caps>`);
+</caps>`;
 }
+
+type LidarrSearchRequestParams = {
+  searchType?: string;
+  q?: string;
+  artist?: string;
+  album?: string;
+};
 
 export async function handleSearchRequest(
   req: Request,
   res: Response,
-  params: { q?: string; artist?: string; album?: string },
+  params: LidarrSearchRequestParams,
 ): Promise<void> {
   let { q } = params;
-  const { artist, album } = params;
+  const { artist, album, searchType = "unspecified" } = params;
+
+  console.log(
+    `[Lidarr] Search request type=${searchType}, q=${q ? "yes" : "no"}, artist=${artist ? "yes" : "no"}, album=${album ? "yes" : "no"}`,
+  );
 
   if (!q && (artist || album)) {
     q = [artist, album].filter(Boolean).join(" ");
-    console.log(`[Lidarr] Query: "${q}"`);
+    console.log(`[Lidarr] Synthesized query from artist/album: "${q}"`);
   }
 
   if (!q) {

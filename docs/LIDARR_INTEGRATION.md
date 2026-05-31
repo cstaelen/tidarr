@@ -240,8 +240,8 @@ Tidarr implements these Newznab endpoints:
 | Endpoint                                       | Purpose                      | Authentication                    |
 | ---------------------------------------------- | ---------------------------- | --------------------------------- |
 | `GET /api/lidarr?t=caps`                       | Returns indexer capabilities | API key via header or query param |
-| `GET /api/lidarr?t=search&q=...`               | Searches for albums          | API key via header or query param |
-| `GET /api/lidarr?t=music&artist=...&album=...` | Music-specific search        | API key via header or query param |
+| `GET /api/lidarr?t=music&artist=...&album=...` | Lidarr audio search          | API key via header or query param |
+| `GET /api/lidarr?t=search&q=...`               | Compatibility/manual search  | API key via header or query param |
 | `GET /api/lidarr/download/:id/:quality`        | Triggers album download      | API key via header or query param |
 
 **Authentication Methods:**
