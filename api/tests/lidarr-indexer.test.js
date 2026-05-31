@@ -226,6 +226,41 @@ test("FLAC 24bit results require all album tracks to carry hi-res hints", async 
   assert.match(res.body, /\/api\/lidarr\/download\/2\/max/);
 });
 
+test("LIDARR_DISABLE_MAX_RESULTS suppresses FLAC 24bit search results", async (t) => {
+  const originalDisableMaxResults = process.env.LIDARR_DISABLE_MAX_RESULTS;
+  process.env.LIDARR_DISABLE_MAX_RESULTS = "true";
+  t.after(() => {
+    if (originalDisableMaxResults === undefined) {
+      delete process.env.LIDARR_DISABLE_MAX_RESULTS;
+    } else {
+      process.env.LIDARR_DISABLE_MAX_RESULTS = originalDisableMaxResults;
+    }
+  });
+
+  t.mock.method(tidalSearchAlbums, "searchTidalForLidarr", async () => [
+    tidalAlbum("1", "Hi Res Album", "Daft Punk", {
+      mediaMetadata: { tags: ["LOSSLESS", "HIRES_LOSSLESS"] },
+    }),
+  ]);
+  t.mock.method(tidalSearchAlbums, "fetchAlbumTrackQualitySummary", async () => {
+    throw new Error("track quality summary should not be fetched");
+  });
+
+  const res = createResponse();
+
+  await handleSearchRequest(createRequest({ cat: "3040" }), res, {
+    searchType: "music",
+    artist: "Daft Punk",
+    album: "Discovery",
+  });
+
+  assert.match(res.body, /<newznab:response offset="0" total="1"\/>/);
+  assert.equal(countItems(res.body), 1);
+  assert.match(res.body, /Hi Res Album.*FLAC/);
+  assert.doesNotMatch(res.body, /FLAC 24bit/);
+  assert.doesNotMatch(res.body, /\/api\/lidarr\/download\/1\/max/);
+});
+
 test("generic search remains available as a compatibility path", async (t) => {
   const calls = [];
 

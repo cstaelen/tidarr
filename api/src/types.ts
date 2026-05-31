@@ -167,6 +167,7 @@ export interface SettingsResponse {
     SYNC_CRON_EXPRESSION?: string;
     ENABLE_HISTORY?: string;
     LIDARR_TIDAL_SEARCH_LIMIT?: string;
+    LIDARR_DISABLE_MAX_RESULTS?: string;
   };
   noToken: boolean;
   tiddl_config?: TiddlConfig;

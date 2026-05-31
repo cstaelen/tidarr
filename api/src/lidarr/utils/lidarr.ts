@@ -66,6 +66,10 @@ type AlbumQualityFilterOptions = {
   trackQualitySummary?: AlbumTrackQualitySummary;
 };
 
+type LidarrQualityResolveOptions = {
+  disableMaxResults?: boolean;
+};
+
 const TIDDL_QUALITIES: readonly QualityType[] = [
   "max",
   "high",
@@ -228,6 +232,19 @@ function isKnownAudioQualityCategoryId(
   );
 }
 
+function applyLidarrQualityResolveOptions(
+  qualities: readonly LidarrIndexerQuality[],
+  options: LidarrQualityResolveOptions,
+): LidarrIndexerQuality[] {
+  return options.disableMaxResults
+    ? qualities.filter((quality) => quality !== "hires_lossless")
+    : [...qualities];
+}
+
+export function areLidarrMaxResultsDisabled(value?: string): boolean {
+  return value?.trim().toLowerCase() === "true";
+}
+
 export function mapQualityToTiddl(quality: string): QualityType {
   if (isTiddlQuality(quality)) return quality;
 
@@ -238,15 +255,20 @@ export function mapQualityToTiddl(quality: string): QualityType {
 
 export function resolveLidarrIndexerQualities(
   categoryParam?: unknown,
+  options: LidarrQualityResolveOptions = {},
 ): LidarrIndexerQuality[] {
   const categoryIds = parseCategoryIds(categoryParam);
-  if (categoryIds.length === 0) return [...LIDARR_QUALITY_ORDER];
+  if (categoryIds.length === 0) {
+    return applyLidarrQualityResolveOptions(LIDARR_QUALITY_ORDER, options);
+  }
 
   const audioCategoryIds = categoryIds.filter(isAudioCategoryId);
-  if (audioCategoryIds.length === 0) return [...LIDARR_QUALITY_ORDER];
+  if (audioCategoryIds.length === 0) {
+    return applyLidarrQualityResolveOptions(LIDARR_QUALITY_ORDER, options);
+  }
 
   if (audioCategoryIds.includes(AUDIO_CATEGORY_ID)) {
-    return [...LIDARR_QUALITY_ORDER];
+    return applyLidarrQualityResolveOptions(LIDARR_QUALITY_ORDER, options);
   }
 
   const requestedCategoryIds = new Set(audioCategoryIds);
@@ -255,11 +277,14 @@ export function resolveLidarrIndexerQualities(
   );
 
   if (hasUnknownAudioCategory) {
-    return [...LIDARR_QUALITY_ORDER];
+    return applyLidarrQualityResolveOptions(LIDARR_QUALITY_ORDER, options);
   }
 
-  return LIDARR_QUALITY_ORDER.filter((quality) =>
-    requestedCategoryIds.has(QUALITY_MAP[quality].categoryId),
+  return applyLidarrQualityResolveOptions(
+    LIDARR_QUALITY_ORDER.filter((quality) =>
+      requestedCategoryIds.has(QUALITY_MAP[quality].categoryId),
+    ),
+    options,
   );
 }
 

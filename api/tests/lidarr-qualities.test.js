@@ -4,6 +4,7 @@ const test = require("node:test");
 const {
   filterLidarrIndexerQualitiesForAlbum,
   generateNewznabItem,
+  areLidarrMaxResultsDisabled,
   mapQualityToTiddl,
   resolveLidarrIndexerQualities,
   summarizeAlbumTrackQualityHints,
@@ -91,6 +92,33 @@ test("ignores non-audio categories when audio categories are also present", () =
     "hires_lossless",
     "lossless",
   ]);
+});
+
+test("can disable FLAC 24bit Lidarr indexer qualities", () => {
+  const options = { disableMaxResults: true };
+
+  assert.deepEqual(resolveLidarrIndexerQualities(undefined, options), [
+    "lossless",
+    "high",
+    "low",
+  ]);
+  assert.deepEqual(resolveLidarrIndexerQualities("3000", options), [
+    "lossless",
+    "high",
+    "low",
+  ]);
+  assert.deepEqual(resolveLidarrIndexerQualities("3040", options), [
+    "lossless",
+  ]);
+  assert.deepEqual(resolveLidarrIndexerQualities("3010", options), ["high"]);
+});
+
+test("parses the LIDARR_DISABLE_MAX_RESULTS setting", () => {
+  assert.equal(areLidarrMaxResultsDisabled("true"), true);
+  assert.equal(areLidarrMaxResultsDisabled(" TRUE "), true);
+  assert.equal(areLidarrMaxResultsDisabled("false"), false);
+  assert.equal(areLidarrMaxResultsDisabled(""), false);
+  assert.equal(areLidarrMaxResultsDisabled(undefined), false);
 });
 
 test("keeps direct download Tiddl qualities unchanged", () => {

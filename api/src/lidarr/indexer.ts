@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import {
+  areLidarrMaxResultsDisabled,
   filterLidarrIndexerQualitiesForAlbum,
   generateNewznabItem,
   generateNzbContent,
@@ -181,7 +182,11 @@ export async function handleSearchRequest(
 
   const results = await searchTidalForLidarr(q, { artist, album });
 
-  const qualities = resolveLidarrIndexerQualities(req.query.cat);
+  const qualities = resolveLidarrIndexerQualities(req.query.cat, {
+    disableMaxResults: areLidarrMaxResultsDisabled(
+      process.env.LIDARR_DISABLE_MAX_RESULTS,
+    ),
+  });
   const albumQualityResults = await Promise.all(
     results.map(async (album) => {
       const albumQualities = filterLidarrIndexerQualitiesForAlbum(

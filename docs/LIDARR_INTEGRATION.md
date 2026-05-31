@@ -181,7 +181,7 @@ Tidarr advertises Lidarr quality variants with these indexer quality keys:
 
 | Quality Tag    | Indexer Key    | Tiddl CLI | Advertised when                    |
 | -------------- | -------------- | --------- | ---------------------------------- |
-| `[FLAC 24bit]` | hires_lossless | `max`     | Tidal reports hi-res for the album tracks |
+| `[FLAC 24bit]` | hires_lossless | `max`     | Tidal reports hi-res for the album tracks and `LIDARR_DISABLE_MAX_RESULTS` is not `true` |
 | `[FLAC]`       | lossless       | `high`    | Tidal reports lossless or hi-res   |
 | `[AAC-320]`    | high           | `normal`  | Tidal reports non-low or no hint   |
 | `[MP3-96]`     | low            | `low`     | Always available as a fallback     |
@@ -199,7 +199,7 @@ When Lidarr sends category filters, Tidarr first narrows results to candidate qu
 
 Tidarr ignores non-audio categories before resolving quality. `3040` is Newznab's coarse lossless category, so it can include both `hires_lossless` and `lossless` candidates. Tidarr then filters those candidates using Tidal hints from `audioQuality` and `mediaMetadata.tags`.
 
-`[FLAC 24bit]` is only advertised when Tidal reports a hi-res album hint such as `HIRES_LOSSLESS`, `HI_RES_LOSSLESS`, `HIRES`, or `MAX`, and the album's track list also reports hi-res hints for every track. This avoids treating Tidal's album-level "Max" badge, which can mean only some tracks are Max, as a full-album 24-bit release. `[FLAC]` requires a `LOSSLESS` or hi-res hint. Unknown or missing hints do not advertise `[FLAC 24bit]`, but Tidarr keeps AAC-320 and low-quality entries for compatibility.
+`[FLAC 24bit]` is only advertised when Tidal reports a hi-res album hint such as `HIRES_LOSSLESS`, `HI_RES_LOSSLESS`, `HIRES`, or `MAX`, and the album's track list also reports hi-res hints for every track. This avoids treating Tidal's album-level "Max" badge, which can mean only some tracks are Max, as a full-album 24-bit release. Set `LIDARR_DISABLE_MAX_RESULTS=true` to suppress `[FLAC 24bit]` results entirely while keeping regular `[FLAC]` lossless results. `[FLAC]` requires a `LOSSLESS` or hi-res hint. Unknown or missing hints do not advertise `[FLAC 24bit]`, but Tidarr keeps AAC-320 and low-quality entries for compatibility.
 
 This filtering reduces optimistic Lidarr results, but it is still hint-based. Tidarr does not probe playback streams during search, so the final bit depth/sample rate depends on what Tiddl can retrieve from Tidal when the download runs.
 
