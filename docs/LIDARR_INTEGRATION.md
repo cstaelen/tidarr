@@ -244,6 +244,8 @@ Tidarr implements these Newznab endpoints:
 | `GET /api/lidarr?t=search&q=...`               | Compatibility/manual search  | API key via header or query param |
 | `GET /api/lidarr/download/:id/:quality`        | Triggers album download      | API key via header or query param |
 
+Search responses honor optional Newznab `offset` and `limit` parameters. Tidarr defaults to 50 results per page and caps requested page sizes at 100.
+
 **Authentication Methods:**
 
 - Header: `X-Api-Key: your-api-key`

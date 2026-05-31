@@ -24,9 +24,13 @@ test("Lidarr Indexer: Should return capabilities XML (t=caps)", async ({
   expect(capsResponse).toContain('<?xml version="1.0" encoding="UTF-8"?>');
   expect(capsResponse).toContain("<caps>");
   expect(capsResponse).toContain('<server version="1.0" title="Tidarr"');
+  expect(capsResponse).toContain('<limits max="100" default="50"/>');
   expect(capsResponse).toContain("<searching>");
-  expect(capsResponse).toContain('<search available="yes"');
-  expect(capsResponse).toContain('<music-search available="yes"');
+  expect(capsResponse).toContain(
+    '<audio-search available="yes" supportedParams="q,artist,album,cat" searchEngine="raw"/>',
+  );
+  expect(capsResponse).not.toContain('<search available="yes"');
+  expect(capsResponse).not.toContain("<music-search");
   expect(capsResponse).toContain("<categories>");
 });
 

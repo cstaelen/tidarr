@@ -16,8 +16,8 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 1 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 2 : undefined,
+  /* Keep container-per-test startup from overwhelming local Docker. */
+  workers: process.env.CI ? 2 : 4,
   /* Global timeout for each test */
   timeout: 30000,
 

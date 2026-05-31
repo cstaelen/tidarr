@@ -5,6 +5,7 @@ const tidalSearchAlbums = require("../dist/src/lidarr/utils/tidal-search-albums.
 const {
   buildLidarrCapsXml,
   handleSearchRequest,
+  resolveNewznabPagination,
 } = require("../dist/src/lidarr/indexer.js");
 
 function createRequest(query = {}) {
@@ -43,6 +44,10 @@ function tidalAlbum(id, title, artistName = "Daft Punk") {
   };
 }
 
+function countItems(xml) {
+  return (xml.match(/<item>/g) || []).length;
+}
+
 test("Lidarr caps advertise raw audio search without generic search fallback", () => {
   const caps = buildLidarrCapsXml("http://localhost:8484");
 
@@ -52,6 +57,25 @@ test("Lidarr caps advertise raw audio search without generic search fallback", (
   );
   assert.doesNotMatch(caps, /<search\b/);
   assert.doesNotMatch(caps, /<music-search\b/);
+});
+
+test("Newznab pagination defaults and clamps request params", () => {
+  assert.deepEqual(resolveNewznabPagination({}), {
+    offset: 0,
+    limit: 50,
+  });
+  assert.deepEqual(resolveNewznabPagination({ offset: "4", limit: "5" }), {
+    offset: 4,
+    limit: 5,
+  });
+  assert.deepEqual(resolveNewznabPagination({ offset: "-1", limit: "500" }), {
+    offset: 0,
+    limit: 100,
+  });
+  assert.deepEqual(resolveNewznabPagination({ offset: "1.5", limit: "0" }), {
+    offset: 0,
+    limit: 100,
+  });
 });
 
 test("music searches synthesize a query and preserve artist album context", async (t) => {
@@ -85,6 +109,46 @@ test("music searches synthesize a query and preserve artist album context", asyn
   ]);
   assert.match(res.body, /<newznab:response offset="0" total="4"\/>/);
   assert.match(res.body, /Random Access Memories/);
+});
+
+test("search responses honor Newznab offset and limit", async (t) => {
+  t.mock.method(tidalSearchAlbums, "searchTidalForLidarr", async () => [
+    tidalAlbum("1", "Homework"),
+    tidalAlbum("2", "Discovery"),
+    tidalAlbum("3", "Random Access Memories"),
+  ]);
+
+  const res = createResponse();
+
+  await handleSearchRequest(createRequest({ offset: "4", limit: "5" }), res, {
+    searchType: "music",
+    artist: "Daft Punk",
+    album: "Discovery",
+  });
+
+  assert.match(res.body, /<newznab:response offset="4" total="12"\/>/);
+  assert.equal(countItems(res.body), 5);
+  assert.doesNotMatch(res.body, /Homework/);
+  assert.match(res.body, /Discovery/);
+  assert.match(res.body, /Random Access Memories/);
+});
+
+test("search responses keep total count when offset is past the final item", async (t) => {
+  t.mock.method(tidalSearchAlbums, "searchTidalForLidarr", async () => [
+    tidalAlbum("1", "Homework"),
+    tidalAlbum("2", "Discovery"),
+  ]);
+
+  const res = createResponse();
+
+  await handleSearchRequest(createRequest({ offset: "12", limit: "5" }), res, {
+    searchType: "music",
+    artist: "Daft Punk",
+    album: "Discovery",
+  });
+
+  assert.match(res.body, /<newznab:response offset="12" total="8"\/>/);
+  assert.equal(countItems(res.body), 0);
 });
 
 test("generic search remains available as a compatibility path", async (t) => {

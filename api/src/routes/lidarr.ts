@@ -48,7 +48,7 @@ router.get(
         return handleCapsRequest(req, res);
       }
 
-      // Handle search requests (t=music or compatibility t=search)
+      // Handle search requests (t=music, t=audio, or compatibility t=search)
       return await handleSearchRequest(req, res, {
         searchType: requestType,
         q: getLidarrQueryParam(q),

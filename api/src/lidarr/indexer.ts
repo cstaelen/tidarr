@@ -7,6 +7,28 @@ import {
 } from "./utils/lidarr";
 import { searchTidalForLidarr } from "./utils/tidal-search-albums";
 
+type LidarrSearchRequestParams = {
+  searchType?: string;
+  q?: string;
+  artist?: string;
+  album?: string;
+};
+
+type NewznabPagination = {
+  offset: number;
+  limit: number;
+};
+
+type NewznabRssOptions = {
+  baseUrl: string;
+  offset: number;
+  total: number;
+  items: string[];
+};
+
+const NEWZNAB_DEFAULT_PAGE_SIZE = 50;
+const NEWZNAB_MAX_PAGE_SIZE = 100;
+
 export function handleCapsRequest(req: Request, res: Response): void {
   console.log("[Lidarr] Capabilities request (t=caps)");
 
@@ -20,7 +42,7 @@ export function buildLidarrCapsXml(baseUrl: string): string {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <caps>
   <server version="1.0" title="Tidarr" strapline="Tidal Music Indexer" email="tidarr@tidarr.com" url="${baseUrl}" image="${baseUrl}/logo.png"/>
-  <limits max="100" default="100"/>
+  <limits max="${NEWZNAB_MAX_PAGE_SIZE}" default="${NEWZNAB_DEFAULT_PAGE_SIZE}"/>
   <registration available="no" open="no"/>
   <searching>
     <audio-search available="yes" supportedParams="q,artist,album,cat" searchEngine="raw"/>
@@ -35,12 +57,88 @@ export function buildLidarrCapsXml(baseUrl: string): string {
 </caps>`;
 }
 
-type LidarrSearchRequestParams = {
-  searchType?: string;
-  q?: string;
-  artist?: string;
-  album?: string;
-};
+function getFirstStringParam(value: unknown): string | undefined {
+  if (typeof value === "string") {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    return value.find((item): item is string => typeof item === "string");
+  }
+
+  return undefined;
+}
+
+function parseIntegerParam(
+  value: unknown,
+  defaultValue: number,
+  minimum: number,
+  maximum: number = Number.MAX_SAFE_INTEGER,
+  zeroMeansMax: boolean = false,
+): number {
+  const rawValue = getFirstStringParam(value);
+
+  if (!rawValue || !/^\d+$/.test(rawValue)) {
+    return defaultValue;
+  }
+
+  const parsedValue = Number(rawValue);
+
+  if ((zeroMeansMax && parsedValue === 0) || parsedValue > maximum) {
+    return maximum;
+  }
+
+  return Number.isSafeInteger(parsedValue) && parsedValue >= minimum
+    ? parsedValue
+    : defaultValue;
+}
+
+export function resolveNewznabPagination(
+  query: Request["query"],
+): NewznabPagination {
+  const offset = parseIntegerParam(query.offset, 0, 0);
+  const requestedLimit = parseIntegerParam(
+    query.limit,
+    NEWZNAB_DEFAULT_PAGE_SIZE,
+    1,
+    NEWZNAB_MAX_PAGE_SIZE,
+    true,
+  );
+
+  return {
+    offset,
+    limit: Math.min(requestedLimit, NEWZNAB_MAX_PAGE_SIZE),
+  };
+}
+
+export function buildNewznabRssXml({
+  baseUrl,
+  offset,
+  total,
+  items,
+}: NewznabRssOptions): string {
+  const itemXml = items.length ? `\n${items.join("\n")}` : "";
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:newznab="http://www.newzbin.com/DTD/2010/feeds/attributes/">
+  <channel>
+    <title>Tidarr</title>
+    <description>Tidarr Indexer</description>
+    <link>${baseUrl}/api/lidarr</link>
+    <language>en-us</language>
+    <webMaster>tidarr@tidarr.com</webMaster>
+    <pubDate>${new Date().toUTCString()}</pubDate>
+    <newznab:response offset="${offset}" total="${total}"/>${itemXml}
+  </channel>
+</rss>`;
+}
+
+function buildNoQueryItemXml(): string {
+  return `    <item>
+          <title>test</title>
+          <pubDate>${new Date().toUTCString()}</pubDate>
+    </item>`;
+}
 
 export async function handleSearchRequest(
   req: Request,
@@ -49,68 +147,56 @@ export async function handleSearchRequest(
 ): Promise<void> {
   let { q } = params;
   const { artist, album, searchType = "unspecified" } = params;
+  const { offset, limit } = resolveNewznabPagination(req.query);
+  const baseUrl = `${req.protocol}://${req.get("host")}`;
 
-  console.log(
-    `[Lidarr] Search request type=${searchType}, q=${q ? "yes" : "no"}, artist=${artist ? "yes" : "no"}, album=${album ? "yes" : "no"}`,
-  );
-
-  if (!q && (artist || album)) {
-    q = [artist, album].filter(Boolean).join(" ");
-    console.log(`[Lidarr] Synthesized query from artist/album: "${q}"`);
+  if (q || artist || album) {
+    console.log(
+      `[Lidarr] Search request type=${searchType}, q=${q ? "yes" : "no"}, artist=${artist ? "yes" : "no"}, album=${album ? "yes" : "no"}, offset=${offset}, limit=${limit}`,
+    );
+  } else {
+    console.log(
+      "ℹ️ [Lidarr] Returning empty results for no-query request (health check)",
+    );
+    res.set("Content-Type", "application/xml");
+    res.send(
+      buildNewznabRssXml({
+        baseUrl,
+        offset: 0,
+        total: 1,
+        items: [buildNoQueryItemXml()],
+      }),
+    );
+    return;
   }
 
   if (!q) {
-    console.log(
-      "⏹️ [Lidarr] No search query provided, returning empty results",
-    );
-    res.set("Content-Type", "application/xml");
-    res.send(`<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:newznab="http://www.newzbin.com/DTD/2010/feeds/attributes/">
-  <channel>
-    <title>Tidarr</title>
-    <description>Tidarr Indexer</description>
-    <link>${req.protocol}://${req.get("host")}/api/lidarr</link>
-    <language>en-us</language>
-    <webMaster>tidarr@tidarr.com</webMaster>
-    <pubDate>${new Date().toUTCString()}</pubDate>
-    <newznab:response offset="0" total="1"/>
-    <item>
-          <title>test</title>
-          <pubDate>${new Date().toUTCString()}</pubDate>
-    </item>
-  </channel>
-</rss>`);
-    return;
+    q = [artist, album].filter(Boolean).join(" ");
+    console.log(`[Lidarr] Synthesized query from artist/album: "${q}"`);
   }
 
   const results = await searchTidalForLidarr(q, { artist, album });
 
   const qualities = resolveLidarrIndexerQualities(req.query.cat);
-  const items = results
-    .flatMap((album) =>
-      qualities.map((quality) => generateNewznabItem(album, req, quality)),
-    )
-    .join("\n");
+  const items = results.flatMap((album) =>
+    qualities.map((quality) => generateNewznabItem(album, req, quality)),
+  );
 
-  const totalResults = results.length * qualities.length;
+  const totalResults = items.length;
+  const pagedItems = items.slice(offset, offset + limit);
   console.log(
-    `${results.length > 0 ? "✅" : "0️⃣"} [Lidarr] ${totalResults} results (${results.length} albums × ${qualities.length} qualities)`,
+    `${results.length > 0 ? "✅" : "0️⃣"} [Lidarr] ${totalResults} results (${results.length} albums × ${qualities.length} qualities), returning ${pagedItems.length} from offset ${offset}`,
   );
 
   res.set("Content-Type", "application/xml");
-  res.send(`<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:newznab="http://www.newzbin.com/DTD/2010/feeds/attributes/">
-  <channel>
-    <title>Tidarr</title>
-    <description>Tidarr Indexer</description>
-    <link>${req.protocol}://${req.get("host")}/api/lidarr</link>
-    <language>en-us</language>
-    <webMaster>tidarr@tidarr.com</webMaster>
-    <pubDate>${new Date().toUTCString()}</pubDate>
-    <newznab:response offset="0" total="${totalResults}"/>
-${items}
-  </channel>
-</rss>`);
+  res.send(
+    buildNewznabRssXml({
+      baseUrl,
+      offset,
+      total: totalResults,
+      items: pagedItems,
+    }),
+  );
 }
 
 export async function handleDownloadFromLidarr(
