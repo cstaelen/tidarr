@@ -83,24 +83,38 @@ test("Edit Config: Should save TOML config to API and persist", async ({
   // Wait for Monaco editor to load
   await page.locator(".monaco-editor").waitFor();
 
-  // Click in Monaco editor and type
-  await page.locator(".monaco-editor .view-lines").click();
+  const configToml = `[download]
+track_quality = "low"
+`;
 
-  // Select all and replace
-  await page.keyboard.press("Control+A");
-  await page.keyboard.press("Enter");
-  await page.keyboard.type("[download]");
-  await page.keyboard.press("Enter");
-  await page.keyboard.type('track_quality = "low"');
-  await page.keyboard.press("Enter");
+  // Set content directly via Monaco API to avoid keyboard input issues
+  // (Ctrl+A + type can drop characters in CI under load).
+  await page.evaluate(
+    (toml) =>
+      (
+        window as unknown as {
+          monaco: {
+            editor: { getModels: () => { setValue: (v: string) => void }[] };
+          };
+        }
+      ).monaco.editor
+        .getModels()[0]
+        .setValue(toml),
+    configToml,
+  );
 
   await expect(
     page.getByRole("button", { name: "Save & Reload" }),
   ).toBeEnabled();
+  const saveConfigResponse = page.waitForResponse(
+    (response) =>
+      response.url().includes("/api/tiddl/config") &&
+      response.request().method() === "POST",
+  );
   await page.getByRole("button", { name: "Save & Reload" }).click();
 
+  expect((await saveConfigResponse).ok()).toBe(true);
   await page.waitForLoadState("load");
-  await page.waitForTimeout(500);
 
   await expect(page.locator("a").filter({ hasText: "Tidarr" })).toBeVisible();
 
@@ -110,9 +124,29 @@ test("Edit Config: Should save TOML config to API and persist", async ({
 
   await page.locator(".monaco-editor").waitFor();
 
-  const editorText = await page
-    .locator(".monaco-editor .view-lines")
-    .innerText();
+  await page.waitForFunction(() =>
+    (
+      window as unknown as {
+        monaco?: {
+          editor: { getModels: () => { getValue: () => string }[] };
+        };
+      }
+    ).monaco?.editor
+      .getModels()[0]
+      ?.getValue()
+      .includes("track_quality"),
+  );
+  const editorText = await page.evaluate(() =>
+    (
+      window as unknown as {
+        monaco: {
+          editor: { getModels: () => { getValue: () => string }[] };
+        };
+      }
+    ).monaco.editor
+      .getModels()[0]
+      .getValue(),
+  );
   expect(editorText).toContain("track_quality");
   expect(editorText).toContain("low");
 });
