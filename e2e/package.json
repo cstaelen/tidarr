@@ -10,7 +10,7 @@
   "devDependencies": {
     "@playwright/test": "^1.60.0",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^25.9.1",
+    "@types/node": "^25.9.2",
     "jsonwebtoken": "^9.0.3",
     "dotenv": "^17.4.2",
     "playwright": "^1.57.0",
