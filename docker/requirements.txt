@@ -1,4 +1,4 @@
-pylast==7.0.2
+pylast==7.1.0
 
 beets[fetchart, lastgenre, lastimport, advancedrewrite]==2.5.1
 
