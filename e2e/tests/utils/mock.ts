@@ -47,7 +47,7 @@ export async function mockTidalQueries(page: Page) {
     },
   );
   await page.route(
-    "**/proxy/tidal/v1/playlists/0b5df380-47d3-48fe-ae66-8f0dba90b1ee/items?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18",
+    "**/proxy/tidal/v1/playlists/0b5df380-47d3-48fe-ae66-8f0dba90b1ee/items?countryCode=FR&deviceType=BROWSER&locale=en_US&limit=18&order=DATE&orderDirection=DESC",
     async (route) => {
       await route.fulfill({ json: mockPlaylistTracks });
     },
