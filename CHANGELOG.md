@@ -3,6 +3,15 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.2.4
+### 🖍 Changes
+- [Front] Playlist items are now sorted in recently-added order #837
+### Fixed
+- [Doc] Fix Lidarr integration doc regarding Sabnzbd base path 810
+- [API] Force tiddl auth logout and verify exit status when revoking token #809
+- [API] Surface tiddl stderr on token refresh failure #808
+
+
 ## 📦 1.2.3
 ### 🚀 Added
 - [API] Allow Dolby Atmos download

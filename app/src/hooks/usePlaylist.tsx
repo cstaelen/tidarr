@@ -40,6 +40,8 @@ export const usePlaylist = (id: string | undefined): PlaylistContextType => {
       {
         limit: TIDAL_ITEMS_PER_PAGE,
         offset: (page - 1) * TIDAL_ITEMS_PER_PAGE,
+        order: "DATE",
+        orderDirection: "DESC",
       },
     );
 
