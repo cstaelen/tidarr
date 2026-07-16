@@ -9,14 +9,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Yarn Audit
-      uses: pragatheeswarans/yarn-audit-action@v1.0.0
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        label: 'audit issues'
-        paths: |
-          .
-          api
-          app
-          e2e
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'yarn'
+
+      - name: Install deps
+        run: yarn install --frozen-lockfile
+
+      # Single root yarn.lock covers all workspaces (api, app, e2e)
+      - name: Run audit
+        run: npx --yes audit-ci@^7 --moderate --package-manager yarn

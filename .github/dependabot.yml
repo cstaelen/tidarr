@@ -12,8 +12,13 @@ updates:
       interval: "weekly"
     groups:
       root-dependencies:
-        patterns: 
+        patterns:
           - "*"
+    ignore:
+      # typescript-eslint's peerDependencies cap at typescript <6.1.0;
+      # TS7 crashes eslint's typescript-estree parser until upstream adds support
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/app"

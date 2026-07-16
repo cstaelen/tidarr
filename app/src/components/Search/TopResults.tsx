@@ -18,21 +18,13 @@ import NoResult from "../TidalModule/NoResults";
 import { ModuleTitle } from "../TidalModule/Title";
 
 type TidalContentType =
-  | "albums"
-  | "artists"
-  | "tracks"
-  | "playlists"
-  | "videos";
+  "albums" | "artists" | "tracks" | "playlists" | "videos";
 
 type ModuleOptionsType = {
   type: string;
   label: string;
   items:
-    | AlbumType[]
-    | ArtistType[]
-    | TrackType[]
-    | PlaylistType[]
-    | VideoType[];
+    AlbumType[] | ArtistType[] | TrackType[] | PlaylistType[] | VideoType[];
   total: number;
   limit: number;
   tab: number;

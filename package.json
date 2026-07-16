@@ -17,7 +17,7 @@
     "eslint-plugin-simple-import-sort": "^13.0.0",
     "globals": "^17.7.0",
     "prettier": "^3.9.5",
-    "typescript": "^7.0.2",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.63.0"
   },
   "scripts": {
@@ -26,12 +26,13 @@
     "dev": "concurrently -n api,front \"yarn --cwd ./api start\" \"yarn --cwd app start\"",
     "prod": "node ./api/dist/index.js",
     "eslint": "eslint .",
-    "eslint-fix": "eslint --fix .",
-    "find-deadcode": "ts-prune | (! grep -v 'used in module')"
+    "eslint-fix": "eslint --fix ."
   },
   "resolutions": {
     "minimatch": ">=10.2.3",
     "flatted": ">=3.4.0",
-    "dompurify": ">=3.4.0"
+    "dompurify": ">=3.4.0",
+    "brace-expansion": ">=5.0.1",
+    "linkify-it": ">=5.0.1"
   }
 }
