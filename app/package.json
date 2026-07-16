@@ -15,12 +15,14 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router-dom": "^7.18.1",
+    "ts-prune": "^0.10.3",
     "vite": "^8.1.4"
   },
   "scripts": {
     "start": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
+    "find-deadcode": "ts-prune | (! grep -v 'used in module')",
     "depcheck": "npx depcheck"
   },
   "browserslist": {

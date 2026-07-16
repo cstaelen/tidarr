@@ -8,7 +8,8 @@
     "@types/express-http-proxy": "^1.6.7",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^26.1.1",
-    "@types/ws": "^8.18.1"
+    "@types/ws": "^8.18.1",
+    "ts-prune": "^0.10.3"
   },
   "dependencies": {
     "cors": "^2.8.6",

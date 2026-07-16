@@ -5,7 +5,7 @@ ARG TARGETPLATFORM
 ## BASE IMAGE - Shared setup for dev and prod                #
 ###############################################################
 
-FROM python:3.13-alpine3.21 AS base
+FROM python:3.13-alpine3.22 AS base
 
 WORKDIR /tidarr
 
@@ -65,7 +65,7 @@ ENTRYPOINT ["sh", "/tidarr/docker/entrypoint.sh"]
 ## BUILD APP (production only)                                #
 ###############################################################
 
-FROM --platform=$BUILDPLATFORM ghcr.io/linuxserver/baseimage-alpine:3.21 AS app_builder
+FROM --platform=$BUILDPLATFORM ghcr.io/linuxserver/baseimage-alpine:3.22 AS app_builder
 
 WORKDIR /tidarr
 
