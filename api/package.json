@@ -20,7 +20,7 @@
     "node-cron": "^4.6.0",
     "node-json-db": "^2.6.0",
     "openid-client": "^6.8.4",
-    "toml": "^4.1.2",
+    "toml": "^5.0.0",
     "ws": "^8.21.0"
   },
   "scripts": {
