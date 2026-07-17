@@ -18,6 +18,7 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
       releaseDate={album.releaseDate}
       artist={album.artists[0]}
       explicit={album.explicit}
+      isAI={album.ai}
       buttons={
         <DownloadButton
           item={album}

@@ -9,6 +9,7 @@ import { AlbumArtistType } from "src/types";
 import { formatDate } from "src/utils/helpers";
 
 import { ArtistAvatar } from "./ArtistAvatar";
+import { ChipAI } from "./ChipAI";
 import { ChipAtmos } from "./ChipAtmos";
 import { ChipQuality } from "./ChipQuality";
 import CoverLink from "./CoverLink";
@@ -229,6 +230,7 @@ type CardSwitchDisplayProps = {
   createdDate?: string;
   lastUpdatedDate?: string;
   buttons: ReactElement;
+  isAI?: boolean;
 };
 
 export default function CardSwitchDisplay({
@@ -246,6 +248,7 @@ export default function CardSwitchDisplay({
   createdDate,
   lastUpdatedDate,
   buttons,
+  isAI,
 }: CardSwitchDisplayProps) {
   const { display } = useConfigProvider();
 
@@ -390,6 +393,7 @@ export default function CardSwitchDisplay({
                 {explicit && (
                   <Chip label="Explicit" size="small" variant="outlined" />
                 )}
+                <ChipAI isAI={isAI} />
               </Stack>
             )}
 
