@@ -201,7 +201,7 @@ Streams audio content with signature validation. Supports range requests for see
 
 **Endpoint:** `POST /api/save`
 
-**Important:** Use full Tidal URLs (not numeric IDs).
+**Important:** Use full Tidal URLs (not numeric IDs). The `id` field is required and must be a non-empty string or number, unique within the queue (use the Tidal numeric ID for URL-based items, or the `type` value for favorites).
 
 **Supported types:** `album`, `track`, `video`, `playlist`, `mix`, `artist`, `artist_videos`, `favorite_albums`, `favorite_tracks`, `favorite_playlists`, `favorite_videos`, `favorite_artists`
 
@@ -213,6 +213,7 @@ curl -X POST http://localhost:8484/api/save \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
+      "id": "251082404",
       "url": "https://listen.tidal.com/album/251082404",
       "type": "album",
       "status": "queue_download"
@@ -228,6 +229,7 @@ curl -X POST http://localhost:8484/api/save \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
+      "id": "123456789",
       "url": "https://listen.tidal.com/track/123456789",
       "type": "track",
       "status": "queue_download"
@@ -243,6 +245,7 @@ curl -X POST http://localhost:8484/api/save \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
+      "id": "123456789",
       "url": "https://listen.tidal.com/video/123456789",
       "type": "video",
       "status": "queue_download"
@@ -258,6 +261,7 @@ curl -X POST http://localhost:8484/api/save \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
+      "id": "abc123-def456",
       "url": "https://listen.tidal.com/playlist/abc123-def456",
       "type": "playlist",
       "status": "queue_download"
@@ -273,6 +277,7 @@ curl -X POST http://localhost:8484/api/save \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
+      "id": "000000000000000000000000",
       "url": "https://listen.tidal.com/mix/000000000000000000000000",
       "type": "mix",
       "status": "queue_download"
@@ -288,6 +293,7 @@ curl -X POST http://localhost:8484/api/save \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
+      "id": "3566315",
       "url": "https://listen.tidal.com/artist/3566315",
       "type": "artist",
       "status": "queue_download"
@@ -303,6 +309,7 @@ curl -X POST http://localhost:8484/api/save \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
+      "id": "3566315",
       "url": "https://listen.tidal.com/artist/3566315",
       "type": "artist_videos",
       "status": "queue_download"
@@ -319,6 +326,7 @@ curl -X POST http://localhost:8484/api/save \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
+      "id": "favorite_albums",
       "type": "favorite_albums",
       "status": "queue_download"
     }
@@ -330,6 +338,7 @@ curl -X POST http://localhost:8484/api/save \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
+      "id": "favorite_tracks",
       "type": "favorite_tracks",
       "status": "queue_download"
     }
@@ -341,6 +350,7 @@ curl -X POST http://localhost:8484/api/save \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
+      "id": "favorite_playlists",
       "type": "favorite_playlists",
       "status": "queue_download"
     }
@@ -352,6 +362,7 @@ curl -X POST http://localhost:8484/api/save \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
+      "id": "favorite_videos",
       "type": "favorite_videos",
       "status": "queue_download"
     }
@@ -363,6 +374,7 @@ curl -X POST http://localhost:8484/api/save \
   -H 'Content-Type: application/json' \
   -d '{
     "item": {
+      "id": "favorite_artists",
       "type": "favorite_artists",
       "status": "queue_download"
     }
@@ -995,20 +1007,23 @@ TIDARR_URL="http://localhost:8484"
 TIDARR_API_KEY=$(docker exec tidarr cat /shared/.tidarr-api-key)
 
 albums=(
-  "https://listen.tidal.com/album/251082404"
-  "https://listen.tidal.com/album/123456789"
+  "251082404 https://listen.tidal.com/album/251082404"
+  "123456789 https://listen.tidal.com/album/123456789"
 )
 
-for album in "${albums[@]}"; do
+for entry in "${albums[@]}"; do
+  id="${entry%% *}"
+  album="${entry#* }"
   echo "Adding $album..."
   curl -s -X POST $TIDARR_URL/api/save \
     -H "X-Api-Key: $TIDARR_API_KEY" \
     -H 'Content-Type: application/json' \
     -d "{
       \"item\": {
+        \"id\": \"$id\",
         \"url\": \"$album\",
         \"type\": \"album\",
-        \"status\": \"queue\"
+        \"status\": \"queue_download\"
       }
     }"
   echo " ✓"
@@ -1030,9 +1045,10 @@ headers = {"X-Api-Key": API_KEY}
 
 album_data = {
     "item": {
+        "id": "251082404",
         "url": "https://listen.tidal.com/album/251082404",
         "type": "album",
-        "status": "queue"
+        "status": "queue_download"
     }
 }
 

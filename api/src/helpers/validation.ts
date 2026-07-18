@@ -47,6 +47,7 @@ export function validateRequestBody(
  * Validate item object structure for downloads
  */
 function validateItem(item: unknown): item is {
+  id: string | number;
   url?: string;
   type: string;
   status: string;
@@ -56,6 +57,14 @@ function validateItem(item: unknown): item is {
   }
 
   const obj = item as Record<string, unknown>;
+
+  // id is required (non-empty string or number)
+  const idIsValidString =
+    typeof obj.id === "string" && obj.id.trim().length > 0;
+  const idIsValidNumber = typeof obj.id === "number" && !isNaN(obj.id);
+  if (!idIsValidString && !idIsValidNumber) {
+    return false;
+  }
 
   // type and status are required
   if (typeof obj.type !== "string" || typeof obj.status !== "string") {
@@ -103,7 +112,7 @@ export function validateItemMiddleware(
   if (!validateItem(item)) {
     res.status(400).json({
       error:
-        "Invalid item structure. Required: { type: string, status: string, url?: string }",
+        "Invalid item structure. Required: { id: string|number, type: string, status: string, url?: string }",
     });
     return;
   }
