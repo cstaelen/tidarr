@@ -20,6 +20,7 @@ export type TrackType = {
   allowStreaming: boolean;
   explicit: boolean;
   version: string;
+  ai?: boolean;
 };
 
 export type TrackAlbumType = {
@@ -41,6 +42,7 @@ export type ArtistType = {
   url: string;
   popularity: number;
   mixes?: { ARTIST_MIX: string } & { [key: string]: string }[];
+  ai?: boolean;
 };
 
 // ALBUM
@@ -66,6 +68,7 @@ export type AlbumType = {
   popularity: number;
   url: string;
   explicit: boolean;
+  ai?: boolean;
 };
 
 // VIDEO

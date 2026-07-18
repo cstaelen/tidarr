@@ -9,6 +9,7 @@ import { DownloadButton } from "../Buttons/DownloadButton";
 import { PlayerButton } from "../Buttons/PlayerButton";
 
 import { ArtistAvatar } from "./common/ArtistAvatar";
+import { ChipAI } from "./common/ChipAI";
 import { ChipAtmos } from "./common/ChipAtmos";
 import { ChipQuality } from "./common/ChipQuality";
 import CoverLink from "./common/CoverLink";
@@ -63,6 +64,7 @@ function StackChips({ track }: { track: TrackType }) {
       {track?.explicit && (
         <Chip label="Explicit" variant="outlined" size="small" />
       )}
+      <ChipAI isAI={track?.ai} />
     </Box>
   );
 }

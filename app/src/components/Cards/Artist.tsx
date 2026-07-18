@@ -9,6 +9,7 @@ import { ArtistType } from "src/types";
 import SyncButton from "../Buttons/SyncButton";
 
 import { ArtistAvatar } from "./common/ArtistAvatar";
+import { ChipAI } from "./common/ChipAI";
 import CoverLink from "./common/CoverLink";
 
 export default function Artist({ artist }: { artist: ArtistType }) {
@@ -71,6 +72,7 @@ export default function Artist({ artist }: { artist: ArtistType }) {
               }
             />
           ) : null}
+          <ChipAI isAI={artist?.ai} />
         </Box>
 
         <Box
