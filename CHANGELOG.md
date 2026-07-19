@@ -14,6 +14,8 @@ Tidarr notable changes.
 - [Doc] Fix Lidarr integration doc regarding Sabnzbd base path 810
 - [API] Force tiddl auth logout and verify exit status when revoking token #809
 - [API] Surface tiddl stderr on token refresh failure #808
+- [API] Fix favorite template issue #815
+- [Doc] Update API documentation #838
 
 
 ## 📦 1.2.3
