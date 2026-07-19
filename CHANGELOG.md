@@ -10,6 +10,7 @@ Tidarr notable changes.
 - [Front] Playlist items are now sorted in recently-added order #837
 - [API] Update Tiddl to version 3.4.4
 - [Docker] Update NodeJS to v22.23.0
+- [API] Favorites album download is now processing album per album
 ### 🐛 Fixed
 - [Doc] Fix Lidarr integration doc regarding Sabnzbd base path 810
 - [API] Force tiddl auth logout and verify exit status when revoking token #809
