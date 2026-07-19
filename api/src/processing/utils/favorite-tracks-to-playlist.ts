@@ -18,6 +18,8 @@ type FavoriteTrackItem = {
     title: string;
     version?: string | null;
     trackNumber: number;
+    volumeNumber?: number;
+    artists?: Array<{ name: string; type?: string }>;
     album: { id: number; title: string };
   };
 };
@@ -68,7 +70,8 @@ async function fetchAlbumDetails(
       `${TIDAL_API_URL}/v1/albums?ids=${batch.join(",")}&countryCode=${country}`,
     );
     if (!response.ok) continue;
-    const albums: (AlbumDetails & { id: number })[] = await response.json();
+    const data = await response.json();
+    const albums: (AlbumDetails & { id: number })[] = data.items ?? data;
     for (const album of albums) {
       detailsMap.set(album.id, album);
     }
@@ -92,6 +95,11 @@ function resolveTrackTemplate(
   const titleVersion = track.version
     ? `${track.title} (${track.version})`
     : track.title;
+  const trackArtist =
+    track.artists?.find((a) => a.type === "MAIN")?.name ??
+    track.artists?.[0]?.name ??
+    albumArtist;
+  const volume = (track.volumeNumber ?? 1).toString();
 
   return template
     .replace(/\{album\.artist\}/g, albumArtist)
@@ -102,6 +110,9 @@ function resolveTrackTemplate(
       (track.trackNumber ?? 1).toString().padStart(2, "0"),
     )
     .replace(/\{item\.title_version\}/g, titleVersion)
+    .replace(/\{item\.title\}/g, track.title)
+    .replace(/\{item\.artist\}/g, trackArtist)
+    .replace(/\{item\.volume\}/g, volume)
     .split("/")
     .map((segment) => segment.replace(/\.+$/, ""))
     .join("/");
@@ -191,6 +202,11 @@ export async function generateFavoriteTracksM3U(
         return path.join(basePath, path.relative(libraryPath, audioFile));
       })
       .filter((entry): entry is string => entry !== null);
+
+    logs(
+      item.id,
+      `🔍 [FAV] albumDetailsMap size: ${albumDetailsMap.size}, resolved: ${m3uEntries.length}, missing: ${missing}`,
+    );
 
     if (m3uEntries.length === 0) {
       logs(
