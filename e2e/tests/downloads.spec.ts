@@ -219,11 +219,32 @@ test("Tidarr download : Should be able to download mix", async ({ page }) => {
 test("Tidarr download : Should be able to download favorite albums", async ({
   page,
 }) => {
-  // Mock favorite albums output
-  await page.route("**/stream-item-output/*", async (route) => {
-    const itemId = route.request().url().split("/").pop();
-    const mockOutput = `=== Tiddl ===\r\nExecuting: tiddl fav -r album download -q high`;
+  await mockItemOutputSSE(page, "high");
 
+  // Mock stream-processing SSE before page load so the connection is intercepted.
+  // Simulates albums added to queue after the favorite_albums item is expanded
+  // into individual album items and removed by the backend.
+  const mockAlbums = [
+    {
+      id: "77610756",
+      title: "Nevermind",
+      artist: "Nirvana",
+      type: "album",
+      quality: "high",
+      status: "queue_download",
+      loading: false,
+    },
+    {
+      id: "77610844",
+      title: "In Utero",
+      artist: "Nirvana",
+      type: "album",
+      quality: "high",
+      status: "queue_download",
+      loading: false,
+    },
+  ];
+  await page.route("**/stream-processing", async (route) => {
     await route.fulfill({
       status: 200,
       headers: {
@@ -231,8 +252,16 @@ test("Tidarr download : Should be able to download favorite albums", async ({
         "Cache-Control": "no-cache",
         Connection: "keep-alive",
       },
-      body: `data: ${JSON.stringify({ id: itemId, output: mockOutput })}\n\n`,
+      body: `data: ${mockSSEPayload(mockAlbums)}\n\n`,
     });
+  });
+
+  // Intercept /api/save to verify the favorite_albums item is sent to the backend
+  let savedItem: Record<string, unknown> | null = null;
+  await page.route("**/save", async (route) => {
+    const body = route.request().postDataJSON();
+    savedItem = body?.item;
+    await route.continue();
   });
 
   await page.goto("/");
@@ -241,11 +270,26 @@ test("Tidarr download : Should be able to download favorite albums", async ({
   await expect(page.getByRole("main")).toContainText("My Favorite albums");
   await page.getByRole("button", { name: "Favorite albums" }).first().click();
 
-  await testProcessingList(page, [
-    "Favorite albums",
-    "favorite_albums",
-    "high",
-  ]);
+  await page.waitForTimeout(500);
+  expect(savedItem).toMatchObject({ type: "favorite_albums" });
+
+  // Open processing list and verify individual album items are present
+  // (not a single "favorite_albums" job)
+  await expect(page.locator("button.MuiFab-circular")).toBeVisible();
+  await page.locator("button.MuiFab-circular").click();
+
+  await page.waitForSelector('[aria-label="Processing table"]', {
+    state: "visible",
+    timeout: 5000,
+  });
+
+  await expect(page.getByLabel("Processing table")).toContainText("Nevermind");
+  await expect(page.getByLabel("Processing table")).toContainText("In Utero");
+  await expect(page.getByLabel("Processing table")).toContainText("Nirvana");
+  await expect(page.getByLabel("Processing table")).toContainText("album");
+
+  // Clean up
+  await page.route("**/stream-processing", (route) => route.continue());
 });
 
 test("Tidarr download : Should be able to download favorite tracks", async ({
