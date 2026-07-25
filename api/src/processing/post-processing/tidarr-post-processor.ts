@@ -76,9 +76,6 @@ export async function postProcessTidarr(
     return;
   }
 
-  // Execute custom script if exists
-  await executeCustomScript(item);
-
   // Update m3u item path (playlist/mix only — favorite_tracks M3U is written directly to library after move)
   await replacePathInM3U(item);
 
@@ -90,6 +87,9 @@ export async function postProcessTidarr(
 
   // Set permissions
   await setPermissions(item);
+
+  // Execute custom script after tagging, before files are moved to the library
+  await executeCustomScript(item);
 
   // Keep trace of folders processed
   const foldersToScan = await getFolderToScan(item.id);
