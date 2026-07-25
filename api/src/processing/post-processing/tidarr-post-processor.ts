@@ -4,6 +4,7 @@ import { beets } from "../../services/beets";
 import {
   executeCustomScript,
   executePostScript,
+  executeTrackScripts,
 } from "../../services/custom-scripts";
 import { gotifyPush } from "../../services/gotify";
 import { jellyfinUpdate } from "../../services/jellyfin";
@@ -87,6 +88,9 @@ export async function postProcessTidarr(
 
   // Set permissions
   await setPermissions(item);
+
+  // Emit one completion hook per fully processed track
+  await executeTrackScripts(item);
 
   // Execute custom script after tagging, before files are moved to the library
   await executeCustomScript(item);

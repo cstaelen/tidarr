@@ -18,6 +18,26 @@ interface ScriptConfig {
   scriptName: string;
 }
 
+const AUDIO_EXTENSIONS = new Set([
+  ".aac",
+  ".aif",
+  ".aiff",
+  ".ape",
+  ".flac",
+  ".m4a",
+  ".mp2",
+  ".mp3",
+  ".mp4",
+  ".oga",
+  ".ogg",
+  ".opus",
+  ".snd",
+  ".tak",
+  ".wav",
+  ".wma",
+  ".wv",
+]);
+
 /**
  * Generic script runner that handles chmod, spawn, logging and error handling.
  */
@@ -104,6 +124,48 @@ export async function executeCustomScript(
     logPrefix: "CUSTOM SCRIPT",
     scriptName: "custom script",
   });
+}
+
+/**
+ * Executes custom-track-script.sh once for each fully processed audio file.
+ */
+export async function executeTrackScripts(
+  item: ProcessingItemType,
+): Promise<void> {
+  const scriptPath = path.join(CONFIG_PATH, "custom-track-script.sh");
+  if (
+    !fs.existsSync(scriptPath) ||
+    ["video", "artist_videos", "favorite_videos"].includes(item.type)
+  ) {
+    return;
+  }
+
+  const itemProcessingPath = `${PROCESSING_PATH}/${item.id}`;
+  const tracks = fs
+    .readdirSync(itemProcessingPath, { recursive: true, withFileTypes: true })
+    .filter(
+      (entry) =>
+        entry.isFile() &&
+        AUDIO_EXTENSIONS.has(path.extname(entry.name).toLowerCase()),
+    )
+    .map((entry) => path.join(entry.parentPath, entry.name));
+
+  for (const trackPath of tracks) {
+    await runScript(item, {
+      scriptPath,
+      cwd: path.dirname(trackPath),
+      env: {
+        PROCESSING_PATH: itemProcessingPath,
+        TRACK_PATH: trackPath,
+        TRACK_RELATIVE_PATH: path.relative(itemProcessingPath, trackPath),
+        ITEM_TYPE: item.type,
+        ITEM_URL: item.url,
+        ITEM_NAME: item.title,
+      },
+      logPrefix: "TRACK SCRIPT",
+      scriptName: `custom track script for ${path.basename(trackPath)}`,
+    });
+  }
 }
 
 /**

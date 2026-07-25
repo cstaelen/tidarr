@@ -550,10 +550,11 @@ Tidarr can be integrated with Lidarr as both a Newznab indexer and a SABnzbd dow
 
 ### Custom Processing Scripts
 
-Tidarr supports two custom shell scripts during the post-processing pipeline:
+Tidarr supports three custom shell scripts during the post-processing pipeline:
 
-- **`custom-script.sh`** - Runs **before** files are moved to the library
-- **`custom-post-script.sh`** - Runs **after** files are moved to the library
+- **`custom-track-script.sh`** - Runs once per audio file after tagging
+- **`custom-script.sh`** - Runs once per item before files are moved to the library
+- **`custom-post-script.sh`** - Runs once per item after files are moved to the library
 
 You can also install additional Python packages by placing a **`requirements.txt`** file in your root config folder.
 

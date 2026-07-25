@@ -1,16 +1,44 @@
 # Custom Script Documentation
 
-Tidarr supports two custom shell scripts that allow you to perform custom operations during the post-processing pipeline:
+Tidarr supports three custom shell scripts that allow you to perform custom operations during the post-processing pipeline:
 
-1. **`custom-script.sh`** - Runs **before** files are moved to the library
-2. **`custom-post-script.sh`** - Runs **after** files are moved to the library
+1. **`custom-track-script.sh`** - Runs once per audio file after tagging
+2. **`custom-script.sh`** - Runs once per item before files are moved to the library
+3. **`custom-post-script.sh`** - Runs once per item after files are moved to the library
 
 ---
 
 ## Pipeline Order
 
 ```
-Download → Beets → ReplayGain → Permissions → custom-script.sh → Move to Library → custom-post-script.sh → Plex/Jellyfin/Navidrome Scan → Notifications
+Download → Beets → ReplayGain → Permissions → custom-track-script.sh (per track) → custom-script.sh → Move to Library → custom-post-script.sh → Plex/Jellyfin/Navidrome Scan → Notifications
+```
+
+---
+
+## Per-Track Script: `custom-track-script.sh`
+
+The optional `custom-track-script.sh` runs once for every audio file after
+Tidarr finishes Beets, ReplayGain, and permission processing. Album and playlist
+downloads therefore emit one hook per track, while the files are still in the
+processing directory.
+
+**Available environment variables:**
+
+```bash
+PROCESSING_PATH     # Root processing directory for the queued item
+TRACK_PATH          # Absolute path to the completed audio file
+TRACK_RELATIVE_PATH # Track path relative to PROCESSING_PATH
+ITEM_TYPE           # Queued item type
+ITEM_URL            # Tidal URL of the queued item
+ITEM_NAME           # Human-readable name of the queued item
+```
+
+**Example script:**
+
+```bash
+#!/bin/sh
+printf '%s\n' "$TRACK_PATH" >> /shared/completed-tracks.queue
 ```
 
 ---
@@ -137,7 +165,7 @@ echo "Post-processing complete!"
 
 ## Important Notes
 
-- Both scripts are **optional** - Tidarr works normally without them
+- All scripts are **optional** - Tidarr works normally without them
 - Scripts are made executable automatically (chmod +x is applied)
 - Script errors won't stop the download pipeline - processing continues regardless
 - All stdout/stderr output is logged and visible in the download terminal dialog
