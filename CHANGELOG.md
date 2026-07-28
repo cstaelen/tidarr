@@ -3,6 +3,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.2.5
+### 🖍 Changes
+- [API] `custom-script.sh` now running after Beets, ReplayGain, and permissions #853
+### 🐛 Fixed
+- [API] Lidarr process now handle `atmos_filter` config #831
+
 ## 📦 1.2.4
 ### 🚀 Added
 - [Front] AI flag on AI generated content #839
@@ -10,7 +16,7 @@ Tidarr notable changes.
 - [Front] Playlist items are now sorted in recently-added order #837
 - [API] Update Tiddl to version 3.4.4
 - [Docker] Update NodeJS to v22.23.0
-- [API] Favorites album download is now processing album per album
+- [API] Favorites album download is now processing album per album #838
 ### 🐛 Fixed
 - [Doc] Fix Lidarr integration doc regarding Sabnzbd base path 810
 - [API] Force tiddl auth logout and verify exit status when revoking token #809
