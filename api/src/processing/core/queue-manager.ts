@@ -88,8 +88,6 @@ export class QueueManager {
       if (nextDownload) {
         await this.prepareDownload(nextDownload);
         this.startDownload(nextDownload);
-      } else {
-        this.resetBatchCount();
       }
     }
 
