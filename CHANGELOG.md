@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.2.6
+### 🐛 Fixed
+- [Lidarr] Batch download is now applied to Lidarr integration #860
+
 ## 📦 1.2.5
 ### 🖍 Changes
 - [API] `custom-script.sh` now running after Beets, ReplayGain, and permissions #853
