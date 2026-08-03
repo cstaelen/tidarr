@@ -1,6 +1,6 @@
 import { Express } from "express";
 
-import { PROCESSING_PATH } from "../../../constants";
+import { NZB_DOWNLOAD_PATH, PROCESSING_PATH } from "../../../constants";
 import { checkBatchPause, getBatchDelayMs } from "../../services/batch-queue";
 import { ProcessingItemType, ProcessingItemWithPlaylist } from "../../types";
 import { handleDownload } from "../download/download-handler";
@@ -88,8 +88,6 @@ export class QueueManager {
       if (nextDownload) {
         await this.prepareDownload(nextDownload);
         this.startDownload(nextDownload);
-      } else {
-        this.resetBatchCount();
       }
     }
 
@@ -135,6 +133,9 @@ export class QueueManager {
         this.updateItemCallback(item);
         await this.updateItemInQueueFileCallback(item);
 
+        // Increment batch counter before notifying SSE so UI sees updated count
+        await this.applyBatchPause(item, `${NZB_DOWNLOAD_PATH}/${item.id}`);
+
         // Start Lidarr post-processing immediately
         postProcessLidarr(item, () => {
           this.onPostProcessingComplete(item);
@@ -154,32 +155,44 @@ export class QueueManager {
       }
 
       // Increment batch counter before notifying SSE so UI sees updated count
-      const processingPath = `${PROCESSING_PATH}/${item.id}`;
-      const hadFiles = await hasFileToMove(processingPath);
-      if (hadFiles && checkBatchPause(item.id, this.batchCompletedCount)) {
-        this.isPaused = true;
-        const delayMs = getBatchDelayMs();
-        if (delayMs) {
-          this.batchResumeAt = Date.now() + delayMs;
-          this.batchResumeTimer = setTimeout(() => {
-            this.batchResumeTimer = null;
-            this.batchResumeAt = null;
-            this.resetBatchCount();
-            this.setPaused(false);
-            this.processQueue();
-            this.onBatchResumeCallback();
-          }, delayMs);
-          console.log(
-            `⏱️ [BATCH] Auto-resume scheduled in ${delayMs / 60000} min.`,
-          );
-        }
-      }
+      await this.applyBatchPause(item, `${PROCESSING_PATH}/${item.id}`);
 
       this.updateItemCallback(item);
       await this.updateItemInQueueFileCallback(item);
 
       this.processQueue();
     });
+  }
+
+  /**
+   * Increments the batch counter for a completed download (if it produced files)
+   * and pauses the queue with an auto-resume timer once DOWNLOAD_BATCH_SIZE is reached.
+   */
+  private async applyBatchPause(
+    item: ProcessingItemType,
+    processingPath: string,
+  ): Promise<void> {
+    const hadFiles = await hasFileToMove(processingPath);
+    if (!hadFiles || !checkBatchPause(item.id, this.batchCompletedCount)) {
+      return;
+    }
+
+    this.isPaused = true;
+    const delayMs = getBatchDelayMs();
+    if (delayMs) {
+      this.batchResumeAt = Date.now() + delayMs;
+      this.batchResumeTimer = setTimeout(() => {
+        this.batchResumeTimer = null;
+        this.batchResumeAt = null;
+        this.resetBatchCount();
+        this.setPaused(false);
+        this.processQueue();
+        this.onBatchResumeCallback();
+      }, delayMs);
+      console.log(
+        `⏱️ [BATCH] Auto-resume scheduled in ${delayMs / 60000} min.`,
+      );
+    }
   }
 
   /**
