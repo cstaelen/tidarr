@@ -63,7 +63,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     args.push(item.quality);
   }
 
-  if (item.atmosFilter && item.atmosFilter !== "none") {
+  if (item.atmosFilter) {
     args.push("--dolby-atmos", item.atmosFilter);
   }
 
@@ -105,7 +105,8 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
           !line.includes("not a MP4 file") &&
           !line.includes("no longer available")) ||
         line.includes("Cannot connect to host") ||
-        line.includes("validation errors"),
+        line.includes("validation errors") ||
+        line.includes("due to Dolby Atmos filter"),
     );
     if (errorLines.length > 0) {
       hasProcessingError = true;
