@@ -6,6 +6,8 @@ Tidarr notable changes.
 ## 📦 1.2.6
 ### 🐛 Fixed
 - [Lidarr] Batch download is now applied to Lidarr integration #860
+- [API] Atmos error is now handled
+- [API] dolby_atmos=none is now explicitly forwarded to Tiddl command
 
 ## 📦 1.2.5
 ### 🖍 Changes
