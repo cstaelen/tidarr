@@ -38,8 +38,8 @@ However, accessing Tidarr directly via IP address (e.g., `http://192.168.1.100:8
 
 Tidarr has two SSE endpoints:
 
-1. **`/api/stream`** - Broadcasts processing queue updates to all connected clients
-2. **`/api/stream_item_output/:id`** - Sends real-time download output logs to the terminal dialog
+1. **`/api/stream-processing`** - Broadcasts processing queue updates to all connected clients
+2. **`/api/stream-item-output/:id`** - Sends real-time download output logs to the terminal dialog
 
 Both endpoints require special Nginx configuration to work through a reverse proxy.
 
@@ -99,8 +99,8 @@ Log in to your Nginx Proxy Manager web interface (usually at `http://your-server
 2. Add the following configuration:
 
 ```nginx
-# SSE configuration for /api/stream endpoint
-location /api/stream {
+# SSE configuration for /api/stream-processing endpoint
+location /api/stream-processing {
     proxy_pass http://tidarr:8484;
 
     # Disable buffering for SSE
@@ -123,8 +123,8 @@ location /api/stream {
     proxy_set_header X-Forwarded-Proto $scheme;
 }
 
-# SSE configuration for /api/stream_item_output endpoint
-location /api/stream_item_output {
+# SSE configuration for /api/stream-item-output endpoint
+location /api/stream-item-output {
     proxy_pass http://tidarr:8484;
 
     # Disable buffering for SSE
@@ -190,7 +190,7 @@ Open your browser's developer console (F12) and check the **Network** tab:
 
 1. Filter by "stream"
 2. Start a download
-3. You should see active connections to `/api/stream` and `/api/stream_item_output/:id`
+3. You should see active connections to `/api/stream-processing` and `/api/stream-item-output/:id`
 4. Check the response type is `text/event-stream`
 
 **4. Browser Cache**
@@ -209,7 +209,7 @@ docker network inspect <network_name>
 ### Common Mistakes
 
 - Enabling "WebSocket Support" in NPM (not needed for SSE)
-- Not adding the advanced configuration for `/api/stream*` endpoints
+- Not adding the advanced configuration for `/api/stream-processing` and `/api/stream-item-output` endpoints
 - Using wrong Tidarr hostname/IP in proxy configuration
 - Having `proxy_buffering on` (default Nginx behavior)
 
