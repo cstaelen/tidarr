@@ -106,7 +106,11 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
           !line.includes("no longer available")) ||
         line.includes("Cannot connect to host") ||
         line.includes("validation errors") ||
-        line.includes("due to Dolby Atmos filter"),
+        line.includes("due to Dolby Atmos filter") ||
+        line.includes("ECONNRESET") ||
+        line.includes("ContentLengthError") ||
+        line.includes("is not completed") ||
+        line.includes("TypeError: terminated"),
     );
     if (errorLines.length > 0) {
       hasProcessingError = true;
@@ -114,7 +118,11 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
         lines.some(
           (line) =>
             line.includes("Cannot connect to host") ||
-            line.includes("Connection reset by peer"),
+            line.includes("Connection reset by peer") ||
+            line.includes("ECONNRESET") ||
+            line.includes("ContentLengthError") ||
+            line.includes("is not completed") ||
+            line.includes("TypeError: terminated"),
         )
       ) {
         hasNetworkError = true;
