@@ -10,6 +10,7 @@ import {
   removeItemFromFile,
   removeItemsFromFile,
   updateItemInQueueFile,
+  updateItemsInQueueFile,
 } from "../../helpers/queue_save_file";
 import { addItemToHistory } from "../../services/history";
 import { ProcessingItemType, ProcessingItemWithPlaylist } from "../../types";
@@ -256,6 +257,23 @@ export const ProcessingStack = () => {
     notifySSE();
   }
 
+  async function retryFailedItems() {
+    const itemsToRetry = data.filter((item) => item.status === "error");
+    if (itemsToRetry.length === 0) return;
+
+    for (const item of itemsToRetry) {
+      item.status = "queue_download";
+      item.error = false;
+      item.retryCount = 0;
+      item.networkError = false;
+    }
+
+    await updateItemsInQueueFile(itemsToRetry);
+
+    queueManager.processQueue();
+    notifySSE();
+  }
+
   function updateItem(item: ProcessingItemType) {
     if (item?.status === "finished" || item?.status === "error") {
       // Add item to history (if enabled)
@@ -359,6 +377,7 @@ export const ProcessingStack = () => {
       removeItem,
       removeAllItems,
       removeFinishedItems,
+      retryFailedItems,
       updateItem,
       getItem,
       processQueue: () => queueManager.processQueue(),

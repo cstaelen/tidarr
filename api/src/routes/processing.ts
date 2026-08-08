@@ -84,6 +84,23 @@ router.delete(
 );
 
 /**
+ * POST /api/retry-failed
+ * Retry all items currently in "error" status
+ */
+router.post(
+  "/retry-failed",
+  ensureAccessIsGranted,
+  async (req: Request, res: Response) => {
+    try {
+      await req.app.locals.processingStack.actions.retryFailedItems();
+      res.sendStatus(204);
+    } catch (error) {
+      handleRouteError(error, res, "retry failed items");
+    }
+  },
+);
+
+/**
  * POST /api/queue/pause
  * Pause the download queue (cancels current item and sets it back to queue)
  */

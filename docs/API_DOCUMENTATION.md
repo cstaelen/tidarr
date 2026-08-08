@@ -420,6 +420,19 @@ curl -X DELETE http://localhost:8484/api/remove-finished \
 
 ---
 
+### Retry failed items
+
+Resets every item currently in `error` status back to `queue_download`. Items with any other status are left unchanged.
+
+```bash
+curl -X POST http://localhost:8484/api/retry-failed \
+  -H "X-Api-Key: your-api-key"
+```
+
+**Response:** `204 No Content`
+
+---
+
 ## Queue Management
 
 ### Get queue list

@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import {
   ClearAll,
   DeleteSweep,
+  Replay,
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
@@ -23,11 +24,17 @@ function getRemainingTime(batchResumeAt: number | null) {
 
 export default function ProcessingList() {
   const [isRemoving, setIsRemoving] = useState(false);
+  const [isRetrying, setIsRetrying] = useState(false);
   const [showFinished, setShowFinished] = useState(false);
   const [search, setSearch] = useState("");
   const { actions: apiActions } = useApiFetcher();
   const { processingList, batchCount, batchResumeAt } = useProcessingProvider();
   const { config } = useConfigProvider();
+
+  const errorCount = useMemo(
+    () => processingList?.filter((item) => item.status === "error").length ?? 0,
+    [processingList],
+  );
 
   const keyword = search.toLowerCase();
 
@@ -96,6 +103,17 @@ export default function ProcessingList() {
     }
   };
 
+  const handleRetryFailed = async () => {
+    setIsRetrying(true);
+    try {
+      await apiActions.retry_failed();
+    } catch (error) {
+      console.error("Failed to retry failed items:", error);
+    } finally {
+      setIsRetrying(false);
+    }
+  };
+
   return (
     <>
       <ModuleTitle
@@ -118,6 +136,18 @@ export default function ProcessingList() {
                 gap: 2,
               }}
             >
+              {errorCount > 0 && (
+                <Button
+                  size="small"
+                  variant="outlined"
+                  color="warning"
+                  startIcon={<Replay />}
+                  onClick={handleRetryFailed}
+                  disabled={isRetrying}
+                >
+                  {isRetrying ? "Retrying..." : `Retry failed (${errorCount})`}
+                </Button>
+              )}
               <Button
                 size="small"
                 variant="outlined"
