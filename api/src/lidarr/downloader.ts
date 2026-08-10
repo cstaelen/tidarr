@@ -225,7 +225,7 @@ export function handleQueueRequest(req: Request, res: Response) {
  * Returns download history
  * Maps Tidarr finished/error items to SABnzbd history format
  */
-export function handleHistoryRequest(req: Request, res: Response) {
+export async function handleHistoryRequest(req: Request, res: Response) {
   const { name } = req.query;
 
   // Handle history delete operations
@@ -251,14 +251,16 @@ export function handleHistoryRequest(req: Request, res: Response) {
     const { data } = processingStack;
 
     // Map finished/error items to SABnzbd history slots
-    const slots = data
-      .filter(
-        (item: ProcessingItemType) =>
-          ["finished", "error"].includes(item.status) &&
-          item.source === "lidarr",
-      )
-      .slice(0, limitNum)
-      .map(mapItemToHistorySlot);
+    const slots = await Promise.all(
+      data
+        .filter(
+          (item: ProcessingItemType) =>
+            ["finished", "error"].includes(item.status) &&
+            item.source === "lidarr",
+        )
+        .slice(0, limitNum)
+        .map(mapItemToHistorySlot),
+    );
 
     return res.json({
       history: {
