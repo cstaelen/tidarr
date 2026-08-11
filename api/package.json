@@ -25,6 +25,7 @@
   },
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",
+    "test": "npx tsc --project ./tsconfig.test.json && node dist-test/src/services/tidal-pkce.test.js",
     "start": "npx tsx --watch index.ts",
     "prod": "node ./dist/index.js",
     "find-deadcode": "ts-prune | (! grep -v 'used in module')",

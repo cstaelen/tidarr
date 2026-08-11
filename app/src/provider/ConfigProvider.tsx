@@ -46,6 +46,8 @@ type ConfigContextType = {
   changeLogData: string[];
   unseenReleases: ReleaseGithubType[];
   tokenMissing: boolean;
+  requiresPkceAuth: boolean;
+  noAtmosToken: boolean;
   quality: undefined | QualityType;
   atmosFilter: undefined | AtmosFilterType;
   display: DisplayType;
@@ -70,6 +72,8 @@ const ConfigContext = React.createContext<ConfigContextType>(
 export function ConfigProvider({ children }: { children: ReactNode }) {
   const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
   const [tokenMissing, setTokenMissing] = useState(false);
+  const [requiresPkceAuth, setRequiresPkceAuth] = useState(false);
+  const [noAtmosToken, setNoAtmosToken] = useState(false);
   const [releaseData, setReleaseData] = useState<ReleaseGithubType>();
   const [changeLogData, setChangeLogData] = useState<string[]>([]);
   const [unseenReleases, setUnseenReleases] = useState<ReleaseGithubType[]>([]);
@@ -104,6 +108,8 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     const data = output as ConfigType;
 
     setTokenMissing(data?.noToken);
+    setRequiresPkceAuth(data?.requiresPkceAuth);
+    setNoAtmosToken(data?.noAtmosToken);
     setConfig(data?.parameters);
     setTiddlConfig(data?.tiddl_config);
     setConfigErrors(data?.configErrors);
@@ -191,6 +197,8 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     changeLogData,
     unseenReleases,
     tokenMissing,
+    requiresPkceAuth,
+    noAtmosToken,
     config,
     quality,
     atmosFilter,

@@ -1,72 +1,73 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import WarningIcon from "@mui/icons-material/Warning";
-import { CircularProgress, Link, Paper, Typography } from "@mui/material";
-import { EventSourceController } from "event-source-plus";
+import {
+  Button,
+  CircularProgress,
+  Link,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 
 import { DialogHandler } from ".";
 
 export const DialogToken = () => {
-  const { tokenMissing } = useConfigProvider();
+  const { requiresPkceAuth, tokenMissing } = useConfigProvider();
+  const authenticationRequired = tokenMissing || requiresPkceAuth;
   const {
-    actions: { get_token_sse },
+    actions: { complete_pkce_login, start_pkce_login },
   } = useApiFetcher();
-  const [output, setOutput] = useState<string>();
-  const [error, setError] = useState<boolean>(false);
+  const [loginId, setLoginId] = useState<string>();
+  const [loginUrl, setLoginUrl] = useState<string>();
+  const [redirectUrl, setRedirectUrl] = useState("");
+  const [message, setMessage] = useState<string>();
+  const [loading, setLoading] = useState(false);
   const [forceClose, setForceClose] = useState<boolean>(false);
-  const [sseController, setSseController] = useState<AbortController>();
+  const started = useRef(false);
 
   useEffect(() => {
-    function runTokenSSE(controller: EventSourceController) {
-      setOutput("");
-      setSseController(controller);
-    }
+    if (!authenticationRequired || started.current) return;
+    started.current = true;
+    setLoading(true);
+    start_pkce_login()
+      .then((login) => {
+        setLoginId(login?.loginId);
+        setLoginUrl(login?.loginUrl);
+        if (!login) setMessage("Unable to start TIDAL authentication.");
+      })
+      .finally(() => setLoading(false));
+  }, [authenticationRequired, start_pkce_login]);
 
-    if (!tokenMissing || error) return;
-
-    const { controller } = get_token_sse(setOutput);
-    runTokenSSE(controller);
-  }, [error, get_token_sse, tokenMissing]);
-
-  useEffect(() => {
-    function closeSSE(isError?: boolean, message?: string) {
-      if (message) setOutput(message);
-      if (isError) setError(true);
+  const completeLogin = async () => {
+    if (!loginId || !redirectUrl.trim()) return;
+    setLoading(true);
+    setMessage(undefined);
+    const result = await complete_pkce_login(loginId, redirectUrl);
+    setLoading(false);
+    if (result?.success) {
+      setMessage("Authenticated!");
+      window.location.reload();
       return;
     }
-
-    if (!tokenMissing) return;
-
-    if (output?.includes("Authenticated!")) {
-      closeSSE(false, "Authenticated !");
-      window.location.reload();
-    }
-    if (output?.includes("AuthError")) {
-      closeSSE(true);
-    }
-  }, [output, sseController, tokenMissing]);
-
-  useEffect(() => {
-    if ((tokenMissing || !!sseController) && !error) return;
-    setTimeout(() => {
-      console.log("Closing token SSE.");
-      setSseController(undefined);
-      sseController?.abort();
-    });
-  }, [sseController, tokenMissing, error]);
+    setMessage(result?.message || "Unable to complete TIDAL authentication.");
+  };
 
   return (
     <DialogHandler
-      title={"Tidal token not found !"}
+      title={
+        requiresPkceAuth
+          ? "Upgrade TIDAL authentication"
+          : "Tidal token not found !"
+      }
       icon={<WarningIcon color="error" />}
       onClose={() => {
         setForceClose(true);
-        sseController?.abort();
       }}
-      open={!!tokenMissing && !forceClose}
+      open={authenticationRequired && !forceClose}
     >
-      <p>Click on the link below to authenticate:</p>
+      <p>Open this link and sign in to TIDAL:</p>
       <Paper
         elevation={0}
         sx={{
@@ -77,10 +78,10 @@ export const DialogToken = () => {
           lineHeight: "1",
         }}
       >
-        <Link href={output} target="_blank">
-          {output}
+        <Link href={loginUrl} target="_blank" rel="noreferrer">
+          {loginUrl || "Preparing secure login…"}
         </Link>
-        {sseController && <CircularProgress size={16} sx={{ mx: 2 }} />}
+        {loading && <CircularProgress size={16} sx={{ mx: 2 }} />}
       </Paper>
       <Typography
         sx={{
@@ -89,17 +90,28 @@ export const DialogToken = () => {
           py: 1,
         }}
       >
-        This dialog will close after authentication.
+        After login, TIDAL redirects to an “Oops” page. Copy its complete URL
+        from the browser address bar and paste it below. This Hi-Res login is
+        required for stereo fallback and MAX-quality FLAC.
       </Typography>
-      <p>
-        ... or create Tidal token using CLI :{" "}
-        <Link
-          href="https://github.com/cstaelen/tidarr?tab=readme-ov-file#tidal-authentication"
-          target="_blank"
-        >
-          Github
-        </Link>
-      </p>
+      <TextField
+        fullWidth
+        label="Redirected TIDAL URL"
+        placeholder="https://tidal.com/android/login/auth?code=…"
+        value={redirectUrl}
+        onChange={(event) => setRedirectUrl(event.target.value)}
+        error={!!message && message !== "Authenticated!"}
+        helperText={message}
+        sx={{ mt: 1 }}
+      />
+      <Button
+        variant="contained"
+        disabled={loading || !loginId || !redirectUrl.trim()}
+        onClick={completeLogin}
+        sx={{ mt: 2 }}
+      >
+        Complete authentication
+      </Button>
     </DialogHandler>
   );
 };

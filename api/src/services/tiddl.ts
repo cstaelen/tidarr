@@ -1,5 +1,6 @@
 import { spawn, spawnSync } from "child_process";
 import { Express, Request, Response } from "express";
+import { chmodSync } from "fs";
 
 import {
   CONFIG_PATH,
@@ -10,6 +11,19 @@ import { get_tiddl_config } from "../helpers/get_tiddl_config";
 import { extractFirstLineClean } from "../processing/utils/ansi-parse";
 import { logs } from "../processing/utils/logs";
 import { ProcessingItemType, TiddlConfig } from "../types";
+
+import {
+  ATMOS_TIDDL_PATH,
+  getAtmosAuth,
+  getTiddlEnvironment,
+  hasAtmosAuth,
+  isPkceAuth,
+  needsTokenRefresh,
+  prepareAtmosProfile,
+  refreshPkceAuth,
+  selectTidalProfile,
+  TidalProfile,
+} from "./tidal-pkce";
 
 // Constants
 const TIDDL_BINARY = "tiddl";
@@ -82,9 +96,12 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   logs(item.id, `🕖 [TIDDL] Executing: ${TIDDL_BINARY} ${args.join(" ")}`);
   logs(item.id, "\r\n");
 
+  const profile = selectTidalProfile(item.atmosFilter);
+  const auth = profile === "atmos" ? getAtmosAuth() : config.auth;
+
   const child = spawn(TIDDL_BINARY, args, {
     env: {
-      ...process.env,
+      ...getTiddlEnvironment(auth, profile),
       FORCE_COLOR: "1",
       TERM: "xterm-256color",
     },
@@ -219,13 +236,15 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   return child;
 }
 
-export function tidalToken(req: Request, res: Response) {
-  console.log("🔑 [TIDDL] User requested new authentication ...");
+export function tidalAtmosToken(req: Request, res: Response) {
+  console.log("🔑 [TIDDL] User requested new Atmos authentication ...");
+
+  prepareAtmosProfile();
 
   // User explicitly requested login, so proceed with authentication
   // (No need to check existing token - user wants to re-authenticate)
   const tiddlProcess = spawn(TIDDL_BINARY, ["auth", "login"], {
-    env: { ...process.env },
+    env: getTiddlEnvironment(getAtmosAuth(), "atmos"),
   });
 
   tiddlProcess.stdout.on("data", (data) => {
@@ -240,9 +259,18 @@ export function tidalToken(req: Request, res: Response) {
 
   tiddlProcess.on("close", (code) => {
     if (code === 0) {
-      res.write(
-        `data: Authenticated! Token saved to ${CONFIG_PATH}/.tiddl/auth.json\n\n`,
-      );
+      const authPath = `${ATMOS_TIDDL_PATH}/auth.json`;
+      try {
+        chmodSync(authPath, 0o600);
+      } catch (error) {
+        res.write(
+          "data: AuthError: Atmos authentication file was not created.\n\n",
+        );
+        console.error("❌ [TIDDL] Atmos auth file was not created:", error);
+        res.end();
+        return;
+      }
+      res.write(`data: Authenticated! Token saved to ${authPath}\n\n`);
       console.log("✅ [TIDDL]: Authenticated !");
 
       // Reload tiddl config to include new auth tokens
@@ -263,8 +291,9 @@ export function tidalToken(req: Request, res: Response) {
 
 export function deleteTiddlConfig() {
   try {
+    const { config } = get_tiddl_config();
     const result = spawnSync(TIDDL_BINARY, ["auth", "logout", "--force"], {
-      env: { ...process.env },
+      env: getTiddlEnvironment(config.auth),
       encoding: "utf-8",
     });
     if (result.status === 0) {
@@ -277,20 +306,51 @@ export function deleteTiddlConfig() {
           (result.stderr ? `:\n${result.stderr.trim()}` : ""),
       );
     }
+
+    if (hasAtmosAuth()) {
+      const atmosphereResult = spawnSync(
+        TIDDL_BINARY,
+        ["auth", "logout", "--force"],
+        {
+          env: getTiddlEnvironment(getAtmosAuth(), "atmos"),
+          encoding: "utf-8",
+        },
+      );
+      if (atmosphereResult.status === 0) {
+        console.log(
+          `✅ [TIDDL] Atmos auth tokens deleted from ${ATMOS_TIDDL_PATH}/auth.json`,
+        );
+      } else {
+        console.error(
+          `❌ [TIDDL] Atmos auth logout exited with code ${atmosphereResult.status}` +
+            (atmosphereResult.stderr
+              ? `:\n${atmosphereResult.stderr.trim()}`
+              : ""),
+        );
+      }
+    }
   } catch (e) {
     console.error("❌ [TIDDL] Error deleting tiddl config:", e);
   }
 }
 
-export async function refreshTidalToken(): Promise<void> {
-  console.log("🕖 [TIDDL] Refreshing Tidal token...");
+export async function refreshTidalToken(
+  profile: TidalProfile = "hires",
+): Promise<void> {
+  console.log(`🕖 [TIDDL] Refreshing ${profile} Tidal token...`);
+
+  const { config } = get_tiddl_config();
+  const auth = profile === "atmos" ? getAtmosAuth() : config.auth;
+  if (profile === "hires" && isPkceAuth(auth)) {
+    await refreshPkceAuth(config.auth);
+    console.log("✅ [TIDAL] Hi-Res token refreshed.");
+    return;
+  }
 
   // Use async spawn and wait for completion
   return new Promise((resolve) => {
     const refreshProcess = spawn(TIDDL_BINARY, ["auth", "refresh"], {
-      env: {
-        ...process.env,
-      },
+      env: getTiddlEnvironment(auth, profile),
     });
 
     const stderrChunks: Buffer[] = [];
@@ -298,8 +358,12 @@ export async function refreshTidalToken(): Promise<void> {
 
     refreshProcess.on("close", async (code) => {
       if (code === 0) {
+        const authPath =
+          profile === "atmos"
+            ? `${ATMOS_TIDDL_PATH}/auth.json`
+            : `${CONFIG_PATH}/.tiddl/auth.json`;
         console.log(
-          `✅ [TIDDL] Tidal token refreshed and saved to ${CONFIG_PATH}/.tiddl/auth.json`,
+          `✅ [TIDDL] Tidal token refreshed and saved to ${authPath}`,
         );
         // Wait 500ms to ensure file is written to disk before resolving
         await new Promise((r) => setTimeout(r, 500));
@@ -317,4 +381,31 @@ export async function refreshTidalToken(): Promise<void> {
       resolve(); // Resolve anyway to not block the caller
     });
   });
+}
+
+/**
+ * Refresh before Tiddl starts so its built-in refresh command never changes
+ * the client identity of a PKCE token near expiry.
+ */
+export async function ensureTidalTokenFresh(
+  app: Express,
+  item?: ProcessingItemType,
+): Promise<void> {
+  const atmosphereAvailable = hasAtmosAuth();
+  if (item?.atmosFilter === "only" && !atmosphereAvailable) {
+    throw new Error(
+      "Atmos authentication is required. Add it in Settings → Tiddl configuration.",
+    );
+  }
+
+  const profile = selectTidalProfile(item?.atmosFilter, atmosphereAvailable);
+  const auth =
+    profile === "atmos" ? getAtmosAuth() : app.locals.tiddlConfig?.auth;
+  if (!needsTokenRefresh(auth)) return;
+
+  await refreshTidalToken(profile);
+  if (profile === "hires") {
+    const { config } = get_tiddl_config();
+    app.locals.tiddlConfig = config;
+  }
 }
