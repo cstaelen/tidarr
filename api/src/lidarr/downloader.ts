@@ -236,8 +236,9 @@ export async function handleHistoryRequest(req: Request, res: Response) {
   try {
     const app = getAppInstance();
     const processingStack = app.locals.processingStack;
-    const { limit = "60" } = req.query;
-    const limitNum = parseInt(limit as string, 10) || 60;
+    const { start = "0", limit = "60" } = req.query;
+    const startNum = parseInt(start as string, 10) || 0;
+    const limitNum = parseInt(limit as string, 10);
 
     if (!processingStack) {
       return res.json({
@@ -250,21 +251,28 @@ export async function handleHistoryRequest(req: Request, res: Response) {
 
     const { data } = processingStack;
 
-    // Map finished/error items to SABnzbd history slots
-    const slots = await Promise.all(
-      data
-        .filter(
-          (item: ProcessingItemType) =>
-            ["finished", "error"].includes(item.status) &&
-            item.source === "lidarr",
-        )
-        .slice(0, limitNum)
-        .map(mapItemToHistorySlot),
-    );
+    // data is ordered oldest-first (new items are pushed to the end), so it
+    // must be reversed before paginating - otherwise the most recently finished items.
+    const allItems = data
+      .filter(
+        (item: ProcessingItemType) =>
+          ["finished", "error"].includes(item.status) &&
+          item.source === "lidarr",
+      )
+      .reverse();
+
+    // Per the SABnzbd API, limit=0 means "no limit" and noofslots reports
+    // the total number of available entries, not the page size.
+    const page =
+      limitNum > 0
+        ? allItems.slice(startNum, startNum + limitNum)
+        : allItems.slice(startNum);
+
+    const slots = await Promise.all(page.map(mapItemToHistorySlot));
 
     return res.json({
       history: {
-        noofslots: slots.length,
+        noofslots: allItems.length,
         month_size: "0 B",
         week_size: "0 B",
         day_size: "0 B",

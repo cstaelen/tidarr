@@ -87,6 +87,10 @@ export function getQueueStatus(isPaused: boolean, slotsCount: number): string {
   return slotsCount > 0 ? "Downloading" : "Idle";
 }
 
+function getLidarrDownloadPath(itemId: string): string {
+  return `/downloads/${itemId}`;
+}
+
 export function mapItemToQueueSlot(
   item: ProcessingItemType,
   isPaused: boolean,
@@ -97,6 +101,8 @@ export function mapItemToQueueSlot(
   } else if (isPaused) {
     status = "Paused";
   }
+
+  const downloadPath = getLidarrDownloadPath(item.id);
 
   return {
     status,
@@ -116,6 +122,8 @@ export function mapItemToQueueSlot(
     nzo_id: createNzoId(item.id),
     unpackopts: "3",
     labels: [],
+    path: downloadPath,
+    storage: downloadPath,
   };
 }
 
@@ -169,10 +177,7 @@ export function formatBytes(bytes: number): string {
 export async function mapItemToHistorySlot(item: ProcessingItemType) {
   const isCompleted = item.status === "finished";
   const name = `${item.artist} - ${item.title}`;
-
-  // Lidarr-managed downloads: point to .processing folder for import
-  // Tidarr downloads: already moved to music library
-  const downloadPath = `/downloads/${item.id}`;
+  const downloadPath = getLidarrDownloadPath(item.id);
 
   const bytes = isCompleted
     ? await getFolderSizeBytes(path.join(NZB_DOWNLOAD_PATH, item.id))
