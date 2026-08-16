@@ -3,6 +3,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## Unreleased
+### 🐛 Fixed
+- [API] Use Hi-Res PKCE authentication so Atmos-tagged releases can return their stereo stream and MAX requests can return available Hi-Res FLAC
+- [API] Refresh PKCE tokens with the same TIDAL client identity before starting Tiddl downloads
+- [API] Keep a separate device-authenticated profile for Dolby Atmos downloads so Atmos and MAX Hi-Res can coexist
+
 ## 📦 1.2.6
 ### 🐛 Fixed
 - [Lidarr] Batch download is now applied to Lidarr integration #860

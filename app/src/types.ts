@@ -240,6 +240,8 @@ export type ModuleTypeKeys =
 
 export type ConfigType = {
   noToken: boolean;
+  requiresPkceAuth: boolean;
+  noAtmosToken: boolean;
   output: string;
   parameters: ConfigParametersType;
   tiddl_config: ConfigTiddleType;
@@ -303,6 +305,8 @@ export type ConfigTiddleType = {
     expires_at: number;
     user_id: string;
     country_code: string;
+    auth_type?: "oauth" | "pkce";
+    is_pkce?: boolean;
   };
 };
 

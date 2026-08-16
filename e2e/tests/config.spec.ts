@@ -14,7 +14,18 @@ test("Tidarr config : Should display token modal if no tidal token exists", asyn
 }) => {
   await mockConfigAPI(page, {
     noToken: true,
+    requiresPkceAuth: false,
+    noAtmosToken: true,
     tiddl_config: { auth: { country_code: "FR" } },
+  });
+
+  await page.route("**/token/pkce/start", async (route) => {
+    await route.fulfill({
+      json: {
+        loginId: "test-login",
+        loginUrl: "https://login.tidal.com/authorize?test=1",
+      },
+    });
   });
 
   await page.goto("/");
@@ -24,7 +35,71 @@ test("Tidarr config : Should display token modal if no tidal token exists", asyn
   ).toBeVisible();
 
   await expect(
-    page.getByRole("link", { name: "https://link.tidal.com/" }),
+    page.getByRole("link", {
+      name: "https://login.tidal.com/authorize?test=1",
+    }),
+  ).toBeVisible();
+
+  await expect(page.getByLabel("Redirected TIDAL URL")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Complete authentication" }),
+  ).toBeDisabled();
+});
+
+test("Tidarr config : Should prompt legacy tokens to upgrade", async ({
+  page,
+}) => {
+  await mockConfigAPI(page, {
+    noToken: false,
+    requiresPkceAuth: true,
+    noAtmosToken: true,
+  });
+  await page.route("**/token/pkce/start", async (route) => {
+    await route.fulfill({
+      json: {
+        loginId: "upgrade-login",
+        loginUrl: "https://login.tidal.com/authorize?upgrade=1",
+      },
+    });
+  });
+
+  await page.goto("/");
+
+  await expect(
+    page.getByRole("heading", { name: "Upgrade TIDAL authentication" }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(/required for stereo fallback and MAX-quality FLAC/),
+  ).toBeVisible();
+});
+
+test("Tidarr config : Should offer a separate Atmos login", async ({
+  page,
+}) => {
+  await mockConfigAPI(page, {
+    noToken: false,
+    requiresPkceAuth: false,
+    noAtmosToken: true,
+  });
+  await page.route("**/token/atmos", async (route) => {
+    await route.fulfill({
+      contentType: "text/event-stream",
+      body: "data: https://link.tidal.com/atmos-test\n\n",
+    });
+  });
+
+  await page.goto("/parameters");
+  await page.getByRole("tab", { name: "Tidal" }).click();
+
+  await expect(
+    page.getByText(/Dolby Atmos needs one additional/),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Authenticate Atmos" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Authenticate Dolby Atmos" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "https://link.tidal.com/atmos-test" }),
   ).toBeVisible();
 });
 
