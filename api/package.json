@@ -19,7 +19,7 @@
     "jsonwebtoken": "^9.0.3",
     "node-cron": "^4.6.0",
     "node-json-db": "^2.6.0",
-    "openid-client": "^6.8.5",
+    "openid-client": "^6.8.6",
     "toml": "^5.0.0",
     "ws": "^8.21.3"
   },
