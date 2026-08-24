@@ -154,7 +154,25 @@ docker run  \
 
 (if no `tiddl.json` file provided) :
 
-Authorize your device using the UI token dialog
+Authorize your account using the UI token dialog:
+
+1. Open the TIDAL login link.
+2. Sign in. TIDAL redirects to an “Oops” page; this is expected.
+3. Copy the complete URL from the browser address bar and paste it back into
+   Tidarr.
+
+Tidarr uses TIDAL's PKCE client for this login. Unlike the legacy device token,
+it can request stereo when an Atmos variant exists and can request available
+MAX/Hi-Res FLAC streams. Existing installations using a legacy token are asked
+to authenticate once again after upgrading. Tidarr preserves that legacy token
+as a separate Dolby Atmos profile and selects the correct profile from the
+Atmos filter. Fresh installations can add the second profile from **Settings →
+Tiddl configuration → Authenticate Atmos**.
+
+> [!NOTE]
+> The selected quality is a requested maximum. TIDAL can still return a lower
+> quality when the subscription, region, or selected release does not expose the
+> requested stream.
 
 **or**
 
@@ -167,6 +185,15 @@ docker compose exec -it -e tidarr tiddl auth login
 ```bash
 docker exec -it -e tidarr tiddl auth
 ```
+
+The CLI commands above use Tiddl's legacy device login and may be limited to
+16-bit LOSSLESS or receive Atmos playback responses. Tidarr uses that profile
+only for **Atmos only** and **Atmos allowed**; **No Atmos** uses the Hi-Res PKCE
+profile for reliable stereo selection and MAX quality.
+
+Because Tiddl uses one authentication profile for a complete download process,
+non-Atmos tracks processed with **Atmos allowed** can still be limited to
+legacy LOSSLESS instead of MAX.
 
 ## OPTIONS
 

@@ -112,6 +112,8 @@
   ],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "dist-test",
+    "src/**/*.test.ts"
   ]
 }

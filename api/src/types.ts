@@ -97,14 +97,18 @@ export type TiddlConfig = {
       mix?: string;
     };
   };
-  auth: {
-    token: string;
-    refresh_token: string;
-    expires: number;
-    expires_at?: number; // Unix timestamp when token expires (used for refresh logic)
-    user_id: string;
-    country_code: string;
-  };
+  auth: TidalAuth;
+};
+
+export type TidalAuth = {
+  token: string;
+  refresh_token: string;
+  expires?: number;
+  expires_at?: number; // Unix timestamp when token expires (used for refresh logic)
+  user_id: string;
+  country_code: string;
+  auth_type?: "oauth" | "pkce";
+  is_pkce?: boolean;
 };
 
 // SYNC LIST
@@ -168,6 +172,8 @@ export interface SettingsResponse {
     ENABLE_HISTORY?: string;
   };
   noToken: boolean;
+  requiresPkceAuth: boolean;
+  noAtmosToken: boolean;
   tiddl_config?: TiddlConfig;
   configErrors?: string[];
 }

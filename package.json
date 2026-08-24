@@ -23,6 +23,7 @@
   "scripts": {
     "app-build": "yarn --cwd ./app build",
     "api-build": "yarn --cwd ./api build",
+    "api-test": "yarn --cwd ./api test",
     "dev": "concurrently -n api,front \"yarn --cwd ./api start\" \"yarn --cwd app start\"",
     "prod": "node ./api/dist/index.js",
     "eslint": "eslint .",

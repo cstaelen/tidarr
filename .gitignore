@@ -12,6 +12,16 @@
 .vscode
 *.pem
 
+# local runtime configuration and credentials
+/.tidarr-api-key
+/.tiddl/
+/.tiddl-atmos/
+/beets-config.yml
+/beets/
+/custom.css
+/queue.json
+/sync_list.json
+
 #ai
 .continue
 AGENT.md

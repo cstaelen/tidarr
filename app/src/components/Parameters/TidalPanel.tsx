@@ -12,14 +12,16 @@ import { useApiFetcher } from "src/provider/ApiFetcherProvider";
 import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useHistoryProvider } from "src/provider/HistoryProvider";
 
+import { DialogAtmosToken } from "../Dialog/DialogAtmosToken";
 import { ModuleTitle } from "../TidalModule/Title";
 
 import TiddlConfigEdit from "./tidal/TiddlConfigEdit";
 import TiddlConfigList from "./tidal/TiddlConfigList";
 
 export default function TidalPanel() {
-  const { tokenMissing } = useConfigProvider();
+  const { noAtmosToken, requiresPkceAuth, tokenMissing } = useConfigProvider();
   const [showEditor, setShowEditor] = useState<boolean>();
+  const [showAtmosLogin, setShowAtmosLogin] = useState(false);
   const [historyFlushed, setHistoryFlushed] = useState<boolean>();
   const navigate = useNavigate();
 
@@ -55,6 +57,27 @@ export default function TidalPanel() {
             No Tidal token found !
           </Alert>
         </Box>
+      )}
+      {requiresPkceAuth && (
+        <Alert color="warning" variant="outlined" sx={{ mb: 3 }}>
+          This legacy TIDAL token cannot reliably request stereo or MAX streams.
+          Re-authenticate from the home page using the Hi-Res login.
+        </Alert>
+      )}
+      {!tokenMissing && !requiresPkceAuth && noAtmosToken && (
+        <Alert
+          color="warning"
+          variant="outlined"
+          sx={{ mb: 3 }}
+          action={
+            <Button color="inherit" onClick={() => setShowAtmosLogin(true)}>
+              Authenticate Atmos
+            </Button>
+          }
+        >
+          MAX stereo is ready. Dolby Atmos needs one additional TIDAL device
+          login before “Atmos only” or “Atmos allowed” can select Atmos streams.
+        </Alert>
       )}
       <Box
         component="span"
@@ -106,6 +129,11 @@ export default function TidalPanel() {
         )}
       </Box>
       {showEditor ? <TiddlConfigEdit /> : <TiddlConfigList />}
+      <DialogAtmosToken
+        open={showAtmosLogin}
+        onClose={() => setShowAtmosLogin(false)}
+        onAuthenticated={checkAPI}
+      />
     </>
   );
 }

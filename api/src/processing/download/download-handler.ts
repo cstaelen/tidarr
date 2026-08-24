@@ -1,6 +1,6 @@
 import { Express } from "express";
 
-import { tidalDL } from "../../services/tiddl";
+import { ensureTidalTokenFresh, tidalDL } from "../../services/tiddl";
 import { ProcessingItemType } from "../../types";
 import { getArtistAlbums } from "../utils/artist-discography";
 import { getFavoriteAlbums } from "../utils/favorite-albums-to-queue";
@@ -76,6 +76,20 @@ export async function handleDownload(
       return;
     }
     item["url"] = `playlist/${playlistId}`;
+  }
+
+  try {
+    await ensureTidalTokenFresh(app, item);
+  } catch (error) {
+    item.status = "error";
+    item.loading = false;
+    logs(
+      item.id,
+      `❌ [TIDAL] Token refresh failed: ${error instanceof Error ? error.message : String(error)}`,
+    );
+    app.locals.processingStack.actions.updateItem(item);
+    onComplete(playlistId);
+    return;
   }
 
   // Start tiddl download

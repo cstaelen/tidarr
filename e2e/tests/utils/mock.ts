@@ -182,6 +182,8 @@ export async function mockConfigAPI(
       const json = {
         ...realConfig,
         noToken: false,
+        requiresPkceAuth: false,
+        noAtmosToken: false,
         ...customSettings,
         parameters: {
           ...realConfig?.parameters,
@@ -196,6 +198,8 @@ export async function mockConfigAPI(
             expires_at: 1234567890,
             user_id: "192283714",
             country_code: "FR",
+            auth_type: "pkce",
+            is_pkce: true,
           },
         },
       };
