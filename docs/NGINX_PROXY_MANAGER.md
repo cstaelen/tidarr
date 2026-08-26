@@ -52,12 +52,16 @@ You need to configure Nginx Proxy Manager to **disable buffering** and **allow l
 ### Required Nginx Directives
 
 ```nginx
+# Required for SSE streaming
+proxy_http_version 1.1;
+
 # Disable buffering for SSE
 proxy_buffering off;
 proxy_cache off;
 
 # Allow long-lived connections (24 hours)
 proxy_read_timeout 86400s;
+proxy_send_timeout 86400s;
 
 # Ensure proper SSE streaming
 chunked_transfer_encoding off;
@@ -103,12 +107,16 @@ Log in to your Nginx Proxy Manager web interface (usually at `http://your-server
 location /api/stream-processing {
     proxy_pass http://tidarr:8484;
 
+    # Required for SSE streaming
+    proxy_http_version 1.1;
+
     # Disable buffering for SSE
     proxy_buffering off;
     proxy_cache off;
 
     # Allow long-lived connections
     proxy_read_timeout 86400s;
+    proxy_send_timeout 86400s;
 
     # Ensure proper SSE streaming
     chunked_transfer_encoding off;
@@ -127,12 +135,16 @@ location /api/stream-processing {
 location /api/stream-item-output {
     proxy_pass http://tidarr:8484;
 
+    # Required for SSE streaming
+    proxy_http_version 1.1;
+
     # Disable buffering for SSE
     proxy_buffering off;
     proxy_cache off;
 
     # Allow long-lived connections
     proxy_read_timeout 86400s;
+    proxy_send_timeout 86400s;
 
     # Ensure proper SSE streaming
     chunked_transfer_encoding off;
@@ -212,6 +224,7 @@ docker network inspect <network_name>
 - Not adding the advanced configuration for `/api/stream-processing` and `/api/stream-item-output` endpoints
 - Using wrong Tidarr hostname/IP in proxy configuration
 - Having `proxy_buffering on` (default Nginx behavior)
+- Missing `proxy_http_version 1.1;` or `proxy_send_timeout 86400s;` (some subdomain/reverse-proxy setups need both, not just `proxy_read_timeout`, to keep SSE connections alive)
 
 ---
 
