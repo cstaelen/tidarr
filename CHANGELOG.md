@@ -3,6 +3,10 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.2.7
+### 🐛 Fixed
+- [DOC] Update NGINX proxy manager doc
+
 ## 📦 1.2.6
 ### 🐛 Fixed
 - [Lidarr] Batch download is now applied to Lidarr integration #860
