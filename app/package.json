@@ -7,16 +7,16 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.3.1",
     "@mui/material": "^9.3.1",
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.4.0",
     "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
-    "@vitejs/plugin-react": "^6.0.5",
+    "@types/react-dom": "^19.2.5",
+    "@vitejs/plugin-react": "^6.1.0",
     "event-source-plus": "0.1.15",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.2",
     "ts-prune": "^0.10.3",
-    "vite": "^8.2.1"
+    "vite": "^8.2.2"
   },
   "scripts": {
     "start": "vite dev",
