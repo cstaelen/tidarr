@@ -7,7 +7,7 @@
     "@types/express": "^5.0.5",
     "@types/express-http-proxy": "^1.6.7",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.4.0",
     "@types/ws": "^8.18.1",
     "ts-prune": "^0.10.3"
   },
@@ -19,7 +19,7 @@
     "jsonwebtoken": "^9.0.3",
     "node-cron": "^4.6.0",
     "node-json-db": "^2.6.0",
-    "openid-client": "^6.8.6",
+    "openid-client": "^6.8.7",
     "toml": "^5.0.0",
     "ws": "^8.21.3"
   },
