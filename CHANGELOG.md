@@ -6,6 +6,7 @@ Tidarr notable changes.
 ## 📦 1.2.7
 ### 🐛 Fixed
 - [DOC] Update NGINX proxy manager doc
+- [Front] Replace Matomo with Umami anonymized tracking
 
 ## 📦 1.2.6
 ### 🐛 Fixed

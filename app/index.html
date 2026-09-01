@@ -18,24 +18,18 @@
     -->
     <link rel="manifest" href="/favicon/manifest.json">
     <title>Tidarr</title>
-     <!-- Matomo -->
+    <!-- Umami -->
     <script>
       if (window.location.port != 3000 && window.location.hostname != "localhost") {
-        var _paq = window._paq = window._paq || [];
-        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-        _paq.push(["disableCookies"]);
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        (function () {
-          var u = "//mtm.cl-st.me/";
-          _paq.push(['setTrackerUrl', u + 'matomo.php']);
-          _paq.push(['setSiteId', '4']);
-          var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-          g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
-        })();
+        var u = document.createElement('script');
+        u.async = true;
+        u.defer = true;
+        u.src = 'https://umami.cl-st.dev/script.js';
+        u.setAttribute('data-website-id', 'bcb664ef-ca81-4f64-924f-bea3a909aa72');
+        document.head.appendChild(u);
       }
     </script>
-    <!-- End Matomo Code -->
+    <!-- End Umami Code -->
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
