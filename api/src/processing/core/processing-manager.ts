@@ -226,7 +226,7 @@ export const ProcessingStack = () => {
   }
 
   async function removeAllItems() {
-    for (const item of [...data]) {
+    for (const item of data) {
       killProcess(item?.process, item.id);
       const playlistId = (item as ProcessingItemWithPlaylist).playlistId;
       if (playlistId) deletePlaylist(playlistId, item.id);

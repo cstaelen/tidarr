@@ -1,4 +1,4 @@
-name: ESLint
+name: Lint
 
 on:
   push:
@@ -7,14 +7,13 @@ on:
     # The branches below must be a subset of the branches above
     branches: [ "main" ]
 jobs:
-  eslint:
-    name: Run eslint scanning
+  lint:
+    name: Run oxlint / oxfmt scanning
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: read
-      security-events: write
-      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,7 +27,10 @@ jobs:
         run: |
           yarn install
 
-      - name: Run ESLINT
+      - name: Run oxlint
         run: |
-          yarn eslint
-      
+          yarn lint
+
+      - name: Run oxfmt
+        run: |
+          yarn format-check
