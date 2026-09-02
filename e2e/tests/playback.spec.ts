@@ -44,7 +44,7 @@ test.describe("Tidarr Player", () => {
         0x90,
         0x00,
         // Padding with zeros (minimal valid frame)
-        ...new Array(100).fill(0x00),
+        ...Array.from({ length: 100 }, () => 0x00),
       ]);
 
       await route.fulfill({

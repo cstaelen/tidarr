@@ -45,7 +45,9 @@ export function SortSelector({ data, handleChange }: SortSelectorProps) {
         defaultValue={Object.entries(data)[0][0]}
       >
         {Object.entries(data).map(([key]) => (
-          <MenuItem value={key}>{key}</MenuItem>
+          <MenuItem key={key} value={key}>
+            {key}
+          </MenuItem>
         ))}
       </Select>
     </FormControl>

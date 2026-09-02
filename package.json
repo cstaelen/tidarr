@@ -6,33 +6,27 @@
     "app",
     "e2e"
   ],
-  "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "concurrently": "^10.0.5",
-    "eslint": "^10.9.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-prettier": "^5.5.6",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-simple-import-sort": "^14.0.0",
-    "globals": "^17.11.0",
-    "prettier": "^3.9.6",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.68.0"
-  },
   "scripts": {
     "app-build": "yarn --cwd ./app build",
     "api-build": "yarn --cwd ./api build",
     "dev": "concurrently -n api,front \"yarn --cwd ./api start\" \"yarn --cwd app start\"",
     "prod": "node ./api/dist/index.js",
-    "eslint": "eslint .",
-    "eslint-fix": "eslint --fix ."
+    "lint": "oxlint -c .oxlintrc.json .",
+    "lint-fix": "oxlint -c .oxlintrc.json --fix .",
+    "format": "oxfmt -c .oxfmtrc.json \"**/*.{js,jsx,ts,tsx,mjs,cjs,json,css}\"",
+    "format-check": "oxfmt -c .oxfmtrc.json --check \"**/*.{js,jsx,ts,tsx,mjs,cjs,json,css}\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5",
+    "oxfmt": "^0.66.0",
+    "oxlint": "^1.81.0",
+    "typescript": "^6.0.3"
   },
   "resolutions": {
-    "minimatch": ">=10.2.3",
-    "flatted": ">=3.4.0",
-    "dompurify": ">=3.4.13",
     "brace-expansion": ">=5.0.1",
-    "linkify-it": ">=5.0.1"
+    "dompurify": ">=3.4.13",
+    "flatted": ">=3.4.0",
+    "linkify-it": ">=5.0.1",
+    "minimatch": ">=10.2.3"
   }
 }

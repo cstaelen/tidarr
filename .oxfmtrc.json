@@ -1,0 +1,14 @@
+{
+  "printWidth": 80,
+  "trailingComma": "all",
+  "sortPackageJson": false,
+  "ignorePatterns": [
+    "**/node_modules",
+    "**/public",
+    "**/playwright-report",
+    "**/dist",
+    "docker/mnt",
+    "e2e/tests/mocks",
+    "**/tsconfig*.json"
+  ]
+}
