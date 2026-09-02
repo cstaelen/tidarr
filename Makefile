@@ -55,10 +55,16 @@ quality-depcheck: ## Check dependencies
 	$(DOCKER_COMPOSE) exec -w /tidarr/e2e tidarr yarn depcheck
 
 quality-lint: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /tidarr tidarr yarn eslint
+	$(DOCKER_COMPOSE) exec -w /tidarr tidarr yarn lint
 
 quality-lint-fix: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /tidarr tidarr yarn eslint-fix
+	$(DOCKER_COMPOSE) exec -w /tidarr tidarr yarn lint-fix
+
+quality-format: ## Check code formatting
+	$(DOCKER_COMPOSE) exec -w /tidarr tidarr yarn format-check
+
+quality-format-fix: ## Fix code formatting
+	$(DOCKER_COMPOSE) exec -w /tidarr tidarr yarn format
 
 ##
 ## Builder 🚀
