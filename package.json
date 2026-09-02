@@ -20,7 +20,7 @@
     "concurrently": "^10.0.5",
     "oxfmt": "^0.66.0",
     "oxlint": "^1.81.0",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "resolutions": {
     "brace-expansion": ">=5.0.1",
