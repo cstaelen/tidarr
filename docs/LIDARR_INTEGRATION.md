@@ -54,8 +54,9 @@ services:
 Add Tidarr as a **SABnzbd** download client:
 
 1. Go to **Settings → Download Clients** in Lidarr
-2. Click **+** and select **SABnzbd**
-3. Configure:
+2. Click the Show advanced button (which looks like a cog).  If you do not click this URL Base will not be visible.
+3. Click **+** and select **SABnzbd**
+4. Configure:
 
 | Setting      | Value                              |
 | ------------ | ---------------------------------- |
@@ -97,8 +98,9 @@ Add Tidarr as a **SABnzbd** download client:
 ### 3. Add Tidarr as an Indexer in Lidarr
 
 1. Go to **Settings → Indexers** in Lidarr
-2. Click **+** and select **Newznab**
-3. Configure the indexer with these settings:
+2. Click the Show advanced button (which looks like a cog).  If you do not click this URL Base will not be visible.
+3. Click **+** and select **Newznab**
+4. Configure the indexer with these settings:
 
 | Setting                       | Value                                                       |
 | ----------------------------- | ----------------------------------------------------------- |
