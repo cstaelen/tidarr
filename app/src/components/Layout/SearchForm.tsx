@@ -36,7 +36,7 @@ export const SearchForm = () => {
         directDownload(searchString);
         return;
       }
-      navigate(`/search/${searchString}`);
+      navigate(`/search/${encodeURIComponent(searchString)}`);
       return;
     }
 
@@ -49,8 +49,8 @@ export const SearchForm = () => {
         setInputValue("");
         return;
       }
-      if (params) {
-        setInputValue(params.keywords);
+      if (params?.keywords) {
+        setInputValue(decodeURIComponent(params.keywords));
       }
     }
     updateInputValue();

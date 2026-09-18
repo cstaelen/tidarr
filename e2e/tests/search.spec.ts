@@ -46,6 +46,24 @@ test("Tidarr search : Should see 'Top results' tab content", async ({
   ).toBeVisible();
 });
 
+test("Tidarr search : Should handle keywords containing a slash", async ({
+  page,
+}) => {
+  await runSearch("AC/DC", page);
+
+  // URL segment must be encoded, not split into extra path segments
+  await expect(page).toHaveURL(/\/search\/AC%2FDC$/);
+
+  // Page should render results instead of crashing/going blank
+  await expect(page.locator("#full-width-tab-0")).toContainText("Top results");
+  await expect(page.getByRole("heading", { name: "Artists" })).toBeVisible();
+
+  // Input should redisplay the decoded keyword
+  await expect(page.getByTestId("search-input").locator("input")).toHaveValue(
+    "AC/DC",
+  );
+});
+
 test("Tidarr search : Should see albums results", async ({ page }) => {
   await runSearch("Nirvana", page);
   await expect(page.locator("#full-width-tab-1")).toContainText("Albums (300)");
