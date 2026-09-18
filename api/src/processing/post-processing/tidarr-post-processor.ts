@@ -95,7 +95,13 @@ export async function postProcessTidarr(
   const foldersToScan = await getFolderToScan(item.id);
 
   // Move to output folder
-  await moveAndClean(item.id);
+  const { status: moveStatus } = await moveAndClean(item.id);
+
+  if (moveStatus === "error") {
+    item["status"] = "error";
+    onComplete();
+    return;
+  }
 
   // Clean up temporary playlist if needed (mix only)
   const playlistId = (item as ProcessingItemWithPlaylist).playlistId;

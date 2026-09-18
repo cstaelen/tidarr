@@ -247,6 +247,7 @@ export const ProcessingStack = () => {
     for (const item of itemsToRemove) {
       outputs.delete(String(item.id));
       dataMap.delete(item.id);
+      await cleanFolder(item.id);
     }
     data.splice(
       0,
@@ -311,6 +312,22 @@ export const ProcessingStack = () => {
     queueManager.startDownload(item);
 
     notifySSE();
+  }
+
+  async function retryPostProcessing(id: string) {
+    const item = dataMap.get(id);
+
+    if (!item || item.status !== "error") {
+      throw new Error(`Item ${id} is not in error status`);
+    }
+
+    if (data.some((row) => row.status === "processing")) {
+      throw new Error(
+        "Another item is already post-processing, please retry once it completes",
+      );
+    }
+
+    await queueManager.retryPostProcessing(item);
   }
 
   async function pauseQueue() {
@@ -385,6 +402,7 @@ export const ProcessingStack = () => {
       getItemOutput,
       addOutputLog,
       singleDownload,
+      retryPostProcessing,
       pauseQueue,
       resumeQueue,
       getQueueStatus,

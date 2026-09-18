@@ -73,6 +73,17 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
               >
                 Retry
               </Button>
+              &nbsp;&nbsp;
+              <Tooltip title="Retry post processing">
+                <Button
+                  variant="outlined"
+                  size="small"
+                  data-testid="btn-retry-post-processing"
+                  onClick={() => actions.retryPostProcessing(item.id)}
+                >
+                  Retry
+                </Button>
+              </Tooltip>
             </>
           )}
           {isPaused && status === "queue_download" && (

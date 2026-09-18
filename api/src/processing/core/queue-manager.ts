@@ -205,6 +205,17 @@ export class QueueManager {
   }
 
   /**
+   * Retries post-processing for an error item without re-downloading
+   */
+  async retryPostProcessing(item: ProcessingItemType): Promise<void> {
+    item.status = "processing";
+    item.error = false;
+    this.updateItemCallback(item);
+
+    this.startPostProcessing(item);
+  }
+
+  /**
    * Called when post-processing completes
    */
   private async onPostProcessingComplete(

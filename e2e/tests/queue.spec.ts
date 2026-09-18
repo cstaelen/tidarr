@@ -350,3 +350,67 @@ test("Queue: Should filter items by keyword on title and artist", async ({
 
   await page.route("**/stream-processing", (route) => route.continue());
 });
+
+test("Queue: Should retry post-processing without re-downloading for error items", async ({
+  page,
+}) => {
+  let retryPostProcessingCalled = false;
+  let retryPostProcessingBody: { id: string } | undefined;
+
+  await page.route("**/retry-post-processing", async (route) => {
+    retryPostProcessingCalled = true;
+    retryPostProcessingBody = route.request().postDataJSON() as {
+      id: string;
+    };
+    await route.fulfill({ status: 204 });
+  });
+
+  const mockData = [
+    {
+      id: "1",
+      title: "In Utero",
+      artist: "Nirvana",
+      type: "album",
+      quality: "high",
+      status: "error",
+      loading: false,
+    },
+  ];
+
+  await page.route("**/stream-processing", async (route) => {
+    await route.fulfill({
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${mockSSEPayload(mockData)}\n\n`,
+    });
+  });
+
+  await page.goto("/");
+  await expect(page.locator("button.MuiFab-circular")).toBeVisible();
+  await page.locator("button.MuiFab-circular").click();
+
+  await page.waitForSelector('[aria-label="Processing table"]', {
+    state: "visible",
+    timeout: 5000,
+  });
+
+  // Both the full re-download "Retry" and the post-processing-only "Retry" are visible
+  await expect(
+    page.getByRole("button", { name: "Retry", exact: true }),
+  ).toBeVisible();
+  const retryMoveButton = page.getByTestId("btn-retry-post-processing");
+  await expect(retryMoveButton).toBeVisible();
+  await expect(retryMoveButton).toHaveText("Retry");
+
+  await retryMoveButton.click();
+
+  await page.waitForTimeout(300);
+  expect(retryPostProcessingCalled).toBe(true);
+  expect(retryPostProcessingBody?.id).toBe("1");
+
+  await page.route("**/stream-processing", (route) => route.continue());
+});

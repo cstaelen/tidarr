@@ -72,6 +72,7 @@ type ApiFetcherContextType = {
       controller: EventSourceController;
     };
     single_download: (id: string) => Promise<void>;
+    retry_post_processing: (id: string) => Promise<void>;
     pause_queue: () => Promise<void>;
     resume_queue: () => Promise<void>;
     get_queue_status: () => Promise<
@@ -445,6 +446,18 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  // Retry post-processing (tagging/move) without re-downloading
+
+  async function retry_post_processing(id: string): Promise<void> {
+    await queryExpressJS(`${apiUrl}/retry-post-processing`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+  }
+
   // Queue control
 
   async function pause_queue(): Promise<void> {
@@ -565,6 +578,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       get_tiddl_toml,
       set_tiddl_toml,
       single_download,
+      retry_post_processing,
       pause_queue,
       resume_queue,
       get_queue_status,
