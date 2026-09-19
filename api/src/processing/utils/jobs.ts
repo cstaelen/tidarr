@@ -47,11 +47,17 @@ export async function moveAndClean(id: string): Promise<{
   } catch (e: unknown) {
     status = "error";
     logs(item.id, `❌ [TIDARR] Error moving files:\r\n${(e as Error).message}`);
-  } finally {
-    const cleaningStatus = await cleanFolder(item.id);
-    if (cleaningStatus === "error") {
-      status = "error";
-    }
+    logs(
+      item.id,
+      `ℹ️ [TIDARR] Keeping downloaded files in ${itemProcessingPath} — use "Retry" once the issue is fixed.`,
+    );
+    return { status };
+  }
+
+  // Only clean up on success — files are kept on failure for the retry
+  const cleaningStatus = await cleanFolder(item.id);
+  if (cleaningStatus === "error") {
+    status = "error";
   }
 
   return {

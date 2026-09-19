@@ -5,6 +5,7 @@ Tidarr notable changes.
 
 ## 📦 1.2.7
 ### 🐛 Fixed
+- [Front] Handle post-processing fails and allow post-processing retry  #897
 - [Front] Fix search keywords with slashes #896
 - [Doc] Update NGINX proxy manager doc
 - [Front] Replace Matomo with Umami anonymized tracking

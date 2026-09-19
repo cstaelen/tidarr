@@ -25,6 +25,7 @@ type ProcessingContextType = {
     addItem: (item: TidalItemType, type: ContentType) => Promise<void>;
     removeItem: (id: string) => Promise<void>;
     retryItem: (item: ProcessingItemType) => Promise<void | null>;
+    retryPostProcessing: (id: string) => Promise<void>;
     downloadNow: (id: string) => Promise<void>;
   };
 };
@@ -41,7 +42,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   const eventSourceRef = useRef<EventSourceController | null>(null);
 
   const {
-    actions: { list_sse, remove, save, single_download },
+    actions: { list_sse, remove, save, single_download, retry_post_processing },
   } = useApiFetcher();
   const {
     actions: { setConfigErrors },
@@ -76,6 +77,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
           status: "queue_download",
           loading: true,
           error: false,
+          errorStage: undefined,
         },
       }),
     );
@@ -83,6 +85,10 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
   const downloadNow = async (id: string): Promise<void> => {
     await single_download(id);
+  };
+
+  const retryPostProcessing = async (id: string): Promise<void> => {
+    await retry_post_processing(id);
   };
 
   const removeItem = async (id: string): Promise<void> => {
@@ -123,6 +129,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
           addItem,
           removeItem,
           retryItem,
+          retryPostProcessing,
           downloadNow,
         },
       }}

@@ -10,6 +10,7 @@ This documentation describes how to use the Tidarr REST API to automate download
 - [Download Endpoints](#download-endpoints)
 - [Queue Management](#queue-management)
   - [Single download (NO\_DOWNLOAD mode)](#single-download-no_download-mode)
+  - [Retry post-processing](#retry-post-processing)
 - [History Endpoints](#history-endpoints)
 - [Configuration Endpoints](#configuration-endpoints)
 - [Synchronization Endpoints (watch list)](#synchronization-endpoints)
@@ -536,6 +537,28 @@ curl -X POST http://localhost:8484/api/single-download \
 - Item ends as `finished` in the queue
 
 **Error:** `500` if the item is not found.
+
+---
+
+### Retry post-processing
+
+Retries tagging/move for an item stuck in `error` status, without re-downloading. Useful when the download itself succeeded but a later step (e.g. moving files to the library) failed, for example due to wrong permissions on the library folder — fix the underlying issue, then retry just this step. Relies on the downloaded files still being present in the item's processing folder (kept automatically when a move fails).
+
+```bash
+curl -X POST http://localhost:8484/api/retry-post-processing \
+  -H "X-Api-Key: your-api-key" \
+  -H 'Content-Type: application/json' \
+  -d '{"id": "251082404"}'
+```
+
+**Response:** `204 No Content`
+
+**Behavior:**
+- Re-runs the full post-processing pipeline (tagging, permissions, move, notifications) using the files already downloaded
+- Does not call tiddl again — no network request to Tidal
+- Item ends as `finished` on success, or stays `error` if it fails again
+
+**Error:** `500` if the item is not found, not in `error` status, or if another item is currently post-processing.
 
 ---
 

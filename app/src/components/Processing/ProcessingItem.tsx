@@ -66,13 +66,28 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
           {status === "error" && (
             <>
               &nbsp;&nbsp;
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={() => actions.retryItem(item)}
-              >
-                Retry
-              </Button>
+              {item.errorStage === "post_processing" ? (
+                <Tooltip title="Retry post processing">
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    data-testid="btn-retry-post-processing"
+                    onClick={() => actions.retryPostProcessing(item.id)}
+                  >
+                    Retry
+                  </Button>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Retry download">
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => actions.retryItem(item)}
+                  >
+                    Retry
+                  </Button>
+                </Tooltip>
+              )}
             </>
           )}
           {isPaused && status === "queue_download" && (

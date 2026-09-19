@@ -17,6 +17,7 @@
 AGENT.md
 .claude
 CLAUDE.md
+CONTEXT.md
 
 # docker
 compose.override.yml

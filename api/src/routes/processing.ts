@@ -154,6 +154,27 @@ router.post(
 );
 
 /**
+ * POST /api/retry-post-processing
+ * Retry post-processing for an error item, without re-downloading
+ */
+router.post(
+  "/retry-post-processing",
+  ensureAccessIsGranted,
+  validateRequestBody(["id"]),
+  validateIdMiddleware,
+  async (req: Request, res: Response) => {
+    try {
+      await req.app.locals.processingStack.actions.retryPostProcessing(
+        req.body.id,
+      );
+      res.sendStatus(204);
+    } catch (error) {
+      handleRouteError(error, res, "retry post-processing");
+    }
+  },
+);
+
+/**
  * GET /api/queue/list
  * Get the current download queue
  */

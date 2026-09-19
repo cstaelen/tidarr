@@ -113,6 +113,8 @@ export class QueueManager {
 
       // If error, retry immediately up to MAX_RETRIES times
       if (item.status === "error") {
+        item.errorStage = "download";
+
         if (this.shouldRetry(item)) {
           this.updateItemCallback(item);
           this.startDownload(item);
@@ -202,6 +204,17 @@ export class QueueManager {
     postProcessTidarr(item, () => {
       this.onPostProcessingComplete(item);
     });
+  }
+
+  /**
+   * Retries post-processing for an error item without re-downloading
+   */
+  async retryPostProcessing(item: ProcessingItemType): Promise<void> {
+    item.status = "processing";
+    item.error = false;
+    this.updateItemCallback(item);
+
+    this.startPostProcessing(item);
   }
 
   /**
