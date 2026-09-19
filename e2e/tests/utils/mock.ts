@@ -154,6 +154,13 @@ export async function mockTidalQueries(page: Page) {
       await route.fulfill({ json: mockSearchPager });
     });
   });
+
+  await page.route(
+    "**/proxy/tidal/v2/search?countryCode=FR&deviceType=BROWSER&locale=en_US&query=AC%2FDC&limit=18",
+    async (route) => {
+      await route.fulfill({ json: mockSearch });
+    },
+  );
 }
 
 export async function mockRelease(page: Page, version = "0.0.0-testing") {

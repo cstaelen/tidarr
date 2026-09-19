@@ -125,7 +125,7 @@ export function SearchProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    setKeywords(params.keywords);
+    setKeywords(decodeURIComponent(params.keywords));
   }, [params, config]);
 
   const value = {
