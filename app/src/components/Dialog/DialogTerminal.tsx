@@ -20,6 +20,10 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
     await actions.retryItem(item);
   }
 
+  async function retryPostProcessing() {
+    await actions.retryPostProcessing(item.id);
+  }
+
   // Connect to SSE when dialog opens, disconnect when closes
   useEffect(() => {
     if (openOutput) {
@@ -70,13 +74,15 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
           <Box
             sx={{
               flex: "1 1 0",
-              gap: 2,
+              gap: 1,
               display: "flex",
+              flexWrap: "wrap",
             }}
           >
             <Button
+              size="small"
               variant="outlined"
-              color={isProcessing ? "error" : "primary"}
+              color="error"
               startIcon={<Cancel />}
               onClick={() => {
                 setOpenOutput(false);
@@ -86,16 +92,32 @@ export const DialogTerminal = ({ item }: { item: ProcessingItemType }) => {
               {isProcessing ? "Cancel" : "Remove"}
             </Button>
             {item.status === "error" && (
-              <Button
-                startIcon={<Replay />}
-                variant="outlined"
-                onClick={() => retry()}
-              >
-                Retry
-              </Button>
+              <>
+                <Button
+                  size="small"
+                  startIcon={<Replay />}
+                  variant="outlined"
+                  onClick={() => retry()}
+                >
+                  Retry download
+                </Button>
+                <Button
+                  size="small"
+                  startIcon={<Replay />}
+                  variant="outlined"
+                  data-testid="btn-dialog-retry-post-processing"
+                  onClick={() => retryPostProcessing()}
+                >
+                  Retry post processing
+                </Button>
+              </>
             )}
           </Box>
-          <Button variant="outlined" onClick={() => setOpenOutput(false)}>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => setOpenOutput(false)}
+          >
             Close
           </Button>
         </DialogActions>

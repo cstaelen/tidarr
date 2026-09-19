@@ -373,6 +373,7 @@ test("Queue: Should retry post-processing without re-downloading for error items
       type: "album",
       quality: "high",
       status: "error",
+      errorStage: "post_processing",
       loading: false,
     },
   ];
@@ -398,10 +399,7 @@ test("Queue: Should retry post-processing without re-downloading for error items
     timeout: 5000,
   });
 
-  // Both the full re-download "Retry" and the post-processing-only "Retry" are visible
-  await expect(
-    page.getByRole("button", { name: "Retry", exact: true }),
-  ).toBeVisible();
+  // Post-processing errors only show the post-processing retry button
   const retryMoveButton = page.getByTestId("btn-retry-post-processing");
   await expect(retryMoveButton).toBeVisible();
   await expect(retryMoveButton).toHaveText("Retry");
@@ -411,6 +409,118 @@ test("Queue: Should retry post-processing without re-downloading for error items
   await page.waitForTimeout(300);
   expect(retryPostProcessingCalled).toBe(true);
   expect(retryPostProcessingBody?.id).toBe("1");
+
+  await page.route("**/stream-processing", (route) => route.continue());
+});
+
+test("Queue: Should only show the download retry button for download errors", async ({
+  page,
+}) => {
+  const mockData = [
+    {
+      id: "1",
+      title: "In Utero",
+      artist: "Nirvana",
+      type: "album",
+      quality: "high",
+      status: "error",
+      errorStage: "download",
+      loading: false,
+    },
+  ];
+
+  await page.route("**/stream-processing", async (route) => {
+    await route.fulfill({
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${mockSSEPayload(mockData)}\n\n`,
+    });
+  });
+
+  await page.goto("/");
+  await expect(page.locator("button.MuiFab-circular")).toBeVisible();
+  await page.locator("button.MuiFab-circular").click();
+
+  await page.waitForSelector('[aria-label="Processing table"]', {
+    state: "visible",
+    timeout: 5000,
+  });
+
+  await expect(
+    page.getByRole("button", { name: "Retry download" }),
+  ).toBeVisible();
+  await expect(page.getByTestId("btn-retry-post-processing")).not.toBeVisible();
+
+  await page.route("**/stream-processing", (route) => route.continue());
+});
+
+test("Queue: Terminal dialog should show full-label retry buttons for error items", async ({
+  page,
+}) => {
+  let retryPostProcessingCalled = false;
+
+  await page.route("**/retry-post-processing", async (route) => {
+    retryPostProcessingCalled = true;
+    await route.fulfill({ status: 204 });
+  });
+
+  const mockData = [
+    {
+      id: "1",
+      title: "In Utero",
+      artist: "Nirvana",
+      type: "album",
+      quality: "high",
+      status: "error",
+      errorStage: "post_processing",
+      loading: false,
+    },
+  ];
+
+  await page.route("**/stream-processing", async (route) => {
+    await route.fulfill({
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${mockSSEPayload(mockData)}\n\n`,
+    });
+  });
+
+  await page.goto("/");
+  await expect(page.locator("button.MuiFab-circular")).toBeVisible();
+  await page.locator("button.MuiFab-circular").click();
+
+  await page.waitForSelector('[aria-label="Processing table"]', {
+    state: "visible",
+    timeout: 5000,
+  });
+
+  await page.getByTestId("btn-console").click();
+
+  // Full labels, no reliance on tooltips
+  const removeButton = page.getByRole("button", { name: "Remove" });
+  await expect(removeButton).toBeVisible();
+
+  const retryDownloadButton = page.getByRole("button", {
+    name: "Retry download",
+  });
+  await expect(retryDownloadButton).toBeVisible();
+
+  const retryPostProcessingButton = page.getByTestId(
+    "btn-dialog-retry-post-processing",
+  );
+  await expect(retryPostProcessingButton).toHaveText("Retry post processing");
+
+  await retryPostProcessingButton.click();
+  await page.waitForTimeout(300);
+  expect(retryPostProcessingCalled).toBe(true);
 
   await page.route("**/stream-processing", (route) => route.continue());
 });

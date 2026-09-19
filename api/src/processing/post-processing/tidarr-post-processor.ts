@@ -99,6 +99,7 @@ export async function postProcessTidarr(
 
   if (moveStatus === "error") {
     item["status"] = "error";
+    item["errorStage"] = "post_processing";
     onComplete();
     return;
   }

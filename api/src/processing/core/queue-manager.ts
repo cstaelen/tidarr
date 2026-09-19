@@ -113,6 +113,8 @@ export class QueueManager {
 
       // If error, retry immediately up to MAX_RETRIES times
       if (item.status === "error") {
+        item.errorStage = "download";
+
         if (this.shouldRetry(item)) {
           this.updateItemCallback(item);
           this.startDownload(item);

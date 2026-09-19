@@ -77,6 +77,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
           status: "queue_download",
           loading: true,
           error: false,
+          errorStage: undefined,
         },
       }),
     );

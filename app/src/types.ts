@@ -373,6 +373,7 @@ export type ProcessingItemType = {
   url: string;
   loading: boolean;
   error: boolean;
+  errorStage?: "download" | "post_processing";
   progress?: {
     current: number;
     total: number;

@@ -267,6 +267,7 @@ export const ProcessingStack = () => {
       item.error = false;
       item.retryCount = 0;
       item.networkError = false;
+      item.errorStage = undefined;
     }
 
     await updateItemsInQueueFile(itemsToRetry);

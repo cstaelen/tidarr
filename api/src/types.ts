@@ -37,6 +37,7 @@ export type ProcessingItemType = {
   retryCount?: number;
   networkError?: boolean;
   skipped?: boolean;
+  errorStage?: "download" | "post_processing";
   source?: "lidarr" | "tidarr";
   progress?: {
     current: number;
