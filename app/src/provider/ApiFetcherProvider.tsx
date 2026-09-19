@@ -25,6 +25,12 @@ type ApiFetcherContextType = {
     apiError: Response | undefined;
     setApiError: (res: Response | undefined) => void;
   };
+  // True while the backend is auto-renewing the Tidal token on behalf of an
+  // in-flight /proxy/tidal request. Shared across all useFetchTidal() call
+  // sites so the app can show a single indicator regardless of which page
+  // triggered the renew.
+  isRefreshingToken: boolean;
+  setIsRefreshingToken: (isRefreshingToken: boolean) => void;
   actions: {
     get_settings: () => Promise<ConfigType | undefined>;
     list_sse: (
@@ -102,6 +108,7 @@ const ApiFetcherContext = React.createContext<ApiFetcherContextType>(
 
 export function APIFetcherProvider({ children }: { children: ReactNode }) {
   const [apiError, setApiError] = useState<Response>();
+  const [isRefreshingToken, setIsRefreshingToken] = useState<boolean>(false);
 
   const apiUrl = TIDARR_API_URL;
 
@@ -554,6 +561,8 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       apiError,
       setApiError,
     },
+    isRefreshingToken,
+    setIsRefreshingToken,
     actions: {
       get_settings,
       list_sse,

@@ -15,6 +15,7 @@ import { DialogNoAPI } from "./Dialog/DialogNoAPI";
 import { DialogToken } from "./Dialog/DialogToken";
 import { Footer } from "./Layout/Footer";
 import { HeaderSearch } from "./Layout/HeaderSearch";
+import { TokenRefreshIndicator } from "./Layout/TokenRefreshIndicator";
 import { ProcessingButton } from "./Processing/ProcessingButton";
 import { DocumentTitle } from "./DocumentTitle";
 
@@ -68,6 +69,7 @@ function MainLayout({ children }: { children: ReactNode }) {
                   )}
                 </Content>
                 <ProcessingButton />
+                <TokenRefreshIndicator />
                 <DialogToken />
                 <DialogNoAPI />
                 <DialogConfigError />

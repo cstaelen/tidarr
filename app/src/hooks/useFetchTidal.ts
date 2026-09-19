@@ -13,6 +13,7 @@ type FetchTidalProps = {
   tiddlConfig?: ConfigTiddleType;
   search?: FetchTidalSearchProps;
   resetTidalToken: () => void;
+  setIsRefreshingToken: (isRefreshingToken: boolean) => void;
 };
 
 export type FetchTidalSearchProps = {
@@ -31,6 +32,7 @@ async function fetchTidal<T>({
   tiddlConfig,
   search,
   resetTidalToken,
+  setIsRefreshingToken,
 }: FetchTidalProps): Promise<T | undefined> {
   const countryCode = tiddlConfig?.auth.country_code || "EN";
   const apiUrl = `${TIDARR_PROXY_URL}/tidal`;
@@ -59,6 +61,13 @@ async function fetchTidal<T>({
 
   const urlWithParams = `${apiUrl}${urlObj.pathname}${urlObj.search}`;
   const response = await fetch(urlWithParams, options);
+
+  // Backend refreshed the Tidal token while handling this request - tell the
+  // caller so it can explain the extra delay instead of just showing a
+  // stuck loading state
+  setIsRefreshingToken(
+    response.headers.get("X-Tidal-Token-Refreshed") === "true",
+  );
 
   // 403 = Tidarr auth failed (JWT invalid) - logout and reload
   if (handleForbidden(response)) {
@@ -93,6 +102,8 @@ export function useFetchTidal() {
   } = useConfigProvider();
 
   const {
+    isRefreshingToken,
+    setIsRefreshingToken,
     actions: { delete_token },
   } = useApiFetcher();
 
@@ -107,6 +118,7 @@ export function useFetchTidal() {
     search?: FetchTidalSearchProps,
   ) {
     setLoading(true);
+    setIsRefreshingToken(false);
 
     try {
       return await fetchTidal<T>({
@@ -115,6 +127,7 @@ export function useFetchTidal() {
         tiddlConfig: tiddlConfig,
         search: search,
         resetTidalToken: resetTidalToken,
+        setIsRefreshingToken: setIsRefreshingToken,
       });
     } finally {
       setLoading(false);
@@ -123,6 +136,7 @@ export function useFetchTidal() {
 
   return {
     loading,
+    isRefreshingToken,
     fetchTidal: fetcher,
   };
 }

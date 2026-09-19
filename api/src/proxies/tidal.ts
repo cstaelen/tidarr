@@ -59,11 +59,13 @@ export function setupTidalProxy(app: Express): void {
 
       try {
         let response = await makeRequest(token);
+        let tokenRefreshed = false;
 
         // If 401, refresh token and retry once
         if (response.status === 401) {
           console.log("🔑 [PROXY] Got 401, refreshing token...");
           await refreshTokenOnce(req.app);
+          tokenRefreshed = true;
 
           const newToken = req.app.locals.tiddlConfig?.auth?.token;
           if (newToken && newToken !== token) {
@@ -73,6 +75,10 @@ export function setupTidalProxy(app: Express): void {
 
         // Forward response
         res.status(response.status);
+        // Lets the frontend explain why this specific request took longer than usual
+        if (tokenRefreshed) {
+          res.setHeader("X-Tidal-Token-Refreshed", "true");
+        }
 
         // Forward headers (skip problematic ones)
         response.headers.forEach((value, key) => {
