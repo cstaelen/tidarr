@@ -206,6 +206,8 @@ Streams audio content with signature validation. Supports range requests for see
 
 **Supported types:** `album`, `track`, `video`, `playlist`, `mix`, `artist`, `artist_videos`, `favorite_albums`, `favorite_tracks`, `favorite_playlists`, `favorite_videos`, `favorite_artists`
 
+**`quality`:** Optional. If omitted, Tidarr uses the server's configured default quality (`download.track_quality` in `config.toml`).
+
 #### Album
 
 ```bash
@@ -473,6 +475,8 @@ curl "http://localhost:8484/api/queue/list?offset=0&limit=50" \
 
 **Possible `status` values:** `queue_download`, `download`, `queue_processing`, `processing`, `finished`, `error`
 
+**`errorStage`:** Present only when `status` is `error`. `"download"` means the download itself failed or never fully completed — retry via [Retry post-processing](#retry-post-processing) if files are present, or a normal re-add otherwise. `"post_processing"` means the download succeeded but a later step (move, tagging, ...) failed — use [Retry post-processing](#retry-post-processing) to retry just that step.
+
 > `limit` is `null` when no limit is specified (all items returned).
 
 ---
@@ -514,13 +518,17 @@ curl http://localhost:8484/api/queue/status \
 **Response:**
 ```json
 {
-  "isPaused": false
+  "isPaused": false,
+  "batchCount": 0,
+  "batchResumeAt": null
 }
 ```
 
+**`batchCount`/`batchResumeAt`:** Only relevant when `DOWNLOAD_BATCH_SIZE` is set. `batchCount` is the number of items downloaded in the current batch; `batchResumeAt` is a timestamp (ms) for the scheduled auto-resume, or `null` if not paused for batching.
+
 ### Single download (NO_DOWNLOAD mode)
 
-Trigger a one-off download for a specific queued item, bypassing the `NO_DOWNLOAD` mode pause. The item goes through the full download pipeline (beets, move to library, notifications) and ends up as `finished`.
+Trigger a one-off download for a specific queued item, bypassing the `NO_DOWNLOAD` mode pause. The item goes through the full download pipeline (beets, move to library, notifications) and ends up as `finished` on success, or `error` if the download fails (see `errorStage` above for what to do next).
 
 ```bash
 curl -X POST http://localhost:8484/api/single-download \
@@ -542,7 +550,7 @@ curl -X POST http://localhost:8484/api/single-download \
 
 ### Retry post-processing
 
-Retries tagging/move for an item stuck in `error` status, without re-downloading. Useful when the download itself succeeded but a later step (e.g. moving files to the library) failed, for example due to wrong permissions on the library folder — fix the underlying issue, then retry just this step. Relies on the downloaded files still being present in the item's processing folder (kept automatically when a move fails).
+Retries tagging/move for an item stuck in `error` status, without re-downloading. Useful when the download itself succeeded but a later step (e.g. moving files to the library) failed, for example due to wrong permissions on the library folder — fix the underlying issue, then retry just this step. Relies on the downloaded files still being present in the item's processing folder (kept automatically when a move fails, and also when a download was interrupted partway through — e.g. a network drop mid-album keeps whatever tracks were already downloaded).
 
 ```bash
 curl -X POST http://localhost:8484/api/retry-post-processing \
