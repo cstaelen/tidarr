@@ -1,11 +1,9 @@
 import { TIDAL_API_URL } from "../../../constants";
 import { getAppInstance } from "../../helpers/app-instance";
-import { fetchTidalWithRefresh } from "../../helpers/fetch-tidal";
+import { fetchAllTidalPages } from "../../helpers/fetch-tidal";
 import { ProcessingItemType, TiddlConfig } from "../../types";
 
 import { logs } from "./logs";
-
-const TIDAL_PAGE_LIMIT = 100;
 
 type AlbumItem = {
   id: number;
@@ -22,30 +20,7 @@ async function fetchAlbumsByFilter(
   const country = tiddlConfig.auth.country_code;
   const baseUrl = `${TIDAL_API_URL}/v1/artists/${artistId}/albums?countryCode=${country}&filter=${filter}`;
 
-  const allItems: AlbumItem[] = [];
-  let offset = 0;
-  let totalItems = Infinity;
-
-  while (offset < totalItems) {
-    const url = `${baseUrl}&limit=${TIDAL_PAGE_LIMIT}&offset=${offset}`;
-    const response = await fetchTidalWithRefresh(url);
-
-    if (!response.ok) {
-      const body = await response.text();
-      throw new Error(`Failed to fetch albums: ${response.status} - ${body}`);
-    }
-
-    const data = await response.json();
-    totalItems = data.totalNumberOfItems ?? data.items?.length ?? 0;
-
-    if (data.items) {
-      allItems.push(...data.items);
-    }
-
-    offset += TIDAL_PAGE_LIMIT;
-  }
-
-  return allItems;
+  return fetchAllTidalPages<AlbumItem>(baseUrl, "albums");
 }
 
 function deduplicateAlbums(albums: AlbumItem[]): AlbumItem[] {

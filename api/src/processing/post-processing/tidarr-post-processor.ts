@@ -61,17 +61,31 @@ export async function postProcessTidarr(
   logs(item.id, "---------------------");
 
   const processingPath = `${PROCESSING_PATH}/${item.id}`;
+  // An item that errored during download but still produced files (e.g. 40/50
+  // tracks of an album) goes through the same pipeline to rescue what was
+  // downloaded, but keeps its "error" status at the end instead of "finished".
+  // Status itself is "processing" at this point (set by preparePostProcessing
+  // right before this call), so errorStage is what distinguishes this case —
+  // captured once here since a later step (moveAndClean failing) can
+  // overwrite errorStage on the item itself.
+  const wasDownloadError = item["errorStage"] === "download";
 
-  // Check for errors
-  if (item["status"] === "error") {
-    logs(item.id, "⚠️ [TIDDL] An error occured while downloading.");
-    onComplete();
-    return;
+  if (wasDownloadError) {
+    logs(
+      item.id,
+      "⚠️ [TIDDL] An error occured while downloading. Rescuing any downloaded files...",
+    );
   }
 
   // Check if there are files to process
   const shouldProceed = await shouldPostProcess(item, processingPath);
   if (!shouldProceed) {
+    // No files at all — restore the error status shouldPostProcess overwrote
+    // with "finished" (that default only makes sense for the non-error path).
+    if (wasDownloadError) {
+      item["status"] = "error";
+      item["skipped"] = false;
+    }
     onComplete();
     return;
   }
@@ -99,7 +113,12 @@ export async function postProcessTidarr(
 
   if (moveStatus === "error") {
     item["status"] = "error";
-    item["errorStage"] = "post_processing";
+    // Keep "download" as the errorStage if this was already a rescued
+    // partial download — the download itself is still the root cause, a
+    // fresh download retry (not just a post-processing retry) is needed.
+    if (!wasDownloadError) {
+      item["errorStage"] = "post_processing";
+    }
     onComplete();
     return;
   }
@@ -140,10 +159,20 @@ export async function postProcessTidarr(
   // Add playlist albums to queue if enabled
   await getPlaylistAlbums(item.id);
 
-  // Mark as finished
   logs(item.id, "---------------------");
-  logs(item.id, "✅ [TIDARR] Post processing complete.");
-  item["status"] = "finished";
+  if (wasDownloadError) {
+    // Rescued a partial download — files are in the library, but the item
+    // stays "error" since the download itself never completed.
+    logs(
+      item.id,
+      "✅ [TIDARR] Post processing complete (partial download rescued).",
+    );
+    item["status"] = "error";
+    item["error"] = true;
+  } else {
+    logs(item.id, "✅ [TIDARR] Post processing complete.");
+    item["status"] = "finished";
+  }
 
   // Trigger completion callback
   onComplete();

@@ -11,6 +11,8 @@ import { extractFirstLineClean } from "../processing/utils/ansi-parse";
 import { logs } from "../processing/utils/logs";
 import { ProcessingItemType, TiddlConfig } from "../types";
 
+import { classifyTiddlLine } from "./tiddl-error-patterns";
+
 // Constants
 const TIDDL_BINARY = "tiddl";
 const PROGRESS_UPDATE_THROTTLE_MS = 2000;
@@ -98,33 +100,16 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   child.stdout?.on("data", (data: string) => {
     const lines = data?.split("\r");
-    const errorLines = lines.filter(
-      (line) =>
-        // "not a MP4 file" is a tiddl-handled fallback, not a real error
-        (line.includes("[31mError:\x1B") &&
-          !line.includes("not a MP4 file") &&
-          !line.includes("no longer available")) ||
-        line.includes("Cannot connect to host") ||
-        line.includes("validation errors") ||
-        line.includes("due to Dolby Atmos filter") ||
-        line.includes("ECONNRESET") ||
-        line.includes("ContentLengthError") ||
-        line.includes("is not completed") ||
-        line.includes("TypeError: terminated"),
+    const classifiedLines = lines.map(
+      (line) => [line, classifyTiddlLine(line)] as const,
     );
+    const errorLines = classifiedLines
+      .filter(([, kind]) => kind !== null)
+      .map(([line]) => line);
+
     if (errorLines.length > 0) {
       hasProcessingError = true;
-      if (
-        lines.some(
-          (line) =>
-            line.includes("Cannot connect to host") ||
-            line.includes("Connection reset by peer") ||
-            line.includes("ECONNRESET") ||
-            line.includes("ContentLengthError") ||
-            line.includes("is not completed") ||
-            line.includes("TypeError: terminated"),
-        )
-      ) {
+      if (classifiedLines.some(([, kind]) => kind === "network")) {
         hasNetworkError = true;
       }
     }

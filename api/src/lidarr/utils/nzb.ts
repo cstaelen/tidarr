@@ -87,6 +87,27 @@ export function getQueueStatus(isPaused: boolean, slotsCount: number): string {
   return slotsCount > 0 ? "Downloading" : "Idle";
 }
 
+/**
+ * Runs a SABnzbd handler, catching any error and logging it, falling back to
+ * `fallback` in that case. SABnzbd's JSON shape differs per mode (queue,
+ * history, addurl, ...) so unlike `helpers/error-handler.ts` (used by the
+ * rest of the API) this doesn't send an HTTP error status — SABnzbd expects
+ * 200 with a mode-specific "empty" body on failure.
+ */
+export async function withSabnzbdFallback<T>(
+  res: Response,
+  logContext: string,
+  fallback: T,
+  fn: () => Promise<T> | T,
+): Promise<Response> {
+  try {
+    return res.json(await fn());
+  } catch (error) {
+    console.error(`[SABnzbd] Error in ${logContext}:`, error);
+    return res.json(fallback);
+  }
+}
+
 function getLidarrDownloadPath(itemId: string): string {
   return `/downloads/${itemId}`;
 }

@@ -22,13 +22,18 @@ export async function moveAndClean(id: string): Promise<{
   if (!item) return { status: "finished" };
 
   const itemProcessingPath = `${PROCESSING_PATH}/${item.id}`;
-  const libraryPath = app.locals.tiddlConfig.download.download_path;
+  const libraryPath = app.locals.tiddlConfig?.download?.download_path;
+
+  if (!libraryPath) {
+    logs(item.id, "❌ [TIDARR] No library path configured, cannot move files");
+    return { status: "error" };
+  }
 
   try {
     logs(item.id, "🕖 [TIDARR] Move processed items ...");
 
     // Check if there are files to move
-    if (!hasFileToMove(itemProcessingPath)) {
+    if (!(await hasFileToMove(itemProcessingPath))) {
       logs(item.id, "⚠️ [TIDARR] No files to move (empty download folder)");
       return { status: "finished" };
     }
@@ -144,7 +149,15 @@ export async function replacePathInM3U(
   const basePath = process.env.M3U_BASEPATH_FILE?.replaceAll('"', "") || ".";
   const downloadDir = `${PROCESSING_PATH}/${item.id}`;
   const app = getAppInstance();
-  const libraryPath = app.locals.tiddlConfig.download.download_path;
+  const libraryPath = app.locals.tiddlConfig?.download?.download_path;
+
+  if (!libraryPath) {
+    logs(
+      item.id,
+      "❌ [TIDARR] No library path configured, skipping M3U update",
+    );
+    return;
+  }
 
   logs(item.id, `🕖 [TIDARR] Update track path in M3U file ...`);
 

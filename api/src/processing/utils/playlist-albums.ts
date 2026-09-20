@@ -1,12 +1,11 @@
 import { TIDAL_API_URL } from "../../../constants";
 import { getAppInstance } from "../../helpers/app-instance";
-import { fetchTidalWithRefresh } from "../../helpers/fetch-tidal";
+import { fetchAllTidalPages } from "../../helpers/fetch-tidal";
 import { ProcessingItemType, TiddlConfig } from "../../types";
 
 import { logs } from "./logs";
 
 const SUPPORTED_TYPES = ["playlist", "mix", "favorite_tracks"] as const;
-const TIDAL_PAGE_LIMIT = 100;
 
 type TrackItem = {
   item?: {
@@ -23,32 +22,9 @@ async function fetchAllTracks(
   tiddlConfig: TiddlConfig,
 ): Promise<TrackItem[]> {
   const country = tiddlConfig.auth.country_code;
-
   const baseUrl = buildBaseUrl(item, tiddlConfig, country);
-  const allItems: TrackItem[] = [];
-  let offset = 0;
-  let totalItems = Infinity;
 
-  while (offset < totalItems) {
-    const url = `${baseUrl}&limit=${TIDAL_PAGE_LIMIT}&offset=${offset}`;
-    const response = await fetchTidalWithRefresh(url);
-
-    if (!response.ok) {
-      const body = await response.text();
-      throw new Error(`Failed to fetch tracks: ${response.status} - ${body}`);
-    }
-
-    const data = await response.json();
-    totalItems = data.totalNumberOfItems ?? data.items?.length ?? 0;
-
-    if (data.items) {
-      allItems.push(...data.items);
-    }
-
-    offset += TIDAL_PAGE_LIMIT;
-  }
-
-  return allItems;
+  return fetchAllTidalPages<TrackItem>(baseUrl, "tracks");
 }
 
 function buildBaseUrl(

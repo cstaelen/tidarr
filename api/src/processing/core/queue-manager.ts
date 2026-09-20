@@ -121,13 +121,38 @@ export class QueueManager {
           return;
         }
 
-        // Max retries reached, clean up processing folder
+        // Max retries reached (or non-retriable error). If some files were
+        // already downloaded (e.g. 40/50 tracks of an album), rescue them via
+        // the normal post-processing queue instead of wiping the folder — the
+        // item stays "error" (post-processor keeps it that way) to signal the
+        // download never fully completed.
+        const hadPartialFiles = await hasFileToMove(
+          `${PROCESSING_PATH}/${item.id}`,
+        );
+
+        if (hadPartialFiles) {
+          item.status = "queue_processing";
+
+          // Files were actually downloaded, so this counts toward the batch
+          // just like a successful download would (see applyBatchPause).
+          await this.applyBatchPause(item, `${PROCESSING_PATH}/${item.id}`);
+
+          this.updateItemCallback(item);
+          await this.updateItemInQueueFileCallback(item);
+          this.processQueue();
+          return;
+        }
+
         await cleanFolder(item.id);
 
         // Trigger next items in queue
         this.processQueue();
         return;
       }
+
+      // Download succeeded — clear any stale errorStage from a previous failed
+      // attempt (e.g. a retry that eventually succeeded).
+      item.errorStage = undefined;
 
       // For LIDARR items, go straight to post-processing
       if (item.source === "lidarr") {

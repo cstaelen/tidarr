@@ -1,11 +1,9 @@
 import { TIDAL_API_URL } from "../../../constants";
 import { getAppInstance } from "../../helpers/app-instance";
-import { fetchTidalWithRefresh } from "../../helpers/fetch-tidal";
+import { fetchAllTidalPages } from "../../helpers/fetch-tidal";
 import { ProcessingItemType, TiddlConfig } from "../../types";
 
 import { logs } from "./logs";
-
-const TIDAL_PAGE_LIMIT = 100;
 
 type FavoriteAlbumItem = {
   item: {
@@ -22,26 +20,7 @@ async function fetchAllFavoriteAlbums(
   const { user_id: userId, country_code: country } = tiddlConfig.auth;
   const baseUrl = `${TIDAL_API_URL}/v1/users/${userId}/favorites/albums?countryCode=${country}&order=DATE&orderDirection=DESC`;
 
-  const allItems: FavoriteAlbumItem[] = [];
-  let offset = 0;
-  let totalItems = Infinity;
-
-  while (offset < totalItems) {
-    const response = await fetchTidalWithRefresh(
-      `${baseUrl}&limit=${TIDAL_PAGE_LIMIT}&offset=${offset}`,
-    );
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch favorite albums: ${response.status} - ${await response.text()}`,
-      );
-    }
-    const data = await response.json();
-    totalItems = data.totalNumberOfItems ?? data.items?.length ?? 0;
-    if (data.items) allItems.push(...data.items);
-    offset += TIDAL_PAGE_LIMIT;
-  }
-
-  return allItems;
+  return fetchAllTidalPages<FavoriteAlbumItem>(baseUrl, "favorite albums");
 }
 
 /**

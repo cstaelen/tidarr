@@ -121,7 +121,15 @@ export async function executePostScript(
   foldersToScan: string[],
 ): Promise<void> {
   const app = getAppInstance();
-  const libraryPath = app.locals.tiddlConfig.download.download_path;
+  const libraryPath = app.locals.tiddlConfig?.download?.download_path;
+
+  if (!libraryPath) {
+    logs(
+      item.id,
+      "❌ [TIDARR] No library path configured, skipping post-script",
+    );
+    return;
+  }
 
   return runScript(item, {
     scriptPath: path.join(CONFIG_PATH, "custom-post-script.sh"),

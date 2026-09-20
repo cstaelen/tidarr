@@ -69,7 +69,12 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     )
       return null;
 
-    await removeItem(item.id);
+    // addItem already replaces any existing item with the same id internally,
+    // so no need for an explicit removeItem call first (avoids a redundant
+    // request and the SSE flash of the item briefly disappearing). The item
+    // sent here has no retryCount (not part of this type), so the backend
+    // treats it as a fresh download and cleans the processing folder before
+    // starting (see prepareDownload / queue-manager.ts).
     await save(
       JSON.stringify({
         item: {

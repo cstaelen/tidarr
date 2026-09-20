@@ -206,7 +206,11 @@ export const ProcessingStack = () => {
     );
 
     await removeItemFromFile(id);
-    killProcess(item?.process, id);
+    // Wait for the process to actually die and the folder to be wiped before
+    // letting the queue start a new download for the same id — otherwise a
+    // fast remove+re-add race can have the old process still writing into a
+    // folder the new download just (re)created.
+    await killProcess(item?.process, id);
 
     const playlistId = (item as ProcessingItemWithPlaylist).playlistId;
     if (playlistId) {
@@ -218,7 +222,7 @@ export const ProcessingStack = () => {
     dataMap.delete(id);
 
     outputs.delete(String(id));
-    cleanFolder(item.id);
+    await cleanFolder(item.id);
 
     queueManager.processQueue();
 
@@ -227,11 +231,11 @@ export const ProcessingStack = () => {
 
   async function removeAllItems() {
     for (const item of data) {
-      killProcess(item?.process, item.id);
+      await killProcess(item?.process, item.id);
       const playlistId = (item as ProcessingItemWithPlaylist).playlistId;
       if (playlistId) deletePlaylist(playlistId, item.id);
       outputs.delete(String(item.id));
-      cleanFolder(item.id);
+      await cleanFolder(item.id);
     }
     data.length = 0;
     dataMap.clear();

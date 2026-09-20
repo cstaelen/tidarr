@@ -18,8 +18,8 @@ export function useProcessingFormat() {
 
   const formatItem = useCallback(
     (item: TidalItemType, type: ContentType): ProcessingItemType | null => {
-      if (!quality) return null;
-
+      // quality/atmosFilter are optional here — the backend falls back to its
+      // own configured default when ConfigProvider hasn't loaded yet.
       const id =
         (item as AlbumType | TrackType | ArtistType).id ||
         (item as PlaylistType).uuid;
