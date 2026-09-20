@@ -71,10 +71,7 @@ export async function handleDownload(
   if (item.type === "mix") {
     playlistId = await prepareMixToPlaylist(item);
     if (!playlistId) {
-      // Error occurred — go through onComplete so the queue manager applies
-      // its normal error handling (errorStage, retry, partial-file rescue)
-      // instead of leaving the item stuck without errorStage or a chance to
-      // retry/continue the queue.
+      // Go through onComplete so the queue manager's error handling applies
       onComplete();
       return;
     }

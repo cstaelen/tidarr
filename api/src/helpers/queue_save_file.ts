@@ -15,14 +15,8 @@ export function insertBeforeFirstQueued<T extends { status: string }>(
   }
 }
 
-/**
- * Returns a copy of `item` with transient/runtime-only fields stripped, for
- * persistence to disk. Never mutates the input — that object is the same
- * in-memory reference held by processing-manager.ts's `data`/`dataMap`, and
- * fields like `retryCount`/`networkError` must survive there across post-
- * processing (see lessons-learned.md "Carry State Across Post-Processing
- * Without Maps").
- */
+// Returns a copy with transient fields stripped, without mutating `item`
+// (same reference as processing-manager.ts's in-memory data).
 function cleanItemBeforeSave(item: ProcessingItemType): ProcessingItemType {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { process, progress, retryCount, networkError, skipped, ...rest } =

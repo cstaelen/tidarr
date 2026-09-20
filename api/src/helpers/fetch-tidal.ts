@@ -35,14 +35,7 @@ export async function fetchTidalWithRefresh(
 
 const TIDAL_PAGE_LIMIT = 100;
 
-/**
- * Fetches every page of a Tidal v1 API list endpoint (max page size is 100 —
- * see https://developer.tidal.com), accumulating `items` across pages using
- * `totalNumberOfItems` to know when to stop.
- *
- * @param baseUrl - Tidal API URL without `limit`/`offset` query params
- * @param errorContext - Used in the thrown error message on a non-ok response
- */
+// Fetches every page of a Tidal v1 list endpoint (max page size is 100).
 export async function fetchAllTidalPages<T>(
   baseUrl: string,
   errorContext: string,

@@ -61,13 +61,7 @@ export async function postProcessTidarr(
   logs(item.id, "---------------------");
 
   const processingPath = `${PROCESSING_PATH}/${item.id}`;
-  // An item that errored during download but still produced files (e.g. 40/50
-  // tracks of an album) goes through the same pipeline to rescue what was
-  // downloaded, but keeps its "error" status at the end instead of "finished".
-  // Status itself is "processing" at this point (set by preparePostProcessing
-  // right before this call), so errorStage is what distinguishes this case —
-  // captured once here since a later step (moveAndClean failing) can
-  // overwrite errorStage on the item itself.
+  // Rescuing a partial download — keep it "error" at the end instead of "finished"
   const wasDownloadError = item["errorStage"] === "download";
 
   if (wasDownloadError) {
@@ -80,8 +74,7 @@ export async function postProcessTidarr(
   // Check if there are files to process
   const shouldProceed = await shouldPostProcess(item, processingPath);
   if (!shouldProceed) {
-    // No files at all — restore the error status shouldPostProcess overwrote
-    // with "finished" (that default only makes sense for the non-error path).
+    // Restore "error" — shouldPostProcess defaults to "finished"
     if (wasDownloadError) {
       item["status"] = "error";
       item["skipped"] = false;
@@ -113,9 +106,6 @@ export async function postProcessTidarr(
 
   if (moveStatus === "error") {
     item["status"] = "error";
-    // Keep "download" as the errorStage if this was already a rescued
-    // partial download — the download itself is still the root cause, a
-    // fresh download retry (not just a post-processing retry) is needed.
     if (!wasDownloadError) {
       item["errorStage"] = "post_processing";
     }
@@ -161,8 +151,6 @@ export async function postProcessTidarr(
 
   logs(item.id, "---------------------");
   if (wasDownloadError) {
-    // Rescued a partial download — files are in the library, but the item
-    // stays "error" since the download itself never completed.
     logs(
       item.id,
       "✅ [TIDARR] Post processing complete (partial download rescued).",

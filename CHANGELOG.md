@@ -4,10 +4,13 @@ Tidarr notable changes.
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
 ## 📦 1.2.7
-### 🐛 Fixed
+### 🚀 Added
 - [Front] Handle post-processing fails and allow post-processing retry  #897
-- [Front] Fix search keywords with slashes #896
+- [Doc] The app is now distributed under MIT license #900
+### 🖍 Changes
 - [Doc] Update NGINX proxy manager doc
+### 🐛 Fixed
+- [Front] Fix search keywords with slashes #896
 - [Front] Replace Matomo with Umami anonymized tracking
 
 ## 📦 1.2.6

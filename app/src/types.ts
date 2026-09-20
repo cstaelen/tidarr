@@ -360,8 +360,7 @@ export type ProcessingItemType = {
   id: string;
   artist: string;
   title: string;
-  // Optional: the backend fills in the server's configured default quality
-  // when the client doesn't have one loaded yet (see POST /api/save).
+  // Backend fills in a default quality if missing (see POST /api/save)
   quality?: QualityType;
   atmosFilter?: AtmosFilterType;
   type: ContentType;

@@ -17,6 +17,7 @@ import { useConfigProvider } from "./ConfigProvider";
 type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
   isPaused: boolean | undefined;
+  isBeingDeleted: boolean | undefined;
   batchCount: number;
   batchResumeAt: number | null;
   actions: {
@@ -37,6 +38,7 @@ const ProcessingContext = React.createContext<ProcessingContextType>(
 export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
   const [isPaused, setIsPaused] = useState<boolean>();
+  const [isBeingDeleted, setIsBeingDeleted] = useState<boolean>();
   const [batchCount, setBatchCount] = useState<number>(0);
   const [batchResumeAt, setBatchResumeAt] = useState<number | null>(null);
   const eventSourceRef = useRef<EventSourceController | null>(null);
@@ -69,12 +71,8 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     )
       return null;
 
-    // addItem already replaces any existing item with the same id internally,
-    // so no need for an explicit removeItem call first (avoids a redundant
-    // request and the SSE flash of the item briefly disappearing). The item
-    // sent here has no retryCount (not part of this type), so the backend
-    // treats it as a fresh download and cleans the processing folder before
-    // starting (see prepareDownload / queue-manager.ts).
+    // addItem already replaces any existing item with the same id, no need
+    // for an explicit removeItem first
     await save(
       JSON.stringify({
         item: {
@@ -97,7 +95,9 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   };
 
   const removeItem = async (id: string): Promise<void> => {
+    setIsBeingDeleted(true);
     await remove(JSON.stringify({ id }));
+    setIsBeingDeleted(false);
   };
 
   const closeStreamProcessing = useCallback(() => {
@@ -126,6 +126,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       value={{
         processingList,
         isPaused,
+        isBeingDeleted,
         batchCount,
         batchResumeAt,
         actions: {

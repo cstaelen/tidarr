@@ -24,8 +24,7 @@ router.post(
     try {
       const item = req.body.item;
 
-      // Fall back to the server's configured default quality if the client
-      // didn't set one (e.g. sent before ConfigProvider finished loading).
+      // Fall back to server-configured quality if the client didn't set one
       if (!item.quality) {
         item.quality = req.app.locals.tiddlConfig?.download?.track_quality;
       }

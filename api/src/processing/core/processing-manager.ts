@@ -206,10 +206,6 @@ export const ProcessingStack = () => {
     );
 
     await removeItemFromFile(id);
-    // Wait for the process to actually die and the folder to be wiped before
-    // letting the queue start a new download for the same id — otherwise a
-    // fast remove+re-add race can have the old process still writing into a
-    // folder the new download just (re)created.
     await killProcess(item?.process, id);
 
     const playlistId = (item as ProcessingItemWithPlaylist).playlistId;

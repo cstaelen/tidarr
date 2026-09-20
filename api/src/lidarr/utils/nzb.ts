@@ -87,13 +87,7 @@ export function getQueueStatus(isPaused: boolean, slotsCount: number): string {
   return slotsCount > 0 ? "Downloading" : "Idle";
 }
 
-/**
- * Runs a SABnzbd handler, catching any error and logging it, falling back to
- * `fallback` in that case. SABnzbd's JSON shape differs per mode (queue,
- * history, addurl, ...) so unlike `helpers/error-handler.ts` (used by the
- * rest of the API) this doesn't send an HTTP error status — SABnzbd expects
- * 200 with a mode-specific "empty" body on failure.
- */
+// Runs a SABnzbd handler, falling back to `fallback` (200 + empty body) on error.
 export async function withSabnzbdFallback<T>(
   res: Response,
   logContext: string,
