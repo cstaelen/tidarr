@@ -67,13 +67,14 @@ if [ -n "$PUID" ] && [ -n "$PGID" ]; then
   # Export UMASK as environment variable so Node.js can access it for setPermissions()
   # Set umask for any processes that respect it (tiddl/Python ignores shell umask)
   if [ "$ENVIRONMENT" = "development" ]; then
-    exec su-exec $PUID:$PGID sh -c "export HOME=/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && exec sh -c 'pnpm install && pnpm dev'"
+    exec su-exec $PUID:$PGID sh -c "export HOME=/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && export CI=true && exec sh -c 'pnpm install && pnpm dev'"
   else
     exec su-exec $PUID:$PGID sh -c "export HOME=/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && exec pnpm --filter tidarr-api prod"
   fi
 else
   # Run as root (default)
   if [ "$ENVIRONMENT" = "development" ]; then
+    export CI=true
     pnpm install
     pnpm dev
   else
