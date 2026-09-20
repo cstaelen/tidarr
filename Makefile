@@ -14,7 +14,7 @@ dev: ## Boot dev environnement
 	$(DOCKER_COMPOSE) up tidarr --build --remove-orphans
 
 install: ## Install deps
-	$(DOCKER_COMPOSE) exec tidarr yarn install
+	$(DOCKER_COMPOSE) exec tidarr pnpm install
 ##
 ## Playwright 🚨
 ##--------------
@@ -45,26 +45,26 @@ testing-ui: ## Run local Playwright UI
 ##----------------
 
 quality-deadcode: ## Fin deadcode with `ts-prune`
-	$(DOCKER_COMPOSE) exec -w /tidarr/api tidarr yarn find-deadcode
-	$(DOCKER_COMPOSE) exec -w /tidarr/app tidarr yarn find-deadcode
-	$(DOCKER_COMPOSE) exec -w /tidarr/e2e tidarr yarn find-deadcode
+	$(DOCKER_COMPOSE) exec -w /tidarr/api tidarr pnpm find-deadcode
+	$(DOCKER_COMPOSE) exec -w /tidarr/app tidarr pnpm find-deadcode
+	$(DOCKER_COMPOSE) exec -w /tidarr/e2e tidarr pnpm find-deadcode
 
 quality-depcheck: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /tidarr/api tidarr yarn depcheck
-	$(DOCKER_COMPOSE) exec -w /tidarr/app tidarr yarn depcheck
-	$(DOCKER_COMPOSE) exec -w /tidarr/e2e tidarr yarn depcheck
+	$(DOCKER_COMPOSE) exec -w /tidarr/api tidarr pnpm depcheck
+	$(DOCKER_COMPOSE) exec -w /tidarr/app tidarr pnpm depcheck
+	$(DOCKER_COMPOSE) exec -w /tidarr/e2e tidarr pnpm depcheck
 
 quality-lint: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /tidarr tidarr yarn lint
+	$(DOCKER_COMPOSE) exec -w /tidarr tidarr pnpm lint
 
 quality-lint-fix: ## Check dependencies
-	$(DOCKER_COMPOSE) exec -w /tidarr tidarr yarn lint-fix
+	$(DOCKER_COMPOSE) exec -w /tidarr tidarr pnpm lint-fix
 
 quality-format: ## Check code formatting
-	$(DOCKER_COMPOSE) exec -w /tidarr tidarr yarn format-check
+	$(DOCKER_COMPOSE) exec -w /tidarr tidarr pnpm format-check
 
 quality-format-fix: ## Fix code formatting
-	$(DOCKER_COMPOSE) exec -w /tidarr tidarr yarn format
+	$(DOCKER_COMPOSE) exec -w /tidarr tidarr pnpm format
 
 ##
 ## Builder 🚀

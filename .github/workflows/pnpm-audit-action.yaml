@@ -1,4 +1,4 @@
-name: Yarn-Audit
+name: Pnpm-Audit
 on:
   push:
     branches: [ main ]
@@ -11,15 +11,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Use Node.js 22.x
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
-          cache: 'yarn'
+          cache: 'pnpm'
 
       - name: Install deps
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
-      # Single root yarn.lock covers all workspaces (api, app, e2e)
+      # Single root pnpm-lock.yaml covers all workspaces (api, app, e2e)
       - name: Run audit
-        run: npx --yes audit-ci@^7 --moderate --package-manager yarn
+        run: npx --yes audit-ci@^7 --moderate --package-manager pnpm

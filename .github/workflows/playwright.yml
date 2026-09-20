@@ -16,22 +16,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: 'yarn'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Install Playwright Browsers
-        run: yarn workspace tidarr-testing exec playwright install --with-deps chromium
+        run: pnpm --filter tidarr-testing exec playwright install --with-deps chromium
 
       - name: Run Playwright tests
         env:
           CI: true
-        run: yarn workspace tidarr-testing playwright:test
+        run: pnpm --filter tidarr-testing playwright:test
 
       - uses: actions/upload-artifact@v4
         if: failure()

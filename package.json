@@ -1,15 +1,11 @@
 {
   "name": "tidarr-main",
   "private": true,
-  "workspaces": [
-    "api",
-    "app",
-    "e2e"
-  ],
+  "packageManager": "pnpm@10.28.2",
   "scripts": {
-    "app-build": "yarn --cwd ./app build",
-    "api-build": "yarn --cwd ./api build",
-    "dev": "concurrently -n api,front \"yarn --cwd ./api start\" \"yarn --cwd app start\"",
+    "app-build": "pnpm --filter tidarr-react build",
+    "api-build": "pnpm --filter tidarr-api build",
+    "dev": "concurrently -n api,front \"pnpm --filter tidarr-api start\" \"pnpm --filter tidarr-react start\"",
     "prod": "node ./api/dist/index.js",
     "lint": "oxlint -c .oxlintrc.json .",
     "lint-fix": "oxlint -c .oxlintrc.json --fix .",
@@ -22,11 +18,13 @@
     "oxlint": "^1.83.0",
     "typescript": "^7.0.2"
   },
-  "resolutions": {
-    "brace-expansion": ">=5.0.1",
-    "dompurify": ">=3.4.13",
-    "flatted": ">=3.4.0",
-    "linkify-it": ">=5.0.1",
-    "minimatch": ">=10.2.3"
+  "pnpm": {
+    "overrides": {
+      "brace-expansion": ">=5.0.1",
+      "dompurify": ">=3.4.13",
+      "flatted": ">=3.4.0",
+      "linkify-it": ">=5.0.1",
+      "minimatch": ">=10.2.3"
+    }
   }
 }

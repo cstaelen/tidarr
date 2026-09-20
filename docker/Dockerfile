@@ -29,7 +29,7 @@ COPY docker/requirements.txt docker/requirements.txt
 RUN apk add --no-cache --virtual .build-deps \
         python3-dev \
         build-base && \
-    npm install -g yarn && \
+    npm install -g pnpm@10 && \
     python -m pip install --no-cache-dir -r docker/requirements.txt && \
     apk del .build-deps
 
@@ -75,18 +75,18 @@ ENV NODE_ENV="${NODE_ENV}"
 
 # Install build dependencies
 RUN apk add --no-cache git npm nodejs && \
-    npm install -g yarn && \
+    npm install -g pnpm@10 && \
     rm -rf /var/cache/apk/*
 
 COPY . .
 
 # Install all workspace dependencies at once
-RUN --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \
-    yarn install --prefer-offline --frozen-lockfile
+RUN --mount=type=cache,target=/root/.local/share/pnpm/store,sharing=locked \
+    pnpm install --prefer-offline --frozen-lockfile
 
 # Build frontend and backend
-RUN yarn workspace tidarr-react run build && \
-    yarn workspace tidarr-api run build
+RUN pnpm --filter tidarr-react run build && \
+    pnpm --filter tidarr-api run build
 
 ###############################################################
 ## PRODUCTION IMAGE                                           #
@@ -105,16 +105,16 @@ COPY --from=app_builder /tidarr/.env /tidarr/.env
 COPY --from=app_builder /tidarr/docker/entrypoint.sh /tidarr/docker/entrypoint.sh
 
 # Copy workspace configuration and API package files
-COPY package.json yarn.lock* ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* ./
 COPY api/package.json ./api/package.json
 
 # Install production dependencies with build tools, then clean up aggressively
-RUN --mount=type=cache,target=/usr/local/share/.cache/yarn/v6,sharing=locked \
+RUN --mount=type=cache,target=/root/.local/share/pnpm/store,sharing=locked \
     apk add --no-cache --virtual .build-deps \
         python3-dev \
         build-base && \
     mkdir -p /shared/.processing && \
-    yarn install --frozen-lockfile --production --ignore-optional && \
+    pnpm install --frozen-lockfile --prod --no-optional --filter tidarr-api... && \
     apk del .build-deps && \
     npm uninstall -g npm && \
     rm -rf /root/.npm /tmp/* /var/tmp/* && \
