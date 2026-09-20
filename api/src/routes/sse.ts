@@ -50,7 +50,7 @@ router.get(
   "/stream-item-output/:id",
   ensureAccessIsGranted,
   (req: Request, res: Response) => {
-    const itemId = req.params.id;
+    const itemId = String(req.params.id);
 
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");

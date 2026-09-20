@@ -123,7 +123,7 @@ router.patch(
   ensureAccessIsGranted,
   async (req: Request, res: Response) => {
     try {
-      const paused = await toggleSyncItemPaused(req.params.id);
+      const paused = await toggleSyncItemPaused(String(req.params.id));
       res.status(200).json({ paused });
     } catch (error) {
       handleRouteError(error, res, "toggle sync item pause");
