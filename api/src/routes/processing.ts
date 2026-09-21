@@ -22,7 +22,14 @@ router.post(
   validateItemMiddleware,
   async (req: Request, res: Response) => {
     try {
-      req.app.locals.processingStack.actions.addItem(req.body.item);
+      const item = req.body.item;
+
+      // Fall back to server-configured quality if the client didn't set one
+      if (!item.quality) {
+        item.quality = req.app.locals.tiddlConfig?.download?.track_quality;
+      }
+
+      await req.app.locals.processingStack.actions.addItem(item);
       res.sendStatus(201);
     } catch (error) {
       handleRouteError(error, res, "add item to queue");
@@ -39,9 +46,9 @@ router.delete(
   ensureAccessIsGranted,
   validateRequestBody(["id"]),
   validateIdMiddleware,
-  (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     try {
-      req.app.locals.processingStack.actions.removeItem(req.body.id);
+      await req.app.locals.processingStack.actions.removeItem(req.body.id);
       res.sendStatus(204);
     } catch (error) {
       handleRouteError(error, res, "remove item from queue");
@@ -56,9 +63,9 @@ router.delete(
 router.delete(
   "/remove-all",
   ensureAccessIsGranted,
-  (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     try {
-      req.app.locals.processingStack.actions.removeAllItems();
+      await req.app.locals.processingStack.actions.removeAllItems();
       res.sendStatus(204);
     } catch (error) {
       handleRouteError(error, res, "remove all items from queue");
@@ -73,9 +80,9 @@ router.delete(
 router.delete(
   "/remove-finished",
   ensureAccessIsGranted,
-  (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     try {
-      req.app.locals.processingStack.actions.removeFinishedItems();
+      await req.app.locals.processingStack.actions.removeFinishedItems();
       res.sendStatus(204);
     } catch (error) {
       handleRouteError(error, res, "remove finished items from queue");

@@ -228,7 +228,7 @@ export default function WatchList() {
                         id={row.id}
                         type={row.type}
                         item={row}
-                        label="Sync now"
+                        tooltip="Sync now"
                         force
                       />
                       <Tooltip title="Remove from watch list">

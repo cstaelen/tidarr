@@ -51,7 +51,7 @@ export default function MyFavorites() {
   return (
     <>
       <PagedModule
-        url={`/v1/users/${tiddlConfig?.auth.user_id}/favorites/albums`}
+        url={`/v1/users/${tiddlConfig?.auth?.user_id}/favorites/albums`}
         type="USER_ALBUM_LIST"
         title="My Favorite albums"
         orderParams={{
@@ -68,7 +68,7 @@ export default function MyFavorites() {
         }
       />
       <PagedModule
-        url={`/v1/users/${tiddlConfig?.auth.user_id}/favorites/tracks`}
+        url={`/v1/users/${tiddlConfig?.auth?.user_id}/favorites/tracks`}
         type="ALBUM_ITEMS"
         title="My Favorite tracks"
         titleSide={
@@ -82,7 +82,7 @@ export default function MyFavorites() {
         }}
       />
       <PagedModule
-        url={`/v1/users/${tiddlConfig?.auth.user_id}/favorites/playlists`}
+        url={`/v1/users/${tiddlConfig?.auth?.user_id}/favorites/playlists`}
         type="MIXED_TYPES_LIST"
         title="My Favorite playlists"
         orderParams={{
@@ -97,7 +97,7 @@ export default function MyFavorites() {
         }
       />
       <PagedModule
-        url={`/v1/users/${tiddlConfig?.auth.user_id}/favorites/artists`}
+        url={`/v1/users/${tiddlConfig?.auth?.user_id}/favorites/artists`}
         type="USER_ARTIST_LIST"
         title="My Favorite artists"
         orderParams={{

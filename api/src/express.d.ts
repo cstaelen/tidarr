@@ -6,6 +6,8 @@
 import { Response } from "express";
 
 import { ProcessingStack } from "./processing/core/processing-manager";
+import { configureServer } from "./services/config";
+import { TiddlConfig } from "./types";
 
 declare global {
   namespace Express {
@@ -19,8 +21,8 @@ declare global {
         ) => void;
         activeListConnections: Response[];
         activeItemOutputConnections: Map<string, Response[]>;
-        config?: unknown;
-        tiddlConfig?: unknown;
+        config?: Awaited<ReturnType<typeof configureServer>>;
+        tiddlConfig?: TiddlConfig;
       };
     }
   }

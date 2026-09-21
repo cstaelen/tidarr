@@ -42,12 +42,14 @@ export const DownloadButton = ({
   item,
   type,
   label,
+  tooltip,
   force,
 }: {
   item: TidalItemType;
   id: string;
   type: ContentType;
-  label: string;
+  label?: string;
+  tooltip?: string;
   force?: boolean;
 }) => {
   const { processingList, actions } = useProcessingProvider();
@@ -138,18 +140,22 @@ export const DownloadButton = ({
   );
 
   return (
-    <Tooltip title={showCancelMode ? "Click to cancel download" : ""}>
+    <Tooltip
+      title={showCancelMode ? "Click to cancel download" : tooltip || ""}
+    >
       <Button
         variant="outlined"
         data-testid="btn-dl"
         color={buttonColor}
-        endIcon={buttonIcon}
+        endIcon={label ? buttonIcon : undefined}
         onClick={handleClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         size="small"
+        sx={{ minWidth: !label ? 0 : undefined }}
       >
         {label}
+        {!label && buttonIcon}
       </Button>
     </Tooltip>
   );

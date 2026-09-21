@@ -9,7 +9,12 @@ import React, {
 import { EventSourceController } from "event-source-plus";
 import { useProcessingFormat } from "src/hooks/useProcessingFormat";
 
-import { ContentType, ProcessingItemType, TidalItemType } from "../types";
+import {
+  ContentType,
+  ProcessingItemType,
+  SyncItemType,
+  TidalItemType,
+} from "../types";
 
 import { useApiFetcher } from "./ApiFetcherProvider";
 import { useConfigProvider } from "./ConfigProvider";
@@ -17,12 +22,16 @@ import { useConfigProvider } from "./ConfigProvider";
 type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
   isPaused: boolean | undefined;
+  isBeingDeleted: boolean | string | undefined;
   batchCount: number;
   batchResumeAt: number | null;
   actions: {
     setProcessingList: (list: ProcessingItemType[]) => void;
     setIsPaused: (isPaused: boolean) => void;
-    addItem: (item: TidalItemType, type: ContentType) => Promise<void>;
+    addItem: (
+      item: TidalItemType | SyncItemType,
+      type: ContentType,
+    ) => Promise<void>;
     removeItem: (id: string) => Promise<void>;
     retryItem: (item: ProcessingItemType) => Promise<void | null>;
     retryPostProcessing: (id: string) => Promise<void>;
@@ -37,6 +46,7 @@ const ProcessingContext = React.createContext<ProcessingContextType>(
 export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
   const [isPaused, setIsPaused] = useState<boolean>();
+  const [isBeingDeleted, setIsBeingDeleted] = useState<boolean | string>();
   const [batchCount, setBatchCount] = useState<number>(0);
   const [batchResumeAt, setBatchResumeAt] = useState<number | null>(null);
   const eventSourceRef = useRef<EventSourceController | null>(null);
@@ -50,7 +60,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   const { formatItem } = useProcessingFormat();
 
   const addItem = async (
-    item: TidalItemType,
+    item: TidalItemType | SyncItemType,
     type: ContentType,
   ): Promise<void> => {
     const itemToQueue = formatItem(item, type);
@@ -69,7 +79,8 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     )
       return null;
 
-    await removeItem(item.id);
+    // addItem already replaces any existing item with the same id, no need
+    // for an explicit removeItem first
     await save(
       JSON.stringify({
         item: {
@@ -92,7 +103,12 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   };
 
   const removeItem = async (id: string): Promise<void> => {
-    await remove(JSON.stringify({ id }));
+    setIsBeingDeleted(id);
+    try {
+      await remove(JSON.stringify({ id }));
+    } finally {
+      setIsBeingDeleted(false);
+    }
   };
 
   const closeStreamProcessing = useCallback(() => {
@@ -121,6 +137,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
       value={{
         processingList,
         isPaused,
+        isBeingDeleted,
         batchCount,
         batchResumeAt,
         actions: {

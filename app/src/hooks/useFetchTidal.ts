@@ -12,7 +12,7 @@ type FetchTidalProps = {
   options?: RequestInit;
   tiddlConfig?: ConfigTiddleType;
   search?: FetchTidalSearchProps;
-  resetTidalToken: () => void;
+  resetTidalToken: () => Promise<void>;
 };
 
 export type FetchTidalSearchProps = {
@@ -32,7 +32,7 @@ async function fetchTidal<T>({
   search,
   resetTidalToken,
 }: FetchTidalProps): Promise<T | undefined> {
-  const countryCode = tiddlConfig?.auth.country_code || "EN";
+  const countryCode = tiddlConfig?.auth?.country_code || "EN";
   const apiUrl = `${TIDARR_PROXY_URL}/tidal`;
 
   // Add JWT auth header
@@ -96,8 +96,8 @@ export function useFetchTidal() {
     actions: { delete_token },
   } = useApiFetcher();
 
-  const resetTidalToken = () => {
-    delete_token();
+  const resetTidalToken = async () => {
+    await delete_token();
     checkAPI();
   };
 

@@ -33,7 +33,7 @@ const STATUS_ICONS: Record<string, ReactElement> = {
 
 export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
   const status = item?.status;
-  const { actions, isPaused } = useProcessingProvider();
+  const { actions, isPaused, isBeingDeleted } = useProcessingProvider();
 
   if (!item?.status) return null;
 
@@ -56,7 +56,13 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
   };
 
   return (
-    <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+    <TableRow
+      sx={{
+        "&:last-child td, &:last-child th": { border: 0 },
+        opacity: isBeingDeleted === item.id ? 0.3 : 1,
+      }}
+      data-testid="processing-item"
+    >
       <TableCell width="6rem">
         <Box sx={{ alignItems: "center", display: "flex", flex: "0 0 auto" }}>
           <RemoveButton onClick={() => actions.removeItem(item.id)}>

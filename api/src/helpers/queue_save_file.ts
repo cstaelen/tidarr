@@ -15,14 +15,14 @@ export function insertBeforeFirstQueued<T extends { status: string }>(
   }
 }
 
+// Returns a copy with transient fields stripped, without mutating `item`
+// (same reference as processing-manager.ts's in-memory data).
 function cleanItemBeforeSave(item: ProcessingItemType): ProcessingItemType {
-  delete item.process;
-  delete item.progress;
-  delete item.retryCount;
-  delete item.networkError;
-  delete item.skipped;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { process, progress, retryCount, networkError, skipped, ...rest } =
+    item;
 
-  return item;
+  return rest as ProcessingItemType;
 }
 
 // In-memory cache to avoid disk reads
@@ -53,32 +53,6 @@ export async function loadQueueFromFile(): Promise<ProcessingItemType[]> {
   }
 }
 
-export const addItemToFile = async (
-  item: ProcessingItemType,
-  insertAtFront?: boolean,
-) => {
-  const saveList = await loadQueueFromFile();
-
-  // Check if item with this ID already exists
-  if (queueCacheMap?.has(item.id)) {
-    return;
-  }
-
-  item = cleanItemBeforeSave(item);
-
-  if (insertAtFront) {
-    insertBeforeFirstQueued(saveList, item);
-  } else {
-    saveList.push(item);
-  }
-
-  queueCache = saveList;
-  queueCacheMap?.set(item.id, item);
-
-  // Write to disk (auto-saves with saveOnPush=true)
-  await queueDb.push(QUEUE_PATH, saveList);
-};
-
 export const addItemsToFile = async (
   items: ProcessingItemType[],
   insertAtFront?: boolean,
@@ -105,6 +79,11 @@ export const addItemsToFile = async (
   await queueDb.push(QUEUE_PATH, saveList);
 };
 
+export const addItemToFile = (
+  item: ProcessingItemType,
+  insertAtFront?: boolean,
+) => addItemsToFile([item], insertAtFront);
+
 export const clearQueueFile = async () => {
   queueCache = [];
   queueCacheMap = new Map();
@@ -120,24 +99,24 @@ export const removeItemsFromFile = async (ids: string[]) => {
   await queueDb.push(QUEUE_PATH, filteredList);
 };
 
-export const removeItemFromFile = async (id: string) => {
-  const saveList = await loadQueueFromFile();
-  const filteredList = saveList.filter((item) => item.id !== id);
-
-  // Update cache
-  queueCache = filteredList;
-  queueCacheMap?.delete(id);
-
-  // Write to disk (auto-saves with saveOnPush=true)
-  await queueDb.push(QUEUE_PATH, filteredList);
-};
+export const removeItemFromFile = (id: string) => removeItemsFromFile([id]);
 
 export const updateItemsInQueueFile = async (items: ProcessingItemType[]) => {
   const saveList = await loadQueueFromFile();
 
   const updatesById = new Map(
     items
-      .filter((item) => queueCacheMap?.has(item.id))
+      .filter((item) => {
+        const exists = queueCacheMap?.has(item.id);
+        if (!exists) {
+          // Item not found - it may have been removed already (e.g., auto-remove
+          // finished items). This is not an error, just skip the update.
+          console.log(
+            `[QUEUE] Item ${item.id} not found in queue file - may have been removed already`,
+          );
+        }
+        return exists;
+      })
       .map((item) => [item.id, cleanItemBeforeSave(item)]),
   );
 
@@ -156,30 +135,5 @@ export const updateItemsInQueueFile = async (items: ProcessingItemType[]) => {
   await queueDb.push(QUEUE_PATH, saveList);
 };
 
-export const updateItemInQueueFile = async (item: ProcessingItemType) => {
-  const saveList = await loadQueueFromFile();
-
-  // O(1) lookup using Map instead of O(n) findIndex
-  if (!queueCacheMap?.has(item.id)) {
-    // Item not found - it may have been removed already (e.g., auto-remove finished items)
-    // This is not an error, just skip the update
-    console.log(
-      `[QUEUE] Item ${item.id} not found in queue file - may have been removed already`,
-    );
-    return;
-  }
-
-  const itemIndex = saveList.findIndex((current) => current.id === item.id);
-
-  item = cleanItemBeforeSave(item);
-
-  // Keep in queue, just update
-  saveList[itemIndex] = { ...item };
-
-  // Update cache
-  queueCache = saveList;
-  queueCacheMap?.set(item.id, item);
-
-  // Write to disk (auto-saves with saveOnPush=true)
-  await queueDb.push(QUEUE_PATH, saveList);
-};
+export const updateItemInQueueFile = (item: ProcessingItemType) =>
+  updateItemsInQueueFile([item]);

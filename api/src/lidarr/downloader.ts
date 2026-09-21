@@ -14,6 +14,7 @@ import {
   mapItemToHistorySlot,
   mapItemToQueueSlot,
   parseMultipartNzb,
+  withSabnzbdFallback,
 } from "./utils/nzb";
 import { addAlbumToQueue } from "./utils/tidal-search-albums";
 
@@ -164,19 +165,13 @@ export function handleQueueRequest(req: Request, res: Response) {
     return handleDeleteRequest(req, res, "queue");
   }
 
-  try {
+  const idleQueue = { queue: { status: "Idle", paused: false, slots: [] } };
+
+  return withSabnzbdFallback(res, "queue request", idleQueue, () => {
     const app = getAppInstance();
     const processingStack = app.locals.processingStack;
 
-    if (!processingStack) {
-      return res.json({
-        queue: {
-          status: "Idle",
-          paused: false,
-          slots: [],
-        },
-      });
-    }
+    if (!processingStack) return idleQueue;
 
     const { data } = processingStack;
     const { isPaused } = processingStack.actions.getQueueStatus();
@@ -194,7 +189,7 @@ export function handleQueueRequest(req: Request, res: Response) {
       )
       .map((item: ProcessingItemType) => mapItemToQueueSlot(item, isPaused));
 
-    return res.json({
+    return {
       queue: {
         status: getQueueStatus(isPaused, slots.length),
         paused: isPaused,
@@ -207,17 +202,8 @@ export function handleQueueRequest(req: Request, res: Response) {
         finish: 0,
         slots,
       },
-    });
-  } catch (error) {
-    console.error("[SABnzbd] Error in queue request:", error);
-    return res.json({
-      queue: {
-        status: "Idle",
-        paused: false,
-        slots: [],
-      },
-    });
-  }
+    };
+  });
 }
 
 /**
@@ -233,21 +219,16 @@ export async function handleHistoryRequest(req: Request, res: Response) {
     return handleDeleteRequest(req, res, "history");
   }
 
-  try {
+  const emptyHistory = { history: { noofslots: 0, slots: [] } };
+
+  return withSabnzbdFallback(res, "history request", emptyHistory, async () => {
     const app = getAppInstance();
     const processingStack = app.locals.processingStack;
     const { start = "0", limit = "60" } = req.query;
     const startNum = parseInt(start as string, 10) || 0;
     const limitNum = parseInt(limit as string, 10);
 
-    if (!processingStack) {
-      return res.json({
-        history: {
-          noofslots: 0,
-          slots: [],
-        },
-      });
-    }
+    if (!processingStack) return emptyHistory;
 
     const { data } = processingStack;
 
@@ -270,7 +251,7 @@ export async function handleHistoryRequest(req: Request, res: Response) {
 
     const slots = await Promise.all(page.map(mapItemToHistorySlot));
 
-    return res.json({
+    return {
       history: {
         noofslots: allItems.length,
         month_size: "0 B",
@@ -279,14 +260,6 @@ export async function handleHistoryRequest(req: Request, res: Response) {
         total_size: "0 B",
         slots,
       },
-    });
-  } catch (error) {
-    console.error("[SABnzbd] Error in history request:", error);
-    return res.json({
-      history: {
-        noofslots: 0,
-        slots: [],
-      },
-    });
-  }
+    };
+  });
 }

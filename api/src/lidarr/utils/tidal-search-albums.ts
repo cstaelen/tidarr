@@ -78,7 +78,7 @@ export async function addAlbumToQueue(
       source: "lidarr" as const,
     };
 
-    await app.locals.processingStack.actions.removeItem(processingItem.id);
+    // addItem already replaces any existing item with the same id internally
     await app.locals.processingStack.actions.addItem(processingItem);
 
     console.log(

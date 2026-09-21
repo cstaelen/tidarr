@@ -71,8 +71,8 @@ export async function handleDownload(
   if (item.type === "mix") {
     playlistId = await prepareMixToPlaylist(item);
     if (!playlistId) {
-      // Error occurred, update status
-      app.locals.processingStack.actions.updateItem(item);
+      // Go through onComplete so the queue manager's error handling applies
+      onComplete();
       return;
     }
     item["url"] = `playlist/${playlistId}`;

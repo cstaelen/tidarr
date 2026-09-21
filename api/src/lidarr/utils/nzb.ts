@@ -87,6 +87,21 @@ export function getQueueStatus(isPaused: boolean, slotsCount: number): string {
   return slotsCount > 0 ? "Downloading" : "Idle";
 }
 
+// Runs a SABnzbd handler, falling back to `fallback` (200 + empty body) on error.
+export async function withSabnzbdFallback<T>(
+  res: Response,
+  logContext: string,
+  fallback: T,
+  fn: () => Promise<T> | T,
+): Promise<Response> {
+  try {
+    return res.json(await fn());
+  } catch (error) {
+    console.error(`[SABnzbd] Error in ${logContext}:`, error);
+    return res.json(fallback);
+  }
+}
+
 function getLidarrDownloadPath(itemId: string): string {
   return `/downloads/${itemId}`;
 }

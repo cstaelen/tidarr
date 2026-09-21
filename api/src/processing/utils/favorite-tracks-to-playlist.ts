@@ -3,13 +3,15 @@ import path from "path";
 
 import { TIDAL_API_URL } from "../../../constants";
 import { getAppInstance } from "../../helpers/app-instance";
-import { fetchTidalWithRefresh } from "../../helpers/fetch-tidal";
+import {
+  fetchAllTidalPages,
+  fetchTidalWithRefresh,
+} from "../../helpers/fetch-tidal";
 import { ProcessingItemType, TiddlConfig } from "../../types";
 
 import { logs } from "./logs";
 
 const AUDIO_EXTENSIONS = [".flac", ".m4a", ".mp3", ".aac", ".ogg", ".opus"];
-const TIDAL_PAGE_LIMIT = 100;
 const ALBUM_BATCH_SIZE = 50;
 
 type FavoriteTrackItem = {
@@ -35,26 +37,7 @@ async function fetchAllFavoriteTracks(
   const { user_id: userId, country_code: country } = tiddlConfig.auth;
   const baseUrl = `${TIDAL_API_URL}/v1/users/${userId}/favorites/tracks?countryCode=${country}&order=DATE&orderDirection=DESC`;
 
-  const allItems: FavoriteTrackItem[] = [];
-  let offset = 0;
-  let totalItems = Infinity;
-
-  while (offset < totalItems) {
-    const response = await fetchTidalWithRefresh(
-      `${baseUrl}&limit=${TIDAL_PAGE_LIMIT}&offset=${offset}`,
-    );
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch favorites: ${response.status} - ${await response.text()}`,
-      );
-    }
-    const data = await response.json();
-    totalItems = data.totalNumberOfItems ?? data.items?.length ?? 0;
-    if (data.items) allItems.push(...data.items);
-    offset += TIDAL_PAGE_LIMIT;
-  }
-
-  return allItems;
+  return fetchAllTidalPages<FavoriteTrackItem>(baseUrl, "favorites");
 }
 
 async function fetchAlbumDetails(

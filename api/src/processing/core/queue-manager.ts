@@ -121,13 +121,30 @@ export class QueueManager {
           return;
         }
 
-        // Max retries reached, clean up processing folder
+        // Rescue partially downloaded files instead of wiping them
+        const hadPartialFiles = await hasFileToMove(
+          `${PROCESSING_PATH}/${item.id}`,
+        );
+
+        if (hadPartialFiles) {
+          item.status = "queue_processing";
+          await this.applyBatchPause(item, `${PROCESSING_PATH}/${item.id}`);
+
+          this.updateItemCallback(item);
+          await this.updateItemInQueueFileCallback(item);
+          this.processQueue();
+          return;
+        }
+
         await cleanFolder(item.id);
 
         // Trigger next items in queue
         this.processQueue();
         return;
       }
+
+      // Clear any stale errorStage from a previous failed attempt
+      item.errorStage = undefined;
 
       // For LIDARR items, go straight to post-processing
       if (item.source === "lidarr") {

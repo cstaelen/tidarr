@@ -75,7 +75,7 @@ export default function AlbumHeader({ album }: { album: AlbumType }) {
               mb: 2,
             }}
           >
-            <ChipQuality quality={album.audioQuality.toLowerCase()} />
+            <ChipQuality quality={album?.audioQuality?.toLowerCase()} />
             <ChipAtmos audioModes={album.audioModes} />
             <Chip label={`${album.numberOfTracks} tracks`} size="small" />
             <Chip
