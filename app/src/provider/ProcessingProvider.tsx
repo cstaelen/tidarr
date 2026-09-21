@@ -22,7 +22,7 @@ import { useConfigProvider } from "./ConfigProvider";
 type ProcessingContextType = {
   processingList: ProcessingItemType[] | undefined;
   isPaused: boolean | undefined;
-  isBeingDeleted: boolean | undefined;
+  isBeingDeleted: boolean | string | undefined;
   batchCount: number;
   batchResumeAt: number | null;
   actions: {
@@ -46,7 +46,7 @@ const ProcessingContext = React.createContext<ProcessingContextType>(
 export function ProcessingProvider({ children }: { children: ReactNode }) {
   const [processingList, setProcessingList] = useState<ProcessingItemType[]>();
   const [isPaused, setIsPaused] = useState<boolean>();
-  const [isBeingDeleted, setIsBeingDeleted] = useState<boolean>();
+  const [isBeingDeleted, setIsBeingDeleted] = useState<boolean | string>();
   const [batchCount, setBatchCount] = useState<number>(0);
   const [batchResumeAt, setBatchResumeAt] = useState<number | null>(null);
   const eventSourceRef = useRef<EventSourceController | null>(null);
@@ -103,7 +103,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   };
 
   const removeItem = async (id: string): Promise<void> => {
-    setIsBeingDeleted(true);
+    setIsBeingDeleted(id);
     try {
       await remove(JSON.stringify({ id }));
     } finally {

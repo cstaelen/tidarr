@@ -59,7 +59,7 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
     <TableRow
       sx={{
         "&:last-child td, &:last-child th": { border: 0 },
-        opacity: isBeingDeleted ? 0.3 : 1,
+        opacity: isBeingDeleted === item.id ? 0.3 : 1,
       }}
       data-testid="processing-item"
     >
