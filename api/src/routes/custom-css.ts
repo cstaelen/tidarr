@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { Express, Request, Response, Router } from "express";
 
 import { ensureAccessIsGranted } from "../helpers/auth";
 import {
@@ -37,7 +37,7 @@ router.post(
   "/custom-css",
   ensureAccessIsGranted,
   validateRequestBody(["css"]),
-  (req: Request, res: Response<CustomCSSSaveResponse>) => {
+  async (req: Request, res: Response<CustomCSSSaveResponse>) => {
     try {
       const { css } = req.body;
 
@@ -46,7 +46,7 @@ router.post(
         return;
       }
 
-      setCustomCSS(css);
+      await setCustomCSS(req.app as Express, css);
       res
         .status(200)
         .json({ success: true, message: "Custom CSS saved successfully" });

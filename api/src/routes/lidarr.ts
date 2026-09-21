@@ -57,7 +57,7 @@ router.get(
   async (req: Request, res: Response) => {
     try {
       const { id, quality } = req.params;
-      handleDownloadFromLidarr(String(id), res, String(quality));
+      await handleDownloadFromLidarr(String(id), res, String(quality));
     } catch (error) {
       handleRouteError(error, res, "Lidarr download");
     }

@@ -34,22 +34,22 @@ const loadSyncList = async (): Promise<SyncItemType[]> => {
 };
 
 export const addItemToSyncList = async (item: SyncItemType) => {
-  const syncList = await loadSyncList();
+  const currentList = await loadSyncList();
 
   // Check if item already exists in the sync list
-  const itemExists = syncList.some(
+  const itemExists = currentList.some(
     (existingItem) => existingItem.id === item.id,
   );
 
   if (itemExists) return;
 
-  syncList.push(item);
-
-  // Update cache
-  syncListCache = syncList;
+  // Work on a copy so the cache isn't mutated before the disk write succeeds
+  const syncList = [...currentList, item];
 
   // Write to disk (auto-saves with saveOnPush=true)
   await syncListDb.push(SYNC_LIST_PATH, syncList);
+
+  syncListCache = syncList;
 };
 
 export const removeItemFromSyncList = async (id: number | string) => {
@@ -59,48 +59,47 @@ export const removeItemFromSyncList = async (id: number | string) => {
     (item) => item.id.toString() !== idString,
   );
 
-  // Update cache
-  syncListCache = filteredList;
-
   // Write to disk (auto-saves with saveOnPush=true)
   await syncListDb.push(SYNC_LIST_PATH, filteredList);
+
+  syncListCache = filteredList;
 };
 
 export const removeAllFromSyncList = async () => {
-  // Update cache
-  syncListCache = [];
-
   // Write to disk (auto-saves with saveOnPush=true)
   await syncListDb.push(SYNC_LIST_PATH, []);
+
+  syncListCache = [];
 };
 
 export const toggleSyncItemPaused = async (id: string): Promise<boolean> => {
-  const syncList = await loadSyncList();
-  const itemIndex = syncList.findIndex((item) => item.id === id);
+  const currentList = await loadSyncList();
+  const itemIndex = currentList.findIndex((item) => item.id === id);
 
   if (itemIndex === -1) throw new Error(`Sync item ${id} not found`);
 
-  const newPaused = !syncList[itemIndex].paused;
+  const newPaused = !currentList[itemIndex].paused;
+  const syncList = [...currentList];
   syncList[itemIndex] = { ...syncList[itemIndex], paused: newPaused };
 
-  syncListCache = syncList;
   await syncListDb.push(SYNC_LIST_PATH, syncList);
+  syncListCache = syncList;
 
   return newPaused;
 };
 
 const updateSyncItem = async (id: string, update: Partial<SyncItemType>) => {
-  const syncList = await loadSyncList();
-  const itemIndex = syncList.findIndex((item) => item.id === id.toString());
+  const currentList = await loadSyncList();
+  const itemIndex = currentList.findIndex((item) => item.id === id.toString());
 
   if (itemIndex !== -1) {
+    const syncList = [...currentList];
     syncList[itemIndex] = { ...syncList[itemIndex], ...update };
-
-    // Update cache
-    syncListCache = syncList;
 
     // Write to disk (auto-saves with saveOnPush=true)
     await syncListDb.push(SYNC_LIST_PATH, syncList);
+
+    syncListCache = syncList;
   }
 };
 

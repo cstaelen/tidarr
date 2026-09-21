@@ -1,3 +1,4 @@
+import { Express } from "express";
 import fs from "fs";
 import path from "path";
 
@@ -25,9 +26,13 @@ export function getCustomCSS(): { css: string } {
 
 /**
  * Write CSS content to the custom CSS file
+ * @param app - Express app instance, used to refresh `app.locals.config`
  * @param cssContent - The CSS content to write
  */
-export function setCustomCSS(cssContent: string): void {
+export async function setCustomCSS(
+  app: Express,
+  cssContent: string,
+): Promise<void> {
   try {
     // Ensure the shared directory exists
     const sharedDir = path.dirname(CUSTOM_CSS_PATH);
@@ -36,7 +41,7 @@ export function setCustomCSS(cssContent: string): void {
     }
 
     fs.writeFileSync(CUSTOM_CSS_PATH, cssContent, "utf-8");
-    configureServer();
+    app.locals.config = await configureServer();
   } catch (error) {
     console.error("❌ [CSS] Error writing custom.css:", error);
     throw error;
