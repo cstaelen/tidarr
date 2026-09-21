@@ -13,7 +13,11 @@ export async function jellyfinUpdate(item: ProcessingItemType) {
 
       console.log(`🔍 [JELLYFIN] Send refresh request ...`);
 
-      const headers = { "X-Emby-Token": process.env.JELLYFIN_API_KEY };
+      // Jellyfin 12+ disables the legacy X-Emby-Token header by default
+      const headers = {
+        "X-Emby-Token": process.env.JELLYFIN_API_KEY,
+        Authorization: `MediaBrowser Token="${process.env.JELLYFIN_API_KEY}"`,
+      };
       const url = `${process.env.JELLYFIN_URL}/Library/Refresh`;
 
       const response = await fetch(url, { method: "POST", headers });
