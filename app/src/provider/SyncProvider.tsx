@@ -12,8 +12,8 @@ import { useApiFetcher } from "./ApiFetcherProvider";
 interface SyncContextType {
   syncList: SyncItemType[];
   actions: {
-    removeSyncItem: (id: string) => void;
-    addSyncItem: (item: SyncItemType) => void;
+    removeSyncItem: (id: string) => Promise<void>;
+    addSyncItem: (item: SyncItemType) => Promise<void>;
     getSyncList: () => void;
     syncAllNow: () => Promise<void>;
     removeAllSyncItem: () => Promise<void>;
@@ -50,8 +50,8 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const removeSyncItem = async (id: string) => {
-    setSyncList(syncList.filter((item: SyncItemType) => item.id !== id));
     await remove_sync_item(JSON.stringify({ id: id }));
+    setSyncList(syncList.filter((item: SyncItemType) => item.id !== id));
   };
 
   const removeAllSyncItem = async () => {
@@ -77,7 +77,7 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const addSyncItem = (item: SyncItemType) => {
+  const addSyncItem = async (item: SyncItemType) => {
     if (
       syncList.find((syncItem: SyncItemType) => syncItem.id === item.id) !==
       undefined
@@ -93,8 +93,8 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
       type: item.type,
     };
 
+    await add_sync_item(JSON.stringify({ item: newItem }));
     setSyncList([...syncList, newItem]);
-    add_sync_item(JSON.stringify({ item: newItem }));
   };
 
   useEffect(() => {

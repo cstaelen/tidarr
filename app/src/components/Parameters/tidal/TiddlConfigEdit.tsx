@@ -30,6 +30,10 @@ export default function TiddlConfigEdit() {
     window.location.reload();
   };
 
+  const handleCancel = () => {
+    loadFileContent();
+  };
+
   return (
     <Box>
       {isLoading ? (
@@ -80,9 +84,8 @@ export default function TiddlConfigEdit() {
             }}
           >
             <Button
-              variant="contained"
-              onClick={handleSave}
-              startIcon={<Save />}
+              variant="outlined"
+              onClick={handleCancel}
               disabled={!isDirty}
             >
               Cancel

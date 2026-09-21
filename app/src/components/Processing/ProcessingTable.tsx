@@ -61,8 +61,8 @@ export function ProcessingTable({ items, ariaLabel, emptyMessage }: Props) {
                 </TableCell>
               </TableRow>
             ) : (
-              visibleItems.map((item, index) => (
-                <ProcessingItem item={item} key={`${ariaLabel}-${index}`} />
+              visibleItems.map((item) => (
+                <ProcessingItem item={item} key={item.id} />
               ))
             )}
           </TableBody>

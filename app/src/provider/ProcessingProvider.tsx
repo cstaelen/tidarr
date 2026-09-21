@@ -9,7 +9,12 @@ import React, {
 import { EventSourceController } from "event-source-plus";
 import { useProcessingFormat } from "src/hooks/useProcessingFormat";
 
-import { ContentType, ProcessingItemType, TidalItemType } from "../types";
+import {
+  ContentType,
+  ProcessingItemType,
+  SyncItemType,
+  TidalItemType,
+} from "../types";
 
 import { useApiFetcher } from "./ApiFetcherProvider";
 import { useConfigProvider } from "./ConfigProvider";
@@ -23,7 +28,10 @@ type ProcessingContextType = {
   actions: {
     setProcessingList: (list: ProcessingItemType[]) => void;
     setIsPaused: (isPaused: boolean) => void;
-    addItem: (item: TidalItemType, type: ContentType) => Promise<void>;
+    addItem: (
+      item: TidalItemType | SyncItemType,
+      type: ContentType,
+    ) => Promise<void>;
     removeItem: (id: string) => Promise<void>;
     retryItem: (item: ProcessingItemType) => Promise<void | null>;
     retryPostProcessing: (id: string) => Promise<void>;
@@ -52,7 +60,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   const { formatItem } = useProcessingFormat();
 
   const addItem = async (
-    item: TidalItemType,
+    item: TidalItemType | SyncItemType,
     type: ContentType,
   ): Promise<void> => {
     const itemToQueue = formatItem(item, type);
@@ -96,8 +104,11 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
   const removeItem = async (id: string): Promise<void> => {
     setIsBeingDeleted(true);
-    await remove(JSON.stringify({ id }));
-    setIsBeingDeleted(false);
+    try {
+      await remove(JSON.stringify({ id }));
+    } finally {
+      setIsBeingDeleted(false);
+    }
   };
 
   const closeStreamProcessing = useCallback(() => {

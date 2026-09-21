@@ -17,7 +17,10 @@ export function useProcessingFormat() {
   const { quality, atmosFilter } = useConfigProvider();
 
   const formatItem = useCallback(
-    (item: TidalItemType, type: ContentType): ProcessingItemType | null => {
+    (
+      item: TidalItemType | SyncItemType,
+      type: ContentType,
+    ): ProcessingItemType | null => {
       // quality/atmosFilter optional — backend falls back to its own default
       const id =
         (item as AlbumType | TrackType | ArtistType).id ||
@@ -44,7 +47,10 @@ export function useProcessingFormat() {
   return { formatItem };
 }
 
-function extractTitle(item: TidalItemType, type: ContentType): string {
+function extractTitle(
+  item: TidalItemType | SyncItemType,
+  type: ContentType,
+): string {
   switch (type) {
     case "artist":
       return "All albums";
@@ -55,7 +61,10 @@ function extractTitle(item: TidalItemType, type: ContentType): string {
   }
 }
 
-function extractArtist(item: TidalItemType, type: ContentType): string {
+function extractArtist(
+  item: TidalItemType | SyncItemType,
+  type: ContentType,
+): string {
   switch (type) {
     case "artist":
     case "artist_videos":
@@ -65,6 +74,6 @@ function extractArtist(item: TidalItemType, type: ContentType): string {
   }
 }
 
-function extractUrl(item: TidalItemType): string {
+function extractUrl(item: TidalItemType | SyncItemType): string {
   return (item as AlbumType)?.url || (item as VideoType).id.toString() || "";
 }
