@@ -26,10 +26,10 @@ debug = false
 # then default template will be used.
 default = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
 
-# track = "{album.artist}/{album.date:%Y} - {album.title}/{item.artist} - {item.title_version}"
-# album = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
-# playlist = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
-# mix = "{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
+# track = "track/{album.artist}/{album.date:%Y} - {album.title}/{item.artist} - {item.title_version}"
+# album = "album/{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
+# playlist = "playlist/{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
+# mix = "mix/{album.artist}/{album.date:%Y} - {album.title}/{item.number:02d}. {item.title_version}"
 video = "{album.artist}/videos/{item.artist}/{item.artist} - {item.title}"
 
 # Mixes are processed as playlist to get more metadatas
