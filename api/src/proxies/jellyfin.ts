@@ -17,8 +17,11 @@ export function setupJellyfinProxy(app: Express): void {
         if (!proxyReqOpts.headers) {
           proxyReqOpts.headers = {};
         }
-        proxyReqOpts.headers["X-Emby-Token"] =
-          process.env.JELLYFIN_API_KEY || "";
+        const apiKey = process.env.JELLYFIN_API_KEY || "";
+        // Jellyfin 12+ disables the legacy X-Emby-Token header by default
+        proxyReqOpts.headers["X-Emby-Token"] = apiKey;
+        proxyReqOpts.headers["Authorization"] =
+          `MediaBrowser Token="${apiKey}"`;
         return proxyReqOpts;
       },
     },

@@ -14,6 +14,7 @@ Tidarr notable changes.
 ### 🖍 Changes
 
 - [Doc] Update NGINX proxy manager doc
+- [Jellyfin] Handle Jellyfin 12+ #904
 
 ### 🐛 Fixed
 
@@ -22,6 +23,7 @@ Tidarr notable changes.
 - [API] Partially downloaded albums (e.g. network drop mid-download) are now rescued and moved to the library instead of being deleted
 - [API] Fix item disappearing when removed right after being re-added (race condition)
 - [API] Mix downloads with no tracks found no longer get stuck without retry or error status
+- [Front] Fix cancel button in config editor page
 
 ## 📦 1.2.6
 
