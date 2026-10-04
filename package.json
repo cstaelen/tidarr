@@ -14,8 +14,8 @@
   },
   "devDependencies": {
     "concurrently": "^10.0.5",
-    "oxfmt": "^0.70.0",
-    "oxlint": "^1.85.0",
+    "oxfmt": "^0.71.0",
+    "oxlint": "^1.86.0",
     "typescript": "^7.0.2"
   },
   "pnpm": {
