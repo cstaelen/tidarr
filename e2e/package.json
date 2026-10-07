@@ -10,11 +10,11 @@
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^26.6.1",
+    "@types/node": "^26.6.3",
     "jsonwebtoken": "^9.0.3",
-    "dotenv": "^18.0.3",
+    "dotenv": "^18.0.5",
     "playwright": "^1.57.0",
-    "testcontainers": "^12.1.0"
+    "testcontainers": "^12.2.0"
   },
   "scripts": {
     "playwright:test": "playwright test",
