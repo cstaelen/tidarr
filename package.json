@@ -13,18 +13,19 @@
     "format-check": "oxfmt -c .oxfmtrc.json --check \"**/*.{js,jsx,ts,tsx,mjs,cjs,json,css}\""
   },
   "devDependencies": {
-    "concurrently": "^10.0.5",
+    "concurrently": "^10.0.6",
     "oxfmt": "^0.71.0",
     "oxlint": "^1.86.0",
+    "shell-quote": "1.11.0",
     "typescript": "^7.0.2"
   },
   "pnpm": {
     "overrides": {
       "brace-expansion": ">=5.0.1",
       "dompurify": ">=3.4.13",
-      "flatted": ">=3.4.0",
       "linkify-it": ">=5.0.1",
-      "minimatch": ">=10.2.3"
+      "minimatch": ">=10.2.3",
+      "shell-quote": ">=1.11.0"
     }
   }
 }
