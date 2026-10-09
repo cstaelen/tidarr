@@ -4,6 +4,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.2.8
+
+### 🐛 Fixed
+
+- [API] Fix encoding issue in console logs #918
+
 ## 📦 1.2.7
 
 ### 🚀 Added

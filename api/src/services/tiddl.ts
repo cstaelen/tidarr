@@ -7,7 +7,7 @@ import {
   PROCESSING_PATH,
 } from "../../constants";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
-import { extractFirstLineClean } from "../processing/utils/ansi-parse";
+import { extractFirstLineClean, stripAnsiCodes } from "../processing/utils/ansi-parse";
 import { logs } from "../processing/utils/logs";
 import { ProcessingItemType, TiddlConfig } from "../types";
 
@@ -89,6 +89,8 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       ...process.env,
       FORCE_COLOR: "1",
       TERM: "xterm-256color",
+      LANG: "C.UTF-8",
+      LC_ALL: "C.UTF-8",
     },
   });
 
@@ -99,6 +101,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   let lastProgressUpdate = 0;
 
   child.stdout?.on("data", (data: string) => {
+    // Classify lines first (needs original ANSI codes for error detection)
     const lines = data?.split("\r");
     const classifiedLines = lines.map(
       (line) => [line, classifyTiddlLine(line)] as const,
@@ -114,13 +117,16 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       }
     }
 
+    // Clean ANSI codes from all tiddl output for display
+    const cleanedData = stripAnsiCodes(data);
+
     if (
-      data.includes("Exists") ||
-      data.includes("Total downloads") ||
-      data.includes("Downloaded")
+      cleanedData.includes("Exists") ||
+      cleanedData.includes("Total downloads") ||
+      cleanedData.includes("Downloaded")
     ) {
       // Extract first line and clean it (remove ANSI hyperlinks and extra lines)
-      const cleanedLine = extractFirstLineClean(data);
+      const cleanedLine = extractFirstLineClean(cleanedData);
 
       if (cleanedLine) {
         // Console log important lines only (for Docker logs)
@@ -137,16 +143,18 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
     }
 
     if (errorLines.length > 0) {
-      logs(item.id, errorLines.join("\n"), { replaceLast: true });
+      // Clean error lines before logging
+      const cleanedErrorLines = errorLines.map((line) => stripAnsiCodes(line));
+      logs(item.id, cleanedErrorLines.join("\n"), { replaceLast: true });
       logs(item.id, " ");
       return;
     }
 
-    if (data.includes("Total Progress")) {
-      lastTotalProgress = data;
+    if (cleanedData.includes("Total Progress")) {
+      lastTotalProgress = cleanedData;
 
       // Parse progress (e.g., "47/210") and update item (throttled)
-      const match = data.match(/(\d+)\/(\d+)/);
+      const match = cleanedData.match(/(\d+)\/(\d+)/);
       const now = Date.now();
       if (match && now - lastProgressUpdate > PROGRESS_UPDATE_THROTTLE_MS) {
         lastProgressUpdate = now;
@@ -157,7 +165,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
         app.locals.processingStack.actions.updateItem(item);
       }
 
-      logs(item.id, data, { replaceLast: true, skipConsole: true });
+      logs(item.id, cleanedData, { replaceLast: true, skipConsole: true });
     }
   });
 
@@ -187,7 +195,8 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
 
   child.stderr?.setEncoding("utf8");
   child.stderr?.on("data", (data) => {
-    logs(item.id, `❌ [TIDDL]: ${data}`);
+    const cleanedData = stripAnsiCodes(data.toString());
+    logs(item.id, `❌ [TIDDL]: ${cleanedData}`);
     hasProcessingError = true;
   });
 
@@ -214,13 +223,15 @@ export function tidalToken(req: Request, res: Response) {
   });
 
   tiddlProcess.stdout.on("data", (data) => {
-    console.log(data.toString());
-    res.write(`data: ${data.toString()}\n\n`);
+    const cleaned = stripAnsiCodes(data.toString());
+    console.log(cleaned);
+    res.write(`data: ${cleaned}\n\n`);
   });
 
   tiddlProcess.stderr.on("data", (data) => {
-    console.log(data.toString());
-    res.write(`data: ${data.toString()}\n\n`);
+    const cleaned = stripAnsiCodes(data.toString());
+    console.log(cleaned);
+    res.write(`data: ${cleaned}\n\n`);
   });
 
   tiddlProcess.on("close", (code) => {
@@ -257,9 +268,10 @@ export function deleteTiddlConfig() {
         `✅ [TIDDL] Auth tokens deleted from ${CONFIG_PATH}/.tiddl/auth.json`,
       );
     } else {
+      const cleanedStderr = result.stderr ? stripAnsiCodes(result.stderr.trim()) : "";
       console.error(
         `❌ [TIDDL] tiddl auth logout --force exited with code ${result.status}` +
-          (result.stderr ? `:\n${result.stderr.trim()}` : ""),
+          (cleanedStderr ? `:\n${cleanedStderr}` : ""),
       );
     }
   } catch (e) {
@@ -289,7 +301,7 @@ export async function refreshTidalToken(): Promise<void> {
         // Wait 500ms to ensure file is written to disk before resolving
         await new Promise((r) => setTimeout(r, 500));
       } else {
-        const err = Buffer.concat(stderrChunks).toString("utf-8").trim();
+        const err = stripAnsiCodes(Buffer.concat(stderrChunks).toString("utf-8").trim());
         console.log(
           `⚠️ [TIDDL] Token refresh exited with code ${code}${err ? `:\n${err}` : ""}`,
         );
