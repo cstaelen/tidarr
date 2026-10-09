@@ -24,7 +24,7 @@ export function logs(
 ) {
   if (!itemId || !message) return;
 
-  // Strip ANSI codes and invalid bytes before sending to output
+  // Strip ANSI codes before sending to output
   const cleanMessage = stripAnsiCodes(message);
 
   // Log to console unless explicitly skipped
