@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Force UTF-8 encoding for all processes (fixes issue #918 - weird boxes in logs on Windows/Docker Desktop)
+export LANG="C.UTF-8"
+export LC_ALL="C.UTF-8"
+
 # AUTH JWT SECRET
 # Use JWT_SECRET from environment if set, otherwise generate a random one
 if [ -z "$JWT_SECRET" ]; then
@@ -67,9 +71,9 @@ if [ -n "$PUID" ] && [ -n "$PGID" ]; then
   # Export UMASK as environment variable so Node.js can access it for setPermissions()
   # Set umask for any processes that respect it (tiddl/Python ignores shell umask)
   if [ "$ENVIRONMENT" = "development" ]; then
-    exec su-exec $PUID:$PGID sh -c "export HOME=/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && export CI=true && exec sh -c 'pnpm install && pnpm dev'"
+    exec su-exec $PUID:$PGID sh -c "export HOME=/shared && export LANG=C.UTF-8 && export LC_ALL=C.UTF-8 && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && export CI=true && exec sh -c 'pnpm install && pnpm dev'"
   else
-    exec su-exec $PUID:$PGID sh -c "export HOME=/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && exec pnpm --filter tidarr-api prod"
+    exec su-exec $PUID:$PGID sh -c "export HOME=/shared && export LANG=C.UTF-8 && export LC_ALL=C.UTF-8 && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && exec pnpm --filter tidarr-api prod"
   fi
 else
   # Run as root (default)
