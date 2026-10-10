@@ -89,6 +89,8 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       ...process.env,
       FORCE_COLOR: "1",
       TERM: "xterm-256color",
+      LANG: "C.UTF-8",
+      LC_ALL: "C.UTF-8",
     },
   });
 
