@@ -10,17 +10,11 @@ export function stripAnsiCodes(text: string): string {
 
   return (
     text
-      // Remove OSC 8 hyperlinks: ]8;id=123;file://path\ text ]8;;\
-      // Pattern 1: with ESC character - ESC]8;...ESC\ text ESC]8;;ESC\
-      .replace(
-        new RegExp(
-          `${ESC}\\]8;[^${ESC}]*${ESC}\\\\([^${ESC}]*)${ESC}\\]8;;${ESC}\\\\`,
-          "g",
-        ),
-        "$1",
-      )
-      // Pattern 2: without ESC (already stripped) - ]8;id=...;url\ text ]8;;\
-      .replace(/]8;[^\\]*\\([^\]]*)]8;;\\?/g, "$1")
+      // Remove every OSC 8 hyperlink command (open AND close) atomically.
+      // Rich emits a separate open/close pair around each styled segment
+      // (ESC]8;<params>;<uri>ESC\ ... ESC]8;;ESC\).
+      // oxlint-disable-next-line no-control-regex
+      .replace(/\x1b\]8;[^\x1b\x07]*(?:\x1b\\|\x07)/g, "")
       // Remove cursor movements: ESC[nA, ESC[nB, ESC[nC, ESC[nD, ESC[2K, ESC[1A, etc.
       .replace(new RegExp(`${ESC}\\[[0-9]*[ABCDEFGJKST]`, "g"), "")
       // Remove other OSC sequences (but keep CSI color codes)
