@@ -16,7 +16,9 @@ export async function getPlaybackInfo(
   token: string,
   country: string,
 ): Promise<string[] | null> {
-  const url = `https://api.tidal.com/v1/tracks/${id}/playbackinfo?countryCode=${country}&audioquality=${quality}&playbackmode=STREAM&assetpresentation=FULL`;
+  // immersiveaudio=false: without it Tidal returns the Dolby Atmos (E-AC-3)
+  // stream for tracks that have one, which browsers can't play
+  const url = `https://api.tidal.com/v1/tracks/${id}/playbackinfo?countryCode=${country}&audioquality=${quality}&playbackmode=STREAM&assetpresentation=FULL&immersiveaudio=false`;
 
   try {
     const res = await fetch(url, {
