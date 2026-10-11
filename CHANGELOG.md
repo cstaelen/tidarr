@@ -4,6 +4,13 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.2.8
+
+### 🐛 Fixed
+
+- [API] Strip per-segment OSC-8 hyperlinks correctly (#918)
+- [Front] Fix player failing on tracks that also have a Dolby Atmos version.
+
 ## 📦 1.2.7
 
 ### 🚀 Added
