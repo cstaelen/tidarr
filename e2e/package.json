@@ -8,12 +8,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.63.0",
+    "@playwright/test": "^1.64.0",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^26.6.3",
+    "@types/node": "^26.6.4",
     "jsonwebtoken": "^9.0.3",
-    "dotenv": "^18.0.5",
-    "playwright": "^1.57.0",
+    "dotenv": "^18.0.6",
+    "playwright": "^1.64.0",
     "testcontainers": "^12.2.0"
   },
   "scripts": {
