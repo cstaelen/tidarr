@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Settings } from "@mui/icons-material";
 import { Badge, IconButton, Tooltip } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
@@ -6,9 +6,10 @@ import { useConfigProvider } from "src/provider/ConfigProvider";
 export default function SettingsButton() {
   const { isUpdateAvailable } = useConfigProvider();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const ROUTE = "/parameters#updates";
-  console.log(window.location.pathname);
-  const isActive = window.location.pathname === ROUTE;
+  // useLocation is relative to the router basename (URL_BASE)
+  const isActive = pathname === "/parameters";
 
   return (
     <Tooltip
