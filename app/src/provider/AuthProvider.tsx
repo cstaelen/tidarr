@@ -11,6 +11,7 @@ import { ROUTE_LOGIN } from "src/components/Security/PrivateRoute";
 import {
   LOCALSTORAGE_REDIRECT_URL,
   LOCALSTORAGE_TOKEN_KEY,
+  TIDARR_API_URL,
 } from "src/contants";
 import { ApiReturnType, AuthType, CheckAuthType } from "src/types";
 
@@ -83,7 +84,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const loginWithOIDC = useCallback(() => {
-    window.location.href = "/api/auth/oidc/login";
+    window.location.href = `${TIDARR_API_URL}/auth/oidc/login`;
   }, []);
 
   const logout = () => {

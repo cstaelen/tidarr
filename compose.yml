@@ -18,6 +18,7 @@ services:
       - PGID=
       - UMASK=
       - TZ=Etc/UTC
+      - URL_BASE=
       - ENABLE_BEETS=
       - PLEX_URL=
       - PLEX_LIBRARY=

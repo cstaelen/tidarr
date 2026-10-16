@@ -4,6 +4,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.2.9
+
+### 🚀 Added
+
+- [API] Add `URL_BASE` env var for reverse proxy subpath hosting #928
+
 ## 📦 1.2.8
 
 ### 🐛 Fixed
