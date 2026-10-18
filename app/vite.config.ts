@@ -3,6 +3,8 @@ import { defineConfig } from "vite";
 
 // https://vite.dev/config/
 export default defineConfig({
+  // Relative assets: the server sets the real base with a <base> tag at runtime
+  base: "./",
   plugins: [react()],
   server: {
     host: true,

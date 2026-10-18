@@ -2,6 +2,7 @@ import { Router } from "express";
 import { pipeline } from "stream";
 import { promisify } from "util";
 
+import { getBasePath } from "../helpers/base-path";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
 import { signUrl } from "../helpers/signature";
 import { getPlaybackInfo } from "../services/playback";
@@ -17,7 +18,7 @@ router.get("/stream/sign/:id", (req, res) => {
   const expires = Math.floor(Date.now() / 1000) + 300;
   const sig = signUrl(id, expires);
 
-  const url = `/api/stream/play/${id}?exp=${expires}&sig=${sig}`;
+  const url = `${getBasePath()}/api/stream/play/${id}?exp=${expires}&sig=${sig}`;
 
   res.json({ url });
 });

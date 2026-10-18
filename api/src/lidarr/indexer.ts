@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 
+import { getBasePath } from "../helpers/base-path";
 import { generateNewznabItem, generateNzbContent } from "./utils/lidarr";
 import { searchTidalForLidarr } from "./utils/tidal-search-albums";
 
@@ -52,7 +53,7 @@ export async function handleSearchRequest(
   <channel>
     <title>Tidarr</title>
     <description>Tidarr Indexer</description>
-    <link>${req.protocol}://${req.get("host")}/api/lidarr</link>
+    <link>${req.protocol}://${req.get("host")}${getBasePath()}/api/lidarr</link>
     <language>en-us</language>
     <webMaster>tidarr@tidarr.com</webMaster>
     <pubDate>${new Date().toUTCString()}</pubDate>
@@ -91,7 +92,7 @@ export async function handleSearchRequest(
   <channel>
     <title>Tidarr</title>
     <description>Tidarr Indexer</description>
-    <link>${req.protocol}://${req.get("host")}/api/lidarr</link>
+    <link>${req.protocol}://${req.get("host")}${getBasePath()}/api/lidarr</link>
     <language>en-us</language>
     <webMaster>tidarr@tidarr.com</webMaster>
     <pubDate>${new Date().toUTCString()}</pubDate>

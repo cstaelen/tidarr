@@ -3,6 +3,7 @@ import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme, CssBaseline } from "@mui/material";
 
+import { BASE_PATH } from "./contants";
 import MainLayout from "./components/MainLayout";
 import { FloatingPlayer } from "./components/Player/FloatingPlayer";
 import PrivateRoute, { ROUTE_LOGIN } from "./components/Security/PrivateRoute";
@@ -54,7 +55,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <ThemeProvider theme={darkTheme}>
     <CssBaseline />
-    <BrowserRouter>
+    <BrowserRouter basename={BASE_PATH}>
       <APIFetcherProvider>
         <ConfigProvider>
           <AuthProvider>

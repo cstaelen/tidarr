@@ -1,6 +1,8 @@
 import { Request, Response, Router } from "express";
 import jwt from "jsonwebtoken";
 
+import { getBasePath } from "../helpers/base-path";
+
 const router = Router();
 
 // Store OIDC state and code verifier temporarily (in production, use Redis or signed cookies)
@@ -181,7 +183,7 @@ router.get("/auth/oidc/callback", async (req: Request, res: Response) => {
       process.env.ENVIRONMENT === "development"
         ? "http://localhost:3000"
         : `http://${req.headers.host}`;
-    res.redirect(`${frontendUrl}/?token=${tidarrToken}`);
+    res.redirect(`${frontendUrl}${getBasePath()}/?token=${tidarrToken}`);
   } catch (error) {
     console.error("OIDC callback error:", error);
     res.status(500).json({

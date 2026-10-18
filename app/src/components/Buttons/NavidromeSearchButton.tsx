@@ -118,7 +118,9 @@ export const NavidromeSearchButton = ({
 
     // Authenticate with Navidrome using proxy
     try {
-      await fetch("/navidrome-proxy/rest/ping", { credentials: "include" });
+      await fetch(`${TIDARR_PROXY_URL}/navidrome/rest/ping`, {
+        credentials: "include",
+      });
 
       // Build the Navidrome search URL based on pivot type
       // Format: http://navidrome.url/app/#/artist?filter={"role":"albumartist","name":"query"}
