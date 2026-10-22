@@ -11,6 +11,7 @@ This documentation describes how to use the Tidarr REST API to automate download
 - [Queue Management](#queue-management)
   - [Single download (NO\_DOWNLOAD mode)](#single-download-no_download-mode)
   - [Retry post-processing](#retry-post-processing)
+  - [Rate limit retry](#rate-limit-retry)
 - [History Endpoints](#history-endpoints)
 - [Configuration Endpoints](#configuration-endpoints)
 - [Synchronization Endpoints (watch list)](#synchronization-endpoints)
@@ -567,6 +568,29 @@ curl -X POST http://localhost:8484/api/retry-post-processing \
 - Item ends as `finished` on success, or stays `error` if it fails again
 
 **Error:** `500` if the item is not found, not in `error` status, or if another item is currently post-processing.
+
+
+### Rate limit retry
+
+When Tidal rate limits a download (HTTP `429`), Tidarr waits 2 minutes and restarts it, with no limit on the number of attempts. While waiting, the item has a `rateLimitRetryAt` timestamp and the UI shows a warning banner. These two endpoints let you skip the wait or leave the loop.
+
+```bash
+# Restart the download now
+curl -X POST http://localhost:8484/api/rate-limit/retry-now \
+  -H "X-Api-Key: your-api-key" \
+  -H 'Content-Type: application/json' \
+  -d '{"id": "251082404"}'
+
+# Stop retrying: the item ends in `error`, files already downloaded are kept for post-processing
+curl -X POST http://localhost:8484/api/rate-limit/stop \
+  -H "X-Api-Key: your-api-key" \
+  -H 'Content-Type: application/json' \
+  -d '{"id": "251082404"}'
+```
+
+**Response:** `204 No Content`
+
+**Error:** `500` if the item is not waiting after a rate limit.
 
 ---
 

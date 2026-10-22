@@ -36,6 +36,8 @@ type ProcessingContextType = {
     retryItem: (item: ProcessingItemType) => Promise<void | null>;
     retryPostProcessing: (id: string) => Promise<void>;
     downloadNow: (id: string) => Promise<void>;
+    retryRateLimitNow: (id: string) => Promise<void>;
+    stopRateLimitRetry: (id: string) => Promise<void>;
   };
 };
 
@@ -52,7 +54,15 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
   const eventSourceRef = useRef<EventSourceController | null>(null);
 
   const {
-    actions: { list_sse, remove, save, single_download, retry_post_processing },
+    actions: {
+      list_sse,
+      remove,
+      save,
+      single_download,
+      retry_post_processing,
+      rate_limit_retry_now,
+      rate_limit_stop,
+    },
   } = useApiFetcher();
   const {
     actions: { setConfigErrors },
@@ -96,6 +106,14 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
 
   const downloadNow = async (id: string): Promise<void> => {
     await single_download(id);
+  };
+
+  const retryRateLimitNow = async (id: string): Promise<void> => {
+    await rate_limit_retry_now(id);
+  };
+
+  const stopRateLimitRetry = async (id: string): Promise<void> => {
+    await rate_limit_stop(id);
   };
 
   const retryPostProcessing = async (id: string): Promise<void> => {
@@ -148,6 +166,8 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
           retryItem,
           retryPostProcessing,
           downloadNow,
+          retryRateLimitNow,
+          stopRateLimitRetry,
         },
       }}
     >

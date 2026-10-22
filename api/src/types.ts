@@ -36,6 +36,8 @@ export type ProcessingItemType = {
   process?: ChildProcess;
   retryCount?: number;
   networkError?: boolean;
+  rateLimited?: boolean;
+  rateLimitRetryAt?: number; // timestamp of the next retry while waiting on a rate limit
   skipped?: boolean;
   errorStage?: "download" | "post_processing";
   source?: "lidarr" | "tidarr";
