@@ -22,7 +22,7 @@
   "pnpm": {
     "overrides": {
       "brace-expansion": ">=5.0.1",
-      "dompurify": ">=3.4.13",
+      "dompurify": ">=3.4.17",
       "linkify-it": ">=5.0.1",
       "minimatch": ">=10.2.3",
       "shell-quote": ">=1.11.0"
