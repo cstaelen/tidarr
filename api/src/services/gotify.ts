@@ -1,11 +1,7 @@
-import { exec } from "child_process";
-import { promisify } from "util";
-
-import { curl_escape_double_quote } from "../helpers/curl_escape";
+import { NOTIFICATION_TIMEOUT_MS } from "../../constants";
+import { withHttpScheme } from "../helpers/http-url";
 import { logs } from "../processing/utils/logs";
 import { ProcessingItemType } from "../types";
-
-const execAsync = promisify(exec);
 
 export async function gotifyPush(item: ProcessingItemType) {
   if (process.env.GOTIFY_URL && process.env.GOTIFY_TOKEN) {
@@ -14,18 +10,30 @@ export async function gotifyPush(item: ProcessingItemType) {
     console.log("--------------------");
 
     try {
-      const url = `${process.env.GOTIFY_URL}/message?token=${encodeURIComponent(process.env.GOTIFY_TOKEN)}`;
+      const baseUrl = withHttpScheme(process.env.GOTIFY_URL);
+      const url = `${baseUrl}/message?token=${encodeURIComponent(process.env.GOTIFY_TOKEN)}`;
 
-      const pushTitle = curl_escape_double_quote(`New ${item.type} added`);
-      const message = curl_escape_double_quote(
+      const form = new FormData();
+      form.append("title", `New ${item.type} added`);
+      form.append(
+        "message",
         `${item?.title}${item?.artist ? " - " : ""}${item?.artist || ""} added to music library`,
       );
+      form.append("priority", "5");
 
-      const command = `curl -s ${url} -F title="${pushTitle}" -F message="${message}" -F priority=5`;
+      // Never log the full URL: it carries the token
+      console.log(`🕖 [GOTIFY] URL: ${baseUrl}/message`);
 
-      console.log(`🕖 [GOTIFY] URL: ${command}`);
+      const response = await fetch(url, {
+        method: "POST",
+        body: form,
+        signal: AbortSignal.timeout(NOTIFICATION_TIMEOUT_MS),
+      });
 
-      await execAsync(command, { encoding: "utf-8" });
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} ${response.statusText}`);
+      }
+
       logs(item.id, `✅ [GOTIFY] Notification success`);
     } catch (e: unknown) {
       logs(item.id, `❌ [GOTIFY] Notification error: ${(e as Error).message}`);

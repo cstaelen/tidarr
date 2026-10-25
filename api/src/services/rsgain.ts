@@ -25,13 +25,14 @@ export async function applyReplayGain(
   return new Promise((resolve) => {
     try {
       // Run rsgain easy mode (automatically handles album mode with recursive scan)
-      const rsgainProcess = spawn(
-        "rsgain",
-        ["easy", "-S", "-m", "4", folderPath],
-        {
-          shell: "/bin/sh",
-        },
-      );
+      // No shell here: argv is passed straight through, so paths need no quoting
+      const rsgainProcess = spawn("rsgain", [
+        "easy",
+        "-S",
+        "-m",
+        "4",
+        folderPath,
+      ]);
 
       let errorOutput = "";
 

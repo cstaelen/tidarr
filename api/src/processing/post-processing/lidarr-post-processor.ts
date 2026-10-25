@@ -1,3 +1,5 @@
+import path from "path";
+
 import { NZB_DOWNLOAD_PATH } from "../../../constants";
 import { applyReplayGain } from "../../services/rsgain";
 import { ProcessingItemType } from "../../types";
@@ -13,7 +15,7 @@ export async function postProcessLidarr(
   item: ProcessingItemType,
   onComplete: () => void,
 ) {
-  const processingPath = `${NZB_DOWNLOAD_PATH}/${item.id}`;
+  const processingPath = path.join(NZB_DOWNLOAD_PATH, String(item.id));
   const hasFile = await hasFileToMove(processingPath);
 
   if (!hasFile) {

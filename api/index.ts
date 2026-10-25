@@ -4,6 +4,7 @@ import express, { Express, Response } from "express";
 import fs from "fs";
 import path from "path";
 
+import { ROOT_PATH } from "./constants";
 import { setAppInstance } from "./src/helpers/app-instance";
 import { checkConfig } from "./src/helpers/check-config";
 import { get_tiddl_config } from "./src/helpers/get_tiddl_config";
@@ -135,7 +136,7 @@ process.on("SIGINT", () => gracefulShutdown("SIGINT", app, server));
 
 // fallback load app
 
-const frontendFiles = "/tidarr/app/build";
+const frontendFiles = path.join(ROOT_PATH, "app", "build");
 if (fs.existsSync(frontendFiles)) {
   app.use(express.static(frontendFiles));
   app.get("/{*any}", (_, res) => {

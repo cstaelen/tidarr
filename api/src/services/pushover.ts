@@ -1,11 +1,7 @@
-import { exec } from "child_process";
-import { promisify } from "util";
-
-import { curl_escape_double_quote } from "../helpers/curl_escape";
+import { NOTIFICATION_TIMEOUT_MS } from "../../constants";
+import { withHttpScheme } from "../helpers/http-url";
 import { logs } from "../processing/utils/logs";
 import { ProcessingItemType } from "../types";
-
-const execAsync = promisify(exec);
 
 export async function hookPushOver(item: ProcessingItemType) {
   if (process.env.PUSH_OVER_URL) {
@@ -14,20 +10,22 @@ export async function hookPushOver(item: ProcessingItemType) {
     console.log("--------------------");
 
     try {
-      const url = process.env.PUSH_OVER_URL;
-      const pushTitle = curl_escape_double_quote(`New ${item.type} added`);
-      const message = curl_escape_double_quote(
-        `${item?.title} ${item?.artist ? "-" : ""} ${item?.artist || ""} added to music library`,
-      );
-      const body = JSON.stringify({
-        text: [pushTitle, message].join("\r\n"),
+      const pushTitle = `New ${item.type} added`;
+      const message = `${item?.title} ${item?.artist ? "-" : ""} ${item?.artist || ""} added to music library`;
+
+      // The webhook URL is a secret, so only log that we are about to call it
+      console.log(`🕖 [PUSHOVER WEBHOOK] Sending notification ...`);
+
+      const response = await fetch(withHttpScheme(process.env.PUSH_OVER_URL), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: [pushTitle, message].join("\r\n") }),
+        signal: AbortSignal.timeout(NOTIFICATION_TIMEOUT_MS),
       });
 
-      const command = `curl  -i -X POST -H 'Content-Type: application/json' -d '${body}' ${url}`;
-
-      console.log(`🕖 [PUSHOVER WEBHOOK] Command : ${command}`);
-
-      await execAsync(command, { encoding: "utf-8" });
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} ${response.statusText}`);
+      }
 
       logs(item.id, `✅ [PUSHOVER WEBHOOK] Success output`);
     } catch (e: unknown) {

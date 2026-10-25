@@ -1,3 +1,5 @@
+import path from "path";
+
 import { PROCESSING_PATH } from "../../../constants";
 import { appriseApiPush } from "../../services/apprise-api";
 import { beets } from "../../services/beets";
@@ -60,7 +62,7 @@ export async function postProcessTidarr(
   logs(item.id, "⚙️ POST PROCESSING   ");
   logs(item.id, "---------------------");
 
-  const processingPath = `${PROCESSING_PATH}/${item.id}`;
+  const processingPath = path.join(PROCESSING_PATH, String(item.id));
   // Rescuing a partial download — keep it "error" at the end instead of "finished"
   const wasDownloadError = item["errorStage"] === "download";
 
@@ -90,7 +92,7 @@ export async function postProcessTidarr(
   await beets(item.id);
 
   // Apply ReplayGain tags
-  await applyReplayGain(item.id, `${PROCESSING_PATH}/${item.id}`);
+  await applyReplayGain(item.id, path.join(PROCESSING_PATH, String(item.id)));
 
   // Set permissions
   await setPermissions(item);

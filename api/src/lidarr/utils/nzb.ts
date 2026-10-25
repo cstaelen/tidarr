@@ -195,7 +195,7 @@ export async function mapItemToHistorySlot(item: ProcessingItemType) {
   const downloadPath = getLidarrDownloadPath(item.id);
 
   const bytes = isCompleted
-    ? await getFolderSizeBytes(path.join(NZB_DOWNLOAD_PATH, item.id))
+    ? await getFolderSizeBytes(path.join(NZB_DOWNLOAD_PATH, String(item.id)))
     : 0;
 
   return {
