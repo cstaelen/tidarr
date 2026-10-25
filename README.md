@@ -7,7 +7,7 @@ A Windows-native fork of [tidarr](https://github.com/cstaelen/tidarr) — a web 
 The launcher installs these automatically if missing:
 
 - [Node.js](https://nodejs.org) (LTS)
-- [Python 3.13](https://python.org) + tiddl 3.4.3
+- [Python 3.13](https://python.org) + tiddl 3.4.4
 - [ffmpeg](https://ffmpeg.org)
 
 ## Quick Start
@@ -43,6 +43,15 @@ Removes all generated files and resets to a clean state. Run `start.cmd` afterwa
 - Requires running from a folder where your user has write permissions (e.g. `C:\tidarr`, not Desktop)
 - tiddl stores auth tokens in `userfiles\shared\.tiddl\`
 - Download path can be changed in Settings → Config
+
+## Troubleshooting
+
+**`ERROR: No matching distribution found for tiddl==3.4.4`**
+
+tiddl 3.4.4 requires Python 3.13 or newer. If Python 3.12 or older is already
+installed, `python` on your PATH cannot install it. The launcher detects this by
+version, installs Python 3.13 alongside whatever you already have, and runs the
+tiddl install with that interpreter — no uninstall required.
 
 ## Original Project
 
