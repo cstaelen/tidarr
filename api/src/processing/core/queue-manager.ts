@@ -10,6 +10,7 @@ import { cleanFolder, hasFileToMove } from "../utils/jobs";
 import { logs } from "../utils/logs";
 
 const MAX_RETRIES = 3;
+const RATE_LIMIT_RETRY_DELAY_MS = 2 * 60 * 1000;
 
 /**
  * Manages the parallel processing queue with 1 download slot and 1 post-processing slot
@@ -27,6 +28,7 @@ export class QueueManager {
   private batchCompletedCount: { value: number };
   private batchResumeTimer: NodeJS.Timeout | null = null;
   private batchResumeAt: number | null = null;
+  private rateLimitTimers: Map<string, NodeJS.Timeout> = new Map();
 
   constructor(
     data: ProcessingItemType[],
@@ -111,6 +113,12 @@ export class QueueManager {
       // Download completed
       delete item.process;
 
+      // Rate limit: wait, then retry for as long as Tidal keeps limiting us
+      if (item.rateLimited) {
+        this.scheduleRateLimitRetry(item);
+        return;
+      }
+
       // If error, retry immediately up to MAX_RETRIES times
       if (item.status === "error") {
         item.errorStage = "download";
@@ -121,25 +129,7 @@ export class QueueManager {
           return;
         }
 
-        // Rescue partially downloaded files instead of wiping them
-        const hadPartialFiles = await hasFileToMove(
-          `${PROCESSING_PATH}/${item.id}`,
-        );
-
-        if (hadPartialFiles) {
-          item.status = "queue_processing";
-          await this.applyBatchPause(item, `${PROCESSING_PATH}/${item.id}`);
-
-          this.updateItemCallback(item);
-          await this.updateItemInQueueFileCallback(item);
-          this.processQueue();
-          return;
-        }
-
-        await cleanFolder(item.id);
-
-        // Trigger next items in queue
-        this.processQueue();
+        await this.abandonDownload(item);
         return;
       }
 
@@ -181,6 +171,32 @@ export class QueueManager {
 
       this.processQueue();
     });
+  }
+
+  /**
+   * Gives up on a failed download: rescues the files already downloaded,
+   * otherwise cleans the folder, then moves on to the next item
+   */
+  private async abandonDownload(item: ProcessingItemType): Promise<void> {
+    // Rescue partially downloaded files instead of wiping them
+    const hadPartialFiles = await hasFileToMove(
+      `${PROCESSING_PATH}/${item.id}`,
+    );
+
+    if (hadPartialFiles) {
+      item.status = "queue_processing";
+      await this.applyBatchPause(item, `${PROCESSING_PATH}/${item.id}`);
+
+      this.updateItemCallback(item);
+      await this.updateItemInQueueFileCallback(item);
+      this.processQueue();
+      return;
+    }
+
+    await cleanFolder(item.id);
+
+    // Trigger next items in queue
+    this.processQueue();
   }
 
   /**
@@ -248,6 +264,63 @@ export class QueueManager {
 
     // Trigger next items in queue
     this.processQueue();
+  }
+
+  /**
+   * Waits before restarting a rate limited download. Not capped: tiddl skips
+   * the files already downloaded, so each attempt moves forward.
+   */
+  private scheduleRateLimitRetry(item: ProcessingItemType): void {
+    item.rateLimitRetryAt = Date.now() + RATE_LIMIT_RETRY_DELAY_MS;
+    this.updateItemCallback(item);
+
+    logs(
+      item.id,
+      `⏳ [RATE LIMIT] Tidal is rate limiting requests. Retrying in ${RATE_LIMIT_RETRY_DELAY_MS / 60000} min...`,
+    );
+
+    const timer = setTimeout(
+      () => this.retryRateLimitNow(item),
+      RATE_LIMIT_RETRY_DELAY_MS,
+    );
+
+    this.rateLimitTimers.set(String(item.id), timer);
+  }
+
+  /**
+   * Restarts a rate limited download without waiting for the end of the delay
+   */
+  retryRateLimitNow(item: ProcessingItemType): void {
+    this.cancelRateLimitRetry(item.id);
+    item.rateLimitRetryAt = undefined;
+    this.updateItemCallback(item);
+    this.startDownload(item);
+  }
+
+  /**
+   * Leaves the rate limit retry loop: the item ends in error (user can retry it)
+   */
+  async stopRateLimitRetry(item: ProcessingItemType): Promise<void> {
+    this.cancelRateLimitRetry(item.id);
+    item.rateLimitRetryAt = undefined;
+    item.status = "error";
+    item.errorStage = "download";
+    this.updateItemCallback(item);
+
+    await this.abandonDownload(item);
+  }
+
+  /**
+   * Cancels the pending rate limit retry of an item (removed or paused)
+   */
+  cancelRateLimitRetry(id: string): void {
+    clearTimeout(this.rateLimitTimers.get(String(id)));
+    this.rateLimitTimers.delete(String(id));
+  }
+
+  cancelAllRateLimitRetries(): void {
+    this.rateLimitTimers.forEach((timer) => clearTimeout(timer));
+    this.rateLimitTimers.clear();
   }
 
   /**

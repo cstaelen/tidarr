@@ -375,6 +375,8 @@ export type ProcessingItemType = {
   loading: boolean;
   error: boolean;
   errorStage?: "download" | "post_processing";
+  // Set while the backend waits before retrying a rate limited download
+  rateLimitRetryAt?: number;
   progress?: {
     current: number;
     total: number;

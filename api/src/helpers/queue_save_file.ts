@@ -18,9 +18,18 @@ export function insertBeforeFirstQueued<T extends { status: string }>(
 // Returns a copy with transient fields stripped, without mutating `item`
 // (same reference as processing-manager.ts's in-memory data).
 function cleanItemBeforeSave(item: ProcessingItemType): ProcessingItemType {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { process, progress, retryCount, networkError, skipped, ...rest } =
-    item;
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  const {
+    process,
+    progress,
+    retryCount,
+    networkError,
+    rateLimited,
+    rateLimitRetryAt,
+    skipped,
+    ...rest
+  } = item;
+  /* eslint-enable @typescript-eslint/no-unused-vars */
 
   return rest as ProcessingItemType;
 }
