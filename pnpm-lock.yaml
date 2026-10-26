@@ -121,7 +121,7 @@ importers:
         version: 19.3.0(@types/react@19.3.0)
       '@vitejs/plugin-react':
         specifier: ^6.1.2
-        version: 6.1.2(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1))
+        version: 6.1.2(vite@8.3.5(@types/node@26.6.5)(yaml@2.9.1))
       event-source-plus:
         specifier: 0.1.15
         version: 0.1.15
@@ -135,8 +135,8 @@ importers:
         specifier: ^7.18.4
         version: 7.18.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       vite:
-        specifier: ^8.3.4
-        version: 8.3.4(@types/node@26.6.5)(yaml@2.9.1)
+        specifier: ^8.3.5
+        version: 8.3.5(@types/node@26.6.5)(yaml@2.9.1)
 
   e2e:
     devDependencies:
@@ -2227,13 +2227,13 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
-  vite@8.3.4:
-    resolution: {integrity: sha512-IftLE8phJhdNRIGNEV4JCCvfNScoZQVfcXaN8TQropWGJtOHcu+iAB9pHcuGvmEb/kddw0LBe/jS8ztdC6xdiQ==}
+  vite@8.3.5:
+    resolution: {integrity: sha512-z1YpjieJ9g0ebTmQpLBv/oq9E3F9EIlOe+7LahW8SrE3LTiG3udBRUXQOlYXP9b+IC2q2phHeVxj9xGlw34OEQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
       '@types/node': ^20.19.0 || >=22.12.0
-      '@vitejs/devtools': ^0.7.1
+      '@vitejs/devtools': ^0.7.1 || ^0.8.0
       esbuild: ^0.27.0 || ^0.28.0
       jiti: '>=1.21.0'
       less: ^4.0.0
@@ -2989,10 +2989,10 @@ snapshots:
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
 
-  '@vitejs/plugin-react@6.1.2(vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1))':
+  '@vitejs/plugin-react@6.1.2(vite@8.3.5(@types/node@26.6.5)(yaml@2.9.1))':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
-      vite: 8.3.4(@types/node@26.6.5)(yaml@2.9.1)
+      vite: 8.3.5(@types/node@26.6.5)(yaml@2.9.1)
 
   abort-controller@3.0.0:
     dependencies:
@@ -4282,7 +4282,7 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite@8.3.4(@types/node@26.6.5)(yaml@2.9.1):
+  vite@8.3.5(@types/node@26.6.5)(yaml@2.9.1):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
