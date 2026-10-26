@@ -4,6 +4,12 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.2.9
+
+### 🖍 Changes
+
+- [API] Treat tiddl rate limit errors as retriable network errors #934
+
 ## 📦 1.2.8
 
 ### 🐛 Fixed
