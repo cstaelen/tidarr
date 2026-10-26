@@ -57,7 +57,9 @@ test("Lidarr Indexer: Should return a test item with an enclosure without a quer
 
   expect(response.status()).toBe(200);
   expect(searchResponse).toContain("<item>");
-  expect(searchResponse).toContain('<guid isPermaLink="false">tidarr-test</guid>');
+  expect(searchResponse).toContain(
+    '<guid isPermaLink="false">tidarr-test</guid>',
+  );
   expect(searchResponse).toContain('<enclosure url="');
 });
 
