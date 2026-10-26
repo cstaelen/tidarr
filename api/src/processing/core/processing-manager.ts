@@ -205,6 +205,7 @@ export const ProcessingStack = () => {
       (listItem: ProcessingItemType) => listItem?.id === item?.id,
     );
 
+    queueManager.cancelRateLimitRetry(id);
     await removeItemFromFile(id);
     await killProcess(item?.process, id);
 
@@ -226,6 +227,7 @@ export const ProcessingStack = () => {
   }
 
   async function removeAllItems() {
+    queueManager.cancelAllRateLimitRetries();
     for (const item of data) {
       await killProcess(item?.process, item.id);
       const playlistId = (item as ProcessingItemWithPlaylist).playlistId;
@@ -331,12 +333,32 @@ export const ProcessingStack = () => {
     await queueManager.retryPostProcessing(item);
   }
 
+  function getRateLimitedItem(id: string) {
+    const item = dataMap.get(id);
+
+    if (!item?.rateLimitRetryAt) {
+      throw new Error(`Item ${id} is not waiting after a rate limit`);
+    }
+
+    return item;
+  }
+
+  function retryRateLimitedNow(id: string) {
+    queueManager.retryRateLimitNow(getRateLimitedItem(id));
+  }
+
+  async function stopRateLimitedRetry(id: string) {
+    await queueManager.stopRateLimitRetry(getRateLimitedItem(id));
+  }
+
   async function pauseQueue() {
     queueManager.setPaused(true);
 
     const downloadingItem = data.find((item) => item.status === "download");
 
     if (downloadingItem) {
+      queueManager.cancelRateLimitRetry(downloadingItem.id);
+      downloadingItem.rateLimitRetryAt = undefined;
       await killProcess(downloadingItem.process, downloadingItem.id);
 
       // Clean up temporary playlist — will be recreated on resume
@@ -404,6 +426,8 @@ export const ProcessingStack = () => {
       addOutputLog,
       singleDownload,
       retryPostProcessing,
+      retryRateLimitedNow,
+      stopRateLimitedRetry,
       pauseQueue,
       resumeQueue,
       getQueueStatus,

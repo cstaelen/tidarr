@@ -74,6 +74,8 @@ type ApiFetcherContextType = {
     };
     single_download: (id: string) => Promise<void>;
     retry_post_processing: (id: string) => Promise<void>;
+    rate_limit_retry_now: (id: string) => Promise<void>;
+    rate_limit_stop: (id: string) => Promise<void>;
     pause_queue: () => Promise<void>;
     resume_queue: () => Promise<void>;
     get_queue_status: () => Promise<
@@ -461,6 +463,28 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  // Rate limit: skip the waiting delay, or leave the retry loop
+
+  async function rate_limit_retry_now(id: string): Promise<void> {
+    await queryExpressJS(`${apiUrl}/rate-limit/retry-now`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+  }
+
+  async function rate_limit_stop(id: string): Promise<void> {
+    await queryExpressJS(`${apiUrl}/rate-limit/stop`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+  }
+
   // Queue control
 
   async function pause_queue(): Promise<void> {
@@ -582,6 +606,8 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
       set_tiddl_toml,
       single_download,
       retry_post_processing,
+      rate_limit_retry_now,
+      rate_limit_stop,
       pause_queue,
       resume_queue,
       get_queue_status,

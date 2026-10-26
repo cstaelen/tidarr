@@ -142,6 +142,46 @@ router.post(
 );
 
 /**
+ * POST /api/rate-limit/retry-now
+ * Restart a rate limited download without waiting for the end of the delay
+ */
+router.post(
+  "/rate-limit/retry-now",
+  ensureAccessIsGranted,
+  validateRequestBody(["id"]),
+  validateIdMiddleware,
+  (req: Request, res: Response) => {
+    try {
+      req.app.locals.processingStack.actions.retryRateLimitedNow(req.body.id);
+      res.sendStatus(204);
+    } catch (error) {
+      handleRouteError(error, res, "rate limit retry now");
+    }
+  },
+);
+
+/**
+ * POST /api/rate-limit/stop
+ * Stop the rate limit retry loop, the item ends in error
+ */
+router.post(
+  "/rate-limit/stop",
+  ensureAccessIsGranted,
+  validateRequestBody(["id"]),
+  validateIdMiddleware,
+  async (req: Request, res: Response) => {
+    try {
+      await req.app.locals.processingStack.actions.stopRateLimitedRetry(
+        req.body.id,
+      );
+      res.sendStatus(204);
+    } catch (error) {
+      handleRouteError(error, res, "rate limit stop");
+    }
+  },
+);
+
+/**
  * POST /api/single-download
  * Trigger a one-off download for a no_download item, bypassing NO_DOWNLOAD mode
  */

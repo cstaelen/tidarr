@@ -263,6 +263,57 @@ test("Queue: Should paginate with show more button when list exceeds 50 items", 
   await page.route("**/stream-processing", (route) => route.continue());
 });
 
+test("Queue: Should show a warning while a rate limited download waits for retry", async ({
+  page,
+}) => {
+  const rateLimitRetryAt = Date.now() + 2 * 60 * 1000;
+  const mockData = [
+    {
+      id: "1",
+      title: "Nevermind",
+      artist: "Nirvana",
+      type: "album",
+      quality: "high",
+      status: "download",
+      loading: false,
+      rateLimitRetryAt,
+    },
+  ];
+
+  await page.route("**/stream-processing", async (route) => {
+    await route.fulfill({
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+      body: `data: ${mockSSEPayload(mockData)}\n\n`,
+    });
+  });
+
+  await page.goto("/");
+  await expect(page.locator("button.MuiFab-circular")).toBeVisible();
+  await page.locator("button.MuiFab-circular").click();
+
+  await expect(page.getByTestId("rate-limit-alert")).toContainText(
+    "Tidal is rate limiting requests",
+  );
+
+  // Both buttons send the id of the waiting item
+  for (const [name, endpoint] of [
+    ["Retry now", "**/rate-limit/retry-now"],
+    ["Stop", "**/rate-limit/stop"],
+  ]) {
+    await page.route(endpoint, (route) => route.fulfill({ status: 204 }));
+    const request = page.waitForRequest(endpoint);
+    await page.getByRole("button", { name }).click();
+    expect((await request).postDataJSON()).toEqual({ id: "1" });
+  }
+
+  await page.route("**/stream-processing", (route) => route.continue());
+});
+
 test("Queue: Should filter items by keyword on title and artist", async ({
   page,
 }) => {

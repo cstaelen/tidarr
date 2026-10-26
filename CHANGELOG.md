@@ -10,6 +10,10 @@ Tidarr notable changes.
 
 - [API] Add `URL_BASE` env var for reverse proxy subpath hosting #928
 
+### 🖍 Changes
+
+- [API] Treat tiddl rate limit errors as retriable network errors #934
+
 ## 📦 1.2.8
 
 ### 🐛 Fixed

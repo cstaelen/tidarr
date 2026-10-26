@@ -6,7 +6,7 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
-import { Box, Button, Typography } from "@mui/material";
+import { Alert, Box, Button, Typography } from "@mui/material";
 import { ProcessingPauseButton } from "src/components/Processing/PauseButton";
 import { ProcessingTable } from "src/components/Processing/ProcessingTable";
 import { SearchFilter } from "src/components/Processing/SearchFilter";
@@ -28,7 +28,8 @@ export default function ProcessingList() {
   const [showFinished, setShowFinished] = useState(false);
   const [search, setSearch] = useState("");
   const { actions: apiActions } = useApiFetcher();
-  const { processingList, batchCount, batchResumeAt } = useProcessingProvider();
+  const { processingList, batchCount, batchResumeAt, actions } =
+    useProcessingProvider();
   const { config } = useConfigProvider();
 
   const errorCount = useMemo(
@@ -48,6 +49,8 @@ export default function ProcessingList() {
     }
     return label;
   }, [batchSize, batchCount, batchResumeAt]);
+
+  const rateLimitedItem = processingList?.find((item) => item.rateLimitRetryAt);
 
   const activeList = useMemo(
     () =>
@@ -162,6 +165,34 @@ export default function ProcessingList() {
           </Box>
         }
       />
+      {rateLimitedItem?.rateLimitRetryAt && (
+        <Alert
+          severity="warning"
+          sx={{ mb: 2 }}
+          data-testid="rate-limit-alert"
+          action={
+            <>
+              <Button
+                color="inherit"
+                size="small"
+                onClick={() => actions.retryRateLimitNow(rateLimitedItem.id)}
+              >
+                Retry now
+              </Button>
+              <Button
+                color="inherit"
+                size="small"
+                onClick={() => actions.stopRateLimitRetry(rateLimitedItem.id)}
+              >
+                Stop
+              </Button>
+            </>
+          }
+        >
+          Tidal is rate limiting requests. Next attempt at{" "}
+          {new Date(rateLimitedItem.rateLimitRetryAt).toLocaleTimeString()}.
+        </Alert>
+      )}
       <Box
         sx={{
           mb: 2,

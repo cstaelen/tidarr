@@ -43,6 +43,8 @@ export async function handleSearchRequest(
     console.log(`[Lidarr] Query: "${q}"`);
   }
 
+  // Indexer tests search without a query. Prowlarr drops items without an
+  // enclosure and then rejects the indexer, so the test item needs one.
   if (!q) {
     console.log(
       "⏹️ [Lidarr] No search query provided, returning empty results",
@@ -59,8 +61,10 @@ export async function handleSearchRequest(
     <pubDate>${new Date().toUTCString()}</pubDate>
     <newznab:response offset="0" total="1"/>
     <item>
-          <title>test</title>
-          <pubDate>${new Date().toUTCString()}</pubDate>
+      <title>test</title>
+      <guid isPermaLink="false">tidarr-test</guid>
+      <pubDate>${new Date().toUTCString()}</pubDate>
+      <enclosure url="${req.protocol}://${req.get("host")}/api/lidarr?t=caps" length="0" type="application/x-nzb"/>
     </item>
   </channel>
 </rss>`);

@@ -11,7 +11,7 @@ import { extractFirstLineClean } from "../processing/utils/ansi-parse";
 import { logs } from "../processing/utils/logs";
 import { ProcessingItemType, TiddlConfig } from "../types";
 
-import { classifyTiddlLine } from "./tiddl-error-patterns";
+import { classifyTiddlLine, isRateLimitLine } from "./tiddl-error-patterns";
 
 // Constants
 const TIDDL_BINARY = "tiddl";
@@ -98,6 +98,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   let lastTotalProgress = "";
   let hasProcessingError = false;
   let hasNetworkError = false;
+  let hasRateLimit = false;
   let lastProgressUpdate = 0;
 
   child.stdout?.on("data", (data: string) => {
@@ -113,6 +114,9 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       hasProcessingError = true;
       if (classifiedLines.some(([, kind]) => kind === "network")) {
         hasNetworkError = true;
+      }
+      if (errorLines.some(isRateLimitLine)) {
+        hasRateLimit = true;
       }
     }
 
@@ -179,9 +183,13 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       hasProcessingError = true;
     }
 
-    item["status"] = hasProcessingError ? "error" : item["status"];
+    // On rate limit the item keeps its "download" status: the queue manager
+    // waits and retries, and no other item must start in the meantime
+    item["status"] =
+      hasProcessingError && !hasRateLimit ? "error" : item["status"];
     item["loading"] = false;
     item["networkError"] = hasNetworkError;
+    item["rateLimited"] = hasRateLimit;
     app.locals.processingStack.actions.updateItem(item);
 
     if (onFinish) onFinish();
