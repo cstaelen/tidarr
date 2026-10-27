@@ -4,8 +4,10 @@ export const TIDAL_MIX_URL = "http://www.tidal.com/mix/";
 export const TIDAL_VIDEO_URL = "http://www.tidal.com/browse/video";
 
 export const TIDARR_REPO_URL = "cstaelen/tidarr";
-export const TIDARR_API_URL = "/api";
-export const TIDARR_PROXY_URL = "/proxy";
+// The server rewrites <base href> in index.html with URL_BASE at runtime
+export const BASE_PATH = new URL(document.baseURI).pathname.replace(/\/$/, "");
+export const TIDARR_API_URL = `${BASE_PATH}/api`;
+export const TIDARR_PROXY_URL = `${BASE_PATH}/proxy`;
 
 export const LOCALSTORAGE_TOKEN_KEY = "tidarr-token";
 export const LOCALSTORAGE_REDIRECT_URL = "tidarr-redirect";

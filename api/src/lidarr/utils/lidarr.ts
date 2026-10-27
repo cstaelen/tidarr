@@ -1,5 +1,6 @@
 import { Request } from "express";
 
+import { getBasePath } from "../../helpers/base-path";
 import { TidalAlbum } from "../../types";
 
 import { formatForMusicBrainz } from "./musicbrainz";
@@ -124,8 +125,8 @@ export function generateNewznabItem(
   const qualityInfo = QUALITY_MAP[targetQuality] || QUALITY_MAP.lossless;
 
   const apiKey = req.query.apikey || req.headers["x-api-key"];
-  const downloadUrl = `${req.protocol}://${req.get("host")}/api/lidarr/download/${album.id}/${targetQuality}${apiKey ? `?apikey=${apiKey}` : ""}`;
-  const tidarrUrl = `${req.protocol}://${req.get("host")}/album/${album.id}`;
+  const downloadUrl = `${req.protocol}://${req.get("host")}${getBasePath()}/api/lidarr/download/${album.id}/${targetQuality}${apiKey ? `?apikey=${apiKey}` : ""}`;
+  const tidarrUrl = `${req.protocol}://${req.get("host")}${getBasePath()}/album/${album.id}`;
   const albumArtist = getAlbumArtist(album);
 
   const pubDate = album.releaseDate

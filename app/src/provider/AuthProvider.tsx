@@ -9,8 +9,10 @@ import React, {
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTE_LOGIN } from "src/components/Security/PrivateRoute";
 import {
+  BASE_PATH,
   LOCALSTORAGE_REDIRECT_URL,
   LOCALSTORAGE_TOKEN_KEY,
+  TIDARR_API_URL,
 } from "src/contants";
 import { ApiReturnType, AuthType, CheckAuthType } from "src/types";
 
@@ -83,7 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const loginWithOIDC = useCallback(() => {
-    window.location.href = "/api/auth/oidc/login";
+    window.location.href = `${TIDARR_API_URL}/auth/oidc/login`;
   }, []);
 
   const logout = () => {
@@ -98,8 +100,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (token) {
       localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, token);
-      // Clean URL
-      window.history.replaceState({}, "", "/");
+      window.history.replaceState({}, "", `${BASE_PATH}/`);
       redirectAfterLogin();
     }
   }, [redirectAfterLogin]);

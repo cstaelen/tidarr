@@ -5,6 +5,7 @@ import fs from "fs";
 import path from "path";
 
 import { setAppInstance } from "./src/helpers/app-instance";
+import { getBasePath } from "./src/helpers/base-path";
 import { checkConfig } from "./src/helpers/check-config";
 import { get_tiddl_config } from "./src/helpers/get_tiddl_config";
 import { gracefulShutdown } from "./src/helpers/gracefull_shutdown";
@@ -42,6 +43,7 @@ dotenv.config({
 
 const port = parseInt(process.env.PORT || "8484", 10);
 const hostname = "0.0.0.0";
+const basePath = getBasePath();
 
 const app: Express = express();
 
@@ -51,6 +53,20 @@ setAppInstance(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+
+// Strip URL_BASE so every route below stays declared without prefix
+if (basePath) {
+  app.use((req, res, next) => {
+    if (req.path === basePath) {
+      // Keep the query string (e.g. ?token=...)
+      return res.redirect(`${basePath}/${req.url.slice(basePath.length)}`);
+    }
+    if (req.path.startsWith(`${basePath}/`)) {
+      req.url = req.url.slice(basePath.length);
+    }
+    next();
+  });
+}
 
 // Setup all API proxies (Tidal, Plex, Navidrome)
 
@@ -137,8 +153,25 @@ process.on("SIGINT", () => gracefulShutdown("SIGINT", app, server));
 
 const frontendFiles = "/tidarr/app/build";
 if (fs.existsSync(frontendFiles)) {
-  app.use(express.static(frontendFiles));
+  // The <base> tag lets the prebuilt (relative) assets resolve under URL_BASE
+  const rawIndexHtml = fs.readFileSync(
+    path.join(frontendFiles, "index.html"),
+    "utf8",
+  );
+  const indexHtml = rawIndexHtml.replace(
+    /<base\s+href="[^"]*"\s*\/?>/,
+    `<base href="${basePath}/" />`,
+  );
+
+  // Without the tag the app breaks under URL_BASE, so fail loudly instead
+  if (basePath && indexHtml === rawIndexHtml) {
+    console.error(
+      "❌ [SERVER] No <base> tag found in index.html, URL_BASE cannot be applied",
+    );
+  }
+
+  app.use(express.static(frontendFiles, { index: false }));
   app.get("/{*any}", (_, res) => {
-    res.sendFile(path.join(frontendFiles, "index.html"));
+    res.type("html").send(indexHtml);
   });
 }

@@ -51,8 +51,7 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 - [Donate](#donate)
 - [Develop](#develop)
 
-------------------------------
-
+---
 
 > [!WARNING]
 > **Disclaimer**
@@ -95,14 +94,14 @@ Tidarr is a Docker image that provides a web interface to download up to **24-bi
 
 ### Companion app
 
-- Song recognition : [Shazarr project](https://github.com/cstaelen/shazarr) (Android)
+- Song recognition : [🎙️🎶 **SHAZARR** project](https://github.com/cstaelen/shazarr) (Android)
 
 ### Technicals
 
 - Server-side download list processing
 - UI built with **ReactJS** + **ExpressJS** API
 - Self-hostable with **Docker** (`linux/amd64` and `linux/arm64`)
-- Download Tidal content with [Tiddl (3.4.3)](https://github.com/oskvr37/tiddl/tree/v3.4.3)
+- Download Tidal content with [Tiddl (3.4.4)](https://github.com/oskvr37/tiddl/tree/v3.4.4)
 
 ### Advanced Integration & Automation
 
@@ -147,7 +146,7 @@ docker run  \
 > ```yaml
 > volumes:
 >   - ...
->   - /path/to/media-drive/processing:/shared/.processing  # Separate drive for temp downloads
+>   - /path/to/media-drive/processing:/shared/.processing # Separate drive for temp downloads
 > ```
 
 ## TIDAL AUTHENTICATION
@@ -194,6 +193,7 @@ environment:
 ```
 
 ### Listening port
+
 Default listening port is 8484 but you can override it using :
 
 ```yaml
@@ -234,6 +234,7 @@ environment:
 > - **OIDC_CLIENT_ID**: The client ID registered in your OIDC provider
 > - **OIDC_CLIENT_SECRET**: The client secret for your application
 > - **OIDC_REDIRECT_URI**: The callback URL (must match the one configured in your OIDC provider)
+> - Include the `URL_BASE` value in `OIDC_REDIRECT_URI` if you set a custom base path.
 > - OIDC authentication takes precedence over password authentication if both are configured
 > - JWT tokens are valid for 12 hours after successful authentication
 
@@ -295,12 +296,13 @@ Throttle downloads to avoid being rate-limited by Tidal: automatically pause the
 ```yaml
 environment:
   - ...
-  - DOWNLOAD_BATCH_SIZE=10   # Pause queue after 10 completed downloads
-  - DOWNLOAD_BATCH_DELAY=60  # Auto-resume after 60 minutes
+  - DOWNLOAD_BATCH_SIZE=10 # Pause queue after 10 completed downloads
+  - DOWNLOAD_BATCH_DELAY=60 # Auto-resume after 60 minutes
 ```
 
 > [!NOTE]
 > `DOWNLOAD_BATCH_SIZE` and `DOWNLOAD_BATCH_DELAY` can be used independently:
+>
 > - `DOWNLOAD_BATCH_SIZE` alone: queue auto-pauses after N downloads, resume manually via the UI
 > - Both together: fully automated rate-limited downloading (e.g. 10 albums every hour)
 
@@ -360,6 +362,26 @@ environment:
 > [!NOTE]
 > Replay Gain scanning happens after Beets tagging (if enabled) and before moving files to your library. The process adds minimal overhead to downloads while ensuring consistent playback volume across your music collection.
 
+### URL Base (Reverse Proxy Support)
+
+Serve Tidarr under a sub-path with `URL_BASE`. Default: empty (served from `/`).
+
+```yaml
+environment:
+  - URL_BASE=/tidarr
+```
+
+Tidarr is then available on `https://your-domain.com/tidarr/`. Your reverse proxy must forward the path **without stripping the prefix**:
+
+```nginx
+location /tidarr/ {
+    proxy_pass http://tidarr:8484;
+    proxy_set_header Host $host;
+}
+```
+
+> [!NOTE]
+> With Lidarr, set the same prefix in the indexer / download client URL base (e.g. `/tidarr/api/sabnzbd/api`).
 
 ## SERVICES
 
@@ -393,7 +415,7 @@ Add to your _docker-compose_ file in `environment:` section :
 environment:
   - ...
   - PLEX_URL=<url|ip:port>
-  - PLEX_PUBLIC_URL=<public_url>  # optional, for frontend links (if different from internal URL)
+  - PLEX_PUBLIC_URL=<public_url> # optional, for frontend links (if different from internal URL)
   - PLEX_LIBRARY=<music_library_id>
   - PLEX_TOKEN=<x-plex-token>
   # Plex path to the library root
@@ -422,7 +444,7 @@ Add to your _docker-compose_ file in `environment:` section :
 environment:
   - ...
   - JELLYFIN_URL=<url|ip:port>
-  - JELLYFIN_PUBLIC_URL=<public_url>  # optional, for frontend links (if different from internal URL)
+  - JELLYFIN_PUBLIC_URL=<public_url> # optional, for frontend links (if different from internal URL)
   - JELLYFIN_API_KEY=<X-Emby-Token>
 ```
 
@@ -444,7 +466,7 @@ Add to your _docker-compose_ file in `environment:` section :
 environment:
   - ...
   - NAVIDROME_URL=http://navidrome.url
-  - NAVIDROME_PUBLIC_URL=https://navidrome.public.url  # optional, for frontend links (if different from internal URL)
+  - NAVIDROME_PUBLIC_URL=https://navidrome.public.url # optional, for frontend links (if different from internal URL)
   - NAVIDROME_USER=navidrome_user
   - NAVIDROME_PASSWORD=navidrome_password
 ```
@@ -513,6 +535,7 @@ It should also works with other services using the same payload format `{"text":
 Tidarr can be integrated with Lidarr as both a Newznab indexer and a SABnzbd download client. This allows you to leverage Lidarr's powerful library management while using Tidarr for high-quality music downloads from Tidal.
 
 **What you can do:**
+
 - Automatically search for albums in Tidal via Lidarr
 - Trigger downloads directly from Lidarr
 - Manage queue from Lidarr
@@ -529,12 +552,12 @@ Tidarr can be integrated with Lidarr as both a Newznab indexer and a SABnzbd dow
 >   tidarr:
 >     volumes:
 >       - ...
->       - /path/to/lidarr/downloads:/shared/nzb_downloads  # Shared download location
+>       - /path/to/lidarr/downloads:/shared/nzb_downloads # Shared download location
 >
 >   lidarr:
 >     volumes:
 >       - ....
->       - /path/to/lidarr/downloads:/downloads             # Same physical folder
+>       - /path/to/lidarr/downloads:/downloads # Same physical folder
 > ```
 >
 > **Step 2: Add Tidarr as Indexer (Lidarr settings → Indexers)**
@@ -542,6 +565,7 @@ Tidarr can be integrated with Lidarr as both a Newznab indexer and a SABnzbd dow
 > **Step 3: Add Tidarr as Download Client (Lidarr settings → Download Clients)**
 >
 > **Notes:**
+>
 > - The shared download folder allows Tidarr to download files that Lidarr can then import
 >
 > 📖 **[Complete Setup Guide](https://github.com/cstaelen/tidarr/wiki/Lidarr-Integration-Guide)** - Detailed configuration, troubleshooting, and advanced topics
@@ -573,7 +597,6 @@ If you want to use Tidarr only as UI and not download files, you can set `NO_DOW
 This way you can use Tidarr to manage your download history, watchlist, and keep benefits of json DB (`sync_list.json`, `queue.json`) to manage download via custom scripts.
 
 Queue items are set to `no_download` status and never processed automatically. You can still trigger a one-off download for any individual item directly from the queue UI using the single download button.
-
 
 > [!NOTE]
 > **Unecessary configurations**

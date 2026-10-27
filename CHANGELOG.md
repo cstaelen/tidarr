@@ -8,6 +8,7 @@ Tidarr notable changes.
 
 ### 🚀 Added
 
+- [API] Add `URL_BASE` env var for reverse proxy subpath hosting #928
 - [Front] Alert when Tidal is rate limiting downloads, with "Retry now" and "Stop" actions #764
 - [API] Rate limited downloads now wait 2 minutes and retry until Tidal lets them through, instead of failing #764
 - [API] Add `/api/rate-limit/retry-now` and `/api/rate-limit/stop` endpoints #764
