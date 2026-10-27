@@ -9,6 +9,7 @@ import React, {
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTE_LOGIN } from "src/components/Security/PrivateRoute";
 import {
+  BASE_PATH,
   LOCALSTORAGE_REDIRECT_URL,
   LOCALSTORAGE_TOKEN_KEY,
   TIDARR_API_URL,
@@ -99,8 +100,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (token) {
       localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, token);
-      // Clean URL
-      window.history.replaceState({}, "", "/");
+      window.history.replaceState({}, "", `${BASE_PATH}/`);
       redirectAfterLogin();
     }
   }, [redirectAfterLogin]);

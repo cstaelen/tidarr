@@ -154,9 +154,21 @@ process.on("SIGINT", () => gracefulShutdown("SIGINT", app, server));
 const frontendFiles = "/tidarr/app/build";
 if (fs.existsSync(frontendFiles)) {
   // The <base> tag lets the prebuilt (relative) assets resolve under URL_BASE
-  const indexHtml = fs
-    .readFileSync(path.join(frontendFiles, "index.html"), "utf8")
-    .replace('<base href="/" />', `<base href="${basePath}/" />`);
+  const rawIndexHtml = fs.readFileSync(
+    path.join(frontendFiles, "index.html"),
+    "utf8",
+  );
+  const indexHtml = rawIndexHtml.replace(
+    /<base\s+href="[^"]*"\s*\/?>/,
+    `<base href="${basePath}/" />`,
+  );
+
+  // Without the tag the app breaks under URL_BASE, so fail loudly instead
+  if (basePath && indexHtml === rawIndexHtml) {
+    console.error(
+      "❌ [SERVER] No <base> tag found in index.html, URL_BASE cannot be applied",
+    );
+  }
 
   app.use(express.static(frontendFiles, { index: false }));
   app.get("/{*any}", (_, res) => {
