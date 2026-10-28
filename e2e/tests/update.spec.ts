@@ -33,6 +33,13 @@ const mockReleases = [
   },
 ];
 
+const mockPrerelease = {
+  name: "1.1.7",
+  tag_name: "1.1.7",
+  body: "## 1.1.7\n- Prerelease feature E",
+  prerelease: true,
+};
+
 test.describe("Update changelog dialog", () => {
   test("First visit: should show only current version changelog", async ({
     page,
@@ -229,5 +236,61 @@ test.describe("Update changelog dialog", () => {
     await expect(
       page.getByRole("heading", { name: /What's new in Tidarr/i }),
     ).toBeVisible({ timeout: 10000 });
+  });
+
+  test("Prerelease version: should show the prerelease changelog", async ({
+    page,
+  }) => {
+    await page.route("*/**/releases", async (route) => {
+      await route.fulfill({ json: [mockPrerelease, ...mockReleases] });
+    });
+
+    await mockConfigAPI(page, {
+      parameters: {
+        TIDARR_VERSION: "1.1.7",
+      },
+    });
+
+    // Last stable version already seen
+    await page.addInitScript((key) => {
+      localStorage.setItem(key, "1.1.6");
+    }, LOCALSTORAGE_KEY);
+
+    await page.goto("/");
+
+    await expect(
+      page.getByRole("heading", { name: /What's new in Tidarr 1.1.7/i }),
+    ).toBeVisible({ timeout: 10000 });
+
+    // Prerelease notes, not the last stable ones
+    await expect(page.getByText("Prerelease feature E")).toBeVisible();
+    await expect(page.getByText("Feature A")).not.toBeVisible();
+  });
+
+  test("Stable version: should not show upcoming prerelease changelog", async ({
+    page,
+  }) => {
+    await page.route("*/**/releases", async (route) => {
+      await route.fulfill({ json: [mockPrerelease, ...mockReleases] });
+    });
+
+    await mockConfigAPI(page, {
+      parameters: {
+        TIDARR_VERSION: "1.1.6",
+      },
+    });
+
+    await page.addInitScript((key) => {
+      localStorage.setItem(key, "1.1.5");
+    }, LOCALSTORAGE_KEY);
+
+    await page.goto("/");
+
+    await expect(
+      page.getByRole("heading", { name: /What's new in Tidarr 1.1.6/i }),
+    ).toBeVisible({ timeout: 10000 });
+
+    await expect(page.getByText("Feature A")).toBeVisible();
+    await expect(page.getByText("Prerelease feature E")).not.toBeVisible();
   });
 });

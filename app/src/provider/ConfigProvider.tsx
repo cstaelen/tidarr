@@ -119,22 +119,24 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
           `https://api.github.com/repos/${TIDARR_REPO_URL}/releases`,
         );
 
-        const data = (await response?.json()) as ReleaseGithubType[];
-        const filteredData = data.filter((release) => !release.prerelease);
+        const releases = (await response?.json()) as ReleaseGithubType[];
+        const stableReleases = releases.filter(
+          (release) => !release.prerelease,
+        );
 
-        if (!filteredData?.[0]) return;
+        if (!stableReleases?.[0]) return;
 
         const currentVersion = config.TIDARR_VERSION;
-        const latestVersion = filteredData[0].tag_name;
+        const latestVersion = stableReleases[0].tag_name;
 
         // Check if update is available
         setIsUpdateAvailable(
           compareVersions(latestVersion, currentVersion) > 0,
         );
-        setReleaseData(filteredData[0]);
+        setReleaseData(stableReleases[0]);
 
         // Extract only the descriptions (body) from all releases
-        const descriptions = filteredData
+        const descriptions = stableReleases
           .map((release) => release.body)
           .slice(0, 8);
         setChangeLogData(descriptions);
@@ -146,14 +148,14 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
 
         if (!lastSeenVersion) {
           // First visit: show only current version changelog
-          const currentRelease = filteredData.find(
+          const currentRelease = releases.find(
             (release) =>
               compareVersions(release.tag_name, currentVersion) === 0,
           );
           setUnseenReleases(currentRelease ? [currentRelease] : []);
         } else if (compareVersions(currentVersion, lastSeenVersion) > 0) {
           // Version upgraded: show changelogs between lastSeen and current
-          const unseen = filteredData
+          const unseen = releases
             .filter((release) => {
               const releaseVersion = release.tag_name;
               return (
