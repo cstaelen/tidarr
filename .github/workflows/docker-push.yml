@@ -1,13 +1,28 @@
 name: Publish Docker image
 
 on:
+  push:
+    tags: ["*"]
   release:
     types: [published, edited]
 
+concurrency:
+  group: docker-push-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
+  lint:
+    if: github.event_name == 'push' || !github.event.release.prerelease
+    uses: ./.github/workflows/lint.yml
+
+  test:
+    needs: lint
+    uses: ./.github/workflows/playwright.yml
+
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
+    needs: test
     env:
       DOCKER_PLATFORMS: linux/amd64,linux/arm64
     steps:
@@ -21,20 +36,19 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Log in to Docker Hub
-        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
         with:
           images: cstaelen/tidarr
 
-      - name: Build and push pre-release docker image
-        if: ${{ github.event.release.prerelease }}
-        uses: docker/build-push-action@v3
+      - name: Build and push docker image
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
           file: ./docker/Dockerfile
@@ -42,20 +56,7 @@ jobs:
           platforms: ${{ env.DOCKER_PLATFORMS }}
           push: true
           build-args: VERSION=${{ github.ref_name }}
-          tags: cstaelen/tidarr:prerelease
-          labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Build and push release docker image
-        if: ${{ !github.event.release.prerelease }}
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ./docker/Dockerfile
-          target: production
-          platforms: ${{ env.DOCKER_PLATFORMS }}
-          push: true
-          build-args: VERSION=${{ github.ref_name }}
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ github.event_name == 'push' && 'cstaelen/tidarr:prerelease' || steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Update repo description
@@ -66,3 +67,18 @@ jobs:
           enable-url-completion: true
           short-description: ${{ github.event.repository.description }}
           repository: cstaelen/tidarr
+
+  draft_release:
+    name: Create draft release
+    runs-on: ubuntu-latest
+    needs: push_to_registry
+    if: github.event_name == 'push'
+    permissions:
+      contents: write
+    steps:
+      - name: Create draft release
+        uses: softprops/action-gh-release@v3
+        with:
+          draft: true
+          prerelease: true
+          generate_release_notes: true
