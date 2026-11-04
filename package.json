@@ -23,8 +23,9 @@
     "overrides": {
       "brace-expansion": ">=5.0.1",
       "dompurify": ">=3.4.17",
+      "glob": ">=14.0.2",
       "linkify-it": ">=5.0.1",
-      "minimatch": ">=10.2.3",
+      "minimatch": ">=11.0.1",
       "shell-quote": ">=1.11.0"
     }
   }

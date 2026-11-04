@@ -14,7 +14,8 @@ const NETWORK_ERROR_PATTERNS = [
 
 // Content/quality issues — non-retriable
 const CONTENT_ONLY_ERROR_PATTERNS = [
-  "validation errors",
+  // Singular on purpose: pydantic writes "1 validation error" when there is only one
+  "validation error",
   "due to Dolby Atmos filter",
 ];
 
@@ -63,4 +64,19 @@ export function classifyTiddlLine(line: string): TiddlErrorKind {
   }
 
   return null;
+}
+
+// Some tiddl errors are unreadable for a self-hoster: the raw output says what
+// the parser expected, never what went wrong. These map the signature to a cause.
+// `manifestMimeType` case: Tidal answered with a DRM-protected manifest
+// (application/vnd.tidal.emu), which tiddl cannot read — see cstaelen/tidarr#948.
+const ERROR_HINTS = [
+  {
+    pattern: "manifestMimeType",
+    hint: "Tidal returned a DRM-protected stream that tiddl cannot read, so nothing was downloaded. This usually comes from the Tidal session: a browser session token gets DRM manifests, the device login flow does not. Try logging out and back in from the Tidal settings.",
+  },
+];
+
+export function getTiddlErrorHint(output: string): string | undefined {
+  return ERROR_HINTS.find(({ pattern }) => output.includes(pattern))?.hint;
 }

@@ -11,7 +11,11 @@ import { extractFirstLineClean } from "../processing/utils/ansi-parse";
 import { logs } from "../processing/utils/logs";
 import { ProcessingItemType, TiddlConfig } from "../types";
 
-import { classifyTiddlLine, isRateLimitLine } from "./tiddl-error-patterns";
+import {
+  classifyTiddlLine,
+  getTiddlErrorHint,
+  isRateLimitLine,
+} from "./tiddl-error-patterns";
 
 // Constants
 const TIDDL_BINARY = "tiddl";
@@ -100,6 +104,7 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
   let hasNetworkError = false;
   let hasRateLimit = false;
   let lastProgressUpdate = 0;
+  let errorHint: string | undefined;
 
   child.stdout?.on("data", (data: string) => {
     const lines = data?.split("\r");
@@ -117,6 +122,10 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       }
       if (errorLines.some(isRateLimitLine)) {
         hasRateLimit = true;
+      }
+
+      if (!errorHint) {
+        errorHint = getTiddlErrorHint(errorLines.join("\n"));
       }
     }
 
@@ -180,6 +189,9 @@ export function tidalDL(id: string, app: Express, onFinish?: () => void) {
       logs(item.id, `✅ [TIDDL] Download succeed (code: ${code})`);
     } else {
       logs(item.id, `❌ [TIDDL] Tiddl process exited with code ${code})`);
+      if (errorHint) {
+        logs(item.id, `💡 [TIDDL] ${errorHint}`);
+      }
       hasProcessingError = true;
     }
 
