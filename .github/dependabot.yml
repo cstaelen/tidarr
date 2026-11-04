@@ -15,6 +15,16 @@ updates:
         patterns:
           - "*"
 
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    rebase-strategy: auto
+    schedule:
+      interval: "weekly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
   - package-ecosystem: "pip"
     directory: "/docker"
     rebase-strategy: auto
