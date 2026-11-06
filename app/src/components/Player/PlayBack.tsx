@@ -53,8 +53,15 @@ const PlayBack = ({ track, audioUrl, audioRef }: PlayBackProps) => {
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
     const handleDurationChange = () => setDuration(audio.duration);
     const handleEnded = () => {
-      // Continuous playback: advance to the next track of the queue, if any.
-      if (!playNextRef.current()) setIsPlaying(false);
+      // Continuous playback: advance to the next track of the queue, if
+      // any. When no track could be signed, playback stops cleanly and the
+      // UI reflects it.
+      playNextRef
+        .current()
+        .then((advanced) => {
+          if (!advanced) setIsPlaying(false);
+        })
+        .catch(() => setIsPlaying(false));
     };
 
     audio.addEventListener("timeupdate", handleTimeUpdate);

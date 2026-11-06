@@ -16,8 +16,8 @@ interface PlayerContextType {
   userInitiated: boolean;
   play: (track: TrackType) => Promise<void>;
   playQueue: (tracks: TrackType[], startIndex: number) => Promise<void>;
-  playNext: () => boolean;
-  playPrevious: () => boolean;
+  playNext: () => Promise<boolean>;
+  playPrevious: () => Promise<boolean>;
   hasPrevious: boolean;
   hasNext: boolean;
   stop: () => void;
@@ -40,12 +40,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const playTrack = useCallback(
     async (track: TrackType) => {
       const data = await actions.signStream(track.id);
-      if (data?.url) {
-        setStreamUrl(data.url);
-        setPlayingTrack(track);
-      } else {
+      if (!data?.url) {
         console.warn("No signed URL returned", data);
+        return false;
       }
+      setStreamUrl(data.url);
+      setPlayingTrack(track);
+      return true;
     },
     [actions],
   );
@@ -53,10 +54,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const play = useCallback(
     async (track: TrackType) => {
       // Single-track play: outside of any list context.
-      setQueue([]);
-      setQueueIndex(-1);
-      setUserInitiated(true);
-      await playTrack(track);
+      if (await playTrack(track)) {
+        setQueue([]);
+        setQueueIndex(-1);
+        setUserInitiated(true);
+      }
     },
     [playTrack],
   );
@@ -66,31 +68,42 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       if (!tracks.length || startIndex < 0 || startIndex >= tracks.length) {
         return;
       }
-      const start = tracks[startIndex];
-      setQueue(tracks);
-      setQueueIndex(startIndex);
-      setUserInitiated(true);
-      await playTrack(start);
+      // Defensive copy: the queue must not alias a caller-owned array.
+      const queueCopy = [...tracks];
+      const start = queueCopy[startIndex];
+      if (await playTrack(start)) {
+        setQueue(queueCopy);
+        setQueueIndex(startIndex);
+        setUserInitiated(true);
+      }
     },
     [playTrack],
   );
 
-  const playNext = useCallback(() => {
-    if (queueIndex < 0 || queueIndex >= queue.length - 1) return false;
-    const nextTrack = queue[queueIndex + 1];
-    setQueueIndex(queueIndex + 1);
-    setUserInitiated(false);
-    void playTrack(nextTrack);
-    return true;
+  // Try to sign and play the next track of the queue; if it cannot be
+  // signed (e.g. not streamable), keep trying the following ones. The
+  // queue index only moves once a track actually plays, so it always
+  // reflects what is audible.
+  const playNext = useCallback(async () => {
+    for (let i = queueIndex + 1; i < queue.length; i++) {
+      if (await playTrack(queue[i])) {
+        setQueueIndex(i);
+        setUserInitiated(false);
+        return true;
+      }
+    }
+    return false;
   }, [playTrack, queue, queueIndex]);
 
-  const playPrevious = useCallback(() => {
-    if (queueIndex <= 0) return false;
-    const previousTrack = queue[queueIndex - 1];
-    setQueueIndex(queueIndex - 1);
-    setUserInitiated(false);
-    void playTrack(previousTrack);
-    return true;
+  const playPrevious = useCallback(async () => {
+    for (let i = queueIndex - 1; i >= 0; i--) {
+      if (await playTrack(queue[i])) {
+        setQueueIndex(i);
+        setUserInitiated(false);
+        return true;
+      }
+    }
+    return false;
   }, [playTrack, queue, queueIndex]);
 
   const stop = useCallback(() => {

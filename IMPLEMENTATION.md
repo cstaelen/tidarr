@@ -10,8 +10,8 @@ page header) keep the single-track behavior.
 ## How it works
 
 - `app/src/provider/PlayerProvider.tsx`
-  The player context now owns a playback queue: `queue` (the list snapshot
-  taken when playback starts) and `queueIndex`. New actions:
+  The player context now owns a playback queue: `queue` (a defensive copy of
+  the list, taken when playback starts) and `queueIndex`. New actions:
   - `playQueue(tracks, startIndex)` — snapshot the list and play the chosen
     track.
   - `playNext()` / `playPrevious()` — step through the queue, returning
@@ -22,6 +22,15 @@ page header) keep the single-track behavior.
     `false` on automatic advancement. The floating panel only pops itself
     open for user-initiated plays, so auto-advance never re-opens a panel
     the user deliberately closed (playback itself continues regardless).
+
+  Failure handling: `playNext`/`playPrevious` only commit the queue index
+  once a track's signed stream URL was successfully fetched; a track that
+  cannot be signed is skipped and the next (or previous) one is tried. If
+  none can be signed, the index stays on the last audible track and the
+  move reports failure, so `play()`/`playQueue()` leave the state untouched
+  and the `ended` handler falls back to a clean stop
+  (`isPlaying` = false). The queue index and `isPlaying` therefore always
+  reflect audible reality.
 
 - `app/src/provider/TrackListProvider.tsx` (new)
   A small context that exposes "the enclosing list of tracks" to the play
@@ -53,9 +62,12 @@ page header) keep the single-track behavior.
   E2E coverage in the style of `playback.spec.ts`: starting from a chosen
   track, automatic advancement through the list (asserting the exact
   sequence of signed stream URLs), Previous/Next navigation, stopping at
-  the end of the list, and single-track behavior on the track page.
-  `mock.ts` gained reusable helpers `mockStreamEndpoints()` (sign/play
-  route mocks with a signed-id callback) and `endCurrentTrack()`.
+  the end of the list, single-track behavior on the track page, skipping a
+  track whose stream cannot be signed, and a clean stop when no following
+  track can be signed (including a failed manual Next leaving the current
+  track playing). `mock.ts` gained reusable helpers
+  `mockStreamEndpoints()` (sign/play route mocks with a signed-id callback)
+  and `endCurrentTrack()`.
 
 No new dependencies were added.
 
@@ -75,8 +87,8 @@ No new dependencies were added.
   Docker daemon). Instead, the new spec and the existing
   `playback.spec.ts` scenarios were executed locally against the vite dev
   server with the same route mocks (plus container-less boot mocks for
-  `/api/settings`, `/api/is-auth-active`, SSE, …): 4/4 new tests and 3/3
-  regression scenarios passed, including a run where a real (silent) MP3
-  was streamed to confirm audio keeps playing with the panel closed and
-  auto-advance does not re-open it. The committed spec itself runs in the
-  project's normal Docker-based e2e environment.
+  `/api/settings`, `/api/is-auth-active`, SSE, …): 6/6 feature tests and
+  3/3 regression scenarios passed, including a run where a real (silent)
+  MP3 was streamed to confirm audio keeps playing with the panel closed
+  and auto-advance does not re-open it. The committed spec itself runs in
+  the project's normal Docker-based e2e environment.
