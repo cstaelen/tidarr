@@ -222,6 +222,71 @@ export function mockSSEPayload(items: unknown[]): string {
   });
 }
 
+/**
+ * Mock the audio stream endpoints used by the web player.
+ * `onSign` is called with the track id of every sign request, in order.
+ */
+export async function mockStreamEndpoints(
+  page: Page,
+  onSign?: (trackId: string) => void,
+) {
+  await page.route("**/api/stream/sign/*", async (route) => {
+    const trackId = route.request().url().split("/").pop() as string;
+    onSign?.(trackId);
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        url: `http://localhost:8484/api/stream/play/${trackId}?exp=9999999999&sig=mock-signature`,
+      }),
+    });
+  });
+
+  await page.route("**/api/stream/play/*", async (route) => {
+    // Minimal valid MP3 header (MPEG-1 Layer 3, 44.1kHz, 128kbps)
+    const mockAudioBuffer = Buffer.from([
+      // ID3v2 header
+      0x49,
+      0x44,
+      0x33,
+      0x03,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      // MPEG frame header
+      0xff,
+      0xfb,
+      0x90,
+      0x00,
+      // Padding with zeros (minimal valid frame)
+      ...Array.from({ length: 100 }, () => 0x00),
+    ]);
+
+    await route.fulfill({
+      status: 200,
+      headers: {
+        "content-type": "audio/mpeg",
+        "content-length": mockAudioBuffer.length.toString(),
+        "accept-ranges": "bytes",
+      },
+      body: mockAudioBuffer,
+    });
+  });
+}
+
+/** Dispatch the "ended" event on the floating player's audio element,
+ * as if the current track finished playing. */
+export async function endCurrentTrack(page: Page) {
+  await page.evaluate(() => {
+    const audio = document.querySelector("audio");
+    if (!audio) throw new Error("No audio element found");
+    audio.dispatchEvent(new Event("ended"));
+  });
+}
+
 export async function mockItemOutputSSE(page: Page, quality = "high") {
   await page.route("**/stream-item-output/*", async (route) => {
     const itemId = route.request().url().split("/").pop();
