@@ -42,7 +42,7 @@ function AnimatedEqualizer({ animated }: { animated?: boolean }) {
 }
 
 export function FloatingPlayer() {
-  const { playingTrack, streamUrl, isPlaying } = usePlayer();
+  const { playingTrack, streamUrl, isPlaying, userInitiated } = usePlayer();
   const [open, setOpen] = useState(false);
   const [lastStreamUrl, setLastStreamUrl] = useState(streamUrl);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -50,7 +50,9 @@ export function FloatingPlayer() {
 
   if (streamUrl !== lastStreamUrl) {
     setLastStreamUrl(streamUrl);
-    if (streamUrl) setOpen(true);
+    // Pop the panel open for user-initiated plays; automatic advancement to
+    // the next track of the queue keeps the panel as the user left it.
+    if (streamUrl && userInitiated) setOpen(true);
   }
 
   useEffect(() => {

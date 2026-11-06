@@ -1,5 +1,6 @@
 import { Box, Grid } from "@mui/material";
 import { useConfigProvider } from "src/provider/ConfigProvider";
+import { TrackListProvider } from "src/provider/TrackListProvider";
 import {
   AlbumType,
   ArtistType,
@@ -65,85 +66,118 @@ export default function Module(props: ModuleContentProps) {
     }
   }
 
-  return (
-    <Grid container spacing={2} className="module">
-      {props.data && props.data?.length > 0 ? (
-        props.data.map(
+  // Tracks of the enclosing list, exposed to play buttons so that pressing
+  // play starts continuous playback of the whole list.
+  const isTrackListType =
+    props.type === "TRACK_LIST" || props.type === "ALBUM_ITEMS";
+
+  const trackList = isTrackListType
+    ? ((props.data || [])
+        .map(
           (
             data:
               | AlbumType
               | ArtistType
               | TrackType
               | PlaylistType
-              | MixType
               | VideoType
-              | ModuleItemLevelType<PlaylistType>
-              | ModuleItemLevelType<TrackType>
-              | ModuleItemLevelType<AlbumType>
-              | ModuleItemLevelType<ArtistType>,
-            index: number,
-          ) => (
-            <Grid
-              data-testid="item"
-              size={{
-                xs: 12,
-                md: getCols("md", (data as VideoType).type),
-                lg: getCols("lg", (data as VideoType).type),
-              }}
-              key={`album-${index}`}
-            >
-              {props.type === "ALBUM_LIST" ? (
-                <AlbumCard album={data as AlbumType} />
-              ) : props.type === "ARTIST_LIST" ? (
-                <Artist artist={data as ArtistType} />
-              ) : props.type === "TRACK_LIST" &&
-                (data as VideoType).type !== "Music Video" &&
-                (data as VideoType).type !== "Live" ? (
-                <Track track={data as TrackType} />
-              ) : props.type === "ALBUM_ITEMS" ? (
-                <Track track={(data as ModuleItemLevelType<TrackType>)?.item} />
-              ) : props.type === "PLAYLIST_LIST" ? (
-                <Playlist playlist={data as PlaylistType} />
-              ) : props.type === "MIXED_TYPES_LIST" ? (
-                <Playlist
-                  playlist={(data as ModuleItemLevelType<PlaylistType>)?.item}
-                />
-              ) : props.type === "MIX_LIST" ? (
-                <Mix mix={data as MixType} />
-              ) : props.type === "USER_ALBUM_LIST" ? (
-                <AlbumCard
-                  album={(data as ModuleItemLevelType<AlbumType>)?.item}
-                />
-              ) : props.type === "USER_ARTIST_LIST" ? (
-                <Artist
-                  artist={(data as ModuleItemLevelType<ArtistType>)?.item}
-                />
-              ) : props.type === "USER_PLAYLIST_LIST" ? (
-                <Playlist
-                  playlist={
-                    (data as ModuleItemLevelType<PlaylistType>)?.playlist
-                  }
-                />
-              ) : props.type === "VIDEO_LIST" ||
-                (data as VideoType).type === "Music Video" ||
-                (data as VideoType).type === "Live" ? (
-                <VideoCard video={data as VideoType} />
-              ) : null}
-            </Grid>
-          ),
+              | ModuleItemLevelType<TrackType>,
+          ) =>
+            props.type === "ALBUM_ITEMS"
+              ? (data as ModuleItemLevelType<TrackType>)?.item
+              : data,
         )
-      ) : props.data && !props.loading ? (
-        <NoResult />
-      ) : null}
-      {props.loading && (
-        <Box
-          sx={{
-            marginTop: 2,
-          }}
-        >
-          <AlbumsLoader />
-        </Box>
-      )}
-    </Grid>
+        .filter(
+          (data) =>
+            !!data &&
+            (data as VideoType).type !== "Music Video" &&
+            (data as VideoType).type !== "Live",
+        ) as TrackType[])
+    : null;
+
+  return (
+    <TrackListProvider tracks={trackList}>
+      <Grid container spacing={2} className="module">
+        {props.data && props.data?.length > 0 ? (
+          props.data.map(
+            (
+              data:
+                | AlbumType
+                | ArtistType
+                | TrackType
+                | PlaylistType
+                | MixType
+                | VideoType
+                | ModuleItemLevelType<PlaylistType>
+                | ModuleItemLevelType<TrackType>
+                | ModuleItemLevelType<AlbumType>
+                | ModuleItemLevelType<ArtistType>,
+              index: number,
+            ) => (
+              <Grid
+                data-testid="item"
+                size={{
+                  xs: 12,
+                  md: getCols("md", (data as VideoType).type),
+                  lg: getCols("lg", (data as VideoType).type),
+                }}
+                key={`album-${index}`}
+              >
+                {props.type === "ALBUM_LIST" ? (
+                  <AlbumCard album={data as AlbumType} />
+                ) : props.type === "ARTIST_LIST" ? (
+                  <Artist artist={data as ArtistType} />
+                ) : props.type === "TRACK_LIST" &&
+                  (data as VideoType).type !== "Music Video" &&
+                  (data as VideoType).type !== "Live" ? (
+                  <Track track={data as TrackType} />
+                ) : props.type === "ALBUM_ITEMS" ? (
+                  <Track
+                    track={(data as ModuleItemLevelType<TrackType>)?.item}
+                  />
+                ) : props.type === "PLAYLIST_LIST" ? (
+                  <Playlist playlist={data as PlaylistType} />
+                ) : props.type === "MIXED_TYPES_LIST" ? (
+                  <Playlist
+                    playlist={(data as ModuleItemLevelType<PlaylistType>)?.item}
+                  />
+                ) : props.type === "MIX_LIST" ? (
+                  <Mix mix={data as MixType} />
+                ) : props.type === "USER_ALBUM_LIST" ? (
+                  <AlbumCard
+                    album={(data as ModuleItemLevelType<AlbumType>)?.item}
+                  />
+                ) : props.type === "USER_ARTIST_LIST" ? (
+                  <Artist
+                    artist={(data as ModuleItemLevelType<ArtistType>)?.item}
+                  />
+                ) : props.type === "USER_PLAYLIST_LIST" ? (
+                  <Playlist
+                    playlist={
+                      (data as ModuleItemLevelType<PlaylistType>)?.playlist
+                    }
+                  />
+                ) : props.type === "VIDEO_LIST" ||
+                  (data as VideoType).type === "Music Video" ||
+                  (data as VideoType).type === "Live" ? (
+                  <VideoCard video={data as VideoType} />
+                ) : null}
+              </Grid>
+            ),
+          )
+        ) : props.data && !props.loading ? (
+          <NoResult />
+        ) : null}
+        {props.loading && (
+          <Box
+            sx={{
+              marginTop: 2,
+            }}
+          >
+            <AlbumsLoader />
+          </Box>
+        )}
+      </Grid>
+    </TrackListProvider>
   );
 }
