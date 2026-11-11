@@ -41,7 +41,7 @@ const QualityToggleButton = ({
 };
 
 export const HeaderSearch = () => {
-  const { quality, actions } = useConfigProvider();
+  const { quality, isGuest, actions } = useConfigProvider();
   const { isAuthActive } = useAuth();
 
   return (
@@ -152,13 +152,15 @@ export const HeaderSearch = () => {
             >
               <DisplayButton />
             </Box>
-            <Box
-              sx={{
-                flex: "0 0 auto",
-              }}
-            >
-              <SettingsButton />
-            </Box>
+            {!isGuest && (
+              <Box
+                sx={{
+                  flex: "0 0 auto",
+                }}
+              >
+                <SettingsButton />
+              </Box>
+            )}
             {isAuthActive && (
               <Box
                 sx={{

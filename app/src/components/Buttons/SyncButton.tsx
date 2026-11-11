@@ -20,7 +20,7 @@ const SyncButton: React.FC<{
 }> = ({ item, type }) => {
   const { syncList, actions } = useSync();
   const { actions: processingActions } = useProcessingProvider();
-  const { quality } = useConfigProvider();
+  const { quality, isGuest } = useConfigProvider();
 
   const syncObj = useMemo<SyncItemType>(() => {
     const itemId = "uuid" in item ? item.uuid : item.id;
@@ -53,6 +53,8 @@ const SyncButton: React.FC<{
       processingActions.addItem(syncObj, type);
     }
   };
+
+  if (isGuest) return null;
 
   return (
     <Tooltip title={isSynced ? "Remove from watch list" : "Add to watch list"}>

@@ -6,11 +6,16 @@
 import { Response } from "express";
 
 import { ProcessingStack } from "./processing/core/processing-manager";
+import { UserRole } from "./services/auth";
 import { configureServer } from "./services/config";
 import { TiddlConfig } from "./types";
 
 declare global {
   namespace Express {
+    interface Request {
+      role?: UserRole;
+    }
+
     interface Application {
       locals: Locals & {
         processingStack: ReturnType<typeof ProcessingStack>;

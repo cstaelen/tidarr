@@ -6,6 +6,7 @@ import { createTheme, CssBaseline } from "@mui/material";
 import { BASE_PATH } from "./contants";
 import MainLayout from "./components/MainLayout";
 import { FloatingPlayer } from "./components/Player/FloatingPlayer";
+import AdminRoute from "./components/Security/AdminRoute";
 import PrivateRoute, { ROUTE_LOGIN } from "./components/Security/PrivateRoute";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -73,7 +74,9 @@ root.render(
                     <Route path="/album/:id" element={<PageAlbum />} />
                     <Route path="/track/:id" element={<PageTrack />} />
                     <Route path="/processing" element={<PageProcessing />} />
-                    <Route path="/parameters" element={<Parameters />} />
+                    <Route element={<AdminRoute />}>
+                      <Route path="/parameters" element={<Parameters />} />
+                    </Route>
                   </Route>
                 </Route>
               </Routes>

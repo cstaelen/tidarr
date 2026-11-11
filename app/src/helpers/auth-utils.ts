@@ -27,8 +27,19 @@ export function withAuthHeader(options: RequestInit = {}): RequestInit {
  * Handle 403 response - clear token and reload page
  * Returns true if 403 was handled
  */
-export function handleForbidden(response: Response): boolean {
+export async function handleForbidden(response: Response): Promise<boolean> {
   if (response.status !== 403) return false;
+
+  // Guest on an admin route: the token is fine, only the role is not
+  const body = await response
+    .clone()
+    .json()
+    .catch(() => undefined);
+
+  if (body?.code === "FORBIDDEN_ROLE") {
+    console.warn("[AUTH] 403 - admin access required");
+    return true;
+  }
 
   console.error("[AUTH] 403 - JWT invalid, logging out");
   if (getAuthToken()) {

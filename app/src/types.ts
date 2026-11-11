@@ -252,6 +252,7 @@ export type ConfigType = {
   parameters: ConfigParametersType;
   tiddl_config: ConfigTiddleType;
   configErrors?: string[];
+  isGuest?: boolean;
 };
 
 export type ConfigParametersType = { [key: string]: string | undefined };

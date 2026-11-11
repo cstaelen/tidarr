@@ -27,6 +27,11 @@ This documentation describes how to use the Tidarr REST API to automate download
 
 All API endpoints (except `/api/is-auth-active`) require authentication if `ADMIN_PASSWORD` is set in your Docker configuration.
 
+If `GUEST_PASSWORD` is also set, a token obtained with that password gets read-only
+access: search, browse, queue listing and `POST /api/save`. Every other endpoint
+answers `403` with `{"error": true, "code": "FORBIDDEN_ROLE"}`. API keys always get
+admin rights.
+
 ---
 
 ## Authentication
@@ -114,6 +119,8 @@ GET /api/is-auth-active
   "authType": "password"
 }
 ```
+
+`POST /api/auth` also returns the granted `role` (`"admin"` or `"guest"`).
 
 **Possible `authType` values:**
 - `"password"` - Password authentication (ADMIN_PASSWORD)
