@@ -59,18 +59,13 @@ export const PlexSearchButton = ({
         const xmlDoc = parser.parseFromString(xmlText, "text/xml");
 
         // Count Directory elements by type attribute
-        let artistsCount = 0;
-        let albumsCount = 0;
-
-        const directories = xmlDoc.querySelectorAll("Directory");
-        directories.forEach((dir) => {
-          const type = dir.getAttribute("type");
-          if (type === "artist") {
-            artistsCount++;
-          } else if (type === "album") {
-            albumsCount++;
-          }
-        });
+        const directories = Array.from(xmlDoc.querySelectorAll("Directory"));
+        const artistsCount = directories.filter(
+          (dir) => dir.getAttribute("type") === "artist",
+        ).length;
+        const albumsCount = directories.filter(
+          (dir) => dir.getAttribute("type") === "album",
+        ).length;
 
         // Only fetch tracks if needed (when pivot is tracks or search)
         let tracksCount = 0;

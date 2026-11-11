@@ -114,51 +114,36 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
   ): Promise<T | undefined> {
     options = withAuthHeader(options);
 
-    let output!: T;
-
     try {
       setApiError(undefined);
 
-      await fetch(url, { ...options, cache: "no-cache" }).then(
-        function (response) {
-          if (response.status === 200) {
-            output = response.json().then<T>(function (data) {
-              return data;
-            }) as T;
+      const response = await fetch(url, { ...options, cache: "no-cache" });
 
-            return;
-          }
+      if (response.status === 200) {
+        return (await response.json()) as T;
+      }
 
-          if (response.status === 401) {
-            // Unauthorized - redirect to login
-            if (getAuthToken()) {
-              localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
-            }
-            // window.location.href = "/login";
-            output = response.json().then<T>(function (data) {
-              return data;
-            }) as T;
+      if (response.status === 401) {
+        // Unauthorized - drop the stored token
+        if (getAuthToken()) {
+          localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
+        }
 
-            return;
-          }
+        return (await response.json()) as T;
+      }
 
-          if (handleForbidden(response)) {
-            return;
-          }
+      if (handleForbidden(response)) {
+        return;
+      }
 
-          if (response.status >= 500) {
-            setApiError(response);
-            return;
-          }
-        },
-      );
+      if (response.status >= 500) {
+        setApiError(response);
+        return;
+      }
     } catch (e: unknown) {
       console.log((e as Error).message);
       setApiError({ statusText: (e as Error).message } as Response);
-      return;
     }
-
-    return output;
   }
 
   function streamExpressJS(
