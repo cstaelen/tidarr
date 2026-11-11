@@ -35,7 +35,7 @@ test("Tidarr download : Should be able to download track", async ({ page }) => {
   await page.getByRole("tab", { name: "Tracks" }).first().click();
 
   await expect(page.getByRole("main")).toContainText(
-    "Smells Like Teen Spirit5 min.NirvanaAlbum : NevermindAlbumTrack",
+    "Smells Like Teen Spirit5 min.MAXNirvanaAlbum : NevermindAlbumTrack",
   );
 
   // Test other quality

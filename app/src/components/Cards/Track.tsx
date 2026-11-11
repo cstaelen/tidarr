@@ -59,7 +59,10 @@ function StackChips({ track }: { track: TrackType }) {
         color="success"
         size="small"
       />
-      <ChipQuality quality={track?.audioQuality?.toLowerCase()} />
+      <ChipQuality
+        audioQuality={track?.audioQuality}
+        mediaMetadata={track?.mediaMetadata}
+      />
       <ChipAtmos audioModes={track?.audioModes} />
       {track?.explicit && (
         <Chip label="Explicit" variant="outlined" size="small" />
