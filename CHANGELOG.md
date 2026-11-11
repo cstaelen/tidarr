@@ -6,6 +6,10 @@ Tidarr notable changes.
 
 ## 📦 1.3.0
 
+### 🖍 Changes
+
+- [API] Show DRM tiddl error in console
+
 ### 🐛 Fixed
 
 - [Front] Show quality tags in track/album cards and headers
