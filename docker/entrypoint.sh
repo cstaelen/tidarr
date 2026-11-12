@@ -69,7 +69,8 @@ if [ -n "$PUID" ] && [ -n "$PGID" ]; then
   if [ "$ENVIRONMENT" = "development" ]; then
     exec su-exec $PUID:$PGID sh -c "export HOME=/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && export CI=true && exec sh -c 'pnpm install && pnpm dev'"
   else
-    exec su-exec $PUID:$PGID sh -c "export HOME=/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && exec pnpm --filter tidarr-api prod"
+    # Exec node directly (not pnpm) so the API is PID 1 and receives SIGTERM on docker stop
+    exec su-exec $PUID:$PGID sh -c "export HOME=/shared && export UMASK=$EFFECTIVE_UMASK && umask $EFFECTIVE_UMASK && cd /tidarr/api && exec node ./dist/index.js"
   fi
 else
   # Run as root (default)
@@ -78,6 +79,7 @@ else
     pnpm install
     pnpm dev
   else
-    pnpm --filter tidarr-api prod
+    # Exec node directly (not pnpm) so the API is PID 1 and receives SIGTERM on docker stop
+    cd /tidarr/api && exec node ./dist/index.js
   fi
 fi
