@@ -5,7 +5,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useConfigProvider } from "src/provider/ConfigProvider";
-import { AlbumArtistType } from "src/types";
+import { AlbumArtistType, MediaMetadataType } from "src/types";
 import { formatDate } from "src/utils/helpers";
 
 import { ArtistAvatar } from "./ArtistAvatar";
@@ -221,6 +221,7 @@ type CardSwitchDisplayProps = {
   // Metadata chips
   audioQuality?: string;
   audioModes?: string[];
+  mediaMetadata?: MediaMetadataType;
   numberOfTracks?: number;
   duration?: number;
   releaseDate?: string;
@@ -241,6 +242,7 @@ export default function CardSwitchDisplay({
   artist,
   audioQuality,
   audioModes,
+  mediaMetadata,
   numberOfTracks,
   duration,
   releaseDate,
@@ -369,9 +371,10 @@ export default function CardSwitchDisplay({
                   flex: "1 1 0",
                 }}
               >
-                {audioQuality && (
-                  <ChipQuality quality={audioQuality.toLowerCase()} />
-                )}
+                <ChipQuality
+                  audioQuality={audioQuality}
+                  mediaMetadata={mediaMetadata}
+                />
                 <ChipAtmos audioModes={audioModes} />
                 {numberOfTracks && (
                   <Chip label={`${numberOfTracks} tracks`} size="small" />

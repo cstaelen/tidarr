@@ -4,6 +4,16 @@ Tidarr notable changes.
 
 [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) format.
 
+## 📦 1.3.0
+
+### 🖍 Changes
+
+- [API] Show DRM tiddl error in console
+
+### 🐛 Fixed
+
+- [Front] Show quality tags in track/album cards and headers
+
 ## 📦 1.2.9
 
 ### 🚀 Added

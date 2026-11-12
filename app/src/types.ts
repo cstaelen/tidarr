@@ -1,5 +1,11 @@
 import { ChildProcessWithoutNullStreams } from "child_process";
 
+// COMMON
+
+export type MediaMetadataType = {
+  tags: string[];
+};
+
 // TRACK
 
 export type TrackType = {
@@ -13,6 +19,7 @@ export type TrackType = {
   duration: number;
   audioQuality: string;
   audioModes?: string[];
+  mediaMetadata?: MediaMetadataType;
   releaseDate: string;
   title: string;
   id: string;
@@ -60,6 +67,7 @@ export type AlbumType = {
   duration: number;
   audioQuality: string;
   audioModes?: string[];
+  mediaMetadata?: MediaMetadataType;
   numberOfTracks: number;
   releaseDate: string;
   title: string;

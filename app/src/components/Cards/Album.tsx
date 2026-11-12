@@ -12,7 +12,9 @@ export default function AlbumCard({ album }: { album: AlbumType }) {
       linkUrl={`/album/${album.id}`}
       downloadType="album"
       downloadLabel="Album"
+      audioQuality={album.audioQuality}
       audioModes={album.audioModes}
+      mediaMetadata={album.mediaMetadata}
       numberOfTracks={album.numberOfTracks}
       duration={album.duration}
       releaseDate={album.releaseDate}

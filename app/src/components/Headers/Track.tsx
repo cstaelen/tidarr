@@ -82,7 +82,10 @@ export default function TrackHeader({ track }: { track: TrackType }) {
               color="success"
               size="small"
             />
-            <ChipQuality quality={track?.audioQuality?.toLowerCase()} />
+            <ChipQuality
+              audioQuality={track.audioQuality}
+              mediaMetadata={track.mediaMetadata}
+            />
             <ChipAtmos audioModes={track.audioModes} />
             {track.explicit && (
               <Chip label="Explicit" size="small" variant="outlined" />

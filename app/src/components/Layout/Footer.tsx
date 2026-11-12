@@ -4,7 +4,6 @@ import { GitHub } from "@mui/icons-material";
 import { Button, Link, useTheme } from "@mui/material";
 import { TIDARR_REPO_URL } from "src/contants";
 import { useConfigProvider } from "src/provider/ConfigProvider";
-import { customColors } from "src/utils/theme";
 
 export const Footer = () => {
   const { isUpdateAvailable, config } = useConfigProvider();
@@ -27,7 +26,7 @@ export const Footer = () => {
       {isUpdateAvailable && (
         <Button
           size="small"
-          sx={{ color: customColors.alert }}
+          sx={{ color: "warning.main" }}
           onClick={() => navigate("/parameters")}
           color="warning"
         >
