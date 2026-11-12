@@ -5,8 +5,8 @@ import { MediaMetadataType, QualityType } from "src/types";
 const QUALITY_ORDER: QualityType[] = ["low", "normal", "high", "max"];
 
 const QUALITY_STYLES: Record<QualityType, SxProps<Theme>> = {
-  max: { backgroundColor: "warning.main", color: "common.black" },
-  high: { backgroundColor: "primary.main", color: "common.black" },
+  max: { color: "warning.main", borderColor: "warning.main" },
+  high: { color: "primary.main", borderColor: "primary.main" },
   normal: {},
   low: {},
 };
@@ -58,9 +58,7 @@ export function ChipQuality({
         label={label}
         aria-label={`Quality: ${label}`}
         size="small"
-        variant={
-          quality === "max" || quality === "high" ? "filled" : "outlined"
-        }
+        variant={"outlined"}
         sx={QUALITY_STYLES[quality]}
       />
     </Tooltip>
