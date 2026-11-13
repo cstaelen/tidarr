@@ -1,5 +1,11 @@
-import { useEffect, useState } from "react";
-import { Pause, PlayArrow, Stop } from "@mui/icons-material";
+import { useEffect, useRef, useState } from "react";
+import {
+  Pause,
+  PlayArrow,
+  SkipNext,
+  SkipPrevious,
+  Stop,
+} from "@mui/icons-material";
 import { Box, IconButton, Slider } from "@mui/material";
 import { TrackCoverLink } from "src/components/Cards/Track";
 import { usePlayer } from "src/provider/PlayerProvider";
@@ -14,7 +20,22 @@ interface PlayBackProps {
 const PlayBack = ({ track, audioUrl, audioRef }: PlayBackProps) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const { stop, isPlaying, setIsPlaying } = usePlayer();
+  const {
+    stop,
+    isPlaying,
+    setIsPlaying,
+    playNext,
+    playPrevious,
+    hasPrevious,
+    hasNext,
+  } = usePlayer();
+
+  // Keep the latest playNext available to the audio "ended" listener without
+  // restarting playback when the queue state changes.
+  const playNextRef = useRef(playNext);
+  useEffect(() => {
+    playNextRef.current = playNext;
+  }, [playNext]);
 
   useEffect(() => {
     if (!audioRef?.current) return;
@@ -31,7 +52,17 @@ const PlayBack = ({ track, audioUrl, audioRef }: PlayBackProps) => {
 
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
     const handleDurationChange = () => setDuration(audio.duration);
-    const handleEnded = () => setIsPlaying(false);
+    const handleEnded = () => {
+      // Continuous playback: advance to the next track of the queue, if
+      // any. When no track could be signed, playback stops cleanly and the
+      // UI reflects it.
+      playNextRef
+        .current()
+        .then((advanced) => {
+          if (!advanced) setIsPlaying(false);
+        })
+        .catch(() => setIsPlaying(false));
+    };
 
     audio.addEventListener("timeupdate", handleTimeUpdate);
     audio.addEventListener("durationchange", handleDurationChange);
@@ -148,12 +179,32 @@ const PlayBack = ({ track, audioUrl, audioRef }: PlayBackProps) => {
         }}
       >
         <IconButton
+          onClick={playPrevious}
+          disabled={!hasPrevious}
+          size="small"
+          sx={{ color: "white", p: 0 }}
+          aria-label="Previous track"
+          data-testid="playback-previous"
+        >
+          <SkipPrevious />
+        </IconButton>
+        <IconButton
           onClick={togglePlayPause}
           size="small"
           sx={{ color: "white", p: 0 }}
           data-testid={isPlaying ? "playback-pause" : "playback-resume"}
         >
           {isPlaying ? <Pause /> : <PlayArrow />}
+        </IconButton>
+        <IconButton
+          onClick={playNext}
+          disabled={!hasNext}
+          size="small"
+          sx={{ color: "white", p: 0 }}
+          aria-label="Next track"
+          data-testid="playback-next"
+        >
+          <SkipNext />
         </IconButton>
         <Box
           sx={{
