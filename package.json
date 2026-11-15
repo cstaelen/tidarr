@@ -13,9 +13,9 @@
     "format-check": "oxfmt -c .oxfmtrc.json --check \"**/*.{js,jsx,ts,tsx,mjs,cjs,json,css}\""
   },
   "devDependencies": {
-    "concurrently": "^10.0.6",
-    "oxfmt": "^0.76.0",
-    "oxlint": "^1.91.0",
+    "concurrently": "^10.0.7",
+    "oxfmt": "^0.78.0",
+    "oxlint": "^1.93.0",
     "shell-quote": "1.12.0",
     "typescript": "^7.0.2"
   },
