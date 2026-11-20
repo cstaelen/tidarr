@@ -332,6 +332,13 @@ test("Lidarr SABnzbd: Should show completed album in history", async ({
   expect(historyJson).toHaveProperty("history");
   expect(historyJson.history).toHaveProperty("slots");
   expect(Array.isArray(historyJson.history.slots)).toBe(true);
+
+  if (historyJson.history.slots.length > 0) {
+    const slot = historyJson.history.slots[0];
+    expect(typeof slot.bytes).toBe("number");
+    expect(typeof slot.downloaded).toBe("number");
+    expect(typeof slot.size).toBe("string");
+  }
 });
 
 test("Lidarr SABnzbd: Should delete item from queue", async ({ page }) => {
