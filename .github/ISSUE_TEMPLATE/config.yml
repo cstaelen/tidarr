@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Question or help with my setup
+    url: https://github.com/cstaelen/tidarr/discussions
+    about: Not sure it is a bug? Ask in Discussions — setup help, Tidal auth trouble, "how do I ..." questions.
+  - name: 📖 Documentation & wiki
+    url: https://github.com/cstaelen/tidarr/wiki
+    about: Environment variables, service integrations (Plex, Jellyfin, Navidrome, Lidarr, beets), reverse proxy and API reference.
+  - name: ☕ Support the project
+    url: https://www.buymeacoffee.com/clst
+    about: Tidarr is maintained by a single person on his free time. Donations keep it moving.

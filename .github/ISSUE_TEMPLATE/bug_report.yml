@@ -1,0 +1,152 @@
+name: 🐛 Bug report
+description: Something is broken or behaves unexpectedly
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug 🙏
+
+        Tidarr is maintained by a single person, so a complete report really is the
+        difference between a fix this week and three round-trips of questions.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Before reporting
+      options:
+        - label: I searched [existing issues](https://github.com/cstaelen/tidarr/issues?q=is%3Aissue) (including closed ones) and found no duplicate.
+          required: true
+        - label: I checked the [wiki / documentation](https://github.com/cstaelen/tidarr/wiki).
+          required: true
+        - label: I am running the latest Tidarr version, or I can confirm the bug still happens on it.
+          required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Tidarr version
+      description: "Shown in the app footer (bottom of the page) and in Parameters → Update. Example: 1.2.9"
+      placeholder: "1.2.9"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: image-tag
+    attributes:
+      label: Docker image tag
+      options:
+        - cstaelen/tidarr:latest
+        - cstaelen/tidarr:prerelease
+        - cstaelen/tidarr:testing
+        - A pinned version tag (e.g. cstaelen/tidarr:1.2.9)
+        - Built from source
+        - Other / not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: deployment
+    attributes:
+      label: How do you run Tidarr?
+      options:
+        - docker compose
+        - docker run
+        - Unraid
+        - Synology / QNAP
+        - Portainer
+        - Kubernetes
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of Tidarr?
+      description: Pick the closest one — it decides where I start looking.
+      options:
+        - Search / browsing
+        - Download & queue
+        - Artist discography download
+        - Playlist / mix / favorites sync
+        - Tidal authentication
+        - Audio quality or file tags
+        - Post-processing (beets, replay gain, custom scripts, file moves)
+        - Lidarr / Prowlarr connector
+        - Media server integration (Plex, Jellyfin, Navidrome)
+        - Notifications (Gotify, ntfy, Apprise, webhook)
+        - UI / display
+        - Reverse proxy / URL base / OIDC
+        - API
+        - Other / not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the actual behaviour. If a download produced the wrong file, say what you got.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: |
+        Be specific. If it involves a particular artist, album or playlist, **paste the Tidal link or ID** —
+        catalogues differ a lot from one country to another, and I usually cannot reproduce without it.
+      placeholder: |
+        1. Search for "..." (https://tidal.com/album/123456)
+        2. Click the download button on ...
+        3. Open the queue and see ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Relevant configuration
+      description: |
+        The `environment:` section of your compose file, or the `-e` flags of your `docker run`.
+        **Redact your secrets** — `ADMIN_PASSWORD`, `PLEX_TOKEN`, `GOTIFY_TOKEN`, `OIDC_CLIENT_SECRET`, etc.
+        Download-related settings worth including: `ARTIST_SINGLE_DOWNLOAD`, `DOWNLOAD_BATCH_SIZE`,
+        `DOWNLOAD_BATCH_DELAY`, `NO_DOWNLOAD`, `ENABLE_BEETS`, `REPLAY_GAIN`, `PUID`/`PGID`/`UMASK`.
+      render: yaml
+      placeholder: |
+        environment:
+          - ARTIST_SINGLE_DOWNLOAD=true
+          - DOWNLOAD_BATCH_SIZE=10
+          - ENABLE_BEETS=true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        Container logs: `docker logs tidarr --tail 200`
+        tiddl download log: `/shared/.tiddl/latest.log` inside your config volume.
+        Neither contains your Tidal token, so they are safe to paste as-is.
+      render: shell
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and OS
+      description: Only needed for UI or display bugs.
+      placeholder: "Firefox 145 on macOS 27"
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Screenshots, a `.processing` folder listing, when it started happening, whether it is intermittent.

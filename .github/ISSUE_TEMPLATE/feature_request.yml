@@ -1,0 +1,64 @@
+name: ✨ Feature request
+description: Suggest a new feature or an improvement
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ideas are welcome! Keep in mind Tidarr has a single maintainer working on it in his free time,
+        so requests can take a while — and a clear use case makes them much more likely to happen.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Before requesting
+      options:
+        - label: I searched [existing issues](https://github.com/cstaelen/tidarr/issues?q=is%3Aissue) (including closed ones) and found no duplicate.
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Describe what you are trying to do today and where Tidarr gets in the way. The "why" matters more than the "what".
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: What would you like Tidarr to do?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of Tidarr would this touch?
+      options:
+        - Search / browsing
+        - Download & queue
+        - Playlist / mix / favorites sync
+        - Audio quality or file tags
+        - Post-processing (beets, replay gain, custom scripts, file moves)
+        - Lidarr / Prowlarr connector
+        - Media server integration (Plex, Jellyfin, Navidrome)
+        - Notifications
+        - UI / display
+        - API
+        - Other / several
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered
+      description: Existing options, env vars or custom post-processing scripts you tried, and why they did not fit.
+
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contribution
+      options:
+        - label: I would be willing to open a pull request for this.
