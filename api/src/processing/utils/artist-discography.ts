@@ -8,6 +8,7 @@ import { logs } from "./logs";
 type AlbumItem = {
   id: number;
   title: string;
+  explicit?: boolean;
   artist?: { name?: string };
   artists?: Array<{ name?: string }>;
 };
@@ -23,16 +24,36 @@ async function fetchAlbumsByFilter(
   return fetchAllTidalPages<AlbumItem>(baseUrl, "albums");
 }
 
+/**
+ * Keeps a single album per title, preferring the explicit release.
+ *
+ * Tidal lists the clean and the explicit variant of a release under the exact
+ * same title, so a title collision is how we spot the pair. Without an explicit
+ * preference the winner is whichever variant the API happened to return first,
+ * which is why clean albums sometimes end up in the queue.
+ *
+ * A non-explicit album is NOT necessarily a "clean" edit (a release with no
+ * profanity is flagged non-explicit too), so the preference only applies to
+ * albums colliding on the same title — nothing is ever filtered out on its own.
+ */
 function deduplicateAlbums(albums: AlbumItem[]): AlbumItem[] {
   const seenIds = new Set<number>();
-  const seenTitles = new Set<string>();
-  return albums.filter((album) => {
-    const title = album.title.toLowerCase().trim();
-    if (seenIds.has(album.id) || seenTitles.has(title)) return false;
+  const byTitle = new Map<string, AlbumItem>();
+
+  for (const album of albums) {
+    if (seenIds.has(album.id)) continue;
     seenIds.add(album.id);
-    seenTitles.add(title);
-    return true;
-  });
+
+    const title = album.title.toLowerCase().trim();
+    const kept = byTitle.get(title);
+
+    // Map.set on an existing key keeps the original insertion position.
+    if (!kept || (album.explicit && !kept.explicit)) {
+      byTitle.set(title, album);
+    }
+  }
+
+  return [...byTitle.values()];
 }
 
 async function fetchAllArtistAlbums(
