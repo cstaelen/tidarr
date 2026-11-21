@@ -8,11 +8,13 @@ Tidarr notable changes.
 
 ### 🖍 Changes
 
-- [API] Show DRM tiddl error in console
+- [API] Show DRM tiddl error in console #948
+- [API] Download discography now prefer original explicit album than censored one #948
 
 ### 🐛 Fixed
 
-- [Front] Show quality tags in track/album cards and headers
+- [Front] Show quality tags in track/album cards and headers #955
+- [Docker] Gracefull shutdown #959
 
 ## 📦 1.2.9
 
