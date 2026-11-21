@@ -212,6 +212,22 @@ environment:
   - ADMIN_PASSWORD=<string> # if not set, no password are required to access
 ```
 
+### Guest access (read-only)
+
+Set a second password to give browse-and-request access without handing over
+the settings. A guest can search, browse, preview and add items to the download
+queue, but cannot reach the settings, the watch list, the history or the queue
+management (pause, retry, remove).
+
+Requires `ADMIN_PASSWORD`: without it the instance is already public.
+
+```yaml
+environment:
+  - ...
+  - ADMIN_PASSWORD=<string>
+  - GUEST_PASSWORD=<string> # optional, read-only access
+```
+
 ### OpenID Connect (OIDC) Authentication
 
 Tidarr supports OIDC authentication for integration with identity providers like Keycloak, PocketID, Authentik, etc.

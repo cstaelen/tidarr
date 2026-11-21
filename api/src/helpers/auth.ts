@@ -2,7 +2,32 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 import { getOrCreateApiKey } from "../services/api-key";
-import { is_oidc_configured } from "../services/auth";
+import { is_oidc_configured, resolve_token_role } from "../services/auth";
+
+// Everything a guest may call. A new route is admin only until it lands here.
+const GUEST_ROUTES = [
+  "GET /api/settings",
+  "GET /api/custom-css",
+  "GET /api/queue/list",
+  "GET /api/queue/status",
+  "GET /api/stream-processing",
+  "POST /api/save",
+];
+
+/**
+ * Proxies are mounted with app.use, so they have no route pattern: they
+ * forward anything upstream, and a guest only gets to read.
+ */
+function isGuestAllowed(req: Request) {
+  if (!req.route) {
+    return (
+      req.baseUrl.startsWith("/proxy/") && ["GET", "HEAD"].includes(req.method)
+    );
+  }
+
+  // req.route.path is the pattern, so "/stream-item-output/:id" stays exact
+  return GUEST_ROUTES.includes(`${req.method} ${req.baseUrl}${req.route.path}`);
+}
 
 export function ensureAccessIsGranted(
   req: Request,
@@ -25,7 +50,10 @@ export function ensureAccessIsGranted(
   const configuredApiKey = getOrCreateApiKey();
 
   // No auth configured
-  if (!envPassword && !enableOidc) return next();
+  if (!envPassword && !enableOidc) {
+    req.role = "admin";
+    return next();
+  }
 
   if (!jwtSecret) {
     res
@@ -37,6 +65,7 @@ export function ensureAccessIsGranted(
   // If API key is provided (*arr apps), validate it
   if (providedApiKey) {
     if (providedApiKey === configuredApiKey) {
+      req.role = "admin";
       return next();
     } else {
       res.status(403).json({ error: true, message: "Invalid API key" });
@@ -55,16 +84,22 @@ export function ensureAccessIsGranted(
       return;
     }
 
-    const payload = decoded as jwt.JwtPayload;
+    const role = resolve_token_role(decoded as jwt.JwtPayload);
 
-    // Validate based on auth type
-    if (envPassword && payload.tidarrPasswd !== envPassword) {
-      res.status(403).json({ error: true, message: "Wrong password" });
+    if (!role) {
+      res.status(403).json({ error: true, message: "Invalid token" });
       return;
     }
 
-    if (enableOidc && !payload.oidcSub) {
-      res.status(403).json({ error: true, message: "Invalid OIDC token" });
+    req.role = role;
+
+    if (role === "guest" && !isGuestAllowed(req)) {
+      // The code tells the front the token is valid, only the role is not
+      res.status(403).json({
+        error: true,
+        code: "FORBIDDEN_ROLE",
+        message: "Admin access required",
+      });
       return;
     }
 

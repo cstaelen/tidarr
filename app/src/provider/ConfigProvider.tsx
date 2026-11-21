@@ -41,6 +41,7 @@ function compareVersions(a: string, b: string): number {
 type DisplayType = "small" | "large";
 
 type ConfigContextType = {
+  isGuest: boolean;
   isUpdateAvailable: boolean;
   releaseData: undefined | ReleaseGithubType;
   changeLogData: string[];
@@ -68,6 +69,7 @@ const ConfigContext = React.createContext<ConfigContextType>(
 );
 
 export function ConfigProvider({ children }: { children: ReactNode }) {
+  const [isGuest, setIsGuest] = useState(false);
   const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
   const [tokenMissing, setTokenMissing] = useState(false);
   const [releaseData, setReleaseData] = useState<ReleaseGithubType>();
@@ -103,6 +105,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     const output = await get_settings();
     const data = output as ConfigType;
 
+    setIsGuest(!!data?.isGuest);
     setTokenMissing(data?.noToken);
     setConfig(data?.parameters);
     setTiddlConfig(data?.tiddl_config);
@@ -188,6 +191,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   }, [display]);
 
   const value = {
+    isGuest,
     isUpdateAvailable,
     releaseData,
     changeLogData,

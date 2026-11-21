@@ -170,6 +170,7 @@ router.get("/auth/oidc/callback", async (req: Request, res: Response) => {
     // Generate Tidarr JWT
     const tidarrToken = jwt.sign(
       {
+        role: "admin",
         oidcSub: claims.sub,
         email: claims.email,
         name: claims.name,

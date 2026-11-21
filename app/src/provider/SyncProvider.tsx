@@ -8,6 +8,7 @@ import React, {
 import { SyncItemType } from "src/types";
 
 import { useApiFetcher } from "./ApiFetcherProvider";
+import { useConfigProvider } from "./ConfigProvider";
 
 interface SyncContextType {
   syncList: SyncItemType[];
@@ -27,6 +28,7 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [syncList, setSyncList] = useState<SyncItemType[]>([]);
+  const { config, isGuest } = useConfigProvider();
   const {
     actions: {
       add_sync_item,
@@ -98,11 +100,14 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   useEffect(() => {
+    // Wait for the role: the watch list is admin only
+    if (!config || isGuest) return;
+
     get_sync_list().then((list) => {
       if (list) setSyncList(list);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Load sync list once on mount only
+  }, [config, isGuest]); // Load sync list once the config is known
 
   const value = {
     syncList,

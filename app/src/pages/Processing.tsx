@@ -2,6 +2,7 @@ import React from "react";
 import { Queue, Sync } from "@mui/icons-material";
 import { Box, Container, Portal, Tab, Tabs, useTheme } from "@mui/material";
 import ProcessingList from "src/components/Processing/ProcessingList";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 import { useSync } from "src/provider/SyncProvider";
 
@@ -39,6 +40,7 @@ export default function ProcessingTabs() {
   };
 
   const { syncList } = useSync();
+  const { isGuest } = useConfigProvider();
   const { processingList } = useProcessingProvider();
 
   return (
@@ -67,20 +69,22 @@ export default function ProcessingTabs() {
                 </Box>
               }
             />
-            <Tab
-              label={
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                  }}
-                >
-                  <Sync />
-                  {`Watch list (${syncList?.length || 0})`}
-                </Box>
-              }
-            />
+            {!isGuest && (
+              <Tab
+                label={
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                    }}
+                  >
+                    <Sync />
+                    {`Watch list (${syncList?.length || 0})`}
+                  </Box>
+                }
+              />
+            )}
           </Tabs>
         </Container>
       </Portal>
@@ -88,9 +92,11 @@ export default function ProcessingTabs() {
         <TabPanel value={value} index={0} dir={theme.direction}>
           <ProcessingList />
         </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-          <WatchList />
-        </TabPanel>
+        {!isGuest && (
+          <TabPanel value={value} index={1} dir={theme.direction}>
+            <WatchList />
+          </TabPanel>
+        )}
       </Container>
     </Box>
   );

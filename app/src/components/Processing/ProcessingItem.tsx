@@ -16,6 +16,7 @@ import {
   TableRow,
   Tooltip,
 } from "@mui/material";
+import { useConfigProvider } from "src/provider/ConfigProvider";
 import { useProcessingProvider } from "src/provider/ProcessingProvider";
 import { ProcessingItemType } from "src/types";
 
@@ -34,6 +35,7 @@ const STATUS_ICONS: Record<string, ReactElement> = {
 export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
   const status = item?.status;
   const { actions, isPaused, isBeingDeleted } = useProcessingProvider();
+  const { isGuest } = useConfigProvider();
 
   if (!item?.status) return null;
 
@@ -65,11 +67,13 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
     >
       <TableCell width="6rem">
         <Box sx={{ alignItems: "center", display: "flex", flex: "0 0 auto" }}>
-          <RemoveButton onClick={() => actions.removeItem(item.id)}>
-            <ClearIcon />
-          </RemoveButton>
+          {!isGuest && (
+            <RemoveButton onClick={() => actions.removeItem(item.id)}>
+              <ClearIcon />
+            </RemoveButton>
+          )}
           {renderStatusIcon()}
-          {status === "error" && (
+          {!isGuest && status === "error" && (
             <>
               &nbsp;&nbsp;
               {item.errorStage === "post_processing" ? (
@@ -96,7 +100,7 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
               )}
             </>
           )}
-          {isPaused && status === "queue_download" && (
+          {!isGuest && isPaused && status === "queue_download" && (
             <>
               &nbsp;&nbsp;
               <Tooltip title="Download now">
@@ -111,7 +115,9 @@ export const ProcessingItem = ({ item }: { item: ProcessingItemType }) => {
             </>
           )}
           &nbsp;&nbsp;
-          {item.status !== "queue_download" && <DialogTerminal item={item} />}
+          {!isGuest && item.status !== "queue_download" && (
+            <DialogTerminal item={item} />
+          )}
         </Box>
       </TableCell>
       <TableCell scope="row">
