@@ -17,10 +17,10 @@
     "express-http-proxy": "^2.1.2",
     "jsonwebtoken": "^9.0.3",
     "node-cron": "^4.6.0",
-    "node-json-db": "^2.6.0",
-    "openid-client": "^6.8.9",
+    "node-json-db": "^2.6.2",
+    "openid-client": "^6.9.0",
     "toml": "^5.0.1",
-    "ws": "^8.22.2"
+    "ws": "^8.23.0"
   },
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",
