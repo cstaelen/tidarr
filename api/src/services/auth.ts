@@ -1,16 +1,21 @@
-import { createHash } from "crypto";
+import { createHmac } from "crypto";
 import { Response } from "express";
 import jwt from "jsonwebtoken";
 
 export type UserRole = "admin" | "guest";
 
 /**
- * Short hash of a password, stored in the JWT instead of the password itself.
+ * Short HMAC of a password, stored in the JWT instead of the password itself.
  * Lets us invalidate tokens when a password changes, without shipping the
- * password inside a token anyone can decode.
+ * password inside a token anyone can decode. Keyed with JWT_SECRET: a plain
+ * hash of a self-hosted password would be brute-forceable offline by anyone
+ * reading a token.
  */
 function password_fingerprint(password: string) {
-  return createHash("sha256").update(password).digest("hex").slice(0, 16);
+  return createHmac("sha256", process.env?.JWT_SECRET || "")
+    .update(password)
+    .digest("hex")
+    .slice(0, 16);
 }
 
 /**

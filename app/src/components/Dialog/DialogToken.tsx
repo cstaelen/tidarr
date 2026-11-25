@@ -8,7 +8,7 @@ import { useConfigProvider } from "src/provider/ConfigProvider";
 import { DialogHandler } from ".";
 
 export const DialogToken = () => {
-  const { tokenMissing } = useConfigProvider();
+  const { tokenMissing, isGuest } = useConfigProvider();
   const {
     actions: { get_token_sse },
   } = useApiFetcher();
@@ -17,17 +17,21 @@ export const DialogToken = () => {
   const [forceClose, setForceClose] = useState<boolean>(false);
   const [sseController, setSseController] = useState<AbortController>();
 
+  // Authenticating is admin only (/api/run-token would answer 403), but a
+  // guest still needs to know why the app is empty
+  const canAuthenticate = tokenMissing && !isGuest;
+
   useEffect(() => {
     function runTokenSSE(controller: EventSourceController) {
       setOutput("");
       setSseController(controller);
     }
 
-    if (!tokenMissing || error) return;
+    if (!canAuthenticate || error) return;
 
     const { controller } = get_token_sse(setOutput);
     runTokenSSE(controller);
-  }, [error, get_token_sse, tokenMissing]);
+  }, [canAuthenticate, error, get_token_sse]);
 
   useEffect(() => {
     function closeSSE(isError?: boolean, message?: string) {
@@ -36,7 +40,7 @@ export const DialogToken = () => {
       return;
     }
 
-    if (!tokenMissing) return;
+    if (!canAuthenticate) return;
 
     if (output?.includes("Authenticated!")) {
       closeSSE(false, "Authenticated !");
@@ -45,16 +49,16 @@ export const DialogToken = () => {
     if (output?.includes("AuthError")) {
       closeSSE(true);
     }
-  }, [output, sseController, tokenMissing]);
+  }, [canAuthenticate, output, sseController]);
 
   useEffect(() => {
-    if ((tokenMissing || !!sseController) && !error) return;
+    if ((canAuthenticate || !!sseController) && !error) return;
     setTimeout(() => {
       console.log("Closing token SSE.");
       setSseController(undefined);
       sseController?.abort();
     });
-  }, [sseController, tokenMissing, error]);
+  }, [canAuthenticate, sseController, error]);
 
   return (
     <DialogHandler
@@ -66,40 +70,49 @@ export const DialogToken = () => {
       }}
       open={!!tokenMissing && !forceClose}
     >
-      <p>Click on the link below to authenticate:</p>
-      <Paper
-        elevation={0}
-        sx={{
-          padding: "1rem",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          lineHeight: "1",
-        }}
-      >
-        <Link href={output} target="_blank">
-          {output}
-        </Link>
-        {sseController && <CircularProgress size={16} sx={{ mx: 2 }} />}
-      </Paper>
-      <Typography
-        sx={{
-          fontStyle: "italic",
-          fontSize: 14,
-          py: 1,
-        }}
-      >
-        This dialog will close after authentication.
-      </Typography>
-      <p>
-        ... or create Tidal token using CLI :{" "}
-        <Link
-          href="https://github.com/cstaelen/tidarr?tab=readme-ov-file#tidal-authentication"
-          target="_blank"
-        >
-          Github
-        </Link>
-      </p>
+      {isGuest ? (
+        <p>
+          This Tidarr instance is not connected to Tidal yet, so searching and
+          browsing will stay empty. Ask its administrator to authenticate.
+        </p>
+      ) : (
+        <>
+          <p>Click on the link below to authenticate:</p>
+          <Paper
+            elevation={0}
+            sx={{
+              padding: "1rem",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              lineHeight: "1",
+            }}
+          >
+            <Link href={output} target="_blank">
+              {output}
+            </Link>
+            {sseController && <CircularProgress size={16} sx={{ mx: 2 }} />}
+          </Paper>
+          <Typography
+            sx={{
+              fontStyle: "italic",
+              fontSize: 14,
+              py: 1,
+            }}
+          >
+            This dialog will close after authentication.
+          </Typography>
+          <p>
+            ... or create Tidal token using CLI :{" "}
+            <Link
+              href="https://github.com/cstaelen/tidarr?tab=readme-ov-file#tidal-authentication"
+              target="_blank"
+            >
+              Github
+            </Link>
+          </p>
+        </>
+      )}
     </DialogHandler>
   );
 };

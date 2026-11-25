@@ -22,7 +22,6 @@ function MainLayout({ children }: { children: ReactNode }) {
   const [appLoaded, setAppLoaded] = useState(false);
   const {
     config,
-    isGuest,
     releaseData,
     actions: { checkAPI, checkForUpdates },
   } = useConfigProvider();
@@ -69,7 +68,7 @@ function MainLayout({ children }: { children: ReactNode }) {
                   )}
                 </Content>
                 <ProcessingButton />
-                {!isGuest && <DialogToken />}
+                <DialogToken />
                 <DialogNoAPI />
                 <DialogConfigError />
                 <DialogChangelog />

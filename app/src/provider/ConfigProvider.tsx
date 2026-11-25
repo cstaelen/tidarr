@@ -15,6 +15,7 @@ import {
 } from "../types";
 
 import { useApiFetcher } from "./ApiFetcherProvider";
+import { useAuth } from "./AuthProvider";
 
 // Compare two version strings (e.g., "v1.1.3" vs "v1.1.7")
 // Returns: -1 if a < b, 0 if a == b, 1 if a > b
@@ -69,7 +70,6 @@ const ConfigContext = React.createContext<ConfigContextType>(
 );
 
 export function ConfigProvider({ children }: { children: ReactNode }) {
-  const [isGuest, setIsGuest] = useState(false);
   const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
   const [tokenMissing, setTokenMissing] = useState(false);
   const [releaseData, setReleaseData] = useState<ReleaseGithubType>();
@@ -99,13 +99,18 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const {
     actions: { get_settings },
   } = useApiFetcher();
+  const { role } = useAuth();
+
+  // Read from the token instead of /api/settings, so guests never see a flash
+  // of the admin UI. The API answers with isGuest too, but only as the
+  // authority on what it sends back, never to decide what to render.
+  const isGuest = role === "guest";
 
   // Check API
   const checkAPI = async () => {
     const output = await get_settings();
     const data = output as ConfigType;
 
-    setIsGuest(!!data?.isGuest);
     setTokenMissing(data?.noToken);
     setConfig(data?.parameters);
     setTiddlConfig(data?.tiddl_config);

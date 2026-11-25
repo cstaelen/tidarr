@@ -7,7 +7,6 @@ import { is_oidc_configured, resolve_token_role } from "../services/auth";
 // Everything a guest may call. A new route is admin only until it lands here.
 const GUEST_ROUTES = [
   "GET /api/settings",
-  "GET /api/custom-css",
   "GET /api/queue/list",
   "GET /api/queue/status",
   "GET /api/stream-processing",

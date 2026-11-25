@@ -58,8 +58,8 @@ root.render(
     <CssBaseline />
     <BrowserRouter basename={BASE_PATH}>
       <APIFetcherProvider>
-        <ConfigProvider>
-          <AuthProvider>
+        <AuthProvider>
+          <ConfigProvider>
             <PlayerProvider>
               <FloatingPlayer />
               <Routes>
@@ -81,8 +81,8 @@ root.render(
                 </Route>
               </Routes>
             </PlayerProvider>
-          </AuthProvider>
-        </ConfigProvider>
+          </ConfigProvider>
+        </AuthProvider>
       </APIFetcherProvider>
     </BrowserRouter>
   </ThemeProvider>,

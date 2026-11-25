@@ -1,10 +1,32 @@
 import { LOCALSTORAGE_TOKEN_KEY } from "src/contants";
+import { UserRole } from "src/types";
 
 /**
  * Get JWT token from localStorage
  */
 export function getAuthToken(): string | null {
   return localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
+}
+
+/**
+ * Read the role out of the stored JWT, without waiting for /api/settings.
+ * The signature is not checked here, on purpose: the API re-validates the
+ * token on every request, this only tells the UI what to render on first
+ * paint. Anything unreadable falls back to "admin", so a decoding bug hides
+ * nothing from a real admin: the API stays the one saying no.
+ */
+export function getTokenRole(): UserRole {
+  const payload = getAuthToken()?.split(".")[1];
+  if (!payload) return "admin";
+
+  try {
+    const { role } = JSON.parse(
+      atob(payload.replace(/-/g, "+").replace(/_/g, "/")),
+    );
+    return role === "guest" ? "guest" : "admin";
+  } catch {
+    return "admin";
+  }
 }
 
 /**

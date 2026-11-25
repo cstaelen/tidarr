@@ -1,5 +1,7 @@
 import { ChildProcess } from "child_process";
 
+import type { configureServer } from "./services/config";
+
 export type QualityType = "low" | "normal" | "high" | "max";
 export type ContentType =
   | "album"
@@ -140,11 +142,20 @@ export interface IsAuthActiveResponse {
 }
 
 /**
+ * Every env-driven parameter /api/settings can expose, derived from the single
+ * source of truth so a typo in a key name cannot compile.
+ */
+export type SettingsParameters = Awaited<
+  ReturnType<typeof configureServer>
+>["parameters"];
+
+/**
  * Configuration responses
  */
 export interface SettingsResponse {
   output: string;
-  parameters: Record<string, string | undefined>;
+  // Partial: a guest only receives a whitelisted subset
+  parameters: Partial<SettingsParameters>;
   noToken: boolean;
   tiddl_config?: TiddlConfig;
   configErrors?: string[];

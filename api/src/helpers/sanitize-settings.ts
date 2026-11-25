@@ -1,59 +1,45 @@
-import { TiddlConfig } from "../types";
+import { SettingsParameters, TiddlConfig } from "../types";
 
 type SettingsPayload = {
   output?: string;
-  parameters?: Record<string, string | undefined>;
+  parameters?: Partial<SettingsParameters>;
   noToken: boolean;
   tiddl_config?: TiddlConfig;
   configErrors?: string[];
 };
 
-// Credentials a guest UI only checks for presence: it gets the flag, not the value
-const SENSITIVE_PARAMETERS = [
-  "PLEX_TOKEN",
-  "JELLYFIN_API_KEY",
-  "NAVIDROME_USER",
-  "NAVIDROME_PASSWORD",
-  "GOTIFY_TOKEN",
-  "NTFY_TOKEN",
-  // Both carry their token in the URL itself
-  "PUSH_OVER_URL",
-  "APPRISE_API_ENDPOINT",
-];
+/**
+ * "value": the guest gets the parameter as is.
+ * "presence": the UI only checks that the integration is configured, so the
+ * guest gets a placeholder instead of the credential itself.
+ */
+type GuestVisibility = "value" | "presence";
 
-// What a guest UI needs to search, browse, queue and preview.
-// A whitelist, so a new env var stays hidden from guests until we say otherwise.
-const GUEST_PARAMETERS = [
-  "TIDARR_VERSION",
-  "NO_DOWNLOAD",
-  "LOCK_QUALITY",
-  "DOWNLOAD_BATCH_SIZE",
-  "PLEX_URL",
-  "PLEX_PUBLIC_URL",
-  "PLEX_TOKEN",
-  "JELLYFIN_URL",
-  "JELLYFIN_PUBLIC_URL",
-  "JELLYFIN_API_KEY",
-  "NAVIDROME_URL",
-  "NAVIDROME_PUBLIC_URL",
-  "NAVIDROME_USER",
-  "NAVIDROME_PASSWORD",
-];
+const PLACEHOLDER = "****";
 
 /**
- * Replaces credential values with a placeholder, keeping the key so the UI
- * still knows the integration is configured.
+ * What a guest UI needs to search, browse, queue and preview.
+ * A whitelist, so a new env var stays hidden from guests until we say
+ * otherwise, and keyed on SettingsParameters so a typo cannot compile.
  */
-function maskSensitiveParameters(
-  parameters?: Record<string, string | undefined>,
-) {
-  return Object.fromEntries(
-    Object.entries(parameters ?? {}).map(([key, value]) => [
-      key,
-      value && SENSITIVE_PARAMETERS.includes(key) ? "****" : value,
-    ]),
-  );
-}
+const GUEST_PARAMETERS: Partial<
+  Record<keyof SettingsParameters, GuestVisibility>
+> = {
+  TIDARR_VERSION: "value",
+  NO_DOWNLOAD: "value",
+  LOCK_QUALITY: "value",
+  DOWNLOAD_BATCH_SIZE: "value",
+  PLEX_URL: "value",
+  PLEX_PUBLIC_URL: "value",
+  PLEX_TOKEN: "presence",
+  JELLYFIN_URL: "value",
+  JELLYFIN_PUBLIC_URL: "value",
+  JELLYFIN_API_KEY: "presence",
+  NAVIDROME_URL: "value",
+  NAVIDROME_PUBLIC_URL: "value",
+  NAVIDROME_USER: "presence",
+  NAVIDROME_PASSWORD: "presence",
+};
 
 /**
  * The Tidal token stays on the server: the front only needs to know whether
@@ -77,12 +63,18 @@ export function stripTidalTokens(config?: TiddlConfig) {
 export function sanitizeSettingsForGuest(
   settings: SettingsPayload,
 ): SettingsPayload {
-  const masked = maskSensitiveParameters(settings.parameters);
+  const visibilities = Object.entries(GUEST_PARAMETERS) as [
+    keyof SettingsParameters,
+    GuestVisibility,
+  ][];
+
   const parameters = Object.fromEntries(
-    GUEST_PARAMETERS.filter((key) => masked[key]).map((key) => [
-      key,
-      masked[key],
-    ]),
+    visibilities
+      .filter(([key]) => settings.parameters?.[key])
+      .map(([key, visibility]) => [
+        key,
+        visibility === "presence" ? PLACEHOLDER : settings.parameters?.[key],
+      ]),
   );
 
   return {

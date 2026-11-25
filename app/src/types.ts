@@ -324,9 +324,12 @@ export type ReleaseGithubType = {
 
 // AUTH
 
+export type UserRole = "admin" | "guest";
+
 export type AuthType = {
   accessGranted: boolean;
   token?: string;
+  role?: UserRole;
 };
 
 export type CheckAuthType = {
