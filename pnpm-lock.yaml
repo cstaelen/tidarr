@@ -53,8 +53,8 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
       node-json-db:
-        specifier: ^2.6.2
-        version: 2.6.2
+        specifier: 2.6.0
+        version: 2.6.0
       openid-client:
         specifier: ^6.9.0
         version: 6.9.0
@@ -1768,8 +1768,8 @@ packages:
   node-fetch-native@1.6.7:
     resolution: {integrity: sha512-g9yhqoedzIUm0nTnTqAQvueMPVOuIY16bqgAJJC8XOOubYFNwz6IER9qs0Gq2Xd0+CecCKFjtdDTMA4u4xG06Q==}
 
-  node-json-db@2.6.2:
-    resolution: {integrity: sha512-1dfGxULTUdr7hGStWv184diNQrMBMqYBzGiyymF7ymAC8oaIQ73nLNfqkzQawaAyNdRWl91utfNFt8xF40LG3w==}
+  node-json-db@2.6.0:
+    resolution: {integrity: sha512-LEk4blas9ySJfj4vfRBJWTVckydSlKrLbRAP/7o/WCzC1klmuHYIp8CoqdgHrDdoa6T21fj/CumuJpgM/zkopw==}
 
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
@@ -3664,7 +3664,7 @@ snapshots:
 
   node-fetch-native@1.6.7: {}
 
-  node-json-db@2.6.2: {}
+  node-json-db@2.6.0: {}
 
   normalize-path@3.0.0: {}
 

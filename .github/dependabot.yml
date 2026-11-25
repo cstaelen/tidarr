@@ -10,6 +10,11 @@ updates:
     rebase-strategy: auto
     schedule:
       interval: "weekly"
+    ignore:
+      # 2.6.1+ ship a broken "imports" map ("#/*"), which Node rejects with
+      # ERR_INVALID_MODULE_SPECIFIER at require() time. Unpin once fixed upstream.
+      - dependency-name: "node-json-db"
+        versions: [">=2.6.1"]
     groups:
       root-dependencies:
         patterns:
