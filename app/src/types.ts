@@ -252,6 +252,7 @@ export type ConfigType = {
   parameters: ConfigParametersType;
   tiddl_config: ConfigTiddleType;
   configErrors?: string[];
+  isGuest?: boolean;
 };
 
 export type ConfigParametersType = { [key: string]: string | undefined };
@@ -323,9 +324,12 @@ export type ReleaseGithubType = {
 
 // AUTH
 
+export type UserRole = "admin" | "guest";
+
 export type AuthType = {
   accessGranted: boolean;
   token?: string;
+  role?: UserRole;
 };
 
 export type CheckAuthType = {

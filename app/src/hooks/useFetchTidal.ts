@@ -61,7 +61,7 @@ async function fetchTidal<T>({
   const response = await fetch(urlWithParams, options);
 
   // 403 = Tidarr auth failed (JWT invalid) - logout and reload
-  if (handleForbidden(response)) {
+  if (await handleForbidden(response)) {
     throw new Error("Authentication required");
   }
 

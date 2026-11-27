@@ -1,4 +1,4 @@
-import { expect } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 
 import { test } from "../test-isolation";
 
@@ -17,7 +17,7 @@ const makeSyncItem = (
   loading: false,
 });
 
-async function goToWatchList(page: Parameters<typeof test>[1]["page"]) {
+async function goToWatchList(page: Page) {
   await page.goto("/processing");
   await page.getByRole("tab", { name: /Watch list/ }).click();
   await page.waitForSelector('[aria-label="synced playlist table"]', {

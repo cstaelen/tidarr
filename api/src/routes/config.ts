@@ -3,6 +3,10 @@ import { Request, Response, Router } from "express";
 import { ensureAccessIsGranted } from "../helpers/auth";
 import { handleRouteError } from "../helpers/error-handler";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
+import {
+  sanitizeSettingsForGuest,
+  stripTidalTokens,
+} from "../helpers/sanitize-settings";
 import { deleteTiddlConfig, tidalToken } from "../services/tiddl";
 import { SettingsResponse } from "../types";
 
@@ -15,7 +19,7 @@ const router = Router();
 router.get(
   "/settings",
   ensureAccessIsGranted,
-  (_req: Request, res: Response<SettingsResponse>) => {
+  (req: Request, res: Response<SettingsResponse>) => {
     try {
       // Force reload config from disk to detect config.toml changes
       // This ensures we always have the latest download path and quality settings
@@ -24,13 +28,19 @@ router.get(
       // Update app.locals with fresh config
       res.app.locals.tiddlConfig = tiddl_config;
 
-      res.status(200).json({
+      const settings = {
         ...res.app.locals.config,
         noToken:
           !tiddl_config?.auth?.token || tiddl_config?.auth?.token?.length === 0,
-        tiddl_config: tiddl_config,
+        tiddl_config: stripTidalTokens(tiddl_config),
         configErrors: configErrors.length > 0 ? configErrors : undefined,
-      });
+      };
+      const isGuest = req.role === "guest";
+
+      res.status(200).json({
+        ...(isGuest ? sanitizeSettingsForGuest(settings) : settings),
+        isGuest,
+      } as SettingsResponse);
     } catch (error) {
       handleRouteError(error, res, "get settings");
     }

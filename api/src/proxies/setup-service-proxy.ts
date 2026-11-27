@@ -8,7 +8,8 @@ type ProxyReqOptsDecorator = NonNullable<ProxyOptions["proxyReqOptDecorator"]>;
 
 /**
  * Sets up an optional third-party proxy (Plex, Navidrome, Jellyfin, ...).
- * Shared setup: env var guard, base URL normalization, referer/origin stripping.
+ * Shared setup: env var guard, base URL normalization, and stripping of the
+ * caller's own headers (referer/origin and any credential).
  * Each service only provides its own credential injection.
  */
 export function setupServiceProxy(
@@ -36,6 +37,12 @@ export function setupServiceProxy(
       proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
         delete proxyReqOpts.headers?.["referer"];
         delete proxyReqOpts.headers?.["origin"];
+        // The service is reached with the credentials injected below, never
+        // with the caller's own: forwarding these leaks a Tidarr JWT, a
+        // Tidarr API key or an SSO cookie to a third-party server
+        delete proxyReqOpts.headers?.["authorization"];
+        delete proxyReqOpts.headers?.["x-api-key"];
+        delete proxyReqOpts.headers?.["cookie"];
         return decorateRequest
           ? decorateRequest(proxyReqOpts, srcReq)
           : proxyReqOpts;

@@ -8,6 +8,7 @@ import React, {
 import { SyncItemType } from "src/types";
 
 import { useApiFetcher } from "./ApiFetcherProvider";
+import { useConfigProvider } from "./ConfigProvider";
 
 interface SyncContextType {
   syncList: SyncItemType[];
@@ -27,6 +28,7 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [syncList, setSyncList] = useState<SyncItemType[]>([]);
+  const { isGuest } = useConfigProvider();
   const {
     actions: {
       add_sync_item,
@@ -98,11 +100,15 @@ export const SyncProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   useEffect(() => {
-    get_sync_list().then((list) => {
-      if (list) setSyncList(list);
-    });
+    // The watch list is admin only, and the role comes from the token: no need
+    // to wait for the config anymore
+    if (isGuest) return;
+
+    getSyncList();
+    // get_sync_list is rebuilt on every ApiFetcherProvider render, so
+    // depending on getSyncList would re-fetch in a loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Load sync list once on mount only
+  }, [isGuest]);
 
   const value = {
     syncList,

@@ -5,7 +5,7 @@ import { ensureAccessIsGranted } from "../helpers/auth";
 import { refreshTokenOnce } from "../helpers/refresh-token";
 
 /**
- * Setup Tidal API proxy with automatic token refresh on 401
+ * Setup the read-only Tidal API proxy, with automatic token refresh on 401
  */
 export function setupTidalProxy(app: Express): void {
   app.use(
@@ -27,34 +27,17 @@ export function setupTidalProxy(app: Express): void {
       const makeRequest = async (
         authToken: string,
       ): Promise<globalThis.Response> => {
+        // Only GET and HEAD reach here (see helpers/auth), so there is no
+        // body to forward: the token is ours, the rest is the caller's
         const headers: Record<string, string> = {
           authorization: `Bearer ${authToken}`,
         };
 
-        // Forward relevant headers
-        if (req.headers["content-type"]) {
-          headers["content-type"] = req.headers["content-type"] as string;
-        }
         if (req.headers["accept"]) {
           headers["accept"] = req.headers["accept"] as string;
         }
 
-        let body: string | undefined;
-        if (["POST", "PUT", "PATCH"].includes(req.method)) {
-          if (
-            req.headers["content-type"]?.includes(
-              "application/x-www-form-urlencoded",
-            )
-          ) {
-            body = new URLSearchParams(
-              req.body as Record<string, string>,
-            ).toString();
-          } else {
-            body = JSON.stringify(req.body);
-          }
-        }
-
-        return fetch(targetUrl, { method: req.method, headers, body });
+        return fetch(targetUrl, { method: req.method, headers });
       };
 
       try {

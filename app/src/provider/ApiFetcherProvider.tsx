@@ -132,7 +132,7 @@ export function APIFetcherProvider({ children }: { children: ReactNode }) {
         return (await response.json()) as T;
       }
 
-      if (handleForbidden(response)) {
+      if (await handleForbidden(response)) {
         return;
       }
 

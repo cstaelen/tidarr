@@ -1,5 +1,7 @@
 import { ChildProcess } from "child_process";
 
+import type { configureServer } from "./services/config";
+
 export type QualityType = "low" | "normal" | "high" | "max";
 export type ContentType =
   | "album"
@@ -140,39 +142,24 @@ export interface IsAuthActiveResponse {
 }
 
 /**
+ * Every env-driven parameter /api/settings can expose, derived from the single
+ * source of truth so a typo in a key name cannot compile.
+ */
+export type SettingsParameters = Awaited<
+  ReturnType<typeof configureServer>
+>["parameters"];
+
+/**
  * Configuration responses
  */
 export interface SettingsResponse {
   output: string;
-  parameters: {
-    ENABLE_BEETS?: string;
-    PLEX_URL?: string;
-    PLEX_PUBLIC_URL?: string;
-    PLEX_LIBRARY?: string;
-    PLEX_TOKEN?: string;
-    PLEX_PATH?: string;
-    JELLYFIN_URL?: string;
-    JELLYFIN_PUBLIC_URL?: string;
-    NAVIDROME_URL?: string;
-    NAVIDROME_PUBLIC_URL?: string;
-    NAVIDROME_USER?: string;
-    NAVIDROME_PASSWORD?: string;
-    GOTIFY_URL?: string;
-    GOTIFY_TOKEN?: string;
-    PUID?: string;
-    PGID?: string;
-    UMASK?: string;
-    TIDARR_VERSION?: string;
-    APPRISE_API_ENDPOINT?: string;
-    APPRISE_API_TAG?: string;
-    PUSH_OVER_URL?: string;
-    LOCK_QUALITY?: string;
-    SYNC_CRON_EXPRESSION?: string;
-    ENABLE_HISTORY?: string;
-  };
+  // Partial: a guest only receives a whitelisted subset
+  parameters: Partial<SettingsParameters>;
   noToken: boolean;
   tiddl_config?: TiddlConfig;
   configErrors?: string[];
+  isGuest?: boolean;
 }
 
 /**

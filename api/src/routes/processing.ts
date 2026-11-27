@@ -24,9 +24,18 @@ router.post(
     try {
       const item = req.body.item;
 
-      // Fall back to server-configured quality if the client didn't set one
-      if (!item.quality) {
+      // Fall back to server-configured quality if the client didn't set one.
+      // LOCK_QUALITY also overrides whatever the client asked for: the front
+      // only disables the toggle, so the lock means nothing until here.
+      if (!item.quality || process.env?.LOCK_QUALITY === "true") {
         item.quality = req.app.locals.tiddlConfig?.download?.track_quality;
+      }
+
+      // A guest queues from the UI and nothing else: the download path that
+      // comes with a lidarr source, and the queue state, are not theirs to pick
+      if (req.role === "guest") {
+        delete item.source;
+        item.status = "queue_download";
       }
 
       await req.app.locals.processingStack.actions.addItem(item);

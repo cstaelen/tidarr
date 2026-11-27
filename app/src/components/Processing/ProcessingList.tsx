@@ -30,7 +30,7 @@ export default function ProcessingList() {
   const { actions: apiActions } = useApiFetcher();
   const { processingList, batchCount, batchResumeAt, actions } =
     useProcessingProvider();
-  const { config } = useConfigProvider();
+  const { config, isGuest } = useConfigProvider();
 
   const errorCount = useMemo(
     () => processingList?.filter((item) => item.status === "error").length ?? 0,
@@ -124,48 +124,52 @@ export default function ProcessingList() {
         total={processingList?.length}
         leftBlock={<BackButton />}
         rightBlock={
-          <Box
-            sx={{
-              display: "flex",
-              gap: 2,
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <ProcessingPauseButton />
+          isGuest ? undefined : (
             <Box
               sx={{
                 display: "flex",
                 gap: 2,
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
             >
-              {errorCount > 0 && (
+              <ProcessingPauseButton />
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                }}
+              >
+                {errorCount > 0 && (
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    color="warning"
+                    startIcon={<Replay />}
+                    onClick={handleRetryFailed}
+                    disabled={isRetrying}
+                  >
+                    {isRetrying
+                      ? "Retrying..."
+                      : `Retry failed (${errorCount})`}
+                  </Button>
+                )}
                 <Button
                   size="small"
                   variant="outlined"
-                  color="warning"
-                  startIcon={<Replay />}
-                  onClick={handleRetryFailed}
-                  disabled={isRetrying}
+                  color="error"
+                  startIcon={<DeleteSweep />}
+                  onClick={handleRemoveAll}
+                  disabled={isRemoving || !processingList?.length}
                 >
-                  {isRetrying ? "Retrying..." : `Retry failed (${errorCount})`}
+                  {isRemoving ? "Clearing..." : "Clear all"}
                 </Button>
-              )}
-              <Button
-                size="small"
-                variant="outlined"
-                color="error"
-                startIcon={<DeleteSweep />}
-                onClick={handleRemoveAll}
-                disabled={isRemoving || !processingList?.length}
-              >
-                {isRemoving ? "Clearing..." : "Clear all"}
-              </Button>
+              </Box>
             </Box>
-          </Box>
+          )
         }
       />
-      {rateLimitedItem?.rateLimitRetryAt && (
+      {!isGuest && rateLimitedItem?.rateLimitRetryAt && (
         <Alert
           severity="warning"
           sx={{ mb: 2 }}
@@ -236,15 +240,17 @@ export default function ProcessingList() {
                 ? "Hide finished"
                 : `Show finished (${finishedList.length})`}
             </Button>
-            <Button
-              size="small"
-              variant="outlined"
-              startIcon={<ClearAll />}
-              onClick={handleRemoveFinished}
-              disabled={isRemoving}
-            >
-              Clear finished
-            </Button>
+            {!isGuest && (
+              <Button
+                size="small"
+                variant="outlined"
+                startIcon={<ClearAll />}
+                onClick={handleRemoveFinished}
+                disabled={isRemoving}
+              >
+                Clear finished
+              </Button>
+            )}
           </Box>
           {showFinished && (
             <Box

@@ -14,7 +14,8 @@ import {
   LOCALSTORAGE_TOKEN_KEY,
   TIDARR_API_URL,
 } from "src/contants";
-import { ApiReturnType, AuthType, CheckAuthType } from "src/types";
+import { getTokenRole } from "src/helpers/auth-utils";
+import { ApiReturnType, AuthType, CheckAuthType, UserRole } from "src/types";
 
 import { useApiFetcher } from "./ApiFetcherProvider";
 
@@ -22,6 +23,7 @@ type AuthContextType = {
   isAuthActive: boolean | undefined;
   authType: "password" | "oidc" | null;
   isAccessGranted: boolean;
+  role: UserRole;
   login: (password: string) => Promise<ApiReturnType | AuthType | void>;
   loginWithOIDC: () => void;
   logout: () => void;
@@ -43,6 +45,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     () => !!localStorage.getItem(LOCALSTORAGE_TOKEN_KEY),
     [],
   );
+
+  // Read from the stored token rather than kept in state: the token is the
+  // source of truth, and both login paths navigate right after storing it,
+  // which re-renders this provider through useLocation(). A guest therefore
+  // never gets a frame of admin UI while /api/settings is still in flight.
+  const role = getTokenRole();
 
   const redirectAfterLogin = useCallback(() => {
     const redirect = localStorage.getItem(LOCALSTORAGE_REDIRECT_URL);
@@ -70,12 +78,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const response = await auth(JSON.stringify({ password: password }));
 
     if ((response as AuthType)?.accessGranted) {
-      if (typeof (response as AuthType)?.token === "string") {
-        localStorage.setItem(
-          LOCALSTORAGE_TOKEN_KEY,
-          (response as AuthType)?.token || "",
-        );
+      const token = (response as AuthType)?.token;
+      if (typeof token === "string") {
+        localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, token);
       }
+
       redirectAfterLogin();
 
       return;
@@ -121,6 +128,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isAuthActive,
     authType,
     isAccessGranted,
+    role,
     login,
     loginWithOIDC,
     logout,

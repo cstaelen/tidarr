@@ -15,6 +15,7 @@ import {
 } from "../types";
 
 import { useApiFetcher } from "./ApiFetcherProvider";
+import { useAuth } from "./AuthProvider";
 
 // Compare two version strings (e.g., "v1.1.3" vs "v1.1.7")
 // Returns: -1 if a < b, 0 if a == b, 1 if a > b
@@ -41,6 +42,7 @@ function compareVersions(a: string, b: string): number {
 type DisplayType = "small" | "large";
 
 type ConfigContextType = {
+  isGuest: boolean;
   isUpdateAvailable: boolean;
   releaseData: undefined | ReleaseGithubType;
   changeLogData: string[];
@@ -97,6 +99,12 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   const {
     actions: { get_settings },
   } = useApiFetcher();
+  const { role } = useAuth();
+
+  // Read from the token instead of /api/settings, so guests never see a flash
+  // of the admin UI. The API answers with isGuest too, but only as the
+  // authority on what it sends back, never to decide what to render.
+  const isGuest = role === "guest";
 
   // Check API
   const checkAPI = async () => {
@@ -188,6 +196,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   }, [display]);
 
   const value = {
+    isGuest,
     isUpdateAvailable,
     releaseData,
     changeLogData,

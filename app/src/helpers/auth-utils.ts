@@ -1,10 +1,32 @@
 import { LOCALSTORAGE_TOKEN_KEY } from "src/contants";
+import { UserRole } from "src/types";
 
 /**
  * Get JWT token from localStorage
  */
 export function getAuthToken(): string | null {
   return localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
+}
+
+/**
+ * Read the role out of the stored JWT, without waiting for /api/settings.
+ * The signature is not checked here, on purpose: the API re-validates the
+ * token on every request, this only tells the UI what to render on first
+ * paint. Anything unreadable falls back to "admin", so a decoding bug hides
+ * nothing from a real admin: the API stays the one saying no.
+ */
+export function getTokenRole(): UserRole {
+  const payload = getAuthToken()?.split(".")[1];
+  if (!payload) return "admin";
+
+  try {
+    const { role } = JSON.parse(
+      atob(payload.replace(/-/g, "+").replace(/_/g, "/")),
+    );
+    return role === "guest" ? "guest" : "admin";
+  } catch {
+    return "admin";
+  }
 }
 
 /**
@@ -27,8 +49,19 @@ export function withAuthHeader(options: RequestInit = {}): RequestInit {
  * Handle 403 response - clear token and reload page
  * Returns true if 403 was handled
  */
-export function handleForbidden(response: Response): boolean {
+export async function handleForbidden(response: Response): Promise<boolean> {
   if (response.status !== 403) return false;
+
+  // Guest on an admin route, or a path no proxy forwards: the token is fine
+  const body = await response
+    .clone()
+    .json()
+    .catch(() => undefined);
+
+  if (body?.code === "FORBIDDEN_ROLE" || body?.code === "FORBIDDEN_PATH") {
+    console.warn(`[AUTH] 403 - ${body.code}`);
+    return true;
+  }
 
   console.error("[AUTH] 403 - JWT invalid, logging out");
   if (getAuthToken()) {
