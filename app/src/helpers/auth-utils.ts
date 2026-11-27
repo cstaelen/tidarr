@@ -52,14 +52,14 @@ export function withAuthHeader(options: RequestInit = {}): RequestInit {
 export async function handleForbidden(response: Response): Promise<boolean> {
   if (response.status !== 403) return false;
 
-  // Guest on an admin route: the token is fine, only the role is not
+  // Guest on an admin route, or a path no proxy forwards: the token is fine
   const body = await response
     .clone()
     .json()
     .catch(() => undefined);
 
-  if (body?.code === "FORBIDDEN_ROLE") {
-    console.warn("[AUTH] 403 - admin access required");
+  if (body?.code === "FORBIDDEN_ROLE" || body?.code === "FORBIDDEN_PATH") {
+    console.warn(`[AUTH] 403 - ${body.code}`);
     return true;
   }
 

@@ -192,3 +192,95 @@ test("Guest access : Should not flash admin controls while the config loads", as
   // ... and the admin controls were never rendered (no retry here, on purpose)
   expect(await page.getByLabel("Tidarr settings").count()).toBe(0);
 });
+
+test("Guest access : Should only proxy the endpoints the UI calls, for any role", async ({
+  page,
+}) => {
+  await page.goto("/login");
+
+  const { token } = await getToken(page, GUEST_PASSWORD);
+  const headers = { Authorization: `Bearer ${token}` };
+
+  // PLEX_URL points nowhere in E2E, so the search endpoint answers with a
+  // proxy error: what matters here is that authorization let it through
+  const allowed = await page.request.get("/proxy/plex/search?query=nirvana", {
+    headers,
+  });
+  expect(allowed.status()).not.toBe(403);
+
+  // Anything else would reach Plex with the admin token injected server-side,
+  // including through a path that only normalizes to it
+  const blocked = [
+    "/proxy/plex/library/parts/42/file.flac",
+    "/proxy/plex/library/sections/1/refresh",
+    "/proxy/plex/myplex/account",
+    "/proxy/plex/search/../library/parts/42/file.flac",
+  ];
+
+  for (const path of blocked) {
+    const response = await page.request.get(path, { headers });
+
+    expect(response.status(), path).toBe(403);
+    expect((await response.json()).code, path).toBe("FORBIDDEN_PATH");
+  }
+
+  // Same answer for an admin: the proxies forward what the UI calls, and the
+  // credentials are the instance's, not the caller's
+  const admin = await getToken(page, "passwdtidarr");
+  const adminHeaders = { Authorization: `Bearer ${admin.token}` };
+
+  for (const path of blocked) {
+    const response = await page.request.get(path, { headers: adminHeaders });
+
+    expect(response.status(), path).toBe(403);
+  }
+
+  expect(
+    (
+      await page.request.get("/proxy/plex/search?query=x", {
+        headers: adminHeaders,
+      })
+    ).status(),
+  ).not.toBe(403);
+
+  // And they are read-only, whatever the path: nothing writes through them
+  for (const path of ["/proxy/plex/search?query=x", "/proxy/tidal/v2/search"]) {
+    const response = await page.request.post(path, { headers: adminHeaders });
+
+    expect(response.status(), path).toBe(403);
+    expect((await response.json()).code, path).toBe("FORBIDDEN_PATH");
+  }
+});
+
+test("Guest access : Should refuse a tampered queue item", async ({ page }) => {
+  await page.goto("/login");
+
+  const { token } = await getToken(page, GUEST_PASSWORD);
+  const base = {
+    id: 77610756,
+    title: "Nevermind",
+    artist: "Nirvana",
+    type: "album",
+    url: "/album/77610756",
+    status: "queue_download",
+  };
+
+  // Every one of these ends up in a filesystem path or in the tiddl argv
+  const tampered = [
+    { ...base, id: "../../etc" },
+    { ...base, url: "--config-path=/tmp/x" },
+    { ...base, quality: "--help" },
+    { ...base, atmosFilter: "-x" },
+    { ...base, status: "whatever" },
+    { ...base, process: "running" },
+  ];
+
+  for (const item of tampered) {
+    const response = await page.request.post("/api/save", {
+      headers: { Authorization: `Bearer ${token}` },
+      data: { item },
+    });
+
+    expect(response.status(), JSON.stringify(item)).toBe(400);
+  }
+});
