@@ -1,14 +1,44 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import { pipeline } from "stream";
 import { promisify } from "util";
 
 import { getBasePath } from "../helpers/base-path";
 import { get_tiddl_config } from "../helpers/get_tiddl_config";
 import { signUrl } from "../helpers/signature";
+import { resolveHires, streamDashFlac } from "../services/hires-playback";
 import { getPlaybackInfo } from "../services/playback";
 
 const streamPipeline = promisify(pipeline);
 const router = Router();
+
+async function proxyUpstream(url: string, req: Request, res: Response) {
+  const range = req.headers["range"];
+  const upstream = await fetch(url, {
+    headers: range ? { Range: range as string } : {},
+  });
+
+  if (!upstream.ok || !upstream.body) {
+    return res.status(upstream.status).json({ error: "Upstream fetch failed" });
+  }
+
+  res.status(upstream.status);
+  const hopHeaders = [
+    "content-type",
+    "content-length",
+    "accept-ranges",
+    "content-range",
+    "cache-control",
+    "expires",
+    "last-modified",
+    "etag",
+  ];
+  hopHeaders.forEach((header) => {
+    const value = upstream.headers.get(header);
+    if (value) res.setHeader(header, value);
+  });
+
+  await streamPipeline(upstream.body, res);
+}
 
 // Endpoint firm URL
 router.get("/stream/sign/:id", (req, res) => {
@@ -51,6 +81,19 @@ router.get("/stream/play/:id", async (req, res) => {
       return res.status(400).json({ error: "No proxy token available" });
     }
 
+    const refreshToken = tiddlConfig?.auth?.refresh_token;
+    if (refreshToken) {
+      const hires = await resolveHires(id, refreshToken);
+      if (hires?.mode === "dash") {
+        streamDashFlac(hires.urls, req, res);
+        return;
+      }
+      if (hires?.mode === "proxy") {
+        await proxyUpstream(hires.url, req, res);
+        return;
+      }
+    }
+
     const qualities = ["LOSSLESS", "HIGH", "LOW"];
     let chosenUrl: string | null = null;
 
@@ -66,34 +109,7 @@ router.get("/stream/play/:id", async (req, res) => {
       return res.status(502).json({ error: "No playable quality available" });
     }
 
-    const range = req.headers["range"];
-    const upstream = await fetch(chosenUrl, {
-      headers: range ? { Range: range as string } : {},
-    });
-
-    if (!upstream.ok || !upstream.body) {
-      return res
-        .status(upstream.status)
-        .json({ error: "Upstream fetch failed" });
-    }
-
-    res.status(upstream.status);
-    const hopHeaders = [
-      "content-type",
-      "content-length",
-      "accept-ranges",
-      "content-range",
-      "cache-control",
-      "expires",
-      "last-modified",
-      "etag",
-    ];
-    hopHeaders.forEach((h) => {
-      const v = upstream.headers.get(h);
-      if (v) res.setHeader(h, v);
-    });
-
-    await streamPipeline(upstream.body, res);
+    await proxyUpstream(chosenUrl, req, res);
   } catch (err) {
     // Ignore premature close errors (client stopped playback)
     const error = err as Error & { code?: string };
